@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.20)
-**Version :** 0.60.20 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** 0.60.18 à 0.60.20 (demandes de JP du 2026-11-04) livrées : prompt `starter.md`, initiales et Space par défaut, pièces dans la structure fonctionnelle, correctif Timesheet
+**Dernière mise à jour :** 2026-11-04 (v0.60.21)
+**Version :** 0.60.21 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** 0.60.21 et 0.60.22 (demandes de JP du 2026-11-04) : un seul Space pour tous les onglets ; Project Starter avec Diamond et plan de référence
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -32,7 +32,8 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.18 | Prompt `site/starter.md` (FR / EN) : entrevue de 20 questions, format exact tiré de l'outil, « Copier le prompt » dans Commencer, section du guide (D-O-019) | Livré |
 | 0.60.19 | Initiales données d'après le nom (JDE, ADM) ; Space par défaut corrigé : sauvegardes des réglages fusionnées (D-O-030) | Livré |
 | 0.60.20 | Diamond : pièces sur les fonctions, matrice pièces × fonctions, conseils d'architecture (D-O-031) ; Timesheet : code hors du Funding Space montré et refusé à la soumission | Livré |
-| 0.60.21 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
+| 0.60.21 | Le Space de travail suit d'un onglet à l'autre, ☆ / ★ Space par défaut près de chaque liste ; copie de Space avec Diamond (D-O-030) | Livré |
+| 0.60.22 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
 
 ## Table 2 : Questions du brief §5 (toutes tranchées)
 
@@ -46,7 +47,10 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.20)
+## Relais (fin de 0.60.21)
+
+- Space de travail (D-O-030) : `static/js/tools/spaces.js` (`track` sur hashchange → sessionStorage `da.workSpace`, `workKey()` utilisé par `enter()` et Tools, `star()` / `withStar()` à côté des listes déroulantes). `core/spacecopy.py` : partie `diamond` (tables `DIAMOND`).
+
 
 - Pièces (D-O-031) : `modules/diamond/parts.py` (`rows`, `analysis`, API), `example_parts.py` ; migration diamond 5 ; `structure.payload` ajoute `parts`, `part_checks`, `part_stats`. Écran : `static/js/diamond/structure_parts.js` (vue « parts », `partsPanel`, `partsByFunction`), étiquettes dans `structure_draw.js` (`partTags`). Timesheet : `weeks.problems(rows, conn)` contrôle le Funding Space. Reste à faire : `core/spacecopy.py` ne connaît pas encore les tables Diamond.
 

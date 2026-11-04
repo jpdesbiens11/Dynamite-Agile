@@ -1,0 +1,55 @@
+{
+  "version": "0.60.21",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Un seul Space pour tous les onglets : le Space de travail suit d'un onglet à l'autre, ☆ / ★ à côté de chaque liste de Spaces pour le Space par défaut ; Copier / Dupliquer un Space emporte tout Diamond.",
+    "en": "One Space for every tab: the work Space follows from tab to tab, ☆ / ★ beside every Space list for the default Space; Copy / Duplicate a Space takes all of Diamond along."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Le Space de travail suit d'un onglet à l'autre",
+      "why": "Choisir un Space dans la liste déroulante d'un module ne valait que pour cet onglet : l'onglet suivant rouvrait l'ancien. Le dernier Space ouvert (dans cet onglet du navigateur) est maintenant celui de tous les modules ; les Spaces communs (HEADLAMP, TOOLS, TESTING, TRAINING) ne l'emportent jamais ; une nouvelle visite s'ouvre sur le Space par défaut.",
+      "files": [
+        "static/js/tools/spaces.js",
+        "static/js/toolbox/tools.js",
+        "tests/test_space_follow.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "☆ / ★ Space par défaut à côté de chaque liste de Spaces",
+      "why": "Dans Dynamite, Agile, Goldmine, Diamond, Exploration, Testing et Generator : un clic en fait le Space par défaut (où le site s'ouvre), un second le retire.",
+      "files": [
+        "static/js/tools/spaces.js",
+        "static/js/agile/agile.js",
+        "static/js/dynamite/dynamite.js",
+        "static/js/codex/codex.js",
+        "static/js/exploration/exploration.js",
+        "static/css/app.css"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Copier / Dupliquer un Space : Diamond aussi",
+      "why": "L'arbre, la structure (entrées, sorties, flux, positions), les pièces, les risques et le DFMEA suivent la copie, liens refaits vers les nouvelles fonctions.",
+      "files": [
+        "core/spacecopy.py",
+        "tests/test_diamond_parts.py"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Version 0.60.21 et documentation",
+      "why": "État du projet, journal, fiche de version.",
+      "files": [
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.21.json",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}

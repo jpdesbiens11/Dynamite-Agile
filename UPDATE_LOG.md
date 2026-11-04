@@ -1,12 +1,20 @@
-# Journal de mise à jour — 0.60.20
+# Journal de mise à jour — 0.60.21
+
+- **Version :** 0.60.20 → 0.60.21 (2026-11-04)
+- **Changements :**
+  1. **Un seul Space pour tous les onglets** : le Space choisi dans n'importe quel module suit dans les autres ; ☆ / ★ à côté de chaque liste de Spaces pour le Space par défaut.
+  2. **Copier / Dupliquer un Space** : tout Diamond suit (arbre, structure, pièces, risques, DFMEA).
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.20
 
 - **Version :** 0.60.19 → 0.60.20 (2026-11-04)
 - **Changements :**
   1. **Diamond → Structure fonctionnelle : les pièces** (D-O-031) : chaque pièce étiquetée sur les fonctions qu'elle réalise ; vue « Pièces × fonctions » et conseils pour réduire la complexité et le coût.
   2. **Timesheet** : après un changement de Funding Space, un ancien code est montré « hors du Funding Space » et la semaine n'est soumise qu'une fois corrigée.
 - **Base de données :** migration diamond 5 (tables `diamond_parts` et `diamond_part_functions`, additive).
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.19
 
