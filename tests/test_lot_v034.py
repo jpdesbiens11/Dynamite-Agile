@@ -64,7 +64,7 @@ class LotV034Test(unittest.TestCase):
         self.assertLess(index.index("/js/tools/sketch.js"), index.index("/js/app.js"))
         sketch = (STATIC / "js" / "tools" / "sketch.js").read_text(encoding="utf-8")
         order = re.search(r"groups: (\[\[.*?\]\]),", sketch).group(1)
-        self.assertEqual(json.loads(order), [["dashboard", "home"], ["goldmine", "exploration", "agile", "dynamite", "testing"],
+        self.assertEqual(json.loads(order), [["debuter", "dashboard", "home"], ["goldmine", "exploration", "agile", "dynamite", "testing"],
                                              ["tools", "training", "timesheet"]])
         from tools import build_vitrine
         path, _size = build_vitrine.build()

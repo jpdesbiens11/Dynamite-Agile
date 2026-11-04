@@ -47,7 +47,7 @@ MINE = [
         "en": ("The shift log: who worked which face, for how many hours.",
                "The <b>hours per PDP step</b>, vacation, funding claims.")}),
     ("training", 450, "Training & HeadLamp", {
-        "fr": ("L'école de la mine et la lampe frontale qui éclaire la galerie.",
+        "fr": ("L'école de la mine et la lanterne qui éclaire la galerie.",
                "La <b>formation</b>, le tour guidé et un bac à sable pour s'exercer sans risque."),
         "en": ("The mining school and the headlamp that lights the tunnel.",
                "<b>Training</b>, the guided tour and a sandbox to practise risk-free.")}),

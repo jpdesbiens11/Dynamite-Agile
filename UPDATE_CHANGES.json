@@ -2,38 +2,38 @@
  "changes": [
   {
    "id": "C1",
-   "title": "Écran « Commencer » et carte du Dashboard (D-O-019)",
-   "why": "Fichier ou exemple, aperçu, ajustements, création, mots de passe une fois.",
+   "title": "Page « Débuter » : le parcours d'un projet (D-O-020)",
+   "why": "Phase par phase du PDP, module par module ; arrivée jusqu'à fermeture, puis onglet.",
    "files": [
-    "core/starter_apply.py",
+    "core/prefs.py",
     "static/css/app.css",
+    "static/img/icons-term.svg",
+    "static/img/icons.svg",
     "static/index.html",
-    "static/js/admin.js",
-    "static/js/admin_starter.js",
-    "static/js/tools/dashboard.js"
+    "static/js/app.js",
+    "static/js/tools/debuter.js",
+    "static/js/tools/debuter_content.js",
+    "static/js/tools/i18n.js",
+    "static/js/tools/sketch.js",
+    "tests/test_debuter.py",
+    "tests/test_lot_v034.py",
+    "tools/make_sketch_assets.py"
    ]
   },
   {
    "id": "C2",
-   "title": "« À vérifier » : confirmer la norme d'un requirement ou d'un essai",
-   "why": "Badge, dialogue, date et personne gardées ; Accepted / Approved refusés d'ici là.",
+   "title": "HeadLamp = la lanterne",
+   "why": "Le nom français de HeadLamp est la lanterne, pas une lampe frontale.",
    "files": [
-    "modules/agile/__init__.py",
-    "modules/agile/goldmine.py",
-    "modules/agile/goldmine_review.py",
-    "modules/agile/issues.py",
-    "modules/testing/__init__.py",
-    "modules/testing/review.py",
-    "modules/testing/tests_api.py",
-    "static/js/agile/goldmine.js",
-    "static/js/testing/testing_record.js",
-    "static/js/tools/review.js"
+    "docs/NOMS_DES_MODULES.md",
+    "static/js/help/content_faq.js",
+    "tools/site_text.py"
    ]
   },
   {
    "id": "C3",
-   "title": "Version 0.60.07, tests et documentation",
-   "why": "APP_VERSION, D-O-019 complétée, état du projet, site reconstruit.",
+   "title": "Version 0.60.08, tests et documentation",
+   "why": "APP_VERSION, D-O-020, état du projet, site reconstruit.",
    "files": [
     "CLAUDE.md",
     "UPDATE_CHANGES.json",
@@ -48,8 +48,7 @@
     "site/index.html",
     "site/installation.html",
     "static/apps/vitrine/index.html",
-    "tests/test_open_v060.py",
-    "tests/test_starter_apply.py"
+    "tests/test_open_v060.py"
    ]
   }
  ]
