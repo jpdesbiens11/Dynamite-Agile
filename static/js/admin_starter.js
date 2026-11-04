@@ -7,7 +7,9 @@
   const { api, el, clear, field, badge, table, toast } = DA;
   const ROLES = { manager: "Admin du Space", editor: "Éditeur", reader: "Lecteur" };
   const COUNTS = [["team", "Membres de l'équipe"], ["needs", "Besoins (Needs)"], ["requirements", "Requirements"],
-    ["tests", "Essais (Test Base)"], ["time_codes", "Codes de temps"], ["pages", "Pages Dynamite"]];
+    ["tests", "Essais (Test Base)"], ["time_codes", "Codes de temps"], ["pages", "Pages Dynamite"],
+    ["plan_weeks", "Exploration : plan de référence du PDP (semaines)"], ["diamond_functions", "Diamond : fonctions de l'arbre"], ["diamond_flows", "Diamond : flux de la structure"],
+    ["diamond_parts", "Diamond : pièces"], ["diamond_risks", "Diamond : risques projet"], ["diamond_dfmea", "Diamond : lignes du DFMEA"]];
 
   async function render(body) {
     const examples = (await api.get("/api/starter/examples")).examples;
@@ -91,7 +93,7 @@
       el("ol", null,
         el("li", null, "Copiez le prompt (bouton ci-dessous)."),
         el("li", null, "Ouvrez une nouvelle conversation avec Claude.ai, ChatGPT, Gemini ou Copilot, collez le prompt et envoyez-le."),
-        el("li", null, "Répondez aux questions, une à la fois : environ 20, de 30 à 45 minutes. « Je ne sais pas » est une "
+        el("li", null, "Répondez aux questions, une à la fois : environ 26, de 45 à 60 minutes. « Je ne sais pas » est une "
           + "bonne réponse : l'assistant proposera un choix raisonnable. Ne lui donnez jamais de mot de passe."),
         el("li", null, "Enregistrez le fichier .json qu'il vous donne, puis déposez-le à l'étape 2.")),
       el("div", { class: "actions" },
@@ -188,7 +190,10 @@
     return el("div", { "data-new": "0.60.07-starter-done" },
       el("h2", null, "Space " + key + " créé"),
       el("p", null, result.counts.requirements + " requirements et besoins, " + result.counts.tests + " essais, "
-        + result.counts.time_codes + " codes de temps, " + result.counts.pages + " pages."),
+        + result.counts.time_codes + " codes de temps, " + result.counts.pages + " pages"
+        + (result.counts.diamond_functions ? " ; Diamond : " + result.counts.diamond_functions + " fonctions, " + result.counts.diamond_flows
+          + " flux, " + result.counts.diamond_parts + " pièces, " + result.counts.diamond_risks + " risques, " + result.counts.diamond_dfmea
+          + " lignes de DFMEA." : ".")),
       result.accounts.length ? el("div", null, el("h3", null, "Mots de passe temporaires"),
         el("p", { class: "muted" }, "Affichés une seule fois. Transmettez-les de vive voix ou par un canal sûr ; chaque "
           + "personne choisit le sien à sa première connexion."),
@@ -201,6 +206,8 @@
       el("div", { class: "form-actions" },
         el("a", { class: "btn", href: "#/dynamite/" + key }, "Wiki Dynamite"),
         el("a", { class: "btn", href: "#/testing/" + key }, "Testing"),
+        el("a", { class: "btn", href: "#/diamond/" + key + "/ftree", "data-new": "0.60.22-starter-diamond" }, "Diamond"),
+        el("a", { class: "btn", href: "#/exploration/" + key + "/plan" }, "Plan (Gantt)"),
         el("a", { class: "btn btn-primary", href: "#/goldmine/" + key }, "Ouvrir Goldmine")));
   }
 

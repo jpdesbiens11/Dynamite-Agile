@@ -134,9 +134,16 @@ def _project(raw):
     for i, m in enumerate(markets):
         if m not in MARKETS:
             _bad("project.markets[{}]".format(i), "marché « {} » inconnu.".format(m), "marchés permis : " + ", ".join(MARKETS) + ".")
+    start = _text(p, "start_date", "project", 10)  # 0.60.22 (D-O-032): the reference plan of Exploration
+    if start and not DATE_RE.match(start):
+        _bad("project.start_date", "date « {} » invalide.".format(start), "format AAAA-MM-JJ, ou retirez la clé (lundi prochain).")
+    weeks = p.get("weeks", 15)
+    if isinstance(weeks, bool) or not isinstance(weeks, int) or not 4 <= weeks <= 104:
+        _bad("project.weeks", "durée « {} » invalide.".format(weeks), "un nombre entier de semaines, de 4 à 104 (15 pour une session).")
     return {"key": key, "name": _text(p, "name", "project", 120, required=True),
             "description": _text(p, "description", "project", 4000), "industry": _text(p, "industry", "project", 120),
-            "product_type": _text(p, "product_type", "project", 120), "markets": list(dict.fromkeys(markets))}
+            "product_type": _text(p, "product_type", "project", 120), "markets": list(dict.fromkeys(markets)),
+            "start_date": start, "weeks": weeks}
 
 
 def _team(raw):
@@ -325,6 +332,8 @@ def parse(data):
     clean["tests"] = _tests(raw, vocab, {r["ref"] for r in clean["requirements"]})
     clean["time_codes"] = _time_codes(raw)
     clean["pages"] = _pages(raw, language)
+    from . import starter_diamond  # 0.60.22 (D-O-032): the functional tree and what derives from it
+    clean["diamond"] = starter_diamond.parse(raw, language)
     return clean, _warnings(clean)
 
 
@@ -332,6 +341,8 @@ def _warnings(clean):
     out = []
     if not clean["requirements"]:
         out.append("Aucun requis : Goldmine restera vide.")
+    if not clean.get("diamond", {}).get("functions"):
+        out.append("Aucun arbre fonctionnel : Diamond restera vide (arbre, structure, pièces, risques, DFMEA à faire dans l'outil).")
     if not clean["time_codes"]:
         out.append("Aucun code de temps : le Space utilisera les codes du PDP (A-01 … D-21).")
     untested = [r["ref"] for r in clean["requirements"] if r["kind"] == "requirement"
@@ -346,10 +357,16 @@ def _warnings(clean):
     return out
 
 
+def starter_diamond_counts(clean):
+    from . import starter_diamond
+    return starter_diamond.counts(clean)
+
+
 def summary(clean):
     """Counts shown before anything is created (the preview of « Commencer »)."""
     return {"project": clean["project"]["key"] + " · " + clean["project"]["name"], "team": len(clean["team"]),
             "requirements": sum(r["kind"] == "requirement" for r in clean["requirements"]),
             "needs": sum(r["kind"] == "need" for r in clean["requirements"]), "tests": len(clean["tests"]),
-            "time_codes": len(codes_of(clean)), "pages": len(clean["pages"]),
+            "time_codes": len(codes_of(clean)), "pages": len(clean["pages"]), "plan_weeks": clean["project"]["weeks"],
+            **{"diamond_" + k: n for k, n in starter_diamond_counts(clean).items()},
             "standards": sorted({x["standard"] for x in clean["requirements"] + clean["tests"] if x["standard"]})}

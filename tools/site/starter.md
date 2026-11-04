@@ -2,7 +2,7 @@
 
 > **Pour vous (la personne) :** copiez **tout ce texte**, du début à la fin, dans une nouvelle conversation avec un
 > assistant IA (Claude.ai, ChatGPT, Gemini, Copilot…), puis envoyez-le. L'assistant vous posera une question à la fois,
-> environ 20 en tout (30 à 45 minutes). Répondez avec vos mots ; « je ne sais pas » est une bonne réponse : il proposera
+> environ 26 en tout (45 à 60 minutes). Répondez avec vos mots ; « je ne sais pas » est une bonne réponse : il proposera
 > alors un choix raisonnable. À la fin, il vous donne un fichier `.json` à importer dans l'outil :
 > **⚙ Admin → Spaces → Commencer**. Rien n'est créé avant que vous ayez vu l'aperçu et cliqué « Créer le Space ».
 >
@@ -23,15 +23,15 @@ concepts, matrice de Pugh, Concept Review), **C. Design** (CdCF, PDR / CDR, DFME
 
 ## Comment mener l'entrevue
 
-1. **Une seule question par message.** Commencez chaque question par son numéro, par exemple « Question 4 / 20 ». Les
-   numéros ne changent pas : une question sautée (la 14 si la personne garde les codes du PDP) garde sa place, la
+1. **Une seule question par message.** Commencez chaque question par son numéro, par exemple « Question 4 / 26 ». Les
+   numéros ne changent pas : une question sautée (la 15 si la personne garde les codes du PDP) garde sa place, la
    question 11 se répète pour chaque personne (11a, 11b…) et un récapitulatif ne porte pas de numéro.
 2. **Proposez des choix numérotés** chaque fois que c'est possible, avec **(Recommandé)** après le meilleur choix par
    défaut. La personne peut répondre par un chiffre ou avec ses mots.
 3. **« Je ne sais pas »** : proposez la réponse la plus raisonnable en une ligne, dites-la, et passez à la suite.
 4. **Expliquez en deux lignes au plus** pourquoi vous posez la question quand ce n'est pas évident (ex. « le marché
    décide des normes »). Les termes techniques restent en anglais (requirement, Test Base, Space, DFMEA).
-5. **Récapitulez à la fin de chacun des six blocs** dans un petit tableau, demandez « Est-ce correct ? (oui / corrections) »,
+5. **Récapitulez à la fin de chacun des sept blocs** dans un petit tableau, demandez « Est-ce correct ? (oui / corrections) »,
    corrigez, puis passez au bloc suivant.
 6. **Ne demandez jamais** de mot de passe, de clé privée ni d'adresse courriel personnelle.
 7. **Champ inconnu ou sans objet : retirez la clé** du fichier plutôt que d'écrire `""` ; l'outil met la valeur par
@@ -79,46 +79,78 @@ Récapitulez le bloc 1 (tableau), puis rédigez une **description** de 2 à 4 ph
 Récapitulez l'équipe (tableau : nom, utilisateur, profil, titre, rôle). Les comptes sont créés à l'approbation, avec
 un mot de passe temporaire affiché une fois dans l'outil ; chaque personne reçoit aussi ses initiales de traçabilité.
 
-## Bloc 3 — Le temps (questions 13 et 14)
+## Bloc 3 — Le calendrier et le temps (questions 13 à 15)
 
-13. **Codes de feuille de temps** : 1. les codes du PDP déjà dans l'outil, A-01 à D-21 (Recommandé pour un projet de
+13. **Le calendrier** : date de début du projet (AAAA-MM-JJ ; « je ne sais pas » → lundi prochain) et durée en
+    semaines (Recommandé : 15, une session ; 30 pour deux sessions). L'outil en tire un **plan de référence** (Gantt) : les
+    19 étapes du PDP, les revues (Lean Canvas, Concept Review, PDR, CDR, Validation Report) comme jalons, et plus
+    d'étapes en parallèle pour une équipe plus grande. Écrivez-les dans `project.start_date` et `project.weeks`.
+14. **Codes de feuille de temps** : 1. les codes du PDP déjà dans l'outil, A-01 à D-21 (Recommandé pour un projet de
     cours) 2. des codes propres au projet, par phase. Avec 1, n'écrivez pas `time_codes` dans le fichier.
-14. Seulement si 2 : proposez 2 à 5 groupes (ex. `LA` « Discovery et besoins ») et 2 à 8 codes par groupe, au format
+15. Seulement si 2 : proposez 2 à 5 groupes (ex. `LA` « Discovery et besoins ») et 2 à 8 codes par groupe, au format
     de Timesheet (`LA-MAR`, `LA-BES` : 1 à 5 majuscules, un tiret, 2 à 4 majuscules ou chiffres ; 40 codes au plus).
     Faites valider la liste.
 
-Récapitulez le bloc 3 : les codes retenus (ou « codes du PDP, A-01 à D-21 »).
+Récapitulez le bloc 3 : début, durée, et les codes retenus (ou « codes du PDP, A-01 à D-21 »).
 
-## Bloc 4 — Besoins, requis et essais (questions 15 à 18)
+## Bloc 4 — Besoins, requis et essais (questions 16 à 19)
 
-15. **Les besoins** : proposez 8 à 15 besoins, du point de vue des parties prenantes (utilisateur, client, autorité,
+16. **Les besoins** : proposez 8 à 15 besoins, du point de vue des parties prenantes (utilisateur, client, autorité,
     production, réparation, recyclage…), sous la forme « L'utilisateur veut … ». Ajoutez toujours un besoin de
     l'**autorité** du marché visé (« L'autorité exige que le produit soit sûr et conforme pour être vendu au Canada et
     aux États-Unis ») : les requis de normes en découlent. Tableau : ref (`BES-1`…), partie prenante, besoin. Demandez
     ce qu'il faut retirer, corriger ou ajouter.
-16. **Les requis** : pour chaque besoin, un à trois requis mesurables (« Le produit doit … ≥ 600 lm »), plus les
+17. **Les requis** : pour chaque besoin, un à trois requis mesurables (« Le produit doit … ≥ 600 lm »), plus les
     requis de **normes** qu'imposent les réponses 3 à 7 (sécurité électrique, CEM, radio, contact alimentaire, batteries,
     RoHS, emballage, etc.). Chaque requis porte `derived_from` vers son besoin. Montrez-les par catégorie, en tableau
     court (ref, requis, norme, méthode I / A / D / T, criticité A à E). Rappelez que les normes arrivent « À vérifier ».
-17. **Les essais** : proposez 10 à 30 essais qui vérifient **chaque** requis de méthode T (essai) ou D (démonstration) :
+18. **Les essais** : proposez 10 à 30 essais qui vérifient **chaque** requis de méthode T (essai) ou D (démonstration) :
     titre, sujet, objectif, critère d'acceptation, moyens, requis vérifiés. Regroupez par sujet (fonctionnel,
     électrique, CEM, thermique, environnement, étanchéité, mécanique, durée de vie…).
-18. **Quelque chose d'oublié ?** Demandez s'il manque un besoin, un requis ou un essai important à leurs yeux
+19. **Quelque chose d'oublié ?** Demandez s'il manque un besoin, un requis ou un essai important à leurs yeux
     (ex. une exigence du cours ou du client).
 
 Récapitulez le bloc 4 : le nombre de besoins, de requis par catégorie et d'essais par sujet, et les requis T ou D qui
 n'ont pas encore d'essai.
 
-## Bloc 5 — Le wiki (question 19)
+## Bloc 5 — Diamond : l'analyse fonctionnelle préliminaire (questions 20 à 24)
 
-19. **Les premières pages** : proposez 5 à 12 pages sur deux niveaux, avec un court contenu de départ chacune, par
+Expliquez une fois : c'est une **version préliminaire** que l'équipe reprendra dans Diamond ; chaque élément arrive
+marqué « Brouillon IA ». Montrez chaque proposition en tableau ou en liste indentée, et faites-la corriger.
+
+20. **L'arbre fonctionnel** : proposez la **fonction primaire** (un verbe + un complément : « Éclairer une surface de
+    travail »), puis 4 à 6 **fonctions secondaires** dans l'ordre chronologique de l'usage (du déballage à l'usage, la
+    protection en dernier), puis 2 à 4 **fonctions tertiaires** sous chacune (« comment » à droite, « pourquoi » à
+    gauche). Une fonction **technique** (niveau 4) seulement si elle aide ; une fonction d'**estime** (apparence) hors de
+    l'arbre, sans parent. Refs `F1`, `F2`… dans l'ordre.
+21. **Les entrées et sorties du système** : ce que le produit reçoit (à gauche : énergie, matière, information — ex.
+    « Courant 12 V », « Toucher de l'utilisateur ») et ce qu'il rend ou rejette (à droite : « Lumière », « Chaleur »).
+    Refs `E1`… et `S1`…, avec le type énergie, matière ou information.
+22. **Les flux** : d'abord la **vue générale** (entrées → fonctions secondaires → sorties), puis la **vue détaillée**
+    (les mêmes flux, portés par les fonctions tertiaires). Chaque fonction échange au moins un flux. Type et court
+    libellé (« courant », « consigne », « chaleur »).
+23. **Les pièces du concept** : 6 à 15 pièces ou sous-ensembles (conçue, achetée, normalisée) et les fonctions
+    secondaires ou tertiaires que chacune réalise. Signalez les pièces qui réalisent plusieurs fonctions (bon pour le
+    coût) et les fonctions qui demandent plusieurs pièces (pistes de simplification).
+24. **Les risques et le DFMEA** : 5 à 10 **risques projet** (titre, cause, conséquence, catégorie, phase A à D,
+    probabilité et impact de 1 à 5, stratégie, action), puis 4 à 8 premières lignes de **DFMEA** sur les fonctions les
+    plus critiques (élément, fonction, mode de défaillance, effet et sévérité S, cause et occurrence O, contrôles et
+    détection D, de 1 à 10).
+
+Récapitulez le bloc 5 : nombre de fonctions par niveau, d'entrées, de sorties, de flux par vue, de pièces, de risques et
+de lignes de DFMEA.
+
+## Bloc 6 — Le wiki (question 25)
+
+25. **Les premières pages** : proposez 5 à 12 pages sur deux niveaux, avec un court contenu de départ chacune, par
     exemple : la page d'accueil du projet (objectif, équipe, liens) puis, dessous, Lean Canvas et hypothèses, Plan de
     projet et jalons, Cahier des charges fonctionnel (CdCF) en tableau, Journal des décisions, Notes de réunion,
     Concept Review. Demandez lesquelles garder. Récapitulez la liste (titre, page parente).
 
-## Bloc 6 — Le fichier (question 20)
+## Bloc 7 — Le fichier (question 26)
 
-20. Montrez un **récapitulatif final** (nombre de personnes, de besoins, de requis, d'essais, de codes, de pages) et
+26. Montrez un **récapitulatif final** (nombre de personnes, de besoins, de requis, d'essais, de codes, de pages, de
+    fonctions, de pièces, de risques ; début et durée du plan) et
     demandez : « Je génère le fichier ? ».
 
 Puis produisez le fichier :
@@ -134,7 +166,7 @@ Puis produisez le fichier :
      « Créer le Space ».
   4. Noter les mots de passe temporaires affichés une seule fois et les remettre à chaque personne ; puis confirmer
      les normes une à une dans Goldmine et Testing (« Confirmer la norme »).
-- **L'ordre compte** : dans `requirements`, écrivez tous les besoins d'abord (y compris ceux ajoutés à la question 18),
+- **L'ordre compte** : dans `requirements`, écrivez tous les besoins d'abord (y compris ceux ajoutés à la question 19),
   puis les requis ; un requis ne cite que des refs écrites plus haut. Vérifiez avant de livrer que chaque requis T ou D
   est cité dans le `verifies` d'au moins un essai.
 - L'aperçu de l'outil peut afficher des **avertissements** sans refuser le fichier : « Aucun code de temps » (les codes
@@ -151,17 +183,23 @@ Puis produisez le fichier :
 
 Clés de premier niveau, dans cet ordre : `format` (`"dynamite-project-starter"`), `format_version` (`1`), `language`
 (`fr` ou `en`), `generated_by` (le nom de l'assistant), `generated_at` (date `AAAA-MM-JJ`), `project`, `team`,
-`requirements`, `tests`, `time_codes` (facultatif), `pages`.
+`requirements`, `tests`, `time_codes` (facultatif), `pages`, `diamond` (objet : `functions`, `ports`, `flows`, `parts`, `risks`, `dfmea`).
 
 | Objet | Champs (en **gras** : obligatoires ; les autres peuvent être retirés) |
 |---|---|
-| `project` | **`key`** (2 à 10 majuscules ou chiffres, commence par une lettre), **`name`**, `description`, `industry`, `product_type`, `markets` (liste) |
+| `project` | **`key`** (2 à 10 majuscules ou chiffres, commence par une lettre), **`name`**, `description`, `industry`, `product_type`, `markets` (liste), `start_date` (AAAA-MM-JJ, début du plan), `weeks` (4 à 104, défaut 15) |
 | `team[]` (12 au plus) | **`username`** (minuscules, chiffres, `.` `_` `-`, 2 à 32 caractères), **`display_name`**, `study_profile`, `title`, `role` (défaut `editor`) |
 | un **besoin** dans `requirements[]` | **`ref`** (ex. `BES-1`), **`kind`** : `need`, **`statement`**, `stakeholder`, `category` |
 | un **requis** dans `requirements[]` (300 en tout) | **`ref`** (ex. `REQ-1`), **`statement`**, `kind` (défaut `requirement`), `category` (défaut `functional`), `source` (défaut `client` ; `standard` exige **`standard`**), `standard`, `edition`, `clause`, `verification_method`, `acceptance_criteria`, `criticality`, `lifecycle`, `stakeholder`, `rationale`, `derived_from` (refs de besoins ou de requis **déclarés plus haut**) |
 | `tests[]` (300 au plus) | **`ref`** (ex. `ESSAI-1`), **`title`**, `subject` (défaut `func`), `category`, `standard`, `section`, `level`, `method` (défaut `T`), `objective`, `acceptance`, `means`, `verifies` (refs de **requis**) |
 | `time_codes[]` (40 codes au plus) | `{key, label, codes: [{key, label}]}` : `key` d'un groupe en majuscules (ex. `LA`), code au format `^[A-Z]{1,5}-[A-Z0-9]{2,4}$` |
 | `pages[]` (30 au plus) | `ref` (unique, ex. `P-ACC`), `title`, `parent` (`null` ou la ref d'une page **plus haut** ; deux niveaux au plus), `body` |
+| `diamond.functions[]` (120 au plus) | **`ref`** (ex. `F1`), **`text`**, `type` (défaut `usage`), `parent` (ref **plus haut**, ou `null` : la **première** fonction sans parent est la primaire ; une autre sans parent reste hors de l'arbre), `kano`, `importance`, `critical` (`true` : chemin critique), `notes` |
+| `diamond.ports[]` (40 au plus) | **`ref`** (ex. `E1`, `S1`), **`side`** (`in` entrée, `out` sortie), **`label`**, `kind` |
+| `diamond.flows[]` (200 au plus) | **`view`** (`general` : entre fonctions secondaires ; `detail` : entre fonctions tertiaires, sans les techniques), `kind`, `label`, **`src`**, **`dst`** (refs de fonction ou d'entrée / sortie ; un flux part d'une entrée ou d'une fonction et arrive à une fonction ou à une sortie) |
+| `diamond.parts[]` (80 au plus) | **`name`**, `kind` (défaut `designed`), `notes`, `functions` (refs de fonctions secondaires ou tertiaires) |
+| `diamond.risks[]` (60 au plus) | **`title`**, **`probability`** et **`impact`** (entiers 1 à 5), `cause`, `consequence`, `category`, `phase`, `response`, `action`, `function` (ref) |
+| `diamond.dfmea[]` (120 au plus) | `higher`, `focus`, `lower`, `function` (ref), `requirement`, **`failure_mode`**, `effect`, `severity`, `cause`, `prevention`, `occurrence`, `detection_ctrl`, `detection` (S, O, D : entiers 1 à 10), `action` |
 
 Attention aux noms voisins : un requis a `clause` et `acceptance_criteria` ; un essai a `section` et `acceptance`.
 

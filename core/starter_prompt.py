@@ -31,11 +31,20 @@ FIELDS = [  # (field, FR, EN, vocabulary key or a fixed tuple)
     ("tests.category", "type d'essai", "kind of test", "test_category"),
     ("tests.level", "niveau d'intégration", "integration level", "level"),
     ("tests.method", "méthode", "method", "method"),
+    ("diamond.functions.type", "type de fonction", "kind of function", "d_type"),
+    ("diamond.functions.kano", "Kano : Base, Performance, Innovation, Contrainte", "Kano: basic, performance, innovation, constraint", "d_kano"),
+    ("diamond.functions.importance", "importance", "importance", "d_importance"),
+    ("diamond.ports.kind / flows.kind", "énergie, matière, information", "energy, material, information", "d_kind"),
+    ("diamond.parts.kind", "conçue, achetée, normalisée", "designed, bought, standard", "d_part_kind"),
+    ("diamond.risks.category", "catégorie du risque", "risk category", "d_category"),
+    ("diamond.risks.phase", "phase du PDP", "PDP phase", "d_phase"),
+    ("diamond.risks.response", "éviter, réduire, transférer, accepter", "avoid, reduce, transfer, accept", "d_response"),
 ]
 
 
 def values_table(lang):
-    vocab = starter._vocab()
+    from . import starter_diamond
+    vocab = dict(starter._vocab(), **{"d_" + k: tuple(v) for k, v in starter_diamond._vocab().items() if isinstance(v, dict)})
     head = ("| Champ | Valeurs | Sens |\n|---|---|---|" if lang == "fr" else "| Field | Values | Meaning |\n|---|---|---|")
     rows = [head]
     for field, fr, en, source in FIELDS:
@@ -55,6 +64,16 @@ def example():
     short = {k: full[k] for k in ("format", "format_version", "language", "generated_by", "generated_at", "project")}
     short.update(team=full["team"][:1], requirements=[need, dict(req, derived_from=[need["ref"]])],
                  tests=[dict(test, verifies=[req["ref"]])], time_codes=[group], pages=full["pages"][:2])
+    d = full["diamond"]  # 0.60.22: a few items of Diamond, consistent with each other
+    keep = {"F1", "F2", "F3", "F4"}
+    short["diamond"] = {"functions": [f for f in d["functions"] if f["ref"] in keep],
+                        "ports": [d["ports"][0], d["ports"][4]],
+                        "flows": [{"view": "general", "kind": "energy", "label": "force", "src": d["ports"][3]["ref"], "dst": "F2"},
+                                  {"view": "detail", "kind": "energy", "label": "force", "src": d["ports"][3]["ref"], "dst": "F4"}],
+                        "parts": [p for p in d["parts"] if set(p["functions"]) <= keep and p["functions"]][:2],
+                        "risks": [r for r in d["risks"] if r.get("function") in keep][:1],
+                        "dfmea": [r for r in d["dfmea"] if r["function"] in keep][:1]}
+    short["diamond"]["ports"] = [d["ports"][3]]
     return json.dumps(short, ensure_ascii=False, indent=1)
 
 

@@ -29,7 +29,7 @@ Le fichier vient d'un assistant IA : rien n'y est cru sur parole.
 | `format`, `format_version` | `"dynamite-project-starter"`, `1` | requis |
 | `language` | `fr` ou `en` | défaut `fr` |
 | `generated_by`, `generated_at` | assistant utilisé, date `AAAA-MM-JJ` | facultatif |
-| `project` | `key` (2 à 10 majuscules ou chiffres), `name`, `description`, `industry`, `product_type`, `markets` (`CA`, `US`, `EU`, `UK`, `MX`, `AU`, `JP`, `CN`, `KR`, `IN`, `BR`, `INT`) | requis |
+| `project` | `key` (2 à 10 majuscules ou chiffres), `name`, `description`, `industry`, `product_type`, `start_date` et `weeks` (0.60.22 : le plan de référence d'Exploration, défaut lundi prochain et 15 semaines), `markets` (`CA`, `US`, `EU`, `UK`, `MX`, `AU`, `JP`, `CN`, `KR`, `IN`, `BR`, `INT`) | requis |
 | `team` | `username`, `display_name`, `study_profile`, `title`, `role` (`editor`, `manager`, `reader`) | 12 personnes |
 | `requirements` | `ref`, `kind` (`need` / `requirement`), `statement`, `rationale`, `category`, `lifecycle`, `stakeholder`, `source`, `standard`, `edition`, `clause`, `verification_method` (`I`, `A`, `D`, `T`), `acceptance_criteria`, `criticality` (`A` à `E`), `derived_from` (refs déclarées plus haut) | 300 |
 | `tests` | `ref`, `title`, `subject` (`func`, `elec`, `emc`, `therm`, `env`, `ingress`, `mech`, `life`, `mat`, `sw`, `usab`, `prod`, `ver` ; défaut `func`), `category` (`standard`, `industry`, `custom`), `standard`, `section`, `level`, `method`, `objective`, `acceptance`, `means`, `verifies` (refs de requis) | 300 |
@@ -44,3 +44,20 @@ Un requis de `source` `standard` doit nommer sa norme. Sans `time_codes`, le Spa
 Chaque refus donne le chemin de la valeur en cause et le correctif, par exemple :
 `Fichier Project Starter refusé (tests[2].verifies[0]) : requis « REQ-9 » introuvable. Correctif : utilisez le champ
 ref d'un élément déjà déclaré plus haut dans le fichier.`
+
+## Diamond et plan de référence (0.60.22, D-O-032)
+
+`diamond` (facultatif) porte l'analyse fonctionnelle préliminaire, créée dans le Space en « Brouillon IA » (note de chaque
+fonction et de chaque risque) : `functions` (arbre : la première fonction sans parent est la primaire, trois niveaux,
+une fonction `technique` au niveau 4, une fonction sans parent de plus reste hors de l'arbre), `ports` (entrées `in` et
+sorties `out` du système), `flows` (`general` entre fonctions secondaires, `detail` entre fonctions tertiaires sans les
+techniques ; d'une entrée ou d'une fonction vers une fonction ou une sortie), `parts` (sur des fonctions secondaires
+ou tertiaires), `risks` (P et I de 1 à 5) et `dfmea` (S, O, D de 1 à 10, un Failure Mode par ligne). Les règles sont
+celles des écrans de Diamond (`core/starter_diamond.py` les lit dans `modules/diamond/`). L'exemple
+`deploy/starter_exemples/lampe_bureau.json` reprend l'exemple de Diamond (`tools/make_starter_diamond_example.py`).
+
+Le Space reçoit aussi un **plan de référence** dans Exploration (`modules/exploration/reference.py`) : les 19 étapes du
+PDP (mêmes codes que Timesheet), les revues Lean Canvas, Concept Review, PDR, CDR et Validation Report en jalons, les
+quatre phases sur `project.weeks` (20 / 25 / 30 / 25 %), et des étapes en parallèle selon la taille de l'équipe (1 piste
+jusqu'à 2 personnes, 2 pour 3 ou 4, 3 dès 5) ; les responsables prennent les pistes à tour de rôle.
+
