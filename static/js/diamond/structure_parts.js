@@ -129,20 +129,29 @@
   }
 
   /* the « Pièces » section of the panel of a function selected in the diagram */
+  /* the « Pièces » section of the panel of a function selected in the diagram. 0.60.23: a sub-system of the general view
+     also lists, and checks, the parts of its tertiary functions -- the same ones as the tags of its box -- with the
+     function each one carries out; those are changed on the tertiary (detail view or matrix), not here. */
   function panelSection(state, fid, run, editable) {
     const data = state.data;
-    const mine = data.parts.filter((p) => p.functions.includes(fid));
+    const shown = byFunction(data, state.view).get(fid) || [];
+    const direct = (p) => p.functions.includes(fid);
+    const kids = data.views.detail.filter((f) => f.parent_id === fid && f.level === 3);
+    const via = (p) => kids.filter((f) => p.functions.includes(f.id)).map((f) => "F" + f.number);
     const box = el("div", { class: "dm-reading dm-pt-panel", "data-new": "0.60.20-part-panel" },
-      el("p", null, el("strong", null, "Pièces qui réalisent cette fonction (" + mine.length + ")")),
-      mine.length ? el("p", { class: "dm-pt-chips" }, mine.map((p) => el("span", { class: "dm-pt-chip" }, code(p) + " " + p.name)))
+      el("p", null, el("strong", null, "Pièces qui réalisent cette fonction (" + shown.length + ")")),
+      shown.length ? el("p", { class: "dm-pt-chips" }, shown.map((p) => el("span", { class: "dm-pt-chip" + (direct(p) ? "" : " dm-pt-chip-via") },
+        code(p) + " " + p.name + (direct(p) ? "" : " · par " + via(p).join(", ")))))
         : el("p", { class: "muted" }, "Aucune pièce."));
     if (!editable) return box;
     if (data.parts.length) {
-      box.append(el("div", { class: "dm-pt-checks" }, data.parts.map((p) => {
-        const on = p.functions.includes(fid);
-        const input = el("input", { type: "checkbox", checked: on });
+      box.append(el("div", { class: "dm-pt-checks", "data-new": "0.60.23-part-via" }, data.parts.map((p) => {
+        const inherited = !direct(p) && via(p).length > 0;
+        const input = el("input", { type: "checkbox", checked: direct(p) || inherited, disabled: inherited });
         input.addEventListener("change", () => run("/parts/" + p.id + "/functions", { function_id: fid, on: input.checked }, "put"));
-        return el("label", { class: "dm-check" }, input, " " + code(p) + " " + p.name);
+        return el("label", { class: "dm-check" + (inherited ? " dm-pt-via" : ""),
+          "data-tip": inherited ? "Réalise " + via(p).join(", ") + " (fonction tertiaire de ce sous-système) : modifiez-la dans la vue détaillée ou la matrice" : null },
+        input, " " + code(p) + " " + p.name + (inherited ? " (par " + via(p).join(", ") + ")" : ""));
       })));
     }
     const name = el("input", { type: "text", maxlength: 80, placeholder: "Nouvelle pièce pour cette fonction", "aria-label": "Nouvelle pièce" });

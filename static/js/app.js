@@ -446,7 +446,17 @@
   }
 
   /* ---------------- Router ---------------- */
+  /* 0.60.23: a new address in the same tab and the same Space (a selection, a sub-view, a redraw) keeps the page where
+     it was; another tab or another Space opens at the top as before. */
+  let lastPlace = "";
   async function route() {
+    const place = location.hash.replace(/^#\/?/, "").split("/").slice(0, 2).join("/");
+    const hold = place && place === lastPlace && DA.holdScroll ? DA.holdScroll() : null;
+    lastPlace = place;
+    try { await routeTo(); } finally { if (hold) DA.releaseScroll(hold); }
+  }
+
+  async function routeTo() {
     closeMenus();
     if (!session.user) { showLogin(); return; }
     if (session.user.must_change_password) { showForcedPasswordChange(); return; }
@@ -456,7 +466,7 @@
     const parts = (location.hash && location.hash !== "#/" ? location.hash : start).replace(/^#\/?/, "").split("/");
     if (parts[0] === "user") { location.replace("#/settings"); return; }  // D-B-078
     if (parts[0] === "admin" && session.user.is_admin) {
-      DA.admin.render(renderShell("admin"), parts[1] || "users", parts[2]);  // D-B-105: part of a section
+      await DA.admin.render(renderShell("admin"), parts[1] || "users", parts[2]);  // D-B-105: part of a section
       return;
     }
     try {
@@ -473,7 +483,7 @@
     await DA.loadModuleAssets(session.modules);
     const mod = session.modules.find((m) => m.key === parts[0] && m.available);
     if (mod && DA.views[mod.key]) {
-      DA.views[mod.key](renderShell(mod.placement === "tools" ? "tools" : mod.key), parts.slice(1));  // D-B-065
+      await DA.views[mod.key](renderShell(mod.placement === "tools" ? "tools" : mod.key), parts.slice(1));  // D-B-065
       return;
     }
     renderHome();
