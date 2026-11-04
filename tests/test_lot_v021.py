@@ -104,7 +104,7 @@ class LotV021Test(unittest.TestCase):
             with zipfile.ZipFile(io.BytesIO(resp.read())) as z:
                 text = "".join(z.read(n).decode() for n in z.namelist() if n.endswith(".xml"))
         self.assertIn("Essais de qualification", text)
-        self.assertIn("Pré-étude", text)  # the PDP codes in the Lisez-moi legend
+        self.assertIn("A. Discovery", text)  # the PDP codes in the Lisez-moi legend (0.60.09 names)
         self.assertIn("(non réclamable)", text)  # INT-VAC / INT-SAN in the Lisez-moi legend
 
 

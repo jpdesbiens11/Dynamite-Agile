@@ -41,6 +41,10 @@ def seed(conn):
         else:
             set_id = row["id"]
         for lpos, (code, name) in enumerate(items):
+            old = catalog.OLD_PDP_LABELS.get(code)
+            if old and key == catalog.DEFAULT_SET:  # 0.60.09 (D-O-021): the Lean names, only where the label was never reworded
+                conn.execute("UPDATE timesheet_budget_lines SET label = ?, updated_at = ? WHERE code = ? AND label = ?",
+                             (name, now, code, old))
             if not conn.execute("SELECT 1 FROM timesheet_budget_lines WHERE code = ?", (code,)).fetchone():
                 conn.execute("INSERT INTO timesheet_budget_lines (set_id, code, label, claimable, position, active, created_at, "
                              "updated_at) VALUES (?, ?, ?, ?, ?, 1, ?, ?)",

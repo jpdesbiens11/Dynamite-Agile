@@ -1,8 +1,8 @@
 """Timesheet catalogs (D-B-023; product development process since 0.60.01): time codes and week statuses.
 
 One default set of time codes, « pdp »: the steps of the product development process (PDP) taught in the design
-course, grouped by phase -- A. Pré-étude, B. Étude conceptuelle, C. Conception, D. Fabrication et validation du
-prototype. The code gives the phase and the number of the step (A-01 … D-21; the course figure numbers 1 to 15 and
+course, grouped by phase -- since 0.60.09 (D-O-021) A. Discovery, B. Concept, C. Design, D. Validation et lancement, each a
+Build-Measure-Learn loop with its MVP. The code gives the phase and the number of the step (A-01 … D-21; the course figure numbers 1 to 15 and
 19 to 21), plus « D-FAB » for the drawings and the making of the prototype, which the figure shows without a number.
 A second set, « interne », serves the INT Space (created at first launch, open to everyone): time that serves the
 team or the start-up rather than one funded project, and the leave -- INT-VAC vacation (deducted from the person's
@@ -15,25 +15,25 @@ Keys are stable (they go into the Excel exports); labels may be reworded.
 DEFAULT_SET = "pdp"
 TASK_SETS = {
     "pdp": ("Processus de développement de produit (PDP)", [
-        ("A-01", "A. Pré-étude · 1. Étude de marché"),
-        ("A-02", "A. Pré-étude · 2. Spécifications préliminaires du produit avec le client"),
-        ("A-03", "A. Pré-étude · 3. Définition du projet"),
-        ("A-04", "A. Pré-étude · 4. Échéancier, budget et sources de financement"),
-        ("A-05", "A. Pré-étude · 5. Pré-faisabilité"),
-        ("A-06", "A. Pré-étude · 6. Analyse des risques et solutions potentielles"),
-        ("B-07", "B. Étude conceptuelle · 7. Rappel et mise à jour de la pré-étude"),
-        ("B-08", "B. Étude conceptuelle · 8. Recherche des besoins du client"),
-        ("B-09", "B. Étude conceptuelle · 9. Recherche des fonctions"),
-        ("B-10", "B. Étude conceptuelle · 10. Définition de la structure fonctionnelle"),
-        ("B-11", "B. Étude conceptuelle · 11. Définition des spécifications d'ingénierie (CdCF)"),
-        ("B-12", "B. Étude conceptuelle · 12. Recherche et sélection des concepts"),
-        ("C-13", "C. Conception · 13. Rappel et mise à jour de l'étude conceptuelle"),
-        ("C-14", "C. Conception · 14. Identification des sous-systèmes"),
-        ("C-15", "C. Conception · 15. Conception des sous-systèmes"),
-        ("D-FAB", "D. Fabrication et validation · Mise en plan et fabrication du prototype"),
-        ("D-19", "D. Fabrication et validation · 19. Rappel et mise à jour de la phase de conception"),
-        ("D-20", "D. Fabrication et validation · 20. Validation de certains aspects qualitatifs de la conception"),
-        ("D-21", "D. Fabrication et validation · 21. Tests de validation des spécifications par sous-système"),
+        ("A-01", "A. Discovery · 1. Étude de marché et entrevues clients"),
+        ("A-02", "A. Discovery · 2. Spécifications préliminaires du produit avec le client"),
+        ("A-03", "A. Discovery · 3. Définition du projet et Lean Canvas"),
+        ("A-04", "A. Discovery · 4. Échéancier, budget et sources de financement"),
+        ("A-05", "A. Discovery · 5. Pré-faisabilité et MVP 0"),
+        ("A-06", "A. Discovery · 6. Analyse des risques et hypothèses à tester"),
+        ("B-07", "B. Concept · 7. Bilan du MVP 0 : persévérer ou pivoter"),
+        ("B-08", "B. Concept · 8. Recherche des besoins du client"),
+        ("B-09", "B. Concept · 9. Recherche des fonctions"),
+        ("B-10", "B. Concept · 10. Définition de la structure fonctionnelle"),
+        ("B-11", "B. Concept · 11. Définition des spécifications d'ingénierie (CdCF)"),
+        ("B-12", "B. Concept · 12. Recherche et sélection des concepts, MVP 1"),
+        ("C-13", "C. Design · 13. Bilan du MVP 1 : persévérer ou pivoter"),
+        ("C-14", "C. Design · 14. Identification des sous-systèmes (PDR)"),
+        ("C-15", "C. Design · 15. Conception des sous-systèmes, MVP 2 (CDR)"),
+        ("D-FAB", "D. Validation et lancement · Mise en plan et fabrication du prototype"),
+        ("D-19", "D. Validation et lancement · 19. Bilan du MVP 2 : persévérer ou pivoter"),
+        ("D-20", "D. Validation et lancement · 20. Validation de certains aspects qualitatifs de la conception"),
+        ("D-21", "D. Validation et lancement · 21. Tests de validation des spécifications par sous-système, MVP 3"),
     ]),
     "interne": ("Temps interne et congés", [
         ("INT-01", "Réunions et gestion de l'équipe"),
@@ -45,7 +45,7 @@ TASK_SETS = {
         ("INT-SAN", "Health Leave (subject to approval, not deducted)"),
     ]),
 }
-PHASES = {"A": "Pré-étude", "B": "Étude conceptuelle", "C": "Conception", "D": "Fabrication et validation du prototype"}
+PHASES = {"A": "Discovery", "B": "Concept", "C": "Design", "D": "Validation et lancement"}  # 0.60.09 (D-O-021)
 TASKS = {key: label for _, (_, items) in TASK_SETS.items() for key, label in items}
 
 STATUSES = {"draft": "Draft", "submitted": "Submitted", "approved": "Approved", "returned": "Returned"}
@@ -74,3 +74,26 @@ def task_list(task_set):
 def meta():
     return {"task_sets": {k: {"label": label, "tasks": task_list(k)} for k, (label, _) in TASK_SETS.items()},
             "statuses": STATUSES}
+
+# 0.60.09 (D-O-021): the labels of the « pdp » codes before the Lean renaming, replaced at start-up when unchanged.
+OLD_PDP_LABELS = {
+    "A-01": "A. Pré-étude · 1. Étude de marché",
+    "A-02": "A. Pré-étude · 2. Spécifications préliminaires du produit avec le client",
+    "A-03": "A. Pré-étude · 3. Définition du projet",
+    "A-04": "A. Pré-étude · 4. Échéancier, budget et sources de financement",
+    "A-05": "A. Pré-étude · 5. Pré-faisabilité",
+    "A-06": "A. Pré-étude · 6. Analyse des risques et solutions potentielles",
+    "B-07": "B. Étude conceptuelle · 7. Rappel et mise à jour de la pré-étude",
+    "B-08": "B. Étude conceptuelle · 8. Recherche des besoins du client",
+    "B-09": "B. Étude conceptuelle · 9. Recherche des fonctions",
+    "B-10": "B. Étude conceptuelle · 10. Définition de la structure fonctionnelle",
+    "B-11": "B. Étude conceptuelle · 11. Définition des spécifications d'ingénierie (CdCF)",
+    "B-12": "B. Étude conceptuelle · 12. Recherche et sélection des concepts",
+    "C-13": "C. Conception · 13. Rappel et mise à jour de l'étude conceptuelle",
+    "C-14": "C. Conception · 14. Identification des sous-systèmes",
+    "C-15": "C. Conception · 15. Conception des sous-systèmes",
+    "D-FAB": "D. Fabrication et validation · Mise en plan et fabrication du prototype",
+    "D-19": "D. Fabrication et validation · 19. Rappel et mise à jour de la phase de conception",
+    "D-20": "D. Fabrication et validation · 20. Validation de certains aspects qualitatifs de la conception",
+    "D-21": "D. Fabrication et validation · 21. Tests de validation des spécifications par sous-système",
+}
