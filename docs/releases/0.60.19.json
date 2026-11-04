@@ -1,0 +1,54 @@
+{
+  "version": "0.60.19",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Initiales de traçabilité données d'office d'après le nom (JDE, ADM pour admin) ; le Space par défaut reste choisi : deux sauvegardes simultanées des réglages ne s'annulent plus.",
+    "en": "Traceability initials given from the name (JDE, ADM for admin); the default Space stays chosen: two settings saved at the same moment no longer undo each other."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Initiales automatiques (D-O-030)",
+      "why": "Première lettre du prénom et deux du nom (JDE), ADM pour admin ; unique (lettre suivante du nom, initiale d'un deuxième prénom, puis une clé libre) ; données à la création d'un compte (Comptes, Règles d'accès, Commencer), au démarrage pour les comptes existants et à la première visite ; toujours modifiables dans Paramètres. Plus de blocage « Initiales requises » pour un nouveau compte.",
+      "files": [
+        "core/prefs.py",
+        "core/router.py",
+        "core/session_api.py",
+        "core/startup.py",
+        "core/admin.py",
+        "core/access_rules.py",
+        "core/starter_apply.py",
+        "static/js/tools/i18n.js",
+        "tests/test_initials_auto.py",
+        "tests/test_lot_v013.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Space par défaut : il reste choisi (D-O-030)",
+      "why": "La case envoyait en même temps le Space et la marque « vu » de son badge [new] ; la seconde réécrivait tous les réglages avec leur ancienne copie. Chaque sauvegarde fusionne maintenant ses seules clés (json_patch), et un réglage n'efface plus la liste des badges vus. Le wiki TOOLS, propre à Dynamite, n'est plus proposé comme Space par défaut.",
+      "files": [
+        "core/prefs.py",
+        "core/update.py",
+        "core/baselines.py",
+        "static/js/tools/spaces.js",
+        "static/js/app.js"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Version 0.60.19 et documentation",
+      "why": "Décision, état du projet, journal, fiche de version.",
+      "files": [
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.19.json",
+        "tests/test_open_v060.py",
+        "static/js/tools/debuter_content.js"
+      ]
+    }
+  ]
+}

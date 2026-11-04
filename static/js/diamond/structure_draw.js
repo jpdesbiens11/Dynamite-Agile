@@ -98,7 +98,8 @@
     return { d: "M" + p1 + " C" + c1 + " " + c2 + " " + p2, mid };
   }
 
-  /* opts: {data, view, saved: Map, selected: {type, id, key} | null, link, editable, showLabels, onSelect(sel), onMove(box), flows} */
+  /* opts: {data, view, saved: Map, selected: {type, id, key} | null, link, editable, showLabels, onSelect(sel), onMove(box), flows,
+     parts: Map function id -> [part] | null} */
   function draw(opts) {
     const box = layout(opts.data, opts.view, opts.saved);
     const canvas = el("div", { class: "dm-st-canvas", role: "group", "aria-label": "Structure fonctionnelle" });
@@ -169,13 +170,23 @@
           + (isSel(b.type, b.id) ? " dm-selected" : "") + (opts.link && opts.link.key === b.key ? " dm-st-linking" : ""),
         "aria-pressed": isSel(b.type, b.id) ? "true" : "false", "data-tip": b.type === "port" ? item.label : item.text },
       b.type === "port" ? el("span", { class: "dm-code" }, item.side === "in" ? "Entrée" : "Sortie") : el("span", { class: "dm-code" }, "F" + item.number),
-      el("span", { class: "dm-text" }, b.type === "port" ? item.label : item.text));
+      el("span", { class: "dm-text" }, b.type === "port" ? item.label : item.text),
+      partTags(opts.parts, b));
       place(node, b);
       drag(node, b, opts, redraw);
       canvas.append(node);
     });
     redraw();
     return el("div", { class: "dm-scroll dm-st-scroll" }, canvas);
+  }
+
+  /* 0.60.20 (D-O-031): the codes of the parts that carry out this function, on the lower edge of its box */
+  function partTags(parts, b) {
+    const list = b.type === "function" && parts ? parts.get(b.id) || [] : [];
+    if (!list.length) return null;
+    const shown = list.slice(0, 4).map((p) => el("span", { class: "dm-st-ptag" + (p.functions.length >= 2 ? " dm-st-ptag-multi" : "") }, "P-" + p.number));
+    return el("span", { class: "dm-st-ptags" + (list.length >= 2 ? " dm-st-ptags-many" : ""), "aria-label": list.length + " pièce(s)" },
+      shown, list.length > 4 ? el("span", { class: "dm-st-ptag" }, "+" + (list.length - 4)) : null);
   }
 
   function place(node, r) {

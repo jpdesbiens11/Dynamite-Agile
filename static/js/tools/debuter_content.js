@@ -14,12 +14,12 @@
       text: "Une fois l'outil installé, l'administrateur crée le projet ; chacun règle son poste et découvre l'outil sans rien casser.",
       steps: [
         ["admin", "Démarrer le projet avec un assistant IA",
-          "Un assistant IA vous pose des questions sur votre produit, votre industrie et votre marché, puis donne un fichier qui crée le "
+          "Commencer → « Copier le prompt », à coller dans Claude.ai ou un autre assistant : il vous pose une vingtaine de questions sur votre produit, votre industrie et votre marché, puis donne un fichier qui crée le "
           + "Space : l'équipe et son profil d'études, les besoins et requirements, les essais alignés sur les normes, les codes de temps et "
           + "les premières pages. Sans assistant : créez le Space et les comptes à la main.",
           [["Commencer", "#/admin/start"], ["Créer un Space", "#/admin/projects"], ["Comptes", "#/admin/users"]], true],
         ["help", "Prendre ses repères",
-          "Changez votre mot de passe temporaire, donnez vos initiales, choisissez votre thème et votre page d'arrivée. Le bac à sable "
+          "Changez votre mot de passe temporaire, vérifiez vos initiales (données d'après votre nom), choisissez votre thème et votre page d'arrivée. Le bac à sable "
           + "HeadLamp et le guide montrent chaque outil sur un projet fictif.",
           [["Paramètres", "#/settings"], ["Guide et HeadLamp", "#/help"]]],
         ["home", "Trouver son Space",

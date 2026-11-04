@@ -30,6 +30,7 @@
   }
   DA.sandboxHidden = (view) => !!(session.prefs && session.prefs.hide_sandbox) && view !== "dynamite" && view !== "help";
   DA.sandboxKey = SANDBOX_KEY;
+  DA.wikiOnlyKey = WIKI_ONLY_KEY;  // 0.60.19: never offered as the default Space (it opens in Dynamite only)
 
   function applyMe(me) {
     session.user = me.user;

@@ -389,7 +389,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   <h1>Prendre en main <span class="hl" style="--hlc: var(--c)">Dynamite | Agile</span></h1>
   <p class="lead">Le parcours d'une équipe, du premier compte au prototype validé. Le guide complet, avec un exercice par outil,
     est dans l'outil lui-même : <b>Help</b> → le tour du site, et le Space bac à sable <b>HEADLAMP</b>.</p>
-  <ul class="toc"><li><a href="#admin">L'administrateur</a></li><li><a href="#chef">Le chef d'équipe</a></li>
+  <ul class="toc"><li><a href="#admin">L'administrateur</a></li><li><a href="#starter">Démarrer avec un assistant IA</a></li><li><a href="#chef">Le chef d'équipe</a></li>
     <li><a href="#membre">Chaque membre</a></li><li><a href="#pdp">Le PDP dans l'outil</a></li><li><a href="#mine">Les noms de la mine</a></li>
     <li><a href="#financement">Projet financé</a></li></ul>
 
@@ -401,6 +401,20 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     <li><b>Les approbateurs</b>Chacun choisit son approbateur (l'enseignant, le chef d'équipe) dans menu à son nom → Paramètres ;
       l'administrateur corrige au besoin (« Feuille de temps… »).</li>
     <li><b>Les sauvegardes</b>⚙ Admin → Update et sauvegardes : un point de restauration est pris chaque jour et avant chaque opération de masse.</li>
+  </ol>
+
+  <h2 id="starter" class="reveal" data-new="0.60.18-starter-guide">Démarrer un projet avec un assistant IA</h2>
+  <p class="reveal">Pas besoin de savoir d'avance quels requis, normes ou essais conviennent à votre produit : un assistant IA
+    vous les propose en entrevue, une question à la fois, et vous donne un fichier à importer.</p>
+  <ol class="stepper reveal">
+    <li><b>Copier le prompt</b>⚙ Admin → Spaces → Commencer → « Copier le prompt » (ou ouvrez
+      <a href="starter.md">starter.md</a> et copiez tout le texte).</li>
+    <li><b>L'entrevue</b>Collez-le dans une nouvelle conversation (Claude.ai, ChatGPT, Gemini, Copilot). Environ 20 questions,
+      30 à 45 minutes : le produit, l'énergie, la radio, les dangers, le marché, l'équipe, puis les besoins, requis, essais et
+      pages qu'il propose et que vous corrigez. « Je ne sais pas » est une bonne réponse.</li>
+    <li><b>Le fichier</b>Enregistrez le fichier <code>.json</code> qu'il donne (Bloc-notes → Enregistrer sous, encodage UTF-8).</li>
+    <li><b>L'import</b>Commencer → déposez le fichier, lisez l'aperçu, « Créer le Space ». Les normes arrivent « À vérifier » :
+      confirmez-les une à une avant d'approuver un requis.</li>
   </ol>
 
   <h2 id="chef" class="reveal">Le chef d'équipe : lancer le projet</h2>
@@ -453,7 +467,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       destinataire, avec l'attestation à signer : sans rien retaper.</li>
   </ol>
 </main>
-<footer>Dynamite | Agile · logiciel libre sous licence MIT · version 0.60.17 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>Dynamite | Agile · logiciel libre sous licence MIT · version 0.60.20 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */

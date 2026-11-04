@@ -12,6 +12,9 @@
 """
 import datetime as dt
 import json
+import re
+import string
+import unicodedata
 
 from . import permissions, audit, db, validate
 from .errors import ApiError
@@ -75,8 +78,13 @@ def get(conn, user_id):
 
 
 def _put(conn, user_id, prefs):
+    """0.60.19: merge `prefs` (only the keys to change) into the stored ones, in one statement. Two writes at the same
+    moment (« Space par défaut » and the [new] badge it carries, sent together by the page) each keep their own key;
+    the former read-modify-write of the whole object let the second one bring the old default Space back. A key set
+    to None is removed (get() then gives its default)."""
     conn.execute("INSERT INTO user_prefs (user_id, prefs, updated_at) VALUES (?, ?, ?) ON CONFLICT(user_id) DO UPDATE "
-                 "SET prefs = excluded.prefs, updated_at = excluded.updated_at",
+                 "SET prefs = json_patch(CASE WHEN json_valid(user_prefs.prefs) THEN user_prefs.prefs ELSE '{}' END, "
+                 "excluded.prefs), updated_at = excluded.updated_at",
                  (user_id, json.dumps(prefs, ensure_ascii=False), db.utc_now()))
 
 
@@ -99,6 +107,80 @@ def initials_owner(conn, value, user_id):
 
 def has_initials(conn, user_id):
     return valid_initials(get(conn, user_id).get("initials") or "")
+
+
+# 0.60.19 (D-O-030): the traceability key is given automatically, from the name: JDE for « Jean-Philippe Desbiens »
+# (first letter of the first name + two of the last name), ADM for the account « admin ». When it is taken, the next
+# candidate is tried: other letters of the last name, the initial of a middle name (JPD), then any free key. The person
+# can still change it in Paramètres → Mes initiales.
+def _letters(word):
+    return "".join(ch for ch in unicodedata.normalize("NFKD", word) if ch.isascii() and ch.isalpha()).upper()
+
+
+def initial_candidates(display_name, username=""):
+    if (username or "").lower() == "admin":
+        yield "ADM"
+    words = [w for w in (_letters(x) for x in (display_name or "").replace("-", " ").replace("'", " ").split()) if w]
+    if not words:
+        words = [w for w in (_letters(x) for x in re.split(r"[._-]", username or "")) if w]
+    if len(words) >= 2:
+        first, middle, last = words[0], words[1:-1], words[-1]
+        yield first[0] + last[:2]
+        for ch in last[2:]:
+            yield first[0] + last[0] + ch
+        for m in middle:
+            yield first[0] + m[0] + last[0]
+        yield first[:2] + last[0]
+        for ch in first[2:]:
+            yield first[0] + ch + last[0]
+        lead = first[0] + last[0]
+    elif words:
+        w = words[0]
+        yield w[:3]
+        for i in range(2, len(w)):
+            yield w[:2] + w[i]
+        lead = w[:2]
+    else:
+        lead = "US"
+    for ch in string.ascii_uppercase:
+        yield (lead + ch)[:3]
+    for a in string.ascii_uppercase:
+        for b in string.ascii_uppercase:
+            yield lead[0] + a + b
+
+
+def _taken(conn):
+    out = set()
+    for row in conn.execute("SELECT p.prefs FROM user_prefs p JOIN users u ON u.id = p.user_id WHERE u.is_active = 1"):
+        try:
+            out.add(str(json.loads(row["prefs"]).get("initials") or "").upper())
+        except ValueError:
+            continue
+    return out
+
+
+def ensure_initials(conn, user_id):
+    """The key of this account, given now from its name when it has none yet (never changes one already chosen)."""
+    current = get(conn, user_id).get("initials") or ""
+    if valid_initials(current):
+        return current
+    row = conn.execute("SELECT username, display_name FROM users WHERE id = ?", (user_id,)).fetchone()
+    if row is None:
+        return ""
+    taken = _taken(conn)
+    value = next((c for c in initial_candidates(row["display_name"], row["username"]) if valid_initials(c) and c not in taken), "")
+    if value:
+        _put(conn, user_id, {"initials": value})
+    return value
+
+
+def fill_initials(conn):
+    """At start-up: every active account without a key receives one (oldest accounts first, so admin keeps ADM)."""
+    given = 0
+    for row in conn.execute("SELECT id FROM users WHERE is_active = 1 ORDER BY id").fetchall():
+        if not has_initials(conn, row["id"]) and ensure_initials(conn, row["id"]):
+            given += 1
+    return given
 
 
 def clean(conn, user_id, body):
@@ -178,7 +260,7 @@ def update(ctx, user_id, body):
     prefs = get(ctx.conn, user_id)
     before = dict(prefs)
     prefs.update(changes)
-    _put(ctx.conn, user_id, prefs)
+    _put(ctx.conn, user_id, changes)
     tracked = {k: [before.get(k), v] for k, v in changes.items()
                if k in ("manager_id", "vacation_bank_hours", "vacation_bank_date") and before.get(k) != v}
     if tracked:  # the approver sees these changes: keep who and when
@@ -209,9 +291,8 @@ def api_admin_put(ctx):
     result = update(ctx, user_id, allowed) if allowed else get(ctx.conn, user_id)
     if "can_export" in ctx.body:
         value = validate.boolean(ctx.body, "can_export")
+        _put(ctx.conn, user_id, {"can_export": value})
         result = get(ctx.conn, user_id)
-        result["can_export"] = value
-        _put(ctx.conn, user_id, result)
         audit.log_action(ctx.conn, ctx.user["id"], "export_right_" + ("given" if value else "removed"), "user", user_id, None, ctx.ip)
     return {"prefs": result}
 

@@ -1,4 +1,31 @@
-# Journal de mise à jour — 0.60.17
+# Journal de mise à jour — 0.60.20
+
+- **Version :** 0.60.19 → 0.60.20 (2026-11-04)
+- **Changements :**
+  1. **Diamond → Structure fonctionnelle : les pièces** (D-O-031) : chaque pièce étiquetée sur les fonctions qu'elle réalise ; vue « Pièces × fonctions » et conseils pour réduire la complexité et le coût.
+  2. **Timesheet** : après un changement de Funding Space, un ancien code est montré « hors du Funding Space » et la semaine n'est soumise qu'une fois corrigée.
+- **Base de données :** migration diamond 5 (tables `diamond_parts` et `diamond_part_functions`, additive).
+
+## Précédent
+
+### Journal de mise à jour — 0.60.19
+
+- **Version :** 0.60.18 → 0.60.19 (2026-11-04)
+- **Changements :**
+  1. **Initiales automatiques** (D-O-030) : JDE d'après le nom, ADM pour admin, uniques, modifiables ; données aux comptes existants au démarrage.
+  2. **Space par défaut** : corrigé, il ne revient plus en arrière (sauvegardes des réglages fusionnées) ; le wiki TOOLS n'est plus proposé.
+- **Base de données :** aucune migration ; au démarrage, les comptes sans initiales en reçoivent (réglages personnels, rien d'autre ne change).
+
+### Journal de mise à jour — 0.60.18
+
+- **Version :** 0.60.17 → 0.60.18 (2026-11-04)
+- **Changements :**
+  1. **Prompt de départ** `starter.md` (D-O-019) : l'entrevue d'un assistant IA, 20 questions une à la fois, qui produit le fichier Project Starter ; valeurs permises et exemple tirés de l'outil.
+  2. **Commencer** : étape « 1. Préparer le fichier avec un assistant IA », Copier le prompt / Télécharger, hors ligne aussi.
+  3. **Site** : `starter.md` (FR / EN) et une section du guide.
+- **Base de données :** aucune migration.
+
+### Journal de mise à jour — 0.60.17
 
 - **Version :** 0.60.16 → 0.60.17 (2026-11-04)
 - **Changements :**
@@ -8,8 +35,6 @@
   2. **Noyau** : `trusted_proxies` ; derrière le proxy, l'adresse du visiteur et le HTTPS sont reconnus ; accès direct refusé.
   3. **Site** : dépannage « ports 80 ou 443 déjà pris » quand c'est Traefik.
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.16
 

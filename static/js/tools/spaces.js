@@ -37,8 +37,11 @@
       const def = this.defaultKey();
       const list = el("ul", { class: "sp-list", "aria-label": "Spaces" });
       DA.session.projects.forEach((p) => {
-        const box = el("input", { type: "checkbox", checked: p.key === def, "aria-label": "Space par défaut : " + p.key,
-          "data-tip": "Space par défaut : chaque onglet s'ouvre directement sur ce Space" });
+        /* 0.60.19: the Tools wiki exists in Dynamite only -- as the default of every tab it would open nowhere else */
+        const wikiOnly = p.key === DA.wikiOnlyKey;
+        const box = el("input", { type: "checkbox", checked: p.key === def, disabled: wikiOnly, "aria-label": "Space par défaut : " + p.key,
+          "data-tip": wikiOnly ? "Wiki des outils, ouvert depuis Dynamite seulement : il ne peut pas être le Space par défaut"
+            : "Space par défaut : chaque onglet s'ouvre directement sur ce Space" });
         box.addEventListener("change", async () => {
           try {
             await save(box.checked ? p.key : "");

@@ -1,6 +1,6 @@
 # Format Project Starter (`dynamite-project-starter`, version 1)
 
-Fichier JSON qu'un assistant IA prépare avec une personne, à partir de `site/starter.md` (0.60.07). Le bouton
+Fichier JSON qu'un assistant IA prépare avec une personne, à partir de `site/starter.md` (0.60.18 ; dans l'outil : Commencer → « Copier le prompt »). Le bouton
 « Commencer » de l'outil (0.60.06) le lit et crée un nouveau Space, à côté des exemples. Le validateur est
 `core/starter.py` (D-O-019). Pour vérifier un fichier sans rien créer :
 

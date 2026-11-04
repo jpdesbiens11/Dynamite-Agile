@@ -226,7 +226,7 @@ class AppHandler(BaseHTTPRequestHandler):
                 if access == "admin" and not session["is_admin"]:
                     raise ApiError(403, "Réservé aux administrateurs.")
                 if (method != "GET" and access != "pending_ok" and self.server.app_config.get("require_initials", True)
-                        and not INITIALS_FREE.fullmatch(parts.path) and not prefs.has_initials(conn, session["id"])):
+                        and not INITIALS_FREE.fullmatch(parts.path) and not prefs.ensure_initials(conn, session["id"])):  # 0.60.19
                     raise ApiError(428, INITIALS_MESSAGE)
             ctx = RequestContext(conn, session, token, body, params, query,
                                  self._peer()[0], self._peer()[1],

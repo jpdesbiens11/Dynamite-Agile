@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.17)
-**Version :** 0.60.17 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** déploiement sur le VPS de JP (D-O-029) — 0.60.17 livrée (installation derrière Traefik) ; suite : 0.60.18 `starter.md`
+**Dernière mise à jour :** 2026-11-04 (v0.60.20)
+**Version :** 0.60.20 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** 0.60.18 à 0.60.20 (demandes de JP du 2026-11-04) livrées : prompt `starter.md`, initiales et Space par défaut, pièces dans la structure fonctionnelle, correctif Timesheet
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -29,8 +29,10 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.15 | Diamond : DFMEA AIAG-VDA (D-O-027) : trois niveaux aux en-têtes blanc / bleu / orange, fonctions de l'arbre, S / O / D, RPN et AP, page de la légende AP, colonnes masquables, lignes ajouter / dupliquer / déplacer / effacer, Depuis l'arbre, Depuis les risques | Livré |
 | 0.60.16 | Diamond : Golden Nuggets (D-O-028) : 20 principes (esprit TRIZ), algorithme en 5 étapes, règles de SpaceX et Tesla, exemples et usage sur le projet | Livré |
 | 0.60.17 | Installation derrière Traefik (D-O-029) : `install.sh --traefik`, conteneur avec étiquettes, noyau `trusted_proxies` (X-Forwarded-For / -Proto), accès direct refusé | Livré |
-| 0.60.18 | Prompt `site/starter.md` (FR / EN), sa page sur le site, liens depuis « Commencer », « Débuter » et Help (D-O-019) | À faire |
-| 0.60.19 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
+| 0.60.18 | Prompt `site/starter.md` (FR / EN) : entrevue de 20 questions, format exact tiré de l'outil, « Copier le prompt » dans Commencer, section du guide (D-O-019) | Livré |
+| 0.60.19 | Initiales données d'après le nom (JDE, ADM) ; Space par défaut corrigé : sauvegardes des réglages fusionnées (D-O-030) | Livré |
+| 0.60.20 | Diamond : pièces sur les fonctions, matrice pièces × fonctions, conseils d'architecture (D-O-031) ; Timesheet : code hors du Funding Space montré et refusé à la soumission | Livré |
+| 0.60.21 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
 
 ## Table 2 : Questions du brief §5 (toutes tranchées)
 
@@ -44,7 +46,16 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.17)
+## Relais (fin de 0.60.20)
+
+- Pièces (D-O-031) : `modules/diamond/parts.py` (`rows`, `analysis`, API), `example_parts.py` ; migration diamond 5 ; `structure.payload` ajoute `parts`, `part_checks`, `part_stats`. Écran : `static/js/diamond/structure_parts.js` (vue « parts », `partsPanel`, `partsByFunction`), étiquettes dans `structure_draw.js` (`partTags`). Timesheet : `weeks.problems(rows, conn)` contrôle le Funding Space. Reste à faire : `core/spacecopy.py` ne connaît pas encore les tables Diamond.
+
+
+- Initiales et réglages (D-O-030) : `core/prefs.py` (`initial_candidates`, `ensure_initials`, `fill_initials`, `_put` = fusion json_patch : passer seulement les clés à changer) ; appels dans `router.py` (avant le garde 428), `session_api._me_payload`, `startup.run`, créations de comptes. `tests/test_initials_auto.py`.
+
+
+- Prompt Project Starter (D-O-019) : textes `tools/site/starter.md` et `tools/site/en/starter.md` ({{VALUES}}, {{EXAMPLE}} remplis par `core/starter_prompt.py`) ; `GET /api/starter/prompt?lang=fr|en[&download=1]` ; écran `static/js/admin_starter.js` (`promptBox`). `tests/test_starter_prompt.py`.
+
 
 - Derrière Traefik (D-O-029) : `core/proxy.py` (appelé par `core/router.py` : `_peer()` par requête, refus en tête de `_dispatch`), `core/tls.check_start` accepte HTTP sur le réseau seulement avec `trusted_proxies`. Installation : `deploy/install_traefik.sh` (appelé par `install.sh --traefik`). Sur le VPS de JP : Traefik `/docker/traefik` (une autre application Docker à côté), Dynamite | Agile `/docker/dynamite-agile` + `/opt/dynamite_agile` ; sauvegarde d'avant installation `/root/sauvegarde-avant-dynamite-20261104-1930.tgz`.
 

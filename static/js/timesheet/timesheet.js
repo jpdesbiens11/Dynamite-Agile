@@ -130,8 +130,17 @@
       const project = el("select", { "aria-label": "Space" }, data.projects.map((p) =>
         el("option", { value: p.id, selected: p.id === e.project_id }, p.key + " · " + p.name)));
       if (!projects[e.project_id]) project.prepend(el("option", { value: e.project_id, selected: true }, e.project_key + " (fermé)"));
-      const task = el("select", { "aria-label": "Budget Line" }, tasksOf(e.project_id).filter((t) => t.active !== false || t.key === e.task_key)
+      const offered = tasksOf(e.project_id).filter((t) => t.active !== false || t.key === e.task_key);
+      const task = el("select", { "aria-label": "Budget Line" }, offered
         .map((t) => el("option", { value: t.key, selected: t.key === e.task_key }, t.key + " · " + t.label + (t.active === false ? " (inactif)" : ""))));
+      /* 0.60.20: a code that is no longer in the Funding Space of the Space (changed after the range was entered) is shown
+         as it is, and flagged -- the list no longer shows the first code instead, which made it look saved */
+      if (!offered.some((t) => t.key === e.task_key)) {
+        task.prepend(el("option", { value: e.task_key, selected: true, disabled: true },
+          e.task_key + " · hors du Funding Space — choisissez un code"));
+        task.classList.add("tt-missing");
+        task.setAttribute("data-new", "0.60.20-stale-code");
+      }
       const h = el("input", { type: "number", min: 0.25, max: 24, step: 0.25, value: e.hours, class: "tt-hours", "aria-label": "Heures" });
       const desc = el("input", { type: "text", maxlength: 300, value: e.description || null, class: "tt-desc" + (e.description.trim() ? "" : " tt-missing"),
         placeholder: "Ex. revue du câblage du prototype 3", "aria-label": "Description" });
@@ -162,7 +171,7 @@
       const pid = last && projects[last.project_id] ? last.project_id : data.projects[0].id;
       try {
         await api.post("/api/timesheet/entries", { work_date: day, project_id: pid,
-          task_key: last && last.project_id === pid ? last.task_key : undefined, hours: 1, description: "" });
+          task_key: last && last.project_id === pid && tasksOf(pid).some((t) => t.key === last.task_key && t.active !== false) ? last.task_key : undefined, hours: 1, description: "" });  // 0.60.20: never an old code
         refresh();
         setTimeout(() => { const all = page.querySelectorAll(".tt-desc"); if (all.length) all[all.length - 1].focus(); }, 150);
       } catch (err) { toast(err.message, "error"); }

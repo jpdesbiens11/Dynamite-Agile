@@ -43,6 +43,14 @@ def run(data_dir, config=None):
                 hook(StartupContext(conn, admin, data_dir, config))
         except Exception:  # a module's start-up must never keep the server down
             log.exception("Start-up hook of module %s failed", key)
+    try:  # 0.60.19 (D-O-030): every account gets its 3-letter key from its name (JDE, ADM for admin)
+        from . import prefs
+        with db.connect() as conn:
+            given = prefs.fill_initials(conn)
+        if given:
+            log.info("Initials given to %d account(s)", given)
+    except Exception:
+        log.exception("Automatic initials failed")
     spaces_ready()
 
 

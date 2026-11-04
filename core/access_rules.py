@@ -142,6 +142,8 @@ def _apply_user(conn, ctx, number, fields, created, dry):
                                "must_change_password, created_at) VALUES (?, ?, ?, ?, ?, 1, ?)",
                                (username, name, auth.hash_password(temp), int(is_admin), int(active),
                                 db.utc_now())).lastrowid
+            from . import prefs
+            prefs.ensure_initials(conn, uid)  # 0.60.19 (D-O-030)
             audit.log_action(conn, ctx.user["id"], "user_created", "user", uid,
                              {"username": username, "via": "access_rules"}, ctx.ip)
         created[username] = temp

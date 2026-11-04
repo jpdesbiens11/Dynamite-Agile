@@ -2,59 +2,36 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Noyau : derrière un proxy HTTPS de confiance (D-O-029)",
-      "why": "trusted_proxies, X-Forwarded-For / -Proto, cookie Secure, accès direct refusé en production.",
+      "title": "Diamond → Structure fonctionnelle : les pièces sur les fonctions (D-O-031)",
+      "why": "Pièces P-n (conçue, achetée, normalisée) étiquetées sur une ou plusieurs fonctions : leurs codes sur les blocs du schéma, la section « Pièces » du panneau d'une fonction, et la vue « Pièces × fonctions » (une case par lien, totaux par pièce et par fonction, indicateurs, conseils d'architecture). Exemple de la lampe. Migration diamond 5.",
       "files": [
-        "core/proxy.py",
-        "core/router.py",
-        "core/tls.py",
-        "core/config.py",
-        "tests/test_proxy.py"
+        "modules/diamond/parts.py",
+        "modules/diamond/example_parts.py",
+        "modules/diamond/__init__.py",
+        "modules/diamond/structure.py",
+        "modules/diamond/example.py",
+        "static/js/diamond/structure_parts.js",
+        "static/js/diamond/structure.js",
+        "static/js/diamond/structure_draw.js",
+        "static/js/diamond/structure_panel.js",
+        "static/css/diamond.css",
+        "core/modules.py",
+        "tests/test_diamond_parts.py"
       ]
     },
     {
       "id": "C2",
-      "title": "install.sh --traefik et deploy/install_traefik.sh",
-      "why": "Conteneur python:3.12-slim avec ses étiquettes Traefik, sans toucher au pare-feu ni aux autres applications.",
+      "title": "Timesheet : un code hors du Funding Space actuel est montré et bloque la soumission",
+      "why": "Après un changement de Funding Space, la plage gardait l'ancien code mais la liste affichait le premier code du nouveau : choisir ce code ne changeait rien, et la semaine soumise montrait l'ancien. Le code est maintenant affiché « hors du Funding Space », la soumission le refuse en nommant le correctif, et une nouvelle plage ne reprend jamais un ancien code.",
       "files": [
-        "deploy/install.sh",
-        "deploy/install_traefik.sh",
-        "site/install.sh",
-        "tests/test_traefik_install.py"
+        "modules/timesheet/weeks.py",
+        "static/js/timesheet/timesheet.js",
+        "tests/test_timesheet_stale_code.py"
       ]
     },
     {
       "id": "C3",
-      "title": "Site : dépannage « ports 80 ou 443 déjà pris » par Traefik (FR / EN)",
-      "why": "La commande --traefik, et le guide de l'assistant IA.",
-      "files": [
-        "tools/site/trouble.html",
-        "tools/site/en/trouble.html",
-        "tools/site/installer.md",
-        "tools/site/en/installer.md",
-        "site/installation.html",
-        "site/en/installation.html",
-        "site/installer.md",
-        "site/en/installer.md"
-      ]
-    },
-    {
-      "id": "C5",
-      "title": "Une installation existante n'est jamais touchée (DA_DIR)",
-      "why": "Sur un serveur qui a déjà une copie plus ancienne dans /opt/dynamite_agile, le script s'arrête sans rien modifier et propose un autre dossier ; les noms Traefik suivent le dossier ; le service systemd n'est arrêté que s'il tourne depuis ce même dossier.",
-      "files": [
-        "deploy/install.sh",
-        "deploy/install_traefik.sh",
-        "tools/site/trouble.html",
-        "tools/site/en/trouble.html",
-        "tools/site/installer.md",
-        "tools/site/en/installer.md",
-        "tests/test_traefik_install.py"
-      ]
-    },
-    {
-      "id": "C4",
-      "title": "Version 0.60.17, D-O-029 et documentation",
+      "title": "Version 0.60.20 et documentation",
       "why": "Décision, état du projet, journal, fiche de version.",
       "files": [
         "core/__init__.py",
@@ -62,9 +39,8 @@
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.17.json",
-        "tests/test_open_v060.py",
-        "static/apps/vitrine/index.html"
+        "docs/releases/0.60.20.json",
+        "tests/test_open_v060.py"
       ]
     }
   ]

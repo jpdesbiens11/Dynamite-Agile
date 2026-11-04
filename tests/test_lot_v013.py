@@ -55,9 +55,10 @@ class LotV013Test(unittest.TestCase):
         return err.exception.status
 
     def test_01_initials_required(self):
+        """0.60.19 (D-O-030): the key is given from the name (ADM for admin, LTR for Léa Trace); still 3 letters,
+        still unique, still changeable in the settings."""
         admin = self.admin
-        self.assertEqual(self.status_of(lambda: admin.post("/api/admin/projects", {
-            "provision": False, "key": "REQ", "name": "REQ", "description": ""})), 428)
+        self.assertEqual(admin.get("/api/me")["prefs"]["initials"], "ADM")
         self.assertEqual(self.status_of(lambda: admin.put("/api/me/prefs", {"initials": "AB"})), 400)
         self.assertEqual(self.status_of(lambda: admin.put("/api/me/prefs", {"initials": "ABCD"})), 400)
         self.assertEqual(admin.put("/api/me/prefs", {"initials": "adm"})["prefs"]["initials"], "ADM")
@@ -73,10 +74,9 @@ class LotV013Test(unittest.TestCase):
         admin.post(base + "/init")
         admin.post(base + "/goldmine/setup")
         lea, other = people["lea"], people["max"]
-        self.assertEqual(self.status_of(lambda: lea.post(base + "/goldmine/requirements", {"statement": "Le module doit…"})), 428)
-        lea.put("/api/me/prefs", {"initials": "LTR"})
+        self.assertEqual(lea.get("/api/me")["prefs"]["initials"], "LTR")
+        self.assertEqual(other.get("/api/me")["prefs"]["initials"], "MDO")
         self.assertEqual(self.status_of(lambda: other.put("/api/me/prefs", {"initials": "LTR"})), 409)  # unique key
-        other.put("/api/me/prefs", {"initials": "MDO"})
         type(self).base, type(self).lea = base, lea
 
     def test_02_lifecycle_category_and_last_change(self):

@@ -50,6 +50,7 @@
       mine.length ? el("ul", { class: "dm-flow-list" }, mine.map((fl) => el("li", null,
         el("span", { class: "dm-key dm-key-" + fl.kind }, kinds[fl.kind]), " ", endName(data, fl, "src") + " → " + endName(data, fl, "dst")
           + (fl.label ? " (" + fl.label + ")" : "")))) : el("p", { class: "muted" }, "Aucun flux dans cette vue.")));
+    if (sel.type === "function") box.append(D.partsPanel(state, sel.id, run, editable));  // 0.60.20
     if (!editable) return box;
     const targets = { "": "— choisir la cible —" };
     const candidates = data.views[view].map((f) => ["function:" + f.id, "F" + f.number + " " + f.text])

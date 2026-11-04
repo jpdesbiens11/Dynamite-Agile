@@ -102,6 +102,8 @@ def _accounts(ctx, project_id, clean):
                 "created_at, study_profile, title) VALUES (?, ?, ?, 0, 1, 1, ?, ?, ?)",
                 (m["username"], m["display_name"], auth.hash_password(temp), db.utc_now(), m["study_profile"],
                  m["title"])).lastrowid
+            from . import prefs
+            prefs.ensure_initials(ctx.conn, user_id)  # 0.60.19 (D-O-030)
             audit.log_action(ctx.conn, ctx.user["id"], "user_created", "user", user_id,
                              {"username": m["username"], "is_admin": False, "via": NOTE}, ctx.ip)
             created.append({"username": m["username"], "display_name": m["display_name"], "temp_password": temp})
@@ -243,9 +245,22 @@ def api_status(ctx):
     return {"show": started == 0, "started": started}
 
 
+def api_prompt(ctx):
+    """0.60.18: the prompt to paste into an AI assistant (FR / EN), served by the tool itself so it works offline too."""
+    from . import starter_prompt
+    from .files import RawFile
+    lang = "en" if str((ctx.query or {}).get("lang") or "fr")[:2] == "en" else "fr"
+    text = starter_prompt.render(lang)
+    if str((ctx.query or {}).get("download") or "") == "1":
+        return RawFile(text.encode("utf-8"), "starter.md" if lang == "fr" else "starter_en.md", "text/markdown; charset=utf-8",
+                       export=False)
+    return {"lang": lang, "text": text}
+
+
 ROUTES = [
     ("GET", r"/api/starter/status", api_status, "admin"),
     ("GET", r"/api/starter/examples", api_examples, "admin"),
+    ("GET", r"/api/starter/prompt", api_prompt, "user"),
     ("POST", r"/api/starter/check", api_check, "admin"),
     ("POST", r"/api/starter/apply", api_apply, "admin"),
 ]

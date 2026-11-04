@@ -5,7 +5,7 @@ rejected non-administrators before these functions run.
 """
 import re
 
-from . import audit, auth, db, validate
+from . import audit, auth, db, prefs, validate
 from .errors import ApiError
 from .permissions import VALID_ROLES
 
@@ -70,6 +70,7 @@ def create_user(ctx):
         "INSERT INTO users (username, display_name, password_hash, is_admin, is_active, "
         "must_change_password, created_at, study_profile) VALUES (?, ?, ?, ?, 1, 1, ?, ?)",
         (username, display_name, auth.hash_password(temp), int(is_admin), db.utc_now(), profile))
+    prefs.ensure_initials(ctx.conn, cursor.lastrowid)  # 0.60.19 (D-O-030)
     audit.log_action(ctx.conn, ctx.user["id"], "user_created", "user", cursor.lastrowid,
                      {"username": username, "is_admin": is_admin}, ctx.ip)
     return {"user": dict(_get_user(ctx.conn, cursor.lastrowid)), "temp_password": temp}
