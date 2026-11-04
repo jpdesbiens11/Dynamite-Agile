@@ -2,38 +2,36 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Prompt starter.md (FR / EN) : l'entrevue et le format exact",
-      "why": "Six blocs (projet, équipe, temps, besoins / requis / essais, wiki, fichier), choix numérotés, récapitulatifs, normes « À vérifier », champs obligatoires, ordre du fichier, avertissements expliqués ; valeurs permises et exemple valide lus dans l'outil (core/starter_prompt.py). Essai à blanc : un fichier accepté du premier coup.",
+      "title": "Initiales automatiques (D-O-030)",
+      "why": "Première lettre du prénom et deux du nom (JDE), ADM pour admin ; unique (lettre suivante du nom, initiale d'un deuxième prénom, puis une clé libre) ; données à la création d'un compte (Comptes, Règles d'accès, Commencer), au démarrage pour les comptes existants et à la première visite ; toujours modifiables dans Paramètres. Plus de blocage « Initiales requises » pour un nouveau compte.",
       "files": [
-        "tools/site/starter.md",
-        "tools/site/en/starter.md",
-        "core/starter_prompt.py",
-        "tests/test_starter_prompt.py"
+        "core/prefs.py",
+        "core/router.py",
+        "core/session_api.py",
+        "core/startup.py",
+        "core/admin.py",
+        "core/access_rules.py",
+        "core/starter_apply.py",
+        "static/js/tools/i18n.js",
+        "tests/test_initials_auto.py",
+        "tests/test_lot_v013.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Commencer : « 1. Préparer le fichier avec un assistant IA »",
-      "why": "Quatre étapes pour un débutant, Copier le prompt, Télécharger (.md), Copy the English prompt ; GET /api/starter/prompt le sert depuis l'outil, sans Internet.",
+      "title": "Space par défaut : il reste choisi (D-O-030)",
+      "why": "La case envoyait en même temps le Space et la marque « vu » de son badge [new] ; la seconde réécrivait tous les réglages avec leur ancienne copie. Chaque sauvegarde fusionne maintenant ses seules clés (json_patch), et un réglage n'efface plus la liste des badges vus. Le wiki TOOLS, propre à Dynamite, n'est plus proposé comme Space par défaut.",
       "files": [
-        "static/js/admin_starter.js",
-        "core/starter_apply.py",
-        "static/js/tools/debuter_content.js"
+        "core/prefs.py",
+        "core/update.py",
+        "core/baselines.py",
+        "static/js/tools/spaces.js",
+        "static/js/app.js"
       ]
     },
     {
       "id": "C3",
-      "title": "Site : starter.md et la section « Démarrer un projet avec un assistant IA » du guide",
-      "why": "Le même texte que dans l'outil, FR et EN.",
-      "files": [
-        "tools/build_site.py",
-        "tools/site/guide.html",
-        "tools/site/en/guide.html"
-      ]
-    },
-    {
-      "id": "C4",
-      "title": "Version 0.60.18 et documentation",
+      "title": "Version 0.60.19 et documentation",
       "why": "Décision, état du projet, journal, fiche de version.",
       "files": [
         "core/__init__.py",
@@ -41,9 +39,9 @@
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.18.json",
+        "docs/releases/0.60.19.json",
         "tests/test_open_v060.py",
-        "docs/STARTER_FORMAT.md"
+        "static/js/tools/debuter_content.js"
       ]
     }
   ]

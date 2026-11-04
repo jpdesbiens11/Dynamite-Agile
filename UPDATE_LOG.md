@@ -1,4 +1,14 @@
-# Journal de mise à jour — 0.60.18
+# Journal de mise à jour — 0.60.19
+
+- **Version :** 0.60.18 → 0.60.19 (2026-11-04)
+- **Changements :**
+  1. **Initiales automatiques** (D-O-030) : JDE d'après le nom, ADM pour admin, uniques, modifiables ; données aux comptes existants au démarrage.
+  2. **Space par défaut** : corrigé, il ne revient plus en arrière (sauvegardes des réglages fusionnées) ; le wiki TOOLS n'est plus proposé.
+- **Base de données :** aucune migration ; au démarrage, les comptes sans initiales en reçoivent (réglages personnels, rien d'autre ne change).
+
+## Précédent
+
+### Journal de mise à jour — 0.60.18
 
 - **Version :** 0.60.17 → 0.60.18 (2026-11-04)
 - **Changements :**
@@ -6,8 +16,6 @@
   2. **Commencer** : étape « 1. Préparer le fichier avec un assistant IA », Copier le prompt / Télécharger, hors ligne aussi.
   3. **Site** : `starter.md` (FR / EN) et une section du guide.
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.17
 

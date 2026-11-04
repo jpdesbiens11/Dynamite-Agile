@@ -46,6 +46,8 @@
   noyau `core/proxy.py` (`trusted_proxies`). Suit : `starter.md` (0.60.18).
 - **0.60.18** (2026-11-04) : **prompt de départ** `starter.md` (D-O-019) : entrevue de 20 questions pour un assistant IA,
   format exact tiré de l'outil (`core/starter_prompt.py`), « Copier le prompt » dans Commencer (`/api/starter/prompt`).
+- **0.60.19** (2026-11-04) : **initiales d'office** d'après le nom (JDE, ADM ; D-O-030, `core/prefs.ensure_initials`) ; **Space par défaut**
+  corrigé : `prefs._put` fusionne ses clés (json_patch), deux sauvegardes simultanées ne s'annulent plus.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,
