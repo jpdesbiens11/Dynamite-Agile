@@ -16,7 +16,7 @@
 set -euo pipefail
 
 REPO="${DA_REPO:-https://github.com/jpdesbiens11/Dynamite-Agile.git}"
-TARGET=/opt/dynamite_agile
+TARGET="${DA_DIR:-/opt/dynamite_agile}"   # another folder: DA_DIR=/opt/autre (0.60.17, a second instance on the same server)
 SERVICE=dynamite-agile
 
 EN=0; case "${DA_LANG:-fr}" in en*) EN=1 ;; esac
@@ -32,11 +32,19 @@ else DOMAIN="${1:-}"; EMAIL="${2:-}"; fi
 if [ "$MODE" = online ] && { [ -z "$DOMAIN" ] || [ -z "$EMAIL" ]; }; then
   fail "$(t "il manque le domaine ou le courriel. Exemple : sudo bash install.sh atelier.mon-domaine.ca moi@exemple.ca   (ou --essai sans domaine)" "the domain or the email is missing. Example: sudo DA_LANG=en bash install.sh workshop.my-domain.com me@example.com   (or --essai without a domain)")"
 fi
+[ "$MODE" = traefik ] || [ "$TARGET" = /opt/dynamite_agile ] || fail "$(t "DA_DIR ne sert qu'avec --traefik (le service systemd attend /opt/dynamite_agile)." "DA_DIR is only for --traefik (the systemd service expects /opt/dynamite_agile).")"
 
 # ---------- 0. the code: when the script runs from curl (no clone yet), fetch it, then run the copy of the clone ----------
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]:-.}")/.." 2>/dev/null && pwd || pwd)"
 if [ ! -f "$HERE/app_dynamite_agile.py" ]; then
   say "0/7 $(t "Récupération du code dans" "Fetching the code into") $TARGET"
+  # 0.60.17: a folder that is not a clone of this repository (another application, an older private copy) is never touched.
+  if [ -d "$TARGET/.git" ] && ! git -C "$TARGET" remote get-url origin 2>/dev/null | grep -qi 'dynamite-agile'; then
+    fail "$(t "$TARGET contient un autre dépôt git ; rien n'a été modifié. Correctif : choisissez un autre dossier, par exemple  curl … | sudo DA_DIR=/opt/dynamite-agile-open bash -s -- …" "$TARGET holds another git repository; nothing was changed. Fix: choose another folder, for example  curl … | sudo DA_DIR=/opt/dynamite-agile-open bash -s -- …")"
+  fi
+  if [ ! -d "$TARGET/.git" ] && [ -n "$(ls -A "$TARGET" 2>/dev/null)" ]; then
+    fail "$(t "$TARGET existe déjà et n'est pas une installation de ce dépôt (une version plus ancienne ?) ; rien n'a été modifié. Correctif : installez à côté, dans un autre dossier :  curl … | sudo DA_DIR=/opt/dynamite-agile-open bash -s -- …" "$TARGET already exists and is not an installation of this repository (an older version?); nothing was changed. Fix: install next to it, in another folder:  curl … | sudo DA_DIR=/opt/dynamite-agile-open bash -s -- …")"
+  fi
   apt-get update -q && apt-get install -y -q git
   if [ -d "$TARGET/.git" ]; then
     # 0.60.12 (D-O-024): files changed since the last update (a package applied in Admin → Update, an edit by hand) never

@@ -39,6 +39,20 @@
       ]
     },
     {
+      "id": "C5",
+      "title": "Une installation existante n'est jamais touchée (DA_DIR)",
+      "why": "Sur un serveur qui a déjà une copie plus ancienne dans /opt/dynamite_agile, le script s'arrête sans rien modifier et propose un autre dossier ; les noms Traefik suivent le dossier ; le service systemd n'est arrêté que s'il tourne depuis ce même dossier.",
+      "files": [
+        "deploy/install.sh",
+        "deploy/install_traefik.sh",
+        "tools/site/trouble.html",
+        "tools/site/en/trouble.html",
+        "tools/site/installer.md",
+        "tools/site/en/installer.md",
+        "tests/test_traefik_install.py"
+      ]
+    },
+    {
       "id": "C4",
       "title": "Version 0.60.17, D-O-029 et documentation",
       "why": "Décision, état du projet, journal, fiche de version.",

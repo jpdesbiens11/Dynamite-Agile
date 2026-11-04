@@ -341,5 +341,10 @@ aucun réglage de Traefik ni d'autre conteneur modifié. Relancer la commande me
 (dernière entrée de X-Forwarded-For) et son schéma (X-Forwarded-Proto : https → cookie Secure `__Host-`) ; toute autre
 requête est refusée en production (403). Le serveur peut alors écouter en HTTP sur son réseau Docker privé (règle de
 démarrage fail closed adaptée). L'adresse de Hostinger (`dynamite.srv1980606.hstgr.cloud`) pointe déjà vers le serveur.
+**Une installation existante n'est jamais touchée :** si `/opt/dynamite_agile` contient autre chose qu'un clone de ce
+dépôt (sur le VPS de JP : une copie 0.50.3 plus ancienne, son service systemd actif et ses données), le script s'arrête
+sans rien modifier et propose `DA_DIR=/opt/dynamite-agile-open`. Les noms (dossier `/docker/<nom>`, routeur et
+middleware Traefik) suivent le dossier, deux instances ne se croisent donc pas ; le service `dynamite-agile` n'est
+arrêté que s'il tourne depuis ce même dossier.
 Le prompt `starter.md` passe en 0.60.18.
 

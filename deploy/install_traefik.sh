@@ -13,7 +13,8 @@ set -euo pipefail
 DOMAIN="${1:-}"
 APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"   # the clone (/opt/dynamite_agile)
 DATA_DIR="$APP_DIR/data"
-STACK="${DA_STACK_DIR:-/docker/dynamite-agile}"                 # next to the other Docker applications of the host
+NAME="$(basename "$APP_DIR" | tr 'A-Z_' 'a-z-' | tr -cd 'a-z0-9-')"          # /opt/dynamite_agile -> dynamite-agile
+STACK="${DA_STACK_DIR:-/docker/$NAME}"                 # next to the other Docker applications of the host
 EN=0; case "${DA_LANG:-fr}" in en*) EN=1 ;; esac
 t() { if [ "$EN" = 1 ]; then printf '%s' "$2"; else printf '%s' "$1"; fi; }
 say() { printf '\n\033[1m== %s\033[0m\n' "$*"; }
@@ -35,7 +36,10 @@ echo "  DNS : $(getent hosts "$DOMAIN" | awk '{print $1}' | tr '\n' ' ')"
 
 say "2/5 Configuration (data/config.json)"
 mkdir -p "$DATA_DIR"
-systemctl disable --now dynamite-agile 2>/dev/null || true   # the systemd service of a previous installation, if any
+# The systemd service of a previous installation IN THIS FOLDER only; another instance of the server keeps running.
+if [ "$(systemctl show -p WorkingDirectory --value dynamite-agile 2>/dev/null)" = "$APP_DIR" ]; then
+  systemctl disable --now dynamite-agile 2>/dev/null || true
+fi
 python3 - "$DATA_DIR/config.json" "$DOMAIN" "$EN" <<'EOF'
 import json, sys
 from pathlib import Path
@@ -65,13 +69,13 @@ services:
       - $APP_DIR:/app
     labels:
       - traefik.enable=true
-      - traefik.http.routers.dynamite-agile.rule=Host(\`$DOMAIN\`)
-      - traefik.http.routers.dynamite-agile.entrypoints=$ENTRY
-      - traefik.http.routers.dynamite-agile.tls.certresolver=$RESOLVER
-      - traefik.http.routers.dynamite-agile.middlewares=dynamite-agile-sec
-      - traefik.http.middlewares.dynamite-agile-sec.headers.stsSeconds=31536000
-      - traefik.http.middlewares.dynamite-agile-sec.headers.contentTypeNosniff=true
-      - traefik.http.services.dynamite-agile.loadbalancer.server.port=8080
+      - traefik.http.routers.$NAME.rule=Host(\`$DOMAIN\`)
+      - traefik.http.routers.$NAME.entrypoints=$ENTRY
+      - traefik.http.routers.$NAME.tls.certresolver=$RESOLVER
+      - traefik.http.routers.$NAME.middlewares=$NAME-sec
+      - traefik.http.middlewares.$NAME-sec.headers.stsSeconds=31536000
+      - traefik.http.middlewares.$NAME-sec.headers.contentTypeNosniff=true
+      - traefik.http.services.$NAME.loadbalancer.server.port=8080
 EOF
 echo "  $STACK/docker-compose.yml"
 

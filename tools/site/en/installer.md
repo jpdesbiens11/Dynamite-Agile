@@ -88,6 +88,7 @@ or http.sys) → `-Port 8443`; "not running as administrator" → Win + X → Te
 | Message | Cause and fix |
 |---|---|
 | `ports 80 or 443 are already in use` | Another application (often Docker, installed by the control panel) uses the web ports. `sudo ss -ltnp \| grep -E ':(80\|443) '` and `docker ps` to find it; stop it or use another server. **If it is Traefik** (Hostinger VPS with Docker applications): do not stop it; install behind it with `curl -fsSL {{SITE_URL}}/install.sh \| sudo DA_LANG=en bash -s -- --traefik <address>` (Traefik keeps the ports and the certificate). |
+| `already exists and is not an installation of this repository` | Another copy (often an older version) is in `/opt/dynamite_agile`; nothing was changed. Do not delete it: install next to it with `curl -fsSL {{SITE_URL}}/install.sh \| sudo DA_LANG=en DA_DIR=/opt/dynamite-agile-open bash -s -- --traefik <address>`. |
 | `the domain … does not answer yet`, certbot `NXDOMAIN` or `Timeout` | The A record is not visible yet or port 80 is closed in the control-panel firewall. Check, wait, run the same command again. |
 | `Permission denied` (ssh) | Wrong root password; set a new one in the control panel, or use the web console. |
 | `curl: command not found` | `sudo apt update && sudo apt install -y curl` |
