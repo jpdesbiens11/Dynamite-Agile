@@ -31,5 +31,14 @@
     try { return fn(); } finally { restore(s); }
   };
   DA.holdScroll = snapshot;
+  /* the router: a new address in the same tab and the same Space (a selection, a redraw) keeps the page where it was;
+     another tab or another Space opens at the top as before */
+  let lastPlace = "";
+  DA.placeHold = function (hash) {
+    const place = String(hash || "").replace(/^#\/?/, "").split("/").slice(0, 2).join("/");
+    const same = place && place === lastPlace;
+    lastPlace = place;
+    return same ? snapshot() : null;
+  };
   DA.releaseScroll = restore;
 })();

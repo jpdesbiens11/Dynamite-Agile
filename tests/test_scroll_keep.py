@@ -14,7 +14,7 @@ class ScrollKeepTest(unittest.TestCase):
         self.assertIn("DA.keepScroll = function", js("tools/scrollkeep.js"))
         self.assertIn('<script src="/js/tools/scrollkeep.js" defer></script>', (BASE_DIR / "static" / "index.html").read_text("utf-8"))
         self.assertIn("DA.keepScroll(fn)", js("diamond/diamond.js"))
-        self.assertIn("DA.holdScroll()", js("app.js"))
+        self.assertIn("DA.placeHold(location.hash)", js("app.js"))
         self.assertIn("0.60.23-part-via", js("diamond/structure_parts.js"))
 
 

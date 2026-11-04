@@ -439,23 +439,13 @@
 
   async function logout() {
     try { await api.post("/api/logout"); } catch (err) { /* already logged out */ }
-    session.user = null;
-    DA.setCsrf(null);
-    DA.applyPolicy({}, null);
-    showLogin();
+    session.user = null; DA.setCsrf(null); DA.applyPolicy({}, null); showLogin();
   }
 
   /* ---------------- Router ---------------- */
-  /* 0.60.23: a new address in the same tab and the same Space (a selection, a sub-view, a redraw) keeps the page where
-     it was; another tab or another Space opens at the top as before. */
-  let lastPlace = "";
-  async function route() {
-    const place = location.hash.replace(/^#\/?/, "").split("/").slice(0, 2).join("/");
-    const hold = place && place === lastPlace && DA.holdScroll ? DA.holdScroll() : null;
-    lastPlace = place;
-    try { await routeTo(); } finally { if (hold) DA.releaseScroll(hold); }
-  }
-
+  async function route() {  // 0.60.23: same tab and Space (#/module/KEY): the page stays where it was (scrollkeep.js)
+    const hold = DA.placeHold(location.hash);
+    try { await routeTo(); } finally { DA.releaseScroll(hold); } }
   async function routeTo() {
     closeMenus();
     if (!session.user) { showLogin(); return; }

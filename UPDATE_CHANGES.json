@@ -2,54 +2,35 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Project Starter : Diamond préliminaire (D-O-032)",
-      "why": "Clé « diamond » du fichier : fonctions de l'arbre, entrées / sorties, flux des deux vues, pièces sur les fonctions, risques projet, premières lignes du DFMEA ; mêmes règles que les écrans de Diamond ; tout arrive en « Brouillon IA ». L'exemple de la lampe reprend l'exemple de Diamond.",
+      "title": "La page ne saute plus après un clic",
+      "why": "Un écran redessiné (sélection, case, changement enregistré) se reconstruisait : la page rapetissait un instant et le navigateur remontait loin de la zone d'intérêt. DA.keepScroll garde la hauteur pendant le dessin et remet la fenêtre et chaque zone défilante (schéma, panneau, liste) où elles étaient ; le routeur fait de même pour une nouvelle adresse dans le même onglet et le même Space.",
       "files": [
-        "core/starter_diamond.py",
-        "core/starter.py",
-        "core/starter_apply.py",
-        "static/js/admin_starter.js",
-        "tools/make_starter_diamond_example.py",
-        "tools/check_starter.py",
-        "deploy/starter_exemples/lampe_bureau.json",
-        "tests/test_starter_diamond.py"
+        "static/js/tools/scrollkeep.js",
+        "static/index.html",
+        "static/js/app.js",
+        "static/js/diamond/diamond.js",
+        "tests/test_scroll_keep.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Plan de référence du PDP dans Exploration (D-O-032)",
-      "why": "Les 19 étapes du PDP (codes de Timesheet), les revues en jalons, quatre phases sur la durée du projet (project.weeks, 15 par défaut, à partir de project.start_date), plus d'étapes en parallèle pour une équipe plus grande ; responsables à tour de rôle.",
+      "title": "Structure fonctionnelle : les pièces d'un sous-système dans son panneau",
+      "why": "Le bloc d'un sous-système montrait les pièces de ses fonctions tertiaires, mais son panneau disait « Aucune pièce ». Il les liste maintenant, cochées, avec la fonction qu'elles réalisent (par F12…) ; elles se modifient sur la tertiaire (vue détaillée ou matrice).",
       "files": [
-        "modules/exploration/reference.py",
-        "core/starter.py",
-        "core/starter_apply.py"
+        "static/js/diamond/structure_parts.js",
+        "static/css/diamond.css"
       ]
     },
     {
       "id": "C3",
-      "title": "Prompt de départ : 26 questions à cliquer, sept blocs",
-      "why": "Réponses à cliquer (l'outil de questions à choix de l'assistant, menu à toucher dans Claude) : texte libre deux fois seulement, le produit et les noms de l'équipe ; propositions validées par un menu (C'est bon, Plus simple, Plus complet, Refaire). Calendrier (début, durée) et bloc Diamond (arbre, entrées / sorties, flux, pièces, risques et DFMEA) ; format de la clé diamond, valeurs permises et exemple tirés de l'outil.",
-      "files": [
-        "tools/site/starter.md",
-        "tools/site/en/starter.md",
-        "core/starter_prompt.py",
-        "tools/site/guide.html",
-        "tools/site/en/guide.html",
-        "docs/STARTER_FORMAT.md",
-        "tests/test_starter_prompt.py"
-      ]
-    },
-    {
-      "id": "C4",
-      "title": "Version 0.60.22 et documentation",
-      "why": "Décision, état du projet, journal, fiche de version.",
+      "title": "Version 0.60.23 et documentation",
+      "why": "État du projet, journal, fiche de version.",
       "files": [
         "core/__init__.py",
         "CLAUDE.md",
         "UPDATE_LOG.md",
-        "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.22.json",
+        "docs/releases/0.60.23.json",
         "tests/test_open_v060.py"
       ]
     }
