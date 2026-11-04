@@ -15,7 +15,7 @@ from http import cookies
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, unquote, urlsplit
 
-from . import access_rules, admin, auth, backup, baseline_view, baselines, dashboard, datapack, db, devshare, members, mentions, modules, objectives, platform_config, prefs, profile, restorepoints, reviews, team, search, session_api, sitemove, spacecard, spacecopy, stamp, starter_apply, tls, ui_audit, update
+from . import access_rules, admin, auth, backup, proxy, baseline_view, baselines, dashboard, datapack, db, devshare, members, mentions, modules, objectives, platform_config, prefs, profile, restorepoints, reviews, team, search, session_api, sitemove, spacecard, spacecopy, stamp, starter_apply, tls, ui_audit, update
 from .errors import ApiError
 
 # D-B-058: no write without the person's 3-letter traceability key, except to set it (and privacy events).
@@ -159,12 +159,23 @@ class AppHandler(BaseHTTPRequestHandler):
         self._dispatch("DELETE")
 
     def log_message(self, fmt, *args):
-        log.info("%s %s", self.client_address[0], fmt % args)
+        log.info("%s %s", self._peer()[0], fmt % args)
+
+    def _peer(self):
+        """(visitor ip, secure): the socket's, or what a trusted reverse proxy says (0.60.17, core/proxy.py)."""
+        if getattr(self, "_peer_cache", None) is None:
+            self._peer_cache = proxy.client(getattr(self.server, "app_config", {}) or {}, self.client_address[0],
+                                            self.headers or {}, getattr(self.server, "use_tls", False))
+        return self._peer_cache
 
     # ------------------------------------------------------------------
     def _dispatch(self, method):
         path = urlsplit(self.path).path
+        self._peer_cache = None  # one connection may carry the requests of several visitors (keep-alive from the proxy)
         try:
+            if proxy.refused(self.server.app_config, self.client_address[0], self.server.use_tls):
+                log.warning("Refused (not through the trusted proxy): %s", self.client_address[0])
+                raise ApiError(403, proxy.REFUSED)
             if not devshare.client_allowed(self.server.app_config, self.client_address[0]):
                 log.warning("Refused (not in the development sharing allow list): %s", self.client_address[0])
                 raise ApiError(403, "Accès refusé : ce poste n'est pas autorisé sur ce serveur de développement.")
@@ -218,7 +229,7 @@ class AppHandler(BaseHTTPRequestHandler):
                         and not INITIALS_FREE.fullmatch(parts.path) and not prefs.has_initials(conn, session["id"])):
                     raise ApiError(428, INITIALS_MESSAGE)
             ctx = RequestContext(conn, session, token, body, params, query,
-                                 self.client_address[0], self.server.use_tls,
+                                 self._peer()[0], self._peer()[1],
                                  self.server.app_config, self.server.data_dir)
             ctx.upload = upload
             ctx.transport = transport
@@ -307,7 +318,7 @@ class AppHandler(BaseHTTPRequestHandler):
             jar.load(raw)
         except cookies.CookieError:
             return None
-        morsel = jar.get(tls.cookie_name(self.server.use_tls))
+        morsel = jar.get(tls.cookie_name(self._peer()[1]))
         return morsel.value if morsel and morsel.value else None
 
     def _check_csrf(self, session):

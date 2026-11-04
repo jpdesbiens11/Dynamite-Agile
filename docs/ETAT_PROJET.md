@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.16)
-**Version :** 0.60.16 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** Diamond 💎 complet (D-O-023 à D-O-028) — 0.60.16 livrée (Golden Nuggets) ; suite : fusion, déploiement, puis 0.60.17 `starter.md`
+**Dernière mise à jour :** 2026-11-04 (v0.60.17)
+**Version :** 0.60.17 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** déploiement sur le VPS de JP (D-O-029) — 0.60.17 livrée (installation derrière Traefik) ; suite : 0.60.18 `starter.md`
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -28,8 +28,9 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.14 | Diamond : analyse de risque projet (D-O-026) : registre R-n, carte 5 × 5 maintenant / résiduelle, stratégie, action, responsable, échéance, lien vers une fonction et vers le DFMEA, conseils, CSV | Livré |
 | 0.60.15 | Diamond : DFMEA AIAG-VDA (D-O-027) : trois niveaux aux en-têtes blanc / bleu / orange, fonctions de l'arbre, S / O / D, RPN et AP, page de la légende AP, colonnes masquables, lignes ajouter / dupliquer / déplacer / effacer, Depuis l'arbre, Depuis les risques | Livré |
 | 0.60.16 | Diamond : Golden Nuggets (D-O-028) : 20 principes (esprit TRIZ), algorithme en 5 étapes, règles de SpaceX et Tesla, exemples et usage sur le projet | Livré |
-| 0.60.17 | Prompt `site/starter.md` (FR / EN), sa page sur le site, liens depuis « Commencer », « Débuter » et Help (D-O-019) | À faire |
-| 0.60.18 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
+| 0.60.17 | Installation derrière Traefik (D-O-029) : `install.sh --traefik`, conteneur avec étiquettes, noyau `trusted_proxies` (X-Forwarded-For / -Proto), accès direct refusé | Livré |
+| 0.60.18 | Prompt `site/starter.md` (FR / EN), sa page sur le site, liens depuis « Commencer », « Débuter » et Help (D-O-019) | À faire |
+| 0.60.19 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
 
 ## Table 2 : Questions du brief §5 (toutes tranchées)
 
@@ -43,7 +44,10 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.16)
+## Relais (fin de 0.60.17)
+
+- Derrière Traefik (D-O-029) : `core/proxy.py` (appelé par `core/router.py` : `_peer()` par requête, refus en tête de `_dispatch`), `core/tls.check_start` accepte HTTP sur le réseau seulement avec `trusted_proxies`. Installation : `deploy/install_traefik.sh` (appelé par `install.sh --traefik`). Sur le VPS de JP : Traefik `/docker/traefik` (une autre application Docker à côté), Dynamite | Agile `/docker/dynamite-agile` + `/opt/dynamite_agile` ; sauvegarde d'avant installation `/root/sauvegarde-avant-dynamite-20261104-1930.tgz`.
+
 
 - Golden Nuggets (D-O-028) : contenu dans `static/js/diamond/nuggets_content.js` (PRINCIPLES, ALGORITHM, RULES), écran `nuggets.js` ; `tests/test_diamond_nuggets.py` compte 20 / 5 / 5 et vérifie l'usage de chacun. Diamond est complet : arbre, structure, risques, DFMEA, nuggets.
 

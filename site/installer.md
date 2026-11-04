@@ -87,7 +87,7 @@ affichées, chaque refus y nomme la valeur et le correctif.
 
 | Message | Cause et correctif |
 |---|---|
-| `les ports 80 ou 443 sont déjà pris` | Une autre application (souvent Docker, installée par le panneau) occupe le web. `sudo ss -ltnp \| grep -E ':(80\|443) '` et `docker ps` pour la trouver ; l'arrêter ou prendre un autre serveur. |
+| `les ports 80 ou 443 sont déjà pris` | Une autre application (souvent Docker, installée par le panneau) occupe le web. `sudo ss -ltnp \| grep -E ':(80\|443) '` et `docker ps` pour la trouver ; l'arrêter ou prendre un autre serveur. **Si c'est Traefik** (VPS Hostinger avec applications Docker) : ne pas l'arrêter ; installer derrière lui avec `curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh \| sudo bash -s -- --traefik <adresse>` (Traefik garde les ports et le certificat). |
 | `le domaine … ne répond pas encore`, certbot `NXDOMAIN` ou `Timeout` | L'enregistrement A n'est pas encore visible ou le port 80 est fermé dans le pare-feu du panneau. Vérifier, attendre, relancer la même commande. |
 | `Permission denied` (ssh) | Mauvais mot de passe root ; en choisir un nouveau dans le panneau, ou utiliser la console web. |
 | `curl: command not found` | `sudo apt update && sudo apt install -y curl` |

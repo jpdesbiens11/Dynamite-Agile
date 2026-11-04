@@ -328,3 +328,18 @@ l'outil où il s'applique : Goldmine, arbre, structure, risques, DFMEA, Pugh, Te
 de 2021) et des principes de TRIZ (G. Altshuller) : aucune citation mise entre guillemets, aucun chiffre qu'on ne puisse
 pas soutenir ; la page l'indique. Topic Training DM-05.
 
+### D-O-029 — Installer derrière Traefik, sans toucher aux autres applications du serveur (2026-11-04, déploiement de JP)
+**Contexte :** le VPS Hostinger de JP fait déjà tourner une autre application Docker (un agent IA) derrière **Traefik**, qui tient les
+ports 80 et 443 et obtient les certificats Let's Encrypt par les étiquettes des conteneurs. L'installation habituelle veut
+ces ports : elle s'arrêtait, et arrêter Traefik aurait coupé cette application.
+**Décision :** `install.sh --traefik <adresse>` passe la main à `deploy/install_traefik.sh` : le code dans
+`/opt/dynamite_agile`, un conteneur `python:3.12-slim` (le code monté, `data/` dedans) décrit dans
+`/docker/dynamite-agile/docker-compose.yml`, avec les étiquettes Traefik (routeur `Host(adresse)`, point d'entrée et
+résolveur de certificats lus dans les arguments de Traefik, en-tête HSTS). Aucun port publié, aucune règle de pare-feu,
+aucun réglage de Traefik ni d'autre conteneur modifié. Relancer la commande met à jour. **Noyau (`core/proxy.py`) :**
+`trusted_proxies` (config.json) liste les réseaux du proxy ; une requête qui en vient porte l'adresse du visiteur
+(dernière entrée de X-Forwarded-For) et son schéma (X-Forwarded-Proto : https → cookie Secure `__Host-`) ; toute autre
+requête est refusée en production (403). Le serveur peut alors écouter en HTTP sur son réseau Docker privé (règle de
+démarrage fail closed adaptée). L'adresse de Hostinger (`dynamite.srv1980606.hstgr.cloud`) pointe déjà vers le serveur.
+Le prompt `starter.md` passe en 0.60.18.
+

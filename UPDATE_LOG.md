@@ -1,4 +1,17 @@
-# Journal de mise à jour — 0.60.16
+# Journal de mise à jour — 0.60.17
+
+- **Version :** 0.60.16 → 0.60.17 (2026-11-04)
+- **Changements :**
+  1. **Installation derrière Traefik** (D-O-029) : `install.sh --traefik <adresse>` pour un serveur où Traefik tient déjà les
+     ports 80 et 443 (VPS Hostinger avec applications Docker) : Dynamite | Agile dans son conteneur, Traefik donne le HTTPS,
+     rien d'autre ne bouge.
+  2. **Noyau** : `trusted_proxies` ; derrière le proxy, l'adresse du visiteur et le HTTPS sont reconnus ; accès direct refusé.
+  3. **Site** : dépannage « ports 80 ou 443 déjà pris » quand c'est Traefik.
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.16
 
 - **Version :** 0.60.15 → 0.60.16 (2026-11-04)
 - **Changements :**
@@ -7,8 +20,6 @@
      son usage sur le projet ; recherche et thèmes.
   2. **Training** : topic DM-05 et son test.
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.15
 
