@@ -1,4 +1,16 @@
-# Journal de mise à jour — 0.60.13
+# Journal de mise à jour — 0.60.14
+
+- **Version :** 0.60.13 → 0.60.14 (2026-11-04)
+- **Changements :**
+  1. **Diamond → Risques projet** (D-O-026) : le registre des risques du projet, avant le DFMEA : « Si / alors / ce qui »,
+     probabilité × impact (1 à 5), niveaux Faible / Moyen / Élevé / Critique, carte 5 × 5 maintenant et résiduelle, stratégie,
+     action, responsable, échéance, lien vers une fonction et « À détailler dans le DFMEA », conseils, export CSV.
+  2. **Training** : topic DM-03 et son test.
+- **Base de données :** migration diamond 3 (table `diamond_risks`), additive.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.13
 
 - **Version :** 0.60.12 → 0.60.13 (2026-11-04)
 - **Changements :**
@@ -8,8 +20,6 @@
      cible ; conseils de la méthode ; exemple de la lampe de bureau.
   2. **Training** : topic DM-02 et son test.
 - **Base de données :** migration diamond 2 (tables `diamond_ports`, `diamond_flows`, `diamond_positions`), additive.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.12
 

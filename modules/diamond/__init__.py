@@ -5,11 +5,12 @@ Sub-modules, one per iteration:
   0.60.11  Arbre fonctionnel (functions.py, example.py): primary, secondary, tertiary functions; how / why / when.
   0.60.13  Structure fonctionnelle (structure.py): boundary diagram -- inputs on the left, outputs on the right, the
            sub-systems (general view) or the tertiary functions (detail view), energy / material / information flows.
-  next     Analyse de risque projet (high level, before the DFMEA), DFMEA AIAG-VDA (the same functions, RPN and AP),
+  0.60.14  Analyse de risque projet (risks.py): the high-level register, P x I on 5 x 5, response, owner, residual risk.
+  next     DFMEA AIAG-VDA (the same functions, RPN and AP),
            Golden Nuggets (first-principles thinking and design rules, with examples).
 Every table is tied to projects(id) (backup, restore, copy by the core); every write is journalled.
 """
-from . import example, functions, structure
+from . import example, functions, risks, structure
 
 SCHEMA = ""
 
@@ -74,6 +75,38 @@ MIGRATIONS = [
         CREATE INDEX idx_diamond_flows_project ON diamond_flows(project_id);
         CREATE INDEX idx_diamond_positions_project ON diamond_positions(project_id);
     """),
+    (3, """
+        -- 0.60.14 (D-O-026): the project risk register
+        CREATE TABLE diamond_risks (
+            id          INTEGER PRIMARY KEY,
+            project_id  INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            number      INTEGER NOT NULL,
+            title       TEXT NOT NULL,
+            cause       TEXT NOT NULL DEFAULT '',
+            consequence TEXT NOT NULL DEFAULT '',
+            category    TEXT NOT NULL DEFAULT 'technique',
+            phase       TEXT NOT NULL DEFAULT '',
+            probability INTEGER NOT NULL DEFAULT 3,
+            impact      INTEGER NOT NULL DEFAULT 3,
+            response    TEXT NOT NULL DEFAULT '',
+            action      TEXT NOT NULL DEFAULT '',
+            owner_id    INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            due_date    TEXT NOT NULL DEFAULT '',
+            status      TEXT NOT NULL DEFAULT 'open',
+            residual_p  INTEGER,
+            residual_i  INTEGER,
+            function_id INTEGER REFERENCES diamond_functions(id) ON DELETE SET NULL,
+            to_dfmea    INTEGER NOT NULL DEFAULT 0,
+            notes       TEXT NOT NULL DEFAULT '',
+            archived    INTEGER NOT NULL DEFAULT 0,
+            created_by  INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            created_at  TEXT NOT NULL,
+            updated_by  INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            updated_at  TEXT NOT NULL,
+            UNIQUE (project_id, number)
+        );
+        CREATE INDEX idx_diamond_risks_project ON diamond_risks(project_id);
+    """),
 ]
 
 P = r"/api/diamond/p/(?P<pid>\d+)"
@@ -96,4 +129,11 @@ ROUTES = [
     ("PUT", P + r"/structure/position", structure.api_position, "user"),
     ("POST", P + r"/structure/layout/reset", structure.api_reset_layout, "user"),
     ("POST", P + r"/structure/example", example.api_structure_example, "user"),
+    ("GET", P + r"/risks", risks.api_list, "user"),
+    ("POST", P + r"/risks", risks.api_create, "user"),
+    ("GET", P + r"/risks/export\.csv", risks.api_export, "user"),
+    ("POST", P + r"/risks/example", example.api_risks_example, "user"),
+    ("PATCH", P + r"/risks/(?P<rid>\d+)", risks.api_update, "user"),
+    ("POST", P + r"/risks/(?P<rid>\d+)/duplicate", risks.api_duplicate, "user"),
+    ("POST", P + r"/risks/(?P<rid>\d+)/archive", risks.api_archive, "user"),
 ]

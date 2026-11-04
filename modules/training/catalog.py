@@ -120,7 +120,9 @@ def _topics():
             ("DM-01", "DM", "Arbre fonctionnel", "Fonction primaire, secondaires, tertiaires ; comment, pourquoi, quand ; chemin "
              "critique, rétroaction, fonctions hors arbre.", "#/diamond", "Diamond → Arbre fonctionnel"),
             ("DM-02", "DM", "Structure fonctionnelle", "Boundary diagram : entrées et sorties du système, vue générale par "
-             "sous-systèmes, vue détaillée, flux d'énergie, de matière et d'information.", "#/diamond", "Diamond → Structure fonctionnelle")]
+             "sous-systèmes, vue détaillée, flux d'énergie, de matière et d'information.", "#/diamond", "Diamond → Structure fonctionnelle"),
+            ("DM-03", "DM", "Analyse de risque projet", "Registre des risques : si / alors / ce qui, probabilité × impact, "
+             "stratégie, action, responsable, risque résiduel, lien vers le DFMEA.", "#/diamond", "Diamond → Risques projet")]
     return out
 
 

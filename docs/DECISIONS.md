@@ -279,3 +279,18 @@ par vue, « Replacer automatiquement ») ; un flux se trace depuis le panneau du
 fonctions archivées quittent le schéma. Tables `diamond_ports`, `diamond_flows`, `diamond_positions` (migration
 diamond 2, additive). L'exemple de la lampe de bureau charge aussi sa structure (6 entrées et sorties, 11 + 21 flux).
 
+### D-O-026 — Diamond : l'analyse de risque projet, de haut niveau, avant le DFMEA (2026-11-04, demande de JP)
+**Contexte :** troisième sous-module de Diamond (D-O-023), demandé « high level, avant le DFMEA ».
+**Décision :** onglet « Risques projet » (#/diamond/KEY/prisk), un registre par Space (table `diamond_risks`, migration
+diamond 3). Hypothèses prises sans attendre (pratique courante de l'industrie, proche de l'ISO 31000) : chaque risque
+s'écrit « Si <cause>, alors <événement>, ce qui <conséquence> » ; probabilité et impact de 1 à 5, avec leurs mots
+(rare … presque certain ; négligeable … critique) ; score P × I et quatre niveaux : Faible 1-4, Moyen 5-9, Élevé 10-14,
+Critique 15-25 ; huit catégories (technique, délais, coûts, équipe, fournisseurs, normes, marché, sécurité) et la phase
+du PDP ; stratégie éviter / réduire / transférer / accepter, action, responsable parmi les membres du Space, échéance,
+status Ouvert / En traitement / Fermé, probabilité et impact résiduels. Numéros R-1, R-2… jamais redonnés (archivage).
+Un risque peut pointer une fonction de l'arbre et être marqué « À détailler dans le DFMEA », que le DFMEA (0.60.15)
+reprendra. L'écran : la carte 5 × 5 (maintenant ou résiduelle) dont chaque case filtre le registre, le registre trié par
+score, le panneau d'un risque (le score se recalcule en direct), Dupliquer, Archiver, export CSV. Conseils : risque élevé
+sans action ou sans responsable, échéance dépassée, risque critique accepté sans justification, résiduel plus grand que
+l'actuel, risque technique élevé pas envoyé au DFMEA, une seule catégorie. L'exemple de la lampe de bureau a ses 9 risques.
+

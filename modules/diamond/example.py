@@ -7,7 +7,7 @@ outside the tree. Content written for Dynamite | Agile (no third-party example, 
 from core import audit
 from core.errors import ApiError
 
-from . import example_structure, functions as F
+from . import example_risks, example_structure, functions as F
 
 # (key, parent key | None, text, ftype, kano, importance, critical); the first one is the primary function
 LAMP = [
@@ -59,6 +59,8 @@ def api_example(ctx):
     for src, dst in FEEDBACK:
         ctx.conn.execute("UPDATE diamond_functions SET feedback_to = ? WHERE id = ?", (ids[dst], ids[src]))
     example_structure.load(ctx.conn, pid, _texts(items))  # 0.60.13: its functional structure too
+    if not ctx.conn.execute("SELECT 1 FROM diamond_risks WHERE project_id = ?", (pid,)).fetchone():
+        example_risks.load(ctx.conn, ctx.user["id"], pid)  # 0.60.14: and its project risks
     audit.log_action(ctx.conn, ctx.user["id"], "diamond_example", "projects", pid, {"example": name, "functions": len(items)}, ctx.ip)
     return F.payload(ctx.conn, pid)
 
@@ -75,3 +77,12 @@ def api_structure_example(ctx):
     audit.log_action(ctx.conn, ctx.user["id"], "diamond_structure_example", "projects", pid, {"ports": ports, "flows": flows}, ctx.ip)
     from . import structure
     return structure.payload(ctx.conn, pid)
+
+
+def api_risks_example(ctx):
+    """0.60.14: the project risks of the example (for a register still empty)."""
+    pid = F.access(ctx, "editor")
+    n = example_risks.load(ctx.conn, ctx.user["id"], pid)
+    audit.log_action(ctx.conn, ctx.user["id"], "diamond_risks_example", "projects", pid, {"risks": n}, ctx.ip)
+    from . import risks
+    return risks.payload(ctx.conn, pid)

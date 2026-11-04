@@ -34,6 +34,9 @@
 - **0.60.13** (2026-11-04) : Diamond → **Structure fonctionnelle** (D-O-025, `modules/diamond/structure.py`,
   `static/js/diamond/structure*.js`) : boundary diagram, entrées / sorties, vues générale et détaillée, flux énergie /
   matière / information, glisser, relier. Suivent : risques projet (0.60.14), DFMEA (0.60.15), Golden Nuggets (0.60.16).
+- **0.60.14** (2026-11-04) : Diamond → **Risques projet** (D-O-026, `modules/diamond/risks.py`, `static/js/diamond/risks*.js`) :
+  registre R-n, P × I sur 5 × 5, carte maintenant / résiduelle, stratégie, responsable, lien vers le DFMEA. Suivent : DFMEA
+  (0.60.15), Golden Nuggets (0.60.16), `starter.md` (0.60.17).
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

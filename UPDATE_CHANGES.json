@@ -2,33 +2,32 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Structure fonctionnelle : entrées, sorties, flux typés, deux vues (D-O-025)",
-      "why": "Tirée de l'arbre fonctionnel, selon la légende du cours ; conseils de la méthode ; positions par vue.",
+      "title": "Registre de risques projet (D-O-026)",
+      "why": "Si / alors / ce qui, P × I, niveaux, stratégie, résiduel, responsable parmi les membres, fonction de l'arbre, conseils, CSV, exemple de la lampe.",
       "files": [
         "modules/diamond/__init__.py",
-        "modules/diamond/structure.py",
+        "modules/diamond/risks.py",
         "modules/diamond/example.py",
-        "modules/diamond/example_structure.py",
-        "tests/test_diamond_structure.py"
+        "modules/diamond/example_risks.py",
+        "tests/test_diamond_risks.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Écran du boundary diagram : glisser, relier, panneau, libellés",
-      "why": "Cadre du système, sous-systèmes, flux par type ; Relier en cliquant la cible ; Replacer automatiquement.",
+      "title": "Écran : carte des risques et registre",
+      "why": "Carte 5 × 5 cliquable (maintenant / résiduel), registre trié par score, filtres, panneau d'édition, Dupliquer, Archiver.",
       "files": [
         "static/js/diamond/diamond.js",
-        "static/js/diamond/structure.js",
-        "static/js/diamond/structure_draw.js",
-        "static/js/diamond/structure_panel.js",
+        "static/js/diamond/risks.js",
+        "static/js/diamond/risks_panel.js",
         "static/css/diamond.css",
         "core/modules.py"
       ]
     },
     {
       "id": "C3",
-      "title": "Training : topic DM-02 et son test",
-      "why": "Dix questions sur la structure fonctionnelle.",
+      "title": "Training : topic DM-03 et son test",
+      "why": "Dix questions sur l'analyse de risque projet.",
       "files": [
         "modules/training/catalog.py",
         "modules/training/quizzes/__init__.py",
@@ -37,7 +36,7 @@
     },
     {
       "id": "C4",
-      "title": "Version 0.60.13, D-O-025 et documentation",
+      "title": "Version 0.60.14, D-O-026 et documentation",
       "why": "Décision, état du projet, journal, fiche de version, site.",
       "files": [
         "core/__init__.py",
@@ -45,7 +44,7 @@
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.13.json",
+        "docs/releases/0.60.14.json",
         "tests/test_open_v060.py",
         "static/apps/vitrine/index.html"
       ]

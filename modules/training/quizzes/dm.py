@@ -103,3 +103,50 @@ pass: 80
 - [ ] Ils sont rattachés à une autre entrée
 - [ ] Ils restent, sans origine
 """
+
+DM_03 = """# Quiz : Diamond — l'analyse de risque projet
+pass: 80
+## Comment s'écrit un risque dans le registre ?
+- [x] Si <cause>, alors <événement>, ce qui <conséquence>
+- [ ] Un mot-clé, comme « Délais »
+- [ ] Le nom de la personne responsable
+## Comment se calcule le score d'un risque ?
+- [ ] Probabilité + impact
+- [x] Probabilité × impact, chacun de 1 à 5
+- [ ] Impact × détection
+> Le score va de 1 à 25 : Faible (1 à 4), Moyen (5 à 9), Élevé (10 à 14), Critique (15 à 25).
+## Un risque a une probabilité 3 et un impact 5. Quel est son niveau ?
+- [ ] Moyen
+- [ ] Élevé
+- [x] Critique
+> 3 × 5 = 15, le seuil de Critique.
+## Quelles sont les quatre stratégies de réponse ?
+- [x] Éviter, réduire, transférer, accepter
+- [ ] Ignorer, reporter, déléguer, annuler
+- [ ] Prévenir, détecter, corriger, documenter
+## Que montre le risque résiduel ?
+- [x] Le score attendu une fois l'action réalisée
+- [ ] Le score du risque le plus grand du registre
+- [ ] Les risques fermés
+## Que signale le registre pour un risque élevé sans responsable ?
+- [x] Un conseil : action ou responsable manquant
+- [ ] Rien, c'est permis
+- [ ] Le risque est archivé
+## À quoi sert la case « À détailler dans le DFMEA » ?
+- [x] Marquer un risque technique à reprendre fonction par fonction dans le DFMEA
+- [ ] Fermer le risque
+- [ ] Le transférer à un fournisseur
+> L'analyse de risque projet est vue de haut ; le DFMEA détaille modes de défaillance, causes et contrôles.
+## On archive R-4. Que devient le numéro R-4 ?
+- [ ] Il est redonné au prochain risque
+- [x] Il reste pris pour toujours
+- [ ] Il passe à R-5
+## Que fait un clic sur une case de la carte des risques ?
+- [x] Il filtre le registre sur cette probabilité et cet impact
+- [ ] Il crée un risque
+- [ ] Il change le score des risques de la case
+## Un risque critique est « accepté ». Qu'attend la méthode ?
+- [x] Une justification dans les notes : pourquoi on vit avec
+- [ ] Rien de plus
+- [ ] Qu'il soit archivé tout de suite
+"""
