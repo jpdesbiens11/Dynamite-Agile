@@ -1,4 +1,16 @@
-# Journal de mise à jour — 0.60.10
+# Journal de mise à jour — 0.60.11
+
+- **Version :** 0.60.10 → 0.60.11 (2026-11-04)
+- **Changements :**
+  1. **Diamond 💎** (D-O-023) : nouvel onglet, à 1 000 m dans la mine, pour l'analyse fonctionnelle du produit.
+  2. **Arbre fonctionnel** : fonction primaire à gauche, « comment » à droite, « quand » de haut en bas ; secondaires,
+     tertiaires et fonctions techniques ; chemin critique, rétroaction, fonctions hors arbre ; glisser-déposer, Alt + flèches ;
+     panneau de lecture (pourquoi ? comment ? quand ?) ; vue liste ; exemple « lampe de bureau connectée ».
+- **Base de données :** migration diamond 1 (table `diamond_functions`), additive.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.10
 
 - **Version :** 0.60.09 → 0.60.10 (2026-11-04)
 - **Changements :**

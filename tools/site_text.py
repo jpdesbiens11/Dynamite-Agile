@@ -51,6 +51,11 @@ MINE = [
                "La <b>formation</b>, le tour guidé et un bac à sable pour s'exercer sans risque."),
         "en": ("The mining school and the headlamp that lights the tunnel.",
                "<b>Training</b>, the guided tour and a sandbox to practise risk-free.")}),
+    ("diamond", 1000, "Diamond", {  # 0.60.11 (D-O-023): the deepest gallery
+        "fr": ("Le diamant, à 1 000 m : la pierre la plus dure, taillée facette par facette.",
+               "L'<b>analyse fonctionnelle</b> : arbre des fonctions, puis structure fonctionnelle, risques et DFMEA."),
+        "en": ("The diamond, 1,000 m down: the hardest stone, cut facet by facet.",
+               "The <b>functional analysis</b>: function tree, then functional structure, risks and DFMEA.")}),
 ]
 
 # the tools grid of the landing page in English (the French one comes from tools/build_vitrine.TOOLS)

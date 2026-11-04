@@ -10,6 +10,7 @@ html[data-sketch] {
   --hand: "Segoe Print", "Ink Free", "Bradley Hand", "Chalkboard SE", "Comic Sans MS", var(--font);  /* no generic cursive: sans if absent */
   --hl-yellow: #ffd23f; --hl-orange: #ff8a3d; --hl-cyan: #3ec6e0; --hl-green: #5fd08a; --hl-pink: #ff6f91;
   --hl-violet: #9b7bff; --hl-blue: #4d8dff; --hl-teal: #2ec4b6; --hl-red: #ff5a4f;
+  --hl-ice: #7cc4ff;  /* 0.60.11: Diamond */
   --acc: var(--hl-blue);
   --r-hand: 255px 15px 225px 15px / 15px 225px 15px 255px;   /* pencil-drawn rectangle */
   --r-card: 14px 20px 12px 18px / 18px 12px 20px 14px;
@@ -19,6 +20,7 @@ html[data-sketch] {
 html[data-sketch][data-module="dashboard"] { --acc: var(--hl-blue); }
 html[data-sketch][data-module="home"] { --acc: var(--hl-yellow); }
 html[data-sketch][data-module="goldmine"] { --acc: var(--hl-yellow); }
+html[data-sketch][data-module="diamond"] { --acc: var(--hl-ice); }
 html[data-sketch][data-module="exploration"] { --acc: var(--hl-violet); }
 html[data-sketch][data-module="agile"] { --acc: var(--hl-blue); }
 html[data-sketch][data-module="dynamite"] { --acc: var(--hl-orange); }
@@ -75,6 +77,7 @@ html[data-sketch] .tab-group-sep {  /* hand-drawn tick between groups of tabs */
 html[data-sketch] .tab[data-key="dashboard"] { --tab-acc: var(--hl-blue); }
 html[data-sketch] .tab[data-key="home"] { --tab-acc: var(--hl-yellow); }
 html[data-sketch] .tab[data-key="goldmine"] { --tab-acc: var(--hl-yellow); }
+html[data-sketch] .tab[data-key="diamond"] { --tab-acc: var(--hl-ice); }
 html[data-sketch] .tab[data-key="exploration"] { --tab-acc: var(--hl-violet); }
 html[data-sketch] .tab[data-key="agile"] { --tab-acc: var(--hl-blue); }
 html[data-sketch] .tab[data-key="dynamite"] { --tab-acc: var(--hl-orange); }

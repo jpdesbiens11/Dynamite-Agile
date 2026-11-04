@@ -26,6 +26,7 @@ html[data-term] .content.ag-main, html[data-term] .content.dy-main, html[data-te
 html[data-term][data-module="dashboard"] { --acc: #58a6ff; }
 html[data-term][data-module="home"] { --acc: #e6edf3; }
 html[data-term][data-module="goldmine"] { --acc: #e3b341; }
+html[data-term][data-module="diamond"] { --acc: #a5d6ff; }
 html[data-term][data-module="exploration"] { --acc: #d2a8ff; }
 html[data-term][data-module="agile"] { --acc: #79c0ff; }
 html[data-term][data-module="dynamite"] { --acc: #ffa657; }
@@ -62,6 +63,7 @@ html[data-term] .tab:hover .sk-icon { animation: term-glitch .32s steps(2) 1; }
 html[data-term] .tab[data-key="dashboard"] { --tab-acc: #58a6ff; }
 html[data-term] .tab[data-key="home"] { --tab-acc: #e6edf3; }
 html[data-term] .tab[data-key="goldmine"] { --tab-acc: #e3b341; }
+html[data-term] .tab[data-key="diamond"] { --tab-acc: #a5d6ff; }
 html[data-term] .tab[data-key="exploration"] { --tab-acc: #d2a8ff; }
 html[data-term] .tab[data-key="agile"] { --tab-acc: #79c0ff; }
 html[data-term] .tab[data-key="dynamite"] { --tab-acc: #ffa657; }

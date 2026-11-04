@@ -115,6 +115,10 @@ def _topics():
             ("RH-02", "RH", "Évaluation de stage, profil professionnel et Mon équipe",
              "Accueil, Mi-stage, Évaluation finale ; ce que le gestionnaire et l'employé écrivent au profil ; « Mon équipe ».",
              "#/team", "Menu à votre nom → Mon équipe")]
+    out += [("DM", None, "Diamond — analyse fonctionnelle", "L'onglet Diamond : arbre fonctionnel, puis structure fonctionnelle, "
+             "risques et DFMEA (0.60.11, D-O-023).", "#/diamond", "Diamond"),
+            ("DM-01", "DM", "Arbre fonctionnel", "Fonction primaire, secondaires, tertiaires ; comment, pourquoi, quand ; chemin "
+             "critique, rétroaction, fonctions hors arbre.", "#/diamond", "Diamond → Arbre fonctionnel")]
     return out
 
 

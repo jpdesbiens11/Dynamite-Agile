@@ -25,7 +25,10 @@
 - **0.60.08** (2026-11-04) : page « Débuter » (D-O-020, `#/debuter`, `static/js/tools/debuter.js` + `debuter_content.js`) : le parcours d'un projet selon le PDP, module par module ; page d'arrivée tant qu'on ne l'a pas fermée (pref `debuter_done`), puis onglet au début de la barre du haut.
 - **0.60.09** (2026-11-04) : PDP modernisé avec le Lean Startup (D-O-021) : A. Discovery, B. Concept, C. Design, D. Validation et lancement, une boucle Build-Measure-Learn et son MVP par phase (tornade de « Débuter ») ; Lean Canvas (LCV), Concept Review (CRV), PDR / CDR, Validation Report (VVR), MVP et BML dans le Generator ; MIP, RCS, RC, RVE retirés.
 - **0.60.10** (2026-11-04) : serveur d'équipe sur un PC Windows (D-O-022) : `deploy/install.ps1` (PowerShell admin, winget, tâche planifiée, pare-feu privé), autorité de certification de l'équipe `tools/make_team_ca.py`, `tools/write_config.py` ; 4e destination de la page d'installation. Le prompt `starter.md` suit en 0.60.11.
-- **Modules** : Dynamite (wiki), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
+- **0.60.11** (2026-11-04) : module **Diamond** 💎 à 1 000 m (D-O-023, `modules/diamond/`, `static/js/diamond/`) : Arbre fonctionnel
+  (primaire / secondaires / tertiaires / techniques, comment · pourquoi · quand, chemin critique, rétroaction, hors arbre,
+  numéros F gardés pour toujours). Suivent : structure fonctionnelle, risques projet, DFMEA, Golden Nuggets, puis `starter.md`.
+- **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,
   audit, recherche, révisions, sauvegardes, Update, TLS).

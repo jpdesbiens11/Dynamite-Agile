@@ -9,6 +9,7 @@ analogies ci-dessous servent à retenir le rôle de chaque outil ; elles sont re
 | **Dashboard** | La salle de contrôle du chantier : tous les indicateurs au même endroit. | Tout ce qui vous attend dans tous vos Spaces : tickets, requirements, heures, messages. |
 | **Exploration** | La prospection : on étudie le terrain et on planifie où creuser, dans quel ordre, avec quels moyens. | Le plan du projet sur plusieurs mois : phases, jalons, prédécesseurs, Gantt. |
 | **Goldmine** | Le filon d'or : ce qu'on est venu chercher, et qu'on trie pépite par pépite. | Les besoins des parties prenantes et les requirements « en or », tracés jusqu'à leur essai. |
+| **Diamond** 💎 | Le diamant, au fond de la mine (1 000 m) : la pierre la plus dure, taillée facette par facette. | L'analyse fonctionnelle du produit : arbre des fonctions, structure fonctionnelle, risques du projet, DFMEA. |
 | **Dynamite** | La charge qui fait sauter la roche : on dynamite le savoir brut pour le dégager, l'ordonner et le rendre utilisable. | Le wiki de l'équipe : notes, comptes rendus, procédures, décisions, base de connaissances. |
 | **Agile** | Les équipes de forage qui travaillent par quarts : chacun sait quel front attaquer cette semaine. | Backlog, sprints et Board ; Change Management (PR, bugs, ECN) quand la galerie dévie. |
 | **Testing** | L'essai du minerai (le laboratoire d'analyse) : on mesure la teneur avant de déclarer le filon rentable. | La Test Base, les procédures et les plans d'essai qui prouvent chaque requirement. |
