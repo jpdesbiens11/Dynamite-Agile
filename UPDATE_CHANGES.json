@@ -2,28 +2,33 @@
  "changes": [
   {
    "id": "C1",
-   "title": "Format Project Starter et son validateur (D-O-019)",
-   "why": "Fichier JSON préparé avec un assistant IA ; vérifié champ par champ, « À vérifier » et « Brouillon IA » imposés.",
+   "title": "« Commencer » côté serveur : création du Space depuis un fichier Project Starter (D-O-019)",
+   "why": "Aperçu sans écriture, puis création en une transaction ; « À vérifier » et « Brouillon IA » imposés ; migrations additives.",
    "files": [
-    "core/starter.py",
-    "docs/STARTER_FORMAT.md",
-    "tools/check_starter.py"
+    "core/router.py",
+    "core/starter_apply.py",
+    "modules/agile/schema.py",
+    "modules/testing/__init__.py",
+    "tests/test_starter_apply.py"
    ]
   },
   {
    "id": "C2",
-   "title": "Trois exemples de démarrage",
-   "why": "Lampe de bureau connectée, tensiomètre de poignet, convoyeur de table modulaire.",
+   "title": "Format Starter aligné sur Testing et Timesheet",
+   "why": "subject = code de Testing ; codes de temps à la forme de Timesheet.",
    "files": [
+    "core/starter.py",
     "deploy/starter_exemples/convoyeur.json",
     "deploy/starter_exemples/lampe_bureau.json",
-    "deploy/starter_exemples/tensiometre.json"
+    "deploy/starter_exemples/tensiometre.json",
+    "docs/STARTER_FORMAT.md",
+    "tests/test_starter.py"
    ]
   },
   {
    "id": "C3",
-   "title": "Version 0.60.05, tests et documentation",
-   "why": "APP_VERSION, tests du validateur, décision D-O-019, état du projet, site reconstruit.",
+   "title": "Version 0.60.06, tests et documentation",
+   "why": "APP_VERSION, décision D-O-019 complétée, état du projet, site reconstruit.",
    "files": [
     "CLAUDE.md",
     "UPDATE_CHANGES.json",
@@ -38,8 +43,7 @@
     "site/index.html",
     "site/installation.html",
     "static/apps/vitrine/index.html",
-    "tests/test_open_v060.py",
-    "tests/test_starter.py"
+    "tests/test_open_v060.py"
    ]
   }
  ]
