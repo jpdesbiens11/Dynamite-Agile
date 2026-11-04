@@ -191,3 +191,23 @@ quoi y faire et ouvre l'écran dans le Space par défaut ; une étape d'administ
 remplacée par « Votre administrateur s'en charge ». Choix de JP : **page d'arrivée après la connexion tant qu'on ne l'a
 pas fermée** (préférence `debuter_done`), puis **onglet « Débuter » au début de la barre du haut** ; « Débuter » peut
 aussi être choisie comme page d'arrivée dans les Paramètres. Le prompt `starter.md` passe en 0.60.09.
+
+### D-O-021 — Le PDP modernisé avec le Lean Startup : une tornade de boucles MVP (2026-11-04, demande de JP)
+**Contexte :** le MIP et les rapports du cours (RCS, RC, RVE) datent d'un PDP par phases ; en 2026, les équipes produit
+matériel et logiciel travaillent par hypothèses, MVP successifs et Sprints Agile.
+**Décision (choix de JP, une question à la fois) :**
+1. **Les quatre phases restent** (lettres A à D, codes de temps A-01 … D-21 et clés inchangés), **et chacune devient une
+   boucle Build → Measure → Learn** : un MVP teste les hypothèses les plus risquées, les Sprints Agile rythment le travail
+   matériel et logiciel, la phase se ferme sur une revue et la décision de persévérer ou de pivoter. Les étapes « Rappel et
+   mise à jour » (07, 13, 19) deviennent ce bilan. Image retenue : **une tornade** — les étapes se lisent de haut en bas,
+   chaque boucle est une spire qui monte et s'élargit, et le produit sort par le haut à grande vitesse (schéma de
+   « Débuter », `static/js/tools/debuter_tornado.js`, SVG sans texte).
+2. **Le Lean Canvas et ses hypothèses à tester (LCV, MVP 0) remplace le MIP.**
+3. **Revues industrielles et bilan MVP** pour les autres phases : Concept Review (CRV, MVP 1) remplace le RCS ; PDR puis
+   CDR (MVP 2) remplacent le RC ; Validation Report (VVR, vérification et validation, MVP 3) remplace le RVE. Nouveaux
+   types MVP (plan du MVP) et BML (bilan Build-Measure-Learn). MIP, RCS, RC et RVE sont des codes retirés : une référence
+   déjà émise garde son code et son dossier, une nouvelle reçoit le code qui le remplace.
+4. **Noms modernes des phases** : A. Discovery, B. Concept, C. Design, D. Validation et lancement ; dossiers du Generator
+   `01_Discovery` … `04_Validation`, `05_Lean`.
+Un site existant reçoit les nouveaux libellés de Timesheet au démarrage, seulement là où le libellé d'origine n'a pas été
+reformulé. Le prompt `starter.md` passe en 0.60.10.
