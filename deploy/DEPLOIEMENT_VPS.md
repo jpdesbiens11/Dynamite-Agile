@@ -19,6 +19,8 @@ Connecté au serveur (`ssh root@<IP>` ou la console web de l'hébergeur) :
 curl -fsSL https://<compte>.github.io/dynamite-agile/install.sh | sudo bash -s -- mon-domaine.ca moi@exemple.ca
 ```
 
+Messages du script en anglais : `sudo DA_LANG=en bash -s -- …` (page anglaise : `site/en/installation.html`).
+
 La commande récupère le code dans `/opt/dynamite_agile`, puis `deploy/install.sh` installe Python, git, certbot et le
 pare-feu `ufw` (22, 80, 443), crée l'utilisateur système `dynamite`, vérifie que le domaine pointe vers le serveur et que
 les ports 80 / 443 sont libres, obtient le certificat HTTPS Let's Encrypt (renouvelé automatiquement), écrit

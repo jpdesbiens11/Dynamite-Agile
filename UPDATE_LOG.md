@@ -1,13 +1,11 @@
-# Journal de mise à jour — 0.60.03
+# Journal de mise à jour — 0.60.04
 
-- **Version :** 0.60.02 → 0.60.03 (2026-11-03)
+- **Version :** 0.60.03 → 0.60.04 (2026-11-04)
 - **Changements :**
-  1. **Installation pour débutants** (D-O-016, `site/installation.html`) : choix de la destination (serveur en ligne,
-     serveur en essai privé, mon ordinateur avec onglets Windows / macOS / Linux) ; champs domaine, courriel et IP qui
-     remplissent les commandes ; chaque bloc dit où le coller et ce qu'on doit voir, et se copie d'un clic ; cases
-     « C'est fait » et barre de progression ; aides Hostinger ; dépannage par message.
-  2. **Assistant IA à côté** : un message prêt à coller avec le lien de la procédure, et `site/installer.md`, guide écrit
-     pour l'assistant (une commande à la fois, jamais de mot de passe).
-  3. **Une commande** : `curl -fsSL <site>/install.sh | sudo bash -s -- domaine courriel` (ou `--essai`) ; le script
-     récupère le code, vérifie le DNS et les ports 80 / 443 avant le certificat.
+  1. **Site web en anglais** (D-O-017, étape 1) : les trois pages dans `site/en/` (accueil avec la descente dans la mine,
+     la journée de l'équipe, la chaîne et les dix outils ; installation ; guide), bouton FR | EN dans la barre du haut,
+     liens `hreflang` entre les deux versions. Noms des modules et termes techniques inchangés.
+  2. **Installation en anglais** : `site/en/installer.md` pour l'assistant IA, message à coller en anglais, libellés
+     « on your computer » / « on the server », boutons Copy ; `deploy/install.sh` affiche ses messages en anglais avec
+     `DA_LANG=en` (`curl … | sudo DA_LANG=en bash -s -- domaine courriel`).
 - **Base de données :** aucune migration.

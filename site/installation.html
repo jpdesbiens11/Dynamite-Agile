@@ -6,6 +6,8 @@
 <title>Installer Dynamite | Agile</title>
 <meta name="description" content="Installer Dynamite | Agile pas à pas : sur un serveur en ligne en une commande, en essai privé ou sur votre ordinateur.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='3' width='26' height='26' rx='3' fill='%23ffd23f' stroke='%2326323f' stroke-width='2'/%3E%3Cpath d='M18 6 L11 17 H16 L14 26 L22 14 H17 Z' fill='none' stroke='%2326323f' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="alternate" hreflang="fr" href="https://owner.github.io/dynamite-agile/installation.html">
+<link rel="alternate" hreflang="en" href="https://owner.github.io/dynamite-agile/en/installation.html">
 <style>
 :root {
   --paper: #fcfbf7; --grid: rgba(12, 102, 228, .06); --ink: #26323f; --ink-2: #44546f; --blue: #0c66e4;
@@ -334,6 +336,10 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   .progress-bar { top: 112px; }
   .progress-bar span { min-width: 0; }
 }
+/* D-O-017: FR | EN switch in the top bar */
+.top .lang { margin-left: .2rem; padding: .3rem .55rem; border: 2px solid var(--ink); border-radius: 6px; color: var(--ink);
+  font-weight: 700; font-size: .85rem; text-decoration: none; }
+.top .lang:hover, .top .lang:focus-visible { background: var(--y, #ffd23f); }
 
 </style>
 </head>
@@ -365,6 +371,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 <header class="top">
   <a class="logo" href="index.html"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="4" fill="#ffd23f" stroke="#26323f" stroke-width="2"/><path d="M18 6 L11 17 H16 L14 26 L22 14 H17 Z" fill="none" stroke="#26323f" stroke-width="2" stroke-linejoin="round"/></svg>Dynamite | Agile</a>
   <nav aria-label="Pages"><a href="index.html">Accueil</a><a href="installation.html" class="on" aria-current="page">Installation</a><a href="guide.html">Guide</a></nav>
+  <a class="lang" href="en/installation.html" hreflang="en" lang="en" title="English">EN</a>
   <a class="btn btn-primary gh" href="https://github.com/OWNER/dynamite-agile">GitHub</a>
 </header>
 <main class="page install">
@@ -558,13 +565,15 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     <tr><td>Sauvegarder</td><td>Dans l'outil : ⚙ Admin → Update et sauvegardes ; et la sauvegarde du serveur chez l'hébergeur</td></tr>
     <tr><td>Passer de l'essai à l'équipe</td><td>Refaites le parcours « Sur un serveur en ligne » : la même commande avec votre domaine</td></tr></table>
 </main>
-<footer>Dynamite | Agile · logiciel libre sous licence MIT · version 0.60.03 · Jean-Philippe Desbiens · <a href="https://github.com/OWNER/dynamite-agile">GitHub</a></footer>
+<footer>Dynamite | Agile · logiciel libre sous licence MIT · version 0.60.04 · Jean-Philippe Desbiens · <a href="https://github.com/OWNER/dynamite-agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */
 (function () {
   "use strict";
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const EN = document.documentElement.lang === "en";  // D-O-017: the English pages live in site/en/
+  const COPY = EN ? ["Copy", "Copied ✓"] : ["Copier", "Copié ✓"];
 
   /* ---------- reveal (pages without the vitrine script) ---------- */
   if (!document.getElementById("screen")) {
@@ -577,10 +586,10 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   /* ---------- copy buttons on every command block ---------- */
   document.querySelectorAll("pre.cmd").forEach((pre) => {
     const button = document.createElement("button");
-    button.type = "button"; button.className = "copy"; button.textContent = "Copier";
+    button.type = "button"; button.className = "copy"; button.textContent = COPY[0];
     button.addEventListener("click", () => {
       const text = Array.from(pre.querySelectorAll("code")).map((c) => c.textContent).join("\n");
-      const done = () => { button.textContent = "Copié ✓"; setTimeout(() => { button.textContent = "Copier"; }, 1600); };
+      const done = () => { button.textContent = COPY[1]; setTimeout(() => { button.textContent = COPY[0]; }, 1600); };
       if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => {}); else done();
     });
     pre.append(button);
@@ -646,6 +655,8 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 (function () {
   "use strict";
   const SITE = document.body.dataset.site;
+  const EN = document.documentElement.lang === "en";  // D-O-017: same script, English page in site/en/
+  const BASE = SITE + (EN ? "/en" : "");
   const KEY = "da.install";
   const store = {
     read() { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (err) { return {}; } },
@@ -655,7 +666,8 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   const save = () => store.write(state);
   const $ = (s, root) => (root || document).querySelector(s);
   const $$ = (s, root) => Array.from((root || document).querySelectorAll(s));
-  const DEFAULTS = { domain: "atelier.mon-domaine.ca", email: "moi@exemple.ca", ip: "203.0.113.10" };
+  const DEFAULTS = EN ? { domain: "workshop.my-domain.com", email: "me@example.com", ip: "203.0.113.10" }
+    : { domain: "atelier.mon-domaine.ca", email: "moi@exemple.ca", ip: "203.0.113.10" };
   const value = (k) => (state[k] || "").trim() || DEFAULTS[k];
 
   /* ---------- destination ---------- */
@@ -694,12 +706,26 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     $("#agent-text").textContent = prompt();
   }
   function prompt() {
-    const page = SITE + "/installation.html#" + state.dest;
-    const guide = SITE + "/installer.md";
+    const page = BASE + "/installation.html#" + state.dest;
+    const guide = BASE + "/installer.md";
+    const os = { windows: "Windows", mac: "macOS", linux: "Linux" }[state.os || guess];
+    if (EN) {
+      const where = {
+        serveur: "on an online server (Linux VPS) with the domain name " + value("domain"),
+        essai: "on a Linux server, as a private trial without a domain (SSH tunnel)",
+        local: "on my computer (" + os + "), to try it",
+      }[state.dest];
+      return ["Hello! I'm new to Linux and the terminal. I want to install Dynamite | Agile " + where + ".",
+        "First read the procedure: " + page,
+        "and the guide written for assistants: " + guide,
+        "Guide me one step at a time: tell me where to type each command (on my computer or on the server) and what I " +
+        "should see, then wait until I paste what the terminal shows before going on. If a message is in red, explain it " +
+        "simply and suggest the fix. Never ask me for a password or a private key."].join("\n");
+    }
     const where = {
       serveur: "sur un serveur en ligne (VPS Linux) avec le nom de domaine " + value("domain"),
       essai: "sur un serveur Linux, en essai privé sans domaine (tunnel SSH)",
-      local: "sur mon ordinateur (" + ({ windows: "Windows", mac: "macOS", linux: "Linux" }[state.os || guess]) + "), pour l'essayer",
+      local: "sur mon ordinateur (" + os + "), pour l'essayer",
     }[state.dest];
     return ["Bonjour ! Je débute avec Linux et le terminal. Je veux installer Dynamite | Agile " + where + ".",
       "Lis d'abord la procédure : " + page,
@@ -730,7 +756,8 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     const done = steps.filter((li) => $(".done input", li).checked).length;
     $(".progress-bar .track i").style.width = steps.length ? (100 * done / steps.length) + "%" : "0";
     $("#progress-text").textContent = done === steps.length && steps.length
-      ? "Toutes les étapes sont faites ✓" : "Étapes faites : " + done + " / " + steps.length;
+      ? (EN ? "All steps done ✓" : "Toutes les étapes sont faites ✓")
+      : (EN ? "Steps done: " : "Étapes faites : ") + done + " / " + steps.length;
   }
 
   /* ---------- the « where » label on every command block ---------- */
@@ -738,7 +765,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     const pc = pre.dataset.where === "pc";
     const tag = document.createElement("span");
     tag.className = "where " + (pc ? "pc" : "srv");
-    tag.textContent = pc ? "sur votre ordinateur" : "sur le serveur";
+    tag.textContent = pc ? (EN ? "on your computer" : "sur votre ordinateur") : (EN ? "on the server" : "sur le serveur");
     pre.prepend(tag);
   });
 

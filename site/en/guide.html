@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting started — Dynamite | Agile</title>
+<meta name="description" content="Getting started with Dynamite | Agile: the administrator, the team lead and every member, tool by tool.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='3' width='26' height='26' rx='3' fill='%23ffd23f' stroke='%2326323f' stroke-width='2'/%3E%3Cpath d='M18 6 L11 17 H16 L14 26 L22 14 H17 Z' fill='none' stroke='%2326323f' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="alternate" hreflang="fr" href="https://owner.github.io/dynamite-agile/guide.html">
+<link rel="alternate" hreflang="en" href="https://owner.github.io/dynamite-agile/en/guide.html">
+<style>
+:root {
+  --paper: #fcfbf7; --grid: rgba(12, 102, 228, .06); --ink: #26323f; --ink-2: #44546f; --blue: #0c66e4;
+  --y: #ffd23f; --o: #ff8a3d; --c: #3ec6e0; --g: #5fd08a; --p: #ff6f91; --v: #9b7bff; --b: #4d8dff; --t: #2ec4b6; --r: #ff5a4f;
+  --hand: "Segoe Print", "Ink Free", "Bradley Hand", "Chalkboard SE", "Comic Sans MS", "Segoe UI", system-ui, sans-serif;
+  --sans: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --r-hand: 255px 15px 225px 15px / 15px 225px 15px 255px; --r-card: 14px 22px 12px 20px / 20px 12px 22px 14px;
+  --shadow: 4px 4px 0 rgba(38, 50, 63, .14); --pop: cubic-bezier(.34, 1.56, .64, 1);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font: 17px/1.55 var(--sans); color: var(--ink); background: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 26px 26px; overflow-x: hidden; }
+a { color: var(--blue); }
+.hand { font-family: var(--hand); }
+.hl { background: linear-gradient(transparent 55%, color-mix(in srgb, var(--hlc, var(--y)) 75%, transparent) 55% 92%, transparent 92%);
+  padding: 0 .12em; }
+.ico { width: 1.4em; height: 1.4em; vertical-align: -.3em; flex: none; }
+#energy { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+main, header, footer { position: relative; z-index: 1; }
+
+/* ---------- top ---------- */
+.top { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 1.2rem; padding: .7rem clamp(1rem, 4vw, 3rem);
+  background: rgba(252, 251, 247, .88); backdrop-filter: blur(6px); }
+.top::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 6px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='6'%3E%3Cpath d='M0 3 Q30 1 60 3.4 T120 2.6 T180 3.5 T240 3' fill='none' stroke='%2326323f' stroke-opacity='.5' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x; }
+.logo { display: flex; align-items: center; gap: .55rem; font: 700 1.15rem var(--hand); text-decoration: none; color: var(--ink); }
+.logo-mark { width: 34px; height: 34px; }
+.top nav { display: flex; gap: .2rem; margin-left: auto; flex-wrap: wrap; }
+.top nav a { position: relative; padding: .35rem .65rem; color: var(--ink); text-decoration: none; font-weight: 500; z-index: 0; }
+.top nav a::after { content: ""; position: absolute; left: .4rem; right: .4rem; bottom: .15rem; height: .45rem; z-index: -1;
+  background: var(--y); opacity: .7; border-radius: var(--r-hand); transform: scaleX(0); transform-origin: left; transition: transform .25s ease; }
+.top nav a:hover::after, .top nav a.on::after { transform: scaleX(1); }
+.btn { display: inline-flex; align-items: center; gap: .5rem; padding: .7rem 1.2rem; border: 1.8px solid var(--ink);
+  border-radius: var(--r-hand); background: #fff; color: var(--ink); font-weight: 650; text-decoration: none; cursor: pointer;
+  box-shadow: var(--shadow); transition: transform .2s var(--pop), box-shadow .2s ease; }
+.btn:hover { transform: translate(-2px, -3px) rotate(-.6deg); box-shadow: 7px 7px 0 rgba(38, 50, 63, .16); }
+.btn-primary { background: var(--blue); color: #fff; border-color: #0b3f8f; box-shadow: 4px 4px 0 #0b3f8f; }
+.btn-primary:hover { box-shadow: 7px 7px 0 #0b3f8f; }
+
+/* ---------- hero ---------- */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 2rem; align-items: center;
+  max-width: 1240px; margin: 0 auto; padding: clamp(2rem, 6vw, 5rem) clamp(1rem, 4vw, 3rem) 3rem; min-height: 86vh; }
+.kicker { font: 600 .95rem var(--hand); color: var(--ink-2); transform: rotate(-1.5deg); display: inline-block; }
+h1 { font: 700 clamp(2.1rem, 4.6vw, 3.6rem)/1.12 var(--hand); margin: .3rem 0 1rem; letter-spacing: -.01em; }
+.lead { font-size: 1.15rem; color: var(--ink-2); max-width: 36rem; }
+.cta { display: flex; gap: .9rem; flex-wrap: wrap; margin-top: 1.6rem; }
+.hero-art svg { width: 100%; height: auto; overflow: visible; }
+.hero-art .draw path[fill="none"] { stroke-dasharray: 1400; stroke-dashoffset: 1400; animation: draw 2.6s ease-out forwards; }
+.hero-art .draw path[fill]:not([fill="none"]) { opacity: 0; animation: fade .8s ease-out forwards; animation-delay: 1.6s; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes fade { to { opacity: 1; } }
+.scroll-hint { display: block; margin: 1.8rem 0 0; font: 600 .9rem var(--hand); color: var(--ink-2); animation: bob 1.8s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(6px); } }
+
+/* ---------- sections ---------- */
+section { max-width: 1240px; margin: 0 auto; padding: 4.5rem clamp(1rem, 4vw, 3rem); }
+h2 { font: 700 clamp(1.7rem, 3.2vw, 2.5rem)/1.2 var(--hand); margin: 0 0 .6rem; }
+.sub { color: var(--ink-2); max-width: 44rem; margin: 0 0 2rem; }
+.reveal { opacity: 0; transform: translateY(26px) rotate(-.4deg); transition: opacity .7s ease, transform .7s var(--pop); }
+.reveal.in { opacity: 1; transform: none; }
+
+/* before / after */
+.pains { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; }
+.pain { position: relative; padding: 1.2rem 1.2rem 1.1rem; background: #fff; border: 1.6px solid rgba(38, 50, 63, .3);
+  border-radius: var(--r-card); box-shadow: var(--shadow); }
+.pain .was { font: 600 1rem var(--hand); color: #8a95a3; position: relative; display: inline-block; }
+.pain .was::after { content: ""; position: absolute; left: -4px; right: -4px; top: 55%; height: 3px; background: var(--r);
+  border-radius: 3px; transform: scaleX(0) rotate(-3deg); transform-origin: left; transition: transform .6s ease .3s; }
+.pain.in .was::after { transform: scaleX(1) rotate(-3deg); }
+.pain .now { margin: .6rem 0 0; font-weight: 650; }
+.pain .now span { --hlc: var(--g); }
+
+/* ---------- journey: sticky screen + steps ---------- */
+.journey { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 2.5rem; align-items: start; }
+.steps { display: flex; flex-direction: column; gap: 38vh; padding: 10vh 0 30vh; }
+.step { padding: 1.2rem 1.3rem; background: rgba(255, 255, 255, .86); border: 1.6px solid rgba(38, 50, 63, .25); border-radius: var(--r-card);
+  box-shadow: var(--shadow); opacity: .35; transform: scale(.97); transition: opacity .4s ease, transform .4s var(--pop), border-color .3s; }
+.step.on { opacity: 1; transform: none; border-color: var(--ink); }
+.step .time { font: 700 .95rem var(--hand); color: var(--ink-2); }
+.step h3 { display: flex; align-items: center; gap: .5rem; margin: .2rem 0 .4rem; font-size: 1.3rem; }
+.step p { margin: 0; color: var(--ink-2); }
+.step .gain { display: inline-block; margin-top: .6rem; font: 600 .9rem var(--hand); --hlc: var(--g); }
+.stage { position: sticky; top: 14vh; }
+.screen { position: relative; height: 470px; background: #fff; border: 2px solid var(--ink); border-radius: var(--r-card);
+  box-shadow: 8px 8px 0 rgba(38, 50, 63, .16); overflow: hidden; }
+.screen::before { content: ""; position: absolute; top: -12px; left: 40px; width: 96px; height: 22px; background: color-mix(in srgb, var(--y) 70%, transparent);
+  transform: rotate(-4deg); z-index: 3; }
+.bar { display: flex; align-items: center; gap: .45rem; height: 40px; padding: 0 .8rem; border-bottom: 1.4px solid rgba(38, 50, 63, .25);
+  font: 600 .8rem var(--sans); }
+.bar .tab { display: inline-flex; align-items: center; gap: .25rem; padding: .15rem .35rem; border-radius: var(--r-hand); color: var(--ink-2); }
+.bar .tab.on { color: var(--ink); background: color-mix(in srgb, var(--acc, var(--b)) 45%, transparent); }
+.bar .ico { width: 16px; height: 16px; }
+.scene { position: absolute; inset: 40px 0 0; padding: 1rem 1.1rem; opacity: 0; transform: translateX(24px); transition: opacity .45s ease, transform .45s ease;
+  font-size: .9rem; }
+.scene.on { opacity: 1; transform: none; }
+.mini-h { font: 700 1.05rem var(--hand); margin: 0 0 .7rem; display: inline-block; background: linear-gradient(transparent 58%, color-mix(in srgb, var(--acc, var(--b)) 55%, transparent) 58% 90%, transparent 90%); }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; }
+.kpi { padding: .6rem; border: 1.4px solid rgba(38, 50, 63, .25); border-radius: var(--r-card); box-shadow: 2px 2px 0 rgba(38, 50, 63, .12); }
+.kpi b { display: block; font-size: 1.5rem; }
+.kpi small { color: var(--ink-2); }
+.msg { display: flex; align-items: center; gap: .5rem; margin-top: .8rem; padding: .55rem .7rem; border-left: 4px solid var(--r);
+  background: #fff5f4; border-radius: 6px; transform: scale(0); transform-origin: left; transition: transform .45s var(--pop) .6s; }
+.scene.on .msg { transform: scale(1); }
+.dot { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--r); color: #fff; font-size: .75rem; font-weight: 700; }
+.rows { display: grid; gap: .45rem; }
+.row { display: grid; grid-template-columns: 70px 1fr auto; gap: .6rem; align-items: center; padding: .45rem .55rem; border: 1.2px solid rgba(38, 50, 63, .18);
+  border-radius: 8px; background: #fff; }
+.row code { font: 600 .78rem "Cascadia Mono", Consolas, monospace; color: var(--blue); }
+.chip { padding: .05rem .45rem; border-radius: var(--r-hand); font: 700 .72rem var(--sans); background: #eef1f5; }
+.chip.y { background: #fff1bf; color: #8a5a00; } .chip.g { background: #dcf7e6; color: #1a6e3e; } .chip.b { background: #e3eeff; color: #0a58ad; }
+.trace { position: relative; height: 120px; margin-top: .7rem; }
+.trace svg { width: 100%; height: 100%; }
+.trace .flow { stroke-dasharray: 8 10; animation: flow 1.2s linear infinite; }
+@keyframes flow { to { stroke-dashoffset: -36; } }
+.gantt { display: grid; gap: .55rem; margin-top: .4rem; }
+.g-row { display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: .6rem; font-size: .82rem; }
+.g-bar { height: 14px; border-radius: var(--r-hand); background: var(--v); width: 0; transition: width 1s ease; opacity: .85; }
+.scene.on .g-bar { width: var(--w); }
+.board { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; height: 330px; }
+.col { background: #f4f5f7; border-radius: 10px; padding: .5rem; position: relative; }
+.col h4 { margin: 0 0 .4rem; font-size: .75rem; text-transform: uppercase; color: var(--ink-2); }
+.card { position: absolute; left: .5rem; right: .5rem; padding: .45rem .55rem; background: #fff; border: 1.4px solid rgba(38, 50, 63, .25);
+  border-radius: var(--r-card); box-shadow: 2px 2px 0 rgba(38, 50, 63, .12); font-size: .78rem; transition: transform .9s var(--pop); }
+.wiki { font-size: .86rem; }
+.wiki .typed { border-right: 2px solid var(--ink); white-space: nowrap; overflow: hidden; display: inline-block; max-width: 100%; }
+.wiki .block { margin-top: .6rem; padding: .5rem .6rem; border: 1.4px dashed var(--o); border-radius: 8px; background: #fff7ef; }
+.scope { display: grid; grid-template-columns: 1.3fr 1fr; gap: .8rem; }
+.scope svg { width: 100%; height: 150px; background: #0f1d1a; border-radius: 10px; }
+.scope .wave { stroke-dasharray: 600; stroke-dashoffset: 600; }
+.scene.on .scope .wave { animation: draw 2.4s linear forwards; }
+.hours { display: grid; grid-template-columns: repeat(5, 1fr); gap: .45rem; align-items: end; height: 150px; margin-top: .6rem; }
+.hours div { background: var(--t); border-radius: 6px 6px 3px 3px; height: 0; transition: height .8s var(--pop); opacity: .85; }
+.scene.on .hours div { height: var(--h); }
+.progress { height: 14px; border: 1.4px solid var(--ink); border-radius: var(--r-hand); overflow: hidden; margin: .6rem 0; }
+.progress i { display: block; height: 100%; width: 0; background: var(--p); transition: width 1.4s ease; }
+.scene.on .progress i { width: 72%; }
+
+/* ---------- chain ---------- */
+.chain svg { width: 100%; height: auto; }
+.chain .node rect { fill: #fff; stroke: var(--ink); stroke-width: 2; }
+.chain .node text { font: 700 17px var(--hand); fill: var(--ink); }
+.chain .node .sm { font: 500 12px var(--sans); fill: var(--ink-2); }
+.chain .link { fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 600; stroke-dashoffset: 600; transition: stroke-dashoffset 1.4s ease; }
+.chain.in .link { stroke-dashoffset: 0; }
+.chain .spark { fill: var(--y); stroke: var(--ink); stroke-width: 1.2; }
+
+/* ---------- tools grid ---------- */
+.tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 1.1rem; }
+.tool { position: relative; padding: 1.1rem 1.1rem 1rem; background: #fff; border: 1.6px solid rgba(38, 50, 63, .28); border-radius: var(--r-card);
+  box-shadow: var(--shadow); transition: transform .3s var(--pop), box-shadow .3s ease; transform-style: preserve-3d; }
+.tool:hover { box-shadow: 9px 10px 0 rgba(38, 50, 63, .15); }
+.tool .ico { width: 44px; height: 44px; padding: 6px; border-radius: 46% 54% 50% 50% / 52% 46% 54% 48%;
+  background: color-mix(in srgb, var(--a) 45%, transparent); transition: transform .4s var(--pop); }
+.tool:hover .ico { transform: rotate(-10deg) scale(1.1); }
+.tool h3 { margin: .6rem 0 .25rem; font: 700 1.15rem var(--hand); }
+.tool p { margin: 0; color: var(--ink-2); font-size: .93rem; }
+
+/* ---------- numbers & trust ---------- */
+.nums { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem; }
+.num { text-align: center; padding: 1.1rem; background: #fff; border: 1.6px solid rgba(38, 50, 63, .25); border-radius: var(--r-card); box-shadow: var(--shadow); }
+.num b { display: block; font: 700 2.4rem var(--hand); }
+.num span { color: var(--ink-2); }
+.trust { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+.trust li { list-style: none; padding: .8rem 1rem; background: rgba(255, 255, 255, .8); border-left: 5px solid var(--g); border-radius: 8px; }
+.final { text-align: center; }
+.final .cta { justify-content: center; }
+footer { text-align: center; padding: 2rem 1rem 3rem; color: var(--ink-2); font-size: .88rem; }
+
+@media (max-width: 900px) {
+  .hero, .journey { grid-template-columns: minmax(0, 1fr); }
+  .stage { position: relative; top: 0; }
+  .steps { gap: 1.2rem; padding: 1rem 0; }
+  .step { opacity: 1; transform: none; }
+  .kpis { grid-template-columns: repeat(2, 1fr); }
+  .screen { overflow: hidden; } .bar { overflow: hidden; } #journee { overflow-x: clip; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1; transform: none; }
+  .hero-art .draw path { stroke-dashoffset: 0 !important; opacity: 1 !important; }
+  #energy { display: none; }
+}
+/* Website of Dynamite | Agile (D-O-015): added on top of the CSS of the vitrine (same tokens, same hand-drawn look). */
+main { overflow-x: clip; }
+.top .gh { margin-left: .4rem; }
+.top nav a.on::after { transform: scaleX(1); }
+.page { max-width: 980px; margin: 0 auto; padding: 2.5rem clamp(1rem, 4vw, 3rem) 4rem; }
+.page h1 { font-size: clamp(2rem, 4vw, 3rem); }
+.page h2 { margin-top: 2.6rem; }
+.page h3 { font: 700 1.2rem var(--hand); margin: 1.6rem 0 .4rem; }
+.page p, .page li { max-width: 46rem; }
+.note { padding: .8rem 1rem; margin: 1rem 0; background: rgba(255, 255, 255, .85); border-left: 5px solid var(--y); border-radius: 8px; }
+.note.warn { border-left-color: var(--o); }
+.note.ok { border-left-color: var(--g); }
+.toc { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 2rem; padding: 0; list-style: none; }
+.toc a { display: inline-block; padding: .3rem .7rem; border: 1.4px solid rgba(38, 50, 63, .3); border-radius: var(--r-hand);
+  background: #fff; text-decoration: none; color: var(--ink); font-weight: 600; font-size: .92rem; }
+.toc a:hover { background: color-mix(in srgb, var(--y) 45%, #fff); }
+.stepper { counter-reset: st; list-style: none; padding: 0; }
+.stepper > li { counter-increment: st; position: relative; padding: 1rem 1.1rem 1rem 3.6rem; margin: 0 0 1rem; background: #fff;
+  border: 1.6px solid rgba(38, 50, 63, .25); border-radius: var(--r-card); box-shadow: var(--shadow); max-width: none; }
+.stepper > li::before { content: counter(st); position: absolute; left: 1rem; top: .95rem; display: grid; place-items: center;
+  width: 1.9rem; height: 1.9rem; border-radius: 50%; background: var(--y); border: 1.6px solid var(--ink); font: 700 1rem var(--hand); }
+.stepper > li > b:first-child { display: block; font: 700 1.1rem var(--hand); margin-bottom: .2rem; }
+pre.cmd { position: relative; margin: .7rem 0; padding: .9rem 1rem; background: #14202b; color: #e8f1f8; border-radius: 10px;
+  font: 500 .88rem/1.55 "Cascadia Mono", Consolas, "SFMono-Regular", Menlo, monospace; overflow-x: auto; border: 2px solid var(--ink); }
+pre.cmd .c { color: #7f95a8; }
+pre.cmd .p { color: var(--g); user-select: none; }
+.copy { position: absolute; top: .45rem; right: .45rem; padding: .2rem .55rem; font: 600 .75rem var(--sans); color: var(--ink);
+  background: var(--y); border: 1.4px solid var(--ink); border-radius: var(--r-hand); cursor: pointer; }
+table.t { width: 100%; border-collapse: collapse; margin: .8rem 0; background: #fff; border: 1.6px solid rgba(38, 50, 63, .25);
+  border-radius: 10px; overflow: hidden; font-size: .94rem; }
+table.t th, table.t td { padding: .55rem .75rem; text-align: left; vertical-align: top; border-bottom: 1px solid rgba(38, 50, 63, .12); }
+table.t th { background: #f4f5f7; font-weight: 650; }
+code { font: 600 .9em "Cascadia Mono", Consolas, monospace; background: rgba(12, 102, 228, .08); padding: .05em .3em; border-radius: 4px; }
+pre code { background: none; padding: 0; font: inherit; }
+
+/* ---------- landing: the descent into the mine ---------- */
+#descente { overflow-x: clip; }
+.descent { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 2rem; }
+.shaft { position: sticky; top: 16vh; height: 64vh; display: flex; flex-direction: column; align-items: center; }
+.shaft .rope { position: relative; flex: 1; width: 6px; background: rgba(38, 50, 63, .12); border-radius: 3px; overflow: hidden; }
+.shaft .rope i { position: absolute; left: 0; top: 0; width: 100%; height: var(--depth, 0%); background: var(--o); border-radius: 3px; }
+.shaft .depth { margin-top: .6rem; font: 700 1.5rem var(--hand); white-space: nowrap; }
+.shaft .lamp { width: 44px; height: 44px; margin-bottom: .5rem; }
+.levels { display: flex; flex-direction: column; gap: 22vh; padding: 6vh 0 18vh; }
+.level { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 1.4rem; align-items: center; padding: 1.3rem 1.4rem;
+  background: rgba(255, 255, 255, .9); border: 1.6px solid rgba(38, 50, 63, .25); border-radius: var(--r-card); box-shadow: var(--shadow);
+  opacity: 0; transform: translateX(40px) rotate(.6deg); transition: opacity .7s ease, transform .8s var(--pop); }
+.level.in { opacity: 1; transform: none; }
+.level img { width: 150px; height: auto; transform: scale(.6) rotate(-8deg); transition: transform .9s var(--pop) .15s; }
+.level.in img { transform: none; }
+.level .m { font: 700 .9rem var(--hand); color: var(--ink-2); }
+.level h3 { margin: .1rem 0 .35rem; font: 700 1.45rem var(--hand); }
+.level .mine { margin: 0 0 .35rem; }
+.level .proj { margin: 0; color: var(--ink-2); }
+.level .proj b { color: var(--ink); }
+.surface { text-align: center; font: 700 1.3rem var(--hand); }
+
+/* ---------- landing: three commands in a terminal ---------- */
+.term { max-width: 760px; margin: 1.4rem auto 0; background: #14202b; border: 2px solid var(--ink); border-radius: var(--r-card);
+  box-shadow: 8px 8px 0 rgba(38, 50, 63, .16); overflow: hidden; }
+.term .tbar { display: flex; gap: .4rem; padding: .55rem .8rem; background: #1d2b38; }
+.term .tbar i { width: 11px; height: 11px; border-radius: 50%; background: var(--r); }
+.term .tbar i:nth-child(2) { background: var(--y); } .term .tbar i:nth-child(3) { background: var(--g); }
+.term pre { margin: 0; padding: 1rem 1.1rem 1.2rem; min-height: 9.5rem; color: #e8f1f8; font: 500 .92rem/1.7 "Cascadia Mono", Consolas, monospace;
+  white-space: pre-wrap; text-align: left; overflow-wrap: anywhere; }
+.term .ok { color: var(--g); }
+.center { text-align: center; }
+.center .sub { margin-left: auto; margin-right: auto; }
+.center .cta { justify-content: center; }
+
+@media (max-width: 900px) {
+  .descent { grid-template-columns: 1fr; }
+  .shaft { display: none; }
+  .levels { gap: 1.2rem; padding: 1rem 0; }
+  .level { grid-template-columns: 90px minmax(0, 1fr); }
+  .level img { width: 90px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .level, .level img { opacity: 1; transform: none; }
+}
+@media (max-width: 640px) {
+  .top { flex-wrap: wrap; gap: .4rem .8rem; }
+  .top nav { order: 3; width: 100%; margin-left: 0; }
+  .top .gh { margin-left: auto; padding: .45rem .8rem; }
+  .level { grid-template-columns: minmax(0, 1fr); transform: translateY(24px); }
+  .level > div { min-width: 0; }
+  .level img { width: 80px; }
+  table.t { display: block; overflow-x: auto; }
+}
+
+/* ---------- installation page ---------- */
+.install h2 { margin-top: 2.2rem; }
+.where { display: inline-block; padding: .05rem .5rem; border-radius: var(--r-hand); font: 700 .78rem var(--sans); vertical-align: .1em; }
+.where.pc { background: #e3eeff; color: #0a58ad; }
+.where.srv { background: #dcf7e6; color: #1a6e3e; }
+pre.cmd .where { position: absolute; top: .55rem; left: .8rem; border: 1.2px solid rgba(255, 255, 255, .5); }
+pre.cmd[data-where] { padding-top: 2.4rem; }
+pre.cmd { white-space: pre-wrap; overflow-wrap: anywhere; padding-right: 5.2rem; }
+.dest { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
+.dest-card { position: relative; display: flex; flex-direction: column; gap: .35rem; padding: 1rem 1.1rem 1.1rem; cursor: pointer;
+  background: #fff; border: 1.8px solid rgba(38, 50, 63, .3); border-radius: var(--r-card); box-shadow: var(--shadow);
+  transition: transform .2s var(--pop), border-color .2s; }
+.dest-card:hover { transform: translateY(-2px); }
+.dest-card.on { border-color: var(--blue); box-shadow: 5px 5px 0 #0b3f8f; }
+.dest-card input { position: absolute; opacity: 0; }
+.dest-card b { font: 700 1.15rem var(--hand); }
+.dest-card .tag { align-self: flex-start; padding: .05rem .5rem; border-radius: var(--r-hand); background: var(--y); font: 700 .75rem var(--sans); }
+.dest-card span:last-child { color: var(--ink-2); font-size: .93rem; }
+.dest-card:focus-within { outline: 3px solid var(--blue); outline-offset: 2px; }
+.agent { margin: 2rem 0 0; padding: 1.1rem 1.2rem; max-width: none; background: #fff7ef; border: 1.8px dashed var(--o); border-radius: var(--r-card); }
+.agent h2 { margin-top: 0; }
+.agent .opt { font: 600 .9rem var(--sans); color: var(--ink-2); }
+pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); border-color: var(--o); }
+.muted { color: var(--ink-2); font-size: .92rem; }
+.fill { padding: 0; max-width: none; }
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .9rem; }
+.fields label { display: flex; flex-direction: column; gap: .3rem; font-weight: 650; }
+.fields input { padding: .6rem .7rem; font: 500 1rem "Cascadia Mono", Consolas, monospace; border: 1.6px solid var(--ink);
+  border-radius: 8px; background: #fff; }
+.fields input:focus { outline: 3px solid color-mix(in srgb, var(--y) 80%, transparent); }
+.progress-bar { position: sticky; top: 80px; z-index: 5; display: flex; align-items: center; gap: .8rem; margin: 2rem 0 1rem;
+  padding: .5rem .8rem; background: rgba(252, 251, 247, .95); border: 1.4px solid rgba(38, 50, 63, .25); border-radius: 10px; }
+.progress-bar .track { flex: 1; height: 10px; border-radius: var(--r-hand); background: #eef1f5; overflow: hidden; }
+.progress-bar .track i { display: block; height: 100%; width: 0; background: var(--g); transition: width .5s var(--pop); }
+.progress-bar span { font: 700 .9rem var(--hand); min-width: 11.5rem; text-align: right; }
+.stepper > li.ok { border-color: var(--g); background: #f6fdf8; }
+.stepper > li.ok::before { content: "✓"; background: var(--g); }
+.expect { margin: .5rem 0 0; padding: .45rem .7rem; border-left: 4px solid var(--g); background: rgba(95, 208, 138, .1); border-radius: 6px; font-size: .94rem; }
+.done { display: inline-flex; align-items: center; gap: .45rem; margin-top: .8rem; padding: .3rem .7rem; font-weight: 650; cursor: pointer;
+  border: 1.4px solid rgba(38, 50, 63, .3); border-radius: var(--r-hand); background: #fff; }
+.done input { width: 1.1rem; height: 1.1rem; accent-color: var(--g); }
+.stepper details { margin-top: .6rem; }
+.stepper summary, .trouble summary { cursor: pointer; font-weight: 650; color: var(--blue); }
+.ph { opacity: .75; font-style: italic; }
+.os-tabs { display: flex; gap: .5rem; margin: 1.6rem 0 1rem; }
+.os-tabs button { padding: .5rem 1rem; font: 650 1rem var(--sans); border: 1.6px solid var(--ink); border-radius: var(--r-hand);
+  background: #fff; cursor: pointer; }
+.os-tabs button[aria-selected="true"] { background: var(--ink); color: #fff; }
+.trouble { margin: .6rem 0; padding: .7rem 1rem; background: #fff; border: 1.4px solid rgba(38, 50, 63, .25); border-radius: 10px; }
+.trouble p, .trouble pre { margin-bottom: 0; }
+@media (max-width: 640px) {
+  .progress-bar { top: 112px; }
+  .progress-bar span { min-width: 0; }
+}
+/* D-O-017: FR | EN switch in the top bar */
+.top .lang { margin-left: .2rem; padding: .3rem .55rem; border: 2px solid var(--ink); border-radius: 6px; color: var(--ink);
+  font-weight: 700; font-size: .85rem; text-decoration: none; }
+.top .lang:hover, .top .lang:focus-visible { background: var(--y, #ffd23f); }
+
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+<symbol id="i-dashboard" viewBox="0 0 24 24"><path d="M3.76 15.12C3.84 14.71 4.01 13.51 4.25 12.66C4.5 11.8 4.81 10.79 5.21 9.98C5.6 9.17 5.96 8.26 6.64 7.78C7.32 7.3 8.36 7.36 9.27 7.1C10.17 6.84 11.15 6.26 12.07 6.24C12.98 6.23 13.93 6.78 14.76 7.02C15.59 7.25 16.43 7.15 17.04 7.66C17.65 8.18 17.98 9.32 18.41 10.12C18.84 10.92 19.28 11.6 19.61 12.43C19.94 13.27 20.26 14.68 20.38 15.13" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.87 15.11C3.87 14.6 3.61 12.79 3.83 12.02C4.06 11.24 4.73 11.02 5.21 10.46C5.7 9.89 6.01 9.28 6.76 8.64C7.51 7.99 8.76 6.95 9.7 6.58C10.65 6.2 11.61 6.29 12.43 6.37C13.25 6.45 13.85 6.76 14.63 7.05C15.41 7.33 16.35 7.69 17.11 8.09C17.87 8.49 18.7 8.78 19.18 9.44C19.66 10.1 19.66 11.16 19.98 12.04C20.3 12.91 20.9 14.25 21.09 14.7" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M11.7 15.13Q14 12.39 16.17 9.54" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.43 14.8Q14.38 12.18 16.29 9.53" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M13.28 14.86C13.3 14.93 13.47 15.14 13.41 15.32C13.35 15.49 13.12 15.79 12.93 15.91C12.74 16.03 12.46 16.01 12.26 16.06C12.06 16.11 11.89 16.2 11.74 16.21C11.59 16.22 11.49 16.3 11.35 16.12C11.21 15.95 11.03 15.37 10.92 15.16C10.81 14.94 10.72 14.99 10.69 14.83C10.66 14.67 10.63 14.38 10.76 14.19C10.89 14.01 11.24 13.84 11.48 13.74C11.72 13.63 11.97 13.52 12.18 13.57C12.4 13.63 12.62 13.99 12.78 14.05C12.93 14.12 12.99 13.86 13.11 13.94C13.22 14.03 13.45 14.37 13.47 14.57C13.49 14.77 13.28 15.06 13.24 15.15" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.11 15.17C13.12 15.18 13.25 15 13.18 15.22C13.1 15.43 12.8 16.32 12.65 16.45C12.5 16.58 12.39 16 12.27 15.98C12.14 15.96 12.13 16.29 11.9 16.33C11.67 16.38 11.13 16.42 10.89 16.25C10.66 16.07 10.58 15.47 10.5 15.28C10.42 15.1 10.33 15.29 10.42 15.14C10.52 14.98 10.92 14.61 11.06 14.36C11.19 14.1 11.07 13.71 11.24 13.58C11.42 13.45 11.9 13.49 12.11 13.58C12.31 13.66 12.33 13.99 12.48 14.11C12.63 14.23 12.86 14.12 13.01 14.27C13.15 14.43 13.32 14.86 13.35 15.06C13.38 15.26 13.22 15.4 13.2 15.46" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M4.25 19.65Q12.11 19.58 19.97 19.4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.61 19.77Q12.31 19.8 20.01 19.81" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M6.42 9.47Q6.99 9.82 7.58 10.16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.95 9.38Q6.78 9.92 7.64 10.41" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M12.13 6.49Q12.16 7.37 12.22 8.25" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.85 7.13Q12.11 7.66 12.4 8.19" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M17.96 9.04Q17.24 9.66 16.52 10.28" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.02 9.02Q17.39 9.75 16.81 10.52" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M2.72 11.69Q7.41 7.81 12.21 4.06M11.58 3.93Q16.35 8.08 21.4 11.9" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.99 11.9Q7.69 8.31 11.83 4.06M11.77 4.24Q16.24 8.26 21.04 11.9" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M5.39 10.95Q12.15 10.83 18.91 10.76M18.37 10.9Q18.28 15.68 18.27 20.46M18.68 20.37Q11.93 20.15 5.19 20.38M5.57 20.95Q5.56 16.04 5.38 11.13" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.31 11.39Q11.95 11.61 18.59 11.38M18.9 11.36Q18.72 16.25 18.73 21.14M18.61 20.11Q12.06 19.7 5.51 20.1M5.25 20.64Q5.47 15.63 5.11 10.61" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M10.15 14.22Q12.1 14.48 14.06 14.68M13.69 14.63Q13.67 17.77 13.9 20.91M14.1 20.26Q12.19 20.48 10.29 20.62M10.38 20.72Q10.34 17.47 10.31 14.22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.21 14.53Q11.98 14.22 13.75 14.13M14.12 14.32Q14 17.47 13.48 20.62M13.84 20.27Q12.09 20.44 10.34 20.5M10.03 20.4Q10.07 17.55 9.96 14.7" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-goldmine" viewBox="0 0 24 24"><path d="M4.92 4.64Q11.92 4.43 18.92 4.67M18.74 4.47Q18.51 13.19 18.8 21.91M19.28 21.23Q12.1 21.62 4.92 21.45M4.92 21.29Q4.53 12.78 4.91 4.27" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.06 4.32Q12.4 3.99 19.75 4.62M19.39 4.23Q19.31 12.72 19.14 21.22M19.31 21.42Q11.82 21.22 4.32 21.23M5.01 21.43Q5.17 12.77 4.8 4.11" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M9.26 2.91Q12.36 2.83 15.47 3M14.9 2.4Q14.9 4.17 14.76 5.94M15.37 5.9Q12.2 5.91 9.04 6.16M8.79 5.86Q8.84 4.23 8.95 2.6" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.67 2.62Q11.72 2.74 14.77 2.51M15.25 3.17Q14.85 4.74 14.57 6.32M15.64 5.81Q12.18 5.83 8.73 5.88M9.1 6.41Q8.92 4.67 8.83 2.93" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M7.85 10.41Q8.65 11.09 9.52 11.72M9.31 11.55Q10.69 10.16 12 8.71" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.79 10.02Q8.69 10.92 9.52 11.89M9.4 12.13Q10.77 10.46 12.17 8.83" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M12.85 10.67Q14.77 10.64 16.7 10.7" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.89 10.56Q14.5 10.56 16.11 10.67" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M7.97 15.23Q8.64 15.99 9.29 16.75M9.42 16.81Q10.54 15.33 11.77 13.95" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.21 15.04Q8.56 15.75 9.01 16.36M9.62 16.43Q10.7 15.11 11.63 13.65" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M12.96 15.38Q14.78 15.57 16.6 15.63" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.26 15.98Q14.9 15.96 16.53 15.89" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-dynamite" viewBox="0 0 24 24"><path d="M2.79 6.64C3.58 6.32 5.99 4.78 7.55 4.73C9.11 4.69 11.4 6.1 12.17 6.38" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.82 6.25C3.64 6.05 6.27 5.01 7.73 5.02C9.19 5.03 10.92 6.09 11.56 6.31" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M11.91 6.1Q11.78 13.23 11.79 20.36" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6.33Q11.79 13.37 12.23 20.42" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M3.03 19.39C3.78 19.12 6.06 17.68 7.53 17.76C8.99 17.84 11.11 19.52 11.83 19.87" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.93 19.25C3.67 19.01 5.9 17.72 7.38 17.8C8.87 17.88 11.11 19.41 11.86 19.74" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M2.76 6.31Q2.56 12.98 2.93 19.65" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.89 6.15Q3.07 12.68 2.79 19.2" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M11.81 6.74C12.57 6.43 14.88 4.9 16.37 4.89C17.86 4.88 20.03 6.39 20.76 6.69" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.36 6.85C13.03 6.5 14.92 4.77 16.38 4.72C17.84 4.68 20.33 6.28 21.12 6.59" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M21.19 6.23Q21.22 12.92 20.75 19.61" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.74 5.98Q20.91 13.02 20.76 20.05" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M12.25 20.04C12.99 19.69 15.2 17.98 16.69 17.91C18.18 17.84 20.44 19.32 21.19 19.61" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.98 19.6C12.7 19.34 14.77 18.12 16.31 18.03C17.85 17.95 20.39 18.93 21.2 19.11" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M5.29 9.79Q7.29 9.87 9.29 10" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.65 9.65Q7.62 10.01 9.58 10.18" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M5.32 13Q7.29 12.89 9.26 12.84" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.32 12.57Q6.99 12.86 8.66 13" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M14.45 10.23Q16.44 10.23 18.43 10.08" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.01 10.37Q16.37 10.47 18.72 10.32" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M14.14 12.58Q16.48 12.56 18.82 12.54M19.13 12.55Q19.07 14.82 18.84 17.08M18.84 17.07Q16.41 17.17 13.99 17.23M13.92 17.4Q14.06 14.86 14.02 12.32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.66 12.67Q16.21 12.5 18.77 12.21M19.05 12.62Q19.19 14.73 19.25 16.84M18.95 17.2Q16.37 16.81 13.79 16.77M14.05 17.04Q13.98 14.78 13.89 12.53" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-agile" viewBox="0 0 24 24"><path d="M2.8 4.03Q12.19 4.18 21.59 3.86M21.03 3.88Q21.26 12 21.26 20.12M21.43 20.22Q12.23 19.61 3.02 19.75M3.04 20.24Q3.18 12.07 3.11 3.91" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.8 4.39Q11.95 4.62 21.09 4.44M21.08 3.95Q20.95 12.32 20.95 20.69M21.34 19.88Q11.81 19.87 2.29 20.32M2.67 20.87Q2.87 12.4 2.76 3.94" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M8.96 4.2Q9 11.87 9.23 19.55" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.06 3.68Q8.63 11.67 8.88 19.65" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M15.28 4.08Q14.83 11.87 15.03 19.65" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.67 4.27Q14.19 11.97 14.81 19.66" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M4.48 7.15Q6.14 6.91 7.8 6.77M7.5 7.1Q7.54 8.39 7.48 9.68M7.79 9.84Q6.2 9.68 4.62 9.64M4.32 9.84Q4.35 8.28 4.4 6.72" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.06 6.61Q5.89 6.62 7.71 6.7M7.21 6.85Q7.54 8.05 7.77 9.26M7.57 9.37Q5.82 9.57 4.07 9.75M4.49 9.99Q4.35 8.58 4.37 7.16" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M10.14 7.28Q11.96 7.18 13.79 7.09M13.4 7.01Q13.52 8.37 13.66 9.73M13.57 9.52Q11.89 9.65 10.21 9.87M10.38 9.47Q10.48 8.33 10.48 7.2" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.54 7.35Q11.88 7.09 13.23 6.67M13.75 6.55Q13.76 8.24 13.88 9.93M13.71 9.46Q12.14 9.4 10.57 9.41M10.23 9.68Q10.38 8.11 10.39 6.53" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M10.29 11.39Q12.15 11.32 14 11.18M13.39 11.19Q13.52 12.71 13.76 14.22M13.64 13.95Q12.05 13.83 10.46 13.75M10.51 13.8Q10.42 12.67 10.3 11.55" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.06 10.98Q11.72 10.99 13.38 11.06M13.88 11.81Q13.72 13.08 13.56 14.35M14.03 13.74Q12.07 13.92 10.1 14.24M10.58 13.89Q10.49 12.4 10.22 10.92" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M16.57 7.23Q18.15 7.24 19.74 7.13M19.68 6.7Q19.73 8.16 19.7 9.63M19.67 9.76Q18 9.62 16.34 9.34M16.31 9.8Q16.38 8.32 16.45 6.84" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.02 7.12Q18.02 7.04 20.02 7.1M19.33 7.16Q19.54 8.29 19.74 9.41M19.87 9.54Q18.21 9.33 16.56 9.24M16.23 9.45Q16.4 8.22 16.6 6.99" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-testing" viewBox="0 0 24 24"><path d="M2.84 4.72Q12.1 4.61 21.35 4.74M20.93 4.01Q21.03 10.4 21.03 16.8M21.68 16.69Q12.13 16.27 2.58 16.48M2.75 16.62Q2.76 10.34 2.88 4.06" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.82 4.11Q12.4 3.88 21.98 4.07M21.01 4.31Q21.16 10.39 20.73 16.47M21.74 16.09Q12.22 16.81 2.71 16.42M3.21 16.75Q3.28 10.35 3.11 3.94" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M4.96 10.97C5.19 10.32 5.79 7.09 6.36 7.08C6.94 7.06 7.72 9.65 8.43 10.89C9.13 12.13 9.91 14.65 10.6 14.54C11.29 14.43 11.91 11.38 12.55 10.23C13.19 9.09 13.8 7.55 14.45 7.68C15.1 7.8 15.68 10.41 16.44 10.96C17.2 11.52 18.59 11.01 19.02 11.02" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.2 10.78C5.48 10.16 6.26 7.07 6.87 7.04C7.48 7.02 8.23 9.33 8.88 10.61C9.52 11.9 10.11 14.7 10.75 14.75C11.39 14.8 12.02 12.2 12.7 10.93C13.37 9.66 14.2 7.17 14.81 7.13C15.41 7.09 15.59 9.99 16.31 10.69C17.04 11.38 18.67 11.2 19.15 11.3" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M6.93 16.58Q6.63 18.52 6.19 20.42" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.22 16.39Q6.88 18.12 6.35 19.79" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M17.02 16.93Q17.56 18.62 18.24 20.27" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.28 16.96Q17.85 18.34 18.21 19.78" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M4.15 20.25Q11.72 20.51 19.29 20.43" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.01 20.43Q11.87 19.87 19.72 20.35" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M3.52 5.08Q11.88 5.46 20.25 5.31M20.33 5.39Q20.42 10.78 20.65 16.18M20.41 15.54Q11.84 16.1 3.28 16.01M3.67 15.81Q3.44 10.5 3.54 5.19" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.83 5.37Q11.82 4.47 20.82 4.76M20.59 5.53Q20.64 10.68 20.31 15.82M21.08 15.58Q12.22 15.46 3.36 15.89M3.34 15.97Q3.42 10.53 3.69 5.08" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-exploration" viewBox="0 0 24 24"><path d="M3.69 3.57Q3.15 12.31 3.24 21.05" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.19 3.03Q3.82 12.01 3.78 20.99" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M3.42 20.41Q11.99 20.2 20.56 20.64" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.77 20.75Q11.93 20.4 21.09 20.22" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M5.19 4.92Q9.23 4.98 13.26 5.02M12.72 4.99Q12.98 6.37 13.22 7.75M12.89 7.8Q8.98 7.69 5.06 7.61M4.84 7.86Q5.09 6.35 5.24 4.83" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.32 5.09Q9.16 4.8 13 5.08M12.69 5.15Q12.72 6.65 12.72 8.15M12.86 7.57Q9.1 7.84 5.34 7.57M5.08 8.02Q4.88 6.6 4.57 5.18" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M9.09 10.24Q13.6 10.1 18.11 10.06M18.03 10Q18.1 11.54 18.25 13.08M18.23 12.73Q13.55 12.66 8.87 12.88M9.03 13.2Q9.04 11.77 9.16 10.33" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.34 9.89Q13.27 9.84 18.21 9.99M18.13 10.54Q17.98 11.7 17.91 12.85M17.92 12.76Q13.57 12.6 9.22 12.91M9.27 13.39Q9.04 11.89 8.62 10.39" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M13.8 15.54Q16.95 15.52 20.09 15.46M20.26 15.43Q20.06 16.88 19.83 18.33M19.99 18.16Q16.83 18.03 13.67 18M13.97 18.47Q14.12 16.95 14.14 15.43" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.92 15.16Q17.01 15.56 20.1 15.73M19.64 14.97Q19.78 16.42 20.01 17.87M20.37 18.33Q17.02 18.31 13.66 18.04M14.03 18.14Q14.11 16.91 14.23 15.68" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M12.92 7.96Q13.01 9.18 13.22 10.39" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.28 7.75Q13.1 8.97 12.98 10.19" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-tools" viewBox="0 0 24 24"><path d="M11.95 4.24Q8.59 12.47 5.74 20.88" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.81 4.49Q8.4 12.35 5.8 20.51" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M12.06 3.86Q14.87 12.43 17.98 20.88" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.68 3.99Q14.84 12.26 18.24 20.44" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M13.73 4.23C13.73 4.33 13.88 4.63 13.73 4.83C13.58 5.04 13.11 5.35 12.82 5.48C12.54 5.62 12.3 5.59 12.04 5.64C11.79 5.68 11.5 5.77 11.28 5.76C11.05 5.75 10.87 5.73 10.68 5.58C10.5 5.43 10.18 5.09 10.15 4.84C10.11 4.59 10.44 4.35 10.49 4.08C10.53 3.81 10.26 3.48 10.41 3.24C10.56 3.01 11.16 2.78 11.39 2.65C11.61 2.51 11.53 2.42 11.76 2.43C12 2.45 12.53 2.63 12.79 2.73C13.04 2.83 13.15 2.86 13.29 3.04C13.43 3.21 13.54 3.5 13.62 3.79C13.7 4.07 13.75 4.58 13.78 4.74" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.37 3.93C13.41 4.08 13.71 4.54 13.59 4.84C13.48 5.14 12.9 5.49 12.67 5.74C12.45 5.99 12.48 6.34 12.22 6.33C11.97 6.32 11.4 5.89 11.16 5.67C10.93 5.45 10.91 5.17 10.81 5.01C10.71 4.84 10.58 4.86 10.56 4.7C10.55 4.54 10.64 4.31 10.7 4.03C10.76 3.75 10.81 3.28 10.91 3.01C11.01 2.75 11.19 2.49 11.32 2.46C11.44 2.44 11.42 2.79 11.66 2.87C11.9 2.94 12.49 2.83 12.75 2.92C13 3.01 13.06 3.19 13.19 3.39C13.32 3.58 13.39 3.85 13.52 4.09C13.65 4.32 13.91 4.67 13.99 4.79" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M15.08 17.61C14.98 17.7 14.66 18.1 14.49 18.17C14.31 18.23 14.21 18 14.03 18.01C13.84 18.02 13.58 18.13 13.37 18.22C13.16 18.31 13.01 18.5 12.76 18.55C12.5 18.6 12.07 18.57 11.85 18.53C11.63 18.49 11.61 18.35 11.45 18.3C11.29 18.25 11.15 18.2 10.9 18.21C10.64 18.21 10.1 18.39 9.93 18.33C9.77 18.27 10 17.94 9.89 17.86C9.77 17.77 9.35 17.83 9.25 17.82" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.62 17.38C14.58 17.4 14.48 17.4 14.37 17.53C14.25 17.66 14.08 18.03 13.93 18.15C13.77 18.28 13.68 18.24 13.44 18.28C13.21 18.33 12.82 18.38 12.51 18.41C12.2 18.44 11.76 18.39 11.59 18.47C11.43 18.55 11.67 18.91 11.54 18.88C11.4 18.86 11.06 18.43 10.77 18.32C10.48 18.21 10.03 18.27 9.78 18.21C9.52 18.15 9.36 18.06 9.25 17.95C9.13 17.84 9.13 17.61 9.1 17.55" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M3.79 19.96Q11.92 20.43 20.05 20.45M19.74 20.29Q19.78 21.19 19.82 22.09M20.15 21.53Q12.13 21.37 4.12 21.84M3.75 22.02Q3.77 20.96 3.81 19.91" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.57 20.12Q12.14 20.46 20.71 20.47M19.68 20.52Q19.98 21.28 20.23 22.03M20.73 21.4Q11.99 21.5 3.25 21.98M4.35 22Q3.97 21.03 3.59 20.06" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-training" viewBox="0 0 24 24"><path d="M9.04 17.14C9 16.66 9.16 15.16 8.78 14.26C8.4 13.37 6.98 12.98 6.76 11.77C6.54 10.55 6.63 8.25 7.46 6.97C8.29 5.68 10.12 4.13 11.72 4.07C13.32 4.01 16.06 5.32 17.05 6.59C18.04 7.86 18 10.46 17.66 11.7C17.33 12.95 15.5 13.17 15.06 14.06C14.62 14.95 15.03 16.54 15.02 17.04" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.25 17.33C9.1 16.74 8.8 14.79 8.36 13.79C7.92 12.78 6.85 12.39 6.61 11.3C6.37 10.21 5.99 8.36 6.91 7.24C7.84 6.11 10.49 4.57 12.16 4.56C13.83 4.56 16.11 6.02 16.93 7.19C17.76 8.35 17.45 10.45 17.1 11.55C16.76 12.65 15.2 12.84 14.83 13.78C14.46 14.73 14.88 16.64 14.89 17.21" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M9.24 17.07Q12.02 16.99 14.8 16.75" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.77 17.27Q11.94 17.16 15.1 16.91" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M9.42 19.87Q11.82 19.69 14.22 19.57" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.12 20.03Q12.16 20.08 14.2 20.01" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M13.55 7.34Q12.25 9.41 10.83 11.4M10.58 11.61Q11.7 11.38 12.81 11.21M12.45 11.14Q12.05 13.02 11.53 14.86M11.54 15.22Q12.97 12.84 14.37 10.42M14.74 10.29Q13.57 10.52 12.4 10.71M12.44 10.51Q12.78 8.95 13.22 7.41" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.44 7.13Q11.87 9.37 10.28 11.6M10.31 11.57Q11.61 11.53 12.91 11.46M12.72 11.34Q12.35 13.06 11.74 14.7M10.99 15.03Q12.73 12.7 14.71 10.54M14.56 10.28Q13.61 10.52 12.67 10.66M12.78 10.87Q13.18 9.06 13.39 7.2" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-timesheet" viewBox="0 0 24 24"><path d="M19.93 12.48C19.76 13.11 19.41 15.11 18.9 16.26C18.39 17.41 17.8 18.76 16.87 19.41C15.94 20.05 14.53 20.02 13.34 20.13C12.15 20.25 10.9 20.39 9.71 20.09C8.52 19.79 7.15 19.14 6.22 18.34C5.28 17.54 4.49 16.44 4.1 15.28C3.71 14.12 3.67 12.6 3.87 11.37C4.06 10.13 4.56 8.92 5.25 7.86C5.94 6.8 6.96 5.64 8.02 5C9.07 4.37 10.38 4.03 11.57 4.05C12.75 4.07 14.02 4.57 15.14 5.11C16.27 5.66 17.56 6.41 18.32 7.34C19.08 8.28 19.39 9.56 19.72 10.74C20.04 11.92 20.18 13.83 20.27 14.45" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.16 12.13C19.99 12.76 19.72 14.66 19.16 15.93C18.6 17.2 17.69 18.99 16.79 19.74C15.89 20.5 15.02 20.3 13.76 20.46C12.49 20.62 10.44 20.95 9.2 20.69C7.96 20.44 7.1 19.88 6.32 18.91C5.53 17.94 4.9 16.05 4.48 14.87C4.06 13.68 3.62 12.93 3.8 11.79C3.99 10.65 4.9 9.17 5.59 8.02C6.29 6.86 6.9 5.55 7.96 4.87C9.02 4.18 10.68 3.9 11.95 3.91C13.21 3.92 14.41 4.41 15.57 4.93C16.72 5.46 18.09 6.09 18.87 7.07C19.65 8.04 19.99 9.61 20.22 10.79C20.46 11.97 20.28 13.6 20.29 14.17" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M11.91 12.86Q11.98 10.12 12.26 7.37" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.21 12.48Q11.99 10.01 11.71 7.54" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M12.03 12.49Q14.05 13.46 16.02 14.53" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.73 12.75Q13.82 13.8 15.99 14.68" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M9.55 2.79Q12.09 2.77 14.64 2.59" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.47 3.18Q11.82 2.96 14.17 3.11" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-help" viewBox="0 0 24 24"><path d="M21.19 12.26C21.06 12.94 21.08 15.17 20.44 16.3C19.8 17.42 18.53 18.33 17.36 19.03C16.18 19.73 14.71 20.26 13.41 20.49C12.12 20.73 10.83 20.76 9.58 20.45C8.32 20.14 6.89 19.56 5.86 18.66C4.82 17.76 3.76 16.38 3.37 15.07C2.98 13.77 3.32 12.21 3.52 10.85C3.73 9.49 3.91 8.07 4.6 6.92C5.3 5.77 6.53 4.59 7.7 3.93C8.86 3.26 10.22 2.96 11.57 2.92C12.91 2.88 14.51 3.15 15.77 3.68C17.03 4.21 18.31 5.01 19.15 6.11C19.98 7.21 20.51 8.97 20.78 10.29C21.05 11.61 20.78 13.39 20.78 14.01" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M21.5 11.58C21.18 12.34 20.3 14.84 19.58 16.17C18.86 17.5 18.14 18.83 17.16 19.58C16.18 20.33 15.07 20.37 13.71 20.66C12.35 20.94 10.26 21.67 9.01 21.28C7.75 20.9 7.14 19.45 6.18 18.35C5.22 17.24 3.75 15.84 3.25 14.66C2.75 13.48 2.92 12.58 3.18 11.25C3.43 9.93 3.97 7.81 4.79 6.72C5.62 5.63 7.08 5.35 8.15 4.7C9.21 4.06 9.94 3.1 11.18 2.85C12.43 2.6 14.35 2.61 15.64 3.2C16.94 3.79 18.07 5.15 18.95 6.37C19.82 7.6 20.5 9.21 20.87 10.55C21.24 11.9 21.12 13.79 21.17 14.44" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M9.42 9.56C9.53 9.19 9.64 7.74 10.08 7.36C10.52 6.98 11.31 7.11 12.07 7.27C12.84 7.44 14.34 7.73 14.68 8.33C15.03 8.93 14.54 10.19 14.12 10.89C13.71 11.6 12.51 12.01 12.2 12.56C11.88 13.1 12.23 13.9 12.24 14.17" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.8 9.68C8.96 9.35 9.26 8.17 9.78 7.68C10.3 7.2 11.06 6.67 11.93 6.77C12.79 6.86 14.53 7.52 14.96 8.24C15.39 8.96 14.96 10.4 14.51 11.11C14.07 11.81 12.64 11.88 12.29 12.46C11.94 13.04 12.4 14.24 12.42 14.6" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M12.39 16.78C12.38 16.85 12.37 17.09 12.35 17.24C12.32 17.38 12.31 17.59 12.23 17.65C12.14 17.71 11.94 17.55 11.85 17.57C11.76 17.59 11.69 17.82 11.67 17.78C11.66 17.74 11.81 17.47 11.76 17.35C11.71 17.23 11.46 17.13 11.36 17.07C11.27 17.01 11.15 17.03 11.18 16.99C11.2 16.94 11.47 16.85 11.53 16.8C11.58 16.76 11.43 16.76 11.51 16.71C11.59 16.67 11.9 16.55 12 16.53C12.09 16.51 11.99 16.6 12.08 16.57C12.18 16.54 12.53 16.33 12.58 16.34C12.64 16.35 12.45 16.55 12.42 16.65C12.38 16.76 12.39 16.9 12.38 16.95" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.68 17.31C12.67 17.28 12.7 17.05 12.62 17.13C12.54 17.21 12.38 17.68 12.22 17.82C12.06 17.96 11.69 17.99 11.68 17.96C11.67 17.93 12.18 17.77 12.15 17.63C12.11 17.5 11.56 17.24 11.47 17.17C11.38 17.09 11.58 17.18 11.6 17.2C11.63 17.23 11.69 17.44 11.63 17.32C11.58 17.21 11.29 16.63 11.26 16.5C11.23 16.36 11.32 16.47 11.47 16.49C11.61 16.5 12 16.57 12.11 16.6C12.22 16.62 12.13 16.59 12.12 16.64C12.11 16.69 12.03 16.87 12.04 16.88C12.04 16.89 12.03 16.62 12.16 16.71C12.29 16.8 12.73 17.3 12.84 17.42" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><path d="M16.62 10.42C16.54 10.93 16.49 12.58 16.12 13.47C15.74 14.37 15.11 15.23 14.39 15.79C13.67 16.34 12.76 16.69 11.81 16.82C10.86 16.95 9.59 16.92 8.69 16.58C7.78 16.23 7.06 15.39 6.36 14.76C5.66 14.13 4.85 13.6 4.46 12.8C4.08 12 3.85 10.9 4.03 9.95C4.22 9 4.97 7.9 5.55 7.08C6.13 6.25 6.77 5.49 7.51 5.01C8.25 4.54 9.09 4.22 10.01 4.22C10.92 4.22 12.08 4.62 13.01 5.01C13.94 5.4 15 5.93 15.57 6.58C16.14 7.23 16.26 8.02 16.42 8.91C16.58 9.81 16.53 11.46 16.55 11.97" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.71 10.73C16.62 11.19 16.52 12.65 16.16 13.49C15.79 14.34 15.31 15.27 14.53 15.78C13.76 16.28 12.53 16.43 11.51 16.51C10.48 16.6 9.24 16.56 8.39 16.29C7.54 16.03 7.16 15.57 6.43 14.91C5.7 14.25 4.43 13.23 4.02 12.33C3.61 11.43 3.68 10.34 3.97 9.53C4.25 8.72 5.11 8.19 5.73 7.46C6.36 6.73 6.94 5.68 7.72 5.15C8.49 4.61 9.57 4.28 10.4 4.25C11.24 4.22 11.88 4.58 12.72 4.98C13.55 5.37 14.71 6 15.42 6.65C16.13 7.3 16.82 7.91 16.98 8.87C17.14 9.82 16.48 11.8 16.38 12.39" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M14.89 15.23Q17.85 17.9 20.8 20.59" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.72 14.86Q17.67 17.86 20.55 20.93" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-audit" viewBox="0 0 24 24"><path d="M3.44 6.24Q7.88 6 12.31 5.79" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.08 5.89Q7.45 6.33 11.82 6.19" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M3.56 9.8Q6.97 10.02 10.38 10.27" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.68 9.95Q6.79 9.69 9.9 9.62" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M3.65 14.23Q5.93 14.05 8.2 13.73" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.69 14.36Q5.87 14.04 8.05 13.71" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M19.14 14.77C19.08 15.1 19.09 16.18 18.78 16.77C18.47 17.36 17.74 17.94 17.28 18.3C16.81 18.67 16.55 18.83 16 18.98C15.46 19.13 14.69 19.36 14.01 19.2C13.32 19.04 12.39 18.44 11.9 18.03C11.41 17.61 11.24 17.27 11.06 16.7C10.88 16.12 10.76 15.23 10.81 14.56C10.87 13.9 11 13.22 11.39 12.7C11.77 12.17 12.58 11.78 13.13 11.42C13.67 11.07 14.06 10.63 14.68 10.56C15.29 10.49 16.23 10.68 16.83 11.02C17.43 11.35 17.9 12.09 18.28 12.57C18.65 13.05 18.99 13.31 19.1 13.9C19.22 14.5 19.01 15.76 18.99 16.13" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.27 15.19C19.13 15.47 18.71 16.41 18.44 16.89C18.16 17.37 18 17.72 17.62 18.08C17.24 18.43 16.78 18.95 16.16 19.02C15.54 19.1 14.63 18.66 13.9 18.54C13.16 18.42 12.29 18.62 11.72 18.3C11.15 17.98 10.66 17.32 10.48 16.62C10.31 15.92 10.48 14.78 10.66 14.09C10.85 13.41 11.25 12.95 11.61 12.51C11.96 12.07 12.27 11.83 12.79 11.46C13.3 11.08 13.97 10.29 14.7 10.25C15.42 10.22 16.46 10.98 17.13 11.27C17.8 11.56 18.34 11.48 18.71 12.01C19.08 12.54 19.36 13.84 19.35 14.45C19.33 15.05 18.74 15.44 18.62 15.64" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M17.89 18.08Q19.46 19.68 20.94 21.36" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.08 18.33Q19.77 19.47 21.45 20.62" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-auditlist" viewBox="0 0 24 24"><path d="M3.32 7.15Q4.16 7.72 4.96 8.34M5.02 8.84Q6.31 7.17 7.69 5.59" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.61 7.18Q4.42 8.05 5.28 8.88M5.01 8.76Q6.18 7.09 7.36 5.43" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M9.87 7.2Q15.15 6.89 20.43 6.78" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 6.8Q15.42 6.53 20.85 6.79" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M3.74 12.73Q4.53 13.3 5.3 13.87M5.13 14.17Q6.43 12.84 7.67 11.44" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.83 12.54Q4.58 13.14 5.37 13.71M4.88 14.46Q5.97 12.89 7.25 11.5" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M9.77 12.33Q15.45 12.72 21.13 12.76" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.39 12.56Q15.03 12.42 20.66 12.47" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M6.84 18.07C6.84 18.18 6.9 18.55 6.84 18.76C6.77 18.97 6.66 19.12 6.45 19.34C6.23 19.55 5.76 19.94 5.53 20.05C5.3 20.16 5.25 20.09 5.07 20.01C4.9 19.92 4.69 19.76 4.47 19.56C4.26 19.35 3.91 18.99 3.79 18.77C3.68 18.54 3.76 18.47 3.78 18.22C3.8 17.97 3.78 17.47 3.94 17.25C4.09 17.04 4.49 17.01 4.73 16.93C4.96 16.86 5.11 16.8 5.33 16.8C5.55 16.79 5.76 16.8 6.04 16.9C6.33 17 6.87 17.18 7.02 17.38C7.16 17.59 6.93 17.9 6.92 18.11C6.91 18.32 6.95 18.54 6.95 18.62" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.65 18.64C6.72 18.72 7.07 19 7.07 19.1C7.07 19.2 6.8 19.16 6.65 19.23C6.5 19.31 6.38 19.52 6.17 19.55C5.97 19.58 5.69 19.4 5.41 19.43C5.12 19.45 4.74 19.74 4.45 19.7C4.16 19.66 3.7 19.47 3.66 19.17C3.63 18.87 4.11 18.14 4.26 17.92C4.4 17.69 4.49 17.96 4.54 17.82C4.59 17.68 4.45 17.34 4.57 17.1C4.69 16.85 4.91 16.48 5.24 16.36C5.57 16.25 6.27 16.24 6.55 16.43C6.83 16.62 6.85 17.24 6.93 17.52C7.02 17.8 7.08 17.87 7.06 18.1C7.04 18.33 6.84 18.76 6.79 18.89" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M9.78 18.54Q13.47 18.37 17.16 18.38" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.79 18.09Q13.68 18.38 17.56 18.58" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-admin" viewBox="0 0 24 24"><path d="M20.72 10.13Q20.65 11.98 20.61 13.83M20.52 13.46Q19.49 13.47 18.47 13.46M18.45 13.28Q18.08 14.53 17.69 15.78M17.82 15.89Q18.36 16.27 18.91 16.64M19.28 16.73Q18.05 17.98 16.86 19.27M16.89 19.15Q16.3 18.37 15.74 17.57M15.5 17.69Q14.38 18.25 13.26 18.8M13.68 18.86Q13.53 19.56 13.29 20.27M13.66 20.2Q11.97 20.27 10.29 20.19M10.53 20.47Q10.46 19.64 10.3 18.8M10.88 18.39Q9.52 17.93 8.15 17.5M8.51 17.63Q7.92 18.33 7.29 19.02M7.1 19.36Q6.08 18.18 5.07 17M4.78 17.04Q5.53 16.23 6.27 15.41M6.43 15.67Q5.79 14.55 5.21 13.4M5.28 13.46Q4.38 13.61 3.47 13.73M3.63 13.46Q3.65 11.85 3.78 10.24M3.49 10.53Q4.33 10.51 5.16 10.58M5.17 10.42Q5.77 9.25 6.36 8.07M6.09 8.39Q5.5 7.6 4.87 6.87M5.09 7.19Q5.98 6.14 6.9 5.1M7 4.68Q7.52 5.55 8.07 6.38M8.18 6.14Q9.44 5.7 10.67 5.17M10.37 5.48Q10.26 4.47 10.2 3.46M10.61 3.44Q12.07 3.5 13.52 3.6M13.43 3.29Q13.42 4.25 13.38 5.2M13.52 5.43Q14.64 5.76 15.71 6.18M15.5 6.26Q16.26 5.68 17.02 5.1M16.75 4.76Q18.03 5.95 19.25 7.2M19.23 7.36Q18.42 7.74 17.6 8.1M17.46 8.14Q18.09 9.46 18.81 10.74M18.37 10.74Q19.39 10.56 20.41 10.31" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.35 10.88Q20.49 12.08 20.62 13.27M20.85 13.68Q19.76 13.49 18.67 13.31M18.31 13.57Q18.2 14.46 18.04 15.34M17.86 15.77Q18.4 16.32 18.87 16.95M18.91 16.87Q18.14 18.21 17.26 19.45M16.81 19.47Q16.36 18.69 15.93 17.89M15.52 18.03Q14.48 18.22 13.45 18.43M13.36 18.41Q13.49 19.52 13.51 20.64M13.76 20.63Q12.08 20.52 10.4 20.36M10.63 20.79Q10.71 19.82 10.72 18.85M10.43 18.87Q9.58 18.33 8.67 17.93M8.5 17.9Q7.61 18.34 6.75 18.8M6.93 19.07Q5.92 18.22 5.05 17.23M5.29 16.85Q5.79 16 6.38 15.25M6.12 15.45Q5.81 14.58 5.41 13.76M5.66 13Q4.78 13.3 3.91 13.54M3.67 13.12Q3.6 11.52 3.34 9.93M3.34 10.56Q4.35 10.58 5.37 10.51M4.89 10.15Q5.45 9.22 6 8.29M6.38 8.03Q5.46 7.73 4.58 7.4M5.04 7.45Q6.02 5.92 7.16 4.54M6.75 4.9Q7.75 5.7 8.73 6.51M8.46 6.1Q9.66 5.62 10.91 5.25M10.34 5Q10.56 4.03 10.85 3.06M10.61 3.69Q12.29 3.8 13.98 3.92M13.11 3.33Q13.46 4.5 13.85 5.68M13.78 5.39Q14.7 5.97 15.63 6.54M15.64 6.75Q16.45 5.73 17.33 4.77M16.66 4.64Q17.83 5.93 19.03 7.2M19.01 7.09Q18.19 7.57 17.42 8.11M18.13 8.64Q18.55 9.57 19.07 10.46M18.7 10.83Q19.75 10.6 20.79 10.24" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M14.56 11.84C14.56 12.04 14.66 12.62 14.55 13.06C14.44 13.51 14.28 14.23 13.93 14.51C13.58 14.79 12.92 14.75 12.45 14.76C11.98 14.76 11.48 14.7 11.09 14.55C10.7 14.4 10.38 14.15 10.1 13.85C9.82 13.56 9.58 13.13 9.41 12.79C9.24 12.44 9.07 12.15 9.09 11.78C9.12 11.42 9.26 10.92 9.54 10.58C9.83 10.25 10.41 10.02 10.8 9.75C11.19 9.49 11.46 9.01 11.87 8.98C12.27 8.95 12.87 9.36 13.22 9.58C13.56 9.8 13.69 9.96 13.91 10.29C14.13 10.63 14.45 11.21 14.56 11.58C14.66 11.94 14.54 12.32 14.54 12.47" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.26 11.84C15.05 12.03 14.23 12.52 14.04 12.99C13.84 13.46 14.41 14.35 14.09 14.65C13.76 14.94 12.53 14.71 12.07 14.76C11.61 14.8 11.73 15.1 11.34 14.93C10.96 14.77 10.15 14.13 9.78 13.79C9.4 13.45 9.14 13.28 9.1 12.92C9.06 12.56 9.36 12.02 9.53 11.65C9.71 11.28 9.99 10.97 10.13 10.71C10.28 10.44 10.12 10.28 10.41 10.07C10.71 9.86 11.46 9.53 11.89 9.44C12.32 9.35 12.6 9.4 13 9.51C13.4 9.62 14 9.83 14.29 10.09C14.59 10.35 14.72 10.63 14.74 11.08C14.76 11.52 14.49 12.49 14.43 12.77" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-mine" viewBox="0 0 24 24"><path d="M15.4 8.26C15.41 8.53 15.67 9.38 15.43 9.88C15.19 10.37 14.45 10.95 13.97 11.23C13.48 11.51 13.08 11.44 12.54 11.55C12.01 11.67 11.28 12.03 10.76 11.9C10.23 11.78 9.74 11.16 9.38 10.79C9.02 10.42 8.68 10.22 8.58 9.67C8.48 9.13 8.7 8.13 8.77 7.53C8.85 6.94 8.8 6.49 9.03 6.1C9.26 5.7 9.75 5.4 10.18 5.16C10.6 4.92 11.07 4.67 11.6 4.66C12.13 4.65 12.8 4.95 13.35 5.1C13.9 5.26 14.52 5.23 14.9 5.6C15.28 5.97 15.54 6.76 15.62 7.33C15.7 7.9 15.44 8.74 15.4 9.03" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.64 8.22C15.58 8.54 15.48 9.67 15.28 10.13C15.08 10.58 14.95 10.61 14.46 10.94C13.96 11.28 12.91 11.99 12.31 12.12C11.7 12.26 11.28 11.98 10.83 11.76C10.37 11.54 10 11.22 9.57 10.82C9.13 10.43 8.41 9.95 8.22 9.39C8.02 8.82 8.22 7.89 8.41 7.42C8.6 6.96 9.06 7.03 9.37 6.62C9.67 6.2 9.85 5.23 10.24 4.95C10.64 4.67 11.18 4.95 11.74 4.93C12.3 4.91 13.14 4.62 13.62 4.82C14.11 5.02 14.34 5.74 14.65 6.13C14.97 6.52 15.37 6.62 15.53 7.15C15.69 7.68 15.61 8.95 15.62 9.31" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M5.02 19.79C5.23 19.02 5.15 16.26 6.27 15.19C7.4 14.13 9.82 13.42 11.77 13.41C13.72 13.39 16.74 14 17.98 15.11C19.22 16.23 19 19.25 19.2 20.07" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.81 19.85C5.1 19.1 5.35 16.4 6.55 15.38C7.75 14.37 10.15 13.82 12 13.77C13.85 13.72 16.42 14.13 17.64 15.09C18.87 16.06 19.08 18.82 19.37 19.56" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-mention" viewBox="0 0 24 24"><path d="M15.52 11.97C15.45 12.24 15.35 13.09 15.12 13.61C14.89 14.13 14.5 14.74 14.12 15.1C13.74 15.47 13.33 15.67 12.83 15.79C12.34 15.91 11.74 15.97 11.15 15.8C10.56 15.63 9.71 15.25 9.28 14.77C8.84 14.29 8.69 13.48 8.55 12.93C8.42 12.39 8.42 11.96 8.45 11.5C8.47 11.04 8.37 10.61 8.69 10.15C9.02 9.69 9.85 9 10.39 8.74C10.93 8.47 11.46 8.59 11.93 8.55C12.4 8.51 12.75 8.29 13.22 8.49C13.69 8.69 14.39 9.24 14.75 9.74C15.12 10.24 15.3 10.96 15.4 11.48C15.5 12.01 15.36 12.64 15.35 12.88" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.81 11.89C15.72 12.16 15.55 12.94 15.29 13.47C15.03 14.01 14.66 14.78 14.24 15.13C13.82 15.47 13.37 15.55 12.75 15.54C12.13 15.53 11.03 15.21 10.51 15.08C9.99 14.95 9.94 15.03 9.63 14.76C9.32 14.5 8.85 14.09 8.64 13.51C8.43 12.92 8.32 11.94 8.35 11.28C8.38 10.62 8.47 9.96 8.81 9.54C9.16 9.12 9.92 8.92 10.41 8.76C10.9 8.61 11.31 8.68 11.76 8.63C12.21 8.58 12.62 8.23 13.11 8.48C13.6 8.73 14.27 9.65 14.71 10.13C15.15 10.62 15.6 10.98 15.76 11.41C15.91 11.83 15.66 12.46 15.64 12.67" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M15.78 12.16C15.77 12.77 15.17 15.31 15.74 15.83C16.31 16.35 18.51 15.96 19.21 15.27C19.92 14.58 20.12 13.35 19.98 11.69C19.83 10.04 19.72 6.67 18.35 5.33C16.99 3.99 14.02 3.46 11.8 3.66C9.58 3.86 6.42 4.9 5.04 6.51C3.67 8.11 3.13 11.17 3.54 13.3C3.94 15.44 5.72 18.14 7.46 19.3C9.21 20.47 12.91 20.15 14 20.32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.57 12.04C15.68 12.56 15.64 14.55 16.24 15.16C16.83 15.76 18.41 16.28 19.14 15.68C19.87 15.09 20.72 13.28 20.63 11.58C20.54 9.87 20 6.83 18.62 5.43C17.24 4.04 14.62 3.04 12.35 3.23C10.09 3.42 6.38 4.99 5.01 6.6C3.64 8.21 3.77 10.77 4.12 12.9C4.48 15.03 5.49 18.18 7.16 19.37C8.82 20.57 12.95 19.94 14.11 20.06" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-generator" viewBox="0 0 24 24"><path d="M5.28 2.92Q12 2.73 18.73 3.13M18.61 2.59Q18.81 11.97 18.71 21.35M18.87 21.27Q12.07 20.86 5.28 20.79M5.3 21.27Q5.5 11.95 5.58 2.63" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 3.19Q11.98 2.55 18.45 2.67M18.9 2.56Q18.68 11.96 18.83 21.35M18.64 20.91Q11.85 21.34 5.05 20.87M5.72 21.38Q5.08 11.94 5.08 2.49" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M8.73 7.57Q12.09 7.48 15.45 7.28" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.46 7.25Q12.17 7.44 15.88 7.84" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M8.13 10.43Q10.84 10.25 13.56 10.25" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.42 10.57Q11.12 10.49 13.81 10.58" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M17.52 16.35C17.43 16.59 17.22 17.41 16.99 17.78C16.76 18.15 16.47 18.35 16.14 18.59C15.81 18.84 15.39 19.2 15.03 19.26C14.66 19.32 14.38 19.12 13.94 18.95C13.5 18.78 12.73 18.47 12.39 18.24C12.06 18.01 12.01 17.92 11.91 17.57C11.82 17.22 11.74 16.59 11.82 16.16C11.91 15.73 12.18 15.32 12.41 14.99C12.63 14.66 12.82 14.35 13.18 14.16C13.55 13.96 14.17 13.83 14.59 13.8C15 13.76 15.34 13.76 15.66 13.95C15.97 14.13 16.27 14.61 16.49 14.9C16.71 15.2 16.83 15.28 16.98 15.7C17.13 16.11 17.34 17.12 17.41 17.4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.9 16.69C17 16.82 17.61 17.06 17.5 17.45C17.39 17.83 16.73 18.75 16.24 18.99C15.74 19.23 15 18.9 14.53 18.88C14.06 18.87 13.74 18.91 13.4 18.9C13.06 18.89 12.77 19.02 12.48 18.83C12.2 18.63 11.8 18.18 11.72 17.72C11.64 17.26 11.96 16.51 12.02 16.07C12.08 15.64 11.93 15.5 12.06 15.12C12.19 14.74 12.35 14.04 12.8 13.77C13.24 13.5 14.3 13.38 14.74 13.47C15.18 13.56 15.06 14.1 15.41 14.31C15.77 14.52 16.51 14.47 16.86 14.74C17.21 15.02 17.44 15.56 17.52 15.96C17.61 16.36 17.4 16.95 17.37 17.15" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M8.58 13.73Q9.92 13.6 11.26 13.47" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.29 13.59Q9.82 13.4 11.34 13.27" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-bolt" viewBox="0 0 24 24"><path d="M15.32 2.69Q12.12 7.3 9.24 12.14M9.11 11.77Q11.27 11.65 13.43 11.67M13.62 11.81Q12.04 15.75 10.69 19.77M10.98 19.79Q14.3 14.71 17.6 9.61M17.7 9.5Q15.41 9.51 13.13 9.58M13.04 10.06Q14.24 6.55 15.23 2.97" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.46 2.79Q12.25 7.26 8.78 11.56M9.21 11.89Q11.23 11.93 13.25 11.93M13.64 11.74Q12.23 15.67 11.18 19.71M10.25 19.76Q13.82 14.81 17.38 9.86M17.86 9.77Q15.4 9.78 12.94 9.57M13.48 9.53Q14.28 6.05 14.88 2.52" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12.18 4.38Q11.79 11.87 11.73 19.36" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.86 4.97Q11.83 12.26 11.72 19.54" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M4.94 11.99Q12.05 12.23 19.17 11.84" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.2 11.82Q11.97 12.02 19.73 11.61" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-spaces" viewBox="0 0 24 24"><path d="M3.09 3.71Q7.3 3.7 11.52 3.77M11.06 3.42Q10.96 7.35 11.12 11.29M10.89 10.86Q7.15 10.79 3.42 10.76M3.69 11Q3.64 7.13 3.71 3.25" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.43 3.87Q7.2 3.51 10.98 3.16M10.81 3.72Q10.91 7.54 10.74 11.35M11.32 10.95Q7.57 11.31 3.81 11.13M3.8 10.78Q3.5 7.28 3.7 3.79" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M12.59 3.42Q16.66 3.44 20.73 3.57M20.24 3.43Q20.2 7.44 20.24 11.46M20.8 11.14Q16.81 11.13 12.83 11.1M13.26 11.32Q13.24 7.4 13.11 3.48" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.04 3.3Q16.99 3.68 20.94 3.75M20.61 3.17Q20.28 7.3 20.33 11.44M20.53 10.65Q16.68 11.04 12.83 10.9M12.96 11.44Q12.94 7.5 12.89 3.56" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M3.41 12.9Q7.45 12.91 11.49 12.85M10.91 12.65Q10.89 16.74 10.97 20.83M10.99 20.43Q7.19 20.58 3.39 20.65M3.61 20.85Q3.6 16.82 3.3 12.8" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 12.57Q7.29 13.02 11.08 13.33M11.34 12.47Q10.93 16.68 10.73 20.88M10.9 20.37Q7.12 20.74 3.34 20.66M3.58 20.21Q3.53 16.57 3.5 12.92" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M12.7 12.77Q16.66 13.02 20.63 13.12M20.46 12.67Q20.23 16.56 20.32 20.45M20.83 20.37Q16.98 20.38 13.12 20.53M12.83 20.78Q12.75 16.67 12.78 12.56" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.81 13.29Q16.83 13.26 20.85 12.75M20.22 13.02Q20.4 17.01 20.53 21.01M20.43 20.58Q16.83 20.71 13.23 20.44M12.58 20.63Q12.5 16.47 12.63 12.3" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+<symbol id="i-about" viewBox="0 0 24 24"><path d="M9.57 15.26C9.45 14.83 9.36 13.51 8.88 12.71C8.4 11.92 6.97 11.53 6.71 10.5C6.44 9.47 6.37 7.7 7.28 6.56C8.18 5.42 10.56 3.65 12.13 3.66C13.71 3.68 15.9 5.54 16.72 6.63C17.54 7.72 17.37 9.22 17.06 10.21C16.75 11.2 15.3 11.66 14.87 12.58C14.45 13.51 14.56 15.23 14.49 15.76" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.27 15.47C9.19 15.05 9.26 13.82 8.79 12.93C8.32 12.05 6.7 11.23 6.46 10.16C6.21 9.08 6.34 7.53 7.34 6.48C8.34 5.43 10.89 3.86 12.43 3.87C13.97 3.88 15.85 5.48 16.6 6.54C17.36 7.6 17.19 9.12 16.97 10.23C16.76 11.34 15.74 12.3 15.32 13.2C14.9 14.1 14.6 15.22 14.45 15.63" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M9.19 15.26Q11.8 15.42 14.41 15.5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.05 15.1Q11.76 15.36 14.48 15.92" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M9.83 17.88Q12.05 17.86 14.27 17.91" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.86 18.4Q12.09 18.08 14.31 18.05" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M10.89 20.38Q12 20.41 13.11 20.52" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.99 20.76Q11.93 20.47 12.87 20.35" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M10.1 12.54Q10.5 10.81 10.99 9.1M11.22 9.13Q11.45 10.3 11.75 11.44M12.2 11.73Q12.58 10.54 12.99 9.37M12.56 8.95Q13.01 10.93 13.6 12.88" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.6 12.66Q11.01 10.69 11.6 8.77M11.14 9.35Q11.42 10.62 11.7 11.88M12 11.55Q12.43 10.51 12.81 9.44M13.05 9.33Q13.59 11 13.99 12.7" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M2.73 8.5Q3.59 8.54 4.45 8.57" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.84 8.68Q3.9 8.38 4.96 8.18" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M21.05 8.22Q20.14 8.39 19.23 8.48" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M21.62 8.31Q20.35 8.33 19.08 8.38" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M5.21 2.53Q5.79 3.37 6.34 4.24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.4 2.61Q6 3.3 6.56 4.03" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M18.56 2.7Q18.11 3.43 17.72 4.21" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.54 2.78Q18.24 3.42 17.87 3.99" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
+</svg>
+<header class="top">
+  <a class="logo" href="index.html"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="4" fill="#ffd23f" stroke="#26323f" stroke-width="2"/><path d="M18 6 L11 17 H16 L14 26 L22 14 H17 Z" fill="none" stroke="#26323f" stroke-width="2" stroke-linejoin="round"/></svg>Dynamite | Agile</a>
+  <nav aria-label="Pages"><a href="index.html">Home</a><a href="installation.html">Installation</a><a href="guide.html" class="on" aria-current="page">Guide</a></nav>
+  <a class="lang" href="../guide.html" hreflang="fr" lang="fr" title="Français">FR</a>
+  <a class="btn btn-primary gh" href="https://github.com/OWNER/dynamite-agile">GitHub</a>
+</header>
+<main class="page">
+  <span class="kicker">Guide · Getting started</span>
+  <h1>Getting started with <span class="hl" style="--hlc: var(--c)">Dynamite | Agile</span></h1>
+  <p class="lead">A team's path, from the first account to the validated prototype. The complete guide, with an exercise for
+    each tool, is inside the tool itself: <b>Help</b> → the tour of the site, and the <b>HEADLAMP</b> sandbox Space.</p>
+  <ul class="toc"><li><a href="#admin">The administrator</a></li><li><a href="#chef">The team lead</a></li>
+    <li><a href="#membre">Every member</a></li><li><a href="#pdp">The PDP in the tool</a></li><li><a href="#mine">The mine names</a></li>
+    <li><a href="#financement">Funded project</a></li></ul>
+
+  <h2 id="admin" class="reveal">The administrator: preparing the ground</h2>
+  <ol class="stepper reveal">
+    <li><b>Accounts</b>⚙ Admin → Comptes → Règles d'accès: one line per person, with their role, study profile and rights per
+      Space. Dry run first, then “Appliquer”.</li>
+    <li><b>The project's Space</b>⚙ Admin → Spaces: the key (e.g. EQP) becomes the ticket prefix (EQP-1, EQP-2…), never reused.</li>
+    <li><b>Approvers</b>Everyone chooses their approver (the instructor, the team lead) in the menu under their name → Paramètres;
+      the administrator corrects it if needed (“Feuille de temps…”).</li>
+    <li><b>Backups</b>⚙ Admin → Update et sauvegardes: a restore point is taken every day and before every bulk operation.</li>
+  </ol>
+
+  <h2 id="chef" class="reveal">The team lead: launching the project</h2>
+  <ol class="stepper reveal">
+    <li><b>Needs (Goldmine)</b>Start from the needs of the customer and the stakeholders; the generic catalogue of a consumer product
+      (<code>deploy/requis_generiques.csv</code>) imports in one click, then adapts to the CdCF (functional specification).</li>
+    <li><b>The plan (Exploration)</b>The phases of the PDP, the milestones (MIP, RCS, RC, RVE) and the Gantt; Excel round trip possible.</li>
+    <li><b>Sprints (Agile)</b>Backlog → Sprint → Board; each ticket “implements” a requirement.</li>
+    <li><b>The decision (Tools)</b>Brainwriting ideation, Pugh matrix, Kepner-Tregoe; the name and folder of every document with Generator.</li>
+  </ol>
+
+  <h2 id="membre" class="reveal">Every member: a typical day</h2>
+  <table class="t reveal"><tr><th>When</th><th>Where</th><th>What</th></tr>
+    <tr><td>On arrival</td><td>Dashboard</td><td>My tickets, my requirements, my messages (@mentions), my week.</td></tr>
+    <tr><td>While working</td><td>Agile, Goldmine, Dynamite</td><td>Move the ticket forward, refine a requirement, write the note or the procedure in the wiki.</td></tr>
+    <tr><td>To prove it</td><td>Testing</td><td>Pick the test in the Test Base, generate the Test Plan, attach the result: the requirement becomes “Verified”.</td></tr>
+    <tr><td>Before leaving</td><td>Timesheet</td><td>The day's hours on the steps of the PDP, with a short description; submit on Friday.</td></tr>
+    <tr><td>To learn</td><td>Training, Help</td><td>Your training plan, the tests, the guided tour and HEADLAMP to practise risk-free.</td></tr></table>
+
+  <h2 id="pdp" class="reveal">The course's PDP in the tool</h2>
+  <p class="reveal">PDP = product development process. The phase and step names are those of the course, in French.</p>
+  <table class="t reveal"><tr><th>Phase</th><th>Time codes</th><th>Deliverables (Generator)</th></tr>
+    <tr><td>A. Pré-étude (pre-study)</td><td>A-01 to A-06</td><td>MIP, market study, preliminary specifications, schedule, risks</td></tr>
+    <tr><td>B. Étude conceptuelle (concept study)</td><td>B-07 to B-12</td><td>RCS, needs, functional analysis, CdCF, QFD, morphological matrix, Pugh</td></tr>
+    <tr><td>C. Conception (design)</td><td>C-13 to C-15</td><td>RC, subsystems, calculations, FMEA, design review</td></tr>
+    <tr><td>D. Fabrication et validation</td><td>D-FAB, D-19 to D-21</td><td>Manufacturing, design of experiments, test report, RVE</td></tr></table>
+
+  <h2 id="mine" class="reveal">The mine names</h2>
+  <table class="t reveal"><tr><th>Tool</th><th>In the mine</th><th>In the project</th></tr>
+    <tr><td><b>Exploration</b></td><td>Prospecting: you study the ground and decide where to dig, in which order.</td><td>The <b>project plan</b>: PDP phases, milestones, predecessors, Gantt.</td></tr>
+    <tr><td><b>Dynamite</b></td><td>The charge that blasts the rock: raw knowledge is blasted loose and cleared.</td><td>The team's <b>wiki</b>: notes, minutes, procedures, decisions.</td></tr>
+    <tr><td><b>Goldmine</b></td><td>The gold vein: what you came for, sorted nugget by nugget.</td><td>The <b>needs and requirements</b>, traced from the customer to their test.</td></tr>
+    <tr><td><b>Agile</b></td><td>The drilling crews, in shifts: each one knows which face to work.</td><td><b>Backlog, sprints and Board</b>; Change Management when the tunnel drifts.</td></tr>
+    <tr><td><b>Testing</b></td><td>Assaying the ore: the grade is measured before the vein is declared worth it.</td><td>The <b>Test Base</b>, the procedures and the plans that prove each requirement.</td></tr>
+    <tr><td><b>Tools &amp; Generator</b></td><td>The toolbox and the batch punch: every wagon gets its number.</td><td>The <b>design methods</b> (Pugh, Kepner-Tregoe) and the name of every document.</td></tr>
+    <tr><td><b>Timesheet</b></td><td>The shift log: who worked which face, for how many hours.</td><td>The <b>hours per PDP step</b>, vacation, funding claims.</td></tr>
+    <tr><td><b>Training &amp; HeadLamp</b></td><td>The mining school and the headlamp that lights the tunnel.</td><td><b>Training</b>, the guided tour and a sandbox to practise risk-free.</td></tr>
+  </table>
+
+  <h2 id="financement" class="reveal">A funded project: justify every hour</h2>
+  <ol class="stepper reveal">
+    <li><b>The Funding Space</b>Timesheet → ⚙ Admin → Spaces et organismes: create a Funding Space for the programme, with its
+      Budget Lines (claimable or not), then attach the project's Space, its organism and its contract number.</li>
+    <li><b>Time entry</b>The team enters its hours on these Budget Lines, with a short description per range; vacation (INT-VAC) and
+      health leave (INT-SAN) from the INT Space are never claimed.</li>
+    <li><b>The claim</b>Excel export (summary, Budget Lines with every range and its justification, detail) or a Word report for
+      the recipient, with the attestation to sign: no retyping.</li>
+  </ol>
+</main>
+<footer>Dynamite | Agile · free software under the MIT licence · version 0.60.04 · Jean-Philippe Desbiens · <a href="https://github.com/OWNER/dynamite-agile">GitHub</a></footer>
+<script>
+/* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
+   that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */
+(function () {
+  "use strict";
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const EN = document.documentElement.lang === "en";  // D-O-017: the English pages live in site/en/
+  const COPY = EN ? ["Copy", "Copied ✓"] : ["Copier", "Copié ✓"];
+
+  /* ---------- reveal (pages without the vitrine script) ---------- */
+  if (!document.getElementById("screen")) {
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    }), { threshold: .15 });
+    document.querySelectorAll(".reveal").forEach((n) => io.observe(n));
+  }
+
+  /* ---------- copy buttons on every command block ---------- */
+  document.querySelectorAll("pre.cmd").forEach((pre) => {
+    const button = document.createElement("button");
+    button.type = "button"; button.className = "copy"; button.textContent = COPY[0];
+    button.addEventListener("click", () => {
+      const text = Array.from(pre.querySelectorAll("code")).map((c) => c.textContent).join("\n");
+      const done = () => { button.textContent = COPY[1]; setTimeout(() => { button.textContent = COPY[0]; }, 1600); };
+      if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => {}); else done();
+    });
+    pre.append(button);
+  });
+
+  /* ---------- the descent: each level reached deepens the shaft ---------- */
+  const levels = Array.from(document.querySelectorAll(".level"));
+  const rope = document.querySelector(".shaft .rope");
+  const depth = document.querySelector(".shaft .depth");
+  if (levels.length && rope && depth) {
+    function goTo(meters, ratio) {
+      rope.style.setProperty("--depth", (ratio * 100).toFixed(1) + "%");
+      const from = Number(depth.dataset.m || 0), start = performance.now();
+      depth.dataset.m = meters;
+      if (reduce) { depth.textContent = meters + " m"; return; }
+      (function tick(now) {
+        const k = Math.min(1, (now - start) / 700);
+        depth.textContent = Math.round(from + (meters - from) * (1 - Math.pow(1 - k, 3))) + " m";
+        if (k < 1) requestAnimationFrame(tick);
+      })(start);
+    }
+    const lo = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add("in");
+      const i = levels.indexOf(e.target);  // scrolling back up rises again
+      goTo(Number(e.target.dataset.depth), (i + 1) / levels.length);
+    }), { rootMargin: "-40% 0px -40% 0px" });
+    levels.forEach((l) => lo.observe(l));
+    const reveal = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (e.isIntersecting) e.target.classList.add("in");
+    }), { threshold: .3 });
+    levels.forEach((l) => reveal.observe(l));
+  }
+
+  /* ---------- the terminal types the three commands when it comes into view ---------- */
+  const term = document.getElementById("term");
+  if (term) {
+    const lines = JSON.parse(term.dataset.lines);
+    let started = false;
+    const to = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (!e.isIntersecting || started) return;
+      started = true;
+      if (reduce) { term.textContent = lines.join("\n"); return; }
+      let li = 0, ci = 0;
+      (function type() {
+        if (li >= lines.length) return;
+        const line = lines[li];
+        if (ci <= line.length) {
+          term.textContent = lines.slice(0, li).join("\n") + (li ? "\n" : "") + line.slice(0, ci);
+          ci += 1;
+          setTimeout(type, /^(✓|==)/.test(line) ? 6 : 22);
+        } else { li += 1; ci = 0; setTimeout(type, 420); }
+      })();
+    }), { threshold: .5 });
+    to.observe(term);
+  }
+})();
+
+</script>
+</body>
+</html>

@@ -142,3 +142,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   .progress-bar { top: 112px; }
   .progress-bar span { min-width: 0; }
 }
+/* D-O-017: FR | EN switch in the top bar */
+.top .lang { margin-left: .2rem; padding: .3rem .55rem; border: 2px solid var(--ink); border-radius: 6px; color: var(--ink);
+  font-weight: 700; font-size: .85rem; text-decoration: none; }
+.top .lang:hover, .top .lang:focus-visible { background: var(--y, #ffd23f); }

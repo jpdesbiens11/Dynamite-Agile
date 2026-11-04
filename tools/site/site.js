@@ -3,6 +3,8 @@
 (function () {
   "use strict";
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const EN = document.documentElement.lang === "en";  // D-O-017: the English pages live in site/en/
+  const COPY = EN ? ["Copy", "Copied ✓"] : ["Copier", "Copié ✓"];
 
   /* ---------- reveal (pages without the vitrine script) ---------- */
   if (!document.getElementById("screen")) {
@@ -15,10 +17,10 @@
   /* ---------- copy buttons on every command block ---------- */
   document.querySelectorAll("pre.cmd").forEach((pre) => {
     const button = document.createElement("button");
-    button.type = "button"; button.className = "copy"; button.textContent = "Copier";
+    button.type = "button"; button.className = "copy"; button.textContent = COPY[0];
     button.addEventListener("click", () => {
       const text = Array.from(pre.querySelectorAll("code")).map((c) => c.textContent).join("\n");
-      const done = () => { button.textContent = "Copié ✓"; setTimeout(() => { button.textContent = "Copier"; }, 1600); };
+      const done = () => { button.textContent = COPY[1]; setTimeout(() => { button.textContent = COPY[0]; }, 1600); };
       if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => {}); else done();
     });
     pre.append(button);

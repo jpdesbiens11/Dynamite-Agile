@@ -6,6 +6,8 @@
 <title>Dynamite | Agile — l'atelier libre de conception de produit</title>
 <meta name="description" content="Dynamite | Agile : besoins, requirements, plan, sprints, wiki, essais, formation et heures pour les équipes de conception de produit. Logiciel libre (MIT), sur votre serveur.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='3' width='26' height='26' rx='3' fill='%23ffd23f' stroke='%2326323f' stroke-width='2'/%3E%3Cpath d='M18 6 L11 17 H16 L14 26 L22 14 H17 Z' fill='none' stroke='%2326323f' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="alternate" hreflang="fr" href="https://owner.github.io/dynamite-agile/index.html">
+<link rel="alternate" hreflang="en" href="https://owner.github.io/dynamite-agile/en/index.html">
 <style>
 :root {
   --paper: #fcfbf7; --grid: rgba(12, 102, 228, .06); --ink: #26323f; --ink-2: #44546f; --blue: #0c66e4;
@@ -334,6 +336,10 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   .progress-bar { top: 112px; }
   .progress-bar span { min-width: 0; }
 }
+/* D-O-017: FR | EN switch in the top bar */
+.top .lang { margin-left: .2rem; padding: .3rem .55rem; border: 2px solid var(--ink); border-radius: 6px; color: var(--ink);
+  font-weight: 700; font-size: .85rem; text-decoration: none; }
+.top .lang:hover, .top .lang:focus-visible { background: var(--y, #ffd23f); }
 
 </style>
 </head>
@@ -366,6 +372,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 <header class="top">
   <a class="logo" href="index.html"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="4" fill="#ffd23f" stroke="#26323f" stroke-width="2"/><path d="M18 6 L11 17 H16 L14 26 L22 14 H17 Z" fill="none" stroke="#26323f" stroke-width="2" stroke-linejoin="round"/></svg>Dynamite | Agile</a>
   <nav aria-label="Pages"><a href="index.html" class="on" aria-current="page">Accueil</a><a href="installation.html">Installation</a><a href="guide.html">Guide</a></nav>
+  <a class="lang" href="en/index.html" hreflang="en" lang="en" title="English">EN</a>
   <a class="btn btn-primary gh" href="https://github.com/OWNER/dynamite-agile">GitHub</a>
 </header>
 
@@ -572,7 +579,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       <a class="btn" href="https://github.com/OWNER/dynamite-agile">Le code sur GitHub</a></div>
   </section>
 </main>
-<footer>Dynamite | Agile · logiciel libre sous licence MIT · version 0.60.03 · Jean-Philippe Desbiens · <a href="https://github.com/OWNER/dynamite-agile">GitHub</a></footer>
+<footer>Dynamite | Agile · logiciel libre sous licence MIT · version 0.60.04 · Jean-Philippe Desbiens · <a href="https://github.com/OWNER/dynamite-agile">GitHub</a></footer>
 <script>
 (function () {
   "use strict";
@@ -710,6 +717,8 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 (function () {
   "use strict";
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const EN = document.documentElement.lang === "en";  // D-O-017: the English pages live in site/en/
+  const COPY = EN ? ["Copy", "Copied ✓"] : ["Copier", "Copié ✓"];
 
   /* ---------- reveal (pages without the vitrine script) ---------- */
   if (!document.getElementById("screen")) {
@@ -722,10 +731,10 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   /* ---------- copy buttons on every command block ---------- */
   document.querySelectorAll("pre.cmd").forEach((pre) => {
     const button = document.createElement("button");
-    button.type = "button"; button.className = "copy"; button.textContent = "Copier";
+    button.type = "button"; button.className = "copy"; button.textContent = COPY[0];
     button.addEventListener("click", () => {
       const text = Array.from(pre.querySelectorAll("code")).map((c) => c.textContent).join("\n");
-      const done = () => { button.textContent = "Copié ✓"; setTimeout(() => { button.textContent = "Copier"; }, 1600); };
+      const done = () => { button.textContent = COPY[1]; setTimeout(() => { button.textContent = COPY[0]; }, 1600); };
       if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => {}); else done();
     });
     pre.append(button);

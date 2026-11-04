@@ -1,0 +1,30 @@
+  <h2 id="depannage">If something gets stuck</h2>
+  <p>Paste the message to your AI assistant, or look it up here.</p>
+  <details class="trouble"><summary>“ports 80 or 443 are already in use”</summary>
+    <p>Another application is using the server's web ports, often a Docker application installed by your host's control panel
+      (an AI agent, n8n, an admin panel…). See which one, then stop it or use another server:</p>
+    <pre class="cmd" data-where="srv"><code>sudo ss -ltnp | grep -E ':(80|443) '</code>
+<code>docker ps</code></pre></details>
+  <details class="trouble"><summary>“the domain … does not answer yet” or certbot: “NXDOMAIN”, “Timeout”</summary>
+    <p>The A record is not visible yet, or port 80 is closed in the control-panel firewall. Check with <code>nslookup</code> from
+      your computer, open 80 and 443, wait a few minutes and run the same command again.</p></details>
+  <details class="trouble"><summary>“Permission denied” when connecting with SSH</summary>
+    <p>Wrong root password (nothing shows while you type, that's normal). Set a new one in your host's control panel, or use its
+      web console.</p></details>
+  <details class="trouble"><summary>“curl: command not found”</summary>
+    <pre class="cmd" data-where="srv"><code>sudo apt update &amp;&amp; sudo apt install -y curl</code></pre></details>
+  <details class="trouble"><summary>“the service does not start”</summary>
+    <p>The script shows the last lines of the log: each refusal names the faulty value and the fix. To see it again:</p>
+    <pre class="cmd" data-where="srv"><code>journalctl -u dynamite-agile -n 50 --no-pager</code></pre></details>
+  <details class="trouble"><summary>On my computer: “python is not recognized”, or the address does not open</summary>
+    <p>Close and reopen the terminal after installing Python. If port 8080 is already taken, start with <code>--port 8090</code>
+      and open <code>http://127.0.0.1:8090</code>.</p></details>
+
+  <h2 id="entretien">Afterwards, on the server</h2>
+  <table class="t"><tr><th>To…</th><th>On the server</th></tr>
+    <tr><td>Update the tool</td><td><code>sudo bash /opt/dynamite_agile/deploy/redeploy.sh</code> (your data is never touched)</td></tr>
+    <tr><td>Restart</td><td><code>sudo systemctl restart dynamite-agile</code></td></tr>
+    <tr><td>See the log</td><td><code>journalctl -u dynamite-agile -n 100 --no-pager</code></td></tr>
+    <tr><td>Forgotten admin password</td><td><code>sudo -u dynamite python3 /opt/dynamite_agile/app_dynamite_agile.py --reset-password admin</code></td></tr>
+    <tr><td>Back up</td><td>In the tool: ⚙ Admin → Update et sauvegardes; plus your host's server backup</td></tr>
+    <tr><td>Move from trial to team</td><td>Follow the “On an online server” path: the same command with your domain</td></tr></table>

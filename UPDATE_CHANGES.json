@@ -2,43 +2,51 @@
  "changes": [
   {
    "id": "C1",
-   "title": "Installation pour débutants (D-O-016)",
-   "why": "Choix de la destination, commandes remplies et copiables, assistant IA (installer.md), cases « C'est fait ».",
+   "title": "Site web en anglais (D-O-017, étape 1)",
+   "why": "Pages site/en/, bouton FR | EN, hreflang ; textes partagés par langue dans tools/site_text.py.",
    "files": [
+    "site/en/guide.html",
+    "site/en/index.html",
+    "site/en/installation.html",
+    "site/en/installer.md",
     "site/guide.html",
     "site/index.html",
-    "site/install.sh",
     "site/installation.html",
-    "site/installer.md",
+    "static/apps/vitrine/index.html",
     "tools/build_site.py",
-    "tools/site/index.html",
+    "tools/site/en/chaine.html",
+    "tools/site/en/guide.html",
+    "tools/site/en/index.html",
+    "tools/site/en/installation.html",
+    "tools/site/en/installer.md",
+    "tools/site/en/journee.html",
+    "tools/site/en/trouble.html",
     "tools/site/install.js",
-    "tools/site/installation.html",
-    "tools/site/installer.md",
     "tools/site/site.css",
     "tools/site/site.js",
-    "tools/site/trouble.html"
+    "tools/site_text.py"
    ]
   },
   {
    "id": "C2",
-   "title": "install.sh en une commande et essai privé",
-   "why": "curl … | sudo bash ; récupération du code, vérification DNS et ports, mode --essai.",
+   "title": "install.sh en anglais avec DA_LANG=en",
+   "why": "Chaque message et chaque erreur du script en anglais pour la page anglaise.",
    "files": [
-    "deploy/DEPLOIEMENT_VPS.md",
-    "deploy/install.sh"
+    "deploy/install.sh",
+    "site/install.sh"
    ]
   },
   {
    "id": "C3",
-   "title": "Version 0.60.03, tests et documentation",
-   "why": "APP_VERSION, test du site, décisions, état du projet.",
+   "title": "Version 0.60.04, tests et documentation",
+   "why": "APP_VERSION, test du site bilingue, décisions, état du projet.",
    "files": [
     "CLAUDE.md",
+    "UPDATE_CHANGES.json",
+    "UPDATE_LOG.md",
     "core/__init__.py",
     "docs/DECISIONS.md",
     "docs/ETAT_PROJET.md",
-    "static/apps/vitrine/index.html",
     "tests/test_open_v060.py"
    ]
   }

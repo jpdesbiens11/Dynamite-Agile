@@ -3,6 +3,8 @@
 (function () {
   "use strict";
   const SITE = document.body.dataset.site;
+  const EN = document.documentElement.lang === "en";  // D-O-017: same script, English page in site/en/
+  const BASE = SITE + (EN ? "/en" : "");
   const KEY = "da.install";
   const store = {
     read() { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (err) { return {}; } },
@@ -12,7 +14,8 @@
   const save = () => store.write(state);
   const $ = (s, root) => (root || document).querySelector(s);
   const $$ = (s, root) => Array.from((root || document).querySelectorAll(s));
-  const DEFAULTS = { domain: "atelier.mon-domaine.ca", email: "moi@exemple.ca", ip: "203.0.113.10" };
+  const DEFAULTS = EN ? { domain: "workshop.my-domain.com", email: "me@example.com", ip: "203.0.113.10" }
+    : { domain: "atelier.mon-domaine.ca", email: "moi@exemple.ca", ip: "203.0.113.10" };
   const value = (k) => (state[k] || "").trim() || DEFAULTS[k];
 
   /* ---------- destination ---------- */
@@ -51,12 +54,26 @@
     $("#agent-text").textContent = prompt();
   }
   function prompt() {
-    const page = SITE + "/installation.html#" + state.dest;
-    const guide = SITE + "/installer.md";
+    const page = BASE + "/installation.html#" + state.dest;
+    const guide = BASE + "/installer.md";
+    const os = { windows: "Windows", mac: "macOS", linux: "Linux" }[state.os || guess];
+    if (EN) {
+      const where = {
+        serveur: "on an online server (Linux VPS) with the domain name " + value("domain"),
+        essai: "on a Linux server, as a private trial without a domain (SSH tunnel)",
+        local: "on my computer (" + os + "), to try it",
+      }[state.dest];
+      return ["Hello! I'm new to Linux and the terminal. I want to install Dynamite | Agile " + where + ".",
+        "First read the procedure: " + page,
+        "and the guide written for assistants: " + guide,
+        "Guide me one step at a time: tell me where to type each command (on my computer or on the server) and what I " +
+        "should see, then wait until I paste what the terminal shows before going on. If a message is in red, explain it " +
+        "simply and suggest the fix. Never ask me for a password or a private key."].join("\n");
+    }
     const where = {
       serveur: "sur un serveur en ligne (VPS Linux) avec le nom de domaine " + value("domain"),
       essai: "sur un serveur Linux, en essai privé sans domaine (tunnel SSH)",
-      local: "sur mon ordinateur (" + ({ windows: "Windows", mac: "macOS", linux: "Linux" }[state.os || guess]) + "), pour l'essayer",
+      local: "sur mon ordinateur (" + os + "), pour l'essayer",
     }[state.dest];
     return ["Bonjour ! Je débute avec Linux et le terminal. Je veux installer Dynamite | Agile " + where + ".",
       "Lis d'abord la procédure : " + page,
@@ -87,7 +104,8 @@
     const done = steps.filter((li) => $(".done input", li).checked).length;
     $(".progress-bar .track i").style.width = steps.length ? (100 * done / steps.length) + "%" : "0";
     $("#progress-text").textContent = done === steps.length && steps.length
-      ? "Toutes les étapes sont faites ✓" : "Étapes faites : " + done + " / " + steps.length;
+      ? (EN ? "All steps done ✓" : "Toutes les étapes sont faites ✓")
+      : (EN ? "Steps done: " : "Étapes faites : ") + done + " / " + steps.length;
   }
 
   /* ---------- the « where » label on every command block ---------- */
@@ -95,7 +113,7 @@
     const pc = pre.dataset.where === "pc";
     const tag = document.createElement("span");
     tag.className = "where " + (pc ? "pc" : "srv");
-    tag.textContent = pc ? "sur votre ordinateur" : "sur le serveur";
+    tag.textContent = pc ? (EN ? "on your computer" : "sur votre ordinateur") : (EN ? "on the server" : "sur le serveur");
     pre.prepend(tag);
   });
 

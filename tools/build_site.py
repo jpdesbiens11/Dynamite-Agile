@@ -1,4 +1,5 @@
-"""Website of Dynamite | Agile (D-O-015): site/index.html, site/installation.html, site/guide.html.
+"""Website of Dynamite | Agile (D-O-015): site/index.html, site/installation.html, site/guide.html, in French, and the
+same pages in English in site/en/ (D-O-017).
 
     python3 tools/build_site.py
 
@@ -6,7 +7,7 @@ A separate deliverable from the platform, published with GitHub Pages (.github/w
 graphics and the look of the platform as they are (icons sprite, module logos, hero sketch, the CSS and the « day with
 the team » of the vitrine, tools/build_vitrine.py), and adds the storyline of the landing page (the descent into the
 mine), the installation procedure and the getting-started guide. Each page is one self-contained file: no external
-resource, motion off with prefers-reduced-motion.
+resource, motion off with prefers-reduced-motion. The texts the two languages share are in tools/site_text.py.
 """
 import base64
 import html
@@ -18,37 +19,14 @@ from pathlib import Path
 BASE = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(BASE))
 
-SRC = BASE / "tools" / "site"
+from tools import site_text as T  # noqa: E402
+
+SRC = BASE / "tools" / "site"   # French templates; English ones in tools/site/en/
 OUT = BASE / "site"
 OWNER = "OWNER"  # D-O-011: the GitHub account of the repository, to set when it is created
 REPO = "https://github.com/{}/dynamite-agile".format(OWNER)
 SITE_URL = "https://{}.github.io/dynamite-agile".format(OWNER.lower())  # GitHub Pages (or the domain of the site)
-PAGES = (("index.html", "Accueil"), ("installation.html", "Installation"), ("guide.html", "Guide"))
-
-# (logo, depth in m, name, in the mine, in the project) -- the descent of the landing page and the guide (D-O-014)
-MINE = [
-    ("exploration", 40, "Exploration", "La prospection : on étudie le terrain et on décide où creuser, dans quel ordre.",
-     "Le <b>plan du projet</b> : phases du PDP, jalons, prédécesseurs, Gantt."),
-    ("dynamite", 90, "Dynamite", "La charge qui fait sauter la roche : on dynamite le savoir brut pour le dégager.",
-     "Le <b>wiki</b> de l'équipe : notes, comptes rendus, procédures, décisions."),
-    ("goldmine", 150, "Goldmine", "Le filon d'or : ce qu'on est venu chercher, trié pépite par pépite.",
-     "Les <b>besoins et requirements</b>, tracés du client jusqu'à leur essai."),
-    ("agile", 210, "Agile", "Les équipes de forage, par quarts : chacune sait quel front attaquer.",
-     "<b>Backlog, sprints et Board</b> ; Change Management quand la galerie dévie."),
-    ("testing", 270, "Testing", "L'essai du minerai : on mesure la teneur avant de déclarer le filon rentable.",
-     "La <b>Test Base</b>, les procédures et les plans qui prouvent chaque requirement."),
-    ("tools", 330, "Tools & Generator", "La boîte à outils et le poinçon des lots : chaque wagon reçoit son numéro.",
-     "Les <b>méthodes de conception</b> (Pugh, Kepner-Tregoe) et le nom de chaque document."),
-    ("timesheet", 390, "Timesheet", "Le carnet de quart : qui a travaillé à quel front, combien d'heures.",
-     "Les <b>heures par étape du PDP</b>, les vacances, les réclamations de financement."),
-    ("training", 450, "Training & HeadLamp", "L'école de la mine et la lampe frontale qui éclaire la galerie.",
-     "La <b>formation</b>, le tour guidé et un bac à sable pour s'exercer sans risque."),
-]
-TERM = ["$ ssh root@203.0.113.10",
-        "root@serveur:~# curl -fsSL {}/install.sh | sudo bash -s -- atelier.mon-domaine.ca moi@exemple.ca".format(SITE_URL),
-        "== 1/7 Paquets du système … == 6/7 Service « dynamite-agile »",
-        "== 7/7 C'est installé",
-        "✓ Ouvrez https://atelier.mon-domaine.ca — compte admin, mot de passe affiché ci-dessus"]
+PAGES = ("index.html", "installation.html", "guide.html")
 
 
 def _between(text, start, end):
@@ -63,19 +41,29 @@ def _section(page, section_id):
     return "  " + match.group(0)
 
 
-def _top(current):
+def _top(current, lang):
     links = "".join('<a href="{}"{}>{}</a>'.format(href, ' class="on" aria-current="page"' if href == current else "", label)
-                    for href, label in PAGES)
+                    for href, label in zip(PAGES, T.NAV[lang]))
+    label, title, other = T.SWITCH[lang]
+    switch = ('<a class="lang" href="{}" hreflang="{}" lang="{}" title="{}">{}</a>'
+              .format(("en/" if lang == "fr" else "../") + current, other, other, title, label))
     return ('<header class="top">\n  <a class="logo" href="index.html"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">'
             '<rect x="3" y="3" width="26" height="26" rx="4" fill="#ffd23f" stroke="#26323f" stroke-width="2"/>'
             '<path d="M18 6 L11 17 H16 L14 26 L22 14 H17 Z" fill="none" stroke="#26323f" stroke-width="2" stroke-linejoin="round"/>'
-            '</svg>Dynamite | Agile</a>\n  <nav aria-label="Pages">{}</nav>\n'
-            '  <a class="btn btn-primary gh" href="{}">GitHub</a>\n</header>').format(links, REPO)
+            '</svg>Dynamite | Agile</a>\n  <nav aria-label="Pages">{}</nav>\n  {}\n'
+            '  <a class="btn btn-primary gh" href="{}">GitHub</a>\n</header>').format(links, switch, REPO)
 
 
-def _levels():
+def _alternates(name):
+    """hreflang links in the <head> of both versions of a page."""
+    return "".join('\n<link rel="alternate" hreflang="{}" href="{}/{}{}">'.format(lang, SITE_URL, "en/" if lang == "en" else "", name)
+                   for lang in T.LANGS)
+
+
+def _levels(lang):
     out = []
-    for key, depth, name, mine, proj in MINE:
+    for key, depth, name, text in T.MINE:
+        mine, proj = text[lang]
         svg = (BASE / "static" / "img" / "marks" / (key + ".svg")).read_bytes()
         src = "data:image/svg+xml;base64," + base64.b64encode(svg).decode("ascii")
         out.append('        <article class="level" data-depth="{}"><img src="{}" alt="Logo {}">'
@@ -84,9 +72,36 @@ def _levels():
     return "\n".join(out)
 
 
-def _mine_rows():
-    return "\n".join("    <tr><td><b>{}</b></td><td>{}</td><td>{}</td></tr>".format(html.escape(name), html.escape(mine), proj)
-                     for _key, _d, name, mine, proj in MINE)
+def _mine_rows(lang):
+    return "\n".join("    <tr><td><b>{}</b></td><td>{}</td><td>{}</td></tr>".format(html.escape(name), html.escape(text[lang][0]),
+                                                                              text[lang][1]) for _k, _d, name, text in T.MINE)
+
+
+def _tools_en():
+    from tools import build_vitrine
+    cards = "\n".join(
+        '      <article class="tool reveal" style="--a: var({})"><svg class="ico"><use href="#i-{}"/></svg><h3>{}</h3><p>{}</p></article>'
+        .format(accent, icon, html.escape(name), html.escape(T.TOOLS_EN[name])) for icon, accent, name, _fr in build_vitrine.TOOLS)
+    return '  <section id="outils">\n{}\n    <div class="tools">\n{}\n    </div>\n  </section>'.format(T.TOOLS_HEAD_EN, cards)
+
+
+def _landing(vitrine, lang, src):
+    hero = _between(vitrine, '<div class="hero-art">', "</div>\n  </div>").strip()
+    script = _between(vitrine, "<script>", "</script>").strip()
+    if lang == "en":
+        hero = hero.replace(T.HERO_LABEL["fr"], T.HERO_LABEL["en"])
+        script = script.replace(json.dumps(T.TYPED["fr"], ensure_ascii=False), json.dumps(T.TYPED["en"], ensure_ascii=False))
+        if T.TYPED["en"] not in script:
+            raise SystemExit("Texte tapé de la vitrine introuvable (tools/vitrine/template.html, tools/site_text.TYPED).")
+    return {
+        "HERO": hero,
+        "LEVELS": _levels(lang),
+        "JOURNEY": _section(vitrine, "journee") if lang == "fr" else "  " + (src / "journee.html").read_text(encoding="utf-8").strip(),
+        "CHAIN": _section(vitrine, "chaine") if lang == "fr" else "  " + (src / "chaine.html").read_text(encoding="utf-8").strip(),
+        "TOOLS": _section(vitrine, "outils") if lang == "fr" else _tools_en(),
+        "TERM": html.escape(json.dumps(T.term(lang, SITE_URL), ensure_ascii=False), quote=True),
+        "VITRINE_JS": script,
+    }
 
 
 def build():
@@ -102,40 +117,36 @@ def build():
         "SITE_JS": (SRC / "site.js").read_text(encoding="utf-8"),
         "REPO": REPO,
         "SITE_URL": SITE_URL,
-        "FOOTER": ('<footer>Dynamite | Agile · logiciel libre sous licence MIT · version {} · '
-                   'Jean-Philippe Desbiens · <a href="{}">GitHub</a></footer>').format(APP_VERSION, REPO),
     }
-    landing = {
-        "HERO": _between(vitrine, '<div class="hero-art">', "</div>\n  </div>").strip(),
-        "LEVELS": _levels(),
-        "JOURNEY": _section(vitrine, "journee"),
-        "CHAIN": _section(vitrine, "chaine"),
-        "TOOLS": _section(vitrine, "outils"),
-        "TERM": html.escape(json.dumps(TERM, ensure_ascii=False), quote=True),
-        "VITRINE_JS": _between(vitrine, "<script>", "</script>").strip(),
-    }
-    OUT.mkdir(exist_ok=True)
     written = []
-    for name, _label in PAGES:
-        page = (SRC / name).read_text(encoding="utf-8")
-        values = dict(common, TOP=_top(name), MINE_ROWS=_mine_rows(), **(landing if name == "index.html" else {}))
-        if name == "installation.html":
-            values.update(TROUBLE=(SRC / "trouble.html").read_text(encoding="utf-8").rstrip(),
-                          INSTALL_JS=(SRC / "install.js").read_text(encoding="utf-8"))
-        for key, value in values.items():
-            page = page.replace("{{" + key + "}}", value)
-        left = re.findall(r"\{\{[A-Z_]+\}\}", page)
-        if left:
-            raise SystemExit("{} : marqueurs non remplacés {}".format(name, left))
-        (OUT / name).write_text(page, encoding="utf-8")
-        written.append((OUT / name, len(page)))
-    # the script the one-command installation fetches, and the guide an AI assistant reads next to the person
+    for lang in T.LANGS:
+        src, out = (SRC, OUT) if lang == "fr" else (SRC / "en", OUT / "en")
+        out.mkdir(parents=True, exist_ok=True)
+        for name in PAGES:
+            page = (src / name).read_text(encoding="utf-8")
+            values = dict(common, TOP=_top(name, lang), MINE_ROWS=_mine_rows(lang), FOOTER=T.footer(lang, APP_VERSION, REPO))
+            if name == "index.html":
+                values.update(_landing(vitrine, lang, src))
+            if name == "installation.html":
+                values.update(TROUBLE=(src / "trouble.html").read_text(encoding="utf-8").rstrip(),
+                              INSTALL_JS=(SRC / "install.js").read_text(encoding="utf-8"))
+            values["FAVICON"] += _alternates(name)
+            for key, value in values.items():
+                page = page.replace("{{" + key + "}}", value)
+            left = re.findall(r"\{\{[A-Z_]+\}\}", page)
+            if left:
+                raise SystemExit("{}/{} : marqueurs non remplacés {}".format(lang, name, left))
+            (out / name).write_text(page, encoding="utf-8")
+            written.append((out / name, len(page)))
+        # the guide an AI assistant reads next to the person, in the language of the page
+        guide = (src / "installer.md").read_text(encoding="utf-8").replace("{{SITE_URL}}", SITE_URL).replace("{{REPO}}", REPO)
+        (out / "installer.md").write_text(guide, encoding="utf-8")
+        written.append((out / "installer.md", len(guide)))
+    # the script the one-command installation fetches (one for both languages: DA_LANG=en for English messages)
     script = (BASE / "deploy" / "install.sh").read_text(encoding="utf-8")
     script = re.sub(r'REPO="\$\{DA_REPO:-[^}]*\}"', 'REPO="${{DA_REPO:-{}.git}}"'.format(REPO), script)
     (OUT / "install.sh").write_text(script, encoding="utf-8")
-    guide = (SRC / "installer.md").read_text(encoding="utf-8").replace("{{SITE_URL}}", SITE_URL).replace("{{REPO}}", REPO)
-    (OUT / "installer.md").write_text(guide, encoding="utf-8")
-    written += [(OUT / "install.sh", len(script)), (OUT / "installer.md", len(guide))]
+    written.append((OUT / "install.sh", len(script)))
     (OUT / ".nojekyll").write_text("", encoding="utf-8")  # GitHub Pages: serve the files as they are
     return written
 

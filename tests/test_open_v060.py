@@ -54,7 +54,7 @@ def scanned_files():
 
 class StaticContentTest(unittest.TestCase):
     def test_01_version(self):
-        self.assertEqual(APP_VERSION, "0.60.03")
+        self.assertEqual(APP_VERSION, "0.60.04")
 
     def test_02_nothing_of_the_original_use_left(self):
         hits = []
@@ -125,13 +125,14 @@ class StaticContentTest(unittest.TestCase):
     def test_08b_website(self):
         """D-O-015: the website is its own deliverable in site/, built from tools/site/, self-contained."""
         import subprocess
-        before = {n: (BASE_DIR / "site" / n).read_text("utf-8")
-                  for n in ("index.html", "installation.html", "guide.html", "install.sh", "installer.md")}
+        names = ("index.html", "installation.html", "guide.html", "installer.md")
+        before = {n: (BASE_DIR / "site" / n).read_text("utf-8") for n in names + ("install.sh",)}
+        before.update({"en/" + n: (BASE_DIR / "site" / "en" / n).read_text("utf-8") for n in names})  # D-O-017
         subprocess.run([sys.executable, str(BASE_DIR / "tools" / "build_site.py")], check=True, capture_output=True)
         for name, old in before.items():
             page = (BASE_DIR / "site" / name).read_text("utf-8")
             self.assertEqual(page, old, "site/{} is not up to date: python3 tools/build_site.py".format(name))
-            self.assertNotRegex(page, r'<script[^>]+src=|<link[^>]+href="http|url\((?:\'|")?http')  # nothing external
+            self.assertNotRegex(page, r'<script[^>]+src=|<link(?![^>]*rel="alternate")[^>]+href="http|url\((?:\'|")?http')  # nothing loaded from outside
             self.assertNotIn("{{", page)
         index = before["index.html"]
         for part in ('id="descente"', 'class="level"', 'id="journee"', 'id="chaine"', 'id="outils"', 'id="term"'):
@@ -148,9 +149,19 @@ class StaticContentTest(unittest.TestCase):
         self.assertIn(build_site.SITE_URL + "/install.sh", agent)
         self.assertIn("Ne demandez jamais un mot de passe", agent)
         self.assertTrue((BASE_DIR / ".github" / "workflows" / "pages.yml").exists())
+        # D-O-017: the English pages, the FR | EN switch both ways, the English messages of the script
+        self.assertIn('<html lang="en">', before["en/index.html"])
+        self.assertIn('class="lang" href="en/index.html"', index)
+        self.assertIn('class="lang" href="../installation.html"', before["en/installation.html"])
+        self.assertIn('hreflang="en" href="{}/en/guide.html"'.format(build_site.SITE_URL), before["guide.html"])
+        for part in ('id="descente"', 'id="journee"', 'id="chaine"', 'id="outils"', "Ten tools", "hot glue gun dropped"):
+            self.assertIn(part, before["en/index.html"])
+        self.assertIn("sudo DA_LANG=en bash -s --", before["en/installation.html"])
+        self.assertIn("Never ask for a password", before["en/installer.md"])
+        self.assertIn(build_site.SITE_URL + "/en/installation.html", before["en/installer.md"])
         install = (BASE_DIR / "deploy" / "install.sh").read_text("utf-8")
         for part in ("certbot certonly", '"dev_mode": False', "systemctl enable --now", "INITIAL_ADMIN_PASSWORD.txt", "--essai",
-                     "git clone --depth 1"):
+                     "git clone --depth 1", 'DA_LANG:-fr', '"Error:"'):
             self.assertIn(part, install)
 
     def test_09_files_stay_short(self):

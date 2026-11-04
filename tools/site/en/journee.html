@@ -1,0 +1,93 @@
+  <section id="journee">
+    <h2 class="reveal">A day in the <span class="hl" style="--hlc: var(--c)">notebook</span></h2>
+    <p class="sub reveal">Follow Léa, an electrical engineering student, and her team (Nina, Hugo, Alexis) as they design a hot glue gun. The screen on the right shows what she sees.</p>
+    <div class="journey">
+      <div class="steps">
+        <article class="step" data-scene="0" data-acc="var(--b)"><span class="time">08:00</span>
+          <h3><svg class="ico"><use href="#i-dashboard"/></svg>Dashboard</h3>
+          <p>Everything waiting for her in all her Spaces: tickets, requirements, hours to submit, and an “@lea” from Nina.</p>
+          <span class="gain hl">No email to sort through to know what to do.</span></article>
+        <article class="step" data-scene="1" data-acc="var(--y)"><span class="time">08:30</span>
+          <h3><svg class="ico"><use href="#i-goldmine"/></svg>Goldmine</h3>
+          <p>The customer confirms they want to glue one-handed. Léa sets the need to “Customer Confirmed”: the requirements derived from it are justified in one click.</p>
+          <span class="gain hl">Every requirement answers a real need.</span></article>
+        <article class="step" data-scene="2" data-acc="var(--v)"><span class="time">10:00</span>
+          <h3><svg class="ico"><use href="#i-exploration"/></svg>Exploration</h3>
+          <p>The multi-month plan recalculates: durations, predecessors, milestones. The Gantt follows, and the Excel round trip still works.</p>
+          <span class="gain hl">The plan and reality no longer drift apart.</span></article>
+        <article class="step" data-scene="3" data-acc="var(--b)"><span class="time">11:00</span>
+          <h3><svg class="ico"><use href="#i-agile"/></svg>Agile</h3>
+          <p>Sprint Planning: Backlog → Sprint → Board. Each ticket “implements” a requirement; ECNs go to review.</p>
+          <span class="gain hl">Today's work is tied to the customer's need.</span></article>
+        <article class="step" data-scene="4" data-acc="var(--o)"><span class="time">13:30</span>
+          <h3><svg class="ico"><use href="#i-dynamite"/></svg>Dynamite</h3>
+          <p>The test procedure is written in the wiki, with a live ticket block and Word export in the team's template.</p>
+          <span class="gain hl">The docs are up to date because they live with the project.</span></article>
+        <article class="step" data-scene="5" data-acc="var(--g)"><span class="time">15:00</span>
+          <h3><svg class="ico"><use href="#i-testing"/></svg>Testing</h3>
+          <p>She picks the electrical safety and drop tests from the Test Base, generates the Test Plan for the lab, and the PDF result closes the loop.</p>
+          <span class="gain hl">From requirement to “Verified” test, with no retyping.</span></article>
+        <article class="step" data-scene="6" data-acc="var(--t)"><span class="time">16:45</span>
+          <h3><svg class="ico"><use href="#i-timesheet"/></svg>Timesheet</h3>
+          <p>Her hours for the week on the steps of the PDP, copied from one day to the next, submitted to the instructor.</p>
+          <span class="gain hl">You see where the team's time went, phase by phase.</span></article>
+        <article class="step" data-scene="7" data-acc="var(--p)"><span class="time">17:00</span>
+          <h3><svg class="ico"><use href="#i-training"/></svg>Training &amp; Help</h3>
+          <p>A Pugh matrix topic from her training plan, then HeadLamp to try the new tool risk-free.</p>
+          <span class="gain hl">You learn where you work.</span></article>
+      </div>
+      <div class="stage" aria-hidden="true">
+        <div class="screen" id="screen">
+          <div class="bar">
+            <span class="tab" data-t="0"><svg class="ico"><use href="#i-dashboard"/></svg>Dashboard</span>
+            <span class="tab" data-t="1"><svg class="ico"><use href="#i-goldmine"/></svg>Goldmine</span>
+            <span class="tab" data-t="2"><svg class="ico"><use href="#i-exploration"/></svg></span>
+            <span class="tab" data-t="3"><svg class="ico"><use href="#i-agile"/></svg></span>
+            <span class="tab" data-t="4"><svg class="ico"><use href="#i-dynamite"/></svg></span>
+            <span class="tab" data-t="5"><svg class="ico"><use href="#i-testing"/></svg></span>
+            <span class="tab" data-t="6"><svg class="ico"><use href="#i-timesheet"/></svg></span>
+            <span class="tab" data-t="7"><svg class="ico"><use href="#i-training"/></svg></span>
+          </div>
+          <div class="scene" data-s="0"><div class="mini-h">My Dashboard</div>
+            <div class="kpis"><div class="kpi"><b data-count="7">0</b><small>Tickets</small></div><div class="kpi"><b data-count="12">0</b><small>Requirements</small></div>
+              <div class="kpi"><b data-count="3">0</b><small>Tests</small></div><div class="kpi"><b data-count="32">0</b><small>Hours</small></div></div>
+            <div class="msg"><span class="dot">1</span><span><b>@lea</b> — “Can you confirm one-handed use with the customer?”</span></div>
+            <div class="rows" style="margin-top:.8rem"><div class="row"><code>EQP-12</code><span>One-handed grip</span><span class="chip y">Assumption</span></div>
+              <div class="row"><code>EQP-22</code><span>Buse 2 mm → 1,5 mm</span><span class="chip b">In Review</span></div></div></div>
+          <div class="scene" data-s="1"><div class="mini-h">Requirements and needs</div>
+            <div class="rows"><div class="row"><code>N-01</code><span>Glue small parts quickly</span><span class="chip">Need</span></div>
+              <div class="row"><code>N-02</code><span>Use with one hand</span><span class="chip g" id="nstatus">Assumption</span></div>
+              <div class="row"><code>REQ-012</code><span>Mass ≤ 500 g, one-handed grip</span><span class="chip b">Requirement</span></div></div>
+            <div class="trace"><svg viewBox="0 0 460 120"><path class="flow" d="M40 60 C120 20 160 100 230 60 S360 20 420 60" fill="none" stroke="#ffd23f" stroke-width="5" stroke-linecap="round"/>
+              <g font-family="Segoe Print, Ink Free, Segoe UI, sans-serif" font-size="13" fill="#26323f"><text x="8" y="100">Need</text><text x="185" y="100">Function</text><text x="360" y="100">Requirement</text></g>
+              <circle cx="40" cy="60" r="9" fill="#fff" stroke="#26323f" stroke-width="2"/><circle cx="230" cy="60" r="9" fill="#fff" stroke="#26323f" stroke-width="2"/><circle cx="420" cy="60" r="9" fill="#fff" stroke="#26323f" stroke-width="2"/></svg></div></div>
+          <div class="scene" data-s="2" style="--acc: var(--v)"><div class="mini-h">Project plan</div>
+            <div class="gantt"><div class="g-row"><span>Pre-study</span><i class="g-bar" style="--w: 38%"></i></div><div class="g-row"><span>Concept study</span><i class="g-bar" style="--w: 55%; margin-left: 30%"></i></div>
+              <div class="g-row"><span>Design</span><i class="g-bar" style="--w: 45%; margin-left: 48%; background: var(--p)"></i></div><div class="g-row"><span>Prototype</span><i class="g-bar" style="--w: 30%; margin-left: 66%"></i></div>
+              <div class="g-row"><span>RVE ◆</span><i class="g-bar" style="--w: 4%; margin-left: 80%; background: var(--o)"></i></div></div></div>
+          <div class="scene" data-s="3"><div class="mini-h">Sprint 7 · Board</div>
+            <div class="board"><div class="col"><h4>To Do</h4></div><div class="col"><h4>In Progress</h4></div><div class="col"><h4>Done</h4></div></div>
+            <div class="card" id="c1" style="top:92px">EQP-31 · Trigger</div><div class="card" id="c2" style="top:150px">EQP-32 · Nozzle and valve</div><div class="card" id="c3" style="top:208px">EQP-33 · Heater FMEA</div></div>
+          <div class="scene wiki" data-s="4" style="--acc: var(--o)"><div class="mini-h">PRC-DROP — Drop test procedure</div>
+            <div><span class="typed" id="typed"></span></div>
+            <div class="block">▣ Live ticket: <b>EQP-32</b> · Nozzle and valve · <span class="chip b">In Progress</span></div>
+            <div class="block" style="border-color: var(--b); background:#f2f7ff">⇩ Word export in the team's template</div></div>
+          <div class="scene" data-s="5" style="--acc: var(--g)"><div class="mini-h">Test Plan TP-014 · Lab</div>
+            <div class="scope"><svg viewBox="0 0 300 150"><g stroke="#1f3b33" stroke-width="1">
+              <path d="M0 37H300M0 75H300M0 112H300M60 0V150M120 0V150M180 0V150M240 0V150"/></g>
+              <path class="wave" d="M0 75 C20 20 40 20 60 75 S100 130 120 75 S160 20 180 75 S220 130 240 75 S280 20 300 75" fill="none" stroke="#5fd08a" stroke-width="3"/></svg>
+              <div class="rows"><div class="row" style="grid-template-columns:1fr auto"><span>TST-ELE-02</span><span class="chip g">Pass</span></div>
+                <div class="row" style="grid-template-columns:1fr auto"><span>TST-MEC-01</span><span class="chip g">Pass</span></div>
+                <div class="row" style="grid-template-columns:1fr auto"><span>REQ-012</span><span class="chip b" id="verified">In Verification</span></div></div></div></div>
+          <div class="scene" data-s="6" style="--acc: var(--t)"><div class="mini-h">My week · 40 h</div>
+            <div class="hours"><div style="--h: 78%"></div><div style="--h: 84%"></div><div style="--h: 70%"></div><div style="--h: 88%"></div><div style="--h: 62%"></div></div>
+            <div class="rows" style="margin-top:.8rem"><div class="row" style="grid-template-columns:1fr auto"><span>B-09 · Function search</span><b>14 h</b></div>
+              <div class="row" style="grid-template-columns:1fr auto"><span>B-11 · Engineering specifications (CdCF)</span><b>9 h</b></div></div></div>
+          <div class="scene" data-s="7" style="--acc: var(--p)"><div class="mini-h">My training plan 2026</div>
+            <div>TL-02 — Pugh Matrix</div><div class="progress"><i></i></div>
+            <div class="rows"><div class="row" style="grid-template-columns:1fr auto"><span>Markdown test · 20 questions</span><span class="chip g">18 / 20</span></div>
+              <div class="row" style="grid-template-columns:1fr auto"><span>HeadLamp · step 6 Agile</span><span class="chip y">In Progress</span></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
