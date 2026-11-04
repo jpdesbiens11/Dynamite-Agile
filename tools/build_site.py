@@ -147,6 +147,12 @@ def build():
     script = re.sub(r'REPO="\$\{DA_REPO:-[^}]*\}"', 'REPO="${{DA_REPO:-{}.git}}"'.format(REPO), script)
     (OUT / "install.sh").write_text(script, encoding="utf-8")
     written.append((OUT / "install.sh", len(script)))
+    # 0.60.10 (D-O-022): the PowerShell script of the Windows team server -- kept byte for byte (its UTF-8 BOM lets
+    # Windows PowerShell 5.1 read the accents), only the repository is filled in
+    ps1 = (BASE / "deploy" / "install.ps1").read_bytes()
+    ps1 = re.sub(rb'else \{ "https://github\.com/[^"]*" \}', 'else {{ "{}.git" }}'.format(REPO).encode("utf-8"), ps1)
+    (OUT / "install.ps1").write_bytes(ps1)
+    written.append((OUT / "install.ps1", len(ps1)))
     (OUT / ".nojekyll").write_text("", encoding="utf-8")  # GitHub Pages: serve the files as they are
     return written
 

@@ -2,80 +2,53 @@
  "changes": [
   {
    "id": "C1",
-   "title": "Generator : livrables Lean, phases modernes, codes retirés (D-O-021)",
-   "why": "LCV, CRV, PDR, CDR, VVR, MVP, BML ; MIP, RCS, RC, RVE retirés.",
+   "title": "Serveur d'équipe sur Windows : install.ps1 et certificat de l'équipe (D-O-022)",
+   "why": "PowerShell admin, winget, tâche planifiée, pare-feu privé, HTTPS sans domaine.",
    "files": [
-    "modules/codex/__init__.py",
-    "modules/codex/catalog.py",
-    "modules/codex/registry.py",
-    "static/js/codex/codex.js",
-    "tests/test_codex.py"
+    "deploy/install.ps1",
+    "site/install.ps1",
+    "tools/build_site.py",
+    "tools/make_team_ca.py",
+    "tools/write_config.py",
+    "core/config.py",
+    "tests/test_windows_install.py"
    ]
   },
   {
    "id": "C2",
-   "title": "Timesheet : libellés Lean des codes A-01 … D-21",
-   "why": "Clés inchangées ; libellés d'origine mis à jour au démarrage.",
+   "title": "Page d'installation : destination « PC Windows de l'équipe » (FR / EN)",
+   "why": "Étapes, confiance au certificat, dépannage et entretien ; guide de l'assistant IA.",
    "files": [
-    "modules/timesheet/budget.py",
-    "modules/timesheet/catalog.py",
-    "tests/test_lot_v021.py"
+    "site/en/guide.html",
+    "site/en/index.html",
+    "site/en/installation.html",
+    "site/en/installer.md",
+    "site/guide.html",
+    "site/index.html",
+    "site/installation.html",
+    "site/installer.md",
+    "tools/site/en/installation.html",
+    "tools/site/en/installer.md",
+    "tools/site/en/trouble.html",
+    "tools/site/install.js",
+    "tools/site/installation.html",
+    "tools/site/installer.md",
+    "tools/site/trouble.html"
    ]
   },
   {
    "id": "C3",
-   "title": "« Débuter » : la tornade Build-Measure-Learn",
-   "why": "Une spire par phase, MVP et revue, sortie du produit.",
-   "files": [
-    "static/css/app.css",
-    "static/index.html",
-    "static/js/tools/debuter.js",
-    "static/js/tools/debuter_content.js",
-    "static/js/tools/debuter_tornado.js",
-    "tests/test_debuter.py"
-   ]
-  },
-  {
-   "id": "C4",
-   "title": "Textes, site et tests",
-   "why": "Help, Training, Tools, acronymes, exemples, site FR / EN, vitrine ; tests/test_lean.py.",
+   "title": "Version 0.60.10 et documentation",
+   "why": "APP_VERSION, D-O-022, état du projet, vitrine.",
    "files": [
     "CLAUDE.md",
     "UPDATE_CHANGES.json",
     "UPDATE_LOG.md",
     "core/__init__.py",
-    "deploy/requis_generiques.csv",
-    "deploy/starter_exemples/lampe_bureau.json",
-    "deploy/starter_exemples/tensiometre.json",
     "docs/DECISIONS.md",
     "docs/ETAT_PROJET.md",
-    "docs/NOMS_DES_MODULES.md",
-    "modules/help/agile_guide.py",
-    "modules/testing/data_acronyms.py",
-    "modules/toolbox/methods_convergent.py",
-    "modules/training/catalog.py",
-    "modules/training/quizzes/hl_b.py",
-    "modules/training/quizzes/kb.py",
-    "modules/training/quizzes/tl.py",
-    "site/en/guide.html",
-    "site/en/index.html",
-    "site/en/installation.html",
-    "site/guide.html",
-    "site/index.html",
-    "site/installation.html",
     "static/apps/vitrine/index.html",
-    "static/js/agile/goldmine.js",
-    "static/js/help/content_path2.js",
-    "static/js/toolbox/tools.js",
-    "static/js/tools/baselines.js",
-    "static/js/tools/objectives.js",
-    "tests/test_lean.py",
-    "tests/test_open_v060.py",
-    "tools/generic_requirements.py",
-    "tools/site/en/guide.html",
-    "tools/site/en/journee.html",
-    "tools/site/guide.html",
-    "tools/vitrine/template.html"
+    "tests/test_open_v060.py"
    ]
   }
  ]

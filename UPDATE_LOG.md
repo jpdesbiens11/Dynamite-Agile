@@ -1,17 +1,13 @@
-# Journal de mise à jour — 0.60.09
+# Journal de mise à jour — 0.60.10
 
-- **Version :** 0.60.08 → 0.60.09 (2026-11-04)
+- **Version :** 0.60.09 → 0.60.10 (2026-11-04)
 - **Changements :**
-  1. **Le PDP modernisé avec le Lean Startup** (D-O-021) : les phases deviennent A. Discovery, B. Concept, C. Design et
-     D. Validation et lancement (mêmes lettres, mêmes codes de temps). Chacune est une boucle Build → Measure → Learn
-     autour de son MVP (MVP 0 à 3), rythmée par les Sprints Agile en matériel comme en logiciel, et se ferme sur une revue
-     et la décision de persévérer ou de pivoter.
-  2. **Generator** : Lean Canvas et hypothèses (LCV) au lieu du MIP, Concept Review (CRV) au lieu du RCS, PDR et CDR au
-     lieu du RC, Validation Report (VVR) au lieu du RVE ; nouveaux types MVP et BML. Une référence déjà émise avec un
-     ancien code le garde ; une nouvelle reçoit le code qui le remplace.
-  3. **« Débuter »** : la tornade du projet, une spire par phase qui monte jusqu'à la sortie du produit, et les étapes
-     de chaque boucle.
-  4. **Timesheet** : nouveaux libellés des codes A-01 … D-21, appliqués aussi sur un site existant là où le libellé
-     d'origine n'avait pas été reformulé.
-  5. **Textes** : Help, Training (quiz), Tools, acronymes, requis génériques, exemples de démarrage et site FR / EN.
+  1. **Serveur d'équipe sur un PC Windows** (D-O-022) : nouvelle destination « Sur un PC Windows de l'équipe » de la page
+     d'installation (FR / EN). Dans PowerShell en administrateur, une commande installe Python et Git, récupère le code,
+     crée le certificat HTTPS de l'équipe, règle la production, ouvre le pare-feu pour les réseaux privés seulement et
+     crée la tâche qui démarre l'outil avec Windows. La relancer met à jour sans toucher aux données.
+  2. **HTTPS sans domaine** : `tools/make_team_ca.py` crée l'autorité de certification de l'équipe et le certificat du PC ;
+     chaque poste importe une fois `ca-dynamite.crt`.
+  3. **Configuration** : `tools/write_config.py` règle `data/config.json` en ligne de commande ; `config.json` modifié dans
+     le Bloc-notes (avec BOM) est accepté.
 - **Base de données :** aucune migration.

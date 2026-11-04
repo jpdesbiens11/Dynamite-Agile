@@ -14,12 +14,13 @@ installer Dynamite | Agile. La page humaine, illustrée, est https://jpdesbiens1
 - Chaque message d'erreur du script commence par `Erreur :` et nomme le correctif : lisez-le avec elle.
 - Le code du script est public : https://github.com/jpdesbiens11/Dynamite-Agile/blob/main/deploy/install.sh
 
-## Trois destinations
+## Quatre destinations
 
 | Destination | Pour qui | Ce qu'il faut |
 |---|---|---|
 | Serveur en ligne | Une équipe qui s'y connecte de partout | VPS Linux (Ubuntu 22.04 / 24.04 ou Debian 12), accès root, nom de domaine, ports 22, 80 et 443 ouverts |
 | Serveur en essai privé | Essayer avant d'avoir un domaine | VPS Linux et accès root ; rien d'exposé, accès par tunnel SSH |
+| PC Windows de l'équipe | Une équipe sans Linux ni domaine, sur son réseau local | Windows 10 / 11 ou Server 2019+, toujours allumé, PowerShell en administrateur |
 | Son ordinateur | Essai solo | Windows, macOS ou Linux, Python 3.10 ou plus récent |
 
 ## A. Serveur en ligne
@@ -45,6 +46,31 @@ installer Dynamite | Agile. La page humaine, illustrée, est https://jpdesbiens1
 3. Sur son ordinateur, dans un **nouveau** terminal laissé ouvert : `ssh -N -L 8080:127.0.0.1:8080 root@IP`
    (il semble figé : c'est normal). Ouvrir `http://127.0.0.1:8080`, compte `admin` / `admin`, équipe d'exemple.
 4. Passer en ligne plus tard : refaire le parcours A ; la même commande avec domaine et courriel.
+
+## D. PC Windows de l'équipe (réseau local)
+
+Pour une équipe sans Linux ni domaine : un PC Windows 10 / 11 ou Server 2019+ toujours allumé héberge l'outil, en HTTPS
+sur le réseau de l'école ou du bureau. Le terminal est **PowerShell en administrateur** (la ligne commence par
+`PS C:\WINDOWS\system32>`) ; les autres postes de l'équipe sont « son ordinateur ».
+
+1. **Le PC** : branché au réseau de l'équipe, mise en veille *Jamais*, réseau marqué **Privé** (sinon le pare-feu bloque l'équipe).
+2. **PowerShell en administrateur** : Win + X → *Terminal (admin)* → Oui.
+3. **Installer** (sur ce PC, en une commande) :
+   `irm https://jpdesbiens11.github.io/Dynamite-Agile/install.ps1 -OutFile $env:TEMP\install-dynamite.ps1; powershell -ExecutionPolicy Bypass -File $env:TEMP\install-dynamite.ps1`
+   Le script affiche `== 1/7` à `== 7/7`, puis `== C'est installé`, l'adresse (`https://nom-du-pc` et l'IP) et le mot de passe
+   temporaire du compte `admin`. Options : `-Port 8443` si 443 est pris, `-Dossier D:\DynamiteAgile`, `-Desinstaller`. Le
+   relancer met à jour sans toucher aux données. Messages en anglais avec `$env:DA_LANG = "en"`.
+4. **Faire confiance au certificat**, sur chaque poste (une fois) : copier `C:\DynamiteAgile\data\tls\partage\ca-dynamite.crt`,
+   puis dans PowerShell (sans administrateur), dans le dossier du fichier :
+   `Import-Certificate -FilePath .\ca-dynamite.crt -CertStoreLocation Cert:\CurrentUser\Root` (répondre Oui). macOS :
+   double-clic → Trousseau → *Toujours approuver*. Ne jamais faire contourner l'avertissement du navigateur.
+5. **Ouvrir** `https://nom-du-pc` (ou l'IP), compte `admin`, mot de passe affiché ; puis ⚙ Admin → Spaces → Commencer.
+
+Messages du script : chaque erreur commence par `Erreur :` et nomme le correctif. Port pris par un autre service
+(PID 4 « System » = IIS ou http.sys) → `-Port 8443` ; « n'est pas ouvert en administrateur » → Win + X → Terminal (admin) ;
+`winget` introuvable → installer « App Installer » (Microsoft Store), ou Python 3.12 (python.org, « Add python.exe to PATH »)
+et Git pour Windows à la main ; « le serveur ne démarre pas » → les 20 dernières lignes de `data\logs\server.log` sont
+affichées, chaque refus y nomme la valeur et le correctif.
 
 ## C. Son ordinateur
 
