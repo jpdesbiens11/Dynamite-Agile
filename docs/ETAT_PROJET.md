@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.06)
-**Version :** 0.60.06 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** démarrer un projet avec un assistant IA (D-O-019) — 0.60.06 livrée (création du Space côté serveur) ; suite : 0.60.07 écran « Commencer », 0.60.08 `starter.md`
+**Dernière mise à jour :** 2026-11-04 (v0.60.07)
+**Version :** 0.60.07 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** démarrer un projet avec un assistant IA (D-O-019) — 0.60.07 livrée (écran « Commencer », confirmation des normes) ; suite : 0.60.08 `starter.md`
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -18,7 +18,7 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.04 | FR / EN, étape 1 (D-O-017) : le site web en anglais (`site/en/`), sélecteur FR \| EN, `installer.md` anglais, messages de `install.sh` en anglais avec `DA_LANG=en` | Livré |
 | 0.60.05 | Format Project Starter (D-O-019) : `core/starter.py`, `tools/check_starter.py`, `docs/STARTER_FORMAT.md`, trois exemples dans `deploy/starter_exemples/` | Livré |
 | 0.60.06 | « Commencer » côté serveur (D-O-019) : `core/starter_apply.py`, `/api/starter/check` et `/apply`, création du Space en une transaction, « À vérifier » stocké (migrations agile 15, testing 5) | Livré |
-| 0.60.07 | Écran « Commencer » (téléverser, aperçu, renommer les codes, mots de passe temporaires) ; badge « À vérifier » et confirmation de la norme ; « Accepted » / « Approved » refusés tant qu'elle n'est pas confirmée (D-O-019) | À faire |
+| 0.60.07 | Écran « Commencer » (téléverser, aperçu, renommer les codes, mots de passe temporaires) ; badge « À vérifier » et confirmation de la norme ; « Accepted » / « Approved » refusés tant qu'elle n'est pas confirmée (D-O-019) | Livré |
 | 0.60.08 | Prompt `site/starter.md` (FR / EN), sa page sur le site, lien dans Help (D-O-019) | À faire |
 | 0.60.09 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; analyse fonctionnelle visuelle (arbre à 3 niveaux, méthodes de recherche des fonctions, lien CdCF) ; boundary diagram éditable ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
 
@@ -34,7 +34,9 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.06)
+## Relais (fin de 0.60.07)
+
+- Écran : `static/js/admin_starter.js` (Admin → Spaces → Commencer), carte du Dashboard (`/api/starter/status`), `DA.review` (`static/js/tools/review.js`) dans Goldmine et Testing. 0.60.08 : le prompt `site/starter.md` (sources `tools/site/`), FR / EN, une question à la fois, qui produit le format de `docs/STARTER_FORMAT.md` ; lien depuis l'écran « Commencer » et Help.
 
 - Project Starter (D-O-019) : `core/starter.parse(bytes)` → `(clean, warnings)`, ne touche pas la base ; `starter.summary(clean)` pour l'aperçu. Création : `core/starter_apply.py` (check / apply, réutilise `admin.create_project_record`, `goldmine.api_create`, `tests_api.create`, `pages.api_create`). 0.60.07 : l'écran, puis la confirmation de la norme (`standard_review` → `verified`, `standard_checked` = date · personne · édition) et le refus d'« Accepted » (requis) / « Approved » (essai) d'ici là.
 

@@ -2,33 +2,38 @@
  "changes": [
   {
    "id": "C1",
-   "title": "« Commencer » côté serveur : création du Space depuis un fichier Project Starter (D-O-019)",
-   "why": "Aperçu sans écriture, puis création en une transaction ; « À vérifier » et « Brouillon IA » imposés ; migrations additives.",
+   "title": "Écran « Commencer » et carte du Dashboard (D-O-019)",
+   "why": "Fichier ou exemple, aperçu, ajustements, création, mots de passe une fois.",
    "files": [
-    "core/router.py",
     "core/starter_apply.py",
-    "modules/agile/schema.py",
-    "modules/testing/__init__.py",
-    "tests/test_starter_apply.py"
+    "static/css/app.css",
+    "static/index.html",
+    "static/js/admin.js",
+    "static/js/admin_starter.js",
+    "static/js/tools/dashboard.js"
    ]
   },
   {
    "id": "C2",
-   "title": "Format Starter aligné sur Testing et Timesheet",
-   "why": "subject = code de Testing ; codes de temps à la forme de Timesheet.",
+   "title": "« À vérifier » : confirmer la norme d'un requirement ou d'un essai",
+   "why": "Badge, dialogue, date et personne gardées ; Accepted / Approved refusés d'ici là.",
    "files": [
-    "core/starter.py",
-    "deploy/starter_exemples/convoyeur.json",
-    "deploy/starter_exemples/lampe_bureau.json",
-    "deploy/starter_exemples/tensiometre.json",
-    "docs/STARTER_FORMAT.md",
-    "tests/test_starter.py"
+    "modules/agile/__init__.py",
+    "modules/agile/goldmine.py",
+    "modules/agile/goldmine_review.py",
+    "modules/agile/issues.py",
+    "modules/testing/__init__.py",
+    "modules/testing/review.py",
+    "modules/testing/tests_api.py",
+    "static/js/agile/goldmine.js",
+    "static/js/testing/testing_record.js",
+    "static/js/tools/review.js"
    ]
   },
   {
    "id": "C3",
-   "title": "Version 0.60.06, tests et documentation",
-   "why": "APP_VERSION, décision D-O-019 complétée, état du projet, site reconstruit.",
+   "title": "Version 0.60.07, tests et documentation",
+   "why": "APP_VERSION, D-O-019 complétée, état du projet, site reconstruit.",
    "files": [
     "CLAUDE.md",
     "UPDATE_CHANGES.json",
@@ -43,7 +48,8 @@
     "site/index.html",
     "site/installation.html",
     "static/apps/vitrine/index.html",
-    "tests/test_open_v060.py"
+    "tests/test_open_v060.py",
+    "tests/test_starter_apply.py"
    ]
   }
  ]
