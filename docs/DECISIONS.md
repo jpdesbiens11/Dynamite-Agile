@@ -128,3 +128,11 @@ procédure et `site/installer.md`, guide écrit pour l'assistant (une commande �
 `deploy/install.sh` se lance aussi par `curl … | sudo bash -s -- domaine courriel` : il récupère le code dans
 `/opt/dynamite_agile`, vérifie le DNS et les ports 80 / 443 avant certbot ; le site publie sa copie (`site/install.sh`,
 dépôt renseigné par `tools/build_site.py`, constante `OWNER`).
+
+### D-O-017 — Interface et site en français et en anglais (2026-11-03, brief §5 Q6 : « FR/EN for sure at least »)
+**Décision :** Dynamite | Agile devient bilingue FR / EN (au moins ; d'autres langues pourront suivre par le même
+mécanisme). Remplace D-B-042 (français seulement). Le français reste la langue de référence ; les termes techniques
+restent en anglais dans les deux langues. Ordre prévu, une itération à la fois : (1) le site web (pages EN, sélecteur de
+langue, `installer.md` en anglais) ; (2) le cadre de l'outil (choix `language` fr / en dans les Paramètres, barre du
+haut, menus, Paramètres, Admin, messages d'erreur du serveur par catalogue) ; (3) chaque module ; (4) le contenu de
+Help, de HEADLAMP, des tests Training, des exemples et des exports Word.
