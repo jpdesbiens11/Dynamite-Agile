@@ -53,13 +53,14 @@
     main.append(
       el("div", { class: "page-head dbt-head", "data-new": "0.60.08-debuter" },
         el("h1", null, "Débuter"),
-        el("p", { class: "muted" }, "Démarrer un projet, puis le mener de la pré-étude au prototype validé : ce que vous faites à "
-          + "chaque phase, et dans quel module. Chaque bouton ouvre l'écran, dans votre Space par défaut."),
+        el("p", { class: "muted" }, "Démarrer un projet, puis le mener de la découverte du client au lancement du produit : ce que "
+          + "vous faites à chaque phase, et dans quel module. Chaque bouton ouvre l'écran, dans votre Space par défaut."),
         (DA.session.prefs || {}).default_space ? null : el("p", { class: "dbt-hint" }, DA.badge("Conseil", "info"), " Choisissez votre Space par "
           + "défaut dans l'", el("a", { href: "#/home" }, "Accueil"), " : les boutons ouvriront alors directement le bon écran (Q&A, Board…)."),
         el("nav", { class: "dbt-toc", "aria-label": "Phases" }, DA.debuterContent.map((p) =>
           el("a", { href: "#dbt-" + p.id, onclick: (ev) => { ev.preventDefault(); document.getElementById("dbt-" + p.id).scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); } },
             p.id.length === 1 ? p.id + ". " + p.title : p.title)))),
+      DA.debuterTornado(DA.debuterContent.filter((p) => p.mvp)),  // 0.60.09 (D-O-021): one turn per phase
       ...DA.debuterContent.map((p) => phase(p, isAdmin)),
       el("div", { class: "form-actions dbt-foot" }, el("a", { class: "btn", href: "#/help" }, "Guide complet"), toggle));
   }
