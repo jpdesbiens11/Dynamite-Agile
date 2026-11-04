@@ -1,0 +1,40 @@
+/* Goldmine « Matrice de Pugh » (D-B-062) */
+.pg-intro { max-width: 120ch; }
+.pg-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin: .2rem 0 .8rem; }
+.pg-description { max-width: 120ch; margin: 0 0 1rem; }
+.pg-status-draft { background: rgba(12, 102, 228, .12); color: #0c66e4; }
+.pg-status-decided { background: rgba(34, 160, 107, .15); color: #216e4e; }
+.pg-toolbar { display: flex; flex-wrap: wrap; gap: .8rem 2rem; margin: 0 0 1rem; padding: .7rem .9rem; border: 1px solid var(--line);
+  border-radius: var(--radius-sm); background: var(--surface); }
+.pg-tool { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; }
+.pg-tool select, .pg-tool input { width: auto; max-width: 34rem; }
+.pg-datum-pick { display: inline-flex; align-items: center; gap: .35rem; margin-left: .8rem; font-size: .9rem; }
+.pg-datum-pick select { width: auto; }
+.pg-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-sm); }
+.pg-matrix { width: 100%; border-collapse: collapse; }
+.pg-matrix th, .pg-matrix td { border-bottom: 1px solid var(--line); padding: .35rem .5rem; vertical-align: middle; }
+.pg-crit { text-align: left; font-weight: 400; min-width: 16rem; max-width: 34rem; padding-left: .8rem !important; }
+.pg-ext { font-size: .82rem; }
+.pg-concept { text-align: center; min-width: 6.5rem; max-width: 11rem; white-space: normal; }
+.pg-matrix .gm-phase { white-space: normal; font-size: .74rem; }
+.pg-matrix td:nth-child(2) { max-width: 11rem; }
+.pg-concept-name { display: block; font-weight: 700; }
+.pg-concept-edit { font-size: .75rem; }
+.pg-datum { background: color-mix(in srgb, #758195 14%, transparent); }
+.pg-datum-tag { display: inline-block; margin: .15rem 0; padding: 0 .4rem; border-radius: 999px; font-size: .72rem; font-weight: 700;
+  background: #44546f; color: #fff; }
+.pg-cell { text-align: center; position: relative; font-weight: 700; font-size: 1.05rem; }
+.pg-cell select { width: 4.2rem; text-align: center; font-weight: 700; padding: .15rem .2rem; }
+.pg-plus { background: color-mix(in srgb, #22a06b 22%, transparent); color: #216e4e; }
+.pg-minus { background: color-mix(in srgb, #e2483d 20%, transparent); color: #ae2e24; }
+.pg-S { background: color-mix(in srgb, #758195 12%, transparent); }
+.pg-datum-cell { color: var(--muted); }
+.pg-note-dot { position: absolute; top: .1rem; right: .3rem; color: #0c66e4; font-size: 1.1rem; line-height: 1; }
+.pg-total th { text-align: right; font-weight: 600; }
+.pg-num { text-align: center; font-weight: 700; }
+.pg-total-net td, .pg-total-rank td { border-top: 2px solid var(--line); }
+.pg-best { background: color-mix(in srgb, #22a06b 30%, transparent); color: #216e4e; }
+.pg-keep { display: flex; flex-direction: column; gap: .3rem; }
+@media (prefers-color-scheme: dark) { .pg-plus, .pg-best { color: #7ee2b8; } .pg-minus { color: #fd9891; } }
+.pg-matrix thead th { white-space: normal; vertical-align: bottom; }
+.pg-concept-edit { display: block; margin: .1rem auto 0; }

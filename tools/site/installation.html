@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Installer Dynamite | Agile sur un VPS Linux</title>
+<meta name="description" content="Installer Dynamite | Agile sur un VPS Linux en trois commandes : HTTPS Let's Encrypt, pare-feu, service systemd.">
+{{FAVICON}}
+<style>
+{{CSS}}
+</style>
+</head>
+<body>
+{{SPRITE}}
+{{TOP}}
+<main class="page">
+  <span class="kicker">Installation · 20 minutes</span>
+  <h1>Installer Dynamite | Agile <span class="hl" style="--hlc: var(--t)">sur votre VPS</span></h1>
+  <p class="lead">Un serveur Linux, un nom de domaine et trois commandes. L'exemple suit un VPS Hostinger (offre KVM), mais la
+    procédure vaut pour tout VPS Ubuntu ou Debian.</p>
+  <ul class="toc">
+    <li><a href="#prealables">1. Préalables</a></li><li><a href="#vps">2. Le VPS</a></li><li><a href="#domaine">3. Le domaine</a></li>
+    <li><a href="#connexion">4. Se connecter</a></li><li><a href="#installer">5. Installer</a></li><li><a href="#premier">6. Premier accès</a></li>
+    <li><a href="#entretien">7. Entretien</a></li><li><a href="#depannage">Dépannage</a></li></ul>
+
+  <h2 id="prealables" class="reveal">1. Ce qu'il faut</h2>
+  <table class="t reveal"><tr><th>Élément</th><th>Minimum</th><th>Remarque</th></tr>
+    <tr><td>Serveur</td><td>VPS Linux, 1 vCPU, 1 Go de mémoire, 10 Go de disque</td><td>Ubuntu 22.04 / 24.04 ou Debian 12. Une équipe de 10 personnes tient à l'aise sur la plus petite offre.</td></tr>
+    <tr><td>Accès</td><td>SSH en root (ou un compte avec <code>sudo</code>)</td><td>Ou la console web du panneau de l'hébergeur.</td></tr>
+    <tr><td>Domaine</td><td>Un nom de domaine ou un sous-domaine</td><td>Pour le certificat HTTPS gratuit (Let's Encrypt).</td></tr>
+    <tr><td>Ports</td><td>22, 80 et 443 libres</td><td>Aucun autre site ni application ne doit déjà occuper 80 ou 443 sur ce VPS.</td></tr></table>
+
+  <h2 id="vps" class="reveal">2. Préparer le VPS</h2>
+  <ol class="stepper reveal">
+    <li><b>Choisir le système</b>Dans le panneau de l'hébergeur (Hostinger : hPanel → <i>VPS</i> → <i>OS &amp; Panel</i>), installez
+      <b>Ubuntu 24.04</b> sans panneau ni application, ou gardez celui en place s'il n'occupe pas les ports 80 et 443.</li>
+    <li><b>Noter l'adresse IP et l'accès root</b>Sur la page <i>Overview</i> du VPS : l'adresse IP, le nom d'utilisateur SSH
+      (<code>root</code>) et le mot de passe root (bouton <i>Change</i> pour en choisir un). Mieux encore : ajoutez votre clé SSH.</li>
+    <li><b>Ouvrir le pare-feu du panneau</b>Si l'hébergeur a son propre pare-feu (Hostinger : <i>Security</i> → <i>Firewall</i>),
+      autorisez les ports <b>22</b> (SSH), <b>80</b> et <b>443</b> (web). Le script règle ensuite le pare-feu du système.</li>
+  </ol>
+
+  <h2 id="domaine" class="reveal">3. Pointer le domaine vers le VPS</h2>
+  <ol class="stepper reveal">
+    <li><b>Créer l'enregistrement A</b>Dans le gestionnaire DNS de votre domaine (Hostinger : <i>DNS Manager</i>, ou
+      <i>Claim your free domain</i> sur la page du VPS), créez un enregistrement <b>A</b> : nom <code>atelier</code> (ou
+      <code>@</code> pour le domaine nu), valeur = l'adresse IP du VPS, TTL court (300 s).</li>
+    <li><b>Vérifier</b>Après quelques minutes, depuis votre poste : <code>ping atelier.mon-domaine.ca</code> doit répondre avec
+      l'adresse IP du VPS. Le certificat HTTPS ne peut pas être obtenu avant.</li>
+  </ol>
+
+  <h2 id="connexion" class="reveal">4. Se connecter au VPS</h2>
+  <p class="reveal">Depuis un terminal (Windows : PowerShell ou Terminal ; macOS et Linux : Terminal), ou avec le bouton
+    <i>Web console</i> du panneau :</p>
+  <pre class="cmd reveal"><code>ssh root@ADRESSE_IP_DU_VPS</code></pre>
+
+  <h2 id="installer" class="reveal">5. Installer en trois commandes</h2>
+  <p class="reveal">Remplacez le domaine et le courriel (il sert seulement aux avis d'expiration du certificat) :</p>
+  <pre class="cmd reveal"><code>sudo apt update &amp;&amp; sudo apt install -y git</code>
+<code>sudo git clone {{REPO}}.git /opt/dynamite_agile</code>
+<code>sudo bash /opt/dynamite_agile/deploy/install.sh atelier.mon-domaine.ca moi@exemple.ca</code></pre>
+  <div class="note reveal"><b>Ce que fait le script</b>, dans l'ordre : paquets du système (Python 3, git, certbot, ufw) ;
+    pare-feu (22, 80, 443) ; utilisateur système <code>dynamite</code> sans droits root ; certificat HTTPS Let's Encrypt, renouvelé
+    tout seul ; <code>data/config.json</code> pour la production (HTTPS sur 443, redirection depuis 80, mode développement coupé) ;
+    service <code>dynamite-agile</code> démarré au boot ; affichage du mot de passe temporaire du compte <code>admin</code>.
+    On peut le relancer sans rien perdre.</div>
+
+  <h2 id="premier" class="reveal">6. Premier accès et votre équipe</h2>
+  <ol class="stepper reveal">
+    <li><b>Se connecter</b>Ouvrez <code>https://atelier.mon-domaine.ca</code>, compte <code>admin</code>, avec le mot de passe affiché
+      par le script ; choisissez tout de suite le vôtre.</li>
+    <li><b>Créer les comptes</b>⚙ Admin → Comptes → <i>Règles d'accès</i> : une ligne par personne, vérifiée à blanc avant d'être
+      appliquée. Chacun reçoit un mot de passe temporaire à changer à la première connexion.
+      <pre class="cmd"><code>utilisateur nina | Nina | utilisateur | actif</code>
+<code>profil      nina | Génie mécanique</code>
+<code>droit       nina | EQP | admin-projet</code></pre></li>
+    <li><b>Créer le Space du projet</b>⚙ Admin → Spaces : une clé (ex. <code>EQP</code>) et un nom. Le Space est prêt dans chaque
+      onglet, avec une carte « Commencer ici ».</li>
+    <li><b>Faire le tour guidé</b>Help → le tour du site, un chapitre par outil, avec son exercice dans le Space bac à sable HEADLAMP.
+      Voir aussi le <a href="guide.html">guide de prise en main</a>.</li>
+  </ol>
+
+  <h2 id="entretien" class="reveal">7. Entretien</h2>
+  <table class="t reveal"><tr><th>Pour…</th><th>Faire</th></tr>
+    <tr><td>Mettre à jour le code</td><td><code>sudo bash /opt/dynamite_agile/deploy/redeploy.sh</code> (les données ne sont jamais touchées)</td></tr>
+    <tr><td>Sauvegarder</td><td>⚙ Admin → Update et sauvegardes : points de restauration, sauvegarde d'un Space ; et la sauvegarde du VPS chez l'hébergeur</td></tr>
+    <tr><td>Voir le journal du service</td><td><code>journalctl -u dynamite-agile -n 100</code></td></tr>
+    <tr><td>Redémarrer</td><td><code>sudo systemctl restart dynamite-agile</code></td></tr>
+    <tr><td>Mot de passe admin oublié</td><td><code>sudo -u dynamite python3 /opt/dynamite_agile/app_dynamite_agile.py --reset-password admin</code></td></tr>
+    <tr><td>Vérifier HTTPS</td><td>⚙ Admin → Sécurité réseau : HTTPS actif, TLS 1.3, HSTS</td></tr>
+    <tr><td>Déménager</td><td>⚙ Admin → Update et sauvegardes → Site complet, vers un site neuf</td></tr></table>
+
+  <h2 id="depannage" class="reveal">Dépannage</h2>
+  <table class="t reveal"><tr><th>Message</th><th>Cause et correctif</th></tr>
+    <tr><td>« les ports 80 ou 443 sont déjà pris »</td><td>Un serveur web ou une application installée par le panneau (souvent dans
+      Docker) écoute déjà. Arrêtez-la ou installez Dynamite | Agile sur un autre VPS.</td></tr>
+    <tr><td>certbot : « Timeout during connect » ou « NXDOMAIN »</td><td>Le domaine ne pointe pas encore vers le VPS, ou le port 80 est
+      fermé dans le pare-feu du panneau. Vérifiez l'enregistrement A et le pare-feu, attendez la propagation, relancez le script.</td></tr>
+    <tr><td>Le service ne démarre pas</td><td><code>journalctl -u dynamite-agile -n 50</code> : chaque refus nomme la valeur fautive et le correctif.</td></tr>
+    <tr><td>Pas encore de domaine</td><td>Essai privé par tunnel SSH : voir <code>deploy/DEPLOIEMENT_VPS.md</code> dans le dépôt.</td></tr></table>
+</main>
+{{FOOTER}}
+<script>
+{{SITE_JS}}
+</script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+/* « Terminal R&D » (D-B-088): the geek lab -- a modern developer terminal on the dark base (data-theme="dark").
+   Near-black background, syntax-highlighting colour per tool (--acc), monospaced font for titles, keys, numbers and
+   the prompt; running text stays in the UI font for 8 hours of reading. Hover like a code editor: brackets around the
+   tabs, blinking caret, selection-coloured rows, a short glitch on icons. Active when <html data-term="on">.
+   Fonts already on Windows only (Cascadia Code / Mono, Consolas). */
+
+html[data-term] {
+  color-scheme: dark;
+  --bg: #0d1117; --surface: #161b22; --surface-2: #1c2330; --ink: #e6edf3; --muted: #8b949e; --line: #30363d;
+  --panel: #010409; --panel-ink: #e6edf3; --brand-blue: #79c0ff;
+  --agile: #58a6ff; --agile-strong: #79c0ff; --dynamite: #ffa657; --exploration: #d2a8ff;
+  --danger: #ff7b72; --warn: #e3b341; --ok: #7ee787;
+  --radius-sm: 4px; --radius-lg: 6px;
+  --shadow: 0 0 0 1px rgba(240, 246, 252, .04);
+  --mono: "Cascadia Code", "Cascadia Mono", "JetBrains Mono", Consolas, "DejaVu Sans Mono", monospace;
+  --acc: #58a6ff; --acc-glow: rgba(88, 166, 255, .35);
+  --sel: rgba(56, 139, 253, .16);
+}
+/* the module areas re-declare light tokens locally (agile.css, dynamite.css): re-declare the terminal ones there */
+html[data-term] :is(.content.ag-main, .ag-layout, .content.dy-main, .dy-layout, .dy-page) {
+  --bg: #0d1117; --surface: #161b22; --surface-2: #1c2330; --ink: #e6edf3; --muted: #8b949e; --line: #30363d;
+  --agile: #58a6ff; --agile-strong: #79c0ff; --dynamite: #ffa657; --danger: #ff7b72; --warn: #e3b341; --ok: #7ee787;
+  color-scheme: dark; color: var(--ink); background-color: transparent;
+}
+html[data-term] .content.ag-main, html[data-term] .content.dy-main, html[data-term] .dy-layout, html[data-term] .ag-layout { background-color: var(--bg); }
+html[data-term][data-module="dashboard"] { --acc: #58a6ff; }
+html[data-term][data-module="home"] { --acc: #e6edf3; }
+html[data-term][data-module="goldmine"] { --acc: #e3b341; }
+html[data-term][data-module="exploration"] { --acc: #d2a8ff; }
+html[data-term][data-module="agile"] { --acc: #79c0ff; }
+html[data-term][data-module="dynamite"] { --acc: #ffa657; }
+html[data-term][data-module="testing"] { --acc: #7ee787; }
+html[data-term][data-module="tools"] { --acc: #56d4dd; }
+html[data-term][data-module="training"] { --acc: #ff7eb6; }
+html[data-term][data-module="timesheet"] { --acc: #3fb9a3; }
+html[data-term][data-module="help"] { --acc: #e3b341; }
+html[data-term][data-module="about"] { --acc: #f2cc60; }
+html[data-term][data-module="admin"] { --acc: #ff7b72; }
+html[data-term] { --acc-glow: color-mix(in srgb, var(--acc) 38%, transparent); }
+
+html[data-term] body, html[data-term] .content, html[data-term] .content.ag-main {
+  background: var(--bg);
+  background-image: radial-gradient(rgba(240, 246, 252, .035) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--ink);
+}
+html[data-term] ::selection { background: rgba(56, 139, 253, .4); }
+
+/* ---------- top bar: a terminal title bar ---------- */
+html[data-term] .topbar { background: var(--panel); border-bottom: 1px solid var(--line); box-shadow: none; border-image: none; }
+html[data-term] .tab { position: relative; display: inline-flex; align-items: center; gap: .38rem; color: var(--muted); opacity: 1;
+  font: 500 .88rem var(--mono); border-radius: 4px; padding: .36rem .55rem; background: none; }
+html[data-term] .tab::before, html[data-term] .tab::after { color: var(--tab-acc, var(--acc)); opacity: 0; transition: opacity .12s ease, transform .12s ease; }
+html[data-term] .tab::before { content: "["; position: absolute; left: -.05rem; transform: translateX(4px); }
+html[data-term] .tab::after { content: "]"; position: absolute; right: -.05rem; transform: translateX(-4px); }
+html[data-term] .tab:hover { color: var(--ink); background: rgba(240, 246, 252, .05); }
+html[data-term] .tab:hover::before, html[data-term] .tab:hover::after, html[data-term] .tab.active::before,
+html[data-term] .tab.active::after { opacity: 1; transform: none; }
+html[data-term] .tab.active { color: var(--tab-acc, var(--acc)); background: rgba(240, 246, 252, .06); font-weight: 650; box-shadow: none; }
+html[data-term] .tab .sk-icon { color: var(--tab-acc, var(--acc)); }
+html[data-term] .tab:hover .sk-icon { animation: term-glitch .32s steps(2) 1; }
+html[data-term] .tab[data-key="dashboard"] { --tab-acc: #58a6ff; }
+html[data-term] .tab[data-key="home"] { --tab-acc: #e6edf3; }
+html[data-term] .tab[data-key="goldmine"] { --tab-acc: #e3b341; }
+html[data-term] .tab[data-key="exploration"] { --tab-acc: #d2a8ff; }
+html[data-term] .tab[data-key="agile"] { --tab-acc: #79c0ff; }
+html[data-term] .tab[data-key="dynamite"] { --tab-acc: #ffa657; }
+html[data-term] .tab[data-key="testing"] { --tab-acc: #7ee787; }
+html[data-term] .tab[data-key="tools"] { --tab-acc: #56d4dd; }
+html[data-term] .tab[data-key="training"] { --tab-acc: #ff7eb6; }
+html[data-term] .tab[data-key="timesheet"] { --tab-acc: #3fb9a3; }
+html[data-term] .tab[data-key="help"] { --tab-acc: #e3b341; }
+html[data-term] .tab-group-sep { width: 1px; height: 20px; align-self: center; margin: 0 .3rem; background: var(--line); }
+@keyframes term-glitch {
+  0% { transform: translate(0); filter: none; }
+  33% { transform: translate(-1px, 1px); filter: drop-shadow(1px 0 #ff7b72) drop-shadow(-1px 0 #56d4dd); }
+  66% { transform: translate(1px, -1px); filter: drop-shadow(-1px 0 #ff7b72) drop-shadow(1px 0 #56d4dd); }
+  100% { transform: translate(0); filter: none; }
+}
+html[data-term] :is(a, button):hover > .sk-icon { animation: term-glitch .32s steps(2) 1; }
+
+html[data-term] .ts-box { background: #0d1117; border: 1px solid var(--line); border-radius: 6px; }
+html[data-term] .ts-box:focus-within { border-color: var(--acc); box-shadow: 0 0 0 3px var(--acc-glow); }
+html[data-term] .topbar .ts-input { color: var(--ink); font-family: var(--mono); }
+html[data-term] .tb-audit-list, html[data-term] .tb-audit, html[data-term] .tb-mine, html[data-term] .admin-tab, html[data-term] .tb-palette {
+  display: inline-flex; align-items: center; gap: .35rem; color: var(--muted); border: 1px solid var(--line); border-radius: 6px;
+  background: transparent; font-family: var(--mono); }
+html[data-term] .tb-audit-list, html[data-term] .tb-audit { font-size: 0; padding: .38rem .5rem; gap: 0; }
+html[data-term] .tb-audit-list .tb-audit-count { font-size: .72rem; margin-left: .2rem; }
+html[data-term] .tb-mine .tb-mine-label { display: none; }
+html[data-term] :is(.tb-audit-list, .tb-audit, .tb-mine, .admin-tab, .tb-palette):hover { color: var(--ink); border-color: var(--acc); }
+html[data-term] .avatar { background: #21262d; color: var(--ok); font-family: var(--mono); border: 1px solid var(--ok); }
+html[data-term] .menu { background: #161b22; border-color: var(--line); }
+
+/* ---------- prompt line under the top bar ---------- */
+.term-prompt { display: none; }
+html[data-term] .term-prompt { display: flex; align-items: center; gap: .1rem; padding: .32rem clamp(.8rem, 2vw, 1.5rem);
+  font: .82rem var(--mono); color: var(--muted); background: #010409; border-bottom: 1px solid var(--line); white-space: nowrap; overflow: hidden; }
+html[data-term] .term-prompt .u { color: var(--ok); }
+html[data-term] .term-prompt .h { color: #d2a8ff; }
+html[data-term] .term-prompt .p { color: #79c0ff; }
+html[data-term] .term-prompt .c { color: var(--ink); margin-left: .45rem; }
+html[data-term] .term-prompt .caret { display: inline-block; width: .6em; height: 1.05em; margin-left: 2px; background: var(--ink);
+  vertical-align: -.15em; animation: term-blink 1.05s steps(1) infinite; }
+@keyframes term-blink { 50% { opacity: 0; } }
+
+/* ---------- side panel ---------- */
+html[data-term] .ag-sidebar, html[data-term] .dy-sidebar { background: #010409; border-right: 1px solid var(--line); }
+html[data-term] .ag-nav-item { font-family: var(--mono); font-size: .88rem; color: var(--muted); border-left: 2px solid transparent;
+  border-radius: 0 4px 4px 0; transition: color .12s ease, background .12s ease; }
+html[data-term] .ag-nav-item::before { content: "  "; white-space: pre; color: var(--acc); }
+html[data-term] .ag-nav-item:hover { color: var(--ink); background: rgba(240, 246, 252, .05); }
+html[data-term] .ag-nav-item:hover::before { content: "› "; }
+html[data-term] .ag-nav-item.active { color: var(--ink); background: var(--sel); border-left-color: var(--acc); box-shadow: none; font-weight: 600; }
+html[data-term] .ag-nav-item.active::before { content: "❯ "; }
+html[data-term] .ag-nav-admin-title, html[data-term] .ag-sidebar-title { font-family: var(--mono); color: var(--danger); }
+html[data-term] [class$="-mark-img"], html[data-term] .ag-sidebar-mark img { filter: drop-shadow(0 0 10px var(--acc-glow)); }
+
+/* ---------- titles: a comment line ---------- */
+html[data-term] main h1 { font-family: var(--mono); font-weight: 650; letter-spacing: -.01em; }
+html[data-term] main h1::before { content: "# "; color: var(--acc); }
+html[data-term] main h2 { font-family: var(--mono); font-size: 1.05rem; }
+html[data-term] main h2::before { content: "## "; color: var(--muted); }
+html[data-term] .muted { color: var(--muted); }
+html[data-term] a { color: #79c0ff; }
+
+/* ---------- surfaces ---------- */
+html[data-term] :is(.project, .directory-card, .db-section, .db-kpi, .gm-counter, .dy-space-card, .ex-card, .hp-card, .qa-card,
+  .ob-card, .tt-card, .au-card, .ag-transfer-card, .gm-block, .ag-block, .tl-card, .tr-card, .panel, .table-wrap, .empty) {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 6px; box-shadow: none; color: var(--ink);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+html[data-term] :is(.project, .directory-card, .db-kpi, .gm-counter, .dy-space-card, .ex-card, .hp-card, .qa-card, .ob-card,
+  .tt-card, .au-card, .tl-card, .tr-card):hover { border-color: var(--acc); box-shadow: 0 0 0 1px var(--acc), 0 0 18px var(--acc-glow); }
+html[data-term] .db-kpi { border-top: 2px solid var(--acc); }
+html[data-term] .db-kpi-value, html[data-term] .gm-count strong, html[data-term] .ag-key, html[data-term] .key,
+html[data-term] code, html[data-term] .gm-last { font-family: var(--mono); }
+html[data-term] .key { background: #21262d; color: var(--ok); }
+html[data-term] .empty { border-style: dashed; }
+html[data-term] .empty::before { content: "$ ls\A (vide)"; white-space: pre; display: block; font: .85rem var(--mono); color: var(--muted); margin-bottom: .5rem; }
+
+/* ---------- tables: editor selection ---------- */
+html[data-term] table.data { color: var(--ink); }
+html[data-term] table.data th { background: #161b22; color: var(--muted); font: 600 .78rem var(--mono); text-transform: uppercase;
+  letter-spacing: .04em; border-bottom: 1px solid var(--line); }
+html[data-term] table.data td { border-color: var(--line); }
+html[data-term] table.data tbody tr:hover { background: var(--sel); box-shadow: inset 2px 0 0 var(--acc); }
+
+/* ---------- controls ---------- */
+html[data-term] .btn { background: #21262d; color: var(--ink); border: 1px solid rgba(240, 246, 252, .1); border-radius: 6px;
+  font-family: var(--mono); font-size: .86rem; transition: border-color .12s ease, background .12s ease; }
+html[data-term] .btn:hover:not(:disabled) { background: #30363d; border-color: var(--muted); }
+html[data-term] .btn-primary { background: #238636; border-color: rgba(240, 246, 252, .1); color: #fff; }
+html[data-term] .btn-primary:hover:not(:disabled) { background: #2ea043; }
+html[data-term] .btn-primary::before { content: "❯ "; opacity: .7; }
+html[data-term] .btn-danger { color: var(--danger); }
+html[data-term] .badge { font-family: var(--mono); border-radius: 4px; }
+html[data-term] :is(input, select, textarea) { background: #0d1117; color: var(--ink); border: 1px solid var(--line); border-radius: 6px; }
+html[data-term] :is(input, select, textarea):focus { border-color: var(--acc); box-shadow: 0 0 0 3px var(--acc-glow); outline: none; }
+html[data-term] input::placeholder, html[data-term] textarea::placeholder { color: #6e7681; }
+html[data-term] :focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
+html[data-term] .modal { background: #161b22; color: var(--ink); border: 1px solid var(--line); border-radius: 8px;
+  box-shadow: 0 16px 48px rgba(1, 4, 9, .85); animation: term-in .16s ease-out both; }
+html[data-term] .modal h2, html[data-term] .modal-head { font-family: var(--mono); }
+@keyframes term-in { from { opacity: 0; transform: translateY(6px) scale(.99); } to { opacity: 1; transform: none; } }
+html[data-term] .toast { background: #161b22; color: var(--ink); border: 1px solid var(--line); border-left: 3px solid var(--ok);
+  font-family: var(--mono); }
+
+/* ---------- sign-in: boot sequence ---------- */
+html[data-term] .auth-page { background: var(--bg); }
+html[data-term] .auth-card { background: #161b22; border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 0 0 1px #010409, 0 20px 60px rgba(0, 0, 0, .6); }
+html[data-term] .auth-title { font-family: var(--mono); }
+html[data-term] .auth-title::before { content: "❯ "; color: var(--ok); }
+html[data-term] .sk-hero { display: none; }
+.term-boot { position: fixed; inset: 0; z-index: 2000; display: flex; align-items: center; justify-content: center; background: #010409;
+  cursor: pointer; }
+.term-boot pre { width: min(760px, 92vw); margin: 0; padding: 1.4rem 1.6rem; font: .9rem/1.55 "Cascadia Code", "Cascadia Mono", Consolas, monospace;
+  color: #c9d1d9; background: #0d1117; border: 1px solid #30363d; border-radius: 8px; white-space: pre-wrap; min-height: 320px; }
+.term-boot .ok { color: #7ee787; } .term-boot .dim { color: #6e7681; } .term-boot .hi { color: #79c0ff; } .term-boot .warn { color: #e3b341; }
+.term-boot .skip { position: absolute; bottom: 1.2rem; right: 1.6rem; font: .78rem Consolas, monospace; color: #6e7681; }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-term] *, html[data-term] *::before, html[data-term] *::after { animation: none !important; transition: none !important; }
+}
+
+/* ---------- Goldmine chips on the dark background ---------- */
+html[data-term] .gm-level { background: #21262d; color: var(--ink); }
+html[data-term] .gm-ns-assumption { background: rgba(227, 179, 65, .15); color: #e3b341; }
+html[data-term] .gm-ns-confirmed { background: rgba(88, 166, 255, .15); color: #79c0ff; }
+html[data-term] .gm-ns-contractual { background: rgba(126, 231, 135, .15); color: #7ee787; }
+html[data-term] .gm-need { background: rgba(210, 168, 255, .15); color: #d2a8ff; }
+
+/* ---------- panels that keep a light background in the modules: dark equivalents ---------- */
+html[data-term] :is(.hp-headlamp, .hp-try, .tt-banner, .db-audit-banner, .initials-banner, .set-initials-warn, .qa-wait-team,
+  .qa-wait-client, .tl-idea, .dy-image, .mine-banner) {
+  background: var(--surface-2); color: var(--ink); border-color: var(--line);
+}
+html[data-term] :is(.hp-headlamp, .hp-try) * { color: inherit; }
+html[data-term] :is(.tt-banner, .db-audit-banner, .initials-banner, .set-initials-warn) { border-left: 3px solid var(--warn); }
+html[data-term] .tt-banner :is(p, span, div, strong) { color: var(--ink); }
+html[data-term] .qa-ref, html[data-term] .qa-cust .qa-ref { background: #21262d; color: var(--ink); font-family: var(--mono); }
+html[data-term] .tl-idea.tl-voted { background: rgba(126, 231, 135, .1); }
+html[data-term] .tl-idea.tl-partner { background: rgba(88, 166, 255, .1); }
+html[data-term] :is(.ts-result, .ts-suggest) mark { background: rgba(227, 179, 65, .3); color: var(--ink); }
+html[data-term] .dy-sidebar { background: #010409; }

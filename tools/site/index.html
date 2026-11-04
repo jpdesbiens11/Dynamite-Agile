@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dynamite | Agile — l'atelier libre de conception de produit</title>
+<meta name="description" content="Dynamite | Agile : besoins, requirements, plan, sprints, wiki, essais, formation et heures pour les équipes de conception de produit. Logiciel libre (MIT), sur votre serveur.">
+{{FAVICON}}
+<style>
+{{CSS}}
+</style>
+</head>
+<body>
+{{SPRITE}}
+<canvas id="energy" aria-hidden="true"></canvas>
+{{TOP}}
+
+<main id="top">
+  <!-- 1. Hero: the idea, before the mine -->
+  <div class="hero">
+    <div>
+      <span class="kicker">Logiciel libre · Conception de produit · Équipes étudiantes et start-ups</span>
+      <h1>Chaque bon produit commence <span class="hl">par ce qu'on découvre</span>.</h1>
+      <p class="lead">Dynamite | Agile est l'atelier d'une équipe de conception : on y prospecte le besoin, on dégage le savoir,
+        on extrait les requirements en or et on prouve chacun par un essai. Du besoin du client au prototype validé, dans un
+        seul outil, installé sur votre serveur.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#descente"><svg class="ico"><use href="#i-bolt"/></svg>Descendre dans la mine</a>
+        <a class="btn" href="installation.html"><svg class="ico"><use href="#i-admin"/></svg>Installer en 3 commandes</a>
+      </div>
+      <span class="scroll-hint">↓ descendez, la mine s'ouvre</span>
+    </div>
+    <div class="hero-art">{{HERO}}</div>
+  </div>
+
+  <!-- 2. The descent: one module per level, the mine analogy and the role in the project -->
+  <section id="descente">
+    <h2 class="reveal">Une <span class="hl" style="--hlc: var(--o)">mine</span>, dix outils</h2>
+    <p class="sub reveal">Concevoir un produit, c'est exploiter un gisement. Chaque outil porte le nom de son geste ; descendez
+      un niveau à la fois.</p>
+    <div class="descent">
+      <div class="shaft" aria-hidden="true">
+        <svg class="lamp" viewBox="0 0 48 48"><circle cx="24" cy="24" r="17" fill="#ffd23f" stroke="#26323f" stroke-width="2.5"/>
+          <path d="M24 6v-4M24 46v-4M6 24h-4M46 24h-4M11 11l-3-3M37 37l3 3M11 37l-3 3M37 11l3-3" stroke="#26323f" stroke-width="2.5" stroke-linecap="round"/></svg>
+        <div class="rope"><i></i></div>
+        <div class="depth" data-m="0">0 m</div>
+      </div>
+      <div class="levels">
+{{LEVELS}}
+        <p class="surface reveal">… et le <span class="hl" style="--hlc: var(--b)">Dashboard</span> vous remonte à la surface : tout ce qui vous attend, dans tous vos Spaces.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. A day with the team (same sequence as the platform's vitrine) -->
+{{JOURNEY}}
+
+  <!-- 4. The chain -->
+{{CHAIN}}
+
+  <!-- 5. The tools -->
+{{TOOLS}}
+
+  <!-- 6. On your server in three commands -->
+  <section id="installer" class="center reveal">
+    <h2>Sur <span class="hl" style="--hlc: var(--t)">votre serveur</span>, en trois commandes</h2>
+    <p class="sub">Un VPS Linux, un nom de domaine, et le script fait le reste : HTTPS, pare-feu, service, compte administrateur.
+      Aucun abonnement, aucun service cloud, aucune donnée qui sort.</p>
+    <div class="term"><div class="tbar"><i></i><i></i><i></i></div><pre id="term" data-lines="{{TERM}}"></pre></div>
+    <div class="cta" style="margin-top:1.6rem"><a class="btn btn-primary" href="installation.html">Procédure pas à pas</a>
+      <a class="btn" href="guide.html">Guide de prise en main</a></div>
+  </section>
+
+  <!-- 7. Free software -->
+  <section id="libre" class="reveal">
+    <h2>Libre, <span class="hl" style="--hlc: var(--g)">pour de vrai</span></h2>
+    <ul class="trust" style="padding:0">
+      <li><b>Licence MIT</b> : utilisez, modifiez et redistribuez l'outil, en gardant la mention de l'auteur.</li>
+      <li><b>Python standard</b> : aucune bibliothèque à installer, aucun CDN, aucune police externe.</li>
+      <li><b>Vos données chez vous</b> : droits par Space, journal d'audit de chaque écriture, sauvegardes et points de restauration.</li>
+      <li><b>Pensé pour apprendre</b> : un Space bac à sable, un tour guidé de chaque outil, des tests de formation.</li>
+    </ul>
+    <p class="sub" style="margin-top:1.4rem">Conçu par Jean-Philippe Desbiens et construit avec Claude Opus 5.5, en octobre 2026.</p>
+  </section>
+
+  <section class="final reveal">
+    <h2>Votre prochain produit commence <span class="hl">dans la mine</span>.</h2>
+    <div class="cta"><a class="btn btn-primary" href="installation.html"><svg class="ico"><use href="#i-bolt"/></svg>Installer Dynamite | Agile</a>
+      <a class="btn" href="{{REPO}}">Le code sur GitHub</a></div>
+  </section>
+</main>
+{{FOOTER}}
+<script>
+{{VITRINE_JS}}
+</script>
+<script>
+{{SITE_JS}}
+</script>
+</body>
+</html>

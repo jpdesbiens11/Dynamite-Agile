@@ -1,0 +1,98 @@
+"""0.40.0: test plans for an external supplier (D-A-048) and PDF store (core lot v0.20).
+
+    python -m unittest tests.test_lot_v030 -v
+"""
+import io
+import sys
+import tempfile
+import threading
+import unittest
+import urllib.request
+import zipfile
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(BASE_DIR))
+
+from core import auth, db, modules, router, startup  # noqa: E402
+from core.config import load_config  # noqa: E402
+from tools.api_client import ApiFailure, Client  # noqa: E402
+
+PDF = b"%PDF-1.4\n1 0 obj << /Type /Catalog >> endobj\ntrailer << /Root 1 0 R >>\n%%EOF\n"
+
+
+class LotV030Test(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.TemporaryDirectory()
+        data_dir = Path(cls.tmp.name)
+        cfg = load_config(data_dir)
+        cfg["port"], cfg["require_initials"] = 0, False
+        db.init_db(data_dir / "t.db", modules.registered_schema(), modules.registered_migrations())
+        with db.connect() as conn:
+            auth.ensure_initial_admin(conn, data_dir, dev_password="admin")
+        startup.run(data_dir, cfg)
+        cls.server = router.create_server(cfg, BASE_DIR / "static", data_dir)
+        threading.Thread(target=cls.server.serve_forever, daemon=True).start()
+        cls.url = "http://127.0.0.1:{}".format(cls.server.server_address[1])
+        cls.admin = Client(cls.url)
+        cls.admin.login("admin", "admin")
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.server.shutdown()
+        cls.server.server_close()
+        cls.tmp.cleanup()
+
+    def status(self, fn):
+        try:
+            fn()
+        except ApiFailure as exc:
+            return exc.status
+        return 200
+
+    def upload(self, path, data, name):
+        req = urllib.request.Request(self.url + path, data=data, method="POST",
+                                     headers={"Content-Type": "application/pdf", "X-File-Name": name,
+                                              "X-CSRF-Token": self.admin.csrf})
+        try:
+            with self.admin.opener.open(req) as resp:
+                return resp.status
+        except urllib.error.HTTPError as exc:
+            return exc.code
+
+    def download(self, path):
+        with self.admin.opener.open(self.url + path) as resp:
+            return resp.read()
+
+    def test_plan_cycle(self):
+        tests = [t["test_id"] for t in self.admin.get("/api/testing/tests")["tests"] if t["subject"] == "env"][:3]
+        tests.append("TST-CUS-01")
+        self.assertEqual(self.status(lambda: self.admin.post("/api/testing/plans", {"tests": tests, "location": "NOPE"})), 400)
+        self.assertEqual(self.status(lambda: self.admin.post("/api/testing/plans", {"tests": ["TST-XXX-99"], "location": "EXT"})), 400)
+        code = self.admin.post("/api/testing/plans", {"title": "Environmental Campaign", "location": "EXT", "tests": tests,
+                                                      "purpose": "Qualify the product against its environmental requirements."})["code"]
+        self.assertEqual(code, "TP-001")
+        doc = zipfile.ZipFile(io.BytesIO(self.download("/api/testing/plans/{}/plan.docx".format(code)))).read(
+            "word/document.xml").decode("utf-8")
+        for text in ("EXT", "Environmental Campaign", tests[0], "Test Procedures", "À COMPLÉTER", "Approvals",
+                     "Qualify the product", "Acronyms"):
+            self.assertIn(text, doc)
+        self.assertNotIn("Tests Covered", doc)  # the procedure page's own table is left out
+        base = "/api/testing/plans/{}".format(code)
+        self.assertEqual(self.upload(base + "/results", PDF, "resultats.pdf"), 409)  # not sent yet
+        self.admin.post(base + "/status", {"status": "sent"})
+        self.assertEqual(self.status(lambda: self.admin.patch(base, {"location": "LAB"})), 409)  # draft only
+        self.assertEqual(self.status(lambda: self.admin.post(base + "/status", {"status": "closed"})), 400)
+        self.assertEqual(self.upload(base + "/results", b"\x89PNG\r\n\x1a\n...", "image.png"), 415)
+        self.assertEqual(self.upload(base + "/results", PDF, "EXT_rapport.pdf"), 200)
+        plan = self.admin.get(base)["plan"]
+        self.assertEqual(plan["status"], "results")
+        self.assertEqual(plan["results_name"], "EXT_rapport.pdf")
+        self.assertEqual(self.download(base + "/results.pdf"), PDF)
+        self.admin.post(base + "/status", {"status": "closed"})
+        self.assertEqual(self.admin.get(base)["plan"]["status"], "closed")
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)

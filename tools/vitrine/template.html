@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dynamite | Agile — atelier de conception de produit</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='3' width='26' height='26' rx='3' fill='%23ffd23f' stroke='%2326323f' stroke-width='2'/%3E%3Cpath d='M18 6 L11 17 H16 L14 26 L22 14 H17 Z' fill='none' stroke='%2326323f' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root {
+  --paper: #fcfbf7; --grid: rgba(12, 102, 228, .06); --ink: #26323f; --ink-2: #44546f; --blue: #0c66e4;
+  --y: #ffd23f; --o: #ff8a3d; --c: #3ec6e0; --g: #5fd08a; --p: #ff6f91; --v: #9b7bff; --b: #4d8dff; --t: #2ec4b6; --r: #ff5a4f;
+  --hand: "Segoe Print", "Ink Free", "Bradley Hand", "Chalkboard SE", "Comic Sans MS", "Segoe UI", system-ui, sans-serif;
+  --sans: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --r-hand: 255px 15px 225px 15px / 15px 225px 15px 255px; --r-card: 14px 22px 12px 20px / 20px 12px 22px 14px;
+  --shadow: 4px 4px 0 rgba(38, 50, 63, .14); --pop: cubic-bezier(.34, 1.56, .64, 1);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font: 17px/1.55 var(--sans); color: var(--ink); background: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 26px 26px; overflow-x: hidden; }
+a { color: var(--blue); }
+.hand { font-family: var(--hand); }
+.hl { background: linear-gradient(transparent 55%, color-mix(in srgb, var(--hlc, var(--y)) 75%, transparent) 55% 92%, transparent 92%);
+  padding: 0 .12em; }
+.ico { width: 1.4em; height: 1.4em; vertical-align: -.3em; flex: none; }
+#energy { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+main, header, footer { position: relative; z-index: 1; }
+
+/* ---------- top ---------- */
+.top { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 1.2rem; padding: .7rem clamp(1rem, 4vw, 3rem);
+  background: rgba(252, 251, 247, .88); backdrop-filter: blur(6px); }
+.top::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 6px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='6'%3E%3Cpath d='M0 3 Q30 1 60 3.4 T120 2.6 T180 3.5 T240 3' fill='none' stroke='%2326323f' stroke-opacity='.5' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x; }
+.logo { display: flex; align-items: center; gap: .55rem; font: 700 1.15rem var(--hand); text-decoration: none; color: var(--ink); }
+.logo-mark { width: 34px; height: 34px; }
+.top nav { display: flex; gap: .2rem; margin-left: auto; flex-wrap: wrap; }
+.top nav a { position: relative; padding: .35rem .65rem; color: var(--ink); text-decoration: none; font-weight: 500; z-index: 0; }
+.top nav a::after { content: ""; position: absolute; left: .4rem; right: .4rem; bottom: .15rem; height: .45rem; z-index: -1;
+  background: var(--y); opacity: .7; border-radius: var(--r-hand); transform: scaleX(0); transform-origin: left; transition: transform .25s ease; }
+.top nav a:hover::after, .top nav a.on::after { transform: scaleX(1); }
+.btn { display: inline-flex; align-items: center; gap: .5rem; padding: .7rem 1.2rem; border: 1.8px solid var(--ink);
+  border-radius: var(--r-hand); background: #fff; color: var(--ink); font-weight: 650; text-decoration: none; cursor: pointer;
+  box-shadow: var(--shadow); transition: transform .2s var(--pop), box-shadow .2s ease; }
+.btn:hover { transform: translate(-2px, -3px) rotate(-.6deg); box-shadow: 7px 7px 0 rgba(38, 50, 63, .16); }
+.btn-primary { background: var(--blue); color: #fff; border-color: #0b3f8f; box-shadow: 4px 4px 0 #0b3f8f; }
+.btn-primary:hover { box-shadow: 7px 7px 0 #0b3f8f; }
+
+/* ---------- hero ---------- */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 2rem; align-items: center;
+  max-width: 1240px; margin: 0 auto; padding: clamp(2rem, 6vw, 5rem) clamp(1rem, 4vw, 3rem) 3rem; min-height: 86vh; }
+.kicker { font: 600 .95rem var(--hand); color: var(--ink-2); transform: rotate(-1.5deg); display: inline-block; }
+h1 { font: 700 clamp(2.1rem, 4.6vw, 3.6rem)/1.12 var(--hand); margin: .3rem 0 1rem; letter-spacing: -.01em; }
+.lead { font-size: 1.15rem; color: var(--ink-2); max-width: 36rem; }
+.cta { display: flex; gap: .9rem; flex-wrap: wrap; margin-top: 1.6rem; }
+.hero-art svg { width: 100%; height: auto; overflow: visible; }
+.hero-art .draw path[fill="none"] { stroke-dasharray: 1400; stroke-dashoffset: 1400; animation: draw 2.6s ease-out forwards; }
+.hero-art .draw path[fill]:not([fill="none"]) { opacity: 0; animation: fade .8s ease-out forwards; animation-delay: 1.6s; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes fade { to { opacity: 1; } }
+.scroll-hint { display: block; margin: 1.8rem 0 0; font: 600 .9rem var(--hand); color: var(--ink-2); animation: bob 1.8s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(6px); } }
+
+/* ---------- sections ---------- */
+section { max-width: 1240px; margin: 0 auto; padding: 4.5rem clamp(1rem, 4vw, 3rem); }
+h2 { font: 700 clamp(1.7rem, 3.2vw, 2.5rem)/1.2 var(--hand); margin: 0 0 .6rem; }
+.sub { color: var(--ink-2); max-width: 44rem; margin: 0 0 2rem; }
+.reveal { opacity: 0; transform: translateY(26px) rotate(-.4deg); transition: opacity .7s ease, transform .7s var(--pop); }
+.reveal.in { opacity: 1; transform: none; }
+
+/* before / after */
+.pains { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; }
+.pain { position: relative; padding: 1.2rem 1.2rem 1.1rem; background: #fff; border: 1.6px solid rgba(38, 50, 63, .3);
+  border-radius: var(--r-card); box-shadow: var(--shadow); }
+.pain .was { font: 600 1rem var(--hand); color: #8a95a3; position: relative; display: inline-block; }
+.pain .was::after { content: ""; position: absolute; left: -4px; right: -4px; top: 55%; height: 3px; background: var(--r);
+  border-radius: 3px; transform: scaleX(0) rotate(-3deg); transform-origin: left; transition: transform .6s ease .3s; }
+.pain.in .was::after { transform: scaleX(1) rotate(-3deg); }
+.pain .now { margin: .6rem 0 0; font-weight: 650; }
+.pain .now span { --hlc: var(--g); }
+
+/* ---------- journey: sticky screen + steps ---------- */
+.journey { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 2.5rem; align-items: start; }
+.steps { display: flex; flex-direction: column; gap: 38vh; padding: 10vh 0 30vh; }
+.step { padding: 1.2rem 1.3rem; background: rgba(255, 255, 255, .86); border: 1.6px solid rgba(38, 50, 63, .25); border-radius: var(--r-card);
+  box-shadow: var(--shadow); opacity: .35; transform: scale(.97); transition: opacity .4s ease, transform .4s var(--pop), border-color .3s; }
+.step.on { opacity: 1; transform: none; border-color: var(--ink); }
+.step .time { font: 700 .95rem var(--hand); color: var(--ink-2); }
+.step h3 { display: flex; align-items: center; gap: .5rem; margin: .2rem 0 .4rem; font-size: 1.3rem; }
+.step p { margin: 0; color: var(--ink-2); }
+.step .gain { display: inline-block; margin-top: .6rem; font: 600 .9rem var(--hand); --hlc: var(--g); }
+.stage { position: sticky; top: 14vh; }
+.screen { position: relative; height: 470px; background: #fff; border: 2px solid var(--ink); border-radius: var(--r-card);
+  box-shadow: 8px 8px 0 rgba(38, 50, 63, .16); overflow: hidden; }
+.screen::before { content: ""; position: absolute; top: -12px; left: 40px; width: 96px; height: 22px; background: color-mix(in srgb, var(--y) 70%, transparent);
+  transform: rotate(-4deg); z-index: 3; }
+.bar { display: flex; align-items: center; gap: .45rem; height: 40px; padding: 0 .8rem; border-bottom: 1.4px solid rgba(38, 50, 63, .25);
+  font: 600 .8rem var(--sans); }
+.bar .tab { display: inline-flex; align-items: center; gap: .25rem; padding: .15rem .35rem; border-radius: var(--r-hand); color: var(--ink-2); }
+.bar .tab.on { color: var(--ink); background: color-mix(in srgb, var(--acc, var(--b)) 45%, transparent); }
+.bar .ico { width: 16px; height: 16px; }
+.scene { position: absolute; inset: 40px 0 0; padding: 1rem 1.1rem; opacity: 0; transform: translateX(24px); transition: opacity .45s ease, transform .45s ease;
+  font-size: .9rem; }
+.scene.on { opacity: 1; transform: none; }
+.mini-h { font: 700 1.05rem var(--hand); margin: 0 0 .7rem; display: inline-block; background: linear-gradient(transparent 58%, color-mix(in srgb, var(--acc, var(--b)) 55%, transparent) 58% 90%, transparent 90%); }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; }
+.kpi { padding: .6rem; border: 1.4px solid rgba(38, 50, 63, .25); border-radius: var(--r-card); box-shadow: 2px 2px 0 rgba(38, 50, 63, .12); }
+.kpi b { display: block; font-size: 1.5rem; }
+.kpi small { color: var(--ink-2); }
+.msg { display: flex; align-items: center; gap: .5rem; margin-top: .8rem; padding: .55rem .7rem; border-left: 4px solid var(--r);
+  background: #fff5f4; border-radius: 6px; transform: scale(0); transform-origin: left; transition: transform .45s var(--pop) .6s; }
+.scene.on .msg { transform: scale(1); }
+.dot { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--r); color: #fff; font-size: .75rem; font-weight: 700; }
+.rows { display: grid; gap: .45rem; }
+.row { display: grid; grid-template-columns: 70px 1fr auto; gap: .6rem; align-items: center; padding: .45rem .55rem; border: 1.2px solid rgba(38, 50, 63, .18);
+  border-radius: 8px; background: #fff; }
+.row code { font: 600 .78rem "Cascadia Mono", Consolas, monospace; color: var(--blue); }
+.chip { padding: .05rem .45rem; border-radius: var(--r-hand); font: 700 .72rem var(--sans); background: #eef1f5; }
+.chip.y { background: #fff1bf; color: #8a5a00; } .chip.g { background: #dcf7e6; color: #1a6e3e; } .chip.b { background: #e3eeff; color: #0a58ad; }
+.trace { position: relative; height: 120px; margin-top: .7rem; }
+.trace svg { width: 100%; height: 100%; }
+.trace .flow { stroke-dasharray: 8 10; animation: flow 1.2s linear infinite; }
+@keyframes flow { to { stroke-dashoffset: -36; } }
+.gantt { display: grid; gap: .55rem; margin-top: .4rem; }
+.g-row { display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: .6rem; font-size: .82rem; }
+.g-bar { height: 14px; border-radius: var(--r-hand); background: var(--v); width: 0; transition: width 1s ease; opacity: .85; }
+.scene.on .g-bar { width: var(--w); }
+.board { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; height: 330px; }
+.col { background: #f4f5f7; border-radius: 10px; padding: .5rem; position: relative; }
+.col h4 { margin: 0 0 .4rem; font-size: .75rem; text-transform: uppercase; color: var(--ink-2); }
+.card { position: absolute; left: .5rem; right: .5rem; padding: .45rem .55rem; background: #fff; border: 1.4px solid rgba(38, 50, 63, .25);
+  border-radius: var(--r-card); box-shadow: 2px 2px 0 rgba(38, 50, 63, .12); font-size: .78rem; transition: transform .9s var(--pop); }
+.wiki { font-size: .86rem; }
+.wiki .typed { border-right: 2px solid var(--ink); white-space: nowrap; overflow: hidden; display: inline-block; max-width: 100%; }
+.wiki .block { margin-top: .6rem; padding: .5rem .6rem; border: 1.4px dashed var(--o); border-radius: 8px; background: #fff7ef; }
+.scope { display: grid; grid-template-columns: 1.3fr 1fr; gap: .8rem; }
+.scope svg { width: 100%; height: 150px; background: #0f1d1a; border-radius: 10px; }
+.scope .wave { stroke-dasharray: 600; stroke-dashoffset: 600; }
+.scene.on .scope .wave { animation: draw 2.4s linear forwards; }
+.hours { display: grid; grid-template-columns: repeat(5, 1fr); gap: .45rem; align-items: end; height: 150px; margin-top: .6rem; }
+.hours div { background: var(--t); border-radius: 6px 6px 3px 3px; height: 0; transition: height .8s var(--pop); opacity: .85; }
+.scene.on .hours div { height: var(--h); }
+.progress { height: 14px; border: 1.4px solid var(--ink); border-radius: var(--r-hand); overflow: hidden; margin: .6rem 0; }
+.progress i { display: block; height: 100%; width: 0; background: var(--p); transition: width 1.4s ease; }
+.scene.on .progress i { width: 72%; }
+
+/* ---------- chain ---------- */
+.chain svg { width: 100%; height: auto; }
+.chain .node rect { fill: #fff; stroke: var(--ink); stroke-width: 2; }
+.chain .node text { font: 700 17px var(--hand); fill: var(--ink); }
+.chain .node .sm { font: 500 12px var(--sans); fill: var(--ink-2); }
+.chain .link { fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 600; stroke-dashoffset: 600; transition: stroke-dashoffset 1.4s ease; }
+.chain.in .link { stroke-dashoffset: 0; }
+.chain .spark { fill: var(--y); stroke: var(--ink); stroke-width: 1.2; }
+
+/* ---------- tools grid ---------- */
+.tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 1.1rem; }
+.tool { position: relative; padding: 1.1rem 1.1rem 1rem; background: #fff; border: 1.6px solid rgba(38, 50, 63, .28); border-radius: var(--r-card);
+  box-shadow: var(--shadow); transition: transform .3s var(--pop), box-shadow .3s ease; transform-style: preserve-3d; }
+.tool:hover { box-shadow: 9px 10px 0 rgba(38, 50, 63, .15); }
+.tool .ico { width: 44px; height: 44px; padding: 6px; border-radius: 46% 54% 50% 50% / 52% 46% 54% 48%;
+  background: color-mix(in srgb, var(--a) 45%, transparent); transition: transform .4s var(--pop); }
+.tool:hover .ico { transform: rotate(-10deg) scale(1.1); }
+.tool h3 { margin: .6rem 0 .25rem; font: 700 1.15rem var(--hand); }
+.tool p { margin: 0; color: var(--ink-2); font-size: .93rem; }
+
+/* ---------- numbers & trust ---------- */
+.nums { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem; }
+.num { text-align: center; padding: 1.1rem; background: #fff; border: 1.6px solid rgba(38, 50, 63, .25); border-radius: var(--r-card); box-shadow: var(--shadow); }
+.num b { display: block; font: 700 2.4rem var(--hand); }
+.num span { color: var(--ink-2); }
+.trust { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+.trust li { list-style: none; padding: .8rem 1rem; background: rgba(255, 255, 255, .8); border-left: 5px solid var(--g); border-radius: 8px; }
+.final { text-align: center; }
+.final .cta { justify-content: center; }
+footer { text-align: center; padding: 2rem 1rem 3rem; color: var(--ink-2); font-size: .88rem; }
+
+@media (max-width: 900px) {
+  .hero, .journey { grid-template-columns: minmax(0, 1fr); }
+  .stage { position: relative; top: 0; }
+  .steps { gap: 1.2rem; padding: 1rem 0; }
+  .step { opacity: 1; transform: none; }
+  .kpis { grid-template-columns: repeat(2, 1fr); }
+  .screen { overflow: hidden; } .bar { overflow: hidden; } #journee { overflow-x: clip; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1; transform: none; }
+  .hero-art .draw path { stroke-dashoffset: 0 !important; opacity: 1 !important; }
+  #energy { display: none; }
+}
+</style>
+</head>
+<body>
+<!--SPRITE-->
+<canvas id="energy" aria-hidden="true"></canvas>
+
+<header class="top">
+  <a class="logo" href="#top"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="4" fill="#ffd23f" stroke="#26323f" stroke-width="2"/><path d="M18 6 L11 17 H16 L14 26 L22 14 H17 Z" fill="none" stroke="#26323f" stroke-width="2" stroke-linejoin="round"/></svg>Dynamite | Agile</a>
+  <nav aria-label="Sections">
+    <a href="#journee">Votre journée</a><a href="#chaine">La chaîne</a><a href="#outils">Les outils</a><a href="#confiance">Sur votre serveur</a>
+  </nav>
+  <a class="btn btn-primary" href="/">Ouvrir l'outil</a>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div>
+      <span class="kicker">Conception de produit · Analyse fonctionnelle · Travail d'équipe</span>
+      <h1>Le carnet d'équipe qui mène un produit <span class="hl">de l'idée au prototype</span>.</h1>
+      <p class="lead">Besoins, fonctions, requirements, plan, sprints, wiki, essais, formation et heures : tout le processus de
+        développement d'un produit dans un seul environnement, tracé du besoin client jusqu'au test qui le prouve. Sur votre serveur, sans cloud.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#journee"><svg class="ico"><use href="#i-bolt"/></svg>Suivre une journée</a>
+        <a class="btn" href="#outils"><svg class="ico"><use href="#i-spaces"/></svg>Voir les 10 outils</a>
+      </div>
+      <span class="scroll-hint">↓ descendez, le carnet se remplit</span>
+    </div>
+    <div class="hero-art"><!--HERO--></div>
+  </div>
+
+  <section id="avant" class="reveal">
+    <h2>Fini le <span class="hl" style="--hlc: var(--o)">puzzle</span> de fichiers</h2>
+    <p class="sub">Ce qui vivait dans dix endroits vit maintenant à un seul, et chaque élément sait d'où il vient.</p>
+    <div class="pains">
+      <div class="pain reveal"><span class="was">Spec client dans un courriel</span><p class="now"><span class="hl">Goldmine : le need, sa source et son Need Status</span></p></div>
+      <div class="pain reveal"><span class="was">Matrice de traçabilité Excel v12_final</span><p class="now"><span class="hl">Derived From calculé, trous signalés</span></p></div>
+      <div class="pain reveal"><span class="was">Plan de test en Word à refaire</span><p class="now"><span class="hl">Test Plan généré depuis la Test Base</span></p></div>
+      <div class="pain reveal"><span class="was">Feuille de temps papier</span><p class="now"><span class="hl">Timesheet en 2 minutes, par étape du PDP</span></p></div>
+    </div>
+  </section>
+
+  <section id="journee">
+    <h2 class="reveal">Une journée dans le <span class="hl" style="--hlc: var(--c)">carnet</span></h2>
+    <p class="sub reveal">Suivez Léa, étudiante en génie électrique, et son équipe (Nina, Hugo, Alexis) sur la conception d'un pistolet à colle chaude. L'écran de droite montre ce qu'elle voit.</p>
+    <div class="journey">
+      <div class="steps">
+        <article class="step" data-scene="0" data-acc="var(--b)"><span class="time">08:00</span>
+          <h3><svg class="ico"><use href="#i-dashboard"/></svg>Dashboard</h3>
+          <p>Tout ce qui l'attend dans tous ses Spaces : tickets, requirements, heures à soumettre, et un « @lea » de Nina.</p>
+          <span class="gain hl">Zéro courriel à trier pour savoir quoi faire.</span></article>
+        <article class="step" data-scene="1" data-acc="var(--y)"><span class="time">08:30</span>
+          <h3><svg class="ico"><use href="#i-goldmine"/></svg>Goldmine</h3>
+          <p>Le client confirme qu'il veut coller d'une seule main. Léa passe le need en « Customer Confirmed » : les requirements qui en dérivent sont justifiés d'un clic.</p>
+          <span class="gain hl">Chaque requirement répond à un besoin réel.</span></article>
+        <article class="step" data-scene="2" data-acc="var(--v)"><span class="time">10:00</span>
+          <h3><svg class="ico"><use href="#i-exploration"/></svg>Exploration</h3>
+          <p>Le plan sur plusieurs mois se recalcule : durées, prédécesseurs, jalons. Le Gantt suit, l'Excel aller-retour reste possible.</p>
+          <span class="gain hl">Le plan et la réalité ne divergent plus.</span></article>
+        <article class="step" data-scene="3" data-acc="var(--b)"><span class="time">11:00</span>
+          <h3><svg class="ico"><use href="#i-agile"/></svg>Agile</h3>
+          <p>Sprint Planning : Backlog → Sprint → Board. Chaque ticket « implements » un requirement ; les ECN passent en revue.</p>
+          <span class="gain hl">Le travail du jour est relié au besoin client.</span></article>
+        <article class="step" data-scene="4" data-acc="var(--o)"><span class="time">13:30</span>
+          <h3><svg class="ico"><use href="#i-dynamite"/></svg>Dynamite</h3>
+          <p>La procédure de test s'écrit dans le wiki, avec un bloc ticket vivant et l'export Word au gabarit de l'équipe.</p>
+          <span class="gain hl">La doc est à jour parce qu'elle vit avec le projet.</span></article>
+        <article class="step" data-scene="5" data-acc="var(--g)"><span class="time">15:00</span>
+          <h3><svg class="ico"><use href="#i-testing"/></svg>Testing</h3>
+          <p>Elle choisit les essais de sécurité électrique et de chute dans la Test Base, génère le Test Plan pour le laboratoire, et le résultat PDF ferme la boucle.</p>
+          <span class="gain hl">Du requirement au test « Verified », sans ressaisie.</span></article>
+        <article class="step" data-scene="6" data-acc="var(--t)"><span class="time">16:45</span>
+          <h3><svg class="ico"><use href="#i-timesheet"/></svg>Timesheet</h3>
+          <p>Ses heures de la semaine sur les étapes du PDP, copiées d'une journée à l'autre, soumises à l'enseignant.</p>
+          <span class="gain hl">On voit où le temps de l'équipe est passé, phase par phase.</span></article>
+        <article class="step" data-scene="7" data-acc="var(--p)"><span class="time">17:00</span>
+          <h3><svg class="ico"><use href="#i-training"/></svg>Training &amp; Help</h3>
+          <p>Un topic sur la matrice de Pugh de son plan de formation, puis HeadLamp pour essayer le nouvel outil sans risque.</p>
+          <span class="gain hl">On apprend là où on travaille.</span></article>
+      </div>
+      <div class="stage" aria-hidden="true">
+        <div class="screen" id="screen">
+          <div class="bar">
+            <span class="tab" data-t="0"><svg class="ico"><use href="#i-dashboard"/></svg>Dashboard</span>
+            <span class="tab" data-t="1"><svg class="ico"><use href="#i-goldmine"/></svg>Goldmine</span>
+            <span class="tab" data-t="2"><svg class="ico"><use href="#i-exploration"/></svg></span>
+            <span class="tab" data-t="3"><svg class="ico"><use href="#i-agile"/></svg></span>
+            <span class="tab" data-t="4"><svg class="ico"><use href="#i-dynamite"/></svg></span>
+            <span class="tab" data-t="5"><svg class="ico"><use href="#i-testing"/></svg></span>
+            <span class="tab" data-t="6"><svg class="ico"><use href="#i-timesheet"/></svg></span>
+            <span class="tab" data-t="7"><svg class="ico"><use href="#i-training"/></svg></span>
+          </div>
+          <div class="scene" data-s="0"><div class="mini-h">Mon Dashboard</div>
+            <div class="kpis"><div class="kpi"><b data-count="7">0</b><small>Tickets</small></div><div class="kpi"><b data-count="12">0</b><small>Requirements</small></div>
+              <div class="kpi"><b data-count="3">0</b><small>Tests</small></div><div class="kpi"><b data-count="32">0</b><small>Heures</small></div></div>
+            <div class="msg"><span class="dot">1</span><span><b>@lea</b> — « Peux-tu confirmer l'usage à une main avec le client ? »</span></div>
+            <div class="rows" style="margin-top:.8rem"><div class="row"><code>EQP-12</code><span>Préhension à une main</span><span class="chip y">Assumption</span></div>
+              <div class="row"><code>EQP-22</code><span>Buse 2 mm → 1,5 mm</span><span class="chip b">In Review</span></div></div></div>
+          <div class="scene" data-s="1"><div class="mini-h">Requirements et needs</div>
+            <div class="rows"><div class="row"><code>N-01</code><span>Coller rapidement des petites pièces</span><span class="chip">Need</span></div>
+              <div class="row"><code>N-02</code><span>Utiliser d'une seule main</span><span class="chip g" id="nstatus">Assumption</span></div>
+              <div class="row"><code>REQ-012</code><span>Masse ≤ 500 g, préhension une main</span><span class="chip b">Requirement</span></div></div>
+            <div class="trace"><svg viewBox="0 0 460 120"><path class="flow" d="M40 60 C120 20 160 100 230 60 S360 20 420 60" fill="none" stroke="#ffd23f" stroke-width="5" stroke-linecap="round"/>
+              <g font-family="Segoe Print, Ink Free, Segoe UI, sans-serif" font-size="13" fill="#26323f"><text x="8" y="100">Need</text><text x="185" y="100">Fonction</text><text x="360" y="100">Requirement</text></g>
+              <circle cx="40" cy="60" r="9" fill="#fff" stroke="#26323f" stroke-width="2"/><circle cx="230" cy="60" r="9" fill="#fff" stroke="#26323f" stroke-width="2"/><circle cx="420" cy="60" r="9" fill="#fff" stroke="#26323f" stroke-width="2"/></svg></div></div>
+          <div class="scene" data-s="2" style="--acc: var(--v)"><div class="mini-h">Plan du projet</div>
+            <div class="gantt"><div class="g-row"><span>Pré-étude</span><i class="g-bar" style="--w: 38%"></i></div><div class="g-row"><span>Étude conc.</span><i class="g-bar" style="--w: 55%; margin-left: 30%"></i></div>
+              <div class="g-row"><span>Conception</span><i class="g-bar" style="--w: 45%; margin-left: 48%; background: var(--p)"></i></div><div class="g-row"><span>Prototype</span><i class="g-bar" style="--w: 30%; margin-left: 66%"></i></div>
+              <div class="g-row"><span>RVE ◆</span><i class="g-bar" style="--w: 4%; margin-left: 80%; background: var(--o)"></i></div></div></div>
+          <div class="scene" data-s="3"><div class="mini-h">Sprint 7 · Board</div>
+            <div class="board"><div class="col"><h4>To Do</h4></div><div class="col"><h4>In Progress</h4></div><div class="col"><h4>Done</h4></div></div>
+            <div class="card" id="c1" style="top:92px">EQP-31 · Gâchette</div><div class="card" id="c2" style="top:150px">EQP-32 · Buse et clapet</div><div class="card" id="c3" style="top:208px">EQP-33 · AMDEC chauffe</div></div>
+          <div class="scene wiki" data-s="4" style="--acc: var(--o)"><div class="mini-h">PRC-CHUTE — Procédure d'essai de chute</div>
+            <div><span class="typed" id="typed"></span></div>
+            <div class="block">▣ Ticket vivant : <b>EQP-32</b> · Buse et clapet · <span class="chip b">In Progress</span></div>
+            <div class="block" style="border-color: var(--b); background:#f2f7ff">⇩ Export Word au gabarit de l'équipe · Codebeamer-style</div></div>
+          <div class="scene" data-s="5" style="--acc: var(--g)"><div class="mini-h">Test Plan TP-014 · Laboratoire</div>
+            <div class="scope"><svg viewBox="0 0 300 150"><g stroke="#1f3b33" stroke-width="1">
+              <path d="M0 37H300M0 75H300M0 112H300M60 0V150M120 0V150M180 0V150M240 0V150"/></g>
+              <path class="wave" d="M0 75 C20 20 40 20 60 75 S100 130 120 75 S160 20 180 75 S220 130 240 75 S280 20 300 75" fill="none" stroke="#5fd08a" stroke-width="3"/></svg>
+              <div class="rows"><div class="row" style="grid-template-columns:1fr auto"><span>TST-ELE-02</span><span class="chip g">Pass</span></div>
+                <div class="row" style="grid-template-columns:1fr auto"><span>TST-MEC-01</span><span class="chip g">Pass</span></div>
+                <div class="row" style="grid-template-columns:1fr auto"><span>REQ-012</span><span class="chip b" id="verified">In Verification</span></div></div></div></div>
+          <div class="scene" data-s="6" style="--acc: var(--t)"><div class="mini-h">Ma semaine · 40 h</div>
+            <div class="hours"><div style="--h: 78%"></div><div style="--h: 84%"></div><div style="--h: 70%"></div><div style="--h: 88%"></div><div style="--h: 62%"></div></div>
+            <div class="rows" style="margin-top:.8rem"><div class="row" style="grid-template-columns:1fr auto"><span>B-09 · Recherche des fonctions</span><b>14 h</b></div>
+              <div class="row" style="grid-template-columns:1fr auto"><span>B-11 · Spécifications d'ingénierie (CdCF)</span><b>9 h</b></div></div></div>
+          <div class="scene" data-s="7" style="--acc: var(--p)"><div class="mini-h">Mon plan de formation 2026</div>
+            <div>TL-02 — Matrice de Pugh</div><div class="progress"><i></i></div>
+            <div class="rows"><div class="row" style="grid-template-columns:1fr auto"><span>Test Markdown · 20 questions</span><span class="chip g">18 / 20</span></div>
+              <div class="row" style="grid-template-columns:1fr auto"><span>HeadLamp · étape 6 Agile</span><span class="chip y">En cours</span></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="chaine" class="chain reveal">
+    <h2>La chaîne qui fait <span class="hl" style="--hlc: var(--g)">un bon produit</span></h2>
+    <p class="sub">Du besoin du client au test qui le prouve, chaque maillon est un lien, pas une copie. Un extrait Word ou CSV la montre au client.</p>
+    <svg viewBox="0 0 1180 230" role="img" aria-label="Need, Fonction, Requirement, Task, Test, Verified">
+      <g id="links">
+        <path class="link" d="M170 110 C210 60 230 160 270 110"/><path class="link" d="M440 110 C480 60 500 160 540 110"/>
+        <path class="link" d="M710 110 C750 60 770 160 810 110"/><path class="link" d="M980 110 C1000 70 1010 150 1020 110"/>
+      </g>
+      <g class="node"><rect x="10" y="60" width="160" height="100" rx="14"/><text x="30" y="100">Need</text><text class="sm" x="30" y="128">client · Need Status</text></g>
+      <g class="node"><rect x="270" y="60" width="170" height="100" rx="14"/><text x="290" y="100">Fonction</text><text class="sm" x="290" y="128">arbre · F-XX</text></g>
+      <g class="node"><rect x="540" y="60" width="170" height="100" rx="14"/><text x="560" y="100">Requirement</text><text class="sm" x="560" y="128">CdCF · IADT</text></g>
+      <g class="node"><rect x="810" y="60" width="170" height="100" rx="14"/><text x="830" y="100">Task → Test</text><text class="sm" x="830" y="128">implements · TST</text></g>
+      <g class="node"><rect x="1020" y="60" width="150" height="100" rx="14" style="fill:#dcf7e6"/><text x="1040" y="100">Verified ✓</text><text class="sm" x="1040" y="128">Verification Ref.</text></g>
+      <circle class="spark" r="7"><animateMotion dur="5s" repeatCount="indefinite" path="M90 110 C210 60 230 160 355 110 C480 60 500 160 625 110 C750 60 770 160 895 110 C1000 70 1010 150 1095 110"/></circle>
+    </svg>
+  </section>
+
+  <section id="outils">
+    <h2 class="reveal">Dix outils, <span class="hl" style="--hlc: var(--b)">une seule connexion</span></h2>
+    <p class="sub reveal">Un compte, les mêmes droits par Space, la même recherche partout et le même journal d'audit.</p>
+    <div class="tools">
+      <!--TOOLS-->
+    </div>
+  </section>
+
+  <section id="confiance" class="reveal">
+    <h2>Sur <span class="hl" style="--hlc: var(--t)">votre serveur</span>, à votre rythme</h2>
+    <div class="nums">
+      <div class="num"><b data-count="21">0</b><span>étapes du PDP comme codes de temps</span></div>
+      <div class="num"><b data-count="4">0</b><span>étudiants dans l'équipe d'exemple</span></div>
+      <div class="num"><b data-count="1">0</b><span>VPS Linux suffit</span></div>
+      <div class="num"><b data-count="0">0</b><span>service cloud</span></div>
+    </div>
+    <ul class="trust" style="padding:0; margin-top:1.4rem">
+      <li>Votre serveur, vos données : aucune ne sort, aucun CDN, aucune police externe.</li>
+      <li>Droits par Space (lecteur, éditeur, Admin du Space) et journal d'audit de chaque écriture.</li>
+      <li>Clé de traçabilité de 3 lettres sur chaque modification, estampille JJMMAAAA-INI.</li>
+      <li>Aucun abonnement : du Python standard, logiciel libre, mis à jour sans perdre une donnée.</li>
+    </ul>
+  </section>
+
+  <section class="final reveal">
+    <h2>Votre prochaine idée commence <span class="hl">dans le carnet</span>.</h2>
+    <p class="sub" style="margin-left:auto; margin-right:auto">Connectez-vous, faites le parcours HeadLamp en une heure, puis ouvrez votre Space.</p>
+    <div class="cta"><a class="btn btn-primary" href="/"><svg class="ico"><use href="#i-bolt"/></svg>Ouvrir l'outil</a>
+      <a class="btn" href="/#/help"><svg class="ico"><use href="#i-help"/></svg>Commencer par Help</a></div>
+  </section>
+</main>
+<footer>Dynamite | Agile · logiciel libre · sur votre serveur · <!--VERSION--></footer>
+
+<script>
+(function () {
+  "use strict";
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- reveal on scroll + counters ---------- */
+  function count(el) {
+    const target = Number(el.getAttribute("data-count")), start = performance.now();
+    if (reduce || !target) { el.textContent = target; return; }
+    (function tick(now) {
+      const k = Math.min(1, (now - start) / 1100);
+      el.textContent = Math.round(target * (1 - Math.pow(1 - k, 3)));
+      if (k < 1) requestAnimationFrame(tick);
+    })(start);
+  }
+  const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add("in");
+    e.target.querySelectorAll("[data-count]").forEach(count);
+    io.unobserve(e.target);
+  }), { threshold: .2 });
+  document.querySelectorAll(".reveal, .pain, .chain").forEach((n) => io.observe(n));
+
+  /* ---------- journey: the step in the middle of the screen drives the mock-up ---------- */
+  const steps = Array.from(document.querySelectorAll(".step"));
+  const scenes = Array.from(document.querySelectorAll(".scene"));
+  const tabs = Array.from(document.querySelectorAll(".bar .tab"));
+  const screen = document.getElementById("screen");
+  let current = -1, timers = [];
+  function later(fn, ms) { timers.push(setTimeout(fn, reduce ? 0 : ms)); }
+  function show(i) {
+    if (i === current) return;
+    current = i;
+    timers.forEach(clearTimeout); timers = [];
+    steps.forEach((s, k) => s.classList.toggle("on", k === i));
+    scenes.forEach((s, k) => s.classList.toggle("on", k === i));
+    tabs.forEach((t, k) => t.classList.toggle("on", k === i));
+    screen.style.setProperty("--acc", steps[i].getAttribute("data-acc"));
+    const scene = scenes[i];
+    scene.querySelectorAll("[data-count]").forEach(count);
+    if (i === 1) {
+      const chip = document.getElementById("nstatus");
+      chip.textContent = "Assumption"; chip.className = "chip y";
+      later(() => { chip.textContent = "Customer Confirmed"; chip.className = "chip g"; }, 1300);
+    }
+    if (i === 3) {  // cards travel To Do → In Progress → Done
+      const cols = document.querySelectorAll(".board .col");
+      const x = (c) => cols[c].offsetLeft - cols[0].offsetLeft;
+      ["c1", "c2", "c3"].forEach((id) => {
+        const card = document.getElementById(id);
+        card.style.left = (cols[0].offsetLeft + 8) + "px"; card.style.right = "auto"; card.style.width = (cols[0].offsetWidth - 16) + "px";
+        card.style.transform = "none";
+      });
+      later(() => { document.getElementById("c1").style.transform = "translateX(" + x(1) + "px)"; }, 500);
+      later(() => { document.getElementById("c1").style.transform = "translate(" + x(2) + "px, 0)"; }, 1500);
+      later(() => { document.getElementById("c2").style.transform = "translate(" + x(1) + "px, -58px)"; }, 2100);
+      later(() => { document.getElementById("c3").style.transform = "translateY(-116px)"; }, 2700);
+    }
+    if (i === 4) {  // typing
+      const text = "Objectif : vérifier que le pistolet chaud tombé d'un mètre reste sûr et fonctionnel.";
+      const node = document.getElementById("typed"); node.textContent = "";
+      let k = 0;
+      (function type() { node.textContent = text.slice(0, ++k); if (k < text.length) later(type, 28); })();
+    }
+    if (i === 5) {
+      const v = document.getElementById("verified");
+      v.textContent = "In Verification"; v.className = "chip b";
+      later(() => { v.textContent = "Verified ✓"; v.className = "chip g"; }, 2500);
+    }
+  }
+  const so = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (e.isIntersecting) show(Number(e.target.getAttribute("data-scene")));
+  }), { rootMargin: "-45% 0px -45% 0px" });
+  steps.forEach((s) => so.observe(s));
+  show(0);
+
+  /* ---------- tool cards tilt toward the pencil ---------- */
+  document.querySelectorAll(".tool").forEach((card) => {
+    card.addEventListener("mousemove", (ev) => {
+      if (reduce) return;
+      const r = card.getBoundingClientRect();
+      const dx = (ev.clientX - r.left) / r.width - .5, dy = (ev.clientY - r.top) / r.height - .5;
+      card.style.transform = "perspective(700px) rotateY(" + (dx * 10) + "deg) rotateX(" + (-dy * 10) + "deg) translateY(-4px)";
+    });
+    card.addEventListener("mouseleave", () => { card.style.transform = ""; });
+  });
+
+  /* ---------- energy particles: electrons drifting along the page, drawn toward the mouse ---------- */
+  const canvas = document.getElementById("energy");
+  if (reduce || !canvas.getContext) return;
+  const ctx = canvas.getContext("2d");
+  const colors = ["#ffd23f", "#3ec6e0", "#5fd08a", "#ff8a3d", "#4d8dff", "#ff6f91"];
+  let w = 0, h = 0, dpr = 1, mouse = { x: -999, y: -999, t: 0 };
+  const parts = [];
+  function resize() {
+    dpr = Math.min(2, window.devicePixelRatio || 1);
+    w = canvas.width = innerWidth * dpr; h = canvas.height = innerHeight * dpr;
+    canvas.style.width = innerWidth + "px"; canvas.style.height = innerHeight + "px";
+  }
+  resize(); addEventListener("resize", resize);
+  addEventListener("mousemove", (e) => { mouse = { x: e.clientX * dpr, y: e.clientY * dpr, t: performance.now() }; });
+  const N = Math.min(90, Math.round(innerWidth / 16));
+  for (let i = 0; i < N; i++) parts.push({ x: Math.random() * w, y: Math.random() * h, vx: 0, vy: 0, a: Math.random() * 6.28,
+    r: (1.2 + Math.random() * 2.2) * dpr, c: colors[i % colors.length], trail: [] });
+  function step(now) {
+    ctx.clearRect(0, 0, w, h);
+    const near = now - mouse.t < 2500;
+    for (const p of parts) {
+      p.a += (Math.random() - .5) * .25;
+      p.vx += Math.cos(p.a) * .04 * dpr; p.vy += Math.sin(p.a) * .04 * dpr + .004 * dpr;
+      if (near) {
+        const dx = mouse.x - p.x, dy = mouse.y - p.y, d = Math.hypot(dx, dy) || 1;
+        if (d < 260 * dpr) { p.vx += dx / d * .22 * dpr; p.vy += dy / d * .22 * dpr; }
+      }
+      p.vx *= .95; p.vy *= .95;
+      p.x += p.vx; p.y += p.vy;
+      const ox = p.x, oy = p.y;
+      if (p.x < -20) p.x = w + 20; if (p.x > w + 20) p.x = -20; if (p.y < -20) p.y = h + 20; if (p.y > h + 20) p.y = -20;
+      if (p.x !== ox || p.y !== oy) p.trail = [];  // wrapped round the screen: no line across it
+      p.trail.push([p.x, p.y]); if (p.trail.length > 9) p.trail.shift();
+      ctx.beginPath();
+      p.trail.forEach(([x, y], k) => (k ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
+      ctx.strokeStyle = p.c; ctx.globalAlpha = .35; ctx.lineWidth = p.r * .9; ctx.lineCap = "round"; ctx.stroke();
+      ctx.globalAlpha = .75; ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+/* « Training » (D-A-045) */
+:root, .ag-layout { --training: #2e7d5b; }
+.ag-sidebar-title { font-weight: 700; font-size: 1.1rem; padding: .3rem .75rem .9rem; color: var(--training); }
+.tr-toolbar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: .75rem; margin-bottom: 1rem; }
+.tr-toolbar > * { flex: 0 1 auto; margin: 0; }
+.tr-toolbar select { width: auto; min-width: 8rem; max-width: 32rem; }
+.tr-counts { display: flex; gap: .8rem; flex-wrap: wrap; margin-left: auto; font-size: .9rem; }
+.tr-items { display: grid; grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr)); gap: .9rem; }
+.tr-item { border: 1px solid var(--line); border-left: 4px solid var(--line); border-radius: var(--radius-sm, 6px);
+  padding: .75rem .9rem; background: var(--surface); display: flex; flex-direction: column; gap: .35rem; }
+.tr-item.tr-in_progress { border-left-color: var(--warn); }
+/* 0.50.10 (D-B-128): Completed (test passed) and Achieved are green. */
+.tr-item.tr-completed { border-left-color: var(--ok); }
+.tr-item.tr-achieved { border-left-color: var(--ok); background: color-mix(in srgb, var(--ok) 7%, var(--surface)); }
+.tr-item-head { display: flex; justify-content: space-between; gap: .5rem; align-items: baseline; }
+.tr-content, .tr-meta, .tr-eval, .tr-hint { margin: 0; font-size: .9rem; }
+.tr-hint { color: var(--warn); font-weight: 600; }
+.tr-eval { background: rgba(46, 125, 91, .08); padding: .35rem .5rem; border-radius: 4px; }
+.tr-eval-edit { display: flex; flex-direction: column; gap: .35rem; }
+.tr-actions { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: auto; padding-top: .35rem; }
+.tr-group { margin-bottom: 1.2rem; }
+.tr-group h2 { font-size: 1.05rem; margin: .8rem 0 .2rem; }
+.tr-topics { margin: .3rem 0 0 1rem; padding: 0; }
+.tr-topics li { margin: .25rem 0; }
+.tr-quiz-badge { margin-left: .4rem; }
+.tr-md { font-family: var(--mono, ui-monospace, monospace); font-size: .85rem; }
+.tr-quiz { max-width: 60rem; }
+.tr-question { border: 1px solid var(--line); border-radius: 6px; padding: .5rem .75rem; margin: 0 0 .6rem; }
+.tr-question legend { font-weight: 600; padding: 0 .3rem; }
+.tr-option { display: flex; gap: .45rem; align-items: baseline; padding: .15rem 0; cursor: pointer; }
+.tr-ok { border-color: var(--ok); }
+.tr-ko { border-color: var(--danger); }
+.tr-right span { font-weight: 700; color: var(--ok); }
+.tr-explain { margin: .3rem 0 0; font-size: .85rem; color: var(--muted, #6b778c); }
+.tr-result { font-weight: 600; margin: .5rem 0; }
+
+.ob-subtabs { margin-top: .6rem; }
+/* 0.50.10 (D-B-128): test page with circle-back of the missed questions */
+.badge-ok.tr-badge-achieved { background: var(--ok); color: var(--surface); }
+.tr-quiz-ok { color: var(--ok); font-weight: 600; }
+.tr-steps { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none; margin: .6rem 0 0; padding: 0; font-size: .85rem; }
+.tr-steps li { border: 1px solid var(--line); border-radius: 999px; padding: .15rem .7rem; color: var(--muted); }
+.tr-steps li.now { border-color: var(--acc, var(--agile)); color: var(--ink); font-weight: 600; }
+.tr-steps li.done { border-color: var(--ok); color: var(--ok); }
+.tr-steps li.done::before { content: "✓ "; }
+.tr-score { border: 1px solid var(--line); border-left: 5px solid var(--danger); border-radius: var(--radius-sm, 6px);
+  background: var(--surface); padding: .7rem 1rem; margin: 0 0 1rem; }
+.tr-score.tr-pass { border-left-color: var(--ok); background: color-mix(in srgb, var(--ok) 8%, var(--surface)); }
+.tr-score.tr-fail { background: color-mix(in srgb, var(--danger) 6%, var(--surface)); }
+.tr-score p { margin: .2rem 0; }
+.tr-score-big { font-size: 1.8rem; font-weight: 700; line-height: 1.1; }
+.tr-pass .tr-score-big { color: var(--ok); }
+.tr-fail .tr-score-big { color: var(--danger); }
+.tr-score-sub { font-size: .95rem; font-weight: 400; color: var(--muted); }
+.tr-verdict { margin: .3rem 0 0; font-size: .85rem; font-weight: 600; }
+.tr-ok .tr-verdict { color: var(--ok); }
+.tr-ko .tr-verdict { color: var(--danger); }
+.tr-next { margin: 0 0 1.2rem; }
+.tr-back { margin: 0 0 .4rem; }

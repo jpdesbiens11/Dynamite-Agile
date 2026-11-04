@@ -1,0 +1,46 @@
+/* Help (D-B-024): guide, FAQ, HeadLamp. Accent = brand blue; module area always light like Agile. */
+.hp-sidebar { display: flex; flex-direction: column; gap: .6rem; overflow-y: auto; }
+.hp-brand { display: flex; align-items: center; gap: .5rem; font-size: 1.3rem; font-weight: 700; color: var(--ink); text-decoration: none; }
+.hp-brand-icon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--brand-blue); color: #fff; font-size: 1.1rem; }
+.ag-main input.hp-filter { width: 100%; padding: .4rem .6rem; border: 1px solid var(--line); border-radius: var(--radius-sm); font: inherit; }
+.hp-progress { display: flex; align-items: center; gap: .5rem; font-size: .8rem; }
+.hp-progress-bar { flex: 1; height: 8px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
+.hp-progress-fill { display: block; height: 100%; background: var(--ok); }
+.hp-w0 { width: 0%; }
+.hp-w1 { width: 10%; }
+.hp-w2 { width: 20%; }
+.hp-w3 { width: 30%; }
+.hp-w4 { width: 40%; }
+.hp-w5 { width: 50%; }
+.hp-w6 { width: 60%; }
+.hp-w7 { width: 70%; }
+.hp-w8 { width: 80%; }
+.hp-w9 { width: 90%; }
+.hp-w10 { width: 100%; }
+.hp-nav .ag-nav-item { display: flex; align-items: center; gap: .45rem; font-size: .86rem; line-height: 1.25; padding-top: .3rem; padding-bottom: .3rem; }
+.hp-num { flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--surface-2); color: var(--muted); font-size: .75rem; font-weight: 700; }
+.hp-num-done { background: var(--ok); color: #fff; }
+.ag-nav-item.active .hp-num { background: var(--brand-blue); color: #fff; }
+.hp-headlamp { padding: .7rem; border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fff8e6; }
+.hp-headlamp p { margin: .25rem 0 .5rem; font-size: .82rem; }
+.hp-page { min-width: 0; max-width: none; }
+.hp-body { line-height: 1.6; }
+.hp-body h3 { margin: 1.2rem 0 .3rem; }
+.hp-steps li { margin-bottom: .35rem; }
+.hp-note { margin: .8rem 0; padding: .6rem .85rem; border-left: 4px solid var(--brand-blue); background: var(--surface-2); border-radius: var(--radius-sm); }
+.hp-warn { border-left-color: var(--danger); background: rgba(184, 58, 46, .07); }
+.hp-try { margin-top: 1.4rem; padding: .9rem 1rem; border: 1px dashed var(--brand-blue); border-radius: var(--radius-lg); background: #f3f9fc; }
+.hp-try h2 { margin: 0 0 .4rem; font-size: 1.05rem; }
+.hp-done { margin-top: .8rem; }
+.hp-pager { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.2rem; flex-wrap: wrap; }
+.hp-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: .7rem; margin-bottom: 1.4rem; }
+.hp-card { display: flex; flex-direction: column; gap: .25rem; padding: .8rem .9rem; border: 1px solid var(--line); border-radius: var(--radius-lg);
+  background: var(--surface); color: var(--ink); text-decoration: none; }
+.hp-card:hover { border-color: var(--brand-blue); }
+.hp-card-done { border-left: 4px solid var(--ok); }
+.hp-card-step { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; color: var(--brand-blue); }
+.hp-faq { display: grid; gap: .5rem; }
+.hp-faq-item { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); padding: .2rem .9rem; }
+.hp-faq-item summary { cursor: pointer; padding: .5rem 0; font-weight: 600; }
+.hp-results li { margin: .35rem 0; }

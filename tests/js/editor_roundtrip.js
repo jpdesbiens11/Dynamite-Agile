@@ -1,0 +1,16 @@
+const fs = require("fs"), vm = require("vm");
+const sandbox = { window: {}, document: { createTextNode: () => ({}) }, console, DA: { dynamite: {}, api: {}, el: () => ({}), clear: () => {}, toast: () => {} } };
+sandbox.window = sandbox; vm.createContext(sandbox);
+vm.runInContext(fs.readFileSync(require("path").join(__dirname, "..", "..", "static/js/dynamite/editor.js"), "utf8"), sandbox);
+const { parse, serialize } = sandbox.DA.dynamite;
+const src = "# Titre\n\nTexte **gras** et *ital* avec [lien](https://example.org) et `code`.\n\n- a\n- b\n\n1. un\n2. deux\n\n> citation\n\n```bash\nls -l\n```\n\n:::warning\nAttention __souligné__ ~~barré~~\n:::\n\n[[DEMO-4]]\n\n![Schéma du boîtier](image:12)\n\n[[toc]]\n\nRisque {{red:**élevé**}} {{status:blue:EN COURS}} voir **[doc](https://example.org)**\n\n| Composant | Tension |\n| --- | --- |\n| Thermistor \\| NTC | `3,3 V` |\n\n[[sous-pages]]\n\n---";
+const once = serialize(parse(src)), twice = serialize(parse(once));
+console.log(once === twice && once === src ? "round-trip OK" : "MISMATCH\n" + once + "\n----\n" + src);
+console.log(JSON.stringify(parse("[[demo-4]]").content[0]));
+const img = parse("![Capture](image:7)").content[0];
+console.log(img.type === "image" && img.id === 7 && img.alt === "Capture" ? "image OK" : "IMAGE MISMATCH " + JSON.stringify(img));
+const d = parse("| A | B |\n| --- | --- |\n| 1 | x\\|y |\n\nX {{green:*v*}} {{status:red:KO}}").content;
+const okTable = d[0].type === "table" && d[0].header && d[0].rows.length === 2 && d[0].rows[1][1][0].text === "x|y";
+const p = d[1].content;
+const okInline = p[1].text === "v" && JSON.stringify(p[1].marks) === JSON.stringify(["italic", { type: "color", color: "green" }]) && p[3].type === "status";
+console.log(okTable && okInline ? "new blocks OK" : "NEW BLOCKS MISMATCH " + JSON.stringify(d));

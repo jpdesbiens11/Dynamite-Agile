@@ -1,0 +1,73 @@
+/* Codex (D-B-021): accent « encre » indigo, reuses the Agile shell layout
+   (.ag-layout, .ag-sidebar) and the core components (.btn, .badge, .data). */
+:root, .ag-layout { --codex: #33509e; }  /* module area always light, like Agile (agile.css v0.4) */
+
+.cx-mark-img { display: block; width: 75%; max-width: 134px; height: auto; margin: 0 auto; }
+.ag-shell-codex .ag-nav-item.active { border-left-color: var(--codex); box-shadow: inset 3px 0 0 var(--codex); }
+.cx-page { min-width: 0; max-width: none; }
+.cx-mono { font-family: var(--mono); }
+.cx-small { font-size: .78rem; }
+.cx-spacer { flex: 1; }
+
+/* Live serial number */
+.cx-clock { background: var(--panel); color: var(--panel-ink); border-radius: var(--radius-lg); padding: .9rem 1.2rem;
+  margin: .4rem 0 1.2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .6rem; }
+.cx-clock-label { font-size: .78rem; color: #b9c7f2; font-weight: 600; }
+.cx-clock-num { display: block; font-family: var(--mono); font-size: 1.6rem; font-weight: 700; letter-spacing: .05em; }
+.cx-clock-human { display: block; font-family: var(--mono); font-size: .8rem; opacity: .75; }
+
+/* Form: number and search fields get the core text-field look */
+.cx-page input[type="number"], .cx-page input[type="search"], .modal input[type="number"] {
+  width: 100%; padding: .5rem .65rem; border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--surface); color: var(--ink); font: inherit; }
+.cx-toolbar select { width: auto; }
+
+.cx-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem 1rem; margin-bottom: 1rem; }
+.cx-grid .field select, .cx-grid .field input { width: 100%; }
+@media (max-width: 720px) { .cx-grid { grid-template-columns: 1fr; } }
+
+/* Outputs */
+.cx-outs { display: grid; gap: .6rem; margin-bottom: 1.4rem; }
+.cx-outs-bar { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; }
+.cx-out-state { font-size: .85rem; color: var(--muted); }
+.cx-out-state.cx-out-reserved { color: var(--ok); font-weight: 700; }
+.cx-out { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; }
+.cx-out-head { display: flex; justify-content: space-between; align-items: center; padding: .35rem .8rem;
+  background: var(--surface-2); font-size: .74rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.cx-out-value { padding: .7rem .9rem; font-family: var(--mono); font-size: .95rem; font-weight: 600; word-break: break-all;
+  user-select: all; }
+.cx-out-ref { font-size: 1.15rem; color: var(--codex); }
+.cx-out-svn { color: var(--codex); font-weight: 500; font-size: .88rem; }
+.cx-copy.cx-copied { background: var(--ok); border-color: var(--ok); color: #fff; }
+.cx-clip { position: fixed; left: -9999px; top: 0; opacity: 0; }
+
+/* Recent + reference tables */
+.cx-recent h2 { font-size: 1rem; margin: 0 0 .4rem; }
+.cx-recent-list { list-style: none; padding: 0; margin: 0 0 .4rem; }
+.cx-recent-list li { padding: .3rem 0; border-bottom: 1px solid var(--line); font-size: .86rem; }
+.cx-refs { margin-top: 1.4rem; display: grid; gap: .5rem; }
+.cx-ref-table { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); }
+.cx-ref-table summary { cursor: pointer; padding: .55rem .9rem; font-weight: 600; font-size: .88rem; color: var(--muted); }
+.cx-ref-table[open] summary { border-bottom: 1px solid var(--line); }
+.cx-ref-table .table-wrap { margin: 0; }
+.cx-ref-table td.cx-mono { color: var(--codex); font-weight: 700; white-space: nowrap; }
+.cx-note { margin-top: 1.2rem; font-size: .8rem; color: var(--muted); background: var(--surface-2); border-radius: var(--radius-lg);
+  padding: .7rem .9rem; line-height: 1.6; }
+
+/* Registry */
+.cx-toolbar { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; margin: .4rem 0 .8rem; }
+.cx-search { min-width: 280px; flex: 1 1 280px; }
+.cx-ref { white-space: nowrap; font-weight: 700; color: var(--codex); }
+.cx-num { text-align: right; }
+.cx-title { max-width: 320px; }
+.cx-actions { white-space: nowrap; }
+.cx-actions .btn { margin: .1rem .15rem .1rem 0; }
+.cx-void td { opacity: .6; }
+.cx-void .cx-ref { text-decoration: line-through; }
+.cx-status-active { color: var(--ok); }
+.cx-status-void { color: var(--danger); }
+.cx-nowrap { white-space: nowrap; }
+/* D-B-106: « Copier le nom » right after the final file name */
+.cx-out-line { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; padding-right: .8rem; }
+.cx-out-line .cx-out-value { flex: 0 1 auto; }
+.cx-out-line .cx-copy { flex: none; }

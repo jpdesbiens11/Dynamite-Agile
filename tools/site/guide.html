@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guide de prise en main — Dynamite | Agile</title>
+<meta name="description" content="Prendre en main Dynamite | Agile : l'administrateur, le chef d'équipe et chaque membre, outil par outil.">
+{{FAVICON}}
+<style>
+{{CSS}}
+</style>
+</head>
+<body>
+{{SPRITE}}
+{{TOP}}
+<main class="page">
+  <span class="kicker">Guide · Prise en main</span>
+  <h1>Prendre en main <span class="hl" style="--hlc: var(--c)">Dynamite | Agile</span></h1>
+  <p class="lead">Le parcours d'une équipe, du premier compte au prototype validé. Le guide complet, avec un exercice par outil,
+    est dans l'outil lui-même : <b>Help</b> → le tour du site, et le Space bac à sable <b>HEADLAMP</b>.</p>
+  <ul class="toc"><li><a href="#admin">L'administrateur</a></li><li><a href="#chef">Le chef d'équipe</a></li>
+    <li><a href="#membre">Chaque membre</a></li><li><a href="#pdp">Le PDP dans l'outil</a></li><li><a href="#mine">Les noms de la mine</a></li>
+    <li><a href="#financement">Projet financé</a></li></ul>
+
+  <h2 id="admin" class="reveal">L'administrateur : préparer le terrain</h2>
+  <ol class="stepper reveal">
+    <li><b>Les comptes</b>⚙ Admin → Comptes → Règles d'accès : une ligne par personne, avec sa fonction, son profil d'études et ses
+      droits par Space. Vérification à blanc, puis « Appliquer ».</li>
+    <li><b>Le Space du projet</b>⚙ Admin → Spaces : la clé (ex. EQP) devient le préfixe des tickets (EQP-1, EQP-2…), jamais réutilisée.</li>
+    <li><b>Les approbateurs</b>Chacun choisit son approbateur (l'enseignant, le chef d'équipe) dans menu à son nom → Paramètres ;
+      l'administrateur corrige au besoin (« Feuille de temps… »).</li>
+    <li><b>Les sauvegardes</b>⚙ Admin → Update et sauvegardes : un point de restauration est pris chaque jour et avant chaque opération de masse.</li>
+  </ol>
+
+  <h2 id="chef" class="reveal">Le chef d'équipe : lancer le projet</h2>
+  <ol class="stepper reveal">
+    <li><b>Les besoins (Goldmine)</b>Partez des besoins du client et des parties prenantes ; le catalogue générique d'un produit grand public
+      (<code>deploy/requis_generiques.csv</code>) s'importe en un clic, puis s'adapte au CdCF.</li>
+    <li><b>Le plan (Exploration)</b>Les phases du PDP, les jalons (MIP, RCS, RC, RVE) et le Gantt ; aller-retour Excel possible.</li>
+    <li><b>Les sprints (Agile)</b>Backlog → Sprint → Board ; chaque ticket « implements » un requirement.</li>
+    <li><b>La décision (Tools)</b>Idéation en brainwriting, matrice de Pugh, Kepner-Tregoe ; le nom et le dossier de chaque document par Generator.</li>
+  </ol>
+
+  <h2 id="membre" class="reveal">Chaque membre : la journée type</h2>
+  <table class="t reveal"><tr><th>Quand</th><th>Où</th><th>Quoi</th></tr>
+    <tr><td>En arrivant</td><td>Dashboard</td><td>Mes tickets, mes requirements, mes messages (@mentions), ma semaine.</td></tr>
+    <tr><td>En travaillant</td><td>Agile, Goldmine, Dynamite</td><td>Faire avancer son ticket, préciser un requirement, écrire la note ou la procédure dans le wiki.</td></tr>
+    <tr><td>Pour prouver</td><td>Testing</td><td>Choisir l'essai dans la Test Base, générer le Test Plan, joindre le résultat : le requirement passe « Verified ».</td></tr>
+    <tr><td>En partant</td><td>Timesheet</td><td>Les heures de la journée sur les étapes du PDP, avec une courte description ; soumettre le vendredi.</td></tr>
+    <tr><td>Pour apprendre</td><td>Training, Help</td><td>Son plan de formation, les tests, le tour guidé et HEADLAMP pour s'exercer sans risque.</td></tr></table>
+
+  <h2 id="pdp" class="reveal">Le PDP du cours dans l'outil</h2>
+  <table class="t reveal"><tr><th>Phase</th><th>Codes de temps</th><th>Livrables (Generator)</th></tr>
+    <tr><td>A. Pré-étude</td><td>A-01 à A-06</td><td>MIP, étude de marché, spécifications préliminaires, échéancier, risques</td></tr>
+    <tr><td>B. Étude conceptuelle</td><td>B-07 à B-12</td><td>RCS, besoins, analyse fonctionnelle, CdCF, DFQ, matrice morphologique, Pugh</td></tr>
+    <tr><td>C. Conception</td><td>C-13 à C-15</td><td>RC, sous-systèmes, calculs, AMDEC, revue de conception</td></tr>
+    <tr><td>D. Fabrication et validation</td><td>D-FAB, D-19 à D-21</td><td>Fabrication, plan d'expériences, rapport d'essai, RVE</td></tr></table>
+
+  <h2 id="mine" class="reveal">Les noms de la mine</h2>
+  <table class="t reveal"><tr><th>Outil</th><th>Dans la mine</th><th>Dans le projet</th></tr>
+{{MINE_ROWS}}
+  </table>
+
+  <h2 id="financement" class="reveal">Un projet financé : justifier chaque heure</h2>
+  <ol class="stepper reveal">
+    <li><b>Le Funding Space</b>Timesheet → ⚙ Admin → Spaces et organismes : créez un Funding Space pour le programme, avec ses
+      Budget Lines (réclamables ou non), puis rattachez-y le Space du projet, son organisme et son numéro de contrat.</li>
+    <li><b>La saisie</b>L'équipe saisit ses heures sur ces Budget Lines, une courte description par plage ; les vacances (INT-VAC) et
+      les congés santé (INT-SAN) du Space INT ne sont jamais réclamés.</li>
+    <li><b>La réclamation</b>Export Excel (sommaire, Budget Lines avec chaque plage et sa justification, détail) ou rapport Word au
+      destinataire, avec l'attestation à signer : sans rien retaper.</li>
+  </ol>
+</main>
+{{FOOTER}}
+<script>
+{{SITE_JS}}
+</script>
+</body>
+</html>

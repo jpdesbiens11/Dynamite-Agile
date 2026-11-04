@@ -1,0 +1,116 @@
+# Dynamite | Agile — Registre des décisions (branche `open/v0.60`)
+
+Décisions de la branche open source, numérotées **D-O-xxx**. Les décisions plus anciennes (D-A-xxx, D-B-xxx), citées
+par leur numéro dans le code, sont indexées dans `docs/DECISIONS_ANTERIEURES.md` : elles restent valables pour le
+noyau tant qu'une décision D-O ne les remplace pas.
+
+---
+
+### D-O-001 — Branche open source et numérotation (2026-11-03)
+**Contexte :** Dynamite | Agile devient un outil générique et open source pour les étudiants du baccalauréat en
+conception de produit et les équipes de start-up, installable sur un VPS Linux.
+**Décision :** branche `open/v0.60`. Première version 0.60.01, puis +1 sur le dernier chiffre à chaque livraison
+(0.60.02, 0.60.03…). Les règles techniques restent : bibliothèque standard Python, aucune ressource externe, CSRF,
+journal d'audit, `el()`, fichiers sous 500 lignes, `data-new` sur tout élément nouveau, migrations additives, une
+question à la fois, termes techniques en anglais et phrases en français.
+
+### D-O-002 — Identité générique (2026-11-03)
+**Décision :** nom et logo en texte « Dynamite | Agile » (favicon + nom, classe `.da-logo`), jeton `--brand-blue`,
+gabarit Word générique `modules/testing/templates/document.docx` (`tools/brand_doc_template.py` pour y mettre son
+logo et son pied de page), formats de fichiers `dynamite-*` (sauvegarde, paquet de données, déménagement), balises de
+configuration `da:`. About : l'auteur et la construction avec Claude Opus 5.5 en octobre 2026.
+
+### D-O-003 — Thèmes (2026-11-03)
+**Décision :** deux thèmes au choix : « Thème par défaut » (croquis d'ingénieur, valeur stockée `carnet`) et
+Terminal R&D ; `prefs.get` ramène tout thème inconnu au défaut (ex. après la restauration d'une vieille sauvegarde).
+Les éléments graphiques actuels (icônes, logos des modules, illustrations) sont gardés tels quels et servent aussi au
+site web (D-O-015).
+
+### D-O-004 — Contenu retiré (2026-11-03)
+**Décision :** tout le contenu propre à l'usage d'origine est retiré : projets et Spaces d'exemple, catalogues de
+requis, besoins et essais d'un autre domaine, normes sectorielles, cycle de documents, codes de temps et feuilles
+fictives, skill de mentorat, guide TLS d'une PKI d'entreprise, captures du guide Agile, outils séparés. Les mécanismes
+génériques restent (Funding Spaces et Budget Lines, organismes, réclamations, banque de vacances, listes centrales) :
+voir D-O-008.
+
+### D-O-005 — Contenu générique d'un produit grand public mécatronique (2026-11-03)
+**Décision :** Test Base de 34 essais (sécurité électrique CSA C22.2 / UL 60335-1, CEM ICES-003 / FCC Part 15 / CISPR 32
+/ IEC 61000-4-x, IEC 60335 ou 62368-1, environnement IEC 60068, IP IEC 60529, chute, durée de vie, RoHS, UL 94,
+firmware, usage, fin de ligne, vérification sans essai) et 7 procédures ; un sujet sans procédure propre est couvert
+par une voisine (`data_procedures.COVERS`). Catalogue de requis : 12 besoins (GN-xxx) et 35 requis (GR-xxx),
+`tools/generic_requirements.py` → `deploy/requis_generiques.csv`, chaque requis relié à son essai ; importé dans le
+Space d'exemple EQP au démarrage de développement. Les valeurs [TBD] viennent du CdCF de l'équipe.
+
+### D-O-006 — Generator et Timesheet campés sur le PDP du cours (2026-11-03)
+**Décision :** Generator : livrables du PDP par phase (MIP, ETM, SPP, ECH, RSK ; RCS, BES, AF, CDCF, DFQ, MMO, PUGH ;
+RC, SSY, CALC, AMDEC, DR ; RVE, PEX, REX, FAB ; documents généraux), dossier
+`Documents/<phase>/<étape>-<sous-étape>_<SYSTÈME>/`, colonnes `codex_refs.pdp_step` / `pdp_sub`. Timesheet : jeu de
+codes `pdp` par défaut — A. Pré-étude (A-01 à A-06), B. Étude conceptuelle (B-07 à B-12), C. Conception (C-13 à
+C-15), D. Fabrication et validation du prototype (D-FAB, D-19 à D-21). La figure du PDP ne numérote pas les étapes
+16 à 18 : « Mise en plan et fabrication du prototype » porte le code D-FAB (validé, D-O-013).
+
+### D-O-007 — Équipe d'exemple et « Profil d'études » (2026-11-03)
+**Décision :** comptes fictifs Nina (Génie mécanique, cheffe de projet, admin du Space EQP), Léa (Génie électrique),
+Hugo (Design industriel), Alexis (Génie informatique), dans `deploy/utilisateurs_exemple.txt`. Nouveau champ
+« Profil d'études » : colonne `users.study_profile` (migration `core` 17), directive `profil` des règles d'accès,
+champ de création et bouton « Profil… » dans ⚙ Admin → Comptes (`data-new="0.60.01-study-profile"`). Les questions
+Q&R de l'équipe au client ont la direction `team`.
+
+### D-O-008 — Vacances et réclamations de financement gardées (2026-11-03, demande de JP)
+**Contexte :** des équipes de start-up utiliseront aussi l'outil ; elles réclament des heures à des programmes de
+financement publics et doivent justifier chaque heure.
+**Décision :** la banque de vacances reste dans le profil (Paramètres, et ⚙ Admin → Comptes → « Feuille de
+temps… », journalisée), avec le congé santé. Ils vivent dans le Space **INT** « Interne — temps hors projet et
+congés », créé au premier démarrage, ouvert à tous, organisme « Interne », jeu `interne` : INT-01 à INT-05 (réunions,
+formation, administration et demandes de financement, équipement, représentation) et **INT-VAC** (déduit de la
+banque) / **INT-SAN** (sous approbation, non déduit), jamais réclamables. Page « Politique de l'équipe — vacances et
+congés » dans INT (à compléter). Le vocabulaire **Funding Space / Budget Line** est gardé : un projet financé reçoit
+son Funding Space, ses Budget Lines (réclamables ou non, import / export Excel), son organisme et son contrat ;
+l'export Excel (Sommaire, Budget Lines avec chaque plage et sa justification, Détail, Lisez-moi) et le rapport Word
+au destinataire (organisme de subvention ou client, attestation) se produisent sans ressaisie.
+
+### D-O-009 — Contenu de référence réécrit en contenu original (2026-11-03, brief §5 Q1)
+**Contexte :** les documents de cours d'origine (2005 et 2012) ne sont plus utilisés depuis une vingtaine d'années.
+**Décision :** les Spaces de référence (pistolet à colle chaude, imprimante à jet d'encre, machine à commande
+numérique pour bois mou) et les notes de cours sont **réécrits en contenu original** : mêmes méthodes (analyse
+fonctionnelle, arbre à 3 niveaux, SAFE, RESEAU, interacteurs, matrice morphologique, Pugh, CdCF), mais textes, arbres,
+valeurs et figures rédigés pour Dynamite | Agile, sans reprise de texte, de figure ni de mise en page, et sans nom
+d'entreprise. Les documents d'origine ne vont ni dans le dépôt ni dans un paquet de données.
+
+### D-O-010 — Licence MIT (2026-11-03, brief §5 Q2)
+**Décision :** le code et le contenu réécrit (D-O-009) sont publiés sous licence **MIT**, « Copyright (c) 2026
+Jean-Philippe Desbiens » (fichier `LICENSE` à la racine). Mention dans About (`data-new="0.60.01-license"`).
+Toute bibliothèque ajoutée un jour devra avoir une licence compatible (aucune pour l'instant : bibliothèque standard).
+
+### D-O-011 — Dépôt public sur GitHub : `dynamite-agile` (2026-11-03, brief §5 Q3)
+**Décision :** le dépôt public est hébergé sur **GitHub**, sous le nom **`dynamite-agile`** ; le site web (D-O-015)
+est publié avec GitHub Pages. Compte propriétaire (compte personnel de JP ou organisation dédiée) à préciser au moment
+de créer le dépôt.
+
+### D-O-012 — Aucune référence à l'usage ni au domaine d'origine, base propre (2026-11-03, demande de JP)
+**Décision :** ni le code, ni les migrations, ni les commentaires, ni les tests, ni la documentation, ni les journaux,
+ni le site, ni l'historique git ne nomment l'entreprise ni le domaine d'origine (produits, normes, vocabulaire du
+secteur). Comme aucune base de données antérieure n'est migrée vers cette branche, 0.60.02 en est la **base propre** :
+les migrations d'origine sont nettoyées (Q&R `team` dès la création de la table, colonnes du Generator `pdp_step` /
+`pdp_sub`, plus de colonnes de structure inutilisées, plus de migration de nettoyage) ; à partir de là, les migrations
+redeviennent strictement additives. L'historique des versions d'avant est remplacé par l'index
+`docs/DECISIONS_ANTERIEURES.md`. `tests/test_open_v060.py` balaie tout le dépôt à la recherche de ces mots.
+
+### D-O-013 — Réponses aux questions du brief §5 Q4 et Q5 (2026-11-03, « oui pour toutes tes questions »)
+**Décision :** modules hors cours gardés : évaluation annuelle et Mes objectifs (pour les start-ups ; une évaluation
+par les pairs en trois étapes — début, mi-session, fin de projet — viendra pour les équipes étudiantes), évaluation de
+stage, Mon équipe, Training (les méthodes du cours s'y ajouteront), Help et HEADLAMP. Profils d'études de l'équipe
+d'exemple confirmés (D-O-007) ; code D-FAB confirmé (D-O-006).
+
+### D-O-014 — Les noms des modules suivent la mine (2026-11-03, demande de JP)
+**Décision :** les noms des modules reprennent le vocabulaire minier ; leurs analogies sont documentées dans
+`docs/NOMS_DES_MODULES.md`, dans Help (FAQ) et sur le site web : on prospecte (Exploration), on dynamite le savoir brut
+(Dynamite), on extrait l'or des requis (Goldmine), on fait l'essai du minerai (Testing), etc.
+
+### D-O-015 — Le site web est un livrable distinct de la plateforme (2026-11-03, demande de JP)
+**Décision :** le site web marketing (page d'entrée, procédure d'installation, guide d'utilisation) vit dans le dossier
+`site/` du dépôt, publié avec GitHub Pages ; il n'est pas servi par la plateforme. Il peut reprendre des contenus de
+l'outil, mais ses objectifs sont autres : faire comprendre et donner envie, puis installer et prendre en main. Page
+d'entrée : une storyline défilante à animations progressives, qui reprend la séquence de la journée de l'équipe
+(Dashboard → Goldmine → Exploration → Agile → Dynamite → Testing → Timesheet → Training & Help) et amène doucement au
+vif du sujet ; graphiques actuels de l'outil, aucune ressource externe, mouvement coupé par `prefers-reduced-motion`.

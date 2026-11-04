@@ -1,0 +1,52 @@
+/* « Testing » (D-B-079): test base and records. Accent of its own (green), core tokens and classes otherwise. */
+:root { --testing: #1f845a; --testing-soft: rgba(31, 132, 90, .12); }
+@media (prefers-color-scheme: dark) { :root { --testing: #4bce97; --testing-soft: rgba(75, 206, 151, .14); } }
+html[data-theme="dark"] { --testing: #4bce97; --testing-soft: rgba(75, 206, 151, .14); }
+
+.tg-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.tg-head-main { flex: 1 1 420px; }
+.tg-head h1 { margin: 0; }
+.tg-head p { max-width: 110ch; margin: .3rem 0 0; }
+.tg-mark { width: 56px; height: 56px; color: var(--testing); flex: none; }
+.tg-actions { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
+.tg-import input { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+.tg-import:focus-within { outline: 2px solid var(--testing); outline-offset: 2px; }
+.tg-group { margin-top: 1.2rem; }
+.tg-group-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+  border-bottom: 2px solid var(--testing); margin-bottom: .4rem; }
+.tg-group-head h2 { margin: 0 0 .2rem; font-size: 1.1rem; }
+.tg-n { font-weight: 400; }
+.tg-num { text-align: center; }
+.tg-obsolete td { opacity: .55; text-decoration: line-through; }
+.tg-obsolete td:first-child { text-decoration: none; }
+.tg-cat { white-space: nowrap; }
+.tg-cat-standard { background: var(--testing-soft); color: var(--testing); }
+.tg-cat-industry { background: var(--surface-2); color: var(--ink); }
+.tg-cat-custom { background: rgba(143, 83, 201, .14); color: #8f53c9; }
+.tg-crumbs { font-size: .9rem; margin-bottom: .6rem; }
+.tg-badges { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: .8rem; }
+.tg-block { border-left: 4px solid var(--testing); }
+.tg-history { list-style: none; padding: 0; margin: 0; }
+.tg-history li { padding: .25rem 0; border-bottom: 1px solid var(--line); }
+
+/* Goldmine « Test Procedure » picker (static/js/agile/goldmine_tests.js) */
+.gt-picker { display: flex; flex-direction: column; gap: .4rem; }
+.gt-chosen { display: flex; flex-wrap: wrap; gap: .35rem; min-height: 1.8rem; align-items: center; }
+.gt-chip { display: inline-flex; align-items: center; gap: .3rem; padding: .15rem .3rem .15rem .55rem; border-radius: 999px;
+  background: var(--testing-soft); color: var(--ink); border: 1px solid var(--testing); font-size: .88rem; }
+.gt-chip button { border: 0; background: none; cursor: pointer; color: inherit; font-size: 1rem; line-height: 1; padding: 0 .2rem; }
+.gt-chip button:focus-visible { outline: 2px solid var(--testing); }
+.gt-empty { color: var(--danger); font-size: .9rem; }
+.gt-add { display: flex; gap: .4rem; }
+.gt-add select { flex: 1; min-width: 0; }
+.gt-links a { margin-right: .5rem; }
+.gt-source { font-size: .88rem; color: var(--muted); }
+.tg-funcs { font-size: .85rem; white-space: nowrap; }
+.tg-eq { margin: 0; padding-left: 1.1rem; }
+/* D-A-037: filter of the acronym / definition lists */
+.tg-group-head .tg-filter { margin-left: auto; margin-right: .5rem; min-width: 14rem; max-width: 22rem; }
+/* D-A-048: test plans */
+.tp-head { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; flex-wrap: wrap; }
+.tg-notice { padding: .5rem .75rem; border-left: 3px solid var(--agile); background: var(--surface); font-size: .9rem; }
+.tp-todo { color: #c55a11; font-weight: 600; }
+.tg-hidden { display: none; }

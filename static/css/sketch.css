@@ -1,0 +1,232 @@
+/* Default theme (« croquis d'ingénieur », D-B-087, core lot v0.22): the engineer's notebook layer, on top of the Atlassian base.
+   Hybrid: tables, forms and text stay crisp; the sketch lives in icons, marks, titles, cards, highlights and hover.
+   Only local resources; handwriting uses fonts already on Windows (Segoe Print / Ink Free), never a web font.
+   Active when <html data-sketch="carnet"> (prefs.js). <html data-module> gives each tool its highlighter (--acc). */
+
+html[data-sketch] {
+  --paper: #fcfbf7;
+  --grid: rgba(12, 102, 228, .055);
+  --graphite: #26323f;
+  --hand: "Segoe Print", "Ink Free", "Bradley Hand", "Chalkboard SE", "Comic Sans MS", var(--font);  /* no generic cursive: sans if absent */
+  --hl-yellow: #ffd23f; --hl-orange: #ff8a3d; --hl-cyan: #3ec6e0; --hl-green: #5fd08a; --hl-pink: #ff6f91;
+  --hl-violet: #9b7bff; --hl-blue: #4d8dff; --hl-teal: #2ec4b6; --hl-red: #ff5a4f;
+  --acc: var(--hl-blue);
+  --r-hand: 255px 15px 225px 15px / 15px 225px 15px 255px;   /* pencil-drawn rectangle */
+  --r-card: 14px 20px 12px 18px / 18px 12px 20px 14px;
+  --shadow-sketch: 3px 3px 0 rgba(38, 50, 63, .13);
+  --ease-pop: cubic-bezier(.34, 1.56, .64, 1);
+}
+html[data-sketch][data-module="dashboard"] { --acc: var(--hl-blue); }
+html[data-sketch][data-module="home"] { --acc: var(--hl-yellow); }
+html[data-sketch][data-module="goldmine"] { --acc: var(--hl-yellow); }
+html[data-sketch][data-module="exploration"] { --acc: var(--hl-violet); }
+html[data-sketch][data-module="agile"] { --acc: var(--hl-blue); }
+html[data-sketch][data-module="dynamite"] { --acc: var(--hl-orange); }
+html[data-sketch][data-module="testing"] { --acc: var(--hl-green); }
+html[data-sketch][data-module="tools"] { --acc: var(--hl-cyan); }
+html[data-sketch][data-module="training"] { --acc: var(--hl-pink); }
+html[data-sketch][data-module="timesheet"] { --acc: var(--hl-teal); }
+html[data-sketch][data-module="help"] { --acc: var(--hl-yellow); }
+html[data-sketch][data-module="about"] { --acc: var(--hl-yellow); }
+html[data-sketch][data-module="admin"] { --acc: var(--hl-red); }
+
+/* ---------- paper ---------- */
+html[data-sketch] body, html[data-sketch] .content, html[data-sketch] .content.ag-main {
+  background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+html[data-sketch] .ag-layout, html[data-sketch] .ag-page { background: transparent; }
+
+/* ---------- icons ---------- */
+.sk-icon { width: 20px; height: 20px; flex: none; display: inline-block; vertical-align: -4px; }
+
+/* ---------- top bar ---------- */
+html[data-sketch] .topbar {
+  background: #fff;
+  border-bottom: 0;
+  box-shadow: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='6' viewBox='0 0 240 6'%3E%3Cpath d='M0 3 Q30 1 60 3.4 T120 2.6 T180 3.5 T240 3' fill='none' stroke='%2326323f' stroke-opacity='.55' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: bottom left;
+}
+html[data-sketch] .tab {
+  position: relative; display: inline-flex; align-items: center; gap: .38rem;
+  color: var(--graphite); font-weight: 500; border-radius: var(--r-hand); background: none; box-shadow: none;
+  padding: .38rem .62rem .42rem;
+  transition: color .15s ease;
+}
+html[data-sketch] .tab .sk-icon { transition: transform .35s var(--ease-pop); }
+html[data-sketch] .tab::after {  /* highlighter stroke that sweeps under the label */
+  content: ""; position: absolute; left: .45rem; right: .45rem; bottom: .12rem; height: .42rem; z-index: -1;
+  background: var(--tab-acc, var(--acc)); opacity: .55; border-radius: var(--r-hand);
+  transform: scaleX(0) rotate(-1deg); transform-origin: left center; transition: transform .28s ease;
+}
+html[data-sketch] .tab { z-index: 0; }
+html[data-sketch] .tab:hover { background: none; color: #0b1b33; }
+html[data-sketch] .tab:hover .sk-icon { transform: rotate(-9deg) scale(1.12); }
+html[data-sketch] .tab:hover::after { transform: scaleX(1) rotate(-1deg); }
+html[data-sketch] .tab.active { background: none; color: #0b1b33; font-weight: 650; box-shadow: none; }
+html[data-sketch] .tab.active::after { transform: scaleX(1) rotate(-1deg); height: .62rem; opacity: .7; }
+html[data-sketch] .tab-group-sep {  /* hand-drawn tick between groups of tabs */
+  width: 8px; height: 26px; flex: none; margin: 0 .25rem; align-self: center;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='26'%3E%3Cpath d='M4.4 2 Q3.2 13 4.2 24' fill='none' stroke='%2326323f' stroke-opacity='.35' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+html[data-sketch] .tab[data-key="dashboard"] { --tab-acc: var(--hl-blue); }
+html[data-sketch] .tab[data-key="home"] { --tab-acc: var(--hl-yellow); }
+html[data-sketch] .tab[data-key="goldmine"] { --tab-acc: var(--hl-yellow); }
+html[data-sketch] .tab[data-key="exploration"] { --tab-acc: var(--hl-violet); }
+html[data-sketch] .tab[data-key="agile"] { --tab-acc: var(--hl-blue); }
+html[data-sketch] .tab[data-key="dynamite"] { --tab-acc: var(--hl-orange); }
+html[data-sketch] .tab[data-key="testing"] { --tab-acc: var(--hl-green); }
+html[data-sketch] .tab[data-key="tools"] { --tab-acc: var(--hl-cyan); }
+html[data-sketch] .tab[data-key="training"] { --tab-acc: var(--hl-pink); }
+html[data-sketch] .tab[data-key="timesheet"] { --tab-acc: var(--hl-teal); }
+html[data-sketch] .tab[data-key="help"] { --tab-acc: var(--hl-yellow); }
+
+/* tooltip on hover (data-tip): a sticky note written by hand, placed by sketch.js (fixed, never clipped) */
+.sk-tip { position: fixed; z-index: 1000; max-width: 260px; padding: .4rem .65rem; pointer-events: none;
+  font: 500 .8rem/1.35 "Segoe Print", "Ink Free", "Bradley Hand", "Segoe UI", system-ui, sans-serif; color: #26323f; background: #fff7c2;
+  border-radius: 14px 20px 12px 18px / 18px 12px 20px 14px; box-shadow: 3px 3px 0 rgba(38, 50, 63, .13);
+  transform: rotate(-1.5deg); opacity: 0; transition: opacity .15s ease; }
+.sk-tip.on { opacity: 1; }
+
+/* tools of the top bar */
+html[data-sketch] .tabs { gap: .1rem; }
+html[data-sketch] .topbar { gap: .6rem; }
+html[data-sketch] .tb-audit-list, html[data-sketch] .tb-audit { font-size: 0; padding: .4rem .5rem; gap: 0; }  /* icon only, label in the tooltip */
+html[data-sketch] .tb-audit-list .tb-audit-count { font-size: .72rem; margin-left: .2rem; }
+html[data-sketch] .tb-mine .tb-mine-label { display: none; }
+html[data-sketch] .tb-mine { padding: .35rem .5rem; }
+html[data-sketch] .ts-box { width: 210px; }
+html[data-sketch] .topbar.tabs-tight { gap: .35rem; }
+html[data-sketch] .topbar.tabs-tight .tab { padding-left: .4rem; padding-right: .4rem; gap: .28rem; font-size: .9rem; }
+html[data-sketch] .topbar.tabs-tight .ts-box { width: 150px; }
+html[data-sketch] .topbar.tabs-tight .tab-group-sep { margin: 0 .05rem; }
+.topbar.tabs-partial .tab-side:not(.active) .tab-label { display: none; }
+.topbar.tabs-compact .tab:not(.active) .tab-label { display: none; }
+.topbar.tabs-compact .tab { padding-left: .45rem; padding-right: .45rem; }
+html[data-sketch] .tb-audit-list, html[data-sketch] .tb-audit, html[data-sketch] .tb-mine, html[data-sketch] .admin-tab {
+  display: inline-flex; align-items: center; gap: .35rem; border-radius: var(--r-hand);
+  transition: transform .2s var(--ease-pop), box-shadow .2s ease, background .15s ease;
+}
+html[data-sketch] .tb-audit-list:hover, html[data-sketch] .tb-audit:hover, html[data-sketch] .tb-mine:hover,
+html[data-sketch] .admin-tab:hover { transform: translate(-1px, -1px); box-shadow: var(--shadow-sketch); background: #fff; }
+html[data-sketch] .ts-box { border-radius: var(--r-hand); border: 1.6px solid var(--graphite); transition: box-shadow .2s ease; }
+html[data-sketch] .ts-box:focus-within { box-shadow: 0 0 0 4px color-mix(in srgb, var(--hl-cyan) 40%, transparent); border-color: var(--graphite); }
+html[data-sketch] .avatar { background: var(--graphite); border-radius: 46% 54% 52% 48% / 52% 46% 54% 48%;
+  box-shadow: 2px 2px 0 var(--hl-yellow); transition: transform .3s var(--ease-pop); }
+html[data-sketch] .user-button:hover .avatar { transform: rotate(-8deg) scale(1.08); }
+
+/* ---------- left panel of each tool ---------- */
+html[data-sketch] .ag-sidebar, html[data-sketch] .dy-sidebar { background: rgba(255, 255, 255, .72); border-right: 0;
+  box-shadow: inset -1.5px 0 0 rgba(38, 50, 63, .14); }
+html[data-sketch] .ag-sidebar-mark img, html[data-sketch] .dy-mark-img, html[data-sketch] [class$="-mark-img"] {
+  transition: transform .45s var(--ease-pop);
+}
+html[data-sketch] .ag-sidebar-mark:hover img, html[data-sketch] .dy-sidebar:hover .dy-mark-img,
+html[data-sketch] .ag-sidebar:hover [class$="-mark-img"] { transform: rotate(-3deg) scale(1.05); }
+html[data-sketch] .ag-nav-item {
+  border-left: 0; border-radius: var(--r-hand); margin: 1px 0; position: relative;
+  background-image: linear-gradient(90deg, color-mix(in srgb, var(--acc) 38%, transparent), color-mix(in srgb, var(--acc) 38%, transparent));
+  background-repeat: no-repeat; background-size: 0% 100%; background-position: left center;
+  transition: background-size .28s ease, transform .2s ease;
+}
+html[data-sketch] .ag-nav-item:hover { background-color: transparent; background-size: 100% 100%; transform: translateX(2px); }
+html[data-sketch] .ag-nav-item.active { background-color: transparent; background-size: 100% 100%; font-weight: 650; box-shadow: none;
+  border-left: 0; }
+html[data-sketch] .ag-nav-admin-title, html[data-sketch] .ag-sidebar-title { font-family: var(--hand); }
+
+/* ---------- titles: a highlighter stroke under the words ---------- */
+html[data-sketch] main h1 {
+  font-family: var(--hand); font-weight: 700; font-size: 1.55rem; letter-spacing: 0; display: inline;
+  background-image: linear-gradient(transparent 58%, color-mix(in srgb, var(--acc) 55%, transparent) 58%, color-mix(in srgb, var(--acc) 55%, transparent) 88%, transparent 88%);
+  -webkit-box-decoration-break: clone; box-decoration-break: clone; padding: 0 .2em;
+  animation: sk-underline .7s ease-out both;
+  background-size: 100% 100%; background-repeat: no-repeat;
+}
+@keyframes sk-underline { from { background-size: 0% 100%; } to { background-size: 100% 100%; } }
+html[data-sketch] main h2 { letter-spacing: -.005em; }
+
+/* ---------- cards: paper that lifts under the pencil ---------- */
+html[data-sketch] :is(.project, .directory-card, .db-section, .db-kpi, .gm-counter, .dy-space-card, .ex-card, .hp-card, .qa-card,
+  .ob-card, .tt-card, .au-card, .ag-transfer-card, .gm-block, .ag-block, .tl-card, .tr-card) {
+  border-radius: var(--r-card); border: 1.4px solid rgba(38, 50, 63, .22); box-shadow: var(--shadow-sketch);
+  transition: transform .25s var(--ease-pop), box-shadow .25s ease;
+}
+html[data-sketch] :is(.project, .directory-card, .db-kpi, .gm-counter, .dy-space-card, .ex-card, .hp-card, .qa-card, .ob-card,
+  .tt-card, .au-card, .tl-card, .tr-card):hover {
+  transform: translate(-2px, -3px) rotate(-.4deg); box-shadow: 6px 7px 0 rgba(38, 50, 63, .14);
+}
+html[data-sketch] .project { position: relative; }
+html[data-sketch] .project::before {  /* a strip of tape holding the card */
+  content: ""; position: absolute; top: -9px; left: 50%; width: 64px; height: 18px; transform: translateX(-50%) rotate(-3deg);
+  background: color-mix(in srgb, var(--hl-yellow) 55%, transparent); border-radius: 2px; box-shadow: 0 1px 0 rgba(0, 0, 0, .05);
+}
+html[data-sketch] .table-wrap { border-radius: var(--r-card); border: 1.4px solid rgba(38, 50, 63, .2); box-shadow: var(--shadow-sketch); }
+
+/* ---------- tables: rows highlighted like a marker ---------- */
+html[data-sketch] table.data tbody tr { transition: background-color .15s ease, box-shadow .15s ease; }
+html[data-sketch] table.data tbody tr:hover { background-color: color-mix(in srgb, var(--acc) 13%, #fff);
+  box-shadow: inset 4px 0 0 color-mix(in srgb, var(--acc) 85%, #000 0%); }
+html[data-sketch] table.data th { font-weight: 650; color: #44546f; border-bottom: 2px solid rgba(38, 50, 63, .25); }
+
+/* ---------- buttons, badges, fields ---------- */
+html[data-sketch] .btn { border-radius: var(--r-hand); border: 1.4px solid rgba(38, 50, 63, .28); background: #fff; color: var(--graphite);
+  transition: transform .18s var(--ease-pop), box-shadow .18s ease, background .15s ease; }
+html[data-sketch] .btn:hover:not(:disabled) { transform: translate(-1px, -2px); box-shadow: var(--shadow-sketch); background: #fff;
+  border-color: var(--graphite); }
+html[data-sketch] .btn:active:not(:disabled) { transform: translate(1px, 1px); box-shadow: none; }
+html[data-sketch] .btn-primary { background: #0c66e4; border-color: #0b3f8f; color: #fff; box-shadow: 2px 2px 0 #0b3f8f; }
+html[data-sketch] .btn-primary:hover:not(:disabled) { background: #0055cc; color: #fff; box-shadow: 4px 4px 0 #0b3f8f; }
+html[data-sketch] .btn-danger { color: #ae2e24; }
+html[data-sketch] .badge { border-radius: var(--r-hand); }
+html[data-sketch] :is(input[type="text"], input[type="password"], input[type="search"], input[type="date"], input[type="number"], select, textarea) {
+  border-radius: 10px 14px 9px 13px / 13px 9px 14px 10px; transition: box-shadow .2s ease, border-color .2s ease;
+}
+html[data-sketch] :is(input, select, textarea):focus { border-color: var(--graphite); box-shadow: 0 0 0 4px color-mix(in srgb, var(--acc) 38%, transparent); }
+html[data-sketch] :focus-visible { outline: 2.5px solid var(--graphite); outline-offset: 2px; border-radius: 6px; }
+
+/* ---------- dialogs and toasts ---------- */
+html[data-sketch] .modal { border-radius: var(--r-card); border: 1.6px solid var(--graphite); box-shadow: 8px 8px 0 rgba(38, 50, 63, .16);
+  animation: sk-drop .32s var(--ease-pop) both; }
+html[data-sketch] .modal > :first-child { position: relative; }
+html[data-sketch] .modal::before { content: ""; position: absolute; top: -10px; left: 36px; width: 84px; height: 20px; transform: rotate(-4deg);
+  background: color-mix(in srgb, var(--acc) 60%, transparent); border-radius: 2px; }
+@keyframes sk-drop { from { transform: translateY(-12px) rotate(-1deg); opacity: 0; } to { transform: none; opacity: 1; } }
+html[data-sketch] .toast { border-radius: var(--r-card); animation: sk-drop .3s var(--ease-pop) both; }
+
+/* ---------- empty states: the notebook waiting for its first line ---------- */
+html[data-sketch] .empty { border: 2px dashed rgba(38, 50, 63, .3); border-radius: var(--r-card); background: rgba(255, 255, 255, .7)
+  url("/img/sketch/empty.svg") center 1.1rem / 190px auto no-repeat; padding-top: 150px; }
+html[data-sketch] .empty h2 { font-family: var(--hand); }
+
+/* ---------- sign-in page: the function tree being drawn ---------- */
+html[data-sketch] .auth-page.sk-auth { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(320px, 420px); gap: 2.5rem;
+  align-items: center; max-width: 1120px; margin: 0 auto; padding: 2rem 1.5rem; min-height: 100vh; }
+.sk-hero { display: none; }
+html[data-sketch] .sk-hero { display: block; }
+html[data-sketch] .sk-hero img { width: 100%; height: auto; display: block; animation: sk-draw 2.4s ease-out both; }
+@keyframes sk-draw { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+html[data-sketch] .sk-hero-title { font: 700 1.9rem/1.2 var(--hand); color: var(--graphite); margin: 0 0 .4rem; }
+html[data-sketch] .sk-hero-sub { color: #44546f; margin: 0 0 1rem; max-width: 34rem; }
+html[data-sketch] .sk-hero-title mark { background: linear-gradient(transparent 55%, color-mix(in srgb, var(--hl-yellow) 70%, transparent) 55%); color: inherit; padding: 0 .1em; }
+html[data-sketch] .auth-card { border-radius: var(--r-card); border: 1.6px solid var(--graphite); box-shadow: 8px 8px 0 rgba(38, 50, 63, .14); }
+html[data-sketch] .auth-title { font-family: var(--hand); }
+@media (max-width: 860px) {
+  html[data-sketch] .auth-page.sk-auth { grid-template-columns: 1fr; }
+  html[data-sketch] .sk-hero { max-width: 460px; margin: 0 auto; }
+}
+
+/* ---------- wiggle on hover for any sketch icon placed in a button or link ---------- */
+html[data-sketch] :is(a, button):hover > .sk-icon { animation: sk-wiggle .45s ease; }
+@keyframes sk-wiggle { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-10deg); } 65% { transform: rotate(7deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-sketch] *, html[data-sketch] *::before, html[data-sketch] *::after {
+    animation: none !important; transition: none !important;
+  }
+}
+@media print {
+  html[data-sketch] body, html[data-sketch] .content { background: #fff; }
+}

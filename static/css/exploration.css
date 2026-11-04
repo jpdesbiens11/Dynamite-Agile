@@ -1,0 +1,90 @@
+/* Exploration (D-B-019): accent améthyste, reuses the Agile shell layout
+   (.ag-layout, .ag-sidebar) and the core components (.btn, .badge, .data). */
+.ex-mark-img { display: block; width: 75%; max-width: 134px; height: auto; margin: 0 auto; }
+.ag-shell-exploration .ag-nav-item.active { border-left-color: var(--exploration); box-shadow: inset 3px 0 0 var(--exploration); }
+.ex-page { min-width: 0; }
+.ex-head h1 { margin-bottom: .2rem; }
+
+.ex-toolbar { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; margin: .4rem 0 .8rem; }
+.ex-inline { display: inline-flex; align-items: center; gap: .4rem; font-size: .88rem; color: var(--muted); }
+.ex-spacer { flex: 1; }
+.ex-summary { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: .8rem; }
+.ex-chip { padding: .2rem .6rem; border-radius: 999px; background: var(--surface-2); font-size: .82rem; }
+.ex-chip-done { color: var(--ok); }
+.ex-chip-doing { color: var(--exploration); }
+.ex-chip-late { color: var(--danger); }
+
+/* Table + timeline: the Gantt column scrolls with the table. */
+.ex-grid-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); }
+.ex-grid { margin: 0; border-collapse: collapse; white-space: nowrap; }
+.ex-grid th, .ex-grid td { padding: 0 .5rem; height: 30px; vertical-align: middle; border-bottom: 1px solid var(--line); }
+.ex-grid thead th { position: sticky; top: 0; background: var(--surface); height: 38px; font-size: .78rem; }
+.ex-grid td.ex-gantt-cell, .ex-grid th.ex-gantt-cell { padding: 0; border-left: 1px solid var(--line); }
+.ex-gantt-cell svg { display: block; }
+.ex-code { font-family: var(--mono); font-size: .8rem; color: var(--muted); }
+.ex-title { max-width: 300px; overflow: hidden; text-overflow: ellipsis; }
+.ex-title .link-btn { font-weight: 600; text-align: left; }
+.ex-preds { margin-left: .4rem; font-size: .75rem; }
+.ex-num, .ex-date { font-size: .82rem; text-align: right; }
+.ex-late-text { color: var(--danger); font-weight: 600; }
+.ex-phase-row td { background: var(--surface-2); font-size: .85rem; }
+.ex-mine .ex-code { color: var(--exploration); font-weight: 700; }
+.ex-status-select { font-size: .8rem; padding: .1rem .3rem; }
+.ex-status { font-size: .75rem; }
+.ex-status-doing { color: var(--exploration); }
+.ex-status-done { color: var(--ok); }
+.ex-status-blocked { color: var(--warn); }
+
+/* SVG parts (colours via classes: the CSP forbids inline styles). */
+.ex-grid-month { stroke: var(--line); stroke-width: 1; }
+.ex-grid-week { stroke: var(--line); stroke-width: 1; opacity: .6; }
+.ex-head-month { font-size: 11px; font-weight: 600; fill: var(--ink); }
+.ex-head-week { font-size: 9px; fill: var(--muted); }
+.ex-today { stroke: var(--danger); stroke-width: 1.5; stroke-dasharray: 3 2; }
+.ex-bar-bg { fill: var(--exploration); opacity: .45; }
+.ex-bar-progress { fill: var(--exploration); }
+.ex-planned .ex-bar-bg { opacity: .8; }
+.ex-bar.ex-done .ex-bar-bg { fill: var(--ok); opacity: .85; }
+.ex-bar.ex-late .ex-bar-bg, .ex-bar.ex-late .ex-bar-progress { fill: var(--danger); }
+.ex-bar.ex-blocked .ex-bar-bg { fill: var(--warn); }
+.ex-bar-label { font-size: 10px; fill: #fff; pointer-events: none; }
+.ex-milestone { fill: var(--dynamite); stroke: var(--surface); stroke-width: 1.5; }
+.ex-milestone.ex-done { fill: var(--ok); }
+.ex-milestone.ex-late { fill: var(--danger); }
+.ex-phase-bar { fill: var(--ink); opacity: .7; }
+
+.ex-legend { display: flex; gap: 1rem; flex-wrap: wrap; font-size: .8rem; margin-top: .6rem; }
+.ex-legend-item { display: inline-flex; align-items: center; gap: .3rem; }
+.ex-swatch { display: inline-block; width: 18px; height: 8px; border-radius: 3px; background: var(--exploration); }
+.ex-swatch.ex-done { background: var(--ok); }
+.ex-swatch.ex-late { background: var(--danger); }
+.ex-swatch.ex-blocked { background: var(--warn); }
+.ex-swatch.ex-milestone-sw { width: 9px; height: 9px; border-radius: 1px; transform: rotate(45deg); background: var(--dynamite); }
+.ex-swatch.ex-today-sw { width: 2px; height: 14px; background: var(--danger); }
+
+/* Import / Export screen */
+.ex-steps { margin: 0 0 1rem; padding-left: 1.3rem; line-height: 1.7; }
+.ex-card { margin-bottom: 1rem; padding: 1rem 1.2rem; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); }
+.ex-card h2 { margin-top: 0; font-size: 1.05rem; }
+.ex-actions { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; margin: .4rem 0; }
+.ex-prompt { width: 100%; font-family: var(--mono); font-size: .8rem; }
+.badge-info { background: color-mix(in srgb, var(--exploration) 15%, transparent); color: var(--exploration); }
+.ex-form textarea { width: 100%; }
+
+@media (prefers-reduced-motion: reduce) { .ex-grid-wrap { scroll-behavior: auto; } }
+@media print {
+  .ag-sidebar, .ex-toolbar, .ex-legend { display: none; }
+  .ex-grid-wrap { overflow: visible; border: 0; }
+}
+
+/* D-A-041: edit mode of the plan (move / redistribute tasks) and « + Task » per phase. */
+.ex-phase-tools { display: inline-flex; gap: .5rem; margin-left: .9rem; font-size: .85rem; }
+.ex-move { white-space: nowrap; width: 1%; }
+.ex-move .link-btn { padding: 0 .2rem; font-size: .95rem; }
+.ex-move .link-btn:disabled { opacity: .3; cursor: default; }
+.ex-grip { cursor: grab; color: var(--muted, #6b778c); padding: 0 .3rem; font-size: 1rem; }
+.ex-task-row[draggable="true"] { cursor: grab; }
+.ex-dragging { opacity: .45; }
+.ex-drop > td { box-shadow: inset 0 3px 0 var(--agile); }
+.ex-edit-help { margin: .2rem 0 .8rem; padding: .5rem .75rem; border-left: 3px solid var(--agile); background: var(--surface);
+  font-size: .88rem; }

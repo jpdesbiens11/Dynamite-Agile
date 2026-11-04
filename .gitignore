@@ -1,0 +1,21 @@
+# Runtime data: unique to each environment (laptop / VPS / serveur final).
+# Contains the database, attachments, logs, config.json and the initial
+# admin password file -- never shared between environments via git.
+data/
+
+# Python
+__pycache__/
+*.pyc
+
+# Spyder / editors
+.spyproject/
+.ipynb_checkpoints/
+.vscode/
+*.swp
+
+# Personal Claude Code settings (the shared skills in .claude/skills/ ARE versioned, D-B-093)
+.claude/settings.local.json
+
+# OS noise
+.DS_Store
+Thumbs.db

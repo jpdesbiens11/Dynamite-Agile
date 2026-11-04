@@ -1,0 +1,34 @@
+# Règles d'accès — équipe d'exemple Dynamite | Agile (4 étudiants fictifs, 0.60.01)
+# Profils d'études : proposition à confirmer (génie mécanique, génie électrique, design industriel, génie informatique).
+# Import : ⚙ Admin → Comptes → Règles d'accès → « Charger la base d'exemple » → Vérifier → Appliquer.
+# En mode développement, ces comptes sont créés au démarrage avec le Space EQP « Projet d'équipe ».
+# Chaque compte créé reçoit un mot de passe temporaire (affiché une fois) à changer à la première connexion.
+# Remplacez ces lignes par votre propre équipe : un bloc « utilisateur » par personne.
+
+utilisateur nina | Nina | utilisateur | actif
+fonction    nina | Cheffe de projet de l'équipe
+profil      nina | Génie mécanique
+expertise   nina | Conception mécanique, CAO, matériaux, tolérances, procédés de fabrication
+diriger     nina | Une question de géométrie, de matériau, de tolérance ou de fabrication
+droit       nina | EQP | admin-projet
+
+utilisateur lea | Léa | utilisateur | actif
+fonction    lea | Responsable électrique
+profil      lea | Génie électrique
+expertise   lea | Circuits, alimentation, moteurs, capteurs, sécurité électrique, CEM
+diriger     lea | Une question d'alimentation, de circuit, de capteur ou de conformité électrique
+droit       lea | EQP | editeur
+
+utilisateur hugo | Hugo | utilisateur | actif
+fonction    hugo | Responsable design et ergonomie
+profil      hugo | Design industriel
+expertise   hugo | Ergonomie, esthétique, scénarios d'utilisation, maquettes, fonctions d'estime
+diriger     hugo | Une question d'usage, d'ergonomie, d'apparence ou de storyline du produit
+droit       hugo | EQP | editeur
+
+utilisateur alexis | Alexis | utilisateur | actif
+fonction    alexis | Responsable logiciel embarqué
+profil      alexis | Génie informatique
+expertise   alexis | Logiciel embarqué, microcontrôleurs, interface utilisateur, communications
+diriger     alexis | Une question de firmware, de commande, d'interface ou de données
+droit       alexis | EQP | editeur

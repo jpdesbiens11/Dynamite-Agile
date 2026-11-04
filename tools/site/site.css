@@ -1,0 +1,89 @@
+/* Website of Dynamite | Agile (D-O-015): added on top of the CSS of the vitrine (same tokens, same hand-drawn look). */
+main { overflow-x: clip; }
+.top .gh { margin-left: .4rem; }
+.top nav a.on::after { transform: scaleX(1); }
+.page { max-width: 980px; margin: 0 auto; padding: 2.5rem clamp(1rem, 4vw, 3rem) 4rem; }
+.page h1 { font-size: clamp(2rem, 4vw, 3rem); }
+.page h2 { margin-top: 2.6rem; }
+.page h3 { font: 700 1.2rem var(--hand); margin: 1.6rem 0 .4rem; }
+.page p, .page li { max-width: 46rem; }
+.note { padding: .8rem 1rem; margin: 1rem 0; background: rgba(255, 255, 255, .85); border-left: 5px solid var(--y); border-radius: 8px; }
+.note.warn { border-left-color: var(--o); }
+.note.ok { border-left-color: var(--g); }
+.toc { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 2rem; padding: 0; list-style: none; }
+.toc a { display: inline-block; padding: .3rem .7rem; border: 1.4px solid rgba(38, 50, 63, .3); border-radius: var(--r-hand);
+  background: #fff; text-decoration: none; color: var(--ink); font-weight: 600; font-size: .92rem; }
+.toc a:hover { background: color-mix(in srgb, var(--y) 45%, #fff); }
+.stepper { counter-reset: st; list-style: none; padding: 0; }
+.stepper > li { counter-increment: st; position: relative; padding: 1rem 1.1rem 1rem 3.6rem; margin: 0 0 1rem; background: #fff;
+  border: 1.6px solid rgba(38, 50, 63, .25); border-radius: var(--r-card); box-shadow: var(--shadow); max-width: none; }
+.stepper > li::before { content: counter(st); position: absolute; left: 1rem; top: .95rem; display: grid; place-items: center;
+  width: 1.9rem; height: 1.9rem; border-radius: 50%; background: var(--y); border: 1.6px solid var(--ink); font: 700 1rem var(--hand); }
+.stepper > li > b:first-child { display: block; font: 700 1.1rem var(--hand); margin-bottom: .2rem; }
+pre.cmd { position: relative; margin: .7rem 0; padding: .9rem 1rem; background: #14202b; color: #e8f1f8; border-radius: 10px;
+  font: 500 .88rem/1.55 "Cascadia Mono", Consolas, "SFMono-Regular", Menlo, monospace; overflow-x: auto; border: 2px solid var(--ink); }
+pre.cmd .c { color: #7f95a8; }
+pre.cmd .p { color: var(--g); user-select: none; }
+.copy { position: absolute; top: .45rem; right: .45rem; padding: .2rem .55rem; font: 600 .75rem var(--sans); color: var(--ink);
+  background: var(--y); border: 1.4px solid var(--ink); border-radius: var(--r-hand); cursor: pointer; }
+table.t { width: 100%; border-collapse: collapse; margin: .8rem 0; background: #fff; border: 1.6px solid rgba(38, 50, 63, .25);
+  border-radius: 10px; overflow: hidden; font-size: .94rem; }
+table.t th, table.t td { padding: .55rem .75rem; text-align: left; vertical-align: top; border-bottom: 1px solid rgba(38, 50, 63, .12); }
+table.t th { background: #f4f5f7; font-weight: 650; }
+code { font: 600 .9em "Cascadia Mono", Consolas, monospace; background: rgba(12, 102, 228, .08); padding: .05em .3em; border-radius: 4px; }
+pre code { background: none; padding: 0; font: inherit; }
+
+/* ---------- landing: the descent into the mine ---------- */
+#descente { overflow-x: clip; }
+.descent { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 2rem; }
+.shaft { position: sticky; top: 16vh; height: 64vh; display: flex; flex-direction: column; align-items: center; }
+.shaft .rope { position: relative; flex: 1; width: 6px; background: rgba(38, 50, 63, .12); border-radius: 3px; overflow: hidden; }
+.shaft .rope i { position: absolute; left: 0; top: 0; width: 100%; height: var(--depth, 0%); background: var(--o); border-radius: 3px; }
+.shaft .depth { margin-top: .6rem; font: 700 1.5rem var(--hand); white-space: nowrap; }
+.shaft .lamp { width: 44px; height: 44px; margin-bottom: .5rem; }
+.levels { display: flex; flex-direction: column; gap: 22vh; padding: 6vh 0 18vh; }
+.level { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 1.4rem; align-items: center; padding: 1.3rem 1.4rem;
+  background: rgba(255, 255, 255, .9); border: 1.6px solid rgba(38, 50, 63, .25); border-radius: var(--r-card); box-shadow: var(--shadow);
+  opacity: 0; transform: translateX(40px) rotate(.6deg); transition: opacity .7s ease, transform .8s var(--pop); }
+.level.in { opacity: 1; transform: none; }
+.level img { width: 150px; height: auto; transform: scale(.6) rotate(-8deg); transition: transform .9s var(--pop) .15s; }
+.level.in img { transform: none; }
+.level .m { font: 700 .9rem var(--hand); color: var(--ink-2); }
+.level h3 { margin: .1rem 0 .35rem; font: 700 1.45rem var(--hand); }
+.level .mine { margin: 0 0 .35rem; }
+.level .proj { margin: 0; color: var(--ink-2); }
+.level .proj b { color: var(--ink); }
+.surface { text-align: center; font: 700 1.3rem var(--hand); }
+
+/* ---------- landing: three commands in a terminal ---------- */
+.term { max-width: 760px; margin: 1.4rem auto 0; background: #14202b; border: 2px solid var(--ink); border-radius: var(--r-card);
+  box-shadow: 8px 8px 0 rgba(38, 50, 63, .16); overflow: hidden; }
+.term .tbar { display: flex; gap: .4rem; padding: .55rem .8rem; background: #1d2b38; }
+.term .tbar i { width: 11px; height: 11px; border-radius: 50%; background: var(--r); }
+.term .tbar i:nth-child(2) { background: var(--y); } .term .tbar i:nth-child(3) { background: var(--g); }
+.term pre { margin: 0; padding: 1rem 1.1rem 1.2rem; min-height: 9.5rem; color: #e8f1f8; font: 500 .92rem/1.7 "Cascadia Mono", Consolas, monospace;
+  white-space: pre-wrap; text-align: left; overflow-wrap: anywhere; }
+.term .ok { color: var(--g); }
+.center { text-align: center; }
+.center .sub { margin-left: auto; margin-right: auto; }
+.center .cta { justify-content: center; }
+
+@media (max-width: 900px) {
+  .descent { grid-template-columns: 1fr; }
+  .shaft { display: none; }
+  .levels { gap: 1.2rem; padding: 1rem 0; }
+  .level { grid-template-columns: 90px minmax(0, 1fr); }
+  .level img { width: 90px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .level, .level img { opacity: 1; transform: none; }
+}
+@media (max-width: 640px) {
+  .top { flex-wrap: wrap; gap: .4rem .8rem; }
+  .top nav { order: 3; width: 100%; margin-left: 0; }
+  .top .gh { margin-left: auto; padding: .45rem .8rem; }
+  .level { grid-template-columns: minmax(0, 1fr); transform: translateY(24px); }
+  .level > div { min-width: 0; }
+  .level img { width: 80px; }
+  table.t { display: block; overflow-x: auto; }
+}

@@ -1,0 +1,29 @@
+# systemd unit of Dynamite | Agile in production (installed by deploy/install.sh).
+# The server reads host, port and HTTPS from data/config.json (port 443, redirect from 80).
+# For a test behind an SSH tunnel instead: ExecStart=... app_dynamite_agile.py --host 127.0.0.1 --port 8080
+
+[Unit]
+Description=Dynamite | Agile - atelier de conception de produit
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=dynamite
+Group=dynamite
+WorkingDirectory=/opt/dynamite_agile
+ExecStart=/usr/bin/python3 /opt/dynamite_agile/app_dynamite_agile.py
+Restart=on-failure
+RestartSec=5
+# HTTPS on 443 and the redirect on 80 without root.
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+# Hardening: the service writes only in its data folder.
+ProtectSystem=strict
+ReadWritePaths=/opt/dynamite_agile/data
+ProtectHome=true
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
