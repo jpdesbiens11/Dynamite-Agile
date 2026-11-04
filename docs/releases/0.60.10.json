@@ -1,0 +1,61 @@
+{
+ "version": "0.60.10",
+ "date": "2026-11-04",
+ "summary": {
+  "fr": "Serveur d'équipe sur un PC Windows, installé par PowerShell, HTTPS avec le certificat de l'équipe.",
+  "en": "Team server on a Windows PC, installed with PowerShell, HTTPS with the team's certificate."
+ },
+ "changes": [
+  {
+   "id": "C1",
+   "title": "Serveur d'équipe sur Windows : install.ps1 et certificat de l'équipe (D-O-022)",
+   "why": "PowerShell admin, winget, tâche planifiée, pare-feu privé, HTTPS sans domaine.",
+   "files": [
+    "deploy/install.ps1",
+    "site/install.ps1",
+    "tools/build_site.py",
+    "tools/make_team_ca.py",
+    "tools/write_config.py",
+    "core/config.py",
+    "tests/test_windows_install.py"
+   ]
+  },
+  {
+   "id": "C2",
+   "title": "Page d'installation : destination « PC Windows de l'équipe » (FR / EN)",
+   "why": "Étapes, confiance au certificat, dépannage et entretien ; guide de l'assistant IA.",
+   "files": [
+    "site/en/guide.html",
+    "site/en/index.html",
+    "site/en/installation.html",
+    "site/en/installer.md",
+    "site/guide.html",
+    "site/index.html",
+    "site/installation.html",
+    "site/installer.md",
+    "tools/site/en/installation.html",
+    "tools/site/en/installer.md",
+    "tools/site/en/trouble.html",
+    "tools/site/install.js",
+    "tools/site/installation.html",
+    "tools/site/installer.md",
+    "tools/site/trouble.html"
+   ]
+  },
+  {
+   "id": "C3",
+   "title": "Version 0.60.10 et documentation",
+   "why": "APP_VERSION, D-O-022, état du projet, vitrine.",
+   "files": [
+    "CLAUDE.md",
+    "UPDATE_CHANGES.json",
+    "UPDATE_LOG.md",
+    "core/__init__.py",
+    "docs/DECISIONS.md",
+    "docs/ETAT_PROJET.md",
+    "static/apps/vitrine/index.html",
+    "tests/test_open_v060.py"
+   ]
+  }
+ ]
+}

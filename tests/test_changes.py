@@ -93,7 +93,7 @@ class ChangesTest(unittest.TestCase):
         self.assertEqual(set(buckets.values()), {"change"})
         self.assertEqual(len(self.admin.get(self.base + "/issues?bucket=change")["issues"]), 2)
         nav = {m["key"]: m for m in self.admin.get("/api/me")["modules"]}
-        self.assertEqual([k for k in nav], ["dynamite", "agile", "goldmine", "testing", "exploration", "tools", "training", "codex",
+        self.assertEqual([k for k in nav], ["dynamite", "agile", "goldmine", "diamond", "testing", "exploration", "tools", "training", "codex",
                                             "timesheet", "help", "about"])
         self.assertTrue(nav["goldmine"]["available"])
 

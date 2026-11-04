@@ -115,7 +115,7 @@
     const data = await api.get("/api/baselines");
     cache = data;
     main.append(el("div", { class: "page-head" }, el("h1", null, "Révisions de référence"),
-      el("p", { class: "muted" }, "Des points de référence figés de toute la base, pour les revues de conception (remises du MIP, RCS, RC, RVE) et pour "
+      el("p", { class: "muted" }, "Des points de référence figés de toute la base, pour les revues de fin de phase (Lean Canvas, Concept Review, PDR / CDR, Validation Report) et pour "
         + "prouver ce qui est sorti vers un client à une date précise. « Consulter » montre tout le site tel qu'il était, en lecture "
         + "seule ; chaque export porte alors la révision dans son nom et dans son en-tête.")),
     el("p", { class: "bl-where" }, data.view ? "Vous consultez " + data.view + " (lecture seule). " : "Vous travaillez sur la base courante. ",

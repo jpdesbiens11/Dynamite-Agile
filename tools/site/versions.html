@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Versions et mises à jour — Dynamite | Agile</title>
+<meta name="description" content="Les versions publiées de Dynamite | Agile et le paquet qui met à jour un portail installé, sans toucher aux données.">
+{{FAVICON}}
+<style>
+{{CSS}}
+</style>
+</head>
+<body>
+{{SPRITE}}
+{{TOP}}
+<main class="page">
+  <span class="kicker">Versions · Mises à jour</span>
+  <h1>Mettre à jour <span class="hl" style="--hlc: var(--c)">votre portail</span></h1>
+  <p class="lead">Chaque version publiée tient dans un seul paquet : le code, jamais vos données. Vos comptes, vos Spaces, vos
+    pages, vos heures et les réglages de la plateforme restent tels quels. Vous pouvez sauter des versions, ou attendre.</p>
+
+  <div class="note ok ver-you">
+    <label for="ver-input"><b>Votre version</b> (Admin → Update → Framework) :</label>
+    <input id="ver-input" class="ver-input" type="text" inputmode="decimal" placeholder="0.60.11">
+    <p id="ver-yours"></p>
+  </div>
+
+  <h2>Le paquet de la dernière version</h2>
+  <div id="ver-pkg" class="ver-pkg"><p class="small">Chargement…</p></div>
+
+  <h2>L'appliquer, en trois gestes</h2>
+  <ol class="stepper">
+    <li><b>Télécharger</b>Le paquet ci-dessus, sur votre ordinateur. Un seul fichier, même si votre portail a plusieurs versions de
+      retard : il contient toute la série.</li>
+    <li><b>Vérifier</b>Dans le portail : ⚙ Admin → Update et sauvegardes → Framework → « Vérifier un zip de mise à jour… ». Le
+      portail contrôle que chaque fichier est bien celui du paquet publié, affiche son empreinte SHA-256 (comparez-la avec celle
+      d'ici) et les fichiers que quelqu'un aurait modifiés à la main sur votre serveur.</li>
+    <li><b>Approuver ou attendre</b>Une étape par version apportée, avec ses changements ; tout approuvé → « Appliquer » : le
+      portail garde une copie du code et un point de restauration des données, puis redémarre (environ 10 secondes).
+      « Plus tard » ne change rien, et « Revenir à la … » reprend le code d'avant si besoin.</li>
+  </ol>
+  <div class="note">Installé avec la commande d'installation (VPS Linux ou PC Windows) ? Relancer la même commande met aussi
+    à jour, sans toucher aux données ; les deux façons peuvent se suivre.</div>
+
+  <h2>Toutes les versions</h2>
+  <ol id="ver-list" class="stepper ver-list"></ol>
+</main>
+{{FOOTER}}
+<script>
+{{SITE_JS}}
+</script>
+<script>
+{{VERSIONS_JS}}
+</script>
+</body>
+</html>

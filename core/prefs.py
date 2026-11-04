@@ -43,12 +43,13 @@ CHOICES = {
     "font": ("system", "atlassian", "readable"),
     "font_size": ("90", "100", "112", "125"),
     "density": ("comfortable", "compact"),
-    "landing": ("dashboard", "home"),
+    "landing": ("dashboard", "home", "debuter"),  # 0.60.08: « Débuter »
 }
 DEFAULTS = {"language": "fr", "theme": "carnet", "font": "system", "font_size": "100", "density": "comfortable",
             "landing": "dashboard", "my_items": False, "manager_id": None, "vacation_bank_hours": None,
             "vacation_bank_date": None, "initials": "", "default_space": "",
             "can_export": False, "hide_sandbox": False,
+            "debuter_done": False,  # 0.60.08: « Débuter » closed -- the landing page is the chosen one again
             "baseline_view": ""}  # D-B-129: revision viewed read-only ("" = live)
 POLICY_DEFAULTS = {"watermark": False, "block_print": False, "block_copy": False, "blur_unfocused": False}
 PRIVACY_EVENTS = {"print": "privacy_print_attempt", "copy": "privacy_copy_attempt",
@@ -111,6 +112,8 @@ def clean(conn, user_id, body):
             out[key] = value
     if "my_items" in body:
         out["my_items"] = validate.boolean(body, "my_items")
+    if "debuter_done" in body:  # 0.60.08
+        out["debuter_done"] = validate.boolean(body, "debuter_done")
     if "hide_sandbox" in body:  # D-B-052: hide the HeadLamp sandbox space (its wiki stays visible)
         out["hide_sandbox"] = validate.boolean(body, "hide_sandbox")
     if "manager_id" in body:

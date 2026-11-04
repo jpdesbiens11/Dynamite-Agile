@@ -81,8 +81,8 @@
     main.append(key === "design"
       ? head("Tools · Design", "Diverger d'abord (beaucoup d'idées, sans juger), puis converger (évaluer et choisir avec les "
         + "needs et requirements Goldmine). Chaque méthode a sa page et sa FAQ, modifiables comme un wiki.")
-      : head("Tools · Generator", "Références documentaires : numéroter et classer les documents du PDP (MIP, "
-        + "RCS, CdCF, RC, RVE…). Le registre est tenu par Space."),
+      : head("Tools · Generator", "Références documentaires : numéroter et classer les documents du PDP (Lean "
+        + "Canvas, Concept Review, CdCF, PDR / CDR, Validation Report…). Le registre est tenu par Space."),
     el("div", { class: "tl-bar" }, el("label", null, "Space de travail ", picker),
       data.hub_page ? el("a", { class: "btn btn-small", href: "#/dynamite/TOOLS/page/" + data.hub_page }, "Wiki Tools") : null),
     grid);

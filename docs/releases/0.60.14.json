@@ -1,0 +1,59 @@
+{
+ "version": "0.60.14",
+ "date": "2026-11-04",
+ "summary": {
+  "fr": "Diamond : analyse de risque projet — registre R-n, carte probabilité × impact (5 × 5) actuelle et résiduelle, stratégie, action, responsable, échéance, lien vers le DFMEA, export CSV.",
+  "en": "Diamond: project risk analysis — R-n register, 5 × 5 probability × impact map now and residual, response, action, owner, due date, link to the DFMEA, CSV export."
+ },
+ "changes": [
+  {
+   "id": "C1",
+   "title": "Registre de risques projet (D-O-026)",
+   "why": "Si / alors / ce qui, P × I, niveaux, stratégie, résiduel, responsable parmi les membres, fonction de l'arbre, conseils, CSV, exemple de la lampe.",
+   "files": [
+    "modules/diamond/__init__.py",
+    "modules/diamond/risks.py",
+    "modules/diamond/example.py",
+    "modules/diamond/example_risks.py",
+    "tests/test_diamond_risks.py"
+   ]
+  },
+  {
+   "id": "C2",
+   "title": "Écran : carte des risques et registre",
+   "why": "Carte 5 × 5 cliquable (maintenant / résiduel), registre trié par score, filtres, panneau d'édition, Dupliquer, Archiver.",
+   "files": [
+    "static/js/diamond/diamond.js",
+    "static/js/diamond/risks.js",
+    "static/js/diamond/risks_panel.js",
+    "static/css/diamond.css",
+    "core/modules.py"
+   ]
+  },
+  {
+   "id": "C3",
+   "title": "Training : topic DM-03 et son test",
+   "why": "Dix questions sur l'analyse de risque projet.",
+   "files": [
+    "modules/training/catalog.py",
+    "modules/training/quizzes/__init__.py",
+    "modules/training/quizzes/dm.py"
+   ]
+  },
+  {
+   "id": "C4",
+   "title": "Version 0.60.14, D-O-026 et documentation",
+   "why": "Décision, état du projet, journal, fiche de version, site.",
+   "files": [
+    "core/__init__.py",
+    "CLAUDE.md",
+    "UPDATE_LOG.md",
+    "docs/DECISIONS.md",
+    "docs/ETAT_PROJET.md",
+    "docs/releases/0.60.14.json",
+    "tests/test_open_v060.py",
+    "static/apps/vitrine/index.html"
+   ]
+  }
+ ]
+}

@@ -96,7 +96,7 @@
       methods,
       acceptance_criteria: area("acceptance_criteria", 2, 2000, "Mesurable : ex. surface accessible ≤ 45 °C après 30 min"),
       allocation: text("allocation", 120, "ex. Sous-système de chauffage"),
-      verification_ref: text("verification_ref", 200, "ex. RVE-012 rév. A (test X)"),
+      verification_ref: text("verification_ref", 200, "ex. VVR-012 rév. A (test X)"),
       revision: text("revision", 10, "A"),
       received_at: el("input", { type: "date", value: v.received_at || "" }),
     };
@@ -328,6 +328,7 @@
           el("td", { class: "nowrap" }, el("a", { class: "ag-key", href: A.href(ctx, "issue/" + r.number) }, r.key)),
           el("td", { class: "nowrap" }, r.external_id || el("span", { class: "muted" }, "—")),
           el("td", { class: "gm-statement" }, r.kind === "need" ? el("span", { class: "badge gm-need" }, "Need") : null,
+            DA.review.chip(r.standard_review),
             el("strong", null, r.title), r.statement && r.statement !== r.title ? el("div", { class: "muted" }, r.statement) : null,
             traceLine(ctx, r), A.needFields.chips(r)),
           el("td", null, CATEGORIES[r.category] || r.category),
@@ -363,6 +364,8 @@
         el("span", null, value || el("span", { class: "muted" }, "—")));
       box.append(el("div", { class: "ag-block-head" }, el("h2", null, "Fiche requirement"),
         editable ? el("button", { type: "button", class: "link-btn", onclick: edit }, "Modifier") : null),
+      DA.review.box({ state: r.standard_review, checked: r.standard_checked, standard: r.source_doc, editable, blocks: "Accepted",
+        url: base(ctx) + "/issues/" + issue.number + "/standard-check", done: reload }),
       r.statement ? el("blockquote", { class: "gm-quote" }, r.statement) : el("p", { class: "gm-missing" }, "Statement manquant."),
       el("div", { class: "gm-grid" },
         row("Nature", KINDS[r.kind] || r.kind), row("Stakeholder", STAKEHOLDERS[r.stakeholder] || r.stakeholder),

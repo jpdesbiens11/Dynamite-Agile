@@ -6,7 +6,7 @@ grid, the terminal, the top bar and the footer) is built from the tables below.
 """
 
 LANGS = ("fr", "en")
-NAV = {"fr": ("Accueil", "Installation", "Guide"), "en": ("Home", "Installation", "Guide")}
+NAV = {"fr": ("Accueil", "Installation", "Guide", "Versions"), "en": ("Home", "Installation", "Guide", "Versions")}  # 0.60.12
 SWITCH = {"fr": ("EN", "English", "en"), "en": ("FR", "Français", "fr")}  # (label, title, hreflang) of the other language
 
 # (logo, depth in m, name, {lang: (in the mine, in the project)}) -- the descent of the landing page and the guide (D-O-014)
@@ -47,10 +47,15 @@ MINE = [
         "en": ("The shift log: who worked which face, for how many hours.",
                "The <b>hours per PDP step</b>, vacation, funding claims.")}),
     ("training", 450, "Training & HeadLamp", {
-        "fr": ("L'école de la mine et la lampe frontale qui éclaire la galerie.",
+        "fr": ("L'école de la mine et la lanterne qui éclaire la galerie.",
                "La <b>formation</b>, le tour guidé et un bac à sable pour s'exercer sans risque."),
         "en": ("The mining school and the headlamp that lights the tunnel.",
                "<b>Training</b>, the guided tour and a sandbox to practise risk-free.")}),
+    ("diamond", 1000, "Diamond", {  # 0.60.11 (D-O-023): the deepest gallery
+        "fr": ("Le diamant, à 1 000 m : la pierre la plus dure, taillée facette par facette.",
+               "L'<b>analyse fonctionnelle</b> : arbre des fonctions, puis structure fonctionnelle, risques et DFMEA."),
+        "en": ("The diamond, 1,000 m down: the hardest stone, cut facet by facet.",
+               "The <b>functional analysis</b>: function tree, then functional structure, risks and DFMEA.")}),
 ]
 
 # the tools grid of the landing page in English (the French one comes from tools/build_vitrine.TOOLS)

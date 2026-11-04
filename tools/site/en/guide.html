@@ -36,7 +36,7 @@
   <ol class="stepper reveal">
     <li><b>Needs (Goldmine)</b>Start from the needs of the customer and the stakeholders; the generic catalogue of a consumer product
       (<code>deploy/requis_generiques.csv</code>) imports in one click, then adapts to the CdCF (functional specification).</li>
-    <li><b>The plan (Exploration)</b>The phases of the PDP, the milestones (MIP, RCS, RC, RVE) and the Gantt; Excel round trip possible.</li>
+    <li><b>The plan (Exploration)</b>The phases of the PDP, one MVP loop per phase, the reviews (Lean Canvas, Concept Review, PDR / CDR, Validation Report) and the Gantt; Excel round trip possible.</li>
     <li><b>Sprints (Agile)</b>Backlog → Sprint → Board; each ticket “implements” a requirement.</li>
     <li><b>The decision (Tools)</b>Brainwriting ideation, Pugh matrix, Kepner-Tregoe; the name and folder of every document with Generator.</li>
   </ol>
@@ -50,12 +50,14 @@
     <tr><td>To learn</td><td>Training, Help</td><td>Your training plan, the tests, the guided tour and HEADLAMP to practise risk-free.</td></tr></table>
 
   <h2 id="pdp" class="reveal">The course's PDP in the tool</h2>
-  <p class="reveal">PDP = product development process. The phase and step names are those of the course, in French.</p>
-  <table class="t reveal"><tr><th>Phase</th><th>Time codes</th><th>Deliverables (Generator)</th></tr>
-    <tr><td>A. Pré-étude (pre-study)</td><td>A-01 to A-06</td><td>MIP, market study, preliminary specifications, schedule, risks</td></tr>
-    <tr><td>B. Étude conceptuelle (concept study)</td><td>B-07 to B-12</td><td>RCS, needs, functional analysis, CdCF, QFD, morphological matrix, Pugh</td></tr>
-    <tr><td>C. Conception (design)</td><td>C-13 to C-15</td><td>RC, subsystems, calculations, FMEA, design review</td></tr>
-    <tr><td>D. Fabrication et validation</td><td>D-FAB, D-19 to D-21</td><td>Manufacturing, design of experiments, test report, RVE</td></tr></table>
+  <p class="reveal">PDP = product development process. Each phase is a <b>Build → Measure → Learn</b> loop (Lean Startup): an MVP
+    tests the riskiest hypotheses, Agile Sprints pace the hardware and software work, and the phase closes on a review and the
+    decision to persevere or pivot. The loops rise like a tornado, wider and faster, up to the launch.</p>
+  <table class="t reveal"><tr><th>Phase</th><th>MVP</th><th>Time codes</th><th>Deliverables (Generator)</th></tr>
+    <tr><td>A. Discovery</td><td>MVP 0: is the problem real?</td><td>A-01 to A-06</td><td>Lean Canvas and hypotheses (LCV), market study, preliminary specifications, schedule, risks</td></tr>
+    <tr><td>B. Concept</td><td>MVP 1: do users like the concept?</td><td>B-07 to B-12</td><td>Concept Review (CRV), needs, functional analysis, CdCF, QFD, morphological matrix, Pugh</td></tr>
+    <tr><td>C. Design</td><td>MVP 2: does it work?</td><td>C-13 to C-15</td><td>PDR, CDR, subsystems, calculations, FMEA</td></tr>
+    <tr><td>D. Validation et lancement</td><td>MVP 3: ready for the market?</td><td>D-FAB, D-19 to D-21</td><td>Validation Report (VVR), manufacturing, test protocol and results</td></tr></table>
 
   <h2 id="mine" class="reveal">The mine names</h2>
   <table class="t reveal"><tr><th>Tool</th><th>In the mine</th><th>In the project</th></tr>

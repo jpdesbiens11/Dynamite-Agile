@@ -34,6 +34,7 @@ manifest entry's "module" value -- nothing else in core/ needs to change.
 from modules import agile, codex, dynamite, exploration, goldmine, testing, timesheet, toolbox, training
 from modules import help as help_module  # noqa: E402  (top-level package next to core/)
 from modules import about  # noqa: E402  D-B-108
+from modules import diamond  # noqa: E402  0.60.11, D-O-023
 
 MODULE_MANIFEST = [
     {"key": "dynamite", "label": "Dynamite", "phase": "3.2", "module": dynamite,
@@ -48,6 +49,14 @@ MODULE_MANIFEST = [
      "styles": ["/css/agile.css", "/css/qa.css", "/css/pugh.css"]},
     {"key": "goldmine", "label": "Goldmine", "phase": "3.3", "module": goldmine,
      "scripts": ["/js/goldmine/shell.js"], "styles": []},
+    # 0.60.11 (D-O-023): functional analysis and design risk, right after the needs and requirements
+    {"key": "diamond", "label": "Diamond", "phase": "0.60.11", "module": diamond,
+     "scripts": ["/js/diamond/diamond.js", "/js/diamond/tree_layout.js", "/js/diamond/tree_panel.js", "/js/diamond/tree.js",
+                 "/js/diamond/structure_draw.js", "/js/diamond/structure_panel.js", "/js/diamond/structure.js",
+                 "/js/diamond/risks_panel.js", "/js/diamond/risks.js",
+                 "/js/diamond/dfmea_table.js", "/js/diamond/dfmea.js", "/js/diamond/dfmea_legend.js",
+                 "/js/diamond/nuggets_content.js", "/js/diamond/nuggets.js"],
+     "styles": ["/css/diamond.css", "/css/diamond_dfmea.css"]},
     # D-B-079: the test team's portal, right after Goldmine (test base + procedures in the space TESTING)
     {"key": "testing", "label": "Testing", "phase": "3.9", "module": testing,
      "scripts": ["/js/testing/testing.js", "/js/testing/testing_record.js", "/js/testing/testing_lists.js", "/js/testing/testing_plans.js"], "styles": ["/css/testing.css"]},

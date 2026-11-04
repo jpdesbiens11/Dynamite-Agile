@@ -1,0 +1,144 @@
+/* Diamond · « DFMEA » (0.60.15, D-O-027): #/diamond/KEY/dfmea. The Design FMEA of the product, AIAG-VDA structure, on
+   the functions of the functional tree: the table (dfmea_table.js), the columns to show (presets or one by one, kept per
+   browser), the AP filter, « Depuis l'arbre », « Depuis les risques », the example, the CSV export and the link to the
+   legend of the Action Priority (dfmea_legend.js, #/diamond/KEY/dfmeaap). */
+(function () {
+  "use strict";
+
+  const { api, el, clear, toast } = DA;
+  const A = DA.agile;
+  const D = DA.diamond;
+  const STORE = "diamond.dfmea.columns";
+  const PRESETS = [
+    ["Toutes", null],
+    ["Structure et fonction", ["higher", "focus", "lower", "function_id", "requirement", "failure_mode"]],
+    ["Chaîne de défaillance", ["focus", "function_id", "failure_mode", "effect", "severity", "cause", "occurrence", "detection", "ap"]],
+    ["Contrôles et cotation", ["failure_mode", "cause", "prevention", "occurrence", "detection_ctrl", "detection", "severity", "rpn", "ap", "action"]],
+  ];
+  const LAMP = "Éclairer une surface de travail";
+
+  function loadVisible() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORE) || "null");
+      if (Array.isArray(saved) && saved.length) return new Set(saved);
+    } catch (err) { /* private window: all the columns */ }
+    return new Set(D.DFMEA_COLS.map((c) => c.key));
+  }
+  function saveVisible(set) {
+    try { localStorage.setItem(STORE, JSON.stringify([...set])); } catch (err) { /* not kept */ }
+  }
+
+  async function view(page, ctx) {
+    const base = D.base(ctx) + "/dfmea";
+    const state = { data: await api.get(base), visible: loadVisible(), ap: "", focus: null };
+    const holder = el("div", { class: "dm-page" });
+    page.append(holder);
+    const redraw = () => D.later(() => draw(holder, ctx, state, api_));
+    const api_ = {
+      act: async (path, body) => {
+        try {
+          const res = await api.post(base + path, body || {});
+          state.data = res;
+          if (res.added !== undefined) toast(res.added ? res.added + " ligne(s) ajoutée(s)." : "Rien à ajouter : tout est déjà dans le DFMEA.", "success");
+        } catch (err) { toast(err.message, "error"); }
+        redraw();
+      },
+      save: async (id, key, value) => {
+        const body = {};
+        body[key] = key === "function_id" || ["severity", "occurrence", "detection"].includes(key) ? (value ? Number(value) : null) : value;
+        try {
+          state.data = await api.patch(base + "/rows/" + id, body);
+          const row = state.data.rows.find((r) => r.id === id);
+          if (row) D.dfmeaRefreshRow(holder, row, state.data.labels.ap);
+          drawChecks(holder, state);
+        } catch (err) { toast(err.message, "error"); }
+      },
+    };
+    state.redraw = redraw;
+    draw(holder, ctx, state, api_);
+  }
+
+  function draw(holder, ctx, state, act) {
+    clear(holder);
+    const data = state.data, editable = A.canEdit(ctx);
+    state.filtered = data.rows.filter((r) => !state.ap || (state.ap === "none" ? !r.ap : r.ap === state.ap));
+    holder.append(A.pageHead(ctx, [el("span", null, "Diamond"), el("span", null, "DFMEA")], [
+      el("a", { class: "btn btn-small", href: A.href(ctx, "dfmeaap"), "data-new": "0.60.15-ap-legend" }, "Légende AP"),
+      data.rows.length ? el("a", { class: "btn btn-small", href: D.base(ctx) + "/dfmea/export.csv", download: "" }, "Exporter (.csv)") : null]),
+    el("div", { class: "page-head dm-intro" }, el("h1", { "data-new": "0.60.15-dfmea" }, "DFMEA"),
+      el("p", { class: "muted" }, "Design FMEA, structure AIAG-VDA, sur les fonctions de l'arbre fonctionnel : une ligne par chaîne de "
+        + "défaillance — l'effet sur l'élément supérieur (S), le mode de défaillance de l'élément analysé, la cause dans l'élément "
+        + "inférieur (O), les contrôles de prévention et de détection (D). RPN et Action Priority côte à côte.")),
+    el("div", { class: "dm-legend dm-fm-levels" }, el("span", { class: "dm-fm-chip dm-fm-h-higher" }, "Higher-Level Element"),
+      el("span", { class: "dm-fm-chip dm-fm-h-focus" }, "Focus Element"), el("span", { class: "dm-fm-chip dm-fm-h-lower" }, "Lower-Level Element"),
+      el("span", { class: "dm-fm-chip dm-fm-h-score" }, "Scores : RPN et AP")));
+    if (!data.functions.length) {
+      holder.append(DA.spaces.startHere("Construisez d'abord l'arbre fonctionnel", "Le DFMEA reprend exactement les fonctions de l'arbre : "
+        + "sans fonction, il n'y a rien à analyser.", [["Ouvrir l'arbre fonctionnel", A.href(ctx, "ftree"), true]]));
+      return;
+    }
+    holder.append(el("div", { class: "dm-fm-checks" }));
+    drawChecks(holder, state);
+    holder.append(toolbar(ctx, state, act, editable));
+    if (!data.rows.length) {
+      holder.append(DA.spaces.startHere("DFMEA de " + ctx.meta.project.name, "Partez de l'arbre : une ligne par fonction, puis, pour "
+        + "chacune, comment elle peut faillir, avec quel effet et pourquoi. Les risques projet cochés « À détailler dans le DFMEA » "
+        + "arrivent avec « Depuis les risques ».", editable ? [["Depuis l'arbre", () => act.act("/from-tree", {}), true],
+        ["Nouvelle ligne", () => act.act("/rows", {})],
+        data.functions.some((f) => f.text === LAMP) ? ["Charger le DFMEA de l'exemple", () => act.act("/example", {})] : null] : []));
+      return;
+    }
+    const onKey = (ev, row, col) => {
+      if (!ev.altKey || (ev.key !== "ArrowUp" && ev.key !== "ArrowDown") || !editable) return;
+      ev.preventDefault();
+      state.focus = { row: row.id, col: col.key };
+      act.act("/rows/" + row.id + "/move", { direction: ev.key === "ArrowUp" ? "up" : "down" });
+    };
+    holder.append(D.dfmeaTable({ state, visible: state.visible, editable, save: act.save, act: act.act, onKey }));
+    if (state.focus) {
+      const f = state.focus;
+      state.focus = null;
+      setTimeout(() => { const n = holder.querySelector('[data-row="' + f.row + '"][data-col="' + f.col + '"]'); if (n) n.focus(); }, 0);
+    }
+  }
+
+  function drawChecks(holder, state) {
+    const box = holder.querySelector(".dm-fm-checks");
+    if (!box) return;
+    clear(box);
+    const checks = state.data.checks;
+    box.append(!checks.length ? el("p", { class: "dm-advice-ok" }, "Chaque fonction est analysée, chaque ligne est cotée, chaque AP High a son action.")
+      : el("details", { class: "dm-advice", open: true, "data-new": "0.60.15-checks" }, el("summary", null, "Conseils de la méthode (" + checks.length + ")"),
+        el("ul", null, checks.map((c) => el("li", null, c)))));
+  }
+
+  function toolbar(ctx, state, act, editable) {
+    const hidden = D.DFMEA_COLS.length - state.visible.size;
+    const chooser = el("details", { class: "dm-fm-cols", "data-new": "0.60.15-columns" }, el("summary", null, "Colonnes" + (hidden ? " (" + hidden + " masquée(s))" : "")),
+      el("div", { class: "dm-actions" }, PRESETS.map(([label, keys]) => el("button", { type: "button", class: "btn btn-small", onclick: () => {
+        state.visible = new Set(keys || D.DFMEA_COLS.map((c) => c.key));
+        saveVisible(state.visible);
+        state.redraw();
+      } }, label))),
+      el("div", { class: "dm-fm-colgrid" }, D.DFMEA_COLS.map((c) => {
+        const box = el("input", { type: "checkbox", checked: state.visible.has(c.key) });
+        box.addEventListener("change", () => {
+          if (box.checked) state.visible.add(c.key); else state.visible.delete(c.key);
+          if (!state.visible.size) state.visible.add("failure_mode");
+          saveVisible(state.visible);
+          state.redraw();
+        });
+        return el("label", { class: "dm-check dm-fm-colpick dm-fm-h-" + c.group }, box, " " + c.label);
+      })));
+    const ap = el("select", { "aria-label": "Filtrer par AP" }, [["", "Toutes les lignes"], ["H", "AP High"], ["M", "AP Medium"], ["L", "AP Low"], ["none", "Sans AP"]]
+      .map(([k, label]) => el("option", { value: k, selected: state.ap === k }, label)));
+    ap.addEventListener("change", () => { state.ap = ap.value; state.redraw(); });
+    return el("div", { class: "dm-fm-toolbar" }, editable ? el("div", { class: "dm-actions" },
+      el("button", { type: "button", class: "btn btn-small btn-primary", onclick: () => act.act("/rows", {}) }, "Nouvelle ligne"),
+      el("button", { type: "button", class: "btn btn-small", "data-tip": "Une ligne par fonction pas encore analysée", onclick: () => act.act("/from-tree", {}) }, "Depuis l'arbre"),
+      el("button", { type: "button", class: "btn btn-small", "data-tip": "Les risques projet cochés « À détailler dans le DFMEA »",
+        onclick: () => act.act("/from-risks", {}) }, "Depuis les risques")) : null, ap, chooser);
+  }
+
+  A.views.dfmea = view;
+})();

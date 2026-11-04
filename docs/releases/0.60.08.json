@@ -1,0 +1,61 @@
+{
+ "version": "0.60.08",
+ "date": "2026-11-04",
+ "summary": {
+  "fr": "Page « Débuter » : le parcours d'un projet, module par module.",
+  "en": "« Débuter » page: the path of a project, module by module."
+ },
+ "changes": [
+  {
+   "id": "C1",
+   "title": "Page « Débuter » : le parcours d'un projet (D-O-020)",
+   "why": "Phase par phase du PDP, module par module ; arrivée jusqu'à fermeture, puis onglet.",
+   "files": [
+    "core/prefs.py",
+    "static/css/app.css",
+    "static/img/icons-term.svg",
+    "static/img/icons.svg",
+    "static/index.html",
+    "static/js/app.js",
+    "static/js/tools/debuter.js",
+    "static/js/tools/debuter_content.js",
+    "static/js/tools/i18n.js",
+    "static/js/tools/sketch.js",
+    "tests/test_debuter.py",
+    "tests/test_lot_v034.py",
+    "tools/make_sketch_assets.py"
+   ]
+  },
+  {
+   "id": "C2",
+   "title": "HeadLamp = la lanterne",
+   "why": "Le nom français de HeadLamp est la lanterne, pas une lampe frontale.",
+   "files": [
+    "docs/NOMS_DES_MODULES.md",
+    "static/js/help/content_faq.js",
+    "tools/site_text.py"
+   ]
+  },
+  {
+   "id": "C3",
+   "title": "Version 0.60.08, tests et documentation",
+   "why": "APP_VERSION, D-O-020, état du projet, site reconstruit.",
+   "files": [
+    "CLAUDE.md",
+    "UPDATE_CHANGES.json",
+    "UPDATE_LOG.md",
+    "core/__init__.py",
+    "docs/DECISIONS.md",
+    "docs/ETAT_PROJET.md",
+    "site/en/guide.html",
+    "site/en/index.html",
+    "site/en/installation.html",
+    "site/guide.html",
+    "site/index.html",
+    "site/installation.html",
+    "static/apps/vitrine/index.html",
+    "tests/test_open_v060.py"
+   ]
+  }
+ ]
+}

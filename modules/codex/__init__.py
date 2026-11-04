@@ -1,7 +1,7 @@
 """Generator (key « codex »): document references and filing per project (D-B-021).
 
 Names every document of a project the same way: type (a deliverable of the
-product development process -- MIP, RCS, CdCF, RC, RVE... -- or general
+product development process -- LCV, CRV, CdCF, PDR / CDR, VVR... (D-O-021) -- or general
 engineering), step of the PDP, unique Excel serial date-time number,
 revision, system code, title -> file name and deliverables folder. Each
 reservation is kept in the project's registry (who, when, never reused).

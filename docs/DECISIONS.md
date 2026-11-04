@@ -170,3 +170,161 @@ d'accueil créée avec le Space, les autres pages sans parent vont sous elle ; (
 en contient, est lié à un essai « Essai à définir (Project Starter) » — un Space qui a des essais exige qu'un requis en
 nomme un (D-B-079) ; (e) la norme, l'édition et la clause d'un requis vont dans « Source Document » ; « À vérifier » est
 gardé dans `agile_requirements.standard_review` et `testing_tests.review` (migrations additives agile 15, testing 5).
+**Complément (0.60.07, 2026-11-04) :** l'écran est livré dans ⚙ Admin → Spaces → « Commencer » (`static/js/admin_starter.js`) :
+choisir le fichier ou un exemple de `deploy/starter_exemples/` (servis par `GET /api/starter/examples`), lire l'aperçu,
+changer la clé du Space, renommer ou retirer un code de temps, créer, puis lire une seule fois les mots de passe
+temporaires. Le Dashboard d'un administrateur met « Commencer » en avant tant qu'aucun projet n'a été démarré ainsi
+(`GET /api/starter/status`). « À vérifier » : `DA.review` (`static/js/tools/review.js`) montre le badge et le dialogue
+« Confirmer la norme » (édition en vigueur obligatoire, clause facultative ; date et personne gardées) dans la fiche
+requirement (`POST …/issues/<n>/standard-check`, `modules/agile/goldmine_review.py`) et la fiche d'essai
+(`POST /api/testing/tests/<id>/review`, `modules/testing/review.py`). D'ici là, « Accepted » (requis) et « Approved »
+(essai) sont refusés avec leur correctif, à l'écran comme à l'import CSV.
+
+### D-O-020 — « Débuter » : le parcours d'un projet, à l'entrée de l'outil (2026-11-04, demande de JP)
+**Contexte :** une fois l'outil installé, un débutant ne sait pas par où commencer ni à quoi sert chaque module au fil
+du projet.
+**Décision :** une page « Débuter » (`#/debuter`, `static/js/tools/debuter.js`, contenu dans `debuter_content.js`) déroule
+le projet dans l'ordre du PDP du cours : avant le projet (démarrer avec un assistant IA ou à la main, prendre ses
+repères, trouver son Space), A. Pré-étude, B. Étude conceptuelle, C. Conception, D. Fabrication et validation du
+prototype (étapes et livrable de chaque phase), puis ce qui revient chaque semaine. Chaque étape nomme le module, dit
+quoi y faire et ouvre l'écran dans le Space par défaut ; une étape d'administrateur est marquée et, pour les autres,
+remplacée par « Votre administrateur s'en charge ». Choix de JP : **page d'arrivée après la connexion tant qu'on ne l'a
+pas fermée** (préférence `debuter_done`), puis **onglet « Débuter » au début de la barre du haut** ; « Débuter » peut
+aussi être choisie comme page d'arrivée dans les Paramètres. Le prompt `starter.md` passe en 0.60.09.
+
+### D-O-021 — Le PDP modernisé avec le Lean Startup : une tornade de boucles MVP (2026-11-04, demande de JP)
+**Contexte :** le MIP et les rapports du cours (RCS, RC, RVE) datent d'un PDP par phases ; en 2026, les équipes produit
+matériel et logiciel travaillent par hypothèses, MVP successifs et Sprints Agile.
+**Décision (choix de JP, une question à la fois) :**
+1. **Les quatre phases restent** (lettres A à D, codes de temps A-01 … D-21 et clés inchangés), **et chacune devient une
+   boucle Build → Measure → Learn** : un MVP teste les hypothèses les plus risquées, les Sprints Agile rythment le travail
+   matériel et logiciel, la phase se ferme sur une revue et la décision de persévérer ou de pivoter. Les étapes « Rappel et
+   mise à jour » (07, 13, 19) deviennent ce bilan. Image retenue : **une tornade** — les étapes se lisent de haut en bas,
+   chaque boucle est une spire qui monte et s'élargit, et le produit sort par le haut à grande vitesse (schéma de
+   « Débuter », `static/js/tools/debuter_tornado.js`, SVG sans texte).
+2. **Le Lean Canvas et ses hypothèses à tester (LCV, MVP 0) remplace le MIP.**
+3. **Revues industrielles et bilan MVP** pour les autres phases : Concept Review (CRV, MVP 1) remplace le RCS ; PDR puis
+   CDR (MVP 2) remplacent le RC ; Validation Report (VVR, vérification et validation, MVP 3) remplace le RVE. Nouveaux
+   types MVP (plan du MVP) et BML (bilan Build-Measure-Learn). MIP, RCS, RC et RVE sont des codes retirés : une référence
+   déjà émise garde son code et son dossier, une nouvelle reçoit le code qui le remplace.
+4. **Noms modernes des phases** : A. Discovery, B. Concept, C. Design, D. Validation et lancement ; dossiers du Generator
+   `01_Discovery` … `04_Validation`, `05_Lean`.
+Un site existant reçoit les nouveaux libellés de Timesheet au démarrage, seulement là où le libellé d'origine n'a pas été
+reformulé. Le prompt `starter.md` passe en 0.60.10.
+
+### D-O-022 — Un PC Windows comme serveur d'équipe, installé par PowerShell (2026-11-04, demande de JP)
+**Contexte :** des équipes n'ont ni Linux ni domaine, mais un PC Windows qui peut rester allumé sur le réseau de l'école
+ou du bureau. Choix de JP : une procédure **serveur d'équipe sur Windows** (et non un essai solo de plus).
+**Décision :** une quatrième destination sur la page d'installation, « Sur un PC Windows de l'équipe », et
+`deploy/install.ps1` (publié en `site/install.ps1`), lancé dans PowerShell en administrateur. En une commande, qu'on
+relance pour mettre à jour : Python 3.12 et Git par winget, le code dans `C:\DynamiteAgile`, la configuration de
+production (`tools/write_config.py`), une règle de pare-feu pour les réseaux privés et de domaine seulement, et une tâche
+planifiée « Dynamite Agile » qui démarre avec Windows (compte SYSTEM) et relance le serveur s'il s'arrête ; `-Port`,
+`-Dossier`, `-Desinstaller` ; messages FR / EN (`$env:DA_LANG`). **HTTPS sans domaine :** le serveur refuse le réseau sans
+HTTPS (D-B-090) ; `tools/make_team_ca.py` crée l'autorité de certification de l'équipe (10 ans, la clé ne quitte pas le
+PC) et le certificat de ce PC (son nom, nom.local, ses adresses, 397 jours, renouvelé au besoin), avec l'`openssl` de Git
+pour Windows. Chaque poste importe une fois `ca-dynamite.crt` ; la page ne propose jamais de contourner l'avertissement du
+navigateur. Le script est enregistré en UTF-8 avec BOM, pour que Windows PowerShell 5.1 lise ses accents ; `config.json`
+accepte aussi un BOM (Bloc-notes). Le prompt `starter.md` passe en 0.60.11.
+
+### D-O-023 — Diamond 💎 : l'analyse fonctionnelle à 1 000 m, en commençant par l'arbre fonctionnel (2026-11-04, demande de JP)
+**Contexte :** JP demande un nouveau module, « Diamond », au plus profond de la mine (1 000 m), qui réunit l'arbre
+fonctionnel, la structure fonctionnelle (boundary diagram), une analyse de risque projet de haut niveau, un DFMEA
+AIAG-VDA qui reprend exactement les fonctions de l'arbre, et une page « Golden Nuggets ».
+**Décision :** un module `modules/diamond/` (onglet entre Goldmine et Exploration, ordre d'usage : besoins → fonctions →
+plan ; accent « glace » `--hl-ice` / `#a5d6ff`, logo diamant taillé), construit un sous-module par version. **0.60.11 :
+Arbre fonctionnel.** Un arbre par Space (table `diamond_functions`) : une fonction primaire à gauche, ses « comment » à
+droite, les sœurs de haut en bas dans l'ordre de la première utilisation (« quand »), la branche de protection en
+dernier ; trois niveaux (primaire, secondaire, tertiaire) et un 4e réservé aux fonctions techniques ; chemin critique
+(flèches épaisses), rétroaction des fonctions de contrôle (pointillés) ; type (usage, estime, technique, contrainte),
+Kano, importance, notes à la conception. Le numéro F1, F2… est gardé pour toujours, même archivé (jamais redonné), pour le
+suivi dans le DFMEA. Glisser une boîte sur une autre en fait l'un de ses « comment » ; Alt + flèches déplace au clavier ;
+« Hors arbre » garde les fonctions d'estime ou en attente. Hypothèses prises sans attendre (CLAUDE.md : avancer) : Diamond
+passe avant le prompt `starter.md` ; l'arbre est propre à chaque Space, distinct de la liste centrale « Product Function »
+de Testing (TESTING), avec un numéro compatible (F12) pour les relier plus tard. Exemple original (lampe de bureau
+connectée, D-O-012). Suite, une par version : structure fonctionnelle, risques projet, DFMEA (RPN et AP), Golden Nuggets.
+
+### D-O-024 — Versions officielles : mettre à jour un portail installé, données gardées, sans appel sortant (2026-11-04, demande de JP)
+**Contexte :** JP veut qu'une équipe qui a installé 0.60.XX passe à une version plus récente sans toucher aux données ni
+aux réglages gérés par ses membres, qu'elle puisse accepter ou non la série de mises à jour, et y revenir plus tard. Le
+serveur ne doit faire aucun appel réseau sortant (réseau fermé). Choix de JP : **la version est proposée, rien ne sort**.
+**Décision :** le projet publie, sur son site, un paquet par version (`tools/build_release.py`, construit par le workflow
+Pages, jamais dans git) et une page `versions.html` (FR / EN) qui lit `updates/versions.json`, montre le paquet, sa SHA-256
+et les versions plus récentes que celle du portail (`#depuis=0.60.11`, le lien d'Admin → Update). Un seul paquet contient
+toute la série : on saute des versions sans risque, les migrations étant additives et cumulatives. Dans Admin → Update →
+Framework, bloc « Versions officielles » ; le paquet déposé passe la vérification habituelle, plus le contrôle de son
+manifeste `docs/RELEASE.json` (un fichier modifié après publication est refusé). La revue pas à pas (D-B-094) garde son
+principe, mais compte **une étape par version** apportée, avec ses changements ; « Plus tard » abandonne la vérification
+sans rien changer ; « Revenir à la … » reprend le code d'avant (3 copies). Les fichiers modifiés à la main depuis la
+dernière installation officielle sont listés avant d'être remplacés. `data/` (base, pièces jointes, `config.json`) n'est
+jamais touché. Un portail 0.60.11 ou plus ancien applique le paquet avec son propre écran (fusion des changements de la
+série dans `UPDATE_CHANGES.json`), essayé de 0.60.11 à 0.60.12. Les scripts d'installation ne bloquent plus sur du code
+modifié (copie en `.patch`, puis la branche publiée). L'empreinte prouve que le paquet n'a pas changé depuis sa
+publication, pas qui l'a publié : la comparer avec la page du site. Structure fonctionnelle de Diamond : en 0.60.13, flux
+typés énergie / matière / information selon la légende du cours (choix de JP).
+
+### D-O-025 — Diamond : la structure fonctionnelle, comme dans le cours (2026-11-04, demande de JP)
+**Contexte :** deuxième sous-module de Diamond (D-O-023) : le boundary diagram, tiré de l'arbre fonctionnel. Choix de JP :
+« comme dans le cours, en suivant la légende des lignes ».
+**Décision :** onglet « Structure fonctionnelle » (#/diamond/KEY/fstructure). Les **entrées du système** à gauche, les
+**sorties** à droite, le cadre du système (la fonction primaire) entre les deux. Deux vues : **générale**, où les fonctions
+secondaires deviennent les sous-systèmes, et **détaillée**, où les fonctions tertiaires sont dans le cadre de leur
+sous-système (une secondaire sans tertiaire tient sa place) ; aucune fonction technique, ce niveau n'appartient pas à la
+conception système. Chaque flux a un type, **énergie** (trait orange), **matière** (trait épais) ou **information**
+(pointillé bleu), et un libellé court. Règles : un flux part d'une entrée ou d'une fonction et arrive à une fonction ou à
+une sortie, jamais d'une entrée directement à une sortie ; une entrée qui a des flux ne devient pas une sortie. Conseils
+de la méthode : entrées et sorties présentes, chaque bloc échange un flux, chaque flux de la vue générale se retrouve
+dans la vue détaillée (même type, entre des fonctions des mêmes sous-systèmes). Les blocs se glissent (positions gardées
+par vue, « Replacer automatiquement ») ; un flux se trace depuis le panneau du bloc ou en cliquant la cible. Les
+fonctions archivées quittent le schéma. Tables `diamond_ports`, `diamond_flows`, `diamond_positions` (migration
+diamond 2, additive). L'exemple de la lampe de bureau charge aussi sa structure (6 entrées et sorties, 11 + 21 flux).
+
+### D-O-026 — Diamond : l'analyse de risque projet, de haut niveau, avant le DFMEA (2026-11-04, demande de JP)
+**Contexte :** troisième sous-module de Diamond (D-O-023), demandé « high level, avant le DFMEA ».
+**Décision :** onglet « Risques projet » (#/diamond/KEY/prisk), un registre par Space (table `diamond_risks`, migration
+diamond 3). Hypothèses prises sans attendre (pratique courante de l'industrie, proche de l'ISO 31000) : chaque risque
+s'écrit « Si <cause>, alors <événement>, ce qui <conséquence> » ; probabilité et impact de 1 à 5, avec leurs mots
+(rare … presque certain ; négligeable … critique) ; score P × I et quatre niveaux : Faible 1-4, Moyen 5-9, Élevé 10-14,
+Critique 15-25 ; huit catégories (technique, délais, coûts, équipe, fournisseurs, normes, marché, sécurité) et la phase
+du PDP ; stratégie éviter / réduire / transférer / accepter, action, responsable parmi les membres du Space, échéance,
+status Ouvert / En traitement / Fermé, probabilité et impact résiduels. Numéros R-1, R-2… jamais redonnés (archivage).
+Un risque peut pointer une fonction de l'arbre et être marqué « À détailler dans le DFMEA », que le DFMEA (0.60.15)
+reprendra. L'écran : la carte 5 × 5 (maintenant ou résiduelle) dont chaque case filtre le registre, le registre trié par
+score, le panneau d'un risque (le score se recalcule en direct), Dupliquer, Archiver, export CSV. Conseils : risque élevé
+sans action ou sans responsable, échéance dépassée, risque critique accepté sans justification, résiduel plus grand que
+l'actuel, risque technique élevé pas envoyé au DFMEA, une seule catégorie. L'exemple de la lampe de bureau a ses 9 risques.
+
+### D-O-027 — Diamond : le DFMEA AIAG-VDA, sur les fonctions de l'arbre (2026-11-04, demande de JP)
+**Contexte :** quatrième sous-module de Diamond (D-O-023), spécifié par JP : la structure AIAG-VDA à trois niveaux, les
+colonnes du gabarit, les en-têtes colorés par niveau, RPN et AP visibles, la légende de l'AP pour la formation, des
+colonnes qu'on cache, et des lignes très faciles à ajouter, dupliquer, déplacer et effacer.
+**Décision :** onglet « DFMEA » (#/diamond/KEY/dfmea), table `diamond_dfmea` (migration diamond 4), une ligne par chaîne de
+défaillance. Colonnes : Higher-Level Element, Focus Element, Lower-Level Element, Function of Focus Element (une fonction
+de l'arbre, liste), Requirement / Characteristic, Failure Mode, Failure Effect + S, Failure Cause, Prevention Controls + O,
+Detection Controls + D, RPN, AP, et Actions (optimisation). En-têtes : **blanc** pour le niveau supérieur (élément, effet,
+S), **bleu** pour l'élément analysé (élément, fonction, requirement, mode), **orange** pour le niveau inférieur (élément,
+cause, contrôles, O, D, actions : là où l'équipe travaille), foncé pour les scores. RPN = S × O × D et AP (High / Medium /
+Low) selon le tableau DFMEA du manuel AIAG-VDA (2019), dans `dfmea_ap.py` ; la page « Légende AP »
+(#/diamond/KEY/dfmeaap) explique pourquoi l'AP lit la sévérité d'abord, montre le tableau complet et résume les échelles
+S / O / D (paraphrases pour la formation, pas le texte du manuel ; l'écran invite à vérifier le tableau avec son exemplaire
+avant une revue formelle). Édition en place (enregistrée à la sortie de la cellule, les scores se recalculent sans
+redessiner), outils de ligne ↑ ↓ + ⧉ ×, Alt + ↑ / ↓, valeur identique à la ligne du dessus en gris (comme des cellules
+fusionnées), colonnes à cacher une à une ou par préréglage (gardé dans le navigateur), filtre par AP. « Depuis l'arbre »
+ajoute une ligne par fonction de la vue détaillée pas encore analysée ; « Depuis les risques », une par risque projet
+coché « À détailler dans le DFMEA ». Conseils : ligne sans fonction, mode sans cotation complète, AP High sans action,
+sévérité 9-10 avec une occurrence de 4 ou plus, fonction pas analysée, risque à reprendre. Export CSV. Exemple de la
+lampe : 7 lignes (un High, un Medium, le reste Low), deux reliées aux risques projet.
+
+### D-O-028 — Diamond : la page Golden Nuggets (2026-11-04, demande de JP)
+**Contexte :** dernière pièce de Diamond (D-O-023) : des lignes directrices claires sur la pensée à partir des premiers
+principes (les vingt les plus courantes dans l'industrie, un peu dans l'esprit de TRIZ, avec des exemples concrets) et sur
+les grandes règles de conception de SpaceX et Tesla.
+**Décision :** onglet « Golden Nuggets » (#/diamond/KEY/nuggets), contenu statique (`static/js/diamond/nuggets_content.js`),
+trois parties : **20 principes** (dont 13 principes inventifs de TRIZ nommés), **l'algorithme en 5 étapes** (exigences
+moins bêtes, supprimer, simplifier, accélérer, automatiser — dans cet ordre) et **5 règles de conception** de SpaceX et
+Tesla. Chaque nugget : l'idée, un exemple de l'industrie, et « Sur votre projet » (la lampe d'exemple, et l'écran de
+l'outil où il s'applique : Goldmine, arbre, structure, risques, DFMEA, Pugh, Testing, Débuter). Recherche et thèmes.
+**Rigueur :** paraphrases de méthodes décrites publiquement par Elon Musk, SpaceX et Tesla (entrevues, visite de Starbase
+de 2021) et des principes de TRIZ (G. Altshuller) : aucune citation mise entre guillemets, aucun chiffre qu'on ne puisse
+pas soutenir ; la page l'indique. Topic Training DM-05.
+

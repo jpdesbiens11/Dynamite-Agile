@@ -21,7 +21,28 @@
   partagés dans `tools/site_text.py`, bouton FR | EN), `installer.md` anglais, `install.sh` en anglais avec `DA_LANG=en`.
 - **0.60.05** (2026-11-04) : format Project Starter (D-O-019) : fichier JSON préparé avec un assistant IA, validé par `core/starter.py` (`tools/check_starter.py`, `docs/STARTER_FORMAT.md`, exemples `deploy/starter_exemples/`) ; l'écran « Commencer » suit en 0.60.06.
 - **0.60.06** (2026-11-04) : « Commencer » côté serveur (D-O-019) : `core/starter_apply.py`, `POST /api/starter/check` et `/api/starter/apply` (admins) créent le Space, l'équipe, les codes de temps, les essais et requis « À vérifier », les pages « Brouillon IA », en une transaction ; migrations agile 15 et testing 5. L'écran suit en 0.60.07.
-- **Modules** : Dynamite (wiki), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
+- **0.60.07** (2026-11-04) : écran ⚙ Admin → Spaces → « Commencer » (`static/js/admin_starter.js`), carte du Dashboard, « À vérifier » et « Confirmer la norme » (`DA.review`, `goldmine_review.py`, `testing/review.py`) ; « Accepted » / « Approved » refusés tant que la norme n'est pas confirmée. Le prompt `starter.md` suit en 0.60.09.
+- **0.60.08** (2026-11-04) : page « Débuter » (D-O-020, `#/debuter`, `static/js/tools/debuter.js` + `debuter_content.js`) : le parcours d'un projet selon le PDP, module par module ; page d'arrivée tant qu'on ne l'a pas fermée (pref `debuter_done`), puis onglet au début de la barre du haut.
+- **0.60.09** (2026-11-04) : PDP modernisé avec le Lean Startup (D-O-021) : A. Discovery, B. Concept, C. Design, D. Validation et lancement, une boucle Build-Measure-Learn et son MVP par phase (tornade de « Débuter ») ; Lean Canvas (LCV), Concept Review (CRV), PDR / CDR, Validation Report (VVR), MVP et BML dans le Generator ; MIP, RCS, RC, RVE retirés.
+- **0.60.10** (2026-11-04) : serveur d'équipe sur un PC Windows (D-O-022) : `deploy/install.ps1` (PowerShell admin, winget, tâche planifiée, pare-feu privé), autorité de certification de l'équipe `tools/make_team_ca.py`, `tools/write_config.py` ; 4e destination de la page d'installation. Le prompt `starter.md` suit en 0.60.11.
+- **0.60.11** (2026-11-04) : module **Diamond** 💎 à 1 000 m (D-O-023, `modules/diamond/`, `static/js/diamond/`) : Arbre fonctionnel
+  (primaire / secondaires / tertiaires / techniques, comment · pourquoi · quand, chemin critique, rétroaction, hors arbre,
+  numéros F gardés pour toujours). Suivent : structure fonctionnelle, risques projet, DFMEA, Golden Nuggets, puis `starter.md`.
+- **0.60.12** (2026-11-04) : **versions officielles** (D-O-024) : paquet par version construit par le workflow Pages
+  (`tools/build_release.py`), page `versions.html`, Admin → Update (`core/release.py`) : une étape par version, plusieurs
+  d'un coup, « Plus tard », données intactes. **À chaque version : écrire `docs/releases/<version>.json`.**
+- **0.60.13** (2026-11-04) : Diamond → **Structure fonctionnelle** (D-O-025, `modules/diamond/structure.py`,
+  `static/js/diamond/structure*.js`) : boundary diagram, entrées / sorties, vues générale et détaillée, flux énergie /
+  matière / information, glisser, relier. Suivent : risques projet (0.60.14), DFMEA (0.60.15), Golden Nuggets (0.60.16).
+- **0.60.14** (2026-11-04) : Diamond → **Risques projet** (D-O-026, `modules/diamond/risks.py`, `static/js/diamond/risks*.js`) :
+  registre R-n, P × I sur 5 × 5, carte maintenant / résiduelle, stratégie, responsable, lien vers le DFMEA. Suivent : DFMEA
+  (0.60.15), Golden Nuggets (0.60.16), `starter.md` (0.60.17).
+- **0.60.15** (2026-11-04) : Diamond → **DFMEA** AIAG-VDA (D-O-027, `modules/diamond/dfmea*.py`, `static/js/diamond/dfmea*.js`) :
+  trois niveaux, fonctions de l'arbre, S / O / D, RPN et AP, légende AP (#/diamond/KEY/dfmeaap). Suivent : Golden Nuggets
+  (0.60.16), `starter.md` (0.60.17).
+- **0.60.16** (2026-11-04) : Diamond → **Golden Nuggets** (D-O-028, `static/js/diamond/nuggets*.js`) : 20 premiers principes,
+  algorithme en 5 étapes, règles SpaceX / Tesla. Diamond complet. Suit : `starter.md` (0.60.17).
+- **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,
   audit, recherche, révisions, sauvegardes, Update, TLS).

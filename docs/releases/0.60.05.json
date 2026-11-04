@@ -1,0 +1,52 @@
+{
+ "version": "0.60.05",
+ "date": "2026-11-04",
+ "summary": {
+  "fr": "Format Project Starter : fichier JSON préparé avec un assistant IA, validé par le serveur.",
+  "en": "Project Starter format: a JSON file prepared with an AI assistant, checked by the server."
+ },
+ "changes": [
+  {
+   "id": "C1",
+   "title": "Format Project Starter et son validateur (D-O-019)",
+   "why": "Fichier JSON préparé avec un assistant IA ; vérifié champ par champ, « À vérifier » et « Brouillon IA » imposés.",
+   "files": [
+    "core/starter.py",
+    "docs/STARTER_FORMAT.md",
+    "tools/check_starter.py"
+   ]
+  },
+  {
+   "id": "C2",
+   "title": "Trois exemples de démarrage",
+   "why": "Lampe de bureau connectée, tensiomètre de poignet, convoyeur de table modulaire.",
+   "files": [
+    "deploy/starter_exemples/convoyeur.json",
+    "deploy/starter_exemples/lampe_bureau.json",
+    "deploy/starter_exemples/tensiometre.json"
+   ]
+  },
+  {
+   "id": "C3",
+   "title": "Version 0.60.05, tests et documentation",
+   "why": "APP_VERSION, tests du validateur, décision D-O-019, état du projet, site reconstruit.",
+   "files": [
+    "CLAUDE.md",
+    "UPDATE_CHANGES.json",
+    "UPDATE_LOG.md",
+    "core/__init__.py",
+    "docs/DECISIONS.md",
+    "docs/ETAT_PROJET.md",
+    "site/en/guide.html",
+    "site/en/index.html",
+    "site/en/installation.html",
+    "site/guide.html",
+    "site/index.html",
+    "site/installation.html",
+    "static/apps/vitrine/index.html",
+    "tests/test_open_v060.py",
+    "tests/test_starter.py"
+   ]
+  }
+ ]
+}

@@ -19,7 +19,7 @@ from sketch_rough import Pen, gear_points  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent / "static" / "img"
 INK = "#26323f"
 HL = {"yellow": "#ffd23f", "orange": "#ff8a3d", "cyan": "#3ec6e0", "green": "#5fd08a", "pink": "#ff6f91",
-      "violet": "#9b7bff", "blue": "#4d8dff", "teal": "#2ec4b6", "red": "#ff5a4f"}
+      "violet": "#9b7bff", "blue": "#4d8dff", "teal": "#2ec4b6", "red": "#ff5a4f", "ice": "#7cc4ff"}
 PI = math.pi
 
 
@@ -76,6 +76,11 @@ ICONS = {
     "generator": [(("rect", 5.5, 3, 13, 18), "s"), (("line", 8.5, 7.5, 15.5, 7.5), "s"), (("line", 8.5, 10.5, 13.5, 10.5), "s"),
                   (("ellipse", 14.5, 16.5, 2.8, 2.8), "f:red"), (("line", 8.5, 13.5, 11, 13.5), "s")],
     "bolt": [(bolt(12.5, 3, 2.1), "f:yellow")],
+    # 0.60.11: « Diamond » -- a cut stone: table, crown facets and the pavilion down to the culet
+    "diamond": [(("poly", [(7, 4.5), (17, 4.5), (21, 9.5), (12, 21), (3, 9.5)], True), "f:ice"),
+                (("line", 3, 9.5, 21, 9.5), "s"), (("poly", [(7, 4.5), (9.5, 9.5), (12, 4.5), (14.5, 9.5), (17, 4.5)], False), "s"),
+                (("line", 9.5, 9.5, 12, 21), "s"), (("line", 14.5, 9.5, 12, 21), "s")],
+    "debuter": [(bolt(12.5, 3, 2.1), "f:yellow")],  # 0.60.08: « Débuter », same spark as « bolt »
     "plus": [(("line", 12, 5, 12, 19), "s"), (("line", 5, 12, 19, 12), "s")],
     "spaces": [(("rect", 3.5, 3.5, 7.5, 7.5), "f:yellow"), (("rect", 13, 3.5, 7.5, 7.5), "s"),
                (("rect", 3.5, 13, 7.5, 7.5), "s"), (("rect", 13, 13, 7.5, 7.5), "f:blue")],
@@ -92,7 +97,7 @@ MARKS = {
     "dashboard": ("dashboard", "blue"), "goldmine": ("goldmine", "yellow"), "dynamite": ("dynamite", "orange"),
     "agile": ("agile", "blue"), "testing": ("testing", "green"), "exploration": ("exploration", "violet"),
     "tools": ("tools", "cyan"), "training": ("training", "pink"), "timesheet": ("timesheet", "teal"),
-    "generator": ("generator", "red"), "search": ("search", "cyan"), "help": ("help", "yellow"), "about": ("about", "yellow"),
+    "generator": ("generator", "red"), "diamond": ("diamond", "ice"), "search": ("search", "cyan"), "help": ("help", "yellow"), "about": ("about", "yellow"),
 }
 
 
@@ -221,7 +226,7 @@ def favicon_svg():
 # ---------------------------------------------------------------- « Terminal R&D » theme (D-B-088): crisp geometric set
 TERM = {"dashboard": "#58a6ff", "goldmine": "#e3b341", "dynamite": "#ffa657", "agile": "#79c0ff", "testing": "#7ee787",
         "exploration": "#d2a8ff", "tools": "#56d4dd", "training": "#ff7eb6", "timesheet": "#3fb9a3", "generator": "#ff7b72",
-        "search": "#56d4dd", "help": "#e3b341", "about": "#f2cc60"}
+        "search": "#56d4dd", "help": "#e3b341", "about": "#f2cc60", "diamond": "#a5d6ff"}
 
 
 def term_symbol(name, shapes):

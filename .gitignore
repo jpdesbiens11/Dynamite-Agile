@@ -19,3 +19,7 @@ __pycache__/
 # OS noise
 .DS_Store
 Thumbs.db
+
+# 0.60.12 (D-O-024): the official package and its listing are built by the Pages workflow, never committed
+site/updates/
+docs/RELEASE.json

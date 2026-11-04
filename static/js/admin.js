@@ -7,10 +7,10 @@
   /* Core lot v0.18 (D-A-039): the Admin tab (far right, administrators only), sections grouped by what they manage. */
   /* D-B-105: Configuration and Sauvegardes joined Update in one tab « Update et sauvegardes » (five parts) */
   const GROUPS = [["Comptes", [["users", "Utilisateurs"], ["rights", "Droits"], ["rules", "Règles d'accès"]]],
-    ["Spaces", [["projects", "Spaces"], ["setup", "Setup des Spaces"]]],
+    ["Spaces", [["start", "Commencer"], ["projects", "Spaces"], ["setup", "Setup des Spaces"]]],
     ["Plateforme", [["update", "Update et sauvegardes"], ["revisions", "Révisions"], ["transport", "Sécurité réseau"],
       ["privacy", "Confidentialité"], ["audit", "Journal d'audit"]]]];
-  const NEW = { update: "0.50.1-admin-maintenance", transport: "0.46.0-admin-transport", revisions: "0.50.11-admin-revisions" };  // D-A-049 badges
+  const NEW = { start: "0.60.07-starter", update: "0.50.1-admin-maintenance", transport: "0.46.0-admin-transport", revisions: "0.50.11-admin-revisions" };  // D-A-049 badges
   const MOVED = { config: "config", backups: "data" };  // old addresses -> part of « Update et sauvegardes »
   const SECTIONS = GROUPS.flatMap(([, items]) => items);
 
@@ -44,7 +44,7 @@
           .filter(Boolean)),
       body);
     const loaders = Object.assign({ users: renderUsers, projects: renderProjects, audit: renderAudit, setup: renderSetup,
-      rules: (b) => DA.adminRules.render(b),
+      rules: (b) => DA.adminRules.render(b), start: (b) => DA.adminStarter.render(b),
       transport: (b) => DA.adminTransport.render(b), revisions: (b) => DA.baselines.render(b) }, (DA.adminExtra && DA.adminExtra.loaders) || {},
     { update: (b, sub) => DA.adminUpdate.render(b, sub) });
     loaders[section](body, sub).catch((err) => {

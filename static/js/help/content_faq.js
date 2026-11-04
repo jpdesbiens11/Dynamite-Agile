@@ -145,11 +145,12 @@
         ["table", ["Module", "Dans la mine", "Dans le projet"], [
           ["Exploration", "La prospection : où creuser, dans quel ordre", "Le plan : phases, jalons, Gantt"],
           ["Goldmine", "Le filon d'or, trié pépite par pépite", "Besoins et requirements « en or », tracés jusqu'à leur essai"],
+          ["Diamond 💎", "Le diamant, à 1 000 m : la pierre la plus dure, taillée facette par facette", "Analyse fonctionnelle : arbre des fonctions, puis structure fonctionnelle, risques et DFMEA"],
           ["Dynamite", "La charge qui fait sauter la roche : on dynamite le savoir brut", "Le wiki : notes, procédures, décisions"],
           ["Agile", "Les équipes de forage, par quarts", "Backlog, sprints, Board, Change Management"],
           ["Testing", "L'essai du minerai : mesurer la teneur", "Test Base, procédures et plans d'essai"],
           ["Tools et Generator", "La boîte à outils et le poinçon des lots", "Méthodes de conception, numéros de documents"],
           ["Timesheet", "Le carnet de quart", "Heures par étape du PDP, vacances, réclamations"],
-          ["Training, Help & HeadLamp", "L'école de la mine et la lampe frontale", "Formation, tour du site, bac à sable"]]]] }
+          ["Training, Help & HeadLamp", "L'école de la mine et la lanterne", "Formation, tour du site, bac à sable"]]]] }
   ];
 })();

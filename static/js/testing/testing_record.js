@@ -31,6 +31,8 @@
       body.append(el("div", { class: "tg-badges" }, T.catBadge(t.category, L), T.statusBadge(t.status),
         el("span", { class: "badge badge-neutral" }, t.origin === "catalog" ? (t.edited ? "Catalogue, modifié par l'équipe" : "Catalogue (suit le code)")
           : "Créé par l'équipe")),
+      DA.review.box({ state: t.review, checked: t.review_checked, standard: t.standard, editable: data.can_edit, blocks: "Approved",
+        url: T.api("/api/testing/tests/" + encodeURIComponent(t.test_id) + "/review"), done: reload }),
       el("div", { class: "ag-block tg-block" },
         el("div", { class: "gm-grid" }, row("Subject", L.subjects[t.subject]), row("Standard / référence", t.standard),
           row("Section", t.section), row("Level", t.level),

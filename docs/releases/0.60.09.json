@@ -1,0 +1,88 @@
+{
+ "version": "0.60.09",
+ "date": "2026-11-04",
+ "summary": {
+  "fr": "PDP modernisé avec le Lean Startup : Discovery, Concept, Design, Validation et lancement, un MVP par phase.",
+  "en": "PDP modernised with Lean Startup: Discovery, Concept, Design, Validation and launch, one MVP per phase."
+ },
+ "changes": [
+  {
+   "id": "C1",
+   "title": "Generator : livrables Lean, phases modernes, codes retirés (D-O-021)",
+   "why": "LCV, CRV, PDR, CDR, VVR, MVP, BML ; MIP, RCS, RC, RVE retirés.",
+   "files": [
+    "modules/codex/__init__.py",
+    "modules/codex/catalog.py",
+    "modules/codex/registry.py",
+    "static/js/codex/codex.js",
+    "tests/test_codex.py"
+   ]
+  },
+  {
+   "id": "C2",
+   "title": "Timesheet : libellés Lean des codes A-01 … D-21",
+   "why": "Clés inchangées ; libellés d'origine mis à jour au démarrage.",
+   "files": [
+    "modules/timesheet/budget.py",
+    "modules/timesheet/catalog.py",
+    "tests/test_lot_v021.py"
+   ]
+  },
+  {
+   "id": "C3",
+   "title": "« Débuter » : la tornade Build-Measure-Learn",
+   "why": "Une spire par phase, MVP et revue, sortie du produit.",
+   "files": [
+    "static/css/app.css",
+    "static/index.html",
+    "static/js/tools/debuter.js",
+    "static/js/tools/debuter_content.js",
+    "static/js/tools/debuter_tornado.js",
+    "tests/test_debuter.py"
+   ]
+  },
+  {
+   "id": "C4",
+   "title": "Textes, site et tests",
+   "why": "Help, Training, Tools, acronymes, exemples, site FR / EN, vitrine ; tests/test_lean.py.",
+   "files": [
+    "CLAUDE.md",
+    "UPDATE_CHANGES.json",
+    "UPDATE_LOG.md",
+    "core/__init__.py",
+    "deploy/requis_generiques.csv",
+    "deploy/starter_exemples/lampe_bureau.json",
+    "deploy/starter_exemples/tensiometre.json",
+    "docs/DECISIONS.md",
+    "docs/ETAT_PROJET.md",
+    "docs/NOMS_DES_MODULES.md",
+    "modules/help/agile_guide.py",
+    "modules/testing/data_acronyms.py",
+    "modules/toolbox/methods_convergent.py",
+    "modules/training/catalog.py",
+    "modules/training/quizzes/hl_b.py",
+    "modules/training/quizzes/kb.py",
+    "modules/training/quizzes/tl.py",
+    "site/en/guide.html",
+    "site/en/index.html",
+    "site/en/installation.html",
+    "site/guide.html",
+    "site/index.html",
+    "site/installation.html",
+    "static/apps/vitrine/index.html",
+    "static/js/agile/goldmine.js",
+    "static/js/help/content_path2.js",
+    "static/js/toolbox/tools.js",
+    "static/js/tools/baselines.js",
+    "static/js/tools/objectives.js",
+    "tests/test_lean.py",
+    "tests/test_open_v060.py",
+    "tools/generic_requirements.py",
+    "tools/site/en/guide.html",
+    "tools/site/en/journee.html",
+    "tools/site/guide.html",
+    "tools/vitrine/template.html"
+   ]
+  }
+ ]
+}

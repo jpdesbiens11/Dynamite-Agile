@@ -19,7 +19,7 @@
   const value = (k) => (state[k] || "").trim() || DEFAULTS[k];
 
   /* ---------- destination ---------- */
-  const DESTS = ["serveur", "essai", "local"];
+  const DESTS = ["serveur", "essai", "windows", "local"];  // 0.60.10: Windows team server (D-O-022)
   function setDest(dest, fromHash) {
     if (!DESTS.includes(dest)) dest = state.dest || "serveur";
     state.dest = dest; save();
@@ -61,9 +61,10 @@
       const where = {
         serveur: "on an online server (Linux VPS) with the domain name " + value("domain"),
         essai: "on a Linux server, as a private trial without a domain (SSH tunnel)",
+        windows: "on a Windows PC that hosts it for my team on our local network (PowerShell)",
         local: "on my computer (" + os + "), to try it",
       }[state.dest];
-      return ["Hello! I'm new to Linux and the terminal. I want to install Dynamite | Agile " + where + ".",
+      return ["Hello! I'm new to " + (state.dest === "windows" ? "PowerShell" : "Linux and the terminal") + ". I want to install Dynamite | Agile " + where + ".",
         "First read the procedure: " + page,
         "and the guide written for assistants: " + guide,
         "Guide me one step at a time: tell me where to type each command (on my computer or on the server) and what I " +
@@ -73,9 +74,10 @@
     const where = {
       serveur: "sur un serveur en ligne (VPS Linux) avec le nom de domaine " + value("domain"),
       essai: "sur un serveur Linux, en essai privé sans domaine (tunnel SSH)",
+      windows: "sur un PC Windows qui l'héberge pour mon équipe sur notre réseau local (PowerShell)",
       local: "sur mon ordinateur (" + os + "), pour l'essayer",
     }[state.dest];
-    return ["Bonjour ! Je débute avec Linux et le terminal. Je veux installer Dynamite | Agile " + where + ".",
+    return ["Bonjour ! Je débute avec " + (state.dest === "windows" ? "PowerShell" : "Linux et le terminal") + ". Je veux installer Dynamite | Agile " + where + ".",
       "Lis d'abord la procédure : " + page,
       "et le guide écrit pour les assistants : " + guide,
       "Guide-moi une étape à la fois : dis-moi où taper chaque commande (sur mon ordinateur ou sur le serveur) et ce que je " +

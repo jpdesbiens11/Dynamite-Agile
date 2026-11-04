@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.06)
-**Version :** 0.60.06 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** démarrer un projet avec un assistant IA (D-O-019) — 0.60.06 livrée (création du Space côté serveur) ; suite : 0.60.07 écran « Commencer », 0.60.08 `starter.md`
+**Dernière mise à jour :** 2026-11-04 (v0.60.16)
+**Version :** 0.60.16 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** Diamond 💎 complet (D-O-023 à D-O-028) — 0.60.16 livrée (Golden Nuggets) ; suite : fusion, déploiement, puis 0.60.17 `starter.md`
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -18,9 +18,18 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.04 | FR / EN, étape 1 (D-O-017) : le site web en anglais (`site/en/`), sélecteur FR \| EN, `installer.md` anglais, messages de `install.sh` en anglais avec `DA_LANG=en` | Livré |
 | 0.60.05 | Format Project Starter (D-O-019) : `core/starter.py`, `tools/check_starter.py`, `docs/STARTER_FORMAT.md`, trois exemples dans `deploy/starter_exemples/` | Livré |
 | 0.60.06 | « Commencer » côté serveur (D-O-019) : `core/starter_apply.py`, `/api/starter/check` et `/apply`, création du Space en une transaction, « À vérifier » stocké (migrations agile 15, testing 5) | Livré |
-| 0.60.07 | Écran « Commencer » (téléverser, aperçu, renommer les codes, mots de passe temporaires) ; badge « À vérifier » et confirmation de la norme ; « Accepted » / « Approved » refusés tant qu'elle n'est pas confirmée (D-O-019) | À faire |
-| 0.60.08 | Prompt `site/starter.md` (FR / EN), sa page sur le site, lien dans Help (D-O-019) | À faire |
-| 0.60.09 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; analyse fonctionnelle visuelle (arbre à 3 niveaux, méthodes de recherche des fonctions, lien CdCF) ; boundary diagram éditable ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
+| 0.60.07 | Écran « Commencer » (téléverser, aperçu, renommer les codes, mots de passe temporaires) ; badge « À vérifier » et confirmation de la norme ; « Accepted » / « Approved » refusés tant qu'elle n'est pas confirmée (D-O-019) | Livré |
+| 0.60.08 | Page « Débuter » (D-O-020) : parcours du projet phase par phase, module par module ; page d'arrivée jusqu'à ce qu'on la ferme, puis onglet | Livré |
+| 0.60.09 | PDP modernisé avec le Lean Startup (D-O-021) : phases Discovery / Concept / Design / Validation et lancement, une boucle MVP par phase (tornade de « Débuter »), Lean Canvas, Concept Review, PDR / CDR, Validation Report ; MIP, RCS, RC, RVE retirés | Livré |
+| 0.60.10 | Serveur d'équipe sur un PC Windows (D-O-022) : `deploy/install.ps1`, autorité de certification de l'équipe (`tools/make_team_ca.py`), tâche planifiée, pare-feu privé ; 4e destination de la page d'installation FR / EN | Livré — à essayer sur un vrai PC Windows |
+| 0.60.11 | Diamond 💎 (D-O-023), 1 000 m : module, onglet, logo ; Arbre fonctionnel (primaire / secondaires / tertiaires / techniques, comment · pourquoi · quand, chemin critique, rétroaction, hors arbre, glisser-déposer, Alt + flèches, exemple lampe de bureau) | Livré |
+| 0.60.12 | Versions officielles (D-O-024) : paquet par version (`tools/build_release.py`, workflow Pages), page `versions.html` FR / EN, Admin → Update : manifeste, une étape par version, plusieurs versions d'un coup, fichiers modifiés à la main, « Plus tard » ; installateurs qui ne bloquent plus | Livré — essayé de 0.60.11 à 0.60.12 |
+| 0.60.13 | Diamond : structure fonctionnelle (D-O-025) : entrées à gauche, sorties à droite, vue générale (sous-systèmes) et détaillée (tertiaires), flux énergie / matière / information selon la légende du cours, conseils de la méthode, glisser, relier | Livré |
+| 0.60.14 | Diamond : analyse de risque projet (D-O-026) : registre R-n, carte 5 × 5 maintenant / résiduelle, stratégie, action, responsable, échéance, lien vers une fonction et vers le DFMEA, conseils, CSV | Livré |
+| 0.60.15 | Diamond : DFMEA AIAG-VDA (D-O-027) : trois niveaux aux en-têtes blanc / bleu / orange, fonctions de l'arbre, S / O / D, RPN et AP, page de la légende AP, colonnes masquables, lignes ajouter / dupliquer / déplacer / effacer, Depuis l'arbre, Depuis les risques | Livré |
+| 0.60.16 | Diamond : Golden Nuggets (D-O-028) : 20 principes (esprit TRIZ), algorithme en 5 étapes, règles de SpaceX et Tesla, exemples et usage sur le projet | Livré |
+| 0.60.17 | Prompt `site/starter.md` (FR / EN), sa page sur le site, liens depuis « Commencer », « Débuter » et Help (D-O-019) | À faire |
+| 0.60.18 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
 
 ## Table 2 : Questions du brief §5 (toutes tranchées)
 
@@ -34,7 +43,33 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.06)
+## Relais (fin de 0.60.16)
+
+- Golden Nuggets (D-O-028) : contenu dans `static/js/diamond/nuggets_content.js` (PRINCIPLES, ALGORITHM, RULES), écran `nuggets.js` ; `tests/test_diamond_nuggets.py` compte 20 / 5 / 5 et vérifie l'usage de chacun. Diamond est complet : arbre, structure, risques, DFMEA, nuggets.
+
+
+- DFMEA (D-O-027) : `modules/diamond/dfmea.py` (lignes, positions, `checks`, Depuis l'arbre / les risques, CSV), `dfmea_ap.py` (tableau AP, échelles, RPN), `example_dfmea.py` ; migration diamond 4. Écran : `static/js/diamond/dfmea.js` (vue, outils, colonnes en localStorage `diamond.dfmea.columns`), `dfmea_table.js` (tableur), `dfmea_legend.js` (#/diamond/KEY/dfmeaap) ; `static/css/diamond_dfmea.css`. `tests/test_diamond_dfmea.py`. Reste à faire : « Copier / composer un Space » ne connaît pas encore les tables Diamond (core/spacecopy.py).
+
+
+- Risques projet (D-O-026) : `modules/diamond/risks.py` (champs, niveaux `level()`, `checks`, CSV), `example_risks.py` ; migration diamond 3. Écran : `static/js/diamond/risks.js` (carte, filtres, registre compact quand le panneau est ouvert), `risks_panel.js`. Le DFMEA (0.60.15) reprend `diamond_functions` et les risques `to_dfmea = 1`. `tests/test_diamond_risks.py`.
+
+
+- Structure fonctionnelle (D-O-025) : `modules/diamond/structure.py` (vues, règles des flux, `checks`, positions), `example_structure.py` (lampe) ; migration diamond 2. Écran : `static/js/diamond/structure.js` (vue, onglets, outils), `structure_draw.js` (disposition, cadres, courbes SVG sans texte, glisser), `structure_panel.js`. `tests/test_diamond_structure.py`. Le DFMEA (0.60.15) reprendra `diamond_functions` ; « Copier / composer un Space » ne connaît pas encore Diamond.
+
+
+- Versions officielles (D-O-024) : **à chaque version, écrire `docs/releases/<version>.json`** (résumé FR / EN, changements, fichiers). `core/release.py` (manifeste, série, étapes par version, fichiers modifiés à la main, `api_later`), appelé par `core/update.py` ; `tools/build_release.py` ; `tools/site/versions.html` + `versions.js` (FR / EN) ; workflow `.github/workflows/pages.yml` (construit `site/updates/`). Écran : `static/js/admin_update_official.js`. `tests/test_release.py` (paquet reproductible, refus d'un paquet modifié, Plus tard, série 0.60.98 → 0.60.99 appliquée, page et workflow).
+
+
+- Diamond (D-O-023) : `modules/diamond/` — `functions.py` (règles de l'arbre : niveaux, `in_tree`, conseils `checks`, déplacements, archivage qui garde le numéro), `example.py` (lampe de bureau), migration diamond 1 (`diamond_functions`, liée à `projects(id)` : sauvegarde et restauration par le noyau). Écran : `static/js/diamond/` (`diamond.js` coquille Agile, `tree_layout.js` dessin HTML + SVG sans texte, `tree_panel.js`, `tree.js`) et `static/css/diamond.css`. Le DFMEA lira `diamond_functions` (id et numéro). « Copier / composer un Space » (`core/spacecopy.py`) ne connaît pas encore Diamond : à ajouter avec le DFMEA. `tests/test_diamond.py`.
+
+
+- Windows (D-O-022) : `deploy/install.ps1` (UTF-8 avec BOM, PowerShell 5.1), `tools/make_team_ca.py`, `tools/write_config.py`, chemin D de `tools/site/installation.html` et `installer.md` (FR / EN). **Pas encore exécuté sur un vrai Windows** : la session de développement n'a ni Windows ni PowerShell ; à essayer avant de l'annoncer.
+
+- PDP Lean (D-O-021) : `modules/codex/catalog.py` (DOC_GROUPS, RETIRED, STEP_GROUPS), `modules/timesheet/catalog.py` (libellés, `OLD_PDP_LABELS` relus par `budget.seed`), `static/js/tools/debuter_content.js` (champs `mvp`, `review`) et `debuter_tornado.js` ; `tests/test_lean.py` refuse les anciens noms dans l'interface.
+
+- « Débuter » : `static/js/tools/debuter.js` + `debuter_content.js` (données, ordre du PDP), préférence `debuter_done` (`core/prefs.py`), arrivée dans `app.js` (`route()`), onglet dans `DA.NAV.groups[0]` (`sketch.js`) ; `tests/test_debuter.py` vérifie que chaque bouton mène à un écran qui existe.
+
+- Écran : `static/js/admin_starter.js` (Admin → Spaces → Commencer), carte du Dashboard (`/api/starter/status`), `DA.review` (`static/js/tools/review.js`) dans Goldmine et Testing. 0.60.08 : le prompt `site/starter.md` (sources `tools/site/`), FR / EN, une question à la fois, qui produit le format de `docs/STARTER_FORMAT.md` ; lien depuis l'écran « Commencer » et Help.
 
 - Project Starter (D-O-019) : `core/starter.parse(bytes)` → `(clean, warnings)`, ne touche pas la base ; `starter.summary(clean)` pour l'aperçu. Création : `core/starter_apply.py` (check / apply, réutilise `admin.create_project_record`, `goldmine.api_create`, `tests_api.create`, `pages.api_create`). 0.60.07 : l'écran, puis la confirmation de la norme (`standard_review` → `verified`, `standard_checked` = date · personne · édition) et le refus d'« Accepted » (requis) / « Approved » (essai) d'ici là.
 

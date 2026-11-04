@@ -24,10 +24,10 @@
       blocks: [
         ["table", ["Section", "Pour", "Contenu"], [
           ["Design", "Concevoir et décider en équipe", "Brainstorming, brainwriting 6-3-5 en paires tournantes, storytelling, mind map, Pugh matrix, Kepner-Tregoe ; chaque méthode a sa page et sa FAQ (Space TOOLS)"],
-          ["Generator", "Nommer et classer un document", "Numéro unique, nom de fichier et dossier selon les livrables du PDP (MIP, RCS, CdCF, RC, RVE)"]]],
+          ["Generator", "Nommer et classer un document", "Numéro unique, nom de fichier et dossier selon les livrables du PDP (Lean Canvas, Concept Review, CdCF, PDR / CDR, Validation Report)"]]],
         ["h", "Generator, pas à pas"],
         ["steps", [
-          "Tools → Generator → Space → « Générer » : type de document, rangé par phase du PDP (A. Pré-étude : MIP… ; B. Étude conceptuelle : RCS, AF, CdCF, Pugh… ; C. Conception : RC, AMDEC… ; D. Fabrication et validation : RVE, protocole et résultats d'essai), puis ingénierie générale ; et l'étape du PDP (09 = recherche des fonctions, 11 = CdCF…). Le titre prend le nom du type (ex. « Cahier des charges fonctionnel ») tant que vous ne l'avez pas modifié.",
+          "Tools → Generator → Space → « Générer » : type de document, rangé par phase du PDP (A. Discovery : Lean Canvas… ; B. Concept : Concept Review, AF, CdCF, Pugh… ; C. Design : PDR, CDR, AMDEC… ; D. Validation et lancement : Validation Report, protocole et résultats d'essai), puis Lean Startup (plan du MVP, bilan Build-Measure-Learn) et ingénierie générale ; et l'étape du PDP (09 = recherche des fonctions, 11 = CdCF…). Le titre prend le nom du type (ex. « Cahier des charges fonctionnel ») tant que vous ne l'avez pas modifié.",
           "Le **Project ID** est le nom du Space en majuscules (un seul mot ; sinon sa clé) : il termine le titre. Changez subdivision, code système (optionnel, ex. CHAUF), révision, titre ou Project ID au besoin : l'aperçu se met à jour.",
           "« Réserver la référence » : le **serveur** donne le numéro final, unique sur toute la plateforme.",
           "« Copier le nom », juste à droite du nom de fichier complet, puis collez-le dans le champ Nom de fichier de Word (Enregistrer sous) ; copiez aussi le dossier et enregistrez le document à cet endroit.",
@@ -76,7 +76,7 @@
         ["list", [
           "**Projet financé** (subvention, crédit d'impôt, contrat client) : dans **Spaces et organismes**, créez un **Funding Space** avec ses **Budget Lines** (réclamables ou non, importables d'Excel), puis rattachez-y le Space du projet avec l'organisme et le numéro de contrat. L'équipe saisit ses heures sur ces Budget Lines.",
           "**⚙ Admin → Export et rapport Word** : période, organisme, status des semaines, Budget Lines et Spaces cochés (« x ») ; classeur Excel (Sommaire, Budget Lines avec chaque plage et sa justification, Détail, Lisez-moi) ou **rapport Word** au destinataire (organisme de subvention ou client) avec la justification de chaque heure et l'attestation à signer — sans rien retaper."]],
-        ["tip", "Un code par étape du PDP : la feuille de temps de l'équipe montre où le temps a été passé, phase par phase (A. Pré-étude … D. Fabrication et validation)."]] },
+        ["tip", "Un code par étape du PDP : la feuille de temps de l'équipe montre où le temps a été passé, phase par phase (A. Discovery … D. Validation et lancement)."]] },
 
     { id: "recherche-audit", title: "Recherche, palette et Audit", tool: "Barre du haut",
       summary: "Retrouver n'importe quoi, y aller au clavier, signaler ce qui cloche.",

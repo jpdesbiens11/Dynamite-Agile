@@ -16,6 +16,17 @@
   <details class="trouble"><summary>“the service does not start”</summary>
     <p>The script shows the last lines of the log: each refusal names the faulty value and the fix. To see it again:</p>
     <pre class="cmd" data-where="srv"><code>journalctl -u dynamite-agile -n 50 --no-pager</code></pre></details>
+  <details class="trouble"><summary>Windows PC: “PowerShell is not running as administrator”</summary>
+    <p>Close the window, then <b>Win + X</b> → <i>Terminal (Admin)</i> → <b>Yes</b>, and run the same command again.</p></details>
+  <details class="trouble"><summary>Windows PC: “port 443 is already used by …”</summary>
+    <p>Another web service holds the port (IIS, a video-call or antivirus program…). Stop it, or install on another port:</p>
+    <pre class="cmd" data-where="srv"><code>powershell -ExecutionPolicy Bypass -File $env:TEMP\install-dynamite.ps1 -Port 8443</code></pre></details>
+  <details class="trouble"><summary>Windows PC: the team cannot open the address</summary>
+    <p>The PC's network is marked <b>Public</b> (Settings → Network &amp; internet → Properties → <i>Private</i>), or the network
+      does not know the PC's name: open <code>https://</code> followed by the IP address shown at the end of the installation.</p></details>
+  <details class="trouble"><summary>“Your connection is not private” (NET::ERR_CERT_AUTHORITY_INVALID)</summary>
+    <p>This computer does not know the team's authority yet: import <code>ca-dynamite.crt</code> (step “Trust the certificate”),
+      then close and reopen the browser. Do not bypass the warning.</p></details>
   <details class="trouble"><summary>On my computer: “python is not recognized”, or the address does not open</summary>
     <p>Close and reopen the terminal after installing Python. If port 8080 is already taken, start with <code>--port 8090</code>
       and open <code>http://127.0.0.1:8090</code>.</p></details>
@@ -27,4 +38,8 @@
     <tr><td>See the log</td><td><code>journalctl -u dynamite-agile -n 100 --no-pager</code></td></tr>
     <tr><td>Forgotten admin password</td><td><code>sudo -u dynamite python3 /opt/dynamite_agile/app_dynamite_agile.py --reset-password admin</code></td></tr>
     <tr><td>Back up</td><td>In the tool: ⚙ Admin → Update et sauvegardes; plus your host's server backup</td></tr>
+    <tr><td>Windows PC: update, restart, uninstall</td><td>Run the installation command again (the data are kept);
+      <code>Restart-ScheduledTask "Dynamite Agile"</code>; <code>… install-dynamite.ps1 -Desinstaller</code> (keeps <code>data</code>)</td></tr>
+    <tr><td>Windows PC: log, forgotten password</td><td><code>Get-Content C:\DynamiteAgile\data\logs\server.log -Tail 50</code>;
+      <code>python C:\DynamiteAgile\app_dynamite_agile.py --reset-password admin</code></td></tr>
     <tr><td>Move from trial to team</td><td>Follow the “On an online server” path: the same command with your domain</td></tr></table>

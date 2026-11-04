@@ -104,7 +104,7 @@ def _topics():
             ("TL-03", "TL", "Kepner-Tregoe", "Décider entre alternatives : MUST, WANT, risques.", "#/tools/design", "Tools → Design")]
     # 0.50.10 (D-B-128): platform coverage -- what the topics above did not cover yet.
     out += [("TL-06", "TL", "Generator — références documentaires du PDP",
-             "Numéro série UTC, nom de fichier, dossier, livrables par phase du PDP (MIP, RCS, CdCF, RC, RVE), registre.",
+             "Numéro série UTC, nom de fichier, dossier, livrables par phase du PDP (LCV, CRV, CdCF, PDR, CDR, VVR), registre.",
              "#/help/generator", "Help — Tools, Generator pas à pas"),
             ("RH", None, "Suivi personnel — objectifs, évaluation, profil",
              "Les pages du menu à votre nom : Mes objectifs, l'évaluation de l'année ou du stage, le profil, Mon équipe.",
@@ -115,6 +115,18 @@ def _topics():
             ("RH-02", "RH", "Évaluation de stage, profil professionnel et Mon équipe",
              "Accueil, Mi-stage, Évaluation finale ; ce que le gestionnaire et l'employé écrivent au profil ; « Mon équipe ».",
              "#/team", "Menu à votre nom → Mon équipe")]
+    out += [("DM", None, "Diamond — analyse fonctionnelle", "L'onglet Diamond : arbre fonctionnel, puis structure fonctionnelle, "
+             "risques et DFMEA (0.60.11, D-O-023).", "#/diamond", "Diamond"),
+            ("DM-01", "DM", "Arbre fonctionnel", "Fonction primaire, secondaires, tertiaires ; comment, pourquoi, quand ; chemin "
+             "critique, rétroaction, fonctions hors arbre.", "#/diamond", "Diamond → Arbre fonctionnel"),
+            ("DM-02", "DM", "Structure fonctionnelle", "Boundary diagram : entrées et sorties du système, vue générale par "
+             "sous-systèmes, vue détaillée, flux d'énergie, de matière et d'information.", "#/diamond", "Diamond → Structure fonctionnelle"),
+            ("DM-03", "DM", "Analyse de risque projet", "Registre des risques : si / alors / ce qui, probabilité × impact, "
+             "stratégie, action, responsable, risque résiduel, lien vers le DFMEA.", "#/diamond", "Diamond → Risques projet"),
+            ("DM-04", "DM", "DFMEA (AIAG-VDA)", "Les trois niveaux de la structure, la chaîne de défaillance (effet, mode, cause), "
+             "S / O / D, RPN et Action Priority.", "#/diamond", "Diamond → DFMEA et sa légende AP"),
+            ("DM-05", "DM", "Golden Nuggets", "Penser à partir des premiers principes : vingt principes dans l'esprit de TRIZ, "
+             "l'algorithme en cinq étapes et les règles de conception de SpaceX et Tesla.", "#/diamond", "Diamond → Golden Nuggets")]
     return out
 
 

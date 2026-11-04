@@ -34,7 +34,7 @@
     {"ref": "ESSAI-5", "subject": "func", "title": "Surpression simulée du brassard", "category": "custom", "level": "Subsystem", "method": "T", "objective": "Simuler un capteur bloqué et mesurer le temps de coupure.", "acceptance": "< 1 s au-delà de 300 mmHg.", "verifies": ["REQ-5"]}
   ],
   "time_codes": [
-    {"key": "TA", "label": "Pré-étude et cadre réglementaire", "codes": [
+    {"key": "TA", "label": "Discovery et cadre réglementaire", "codes": [
       {"key": "TA-REG", "label": "Normes et classification du dispositif"},
       {"key": "TA-RIS", "label": "Gestion des risques"}]},
     {"key": "TB", "label": "Conception", "codes": [

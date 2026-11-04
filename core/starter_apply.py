@@ -13,6 +13,8 @@ and Testing creation, Dynamite pages), so the rules and the journal are the same
 What the file never decides (D-O-019): requirements « À vérifier » (standard_review), tests « À vérifier » and Draft,
 pages « Brouillon IA », members never administrators; an existing account is reused as it is (never modified).
 """
+from pathlib import Path
+
 from . import admin, audit, auth, db, starter
 from .errors import ApiError
 
@@ -219,7 +221,31 @@ def api_apply(ctx):
             "placeholder_for": placeholder_for, "warnings": warnings}
 
 
+EXAMPLES = Path(__file__).resolve().parent.parent / "deploy" / "starter_exemples"
+
+
+def api_examples(ctx):
+    """0.60.07: the example files of deploy/starter_exemples/, to try « Commencer » before asking an AI assistant."""
+    out = []
+    for f in sorted(EXAMPLES.glob("*.json")):
+        text = f.read_text("utf-8")
+        try:
+            name = starter.parse(text)[0]["project"]["name"]
+        except ApiError:
+            continue
+        out.append({"id": f.stem, "name": name, "text": text})
+    return {"examples": out}
+
+
+def api_status(ctx):
+    """0.60.07: the Dashboard puts « Commencer » forward until a first project has been started this way."""
+    started = ctx.conn.execute("SELECT COUNT(*) FROM audit_log WHERE action = 'starter_applied'").fetchone()[0]
+    return {"show": started == 0, "started": started}
+
+
 ROUTES = [
+    ("GET", r"/api/starter/status", api_status, "admin"),
+    ("GET", r"/api/starter/examples", api_examples, "admin"),
     ("POST", r"/api/starter/check", api_check, "admin"),
     ("POST", r"/api/starter/apply", api_apply, "admin"),
 ]

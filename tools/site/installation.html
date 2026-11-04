@@ -28,6 +28,9 @@
     <label class="dest-card"><input type="radio" name="dest" value="essai">
       <b>Sur un serveur, en essai privé</b><span class="tag">Sans domaine</span>
       <span>Rien d'exposé sur Internet : vous seul l'ouvrez, par un tunnel SSH. Passez en ligne plus tard.</span></label>
+    <label class="dest-card"><input type="radio" name="dest" value="windows">
+      <b>Sur un PC Windows de l'équipe</b><span class="tag">Réseau local, sans Linux</span>
+      <span>Un PC Windows toujours allumé héberge l'outil ; l'équipe s'y connecte depuis le réseau de l'école ou du bureau, en HTTPS.</span></label>
     <label class="dest-card"><input type="radio" name="dest" value="local">
       <b>Sur mon ordinateur</b><span class="tag">Essai solo, 5 minutes</span>
       <span>Windows, macOS ou Linux, avec l'équipe d'exemple. Personne d'autre ne s'y connecte.</span></label>
@@ -172,6 +175,47 @@
         <label class="done"><input type="checkbox"> C'est fait</label></li>
     </ol>
   </div>
+
+  <!-- ===================== D. Windows team server (0.60.10, D-O-022) ===================== -->
+  <ol class="stepper path" data-path="windows" hidden>
+    <li data-step="win-srv-pc"><b>Choisissez le PC qui héberge l'outil</b>
+      Windows 10, 11 ou Server 2019 et plus, branché au réseau de l'équipe et <b>toujours allumé</b> (Paramètres → Système →
+      Alimentation : mise en veille <i>Jamais</i>). Le réseau doit être marqué <b>Privé</b> (Paramètres → Réseau et Internet →
+      Propriétés), sinon le pare-feu bloque l'équipe.
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+    <li data-step="win-srv-admin"><b>Ouvrez PowerShell en administrateur</b>
+      Sur ce PC : <b>Win + X</b> → <i>Terminal (admin)</i> (ou <i>Windows PowerShell (admin)</i>), puis <b>Oui</b>.
+      <p class="expect">La ligne commence par <code>PS C:\WINDOWS\system32&gt;</code> : vous êtes administrateur.</p>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+    <li data-step="win-srv-install"><b>Installez, en une commande</b>
+      <pre class="cmd" data-where="srv"><code>irm {{SITE_URL}}/install.ps1 -OutFile $env:TEMP\install-dynamite.ps1; powershell -ExecutionPolicy Bypass -File $env:TEMP\install-dynamite.ps1</code></pre>
+      <p class="expect">Cinq à dix minutes. La fin affiche <code>== C'est installé</code>, l'adresse à ouvrir
+        (<code>https://nom-du-pc</code> et son adresse IP) et le <b>mot de passe temporaire</b> du compte <code>admin</code> :
+        gardez cette fenêtre ouverte.</p>
+      <details><summary>Ce que fait la commande</summary><p>Elle installe Python 3.12 et Git (winget), récupère le code dans
+        <code>C:\DynamiteAgile</code>, crée l'autorité de certification de l'équipe et le certificat HTTPS de ce PC, règle la
+        configuration de production, ouvre le port 443 pour les réseaux privés seulement, et crée la tâche « Dynamite Agile » qui
+        démarre avec Windows et relance l'outil s'il s'arrête. On peut la relancer pour mettre à jour, sans rien perdre. Le
+        script est lisible ici : <a href="{{REPO}}/blob/main/deploy/install.ps1">deploy/install.ps1</a>.</p></details>
+      <details><summary>Port 443 déjà pris, ou un autre dossier</summary>
+        <pre class="cmd" data-where="srv"><code>powershell -ExecutionPolicy Bypass -File $env:TEMP\install-dynamite.ps1 -Port 8443 -Dossier D:\DynamiteAgile</code></pre>
+        <p>L'adresse devient alors <code>https://nom-du-pc:8443</code>.</p></details>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+    <li data-step="win-srv-trust"><b>Faites confiance au certificat, sur chaque poste</b>
+      Le script a créé <code>C:\DynamiteAgile\data\tls\partage\ca-dynamite.crt</code>. Copiez ce fichier sur chaque poste de
+      l'équipe (clé USB, dossier partagé, courriel). Sur un poste Windows, dans PowerShell (pas besoin d'être administrateur), dans
+      le dossier du fichier :
+      <pre class="cmd" data-where="pc"><code>Import-Certificate -FilePath .\ca-dynamite.crt -CertStoreLocation Cert:\CurrentUser\Root</code></pre>
+      <p class="expect">Windows demande de confirmer l'autorité « Dynamite Equipe Root CA » : <b>Oui</b>. Sur macOS : double-cliquez
+        le fichier, puis Trousseau → <i>Toujours approuver</i>. Sous Linux : Firefox ou Chrome → Paramètres → Certificats →
+        Autorités → Importer.</p>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+    <li data-step="win-srv-open"><b>Ouvrez l'outil et créez votre équipe</b>
+      Depuis n'importe quel poste, ouvrez <code>https://nom-du-pc</code> (ou <code>https://</code> + l'adresse IP affichée), compte
+      <code>admin</code> et le mot de passe temporaire ; choisissez le vôtre. Puis ⚙ Admin → Spaces → <i>Commencer</i>, ou ⚙ Admin →
+      Comptes → <i>Règles d'accès</i>. Le <a href="guide.html">guide</a> vous accompagne.
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+  </ol>
 
 {{TROUBLE}}
 </main>
