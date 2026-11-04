@@ -1,13 +1,13 @@
-# Journal de mise à jour — 0.60.07
+# Journal de mise à jour — 0.60.08
 
-- **Version :** 0.60.06 → 0.60.07 (2026-11-04)
+- **Version :** 0.60.07 → 0.60.08 (2026-11-04)
 - **Changements :**
-  1. **Écran « Commencer »** (⚙ Admin → Spaces, D-O-019) : choisir le fichier .json de l'assistant IA, ou un exemple ;
-     aperçu de ce qui sera créé, normes « À vérifier », équipe (nouveau ou existant), codes de temps à renommer ou à
-     retirer, ce qui bloque ; clé du Space modifiable ; création, puis mots de passe temporaires affichés une seule fois.
-  2. **Dashboard** : pour un administrateur, la carte « Démarrez votre projet avec un assistant IA » mène à « Commencer »,
-     tant qu'aucun projet n'a été démarré ainsi.
-  3. **« À vérifier » et « Confirmer la norme »** : badge dans la liste Goldmine, bloc dans la fiche requirement et dans la
-     fiche d'essai ; le dialogue demande l'édition en vigueur (et la clause) et garde la date et la personne.
-     « Accepted » (requirement) et « Approved » (essai) sont refusés tant que la norme n'est pas confirmée.
-- **Base de données :** aucune migration (colonnes ajoutées en 0.60.06).
+  1. **Page « Débuter »** (D-O-020) : comment démarrer un projet, puis ce qu'on fait à chaque phase du PDP — avant le
+     projet, A. Pré-étude, B. Étude conceptuelle, C. Conception, D. Fabrication et validation du prototype, et chaque
+     semaine — avec, à chaque étape, le module à utiliser et un bouton qui ouvre l'écran dans votre Space par défaut.
+  2. **À l'arrivée** : « Débuter » s'ouvre après la connexion jusqu'à ce que vous cliquiez « J'ai compris » ; elle reste
+     ensuite dans l'onglet « Débuter », au début de la barre du haut. On peut aussi la choisir comme page d'arrivée
+     (Paramètres).
+  3. **HeadLamp = la lanterne** : dans la FAQ de Help, le site et `docs/NOMS_DES_MODULES.md`, HeadLamp est la lanterne qui
+     éclaire la galerie (et non une lampe frontale).
+- **Base de données :** aucune migration (nouvelle préférence `debuter_done`).

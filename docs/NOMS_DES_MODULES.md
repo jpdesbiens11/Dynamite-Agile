@@ -16,5 +16,5 @@ analogies ci-dessous servent à retenir le rôle de chaque outil ; elles sont re
 | **Generator** | Le poinçon des lots : chaque wagon sorti reçoit son numéro, jamais réutilisé. | Le nom, le numéro et le dossier de chaque document du PDP (MIP, CdCF, RC, RVE…). |
 | **Timesheet** | Le carnet de quart (le pointage) : qui a travaillé à quel front, combien d'heures. | La feuille de temps par étape du PDP, les vacances, les réclamations de financement. |
 | **Training** | L'école de la mine : on apprend les gestes avant de descendre. | Les topics, les tests et les plans de formation. |
-| **Help & HeadLamp** | La lampe frontale : elle éclaire la galerie juste devant vous. | Le tour du site pas à pas et le Space bac à sable HEADLAMP pour s'exercer sans risque. |
+| **Help & HeadLamp** | La lanterne : elle éclaire la galerie juste devant vous. | Le tour du site pas à pas et le Space bac à sable HEADLAMP pour s'exercer sans risque. |
 | **Audit** | L'inspection de la mine : on signale ce qui menace la sécurité ou le rendement. | Les observations sur l'outil lui-même, planifiées dans une révision. |

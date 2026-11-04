@@ -179,3 +179,15 @@ temporaires. Le Dashboard d'un administrateur met « Commencer » en avant tant 
 requirement (`POST …/issues/<n>/standard-check`, `modules/agile/goldmine_review.py`) et la fiche d'essai
 (`POST /api/testing/tests/<id>/review`, `modules/testing/review.py`). D'ici là, « Accepted » (requis) et « Approved »
 (essai) sont refusés avec leur correctif, à l'écran comme à l'import CSV.
+
+### D-O-020 — « Débuter » : le parcours d'un projet, à l'entrée de l'outil (2026-11-04, demande de JP)
+**Contexte :** une fois l'outil installé, un débutant ne sait pas par où commencer ni à quoi sert chaque module au fil
+du projet.
+**Décision :** une page « Débuter » (`#/debuter`, `static/js/tools/debuter.js`, contenu dans `debuter_content.js`) déroule
+le projet dans l'ordre du PDP du cours : avant le projet (démarrer avec un assistant IA ou à la main, prendre ses
+repères, trouver son Space), A. Pré-étude, B. Étude conceptuelle, C. Conception, D. Fabrication et validation du
+prototype (étapes et livrable de chaque phase), puis ce qui revient chaque semaine. Chaque étape nomme le module, dit
+quoi y faire et ouvre l'écran dans le Space par défaut ; une étape d'administrateur est marquée et, pour les autres,
+remplacée par « Votre administrateur s'en charge ». Choix de JP : **page d'arrivée après la connexion tant qu'on ne l'a
+pas fermée** (préférence `debuter_done`), puis **onglet « Débuter » au début de la barre du haut** ; « Débuter » peut
+aussi être choisie comme page d'arrivée dans les Paramètres. Le prompt `starter.md` passe en 0.60.09.
