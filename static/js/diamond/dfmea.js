@@ -123,14 +123,18 @@
       } }, label))),
       el("div", { class: "dm-fm-colgrid" }, D.DFMEA_COLS.map((c) => {
         const box = el("input", { type: "checkbox", checked: state.visible.has(c.key) });
-        box.addEventListener("change", () => {
-          if (box.checked) state.visible.add(c.key); else state.visible.delete(c.key);
-          if (!state.visible.size) state.visible.add("failure_mode");
-          saveVisible(state.visible);
-          state.redraw();
-        });
+        box.dataset.col = c.key;  // 0.60.26: ticked together, applied on « Appliquer » or a click outside (DA.choiceBatch)
         return el("label", { class: "dm-check dm-fm-colpick dm-fm-h-" + c.group }, box, " " + c.label);
       })));
+    chooser.open = !!state.colsOpen;
+    chooser.addEventListener("toggle", () => { state.colsOpen = chooser.open; });
+    DA.choiceBatch(chooser, (list) => {
+      list.forEach((i) => { if (i.checked) state.visible.add(i.dataset.col); else state.visible.delete(i.dataset.col); });
+      if (!state.visible.size) state.visible.add("failure_mode");
+      saveVisible(state.visible);
+      state.colsOpen = false;
+      state.redraw();
+    });
     const ap = el("select", { "aria-label": "Filtrer par AP" }, [["", "Toutes les lignes"], ["H", "AP High"], ["M", "AP Medium"], ["L", "AP Low"], ["none", "Sans AP"]]
       .map(([k, label]) => el("option", { value: k, selected: state.ap === k }, label)));
     ap.addEventListener("change", () => { state.ap = ap.value; state.redraw(); });

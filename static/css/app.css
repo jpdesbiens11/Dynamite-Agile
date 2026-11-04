@@ -532,3 +532,10 @@ input.starter-code { min-width: 6.5rem; max-width: 8rem; font-family: var(--mono
   background: var(--surface); color: var(--muted); font-size: 1.1rem; line-height: 1; cursor: pointer; }
 .sp-star:hover, .sp-star:focus-visible { color: var(--ink); border-color: var(--acc, var(--agile)); }
 .sp-star-on { color: var(--warn); border-color: var(--warn); background: color-mix(in srgb, var(--warn) 14%, var(--surface)); }
+
+/* 0.60.26 (D-O-035): a box of several choices waits for « Appliquer » or a click outside */
+.choice-bar { position: sticky; bottom: 0; display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin-top: .4rem;
+  padding: .45rem .5rem; background: var(--surface); border: 1px solid var(--acc, var(--agile)); border-radius: var(--radius-sm);
+  box-shadow: var(--shadow); }
+.choice-bar[hidden] { display: none; }
+.choice-count { flex: 1 1 12rem; font-size: .82rem; color: var(--muted); }

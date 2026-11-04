@@ -26,6 +26,13 @@
       redraw();
     };
     state.redraw = redraw;
+    /* 0.60.26: several writes (the ticks of a choice box), one redraw at the end */
+    state.runMany = async (calls) => {
+      for (const [path, body, method] of calls) {
+        try { state.data = await api[method || "post"](base + path, body || {}); } catch (err) { toast(err.message, "error"); break; }
+      }
+      redraw();
+    };
     draw(holder, ctx, state, run);
   }
 
