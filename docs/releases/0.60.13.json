@@ -1,0 +1,60 @@
+{
+ "version": "0.60.13",
+ "date": "2026-11-04",
+ "summary": {
+  "fr": "Diamond : structure fonctionnelle (boundary diagram) — entrées à gauche, sorties à droite, vue générale par sous-systèmes et vue détaillée, flux d'énergie, de matière et d'information.",
+  "en": "Diamond: functional structure (boundary diagram) — inputs on the left, outputs on the right, general view by sub-systems and detail view, energy, material and information flows."
+ },
+ "changes": [
+  {
+   "id": "C1",
+   "title": "Structure fonctionnelle : entrées, sorties, flux typés, deux vues (D-O-025)",
+   "why": "Tirée de l'arbre fonctionnel, selon la légende du cours ; conseils de la méthode ; positions par vue.",
+   "files": [
+    "modules/diamond/__init__.py",
+    "modules/diamond/structure.py",
+    "modules/diamond/example.py",
+    "modules/diamond/example_structure.py",
+    "tests/test_diamond_structure.py"
+   ]
+  },
+  {
+   "id": "C2",
+   "title": "Écran du boundary diagram : glisser, relier, panneau, libellés",
+   "why": "Cadre du système, sous-systèmes, flux par type ; Relier en cliquant la cible ; Replacer automatiquement.",
+   "files": [
+    "static/js/diamond/diamond.js",
+    "static/js/diamond/structure.js",
+    "static/js/diamond/structure_draw.js",
+    "static/js/diamond/structure_panel.js",
+    "static/css/diamond.css",
+    "core/modules.py"
+   ]
+  },
+  {
+   "id": "C3",
+   "title": "Training : topic DM-02 et son test",
+   "why": "Dix questions sur la structure fonctionnelle.",
+   "files": [
+    "modules/training/catalog.py",
+    "modules/training/quizzes/__init__.py",
+    "modules/training/quizzes/dm.py"
+   ]
+  },
+  {
+   "id": "C4",
+   "title": "Version 0.60.13, D-O-025 et documentation",
+   "why": "Décision, état du projet, journal, fiche de version, site.",
+   "files": [
+    "core/__init__.py",
+    "CLAUDE.md",
+    "UPDATE_LOG.md",
+    "docs/DECISIONS.md",
+    "docs/ETAT_PROJET.md",
+    "docs/releases/0.60.13.json",
+    "tests/test_open_v060.py",
+    "static/apps/vitrine/index.html"
+   ]
+  }
+ ]
+}

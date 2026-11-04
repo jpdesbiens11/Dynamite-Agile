@@ -1,4 +1,17 @@
-# Journal de mise à jour — 0.60.12
+# Journal de mise à jour — 0.60.13
+
+- **Version :** 0.60.12 → 0.60.13 (2026-11-04)
+- **Changements :**
+  1. **Diamond → Structure fonctionnelle** (D-O-025) : le boundary diagram du produit, tiré de l'arbre fonctionnel :
+     entrées à gauche, sorties à droite, vue générale par sous-systèmes, vue détaillée par fonctions tertiaires ; flux
+     d'énergie, de matière et d'information (légende du cours), avec libellés ; glisser les blocs, relier en cliquant la
+     cible ; conseils de la méthode ; exemple de la lampe de bureau.
+  2. **Training** : topic DM-02 et son test.
+- **Base de données :** migration diamond 2 (tables `diamond_ports`, `diamond_flows`, `diamond_positions`), additive.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.12
 
 - **Version :** 0.60.11 → 0.60.12 (2026-11-04)
 - **Changements :**
@@ -8,8 +21,6 @@
   2. **Site** : nouvelle page « Versions » (FR / EN) ; paquet construit à chaque publication.
   3. **Installation** : relancer la commande d'installation met à jour même après un paquet appliqué (copie `.patch`).
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.11
 

@@ -118,7 +118,9 @@ def _topics():
     out += [("DM", None, "Diamond — analyse fonctionnelle", "L'onglet Diamond : arbre fonctionnel, puis structure fonctionnelle, "
              "risques et DFMEA (0.60.11, D-O-023).", "#/diamond", "Diamond"),
             ("DM-01", "DM", "Arbre fonctionnel", "Fonction primaire, secondaires, tertiaires ; comment, pourquoi, quand ; chemin "
-             "critique, rétroaction, fonctions hors arbre.", "#/diamond", "Diamond → Arbre fonctionnel")]
+             "critique, rétroaction, fonctions hors arbre.", "#/diamond", "Diamond → Arbre fonctionnel"),
+            ("DM-02", "DM", "Structure fonctionnelle", "Boundary diagram : entrées et sorties du système, vue générale par "
+             "sous-systèmes, vue détaillée, flux d'énergie, de matière et d'information.", "#/diamond", "Diamond → Structure fonctionnelle")]
     return out
 
 

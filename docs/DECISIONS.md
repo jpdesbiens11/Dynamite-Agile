@@ -263,3 +263,19 @@ modifié (copie en `.patch`, puis la branche publiée). L'empreinte prouve que l
 publication, pas qui l'a publié : la comparer avec la page du site. Structure fonctionnelle de Diamond : en 0.60.13, flux
 typés énergie / matière / information selon la légende du cours (choix de JP).
 
+### D-O-025 — Diamond : la structure fonctionnelle, comme dans le cours (2026-11-04, demande de JP)
+**Contexte :** deuxième sous-module de Diamond (D-O-023) : le boundary diagram, tiré de l'arbre fonctionnel. Choix de JP :
+« comme dans le cours, en suivant la légende des lignes ».
+**Décision :** onglet « Structure fonctionnelle » (#/diamond/KEY/fstructure). Les **entrées du système** à gauche, les
+**sorties** à droite, le cadre du système (la fonction primaire) entre les deux. Deux vues : **générale**, où les fonctions
+secondaires deviennent les sous-systèmes, et **détaillée**, où les fonctions tertiaires sont dans le cadre de leur
+sous-système (une secondaire sans tertiaire tient sa place) ; aucune fonction technique, ce niveau n'appartient pas à la
+conception système. Chaque flux a un type, **énergie** (trait orange), **matière** (trait épais) ou **information**
+(pointillé bleu), et un libellé court. Règles : un flux part d'une entrée ou d'une fonction et arrive à une fonction ou à
+une sortie, jamais d'une entrée directement à une sortie ; une entrée qui a des flux ne devient pas une sortie. Conseils
+de la méthode : entrées et sorties présentes, chaque bloc échange un flux, chaque flux de la vue générale se retrouve
+dans la vue détaillée (même type, entre des fonctions des mêmes sous-systèmes). Les blocs se glissent (positions gardées
+par vue, « Replacer automatiquement ») ; un flux se trace depuis le panneau du bloc ou en cliquant la cible. Les
+fonctions archivées quittent le schéma. Tables `diamond_ports`, `diamond_flows`, `diamond_positions` (migration
+diamond 2, additive). L'exemple de la lampe de bureau charge aussi sa structure (6 entrées et sorties, 11 + 21 flux).
+

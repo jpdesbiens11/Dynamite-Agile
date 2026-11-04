@@ -15,6 +15,7 @@ QUIZZES = {
     "TL-01": tl.TL_01, "TL-02": tl.TL_02, "TL-03": tl.TL_03, "TL-06": tl.TL_06,
     "RH-01": rh.RH_01, "RH-02": rh.RH_02,
     "DM-01": dm.DM_01,  # 0.60.11
+    "DM-02": dm.DM_02,  # 0.60.13
 }
 
 

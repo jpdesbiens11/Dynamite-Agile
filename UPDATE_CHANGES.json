@@ -2,70 +2,52 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Paquet officiel : manifeste, série de versions, fichiers modifiés localement (D-O-024)",
-      "why": "Le serveur vérifie le paquet publié sur le site sans appel sortant ; une étape de revue par version ; « Plus tard ».",
+      "title": "Structure fonctionnelle : entrées, sorties, flux typés, deux vues (D-O-025)",
+      "why": "Tirée de l'arbre fonctionnel, selon la légende du cours ; conseils de la méthode ; positions par vue.",
       "files": [
-        "core/release.py",
-        "core/update.py",
-        "core/__init__.py",
-        "docs/releases/0.60.01.json",
-        "docs/releases/0.60.02.json",
-        "docs/releases/0.60.03.json",
-        "docs/releases/0.60.04.json",
-        "docs/releases/0.60.05.json",
-        "docs/releases/0.60.06.json",
-        "docs/releases/0.60.07.json",
-        "docs/releases/0.60.08.json",
-        "docs/releases/0.60.09.json",
-        "docs/releases/0.60.10.json",
-        "docs/releases/0.60.11.json",
-        "docs/releases/0.60.12.json",
-        "tests/test_release.py",
-        "docs/RELEASE.json"
+        "modules/diamond/__init__.py",
+        "modules/diamond/structure.py",
+        "modules/diamond/example.py",
+        "modules/diamond/example_structure.py",
+        "tests/test_diamond_structure.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Publication : paquet et page « Versions » du site (FR / EN)",
-      "why": "tools/build_release.py, construit par le workflow Pages ; la page montre les versions plus récentes que la vôtre.",
+      "title": "Écran du boundary diagram : glisser, relier, panneau, libellés",
+      "why": "Cadre du système, sous-systèmes, flux par type ; Relier en cliquant la cible ; Replacer automatiquement.",
       "files": [
-        "tools/build_release.py",
-        "tools/build_site.py",
-        "tools/site_text.py",
-        ".gitignore",
-        "tools/site/versions.html",
-        "tools/site/en/versions.html",
-        "tools/site/versions.js",
-        "tools/site/site.css"
+        "static/js/diamond/diamond.js",
+        "static/js/diamond/structure.js",
+        "static/js/diamond/structure_draw.js",
+        "static/js/diamond/structure_panel.js",
+        "static/css/diamond.css",
+        "core/modules.py"
       ]
     },
     {
       "id": "C3",
-      "title": "Admin → Update : bloc « Versions officielles » ; scripts d'installation",
-      "why": "Lien vers les versions avec la version installée, empreinte SHA-256, Plus tard ; install.sh / install.ps1 mettent à jour même après un paquet appliqué.",
+      "title": "Training : topic DM-02 et son test",
+      "why": "Dix questions sur la structure fonctionnelle.",
       "files": [
-        "static/js/admin_update.js",
-        "static/js/admin_update_official.js",
-        "static/index.html",
-        "static/css/app.css",
-        "deploy/install.sh",
-        "deploy/install.ps1",
-        "site/install.sh",
-        "site/install.ps1"
+        "modules/training/catalog.py",
+        "modules/training/quizzes/__init__.py",
+        "modules/training/quizzes/dm.py"
       ]
     },
     {
       "id": "C4",
-      "title": "Version 0.60.12, D-O-024 et documentation",
-      "why": "Décision, FONDATIONS §12, état du projet, journal ; vitrine reconstruite.",
+      "title": "Version 0.60.13, D-O-025 et documentation",
+      "why": "Décision, état du projet, journal, fiche de version, site.",
       "files": [
+        "core/__init__.py",
         "CLAUDE.md",
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/FONDATIONS.md",
-        "static/apps/vitrine/index.html",
-        "tests/test_open_v060.py"
+        "docs/releases/0.60.13.json",
+        "tests/test_open_v060.py",
+        "static/apps/vitrine/index.html"
       ]
     }
   ]

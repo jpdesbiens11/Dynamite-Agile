@@ -7,7 +7,7 @@ outside the tree. Content written for Dynamite | Agile (no third-party example, 
 from core import audit
 from core.errors import ApiError
 
-from . import functions as F
+from . import example_structure, functions as F
 
 # (key, parent key | None, text, ftype, kano, importance, critical); the first one is the primary function
 LAMP = [
@@ -58,5 +58,20 @@ def api_example(ctx):
         ids[key] = F.create(ctx.conn, ctx.user["id"], pid, fields, ids.get(parent), None, primary)
     for src, dst in FEEDBACK:
         ctx.conn.execute("UPDATE diamond_functions SET feedback_to = ? WHERE id = ?", (ids[dst], ids[src]))
+    example_structure.load(ctx.conn, pid, _texts(items))  # 0.60.13: its functional structure too
     audit.log_action(ctx.conn, ctx.user["id"], "diamond_example", "projects", pid, {"example": name, "functions": len(items)}, ctx.ip)
     return F.payload(ctx.conn, pid)
+
+
+def _texts(items):
+    """{function number in the example: text} -- F1 for the first line, F2 for the second…"""
+    return {n: row[2] for n, row in enumerate(items, start=1)}
+
+
+def api_structure_example(ctx):
+    """0.60.13: the structure of the example for a tree loaded before (the lamp tree must be there, the structure empty)."""
+    pid = F.access(ctx, "editor")
+    ports, flows = example_structure.load(ctx.conn, pid, _texts(LAMP))
+    audit.log_action(ctx.conn, ctx.user["id"], "diamond_structure_example", "projects", pid, {"ports": ports, "flows": flows}, ctx.ip)
+    from . import structure
+    return structure.payload(ctx.conn, pid)

@@ -3,12 +3,13 @@ the mine -- the deepest gallery, where the hardest stone is cut.
 
 Sub-modules, one per iteration:
   0.60.11  Arbre fonctionnel (functions.py, example.py): primary, secondary, tertiary functions; how / why / when.
-  next     Structure fonctionnelle (boundary diagram: In on the left, Out on the right, flows between the functions),
-           Analyse de risque projet (high level, before the DFMEA), DFMEA AIAG-VDA (the same functions, RPN and AP),
+  0.60.13  Structure fonctionnelle (structure.py): boundary diagram -- inputs on the left, outputs on the right, the
+           sub-systems (general view) or the tertiary functions (detail view), energy / material / information flows.
+  next     Analyse de risque projet (high level, before the DFMEA), DFMEA AIAG-VDA (the same functions, RPN and AP),
            Golden Nuggets (first-principles thinking and design rules, with examples).
 Every table is tied to projects(id) (backup, restore, copy by the core); every write is journalled.
 """
-from . import example, functions
+from . import example, functions, structure
 
 SCHEMA = ""
 
@@ -37,6 +38,42 @@ MIGRATIONS = [
         );
         CREATE INDEX idx_diamond_functions_project ON diamond_functions(project_id);
     """),
+    (2, """
+        -- 0.60.13 (D-O-025): the functional structure (boundary diagram)
+        CREATE TABLE diamond_ports (
+            id         INTEGER PRIMARY KEY,
+            project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            side       TEXT NOT NULL CHECK (side IN ('in', 'out')),
+            label      TEXT NOT NULL,
+            kind       TEXT NOT NULL DEFAULT 'energy',
+            position   INTEGER NOT NULL DEFAULT 0,
+            created_at TEXT NOT NULL
+        );
+        CREATE TABLE diamond_flows (
+            id              INTEGER PRIMARY KEY,
+            project_id      INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            view            TEXT NOT NULL CHECK (view IN ('general', 'detail')),
+            kind            TEXT NOT NULL CHECK (kind IN ('energy', 'material', 'information')),
+            label           TEXT NOT NULL DEFAULT '',
+            src_function_id INTEGER REFERENCES diamond_functions(id) ON DELETE CASCADE,
+            src_port_id     INTEGER REFERENCES diamond_ports(id) ON DELETE CASCADE,
+            dst_function_id INTEGER REFERENCES diamond_functions(id) ON DELETE CASCADE,
+            dst_port_id     INTEGER REFERENCES diamond_ports(id) ON DELETE CASCADE,
+            created_at      TEXT NOT NULL
+        );
+        CREATE TABLE diamond_positions (
+            id          INTEGER PRIMARY KEY,
+            project_id  INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            view        TEXT NOT NULL,
+            function_id INTEGER REFERENCES diamond_functions(id) ON DELETE CASCADE,
+            port_id     INTEGER REFERENCES diamond_ports(id) ON DELETE CASCADE,
+            x           REAL NOT NULL,
+            y           REAL NOT NULL
+        );
+        CREATE INDEX idx_diamond_ports_project ON diamond_ports(project_id);
+        CREATE INDEX idx_diamond_flows_project ON diamond_flows(project_id);
+        CREATE INDEX idx_diamond_positions_project ON diamond_positions(project_id);
+    """),
 ]
 
 P = r"/api/diamond/p/(?P<pid>\d+)"
@@ -49,4 +86,14 @@ ROUTES = [
     ("POST", FN + r"/move", functions.api_move, "user"),
     ("POST", FN + r"/archive", functions.api_archive, "user"),
     ("POST", P + r"/example", example.api_example, "user"),
+    ("GET", P + r"/structure", structure.api_get, "user"),
+    ("POST", P + r"/structure/ports", structure.api_port_create, "user"),
+    ("PATCH", P + r"/structure/ports/(?P<oid>\d+)", structure.api_port_update, "user"),
+    ("POST", P + r"/structure/ports/(?P<oid>\d+)/delete", structure.api_port_delete, "user"),
+    ("POST", P + r"/structure/flows", structure.api_flow_create, "user"),
+    ("PATCH", P + r"/structure/flows/(?P<oid>\d+)", structure.api_flow_update, "user"),
+    ("POST", P + r"/structure/flows/(?P<oid>\d+)/delete", structure.api_flow_delete, "user"),
+    ("PUT", P + r"/structure/position", structure.api_position, "user"),
+    ("POST", P + r"/structure/layout/reset", structure.api_reset_layout, "user"),
+    ("POST", P + r"/structure/example", example.api_structure_example, "user"),
 ]

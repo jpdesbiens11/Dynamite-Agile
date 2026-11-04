@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.12)
-**Version :** 0.60.12 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** Diamond 💎 (D-O-023) — 0.60.12 livrée (versions officielles, D-O-024) ; suite : 0.60.13 structure fonctionnelle
+**Dernière mise à jour :** 2026-11-04 (v0.60.13)
+**Version :** 0.60.13 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** Diamond 💎 (D-O-023) — 0.60.13 livrée (structure fonctionnelle, D-O-025) ; suite : 0.60.14 analyse de risque projet
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -24,7 +24,7 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.10 | Serveur d'équipe sur un PC Windows (D-O-022) : `deploy/install.ps1`, autorité de certification de l'équipe (`tools/make_team_ca.py`), tâche planifiée, pare-feu privé ; 4e destination de la page d'installation FR / EN | Livré — à essayer sur un vrai PC Windows |
 | 0.60.11 | Diamond 💎 (D-O-023), 1 000 m : module, onglet, logo ; Arbre fonctionnel (primaire / secondaires / tertiaires / techniques, comment · pourquoi · quand, chemin critique, rétroaction, hors arbre, glisser-déposer, Alt + flèches, exemple lampe de bureau) | Livré |
 | 0.60.12 | Versions officielles (D-O-024) : paquet par version (`tools/build_release.py`, workflow Pages), page `versions.html` FR / EN, Admin → Update : manifeste, une étape par version, plusieurs versions d'un coup, fichiers modifiés à la main, « Plus tard » ; installateurs qui ne bloquent plus | Livré — essayé de 0.60.11 à 0.60.12 |
-| 0.60.13 | Diamond : structure fonctionnelle (boundary diagram : entrées à gauche, sorties à droite ; vue générale par sous-systèmes, vue détaillée avec les tertiaires ; flux énergie / matière / information selon la légende du cours) | À faire |
+| 0.60.13 | Diamond : structure fonctionnelle (D-O-025) : entrées à gauche, sorties à droite, vue générale (sous-systèmes) et détaillée (tertiaires), flux énergie / matière / information selon la légende du cours, conseils de la méthode, glisser, relier | Livré |
 | 0.60.14 | Diamond : analyse de risque projet de haut niveau (avant le DFMEA) | À faire |
 | 0.60.15 | Diamond : DFMEA AIAG-VDA (3 niveaux, fonctions de l'arbre, S / O / D, RPN et AP, légende de l'AP, colonnes masquables, lignes ajouter / dupliquer / déplacer / effacer) | À faire |
 | 0.60.16 | Diamond : Golden Nuggets (first principles thinking, règles de conception, exemples) | À faire |
@@ -43,7 +43,10 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.12)
+## Relais (fin de 0.60.13)
+
+- Structure fonctionnelle (D-O-025) : `modules/diamond/structure.py` (vues, règles des flux, `checks`, positions), `example_structure.py` (lampe) ; migration diamond 2. Écran : `static/js/diamond/structure.js` (vue, onglets, outils), `structure_draw.js` (disposition, cadres, courbes SVG sans texte, glisser), `structure_panel.js`. `tests/test_diamond_structure.py`. Le DFMEA (0.60.15) reprendra `diamond_functions` ; « Copier / composer un Space » ne connaît pas encore Diamond.
+
 
 - Versions officielles (D-O-024) : **à chaque version, écrire `docs/releases/<version>.json`** (résumé FR / EN, changements, fichiers). `core/release.py` (manifeste, série, étapes par version, fichiers modifiés à la main, `api_later`), appelé par `core/update.py` ; `tools/build_release.py` ; `tools/site/versions.html` + `versions.js` (FR / EN) ; workflow `.github/workflows/pages.yml` (construit `site/updates/`). Écran : `static/js/admin_update_official.js`. `tests/test_release.py` (paquet reproductible, refus d'un paquet modifié, Plus tard, série 0.60.98 → 0.60.99 appliquée, page et workflow).
 
