@@ -83,3 +83,65 @@
 @media (prefers-reduced-motion: reduce) {
   .nav-drawer, .nav-backdrop { transition: none; }
 }
+
+/* ---------- 0.60.27 (D-O-036): what a phone is for ---------- */
+@media (max-width: 760px) {
+  /* the big screens stay on the computer */
+  html.da-phone .nav-drawer .tab-pc { margin-left: auto; font-size: .72rem; color: var(--muted); }
+  html.da-phone.pc-only #main { display: none; }
+  html.da-phone .pc-only-note { margin: 1.2rem .9rem; padding: 1.2rem 1rem; text-align: center; background: var(--surface);
+    border: 1px dashed var(--line); border-radius: var(--radius-lg); }
+  html.da-phone .pc-only-note .pc-only-icon { margin: 0; font-size: 2.2rem; }
+  html.da-phone .pc-only-note h1 { font-size: 1.2rem; margin: .3rem 0 .5rem; }
+  html.da-phone .pc-only-note .actions { justify-content: center; margin-top: .8rem; }
+
+  /* Goldmine, Testing, Timesheet: lists of cards, one item under the other */
+  html.da-phone table.data[data-cards] { display: block; border: 0; background: none; overflow: visible; }
+  html.da-phone table.data[data-cards] thead { display: none; }
+  html.da-phone table.data[data-cards] tbody { display: flex; flex-direction: column; gap: .6rem; }
+  html.da-phone table.data[data-cards] tr { position: relative; display: flex; flex-direction: column; gap: .15rem; padding: .65rem .75rem;
+    background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--acc, var(--agile));
+    border-radius: var(--radius-sm); box-shadow: var(--shadow); }
+  html.da-phone table.data[data-cards] td { display: block; padding: .1rem 0; border: 0; min-width: 0; white-space: normal;
+    overflow-wrap: break-word; }
+  html.da-phone table.data[data-cards] td[data-label]:not(:first-child)::before { content: attr(data-label); display: block;
+    color: var(--muted); font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .02em; }
+  html.da-phone table.data[data-cards] td:first-child { font-weight: 650; font-size: .95rem; }
+  html.da-phone table.data[data-cards] td:empty { display: none; }
+  /* the whole card opens the item (the link of its key), its own controls stay above */
+  html.da-phone :is([data-module=goldmine], [data-module=testing]) table.data[data-cards] td:first-child a::after {
+    content: ""; position: absolute; inset: 0; }
+  html.da-phone table.data[data-cards] td :is(input, select, button, label) { position: relative; z-index: 1; }
+  /* short cards: the columns that matter on the go */
+  html.da-phone[data-module=goldmine] table.data[data-cards] td:is([data-label="External ID"], [data-label="Phase"], [data-label="Verif."],
+    [data-label="Assignee"], [data-label="Implémentée par"], [data-label="Verif. Ref."], [data-label="Dernière modif."]) { display: none; }
+  html.da-phone[data-module=testing] table.data[data-cards] td:is([data-label="Level"], [data-label="Method"], [data-label="Test Location"],
+    [data-label="Functions"], [data-label="Category"]) { display: none; }
+  html.da-phone[data-module=goldmine] .gm-statement { display: block; }
+  /* Timesheet: one card per range, its fields full width */
+  html.da-phone[data-module=timesheet] table.data[data-cards] td :is(input, select) { width: 100%; }
+  html.da-phone[data-module=timesheet] table.data[data-cards] td.tt-row-actions { display: flex; justify-content: flex-end; gap: .4rem; }
+
+  /* the long tool bars: what one does on the go */
+  html.da-phone :is(.ag-csv-toolbar, .ag-import-advice, .gm-since) { display: none; }
+  html.da-phone[data-module=testing] .tg-head-main .muted { display: none; }
+  html.da-phone[data-module=testing] .tg-actions > :not(.btn-primary) { display: none; }
+  html.da-phone .ag-filters:not(.filters-open) > :is(select, label) { display: none; }
+  html.da-phone .ag-filters { display: flex; flex-wrap: wrap; gap: .4rem; }
+  html.da-phone .ag-filters > input { flex: 1 1 10rem; }
+  html.da-phone .ag-filters.filters-open > select { flex: 1 1 45%; min-width: 0; }
+
+  /* Dynamite: a compact page, and the quick bar at the bottom */
+  html.da-phone[data-module=dynamite] .dy-actions-top > :not(.btn-primary):not([href*="/new"]) { display: none; }
+  html.da-phone[data-module=dynamite] .dy-sidebar .dy-tree { max-height: 30vh; overflow-y: auto; }
+  html.da-phone[data-module=dynamite] .dy-page { padding-bottom: 5rem; }
+  html.da-phone .dy-fab { position: fixed; left: .5rem; right: .5rem; bottom: calc(.5rem + env(safe-area-inset-bottom, 0px)); z-index: 50;
+    display: flex; gap: .4rem; padding: .45rem; background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius-lg); box-shadow: 0 6px 20px rgba(16, 32, 47, .22); }
+  html.da-phone .dy-fab > .new-tag { position: absolute; top: -.6rem; right: .6rem; flex: none; min-height: 0; }
+  html.da-phone .dy-fab > * { flex: 1 1 0; justify-content: center; min-height: 44px; text-align: center; white-space: nowrap; }
+  html.da-phone[data-module=dynamite] .dy-edit-actions { flex-wrap: wrap; gap: .35rem; }
+  html.da-phone[data-module=dynamite] .dy-note-input { flex: 1 1 100%; }
+  html.da-phone[data-module=dynamite] .dy-toolbar { flex-wrap: wrap; }
+}
+html:not(.da-phone) .pc-only-note, html:not(.da-phone) .dy-fab, html:not(.da-phone) .filters-toggle { display: none; }
