@@ -214,6 +214,10 @@ def api_get(ctx):
             imp["key"] = "{}-{}".format(imp["project_key"], imp["number"])
         from . import goldmine  # local import: goldmine imports this module
         issue["requirement"] = goldmine.fields_of(conn, row["id"])
+        review = conn.execute("SELECT standard_review, standard_checked FROM agile_requirements WHERE issue_id = ?",
+                              (row["id"],)).fetchone()  # 0.60.07: « À vérifier » (D-O-019)
+        issue["requirement"].update(standard_review=review["standard_review"] if review else "",
+                                    standard_checked=review["standard_checked"] if review else "")
     issue["can_edit"] = c.can_edit(ctx, role, row)
     issue["can_take"] = c.can_take(ctx, role, row)
     issue["transitions"] = _available_transitions(conn, row, role) if issue["can_edit"] else []
