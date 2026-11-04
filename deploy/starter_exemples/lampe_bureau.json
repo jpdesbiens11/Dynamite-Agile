@@ -29,12 +29,12 @@
     {"ref": "REQ-6", "statement": "La lampe doit survivre à une chute de 0,75 m sur un plancher de bois franc, sans danger ni perte de fonction.", "category": "environmental", "lifecycle": "operation", "source": "internal", "verification_method": "T", "acceptance_criteria": "6 chutes, une par face ; aucune pièce sous tension accessible, lampe fonctionnelle.", "criticality": "C"}
   ],
   "tests": [
-    {"ref": "ESSAI-1", "title": "Flux lumineux et efficacité", "category": "industry", "level": "Product", "method": "T", "objective": "Mesurer le flux et la puissance absorbée à 100 %.", "acceptance": "≥ 600 lm.", "means": "Sphère intégrante, wattmètre.", "verifies": ["REQ-1"]},
-    {"ref": "ESSAI-2", "title": "Scintillement sur la plage de gradation", "category": "industry", "level": "Product", "method": "T", "objective": "Mesurer l'indice de scintillement de 5 % à 100 %.", "acceptance": "< 0,1.", "means": "Photodiode rapide et oscilloscope.", "verifies": ["REQ-2"]},
-    {"ref": "ESSAI-3", "title": "Évaluation de sécurité", "category": "standard", "standard": "CSA C22.2 No. 62368-1 / UL 62368-1", "level": "Product", "method": "T", "objective": "Classer les sources d'énergie et vérifier les protections.", "verifies": ["REQ-3"]},
-    {"ref": "ESSAI-4", "title": "Émissions conduites et rayonnées", "category": "standard", "standard": "ICES-003 ; FCC Part 15 Subpart B", "level": "Product", "method": "T", "verifies": ["REQ-4"]},
-    {"ref": "ESSAI-5", "title": "Homologation radio", "category": "standard", "standard": "ISED RSS-247 ; FCC Part 15 Subpart C", "level": "Product", "method": "T", "verifies": ["REQ-5"]},
-    {"ref": "ESSAI-6", "title": "Chute libre", "category": "custom", "level": "Product in Use", "method": "T", "objective": "Six chutes de 0,75 m, une par face.", "verifies": ["REQ-6"]}
+    {"ref": "ESSAI-1", "subject": "func", "title": "Flux lumineux et efficacité", "category": "industry", "level": "Product", "method": "T", "objective": "Mesurer le flux et la puissance absorbée à 100 %.", "acceptance": "≥ 600 lm.", "means": "Sphère intégrante, wattmètre.", "verifies": ["REQ-1"]},
+    {"ref": "ESSAI-2", "subject": "func", "title": "Scintillement sur la plage de gradation", "category": "industry", "level": "Product", "method": "T", "objective": "Mesurer l'indice de scintillement de 5 % à 100 %.", "acceptance": "< 0,1.", "means": "Photodiode rapide et oscilloscope.", "verifies": ["REQ-2"]},
+    {"ref": "ESSAI-3", "subject": "elec", "title": "Évaluation de sécurité", "category": "standard", "standard": "CSA C22.2 No. 62368-1 / UL 62368-1", "level": "Product", "method": "T", "objective": "Classer les sources d'énergie et vérifier les protections.", "verifies": ["REQ-3"]},
+    {"ref": "ESSAI-4", "subject": "emc", "title": "Émissions conduites et rayonnées", "category": "standard", "standard": "ICES-003 ; FCC Part 15 Subpart B", "level": "Product", "method": "T", "verifies": ["REQ-4"]},
+    {"ref": "ESSAI-5", "subject": "emc", "title": "Homologation radio", "category": "standard", "standard": "ISED RSS-247 ; FCC Part 15 Subpart C", "level": "Product", "method": "T", "verifies": ["REQ-5"]},
+    {"ref": "ESSAI-6", "subject": "mech", "title": "Chute libre", "category": "custom", "level": "Product in Use", "method": "T", "objective": "Six chutes de 0,75 m, une par face.", "verifies": ["REQ-6"]}
   ],
   "time_codes": [
     {"key": "LA", "label": "Pré-étude et besoins", "codes": [

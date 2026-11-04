@@ -159,6 +159,12 @@ MIGRATIONS.append((4, """
     CREATE INDEX idx_testing_tests_project ON testing_tests(project_id);
     CREATE INDEX idx_testing_history_test ON testing_history(test_row_id);
 """))
+MIGRATIONS.append((5, """
+    -- 0.60.06 (D-O-019): review of a test proposed by an AI assistant (Project Starter): '' | 'to_verify' | 'verified';
+    -- review_checked keeps who confirmed it, when, and the edition of its standard.
+    ALTER TABLE testing_tests ADD COLUMN review TEXT NOT NULL DEFAULT '';
+    ALTER TABLE testing_tests ADD COLUMN review_checked TEXT NOT NULL DEFAULT '';
+"""))
 
 TP = r"/api/testing/plans/(?P<code>TP-\d{3,})"
 ROUTES = [

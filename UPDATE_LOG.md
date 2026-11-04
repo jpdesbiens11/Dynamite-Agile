@@ -1,12 +1,14 @@
-# Journal de mise à jour — 0.60.05
+# Journal de mise à jour — 0.60.06
 
-- **Version :** 0.60.04 → 0.60.05 (2026-11-04)
+- **Version :** 0.60.05 → 0.60.06 (2026-11-04)
 - **Changements :**
-  1. **Format Project Starter** (D-O-019) : un fichier JSON `dynamite-project-starter` décrit un projet (équipe,
-     besoins et requis, essais, codes de temps, pages Dynamite), préparé avec un assistant IA. `core/starter.py` le
-     vérifie champ par champ et donne le correctif de chaque refus ; tout requis et tout essai arrive « À vérifier »,
-     chaque page en « Brouillon IA », aucun membre n'est administrateur. Spécification : `docs/STARTER_FORMAT.md`.
-  2. **Vérifier un fichier sans rien créer** : `python3 tools/check_starter.py mon_projet.json`.
-  3. **Trois exemples** dans `deploy/starter_exemples/` : lampe de bureau connectée, tensiomètre de poignet,
-     convoyeur de table modulaire.
-- **Base de données :** aucune migration.
+  1. **« Commencer » côté serveur** (D-O-019) : `POST /api/starter/check` montre ce qu'un fichier Project Starter
+     créerait et ce qui bloque (clé de Space ou code de temps déjà pris), sans rien écrire ; `POST /api/starter/apply`
+     crée le nouveau Space à côté des exemples, en une seule transaction : l'équipe (mot de passe temporaire affiché une
+     fois, jamais administrateur ; un compte existant est réutilisé tel quel), les codes de temps du projet, les essais
+     (Draft) et les requis, liés entre eux et tous « À vérifier », les pages Dynamite en « Brouillon IA ». Clé du Space
+     et codes ajustables avant la création. Réservé aux administrateurs, chaque étape au journal d'audit.
+  2. **Format ajusté** : le `subject` d'un essai est un code de Testing (`func`, `elec`, `emc`…) ; un code de temps suit
+     la forme de Timesheet (ex. `LA-MAR`). Exemples et `docs/STARTER_FORMAT.md` mis à jour.
+- **Base de données :** migrations additives agile 15 (`standard_review`, `standard_checked` des requis) et testing 5
+  (`review`, `review_checked` des essais).

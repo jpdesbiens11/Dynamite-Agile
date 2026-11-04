@@ -160,3 +160,13 @@ date) par une personne ; (5) codes de temps générés par l'IA, deux niveaux, 4
 tout et retire au fichier ce qu'une personne seule décide. Itérations : 0.60.05 le format, le validateur,
 `tools/check_starter.py` et trois exemples ; 0.60.06 l'écran « Commencer » (aperçu, création en une transaction,
 audit) ; 0.60.07 le prompt FR / EN et sa page.
+**Complément (0.60.06, 2026-11-04) :** la création du Space est livrée côté serveur (`core/starter_apply.py`,
+`POST /api/starter/check` puis `/api/starter/apply`, administrateurs), l'écran « Commencer » et la confirmation des
+normes suivent en 0.60.07, le prompt `starter.md` en 0.60.08. Précisions prises en codant : (a) le `subject` d'un essai
+est un code de Testing (`func`, `elec`…) et un code de temps suit la forme de Timesheet (`[A-Z]{1,5}-[A-Z0-9]{2,4}`,
+unique sur le site ; un code déjà pris bloque la création jusqu'à ce qu'il soit renommé ou retiré) ; (b) les codes du
+projet forment un Funding Space `starter-<clé>` rattaché au Space ; (c) la première page sans parent remplace la page
+d'accueil créée avec le Space, les autres pages sans parent vont sous elle ; (d) un requis sans essai, quand le fichier
+en contient, est lié à un essai « Essai à définir (Project Starter) » — un Space qui a des essais exige qu'un requis en
+nomme un (D-B-079) ; (e) la norme, l'édition et la clause d'un requis vont dans « Source Document » ; « À vérifier » est
+gardé dans `agile_requirements.standard_review` et `testing_tests.review` (migrations additives agile 15, testing 5).

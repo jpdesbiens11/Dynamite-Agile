@@ -30,12 +30,12 @@ from .errors import ApiError
 
 FORMAT = "dynamite-project-starter"
 FORMAT_VERSION = 1
-MAX_BYTES = 2 * 1024 * 1024
+MAX_BYTES = 1536 * 1024  # fits in a 2 Mo JSON request (core/router.MAX_JSON_BYTES) once escaped
 LIMITS = {"team": 12, "requirements": 300, "tests": 300, "time_codes": 40, "pages": 30}
 KEY_RE = re.compile(r"^[A-Z][A-Z0-9]{1,9}$")                      # same rule as core/admin.PROJECT_KEY_RE
 USERNAME_RE = re.compile(r"^[a-z0-9][a-z0-9._-]{1,31}$")          # same rule as core/admin.USERNAME_RE
 REF_RE = re.compile(r"^[A-Za-z][A-Za-z0-9_.-]{0,23}$")
-CODE_RE = re.compile(r"^[A-Z0-9][A-Z0-9-]{0,15}$")
+GROUP_RE = re.compile(r"^[A-Z0-9][A-Z0-9-]{0,15}$")                # a heading of time codes, not a code
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 LANGUAGES = ("fr", "en")
 MARKETS = ("CA", "US", "EU", "UK", "MX", "AU", "JP", "CN", "KR", "IN", "BR", "INT")
@@ -53,7 +53,13 @@ def _vocab():
             "stakeholder": ("",) + tuple(goldmine.STAKEHOLDERS), "source": tuple(goldmine.SOURCES),
             "criticality": goldmine.CRITICALITY, "verification_method": ("",) + tuple(goldmine.METHODS),
             "test_category": tuple(data_tests.CATEGORIES), "level": ("",) + data_tests.LEVELS,
-            "method": tuple(goldmine.METHODS)}
+            "method": tuple(goldmine.METHODS), "subject": tuple(data_tests.SUBJECTS)}
+
+
+def _code_re():
+    """The pattern of a Timesheet code (Budget Line), read from Timesheet like the vocabularies."""
+    from modules.timesheet import budget
+    return budget.CODE_RE
 
 
 def _bad(path, message, fix):
@@ -185,7 +191,7 @@ def _tests(raw, vocab, req_refs):
         path = "tests[{}]".format(i)
         t = _obj(t, path)
         out.append({"ref": _ref(t, path, seen), "title": _text(t, "title", path, 200, required=True),
-                    "subject": _text(t, "subject", path, 120, default="Product"),
+                    "subject": _choice(t, "subject", path, vocab["subject"], "func"),
                     "category": _choice(t, "category", path, vocab["test_category"], "custom"),
                     "standard": _text(t, "standard", path, 200), "section": _text(t, "section", path, 80),
                     "level": _choice(t, "level", path, vocab["level"]),
@@ -198,32 +204,50 @@ def _tests(raw, vocab, req_refs):
 
 
 def _time_codes(raw):
-    out, keys, count = [], set(), 0
+    """Groups of Timesheet codes. A group with codes is a heading (its key only groups them); a group without codes
+    is itself a code. Every code follows the Timesheet pattern and is unique in the file (and, checked at creation,
+    on the whole site)."""
+    out, keys, count, code_re = [], set(), 0, _code_re()
     for i, g in enumerate(_list(raw.get("time_codes"), "time_codes", LIMITS["time_codes"])):
         path = "time_codes[{}]".format(i)
         g = _obj(g, path)
-        group = {"key": _code(g, path, keys), "label": _text(g, "label", path, 120, required=True), "codes": []}
-        for j, c in enumerate(_list(g.get("codes"), path + ".codes", LIMITS["time_codes"])):
+        codes = _list(g.get("codes"), path + ".codes", LIMITS["time_codes"])
+        group = {"key": _key(g, path, keys, GROUP_RE if codes else code_re), "label": _text(g, "label", path, 120, required=True),
+                 "codes": []}
+        for j, c in enumerate(codes):
             sub = "{}.codes[{}]".format(path, j)
             c = _obj(c, sub)
             if "codes" in c:
                 _bad(sub + ".codes", "troisième niveau de codes.", "deux niveaux au maximum : un groupe et ses codes.")
-            group["codes"].append({"key": _code(c, sub, keys), "label": _text(c, "label", sub, 120, required=True)})
-        count += 1 + len(group["codes"])
+            group["codes"].append({"key": _key(c, sub, keys, code_re), "label": _text(c, "label", sub, 120, required=True)})
+        count += len(group["codes"]) or 1
         out.append(group)
     if count > LIMITS["time_codes"]:
-        _bad("time_codes", "{} codes au total.".format(count), "{} au maximum, groupes compris.".format(LIMITS["time_codes"]))
+        _bad("time_codes", "{} codes au total.".format(count), "{} au maximum.".format(LIMITS["time_codes"]))
     return out
 
 
-def _code(obj, path, keys):
+def _key(obj, path, keys, pattern):
     key = obj.get("key")
-    if not isinstance(key, str) or not CODE_RE.match(key):
-        _bad(path + ".key", "code « {} » invalide.".format(key), "1 à 16 majuscules, chiffres ou tirets ; ex. C-15, C-15-BOI.")
+    if not isinstance(key, str) or not pattern.match(key):
+        _bad(path + ".key", "code « {} » invalide.".format(key),
+             "un code de temps s'écrit 1 à 5 majuscules, un tiret, puis 2 à 4 majuscules ou chiffres (ex. LA-MAR, C-BOI) ; "
+             "un groupe qui contient des codes : 1 à 16 majuscules, chiffres ou tirets.")
     if key in keys:
         _bad(path + ".key", "code « {} » déjà utilisé.".format(key), "un code unique dans tout le fichier.")
     keys.add(key)
     return key
+
+
+def codes_of(clean):
+    """[(code, label)] the Space will offer in Timesheet: a group's codes are labelled « group · code »."""
+    out = []
+    for g in clean["time_codes"]:
+        if g["codes"]:
+            out += [(c["key"], "{} · {}".format(g["label"], c["label"])) for c in g["codes"]]
+        else:
+            out.append((g["key"], g["label"]))
+    return out
 
 
 def _blocks_used(node, found):
@@ -271,7 +295,7 @@ def parse(data):
     """Bytes, text or an already decoded object -> (clean starter, warnings). Raises ApiError on the first fault."""
     if isinstance(data, (bytes, bytearray)):
         if len(data) > MAX_BYTES:
-            _bad("fichier", "plus de 2 Mo.", "réduisez le nombre de pages ou de requis.")
+            _bad("fichier", "plus de 1,5 Mo.", "réduisez le nombre de pages ou de requis.")
         try:
             data = data.decode("utf-8-sig")
         except UnicodeDecodeError:
@@ -327,5 +351,5 @@ def summary(clean):
     return {"project": clean["project"]["key"] + " · " + clean["project"]["name"], "team": len(clean["team"]),
             "requirements": sum(r["kind"] == "requirement" for r in clean["requirements"]),
             "needs": sum(r["kind"] == "need" for r in clean["requirements"]), "tests": len(clean["tests"]),
-            "time_codes": sum(1 + len(g["codes"]) for g in clean["time_codes"]), "pages": len(clean["pages"]),
+            "time_codes": len(codes_of(clean)), "pages": len(clean["pages"]),
             "standards": sorted({x["standard"] for x in clean["requirements"] + clean["tests"] if x["standard"]})}
