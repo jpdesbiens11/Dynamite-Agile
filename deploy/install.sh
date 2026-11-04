@@ -35,7 +35,15 @@ HERE="$(cd "$(dirname "${BASH_SOURCE[0]:-.}")/.." 2>/dev/null && pwd || pwd)"
 if [ ! -f "$HERE/app_dynamite_agile.py" ]; then
   say "0/7 $(t "Récupération du code dans" "Fetching the code into") $TARGET"
   apt-get update -q && apt-get install -y -q git
-  if [ -d "$TARGET/.git" ]; then git -C "$TARGET" pull --ff-only; else git clone --depth 1 "$REPO" "$TARGET"; fi
+  if [ -d "$TARGET/.git" ]; then
+    # 0.60.12 (D-O-024): files changed since the last update (a package applied in Admin → Update, an edit by hand) never
+    # block it: they are saved as a patch in data/updates/, then the code follows the published branch; data/ stays.
+    if [ -n "$(git -C "$TARGET" status --porcelain --untracked-files=no)" ]; then
+      mkdir -p "$TARGET/data/updates"; SAVED="$TARGET/data/updates/code-local-$(date +%Y%m%d-%H%M%S).patch"
+      git -C "$TARGET" diff > "$SAVED"; say "$(t "Code modifié sur ce serveur : copie dans" "Code changed on this server: copy in") $SAVED"
+    fi
+    git -C "$TARGET" fetch --depth 1 origin && git -C "$TARGET" reset --hard '@{u}'
+  else git clone --depth 1 "$REPO" "$TARGET"; fi
   exec bash "$TARGET/deploy/install.sh" "$@"
 fi
 APP_DIR="$HERE"

@@ -340,6 +340,14 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .top .lang { margin-left: .2rem; padding: .3rem .55rem; border: 2px solid var(--ink); border-radius: 6px; color: var(--ink);
   font-weight: 700; font-size: .85rem; text-decoration: none; }
 .top .lang:hover, .top .lang:focus-visible { background: var(--y, #ffd23f); }
+/* 0.60.12: « Versions » page */
+.ver-you label { display: block; margin-bottom: .35rem; }
+.ver-input { font: inherit; padding: .35rem .6rem; width: 9rem; border: 1.4px solid rgba(38, 50, 63, .4); border-radius: 8px; }
+.ver-pkg { margin: .5rem 0 1.5rem; }
+.ver-pkg code.sha { word-break: break-all; }
+.ver-list > li .tag { display: inline-block; margin: 0 0 .3rem; padding: .05rem .5rem; font-size: .8rem; font-weight: 700;
+  background: var(--g); color: #fff; border-radius: 999px; }
+.ver-list > li > span { display: block; }
 
 </style>
 </head>
@@ -373,7 +381,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 <canvas id="energy" aria-hidden="true"></canvas>
 <header class="top">
   <a class="logo" href="index.html"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="4" fill="#ffd23f" stroke="#26323f" stroke-width="2"/><path d="M18 6 L11 17 H16 L14 26 L22 14 H17 Z" fill="none" stroke="#26323f" stroke-width="2" stroke-linejoin="round"/></svg>Dynamite | Agile</a>
-  <nav aria-label="Pages"><a href="index.html" class="on" aria-current="page">Home</a><a href="installation.html">Installation</a><a href="guide.html">Guide</a></nav>
+  <nav aria-label="Pages"><a href="index.html" class="on" aria-current="page">Home</a><a href="installation.html">Installation</a><a href="guide.html">Guide</a><a href="versions.html">Versions</a></nav>
   <a class="lang" href="../index.html" hreflang="fr" lang="fr" title="Français">FR</a>
   <a class="btn btn-primary gh" href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a>
 </header>
@@ -582,7 +590,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       <a class="btn" href="https://github.com/jpdesbiens11/Dynamite-Agile">The code on GitHub</a></div>
   </section>
 </main>
-<footer>Dynamite | Agile · free software under the MIT licence · version 0.60.11 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>Dynamite | Agile · free software under the MIT licence · version 0.60.12 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 (function () {
   "use strict";

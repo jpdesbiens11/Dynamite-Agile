@@ -23,7 +23,7 @@ import threading
 import zipfile
 from pathlib import Path
 
-from . import APP_VERSION, audit, db, permissions, restorepoints
+from . import APP_VERSION, audit, db, permissions, release, restorepoints
 from . import update_review as review
 from .errors import ApiError
 from .files import RawFile
@@ -219,6 +219,8 @@ def check(root, data):
                         problems.append("{} : « {} » ajouté ({}×) — une mise à jour ne supprime jamais de données. Correctif : "
                                         "migration additive seulement.".format(rel, found, added))
     problems += review.declared_changes(z)[1]
+    official, release_problems = release.verify(z, files, version)  # 0.60.12 (D-O-024): a published package
+    problems += release_problems
     current = set(code_files(root))
     changed = sorted(r for r in files if r in current and z.read(files[r]) != (root / r).read_bytes())
     log = ""
@@ -229,14 +231,23 @@ def check(root, data):
             break
     return {"version": version, "current": APP_VERSION, "problems": problems,
             "added": sorted(set(files) - current), "changed": changed, "removed": sorted(current - set(files)),
-            "files": files, "zip": z, "log": log}
+            "files": files, "zip": z, "log": log, "official": official, "sha256": hashlib.sha256(data).hexdigest(),
+            "local": _local(root, changed, sorted(current - set(files)))}
+
+
+def _local(root, changed, removed):
+    """Files edited by hand since the official install that this update replaces or removes (None: unknown)."""
+    edited = release.local_changes(root, APP_VERSION, code_files(root))
+    return None if edited is None else sorted(set(edited) & (set(changed) | set(removed)))
 
 
 def _public(report, token=None):
     cut = lambda items: {"count": len(items), "sample": items[:40]}
     return {"version": report["version"], "current": report["current"], "problems": report["problems"],
             "ok": not report["problems"], "added": cut(report["added"]), "changed": cut(report["changed"]),
-            "removed": cut(report["removed"]), "log": report["log"][:4000], "token": token}
+            "removed": cut(report["removed"]), "log": report["log"][:4000], "token": token,
+            "official": report.get("official"), "sha256": report.get("sha256"),
+            "local": None if report.get("local") is None else cut(report["local"])}
 
 
 def _check_upload(ctx):
@@ -250,14 +261,19 @@ def _check_upload(ctx):
 def api_check(ctx):
     data = _check_upload(ctx)
     report = check(_cfg_root(ctx), data)
-    token, steps = None, None
+    token, steps, series = None, None, []
     if not report["problems"]:
         token = hashlib.sha256(data).hexdigest()[:32]
         folder = _dir(ctx, "incoming")
         (folder / (token + ".zip")).write_bytes(data)
-        steps = review.summary(review.create(folder, token, report["version"], APP_VERSION, review.build_steps(report)))
-    _log(ctx, "update_checked", {"version": report["version"], "problems": len(report["problems"])})
-    return dict(_public(report, token), review=steps)
+        if report["official"]:
+            built, series = release.build_steps(report, APP_VERSION)
+        else:
+            built = review.build_steps(report)
+        steps = review.summary(review.create(folder, token, report["version"], APP_VERSION, built))
+    _log(ctx, "update_checked", {"version": report["version"], "problems": len(report["problems"]),
+                                 "official": bool(report["official"]), "sha256": report["sha256"]})
+    return dict(_public(report, token), review=steps, series=series)
 
 
 api_check.accepts_binary = True
@@ -419,7 +435,9 @@ def api_status(ctx):
     permissions.require_admin(ctx.user)
     backups = {c["backup"] for c in code_versions(ctx)}
     history = [dict(h, available=h.get("code_backup") in backups) for h in reversed(_history(ctx))]
-    return {"version": APP_VERSION, "min_claude": MIN_CLAUDE, "history": history, "backups": sorted(backups, reverse=True),
+    return {"version": APP_VERSION, "min_claude": MIN_CLAUDE, "history": history,
+            "release": dict(release.status(_cfg_root(ctx), APP_VERSION), pages={k: v + "#depuis=" + APP_VERSION
+                                                                              for k, v in release.PAGES.items()}), "backups": sorted(backups, reverse=True),
             "prompt": PROMPT.format(min_claude=MIN_CLAUDE, version=APP_VERSION, date=dt.date.today().isoformat(),
                                     who=ctx.user["display_name"], root=ROOT, last_log="(joint au zip exporté)")}
 
@@ -456,6 +474,7 @@ ROUTES = [
     ("POST", r"/api/update/check", api_check, "user"),
     ("POST", r"/api/update/apply", api_apply, "user"),
     ("POST", r"/api/update/rollback", api_rollback, "user"),
+    ("POST", r"/api/update/later", release.api_later, "user"),  # 0.60.12
     ("GET", r"/api/update/review/(?P<token>[a-f0-9]{32})", api_review, "user"),
     ("GET", r"/api/update/review/(?P<token>[a-f0-9]{32})/(?P<n>\d+)", api_review_step, "user"),
     ("POST", r"/api/update/review/(?P<token>[a-f0-9]{32})/(?P<n>\d+)", api_review_decide, "user"),

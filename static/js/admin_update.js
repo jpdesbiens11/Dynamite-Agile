@@ -15,6 +15,7 @@
   const PARTS = [["restore", "↺ Restaurer", "0.50.1-update-restore"], ["framework", "Framework", null],
     ["config", "Configuration", null], ["data", "Données", null], ["site", "Site complet", null]];
   const TODO = [["Annuler une erreur (mise à jour ratée, données effacées)", "restore"],
+    ["Installer une version officielle publiée", "framework"],
     ["Installer une nouvelle version préparée avec Claude", "framework"],
     ["Changer les comptes, les droits ou les réglages en un seul fichier", "config"],
     ["Sauvegarder, récupérer ou ajouter des Spaces", "data"], ["Déménager le site sur un autre serveur", "site"]];
@@ -54,7 +55,7 @@
       catch (err) { clear(report); report.append(el("p", { class: "form-error" }, err.message)); }
       file.value = "";
     });
-    box.append(el("div", { class: "up-steps" },
+    box.append(DA.adminUpdateOfficial.block(s), el("div", { class: "up-steps" },
       el("section", { class: "up-step" }, el("h2", null, "1. Exporter le code pour Claude"),
         el("p", null, "Un seul fichier zip : le code, le prompt de départ (UPDATE_PROMPT.md), le contexte de la mise en service et la "
           + "structure de la base, sans aucune donnée. À donner à " + s.min_claude + " ou plus récent, avec les instructions du projet."),
@@ -89,6 +90,7 @@
     clear(box);
     box.append(el("div", null, el("h2", null, "Version " + r.current + " → " + (r.version || "?")),
       list("Fichiers ajoutés", r.added), list("Fichiers modifiés", r.changed), list("Fichiers retirés", r.removed),
+      DA.adminUpdateOfficial.report(r),
       r.log ? el("details", null, el("summary", null, "Journal de la mise à jour (UPDATE_LOG.md)"), el("pre", null, r.log)) : null));
     if (!r.ok) {
       box.append(el("div", { class: "form-error" }, el("strong", null, "Mise à jour refusée — " + r.problems.length + " problème(s) :"),
@@ -96,7 +98,9 @@
       return;
     }
     const review = el("div");
-    box.append(el("p", { class: "up-ok" }, "✓ Vérification technique réussie. Revue pas à pas : " + r.review.total + " étape(s) à approuver."), review);
+    box.append(el("div", { class: "up-ok-line" }, el("p", { class: "up-ok" }, "✓ Vérification technique réussie. Revue pas à pas : "
+      + r.review.total + " étape(s) à approuver" + (r.official ? " (une par version)." : ".")),
+    DA.adminUpdateOfficial.later(r, () => clear(box))), review);
     DA.updateReview.show(review, {
       base: "/api/update/review/" + r.token, summary: r.review, applyLabel: "Appliquer la mise à jour " + r.version,
       confirm: "Appliquer la version " + r.version + " ? Le site redémarre (environ 10 secondes).",

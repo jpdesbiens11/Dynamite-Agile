@@ -1,0 +1,16 @@
+{
+ "version": "0.60.03",
+ "date": "2026-11-03",
+ "summary": {
+  "fr": "Installation pour débutants : page pas à pas, guide pour l'assistant IA, install.sh en une commande ou en essai.",
+  "en": "Beginner installation: step-by-step page, guide for the AI assistant, install.sh in one command or as a trial."
+ },
+ "changes": [
+  {
+   "id": "C1",
+   "title": "Installation pour débutants : page pas à pas, guide pour l'assistant IA, install.sh en une commande ou en essai.",
+   "why": "",
+   "files": []
+  }
+ ]
+}

@@ -6,7 +6,7 @@ grid, the terminal, the top bar and the footer) is built from the tables below.
 """
 
 LANGS = ("fr", "en")
-NAV = {"fr": ("Accueil", "Installation", "Guide"), "en": ("Home", "Installation", "Guide")}
+NAV = {"fr": ("Accueil", "Installation", "Guide", "Versions"), "en": ("Home", "Installation", "Guide", "Versions")}  # 0.60.12
 SWITCH = {"fr": ("EN", "English", "en"), "en": ("FR", "Français", "fr")}  # (label, title, hreflang) of the other language
 
 # (logo, depth in m, name, {lang: (in the mine, in the project)}) -- the descent of the landing page and the guide (D-O-014)

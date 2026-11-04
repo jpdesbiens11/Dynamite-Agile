@@ -26,7 +26,7 @@ OUT = BASE / "site"
 OWNER, NAME = "jpdesbiens11", "Dynamite-Agile"  # D-O-011: the public repository
 REPO = "https://github.com/{}/{}".format(OWNER, NAME)
 SITE_URL = "https://{}.github.io/{}".format(OWNER.lower(), NAME)  # GitHub Pages (or the domain of the site)
-PAGES = ("index.html", "installation.html", "guide.html")
+PAGES = ("index.html", "installation.html", "guide.html", "versions.html")  # 0.60.12: versions
 
 
 def _between(text, start, end):
@@ -130,6 +130,8 @@ def build():
             if name == "installation.html":
                 values.update(TROUBLE=(src / "trouble.html").read_text(encoding="utf-8").rstrip(),
                               INSTALL_JS=(SRC / "install.js").read_text(encoding="utf-8"))
+            if name == "versions.html":  # 0.60.12 (D-O-024): reads updates/versions.json, built by tools/build_release.py
+                values["VERSIONS_JS"] = (SRC / "versions.js").read_text(encoding="utf-8")
             values["FAVICON"] += _alternates(name)
             for key, value in values.items():
                 page = page.replace("{{" + key + "}}", value)

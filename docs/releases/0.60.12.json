@@ -1,0 +1,78 @@
+{
+ "version": "0.60.12",
+ "date": "2026-11-04",
+ "summary": {
+  "fr": "Versions officielles : mettre à jour un portail installé d'une version publiée à une plus récente, données et réglages gardés, une ou plusieurs versions d'un coup, ou plus tard.",
+  "en": "Official versions: update an installed portal from a published version to a newer one, data and settings kept, one or several versions at once, or later."
+ },
+ "changes": [
+  {
+   "id": "C1",
+   "title": "Paquet officiel : manifeste, série de versions, fichiers modifiés localement (D-O-024)",
+   "why": "Le serveur vérifie le paquet publié sur le site sans appel sortant ; une étape de revue par version ; « Plus tard ».",
+   "files": [
+    "core/release.py",
+    "core/update.py",
+    "core/__init__.py",
+    "docs/releases/0.60.01.json",
+    "docs/releases/0.60.02.json",
+    "docs/releases/0.60.03.json",
+    "docs/releases/0.60.04.json",
+    "docs/releases/0.60.05.json",
+    "docs/releases/0.60.06.json",
+    "docs/releases/0.60.07.json",
+    "docs/releases/0.60.08.json",
+    "docs/releases/0.60.09.json",
+    "docs/releases/0.60.10.json",
+    "docs/releases/0.60.11.json",
+    "docs/releases/0.60.12.json",
+    "tests/test_release.py",
+    "docs/RELEASE.json"
+   ]
+  },
+  {
+   "id": "C2",
+   "title": "Publication : paquet et page « Versions » du site (FR / EN)",
+   "why": "tools/build_release.py, construit par le workflow Pages ; la page montre les versions plus récentes que la vôtre.",
+   "files": [
+    "tools/build_release.py",
+    "tools/build_site.py",
+    "tools/site_text.py",
+    ".gitignore",
+    "tools/site/versions.html",
+    "tools/site/en/versions.html",
+    "tools/site/versions.js",
+    "tools/site/site.css"
+   ]
+  },
+  {
+   "id": "C3",
+   "title": "Admin → Update : bloc « Versions officielles » ; scripts d'installation",
+   "why": "Lien vers les versions avec la version installée, empreinte SHA-256, Plus tard ; install.sh / install.ps1 mettent à jour même après un paquet appliqué.",
+   "files": [
+    "static/js/admin_update.js",
+    "static/js/admin_update_official.js",
+    "static/index.html",
+    "static/css/app.css",
+    "deploy/install.sh",
+    "deploy/install.ps1",
+    "site/install.sh",
+    "site/install.ps1"
+   ]
+  },
+  {
+   "id": "C4",
+   "title": "Version 0.60.12, D-O-024 et documentation",
+   "why": "Décision, FONDATIONS §12, état du projet, journal ; vitrine reconstruite.",
+   "files": [
+    "CLAUDE.md",
+    "UPDATE_LOG.md",
+    "docs/DECISIONS.md",
+    "docs/ETAT_PROJET.md",
+    "docs/FONDATIONS.md",
+    "static/apps/vitrine/index.html",
+    "tests/test_open_v060.py"
+   ]
+  }
+ ]
+}

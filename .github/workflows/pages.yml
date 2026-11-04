@@ -1,10 +1,11 @@
-# Publishes the website (site/, built by tools/build_site.py) with GitHub Pages (D-O-015).
+# Publishes the website (site/, built by tools/build_site.py) with GitHub Pages (D-O-015), and the official package of
+# the current version (tools/build_release.py, D-O-024).
 # In the repository: Settings → Pages → Source « GitHub Actions ».
 name: Site web
 on:
   push:
     branches: [main]
-    paths: ["site/**"]
+    paths: ["site/**", "docs/releases/**", "core/__init__.py"]
   workflow_dispatch:
 permissions:
   contents: read
@@ -21,6 +22,11 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # 0.60.12 (D-O-024): the official package of the version and updates/versions.json (read by versions.html)
+      - run: python3 tools/build_release.py --out site/updates
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

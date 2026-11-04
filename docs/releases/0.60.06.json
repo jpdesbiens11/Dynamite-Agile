@@ -1,0 +1,56 @@
+{
+ "version": "0.60.06",
+ "date": "2026-11-04",
+ "summary": {
+  "fr": "« Commencer » côté serveur : un fichier Project Starter crée le Space, l'équipe, les codes, les essais et requis « À vérifier ».",
+  "en": "« Commencer » on the server: a Project Starter file creates the Space, team, codes, tests and requirements « À vérifier »."
+ },
+ "changes": [
+  {
+   "id": "C1",
+   "title": "« Commencer » côté serveur : création du Space depuis un fichier Project Starter (D-O-019)",
+   "why": "Aperçu sans écriture, puis création en une transaction ; « À vérifier » et « Brouillon IA » imposés ; migrations additives.",
+   "files": [
+    "core/router.py",
+    "core/starter_apply.py",
+    "modules/agile/schema.py",
+    "modules/testing/__init__.py",
+    "tests/test_starter_apply.py"
+   ]
+  },
+  {
+   "id": "C2",
+   "title": "Format Starter aligné sur Testing et Timesheet",
+   "why": "subject = code de Testing ; codes de temps à la forme de Timesheet.",
+   "files": [
+    "core/starter.py",
+    "deploy/starter_exemples/convoyeur.json",
+    "deploy/starter_exemples/lampe_bureau.json",
+    "deploy/starter_exemples/tensiometre.json",
+    "docs/STARTER_FORMAT.md",
+    "tests/test_starter.py"
+   ]
+  },
+  {
+   "id": "C3",
+   "title": "Version 0.60.06, tests et documentation",
+   "why": "APP_VERSION, décision D-O-019 complétée, état du projet, site reconstruit.",
+   "files": [
+    "CLAUDE.md",
+    "UPDATE_CHANGES.json",
+    "UPDATE_LOG.md",
+    "core/__init__.py",
+    "docs/DECISIONS.md",
+    "docs/ETAT_PROJET.md",
+    "site/en/guide.html",
+    "site/en/index.html",
+    "site/en/installation.html",
+    "site/guide.html",
+    "site/index.html",
+    "site/installation.html",
+    "static/apps/vitrine/index.html",
+    "tests/test_open_v060.py"
+   ]
+  }
+ ]
+}

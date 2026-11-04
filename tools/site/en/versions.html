@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Versions and updates — Dynamite | Agile</title>
+<meta name="description" content="The published versions of Dynamite | Agile and the package that updates an installed portal, data untouched.">
+{{FAVICON}}
+<style>
+{{CSS}}
+</style>
+</head>
+<body>
+{{SPRITE}}
+{{TOP}}
+<main class="page">
+  <span class="kicker">Versions · Updates</span>
+  <h1>Update <span class="hl" style="--hlc: var(--c)">your portal</span></h1>
+  <p class="lead">Each published version fits in one package: the code, never your data. Your accounts, Spaces, pages, hours and
+    the settings of the platform stay as they are. You can skip versions, or wait.</p>
+
+  <div class="note ok ver-you">
+    <label for="ver-input"><b>Your version</b> (Admin → Update → Framework):</label>
+    <input id="ver-input" class="ver-input" type="text" inputmode="decimal" placeholder="0.60.11">
+    <p id="ver-yours"></p>
+  </div>
+
+  <h2>The package of the latest version</h2>
+  <div id="ver-pkg" class="ver-pkg"><p class="small">Loading…</p></div>
+
+  <h2>Apply it, in three moves</h2>
+  <ol class="stepper">
+    <li><b>Download</b>The package above, on your computer. One file, even if your portal is several versions behind: it holds the
+      whole series.</li>
+    <li><b>Check</b>In the portal: ⚙ Admin → Update et sauvegardes → Framework → « Vérifier un zip de mise à jour… ». The portal
+      checks that every file is the one of the published package, shows its SHA-256 (compare it with the one here) and the files
+      someone may have edited by hand on your server.</li>
+    <li><b>Approve or wait</b>One step per version it brings, with its changes; all approved → « Appliquer »: the portal keeps a
+      copy of the code and a restore point of the data, then restarts (about 10 seconds). « Plus tard » changes nothing, and
+      « Revenir à la … » brings the previous code back if needed.</li>
+  </ol>
+  <div class="note">Installed with the installation command (Linux VPS or Windows PC)? Running the same command again also
+    updates, data untouched; both ways can follow each other.</div>
+
+  <h2>All versions</h2>
+  <ol id="ver-list" class="stepper ver-list"></ol>
+</main>
+{{FOOTER}}
+<script>
+{{SITE_JS}}
+</script>
+<script>
+{{VERSIONS_JS}}
+</script>
+</body>
+</html>

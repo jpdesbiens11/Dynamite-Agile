@@ -103,8 +103,18 @@ Say ("3/7 " + (T "Le code dans " "The code in ") + $Dossier)
 $existing = Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue
 if ($existing) { Stop-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue; Start-Sleep -Seconds 2 }
 if (Test-Path (Join-Path $Dossier ".git")) {
-    git -C $Dossier pull --ff-only | Out-Host
-    if ($LASTEXITCODE -ne 0) { Fail (T "git pull a échoué (fichiers modifiés à la main dans $Dossier ?). Correctif : git -C $Dossier status, puis relancez." "git pull failed (files edited by hand in $Dossier?). Fix: git -C $Dossier status, then run again.") }
+    # 0.60.12 (D-O-024): files changed since the last update (a package applied in Admin -> Update, an edit by hand) never
+    # block it: saved as a patch in data\updates\, then the code follows the published branch; data\ stays.
+    if (git -C $Dossier status --porcelain --untracked-files=no) {
+        $saveDir = Join-Path $Dossier "data\updates"
+        New-Item -ItemType Directory -Force -Path $saveDir | Out-Null
+        $saved = Join-Path $saveDir ("code-local-" + (Get-Date -Format "yyyyMMdd-HHmmss") + ".patch")
+        git -C $Dossier diff | Out-File -FilePath $saved -Encoding utf8
+        Write-Host ((T "  Code modifié sur ce PC : copie dans " "  Code changed on this PC: copy in ") + $saved)
+    }
+    git -C $Dossier fetch --depth 1 origin | Out-Host
+    if ($LASTEXITCODE -eq 0) { git -C $Dossier reset --hard "@{u}" | Out-Host }
+    if ($LASTEXITCODE -ne 0) { Fail (T "la mise à jour du code a échoué. Correctif : vérifiez la connexion Internet de ce PC, puis relancez." "updating the code failed. Fix: check the Internet connection of this PC, then run again.") }
 } elseif ((Test-Path $Dossier) -and (Get-ChildItem $Dossier -Force | Where-Object { $_.Name -ne "data" })) {
     Fail ((T "le dossier $Dossier existe déjà et n'est pas un clone de Dynamite | Agile. Correctif : choisissez un autre dossier avec -Dossier D:\DynamiteAgile."
              "the folder $Dossier already exists and is not a clone of Dynamite | Agile. Fix: choose another folder with -Dossier D:\DynamiteAgile."))
