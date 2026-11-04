@@ -62,6 +62,8 @@
   une colonne, tableaux défilants, cibles de 44 px.
 - **0.60.26** (2026-11-04) : **choix multiples appliqués ensemble** (D-O-035, `DA.choiceBatch`, `static/js/tools/choices.js`) : Appliquer ou clic à côté,
   Échap pour annuler (pièces d'une fonction, colonnes du DFMEA).
+- **0.60.27** (2026-11-04) : **téléphone, l'essentiel** (D-O-036, `static/js/tools/mobile_views.js`) : Goldmine / Testing / Timesheet en cartes,
+  Dynamite « + Page / ✨ Avec l'IA / Partager », Diamond, Gantt et Tools pour l'ordinateur.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.26
+# Journal de mise à jour — 0.60.27
+
+- **Version :** 0.60.26 → 0.60.27 (2026-11-04)
+- **Changements :**
+  1. **Téléphone, l'essentiel** (D-O-036) : Goldmine, Testing et feuille de temps en cartes ; Dynamite avec « + Page », « ✨ Avec l'IA », « Partager » ; Diamond, Gantt et Tools pour l'ordinateur.
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.26
 
 - **Version :** 0.60.25 → 0.60.26 (2026-11-04)
 - **Changements :**
   1. **Choix multiples** (D-O-035) : cocher plusieurs cases, puis « Appliquer » ou cliquer à côté ; la fenêtre ne se referme plus entre deux choix (pièces d'une fonction, colonnes du DFMEA).
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.25
 

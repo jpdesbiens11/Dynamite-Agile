@@ -2,28 +2,36 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Choix multiples appliqués ensemble (D-O-035)",
-      "why": "Chaque case cochée enregistrait et redessinait l'écran : la fenêtre de choix se refermait et la page bougeait entre deux choix. DA.choiceBatch garde les cases en attente, avec une barre « n choix en attente — Appliquer / Annuler » ; un clic à côté de la fenêtre applique, Échap annule.",
+      "title": "Les grands écrans restent pour l'ordinateur (D-O-036)",
+      "why": "Sur un téléphone, Diamond, Exploration (Gantt) et Tools montrent une note « sur un ordinateur » et des liens vers ce qui se fait au téléphone ; le menu ☰ les marque « 💻 ordinateur ».",
       "files": [
-        "static/js/tools/choices.js",
-        "static/index.html",
-        "static/css/app.css",
-        "tests/test_choices.py"
+        "static/js/tools/mobile_views.js",
+        "static/css/mobile.css"
       ]
     },
     {
       "id": "C2",
-      "title": "Diamond : pièces d'une fonction et colonnes du DFMEA",
-      "why": "Les pièces cochées dans le panneau d'une fonction partent ensemble (une seule mise à jour de l'écran) ; la liste « Colonnes » du DFMEA reste ouverte pendant les choix.",
+      "title": "Goldmine, Testing, feuille de temps : des cartes, une à la fois",
+      "why": "Chaque ligne de tableau devient une carte avec le nom de ses colonnes, l'une sous l'autre ; une carte de Goldmine ou de Testing s'ouvre d'un toucher ; seules les colonnes utiles en déplacement restent ; les filtres se replient derrière « Filtres (n) » ; les barres d'export et d'import sont cachées.",
       "files": [
-        "static/js/diamond/structure_parts.js",
-        "static/js/diamond/structure.js",
-        "static/js/diamond/dfmea.js"
+        "static/js/tools/mobile_views.js",
+        "static/css/mobile.css"
       ]
     },
     {
       "id": "C3",
-      "title": "Version 0.60.26 et documentation",
+      "title": "Dynamite au téléphone : créer, avec l'IA, partager",
+      "why": "Une barre en bas de l'écran : « + Page », « ✨ Avec l'IA » (ouvre une page neuve et l'import d'un agent IA), « Partager » (la feuille de partage du téléphone, ou le lien copié) ; page compacte (Modifier et + Sous-page), arbre des pages court.",
+      "files": [
+        "static/js/tools/mobile_views.js",
+        "static/css/mobile.css",
+        "static/index.html",
+        "tests/test_mobile_views.py"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Version 0.60.27 et documentation",
       "why": "Décision, état du projet, journal, fiche de version.",
       "files": [
         "core/__init__.py",
@@ -31,7 +39,7 @@
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.26.json",
+        "docs/releases/0.60.27.json",
         "tests/test_open_v060.py"
       ]
     }

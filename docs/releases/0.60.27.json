@@ -1,0 +1,53 @@
+{
+  "version": "0.60.27",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Sur un téléphone, l'essentiel : Goldmine, Testing et la feuille de temps en listes de cartes, Dynamite avec « + Page », « ✨ Avec l'IA » et « Partager » ; Diamond, le Gantt et Tools restent pour l'ordinateur.",
+    "en": "On a phone, the essentials: Goldmine, Testing and the timesheet as lists of cards, Dynamite with « + Page », « ✨ Avec l'IA » and « Partager »; Diamond, the Gantt and Tools stay on the computer."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Les grands écrans restent pour l'ordinateur (D-O-036)",
+      "why": "Sur un téléphone, Diamond, Exploration (Gantt) et Tools montrent une note « sur un ordinateur » et des liens vers ce qui se fait au téléphone ; le menu ☰ les marque « 💻 ordinateur ».",
+      "files": [
+        "static/js/tools/mobile_views.js",
+        "static/css/mobile.css"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Goldmine, Testing, feuille de temps : des cartes, une à la fois",
+      "why": "Chaque ligne de tableau devient une carte avec le nom de ses colonnes, l'une sous l'autre ; une carte de Goldmine ou de Testing s'ouvre d'un toucher ; seules les colonnes utiles en déplacement restent ; les filtres se replient derrière « Filtres (n) » ; les barres d'export et d'import sont cachées.",
+      "files": [
+        "static/js/tools/mobile_views.js",
+        "static/css/mobile.css"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Dynamite au téléphone : créer, avec l'IA, partager",
+      "why": "Une barre en bas de l'écran : « + Page », « ✨ Avec l'IA » (ouvre une page neuve et l'import d'un agent IA), « Partager » (la feuille de partage du téléphone, ou le lien copié) ; page compacte (Modifier et + Sous-page), arbre des pages court.",
+      "files": [
+        "static/js/tools/mobile_views.js",
+        "static/css/mobile.css",
+        "static/index.html",
+        "tests/test_mobile_views.py"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Version 0.60.27 et documentation",
+      "why": "Décision, état du projet, journal, fiche de version.",
+      "files": [
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.27.json",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}
