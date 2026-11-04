@@ -47,7 +47,7 @@ def _doc_type(body):
             value, retired["name"], retired["replaced_by"], catalog.DOC_TYPES[retired["replaced_by"]]["name"]))
     if value not in catalog.DOC_TYPES:
         raise ApiError(400, "Type de document « {} » inconnu. Correctif : choisissez un type de la liste "
-                            "(ex. MIP, CDCF, RVE).".format(value))
+                            "(ex. LCV, CDCF, VVR).".format(value))
     return value
 
 

@@ -1,5 +1,5 @@
 /* Generator (ex-Codex, key "codex") - top tab (D-B-021, renamed D-B-022): naming and filing of the documents of a
-   project along the product development process (MIP, RCS, CdCF, RC, RVE...). « Générer » previews the reference live (browser clock) and
+   project along the product development process (LCV, CRV, CdCF, PDR / CDR, VVR...). « Générer » previews the reference live (browser clock) and
    reserves it: the server stamps the final, unique number. « Registre »
    lists what was reserved (registry.js). */
 (function () {
@@ -54,7 +54,7 @@
   function picker(main) {
     const page = layout(main, null);
     page.append(el("div", { class: "page-head" }, el("h1", null, "Generator"),
-      el("p", { class: "muted" }, "Nommage et classement des documents du projet, étape par étape du PDP (MIP, RCS, CdCF, RC, RVE…). "
+      el("p", { class: "muted" }, "Nommage et classement des documents du projet, étape par étape du PDP (Lean Canvas, Concept Review, CdCF, PDR / CDR, Validation Report…). "
         + "Choisissez un Space.")));
     if (!DA.session.projects.length) { page.append(el("div", { class: "empty" }, el("p", null, "Aucun Space accessible."))); return; }
     page.append(el("div", { class: "project-list" }, DA.session.projects.map((p) =>
