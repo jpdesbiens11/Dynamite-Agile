@@ -131,8 +131,15 @@ dépôt renseigné par `tools/build_site.py`, constante `OWNER`).
 
 ### D-O-017 — Interface et site en français et en anglais (2026-11-03, brief §5 Q6 : « FR/EN for sure at least »)
 **Décision :** Dynamite | Agile devient bilingue FR / EN (au moins ; d'autres langues pourront suivre par le même
-mécanisme). Remplace D-B-042 (français seulement). Le français reste la langue de référence ; les termes techniques
-restent en anglais dans les deux langues. Ordre prévu, une itération à la fois : (1) le site web (pages EN, sélecteur de
+mécanisme). Remplace D-B-042 (français seulement). Le français reste la langue de référence. **Les noms des modules
+(Dashboard, Goldmine, Exploration, Agile, Dynamite, Testing, Tools, Generator, Training, Timesheet, Help, HeadLamp, About)
+et tout le contenu technique déjà en anglais restent tels quels dans les deux langues** (champs, statuts, types,
+workflows, catégories, catalogues, Test Base, codes) ; seules les phrases françaises reçoivent leur version anglaise. Ordre prévu, une itération à la fois : (1) le site web (pages EN, sélecteur de
 langue, `installer.md` en anglais) ; (2) le cadre de l'outil (choix `language` fr / en dans les Paramètres, barre du
 haut, menus, Paramètres, Admin, messages d'erreur du serveur par catalogue) ; (3) chaque module ; (4) le contenu de
 Help, de HEADLAMP, des tests Training, des exemples et des exports Word.
+
+### D-O-018 — Un seul projet Claude porte la branche (2026-11-03, brief §5 Q7)
+**Décision :** la règle A / B à tour de rôle ne s'applique plus : un seul compte (Max), un seul projet Claude, un chantier
+à la fois. `docs/FONDATIONS.md` §11 est simplifié ; `ETAT_PROJET.md` garde son bloc « Relais » pour reprendre d'une
+conversation à l'autre, sans champ « Session active ».

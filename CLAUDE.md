@@ -40,8 +40,9 @@
   qu'un gros.
 - **Tout champ ou fonction nouveau porte `data-new="<version>-<clé>"`** (ex. `0.60.02-function-tree`) ;
   migrations additives seulement (jamais de colonne renommée ni supprimée).
-- Interface, messages d'erreur : en français, mais **termes techniques en anglais**
-  (`docs/GLOSSARY_EN.md`). Code, commentaires, noms de variables : en anglais.
+- Interface, messages d'erreur : français et anglais (D-O-017, par étapes) ; les noms des modules et les **termes
+  techniques restent en anglais** dans les deux langues (`docs/GLOSSARY_EN.md`). Code, commentaires, variables : en anglais.
+- Un seul projet Claude porte la branche, un chantier à la fois (D-O-018, `docs/FONDATIONS.md` §11).
 - Chaque fichier Python/JS reste sous 500 lignes ; découper plutôt que
   laisser grossir.
 

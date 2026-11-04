@@ -4,7 +4,7 @@
 > installé par chacun sur un VPS Linux. Les sections ci-dessous gardent les règles techniques du noyau ; les décisions
 > antérieures citées par leur numéro sont indexées dans `docs/DECISIONS_ANTERIEURES.md`.
 
-## À coller dans le champ Instructions des projets A et B, précédé de l'en-tête propre à chaque projet
+## À coller dans le champ Instructions du projet Claude de Dynamite | Agile
 
 ---
 
@@ -14,14 +14,9 @@ Dynamite | Agile est une plateforme web unique (noyau `core/` + modules : Dynami
 Exploration, Tools, Training, Timesheet, Help, About) qu'une équipe étudiante installe sur son propre serveur Linux
 et personnalise. Aucune donnée ne transite par un service externe ; la page ne charge aucune ressource externe.
 
-**Deux projets Claude, sur deux comptes Anthropic, travaillent à tour de
-rôle** sur ce même code (projet A et projet B, voir section 11) : un seul
-est actif à la fois, sur un seul chantier à la fois. Ils
-ne partagent aucune mémoire : tout ce qui doit passer de l'un à l'autre
-passe par le dépôt git. Le dépôt (`Dynamite_Agile/`, hébergé sur le VPS de
-développement) est la seule source de vérité du code, de l'état
-d'avancement (`docs/ETAT_PROJET.md`) et des décisions
-(`docs/DECISIONS.md`).
+**Un seul projet Claude, sur un seul compte, porte le code** (D-O-018, section 11), un chantier à la fois. Le dépôt
+git (`Dynamite_Agile/`) est la seule source de vérité du code, de l'état d'avancement (`docs/ETAT_PROJET.md`) et des
+décisions (`docs/DECISIONS.md`).
 
 Le noyau `core/` évolue seulement par **lots versionnés** (v0.2, v0.3…) :
 chaque changement au noyau est proposé, justifié et validé par
@@ -234,7 +229,7 @@ consacrer :
   Doit rester cohérent avec ce document ; en cas d'écart, ce document prime
   et `CLAUDE.md` est corrigé.
 - `docs/ETAT_PROJET.md` et `docs/DECISIONS.md` : état courant et registre
-  des décisions, partagés entre les projets A et B (section 11).
+  des décisions (section 11).
 - `.claude/skills/dynamite-design/SKILL.md` (0.48.0, D-B-093) : la
   section 5 traduite en règles de design pour tout écran (jetons, thèmes
   par défaut et Terminal, icônes, CSP, vérifications). Versionnée comme le code ;
@@ -472,30 +467,24 @@ clé `tools`) qui reste surligné. Generator (`codex`) est le premier module
 ainsi placé. Le Space wiki `TOOLS` porte les pages des méthodes. Tools a deux
 sections : Design (`#/tools/design`) et Generator (`#/tools/generator`).
 
-## 11. Travail à tour de rôle entre les projets A et B
+## 11. Un seul projet, un chantier à la fois (D-O-018)
 
-**Table 5 : Règles de synchronisation**
+**Table 5 : Règles de travail**
 
 | Sujet | Règle |
 |---|---|
-| Source de vérité | Le dépôt git. Une décision qui n'est pas dans `docs/DECISIONS.md` n'existe pas pour l'autre projet. |
-| Session active | Un seul projet travaille à la fois : celui inscrit au champ « Session active » de `ETAT_PROJET.md` (A, B ou libre). Il peut travailler sur n'importe quel chantier, noyau compris (toujours par lots validés). L'autre projet ne code pas et ne prend pas de décision. |
-| Chantier actif | Un seul chantier à la fois (champ « Chantier actif »). En changer se fait en fin de livrable, jamais au milieu. |
-| Prise de session | En début de conversation, si le champ indique l'autre projet, demander à l'utilisateur de confirmer que l'autre session est bien close avant tout travail ; puis inscrire son propre projet dans le champ. |
-| Passage de relais | En fin de session (ou quand la conversation approche de sa limite), fournir le bloc « Relais » de `ETAT_PROJET.md` : fait, en cours, prochaine action exacte, fichiers touchés ; passer « Session active » à libre. L'utilisateur committe et pousse. |
-| Branches git | `main` à jour en début de session. Branche par chantier (`core/v0.x`, `agile/<sujet>`, `dynamite/<sujet>`…), fusion dans `main` seulement après tests passés et avant le relais. |
-| Commits | Préfixe `[A]` ou `[B]` selon le projet d'origine, puis le chantier : `[B][agile] filtre par version`. |
-| Décisions | Numérotation par projet pour éviter les collisions : `D-A-001`, `D-B-001`. Statuts : Proposée → Validée → Remplacée (jamais supprimée). |
-| Ce document | Versionné aussi dans le dépôt (`docs/FONDATIONS.md`). Toute modification est recollée dans les instructions des deux projets le même jour. |
+| Source de vérité | Le dépôt git. Une décision qui n'est pas dans `docs/DECISIONS.md` n'existe pas. |
+| Chantier actif | Un seul chantier à la fois (champ « Chantier actif » de `ETAT_PROJET.md`) ; en changer en fin de livrable, jamais au milieu. |
+| Versions | Branche `open/v0.60` ; 0.60.01, puis +1 sur le dernier chiffre à chaque livraison ; un zip du dépôt par livraison. |
+| Commits | Après chaque étape qui marche, message clair en français (la version en tête : `0.60.04: …`). |
+| Décisions | Numérotation `D-O-001`, `D-O-002`… ; statuts Proposée → Validée → Remplacée (jamais supprimée). Les D-A / D-B antérieures sont indexées dans `docs/DECISIONS_ANTERIEURES.md`. |
+| Ce document | Versionné dans le dépôt ; toute modification est recollée le même jour dans les instructions du projet. |
 
-**Début de chaque conversation** : l'utilisateur dépose le zip du dépôt (ou
-`ETAT_PROJET.md` et `DECISIONS.md`). Claude lit d'abord ces deux fichiers,
-affiche le tableau de bord, vérifie la session active, lit le bloc
-« Relais » et reprend à la prochaine action indiquée.
+**Début de chaque conversation** : l'utilisateur dépose le zip du dépôt (ou `ETAT_PROJET.md` et `DECISIONS.md`).
+Claude lit d'abord ces deux fichiers, lit le bloc « Relais » et reprend à la prochaine action indiquée.
 
-**Fin de chaque livrable validé** : Claude fournit (1) `ETAT_PROJET.md` mis
-à jour, (2) les nouvelles entrées de `DECISIONS.md`, (3) le message de
-commit. En fin de session, il remplit aussi le bloc « Relais ».
+**Fin de chaque livrable** : `ETAT_PROJET.md` à jour (et son bloc « Relais »), les nouvelles entrées de
+`DECISIONS.md`, `UPDATE_LOG.md` et `UPDATE_CHANGES.json`, le commit et le zip.
 
 **Lot noyau v0.31 (livré en 0.50.6, D-B-112) : « Mon équipe » et messages de signature.** `core/team.py` : `team_of()` (les
 personnes qui ont choisi le gestionnaire dans Paramètres), `GET /api/team` (une ligne par personne : poste, étapes, signatures,
