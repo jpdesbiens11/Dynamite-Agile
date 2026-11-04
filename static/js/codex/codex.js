@@ -41,9 +41,9 @@
     main.append(el("div", { class: "ag-layout" },
       el("aside", { class: "ag-sidebar ag-shell-codex" },
         el("div", { class: "ag-sidebar-mark" }, mark()),
-        ctx ? el("select", { class: "ag-project-picker", "aria-label": "Space",
+        ctx ? DA.spaces.withStar(el("select", { class: "ag-project-picker", "aria-label": "Space",
           onchange: (ev) => { location.hash = "#/codex/" + ev.target.value + "/" + active; } },
-        DA.session.projects.map((p) => el("option", { value: p.key, selected: p.key === ctx.key }, p.key + " · " + p.name))) : null,
+        DA.session.projects.map((p) => el("option", { value: p.key, selected: p.key === ctx.key }, p.key + " · " + p.name))), ctx.key) : null,
         ctx ? el("nav", { class: "ag-nav", "aria-label": "Generator" }, NAV.map(([v, label]) =>
           el("a", { class: "ag-nav-item" + (active === v ? " active" : ""), href: "#/codex/" + ctx.key + "/" + v,
             "aria-current": active === v ? "page" : null }, label))) : null),

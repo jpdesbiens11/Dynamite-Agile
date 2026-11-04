@@ -14,6 +14,20 @@
   const { api, el, toast } = DA;
 
   const current = () => (DA.session.prefs && DA.session.prefs.default_space) || "";
+  /* 0.60.21: the Space one works in follows from tab to tab. Each address #/<module>/<KEY>/… of a Space-aware tab
+     records KEY for this browser tab (sessionStorage: a new visit opens on the default Space again). */
+  const FOLLOW = /^#\/(dynamite|agile|goldmine|diamond|exploration|testing|codex)\/([A-Z][A-Z0-9]{1,9})(\/|$)/;
+  const WORK = "da.workSpace";
+  // the common Spaces (sandbox, catalogues, wikis reached from Help or Tools) are visited, not worked in: never followed
+  const SHARED = ["HEADLAMP", "TOOLS", "TESTING", "TRAINING"];
+  const work = () => { try { return sessionStorage.getItem(WORK) || ""; } catch (err) { return ""; } };
+  function track() {
+    const m = FOLLOW.exec(location.hash);
+    if (!m || SHARED.includes(m[2])) return;
+    try { sessionStorage.setItem(WORK, m[2]); } catch (err) { /* private mode: the default Space still applies */ }
+  }
+  window.addEventListener("hashchange", track);
+  track();
   const visible = (key) => DA.session.projects.some((p) => p.key === key);
   const rerender = () => window.dispatchEvent(new HashChangeEvent("hashchange"));  // the current view, drawn again
 
@@ -25,9 +39,33 @@
   DA.spaces = {
     defaultKey() { const key = current(); return key && visible(key) ? key : ""; },
 
+    /* 0.60.21: the Space a tab opens on -- the one this browser tab last worked in, else the default Space */
+    workKey() { const key = work(); return key && visible(key) ? key : this.defaultKey(); },
+
+    /* 0.60.21: ☆ / ★ beside the Space drop-down of every module: makes this Space the default (or no longer) */
+    star(key) {
+      const mine = this.defaultKey() === key;
+      return el("button", { type: "button", class: "sp-star" + (mine ? " sp-star-on" : ""), "data-new": "0.60.21-default-star",
+        "aria-pressed": mine ? "true" : "false", "aria-label": mine ? "Space par défaut : " + key + " (retirer)" : "Faire de " + key + " mon Space par défaut",
+        "data-tip": mine ? "Votre Space par défaut : le site s'ouvre ici. Cliquez pour le retirer."
+          : "Faire de ce Space votre Space par défaut : le site et chaque onglet s'ouvrent ici",
+        onclick: async () => {
+          try {
+            await save(mine ? "" : key);
+            toast(mine ? "Plus de Space par défaut." : key + " devient votre Space par défaut.", "success");
+            rerender();
+          } catch (err) { toast(err.message, "error"); }
+        } }, mine ? "★" : "☆");
+    },
+
+    /* a drop-down of a module with its star */
+    withStar(select, key) {
+      return el("div", { class: "sp-picker-row" }, select, key && key !== DA.wikiOnlyKey ? this.star(key) : null);
+    },
+
     enter(module, parts, href) {
       if ((parts || []).filter(Boolean).length) return false;
-      const key = this.defaultKey();
+      const key = this.workKey();
       if (!key) return false;
       location.replace(href(key));
       return true;
@@ -65,9 +103,9 @@
     /* core lot v0.28 (D-B-103): the Space drop-down of a module's left panel, the same as Goldmine and Dynamite; it
        stays visible with a default Space, so the panel always says where one is. href(key) -> address in that Space. */
     picker(active, href) {
-      return el("select", { class: "ag-project-picker", "aria-label": "Space", "data-new": "0.50.1-space-picker",
+      return this.withStar(el("select", { class: "ag-project-picker", "aria-label": "Space", "data-new": "0.50.1-space-picker",
         onchange: (ev) => { location.hash = href(ev.target.value); } },
-      DA.session.projects.map((p) => el("option", { value: p.key, selected: p.key === active }, p.key + " · " + p.name)));
+      DA.session.projects.map((p) => el("option", { value: p.key, selected: p.key === active }, p.key + " · " + p.name))), active);
     },
 
     allLink(module) {
