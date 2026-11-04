@@ -2,35 +2,45 @@
   "changes": [
     {
       "id": "C1",
-      "title": "La page ne saute plus après un clic",
-      "why": "Un écran redessiné (sélection, case, changement enregistré) se reconstruisait : la page rapetissait un instant et le navigateur remontait loin de la zone d'intérêt. DA.keepScroll garde la hauteur pendant le dessin et remet la fenêtre et chaque zone défilante (schéma, panneau, liste) où elles étaient ; le routeur fait de même pour une nouvelle adresse dans le même onglet et le même Space.",
+      "title": "DFMEA → Detection Controls : l'essai clé de la Test Base (D-O-033)",
+      "why": "Une liste des essais (la Test Base du Space, puis le catalogue TESTING) en tête de la cellule : un seul essai clé par ligne, même si plusieurs pourraient démontrer la défaillance ; ✕ pour le retirer, « Ouvrir » vers la Test Base ; les contrôles en mots restent dessous. Dupliquer une ligne garde l'essai ; l'export CSV a une colonne « Essai clé ». Migration diamond 6.",
       "files": [
-        "static/js/tools/scrollkeep.js",
-        "static/index.html",
-        "static/js/app.js",
-        "static/js/diamond/diamond.js",
-        "tests/test_scroll_keep.py"
+        "modules/diamond/__init__.py",
+        "modules/diamond/dfmea.py",
+        "static/js/diamond/dfmea_table.js",
+        "static/js/diamond/dfmea.js",
+        "static/css/diamond_dfmea.css",
+        "tests/test_diamond_dfmea.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Structure fonctionnelle : les pièces d'un sous-système dans son panneau",
-      "why": "Le bloc d'un sous-système montrait les pièces de ses fonctions tertiaires, mais son panneau disait « Aucune pièce ». Il les liste maintenant, cochées, avec la fonction qu'elles réalisent (par F12…) ; elles se modifient sur la tertiaire (vue détaillée ou matrice).",
+      "title": "Project Starter : l'essai clé de chaque ligne du DFMEA",
+      "why": "Champ dfmea[].test (la ref d'un essai du fichier), relié à l'essai créé dans la Test Base ; le prompt propose un seul essai clé par ligne ; l'exemple de la lampe en nomme six.",
       "files": [
-        "static/js/diamond/structure_parts.js",
-        "static/css/diamond.css"
+        "core/starter_diamond.py",
+        "core/starter.py",
+        "core/starter_apply.py",
+        "core/starter_prompt.py",
+        "tools/make_starter_diamond_example.py",
+        "deploy/starter_exemples/lampe_bureau.json",
+        "tools/site/starter.md",
+        "tools/site/en/starter.md",
+        "tests/test_starter_diamond.py",
+        "tests/test_starter_apply.py"
       ]
     },
     {
       "id": "C3",
-      "title": "Version 0.60.23 et documentation",
-      "why": "État du projet, journal, fiche de version.",
+      "title": "Version 0.60.24 et documentation",
+      "why": "Décision, état du projet, journal, fiche de version.",
       "files": [
         "core/__init__.py",
         "CLAUDE.md",
         "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.23.json",
+        "docs/releases/0.60.24.json",
         "tests/test_open_v060.py"
       ]
     }

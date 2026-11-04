@@ -70,7 +70,7 @@
   function keyTest(row, state, save, editable) {
     const name = (t) => t.code + " · " + t.title + (t.space && t.space !== state.key ? " (" + t.space + ")" : "");
     const link = row.test_code ? el("a", { class: "dm-fm-test-link", href: "#/testing/" + (row.test_space || state.key),
-      "data-tip": "Ouvrir la Test Base" }, "🧪 " + row.test_code + " · " + row.test_title) : null;
+      "data-tip": "Ouvrir la Test Base de " + (row.test_space || state.key) }, editable ? "Ouvrir" : "🧪 " + row.test_code + " · " + row.test_title) : null;
     if (!editable) return el("div", { class: "dm-fm-test" }, link || el("span", { class: "muted" }, "Aucun essai clé"));
     const tests = state.data.tests || [];
     const pick = el("select", { class: "dm-fm-test-pick", "aria-label": "Essai clé ligne " + row.line, "data-new": "0.60.24-key-test" },

@@ -70,4 +70,4 @@ html[data-term] table.dm-fm { font-family: var(--mono); font-size: .78rem; }
 .dm-fm-test { display: flex; flex-wrap: wrap; align-items: center; gap: .2rem .35rem; margin-bottom: .25rem; }
 .dm-fm-test-pick { flex: 1 1 10rem; min-width: 0; max-width: 100%; font-size: .8rem; }
 .dm-fm-test-x { font-size: .8rem; }
-.dm-fm-test-link { flex-basis: 100%; font-size: .78rem; }
+.dm-fm-test-link { font-size: .78rem; }
