@@ -21,6 +21,7 @@
   partagés dans `tools/site_text.py`, bouton FR | EN), `installer.md` anglais, `install.sh` en anglais avec `DA_LANG=en`.
 - **0.60.05** (2026-11-04) : format Project Starter (D-O-019) : fichier JSON préparé avec un assistant IA, validé par `core/starter.py` (`tools/check_starter.py`, `docs/STARTER_FORMAT.md`, exemples `deploy/starter_exemples/`) ; l'écran « Commencer » suit en 0.60.06.
 - **0.60.06** (2026-11-04) : « Commencer » côté serveur (D-O-019) : `core/starter_apply.py`, `POST /api/starter/check` et `/api/starter/apply` (admins) créent le Space, l'équipe, les codes de temps, les essais et requis « À vérifier », les pages « Brouillon IA », en une transaction ; migrations agile 15 et testing 5. L'écran suit en 0.60.07.
+- **0.60.07** (2026-11-04) : écran ⚙ Admin → Spaces → « Commencer » (`static/js/admin_starter.js`), carte du Dashboard, « À vérifier » et « Confirmer la norme » (`DA.review`, `goldmine_review.py`, `testing/review.py`) ; « Accepted » / « Approved » refusés tant que la norme n'est pas confirmée. Le prompt `starter.md` suit en 0.60.08.
 - **Modules** : Dynamite (wiki), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

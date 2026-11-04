@@ -137,6 +137,59 @@ class StarterApplyTest(unittest.TestCase):
         actions = {r["action"] for r in self.sql("SELECT action FROM audit_log")}
         self.assertTrue({"starter_applied", "project_created", "user_created", "testing_test_create"} <= actions)
 
+    def transition(self, number, to_name):
+        base = "/api/agile/p/{}/issues/{}".format(self.pid, number)
+        issue = self.admin.get(base)["issue"]
+        t = next(x for x in issue["transitions"] if x["to_name"] == to_name)
+        return self.admin.post(base + "/transition", {"transition_id": t["id"]})
+
+    def test_09_requirement_accepted_only_once_confirmed(self):  # 0.60.07
+        number = int(self.result["requirements"]["REQ-3"].split("-")[1])
+        base = "/api/agile/p/{}/issues/{}".format(self.pid, number)
+        self.transition(number, "In Analysis")
+        with self.assertRaises(ApiFailure) as ctx:
+            self.transition(number, "Accepted")
+        self.assertIn("À vérifier", ctx.exception.message)
+        self.assertEqual(self.admin.get(base)["issue"]["requirement"]["standard_review"], "to_verify")
+        with self.assertRaises(ApiFailure):
+            self.admin.post(base + "/standard-check", {"edition": ""})
+        done = self.admin.post(base + "/standard-check", {"edition": "IEC 62368-1:2023", "clause": "4.1"})
+        self.assertEqual(done["standard_review"], "verified")
+        self.assertIn("admin · IEC 62368-1:2023 · 4.1", done["standard_checked"])
+        self.transition(number, "Accepted")
+        with self.assertRaises(ApiFailure) as ctx:
+            self.admin.post(base + "/standard-check", {"edition": "x"})
+        self.assertEqual(ctx.exception.status, 409)
+        listed = {r["key"]: r for r in self.admin.get("/api/agile/p/{}/goldmine".format(self.pid))["requirements"]}
+        self.assertEqual(listed[self.result["requirements"]["REQ-3"]]["standard_review"], "verified")
+
+    def test_10_test_approved_only_once_confirmed(self):  # 0.60.07
+        tid = self.result["tests"]["ESSAI-3"]
+        url = "/api/testing/tests/{}?space=LAMPE".format(tid)
+        with self.assertRaises(ApiFailure) as ctx:
+            self.admin.patch(url, {"space": "LAMPE", "status": "Approved"})
+        self.assertIn("À vérifier", ctx.exception.message)
+        self.assertEqual(self.admin.get(url)["test"]["review"], "to_verify")
+        self.admin.post("/api/testing/tests/{}/review".format(tid), {"space": "LAMPE", "edition": "CSA C22.2 No. 62368-1:19"})
+        self.admin.patch(url, {"space": "LAMPE", "status": "Approved"})
+        test = self.admin.get(url)["test"]
+        self.assertEqual((test["status"], test["review"]), ("Approved", "verified"))
+
+    def test_11_status_and_examples(self):  # 0.60.07
+        self.assertFalse(self.admin.get("/api/starter/status")["show"])  # a project was started here
+        examples = self.admin.get("/api/starter/examples")["examples"]
+        self.assertEqual(sorted(x["id"] for x in examples), ["convoyeur", "lampe_bureau", "tensiometre"])
+
+    def test_12_screen_is_wired(self):  # 0.60.07
+        index = (BASE_DIR / "static" / "index.html").read_text("utf-8")
+        self.assertIn("/js/admin_starter.js", index)
+        self.assertIn("/js/tools/review.js", index)
+        admin_js = (BASE_DIR / "static" / "js" / "admin.js").read_text("utf-8")
+        self.assertIn('["start", "Commencer"]', admin_js)
+        for f in ("admin_starter.js", "tools/review.js", "tools/dashboard.js"):
+            self.assertIn("0.60.07-", (BASE_DIR / "static" / "js" / f).read_text("utf-8"), f)
+        self.assertNotIn("innerHTML", (BASE_DIR / "static" / "js" / "admin_starter.js").read_text("utf-8"))
+
 
 if __name__ == "__main__":
     unittest.main()

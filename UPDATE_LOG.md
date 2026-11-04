@@ -1,14 +1,13 @@
-# Journal de mise à jour — 0.60.06
+# Journal de mise à jour — 0.60.07
 
-- **Version :** 0.60.05 → 0.60.06 (2026-11-04)
+- **Version :** 0.60.06 → 0.60.07 (2026-11-04)
 - **Changements :**
-  1. **« Commencer » côté serveur** (D-O-019) : `POST /api/starter/check` montre ce qu'un fichier Project Starter
-     créerait et ce qui bloque (clé de Space ou code de temps déjà pris), sans rien écrire ; `POST /api/starter/apply`
-     crée le nouveau Space à côté des exemples, en une seule transaction : l'équipe (mot de passe temporaire affiché une
-     fois, jamais administrateur ; un compte existant est réutilisé tel quel), les codes de temps du projet, les essais
-     (Draft) et les requis, liés entre eux et tous « À vérifier », les pages Dynamite en « Brouillon IA ». Clé du Space
-     et codes ajustables avant la création. Réservé aux administrateurs, chaque étape au journal d'audit.
-  2. **Format ajusté** : le `subject` d'un essai est un code de Testing (`func`, `elec`, `emc`…) ; un code de temps suit
-     la forme de Timesheet (ex. `LA-MAR`). Exemples et `docs/STARTER_FORMAT.md` mis à jour.
-- **Base de données :** migrations additives agile 15 (`standard_review`, `standard_checked` des requis) et testing 5
-  (`review`, `review_checked` des essais).
+  1. **Écran « Commencer »** (⚙ Admin → Spaces, D-O-019) : choisir le fichier .json de l'assistant IA, ou un exemple ;
+     aperçu de ce qui sera créé, normes « À vérifier », équipe (nouveau ou existant), codes de temps à renommer ou à
+     retirer, ce qui bloque ; clé du Space modifiable ; création, puis mots de passe temporaires affichés une seule fois.
+  2. **Dashboard** : pour un administrateur, la carte « Démarrez votre projet avec un assistant IA » mène à « Commencer »,
+     tant qu'aucun projet n'a été démarré ainsi.
+  3. **« À vérifier » et « Confirmer la norme »** : badge dans la liste Goldmine, bloc dans la fiche requirement et dans la
+     fiche d'essai ; le dialogue demande l'édition en vigueur (et la clause) et garde la date et la personne.
+     « Accepted » (requirement) et « Approved » (essai) sont refusés tant que la norme n'est pas confirmée.
+- **Base de données :** aucune migration (colonnes ajoutées en 0.60.06).

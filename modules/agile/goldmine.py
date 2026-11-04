@@ -82,9 +82,12 @@ VERIFIED = "Verified"
 
 def verification_guard(conn, issue_id, target_status_name):
     """A requirement may only become "Verified" once the test (or other
-    evidence) that verifies it is named. Returns (message, fix) or None."""
-    if target_status_name != VERIFIED:
-        return None
+    evidence) that verifies it is named. Returns (message, fix) or None.
+    0.60.07 (D-O-019): nor « Accepted » while the standard an AI assistant named is still « À vérifier »."""
+    from .goldmine_review import review_guard
+    blocked = review_guard(conn, issue_id, target_status_name)
+    if blocked or target_status_name != VERIFIED:
+        return blocked
     fields = fields_of(conn, issue_id)
     missing = [FIELD_LABELS[f] for f in ("verification_method", "verification_ref") if not fields[f]]
     if not missing:
@@ -333,6 +336,9 @@ def api_list(ctx):
                 # « Mes éléments » filters on these (D-B-071); they were missing, so the filter emptied the list
                 "assignee_id": r["assignee_id"], "assignee_name": r["assignee_name"] or ""}
         item.update(fields_of(conn, r["id"]))
+        review = conn.execute("SELECT standard_review, standard_checked FROM agile_requirements WHERE issue_id = ?",
+                              (r["id"],)).fetchone()  # 0.60.07: « À vérifier » (D-O-019)
+        item["standard_review"], item["standard_checked"] = (review["standard_review"], review["standard_checked"]) if review else ("", "")
         item["client_summary"] = r["client_summary"] or ""
         item["test_source"] = testing.source_text(conn, item["test_ref"], known_tests)  # D-B-082: traceability
         item["last_change"] = last.get(r["id"])

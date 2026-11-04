@@ -474,3 +474,9 @@ button.subtab { background: none; border: 0; border-bottom: 2px solid transparen
 .sp-start h2 { margin: .1rem 0 .3rem; font-size: 1.1rem; }
 .sp-start-kicker { margin: 0; font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--acc, var(--agile)); }
 .sp-start-actions { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .6rem; }
+/* 0.60.07 (D-O-019): « À vérifier » -- a standard named by an AI assistant, to be confirmed by a person */
+input.starter-key { max-width: 12rem; text-transform: uppercase; }
+input.starter-code { min-width: 6.5rem; max-width: 8rem; font-family: var(--mono); text-transform: uppercase; }
+.review-line { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin: .4rem 0 .8rem; padding: .5rem .7rem;
+  border-left: 3px solid var(--warn); background: color-mix(in srgb, var(--warn) 8%, transparent); border-radius: var(--radius-sm); }
+.review-line.review-ok { border-left-color: var(--ok); background: color-mix(in srgb, var(--ok) 8%, transparent); }

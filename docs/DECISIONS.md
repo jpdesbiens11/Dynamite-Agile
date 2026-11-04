@@ -170,3 +170,12 @@ d'accueil créée avec le Space, les autres pages sans parent vont sous elle ; (
 en contient, est lié à un essai « Essai à définir (Project Starter) » — un Space qui a des essais exige qu'un requis en
 nomme un (D-B-079) ; (e) la norme, l'édition et la clause d'un requis vont dans « Source Document » ; « À vérifier » est
 gardé dans `agile_requirements.standard_review` et `testing_tests.review` (migrations additives agile 15, testing 5).
+**Complément (0.60.07, 2026-11-04) :** l'écran est livré dans ⚙ Admin → Spaces → « Commencer » (`static/js/admin_starter.js`) :
+choisir le fichier ou un exemple de `deploy/starter_exemples/` (servis par `GET /api/starter/examples`), lire l'aperçu,
+changer la clé du Space, renommer ou retirer un code de temps, créer, puis lire une seule fois les mots de passe
+temporaires. Le Dashboard d'un administrateur met « Commencer » en avant tant qu'aucun projet n'a été démarré ainsi
+(`GET /api/starter/status`). « À vérifier » : `DA.review` (`static/js/tools/review.js`) montre le badge et le dialogue
+« Confirmer la norme » (édition en vigueur obligatoire, clause facultative ; date et personne gardées) dans la fiche
+requirement (`POST …/issues/<n>/standard-check`, `modules/agile/goldmine_review.py`) et la fiche d'essai
+(`POST /api/testing/tests/<id>/review`, `modules/testing/review.py`). D'ici là, « Accepted » (requis) et « Approved »
+(essai) sont refusés avec leur correctif, à l'écran comme à l'import CSV.

@@ -134,6 +134,7 @@ def _public(row, pages, linked):
                                 "location", "equipment", "functions")}
     item["source"] = catalog.source_of(row)
     item["edited"] = bool(row["edited"])
+    item["review"], item["review_checked"] = row["review"], row["review_checked"]  # 0.60.07 (D-O-019)
     item["procedure"] = pages.get(row["subject"])
     item["requirements"] = len(linked.get(row["test_id"], []))
     return item
@@ -249,6 +250,8 @@ def update(ctx, row, body):
     changes = {k: v for k, v in clean(body, row, ctx.conn).items() if (row[k] or "") != v}
     if not changes:
         return []
+    from . import review  # 0.60.07 (D-O-019): no « Approved » while the standard is « À vérifier »
+    review.guard(row, changes)
     ctx.conn.execute("UPDATE testing_tests SET {}, edited = 1, updated_by = ?, updated_at = ? WHERE id = ?".format(
         ", ".join(k + " = ?" for k in changes)), tuple(changes.values()) + (ctx.user["id"], db.utc_now(), row["id"]))
     for field, value in changes.items():

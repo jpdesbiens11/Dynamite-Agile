@@ -5,7 +5,7 @@ checks the project role itself through modules.agile.common.access().
 """
 from .dashboard import dashboard  # noqa: F401  (core lot v0.10 hook)
 from .search import search  # noqa: F401  (core lot v0.7 hook)
-from . import changes, common, csv_io, goldmine, goldmine_csv, issues, planning, qa, qa_register, qa_xlsx, summary, workflow
+from . import changes, common, csv_io, goldmine, goldmine_csv, goldmine_review, issues, planning, qa, qa_register, qa_xlsx, summary, workflow
 
 
 def _goldmine_docx(ctx):
@@ -74,6 +74,7 @@ ROUTES = [
     ("GET", P + r"/export/requirements\.docx", _goldmine_docx, "user"),
     ("POST", P + r"/import/requirements", goldmine_csv.api_import, "user"),
     ("PUT", I + r"/requirement", goldmine.api_update_fields, "user"),
+    ("POST", I + r"/standard-check", goldmine_review.api_standard_check, "user"),  # 0.60.07 (D-O-019)
     ("GET", P + r"/pugh", pugh.api_list, "user"),
     ("POST", P + r"/pugh", pugh.api_create, "user"),
     ("GET", P + r"/pugh/(?P<mid>\d+)", pugh.api_get, "user"),

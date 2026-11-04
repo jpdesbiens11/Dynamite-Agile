@@ -99,6 +99,11 @@
     DA.refreshView = reload;
     /* D-A-046: « Messages » (@mentions) at the top left -- personal, so never in the read-only « voir comme » mode */
     const messages = !data.viewing && DA.messagesPanel ? await DA.messagesPanel() : null;
+    /* 0.60.07 (D-O-019): « Commencer un projet » put forward for an administrator until a first project is started that way */
+    let starter = null;
+    if (!data.viewing && DA.session.user && DA.session.user.is_admin) {
+      try { starter = (await api.get("/api/starter/status")).show; } catch (err) { starter = null; }
+    }
     clear(main);
     let picker = null;
     if (data.people) {
@@ -116,6 +121,10 @@
     data.viewing ? el("p", { class: "db-audit-banner", role: "status" }, el("strong", null, "Mode audit — lecture seule. "),
       "Vous voyez le Dashboard de " + data.viewing.display_name + " ; rien ne peut être modifié ici. La consultation est journalisée. ",
       el("button", { type: "button", class: "link-btn", onclick: () => { viewAs = ""; render(main); } }, "Revenir à mon Dashboard")) : "",
+    starter ? el("div", { "data-new": "0.60.07-starter-dashboard" }, DA.spaces.startHere("Démarrez votre projet avec un assistant IA",
+      "Répondez aux questions d'un assistant IA sur votre produit, votre industrie et votre marché : il prépare un fichier "
+      + "qui crée votre Space, avec l'équipe, les requirements, les essais, les codes de temps et les premières pages.",
+      [["Commencer", "#/admin/start", true]])) : null,
     el("div", { class: "db-top" + (messages ? "" : " db-top-single") }, messages, el("div", { class: "db-kpis" }, data.kpis.map(kpi))),
     el("div", { class: "db-grid" }, data.sections.map((s) => section(s, reload))),
     data.projects.length ? el("div", null, el("h2", { class: "db-projects-title" }, DA.t("dash.projects")),
