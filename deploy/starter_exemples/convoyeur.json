@@ -26,10 +26,10 @@
     {"ref": "REQ-4", "statement": "Un arrêt d'urgence accessible à chaque extrémité doit arrêter la courroie.", "category": "personnel_safety", "source": "standard", "standard": "ISO 13850", "verification_method": "T", "acceptance_criteria": "Arrêt complet en moins de 0,5 s à vitesse maximale.", "criticality": "A", "derived_from": ["BES-2"]}
   ],
   "tests": [
-    {"ref": "ESSAI-1", "title": "Capacité et plage de vitesse", "category": "custom", "level": "Product", "method": "T", "objective": "Charger 5 kg/m et mesurer la vitesse aux deux extrêmes.", "verifies": ["REQ-1"]},
-    {"ref": "ESSAI-2", "title": "Inspection de l'équipement électrique", "category": "standard", "standard": "CSA C22.2 No. 301 / NFPA 79", "level": "Product", "method": "I", "verifies": ["REQ-2"]},
-    {"ref": "ESSAI-3", "title": "Revue de l'appréciation du risque", "category": "standard", "standard": "ISO 12100 ; CSA Z432", "level": "Product", "method": "A", "verifies": ["REQ-3"]},
-    {"ref": "ESSAI-4", "title": "Temps d'arrêt d'urgence", "category": "standard", "standard": "ISO 13850", "level": "Product", "method": "T", "verifies": ["REQ-4"]}
+    {"ref": "ESSAI-1", "subject": "func", "title": "Capacité et plage de vitesse", "category": "custom", "level": "Product", "method": "T", "objective": "Charger 5 kg/m et mesurer la vitesse aux deux extrêmes.", "verifies": ["REQ-1"]},
+    {"ref": "ESSAI-2", "subject": "elec", "title": "Inspection de l'équipement électrique", "category": "standard", "standard": "CSA C22.2 No. 301 / NFPA 79", "level": "Product", "method": "I", "verifies": ["REQ-2"]},
+    {"ref": "ESSAI-3", "subject": "ver", "title": "Revue de l'appréciation du risque", "category": "standard", "standard": "ISO 12100 ; CSA Z432", "level": "Product", "method": "A", "verifies": ["REQ-3"]},
+    {"ref": "ESSAI-4", "subject": "func", "title": "Temps d'arrêt d'urgence", "category": "standard", "standard": "ISO 13850", "level": "Product", "method": "T", "verifies": ["REQ-4"]}
   ],
   "time_codes": [
     {"key": "CV-MEC", "label": "Mécanique : châssis, courroie, modules"},

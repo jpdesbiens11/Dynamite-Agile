@@ -19,7 +19,7 @@ def minimal():
     return {"format": starter.FORMAT, "format_version": 1, "project": {"key": "DEMO", "name": "Démo"},
             "requirements": [{"ref": "R1", "statement": "Faire une chose.", "source": "standard", "standard": "IEC 62368-1"}],
             "tests": [{"ref": "T1", "title": "Essai", "verifies": ["R1"]}],
-            "time_codes": [{"key": "G1", "label": "Groupe", "codes": [{"key": "G1-A", "label": "Code"}]}],
+            "time_codes": [{"key": "GR", "label": "Groupe", "codes": [{"key": "GR-AA", "label": "Code"}]}],
             "pages": [{"ref": "P1", "title": "Accueil", "parent": None,
                        "body": {"type": "doc", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "Bonjour"}]}]}}]}
 
@@ -80,11 +80,21 @@ class StarterTest(unittest.TestCase):
         data["time_codes"][0]["codes"][0]["codes"] = [{"key": "X", "label": "x"}]
         self.refused(data, "troisième niveau")
         data = minimal()
-        data["time_codes"] = [{"key": "G{}".format(i), "label": "g"} for i in range(41)]
+        data["time_codes"] = [{"key": "TC-{:02d}".format(i), "label": "g"} for i in range(41)]
         self.refused(data, "40 au maximum")
         data = minimal()
         data["pages"] += [{"ref": "P2", "title": "a", "parent": "P1"}, {"ref": "P3", "title": "b", "parent": "P2"}]
         self.refused(data, "troisième niveau de pages")
+        data = minimal()
+        data["time_codes"] = [{"key": "C-15-BOI", "label": "pas un code Timesheet"}]
+        self.refused(data, "time_codes[0].key")
+        data = minimal()
+        data["time_codes"].append({"key": "SOLO", "label": "groupe sans code"})
+        self.refused(data, "time_codes[1].key")
+        data = minimal()
+        data["time_codes"].append({"key": "SO-LO", "label": "Seul"})
+        clean, _ = starter.parse(data)
+        self.assertEqual(starter.codes_of(clean), [("GR-AA", "Groupe · Code"), ("SO-LO", "Seul")])
 
     def test_06_text_only(self):
         data = minimal()
@@ -99,6 +109,9 @@ class StarterTest(unittest.TestCase):
         data = minimal()
         data["requirements"][0]["category"] = "avionics"
         self.refused(data, "requirements[0].category")
+        data = minimal()
+        data["tests"][0]["subject"] = "Product"
+        self.refused(data, "tests[0].subject")
         data = minimal()
         data["requirements"][0]["standard"] = ""
         self.refused(data, "sans norme")

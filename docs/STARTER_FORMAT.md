@@ -32,12 +32,13 @@ Le fichier vient d'un assistant IA : rien n'y est cru sur parole.
 | `project` | `key` (2 à 10 majuscules ou chiffres), `name`, `description`, `industry`, `product_type`, `markets` (`CA`, `US`, `EU`, `UK`, `MX`, `AU`, `JP`, `CN`, `KR`, `IN`, `BR`, `INT`) | requis |
 | `team` | `username`, `display_name`, `study_profile`, `title`, `role` (`editor`, `manager`, `reader`) | 12 personnes |
 | `requirements` | `ref`, `kind` (`need` / `requirement`), `statement`, `rationale`, `category`, `lifecycle`, `stakeholder`, `source`, `standard`, `edition`, `clause`, `verification_method` (`I`, `A`, `D`, `T`), `acceptance_criteria`, `criticality` (`A` à `E`), `derived_from` (refs déclarées plus haut) | 300 |
-| `tests` | `ref`, `title`, `subject`, `category` (`standard`, `industry`, `custom`), `standard`, `section`, `level`, `method`, `objective`, `acceptance`, `means`, `verifies` (refs de requis) | 300 |
-| `time_codes` | groupes `{key, label, codes: [{key, label}]}` ; deux niveaux, codes uniques (`C-15`, `C-15-BOI`) | 40 codes, groupes compris |
+| `tests` | `ref`, `title`, `subject` (`func`, `elec`, `emc`, `therm`, `env`, `ingress`, `mech`, `life`, `mat`, `sw`, `usab`, `prod`, `ver` ; défaut `func`), `category` (`standard`, `industry`, `custom`), `standard`, `section`, `level`, `method`, `objective`, `acceptance`, `means`, `verifies` (refs de requis) | 300 |
+| `time_codes` | groupes `{key, label, codes: [{key, label}]}` ; deux niveaux. Un code s'écrit comme dans Timesheet : 1 à 5 majuscules, un tiret, 2 à 4 majuscules ou chiffres (`LA-MAR`, `C-BOI`), unique sur tout le site. Un groupe qui a des codes sert seulement d'intitulé (« groupe · code ») ; un groupe sans codes est lui-même un code | 40 codes |
 | `pages` | `ref`, `title`, `parent` (ref d'une page plus haut, ou `null`), `body` (page Dynamite `{"type": "doc", …}`) | 30 pages, deux niveaux |
 
-Les valeurs de `category`, `lifecycle`, `stakeholder`, `source`, `level` sont celles de Goldmine et de Testing
-(`modules/agile/goldmine.py`, `modules/testing/data_tests.py`) : le validateur les lit là, ils ne peuvent pas diverger.
+Les valeurs de `category`, `lifecycle`, `stakeholder`, `source`, `subject`, `level` sont celles de Goldmine et de
+Testing (`modules/agile/goldmine.py`, `modules/testing/data_tests.py`), et la forme d'un code celle de Timesheet
+(`modules/timesheet/budget.py`) : le validateur les lit là, ils ne peuvent pas diverger.
 Un requis de `source` `standard` doit nommer sa norme. Sans `time_codes`, le Space prend les codes du PDP (A-01 … D-21).
 
 Chaque refus donne le chemin de la valeur en cause et le correctif, par exemple :
