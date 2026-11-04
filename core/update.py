@@ -461,10 +461,8 @@ def api_mark_seen(ctx):
         raise ApiError(400, "Identifiant [new] manquant.")
     values, seen = _seen(ctx.conn, ctx.user["id"])
     if key not in seen:
-        values["seen_new"] = (seen + [key])[-500:]
-        ctx.conn.execute("INSERT INTO user_prefs (user_id, prefs, updated_at) VALUES (?, ?, ?) ON CONFLICT(user_id) DO UPDATE "
-                         "SET prefs = excluded.prefs, updated_at = excluded.updated_at",
-                         (ctx.user["id"], json.dumps(values), db.utc_now()))
+        from . import prefs  # 0.60.19: merge this one key, never the whole object (it brought old values back)
+        prefs._put(ctx.conn, ctx.user["id"], {"seen_new": (seen + [key])[-500:]})
     return {"ok": True}
 
 

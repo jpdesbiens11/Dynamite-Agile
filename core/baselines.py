@@ -237,9 +237,7 @@ def api_view(ctx):
     rec = find(ctx.data_dir, text) if text else None
     if text and rec is None:
         raise ApiError(404, "Révision « {} » introuvable. Correctif : choisissez-la dans la liste.".format(text[:20]))
-    current = prefs.get(ctx.conn, ctx.user["id"])
-    current["baseline_view"] = rec["label"] if rec else ""
-    prefs._put(ctx.conn, ctx.user["id"], current)
+    prefs._put(ctx.conn, ctx.user["id"], {"baseline_view": rec["label"] if rec else ""})  # 0.60.19: merge
     if rec is None:
         baseline_view.drop_copies(ctx.data_dir, ctx.user["id"])
     audit.log_action(ctx.conn, ctx.user["id"], "baseline_view_entered" if rec else "baseline_view_left", "baseline",

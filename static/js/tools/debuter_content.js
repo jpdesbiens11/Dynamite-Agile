@@ -19,7 +19,7 @@
           + "les premières pages. Sans assistant : créez le Space et les comptes à la main.",
           [["Commencer", "#/admin/start"], ["Créer un Space", "#/admin/projects"], ["Comptes", "#/admin/users"]], true],
         ["help", "Prendre ses repères",
-          "Changez votre mot de passe temporaire, donnez vos initiales, choisissez votre thème et votre page d'arrivée. Le bac à sable "
+          "Changez votre mot de passe temporaire, vérifiez vos initiales (données d'après votre nom), choisissez votre thème et votre page d'arrivée. Le bac à sable "
           + "HeadLamp et le guide montrent chaque outil sur un projet fictif.",
           [["Paramètres", "#/settings"], ["Guide et HeadLamp", "#/help"]]],
         ["home", "Trouver son Space",

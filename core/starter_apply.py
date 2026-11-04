@@ -102,6 +102,8 @@ def _accounts(ctx, project_id, clean):
                 "created_at, study_profile, title) VALUES (?, ?, ?, 0, 1, 1, ?, ?, ?)",
                 (m["username"], m["display_name"], auth.hash_password(temp), db.utc_now(), m["study_profile"],
                  m["title"])).lastrowid
+            from . import prefs
+            prefs.ensure_initials(ctx.conn, user_id)  # 0.60.19 (D-O-030)
             audit.log_action(ctx.conn, ctx.user["id"], "user_created", "user", user_id,
                              {"username": m["username"], "is_admin": False, "via": NOTE}, ctx.ip)
             created.append({"username": m["username"], "display_name": m["display_name"], "temp_password": temp})

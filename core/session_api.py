@@ -6,6 +6,7 @@ from .errors import ApiError
 
 
 def _me_payload(conn, user_row, csrf, ip=None):
+    prefs.ensure_initials(conn, user_row["id"])  # 0.60.19 (D-O-030): the key comes from the name
     return {
         "user": auth.public_user(user_row),
         "csrf": csrf,
