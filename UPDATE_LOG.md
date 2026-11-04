@@ -1,12 +1,19 @@
-# Journal de mise à jour — 0.60.24
+# Journal de mise à jour — 0.60.25
+
+- **Version :** 0.60.24 → 0.60.25 (2026-11-04)
+- **Changements :**
+  1. **Téléphones** (D-O-034) : barre compacte avec menu ☰ qui glisse de la gauche, une seule colonne, tableaux défilants, texte un peu plus petit, cibles tactiles de 44 px.
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.24
 
 - **Version :** 0.60.23 → 0.60.24 (2026-11-04)
 - **Changements :**
   1. **DFMEA → essai clé** (D-O-033) : dans Detection Controls, un essai de la Test Base par ligne, à choisir, changer ou retirer.
   2. **Commencer** : le fichier peut nommer l'essai clé de chaque ligne du DFMEA.
 - **Base de données :** migration diamond 6 (colonne `diamond_dfmea.test_id`, additive).
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.23
 
