@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.25
+# Journal de mise à jour — 0.60.26
+
+- **Version :** 0.60.25 → 0.60.26 (2026-11-04)
+- **Changements :**
+  1. **Choix multiples** (D-O-035) : cocher plusieurs cases, puis « Appliquer » ou cliquer à côté ; la fenêtre ne se referme plus entre deux choix (pièces d'une fonction, colonnes du DFMEA).
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.25
 
 - **Version :** 0.60.24 → 0.60.25 (2026-11-04)
 - **Changements :**
   1. **Téléphones** (D-O-034) : barre compacte avec menu ☰ qui glisse de la gauche, une seule colonne, tableaux défilants, texte un peu plus petit, cibles tactiles de 44 px.
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.24
 

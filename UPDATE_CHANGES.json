@@ -2,26 +2,28 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Téléphones : barre compacte et menu tiroir (D-O-034)",
-      "why": "Sous 760 px (un Galaxy S25 fait 384 px), la barre garde le logo, ☰ et le compte ; les onglets, la recherche, Help et ⚙ Admin passent dans un tiroir vertical à gauche, qui se ferme au choix, sur le fond, avec Échap ou à la page suivante. La page ne déborde plus (896 px avant, 384 px maintenant).",
+      "title": "Choix multiples appliqués ensemble (D-O-035)",
+      "why": "Chaque case cochée enregistrait et redessinait l'écran : la fenêtre de choix se refermait et la page bougeait entre deux choix. DA.choiceBatch garde les cases en attente, avec une barre « n choix en attente — Appliquer / Annuler » ; un clic à côté de la fenêtre applique, Échap annule.",
       "files": [
-        "static/js/tools/mobile.js",
-        "static/css/mobile.css",
+        "static/js/tools/choices.js",
         "static/index.html",
-        "tests/test_mobile.py"
+        "static/css/app.css",
+        "tests/test_choices.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Téléphones : une colonne, tableaux, textes et cibles",
-      "why": "Le panneau de gauche d'un module passe au-dessus du contenu (liste des Spaces, ☆, navigation qui défile) ; les tableaux larges défilent dans leur cadre ; texte de base 14 px ; boutons et champs de 40 à 44 px ; dialogues pleine largeur ; page de connexion avec le formulaire d'abord.",
+      "title": "Diamond : pièces d'une fonction et colonnes du DFMEA",
+      "why": "Les pièces cochées dans le panneau d'une fonction partent ensemble (une seule mise à jour de l'écran) ; la liste « Colonnes » du DFMEA reste ouverte pendant les choix.",
       "files": [
-        "static/css/mobile.css"
+        "static/js/diamond/structure_parts.js",
+        "static/js/diamond/structure.js",
+        "static/js/diamond/dfmea.js"
       ]
     },
     {
       "id": "C3",
-      "title": "Version 0.60.25 et documentation",
+      "title": "Version 0.60.26 et documentation",
       "why": "Décision, état du projet, journal, fiche de version.",
       "files": [
         "core/__init__.py",
@@ -29,7 +31,7 @@
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.25.json",
+        "docs/releases/0.60.26.json",
         "tests/test_open_v060.py"
       ]
     }

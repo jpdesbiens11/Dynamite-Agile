@@ -60,6 +60,8 @@
   Project Starter `dfmea[].test`.
 - **0.60.25** (2026-11-04) : **téléphones** (D-O-034, `static/js/tools/mobile.js`, `static/css/mobile.css`) : barre compacte et menu tiroir ☰,
   une colonne, tableaux défilants, cibles de 44 px.
+- **0.60.26** (2026-11-04) : **choix multiples appliqués ensemble** (D-O-035, `DA.choiceBatch`, `static/js/tools/choices.js`) : Appliquer ou clic à côté,
+  Échap pour annuler (pièces d'une fonction, colonnes du DFMEA).
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,
