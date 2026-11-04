@@ -235,15 +235,27 @@ def api_delete(ctx):
 # --------------------------------------------------------------------------
 # Submit / recall
 # --------------------------------------------------------------------------
-def problems(rows):
-    """Why a week cannot be submitted: one line per problem, naming the range and the fix."""
+def problems(rows, conn=None):
+    """Why a week cannot be submitted: one line per problem, naming the range and the fix. With `conn` (0.60.20), a
+    range whose Budget Line is no longer in the Funding Space of its Space (the Funding Space was changed after the
+    range was entered) is refused too: it would be claimed under a code the Space no longer uses."""
     if not rows:
         return ["Aucune plage de temps. Correctif : ajoutez au moins une plage avant de soumettre."]
     out = []
+    codes = {}
     for e in rows:
         if not e["description"].strip():
             out.append("{} · {} · {} ({} h) : description vide. Correctif : décrivez brièvement le travail fait."
                        .format(e["day_label"], e["project_key"], e["task_label"], e["hours"]))
+        if conn is not None:
+            if e["project_id"] not in codes:
+                set_key = settings(conn, e["project_id"])["task_set"]
+                codes[e["project_id"]] = (set_key, budget.allowed(conn, set_key))
+            set_key, allowed = codes[e["project_id"]]
+            if e["task_key"] not in allowed:
+                out.append("{} · {} ({} h) : le code {} n'est pas dans le Funding Space actuel de {}. Correctif : choisissez "
+                           "un code de la liste ({}).".format(e["day_label"], e["project_key"], e["hours"], e["task_key"],
+                                                              e["project_key"], ", ".join(allowed[:4]) + (" …" if len(allowed) > 4 else "")))
     return out
 
 
@@ -253,7 +265,7 @@ def api_submit(ctx):
     if week is None:
         raise ApiError(400, "Aucune plage de temps. Correctif : ajoutez au moins une plage avant de soumettre.")
     _editable_week(week)
-    found = problems(entries(ctx.conn, week["id"]))
+    found = problems(entries(ctx.conn, week["id"]), ctx.conn)
     if found:
         raise ApiError(400, "Semaine non soumise — {} problème(s) : {}".format(len(found), " | ".join(found)))
     now = db.utc_now()
