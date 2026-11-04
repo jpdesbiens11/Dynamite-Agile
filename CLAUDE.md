@@ -28,6 +28,9 @@
 - **0.60.11** (2026-11-04) : module **Diamond** 💎 à 1 000 m (D-O-023, `modules/diamond/`, `static/js/diamond/`) : Arbre fonctionnel
   (primaire / secondaires / tertiaires / techniques, comment · pourquoi · quand, chemin critique, rétroaction, hors arbre,
   numéros F gardés pour toujours). Suivent : structure fonctionnelle, risques projet, DFMEA, Golden Nuggets, puis `starter.md`.
+- **0.60.12** (2026-11-04) : **versions officielles** (D-O-024) : paquet par version construit par le workflow Pages
+  (`tools/build_release.py`), page `versions.html`, Admin → Update (`core/release.py`) : une étape par version, plusieurs
+  d'un coup, « Plus tard », données intactes. **À chaque version : écrire `docs/releases/<version>.json`.**
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

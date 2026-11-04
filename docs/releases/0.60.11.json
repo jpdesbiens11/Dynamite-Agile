@@ -1,0 +1,39 @@
+{
+ "version": "0.60.11",
+ "date": "2026-11-04",
+ "summary": {
+  "fr": "Diamond 💎 à 1 000 m : module et Arbre fonctionnel.",
+  "en": "Diamond 💎 at 1,000 m: module and functional tree."
+ },
+ "changes": [
+  {
+   "id": "C1",
+   "title": "Diamond 💎 : nouveau module à 1 000 m (D-O-023)",
+   "why": "Analyse fonctionnelle du produit, un sous-module par version.",
+   "files": [
+    "modules/diamond/__init__.py",
+    "core/modules.py",
+    "static/js/diamond/diamond.js",
+    "static/js/tools/sketch.js",
+    "tools/make_sketch_assets.py",
+    "static/css/sketch.css",
+    "static/css/terminal.css",
+    "tools/site_text.py"
+   ]
+  },
+  {
+   "id": "C2",
+   "title": "Arbre fonctionnel : comment, pourquoi, quand",
+   "why": "Primaire, secondaires, tertiaires, techniques ; chemin critique, rétroaction, hors arbre, exemple.",
+   "files": [
+    "modules/diamond/functions.py",
+    "modules/diamond/example.py",
+    "static/js/diamond/tree.js",
+    "static/js/diamond/tree_layout.js",
+    "static/js/diamond/tree_panel.js",
+    "static/css/diamond.css",
+    "tests/test_diamond.py"
+   ]
+  }
+ ]
+}

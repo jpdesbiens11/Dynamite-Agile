@@ -525,3 +525,18 @@ crochet est idempotent (ajoute ce qui manque, ne touche jamais au contenu). `cor
 …/copy` (dupliquer ou « Enregistrer sous » par `spacecopy.compose`, journalisé `space_saved_as`) ; renommer = nom et
 description seulement, la clé ne change jamais. Écran `static/js/admin_spacecard.js` ; `DA.spaces.startHere(titre, texte,
 actions)` (`static/js/tools/spaces.js`) pour l'état vide guidé « Commencer ici » d'un onglet. Aucune migration.
+
+## 12. Versions officielles (0.60.12, D-O-024)
+
+- Chaque version publiée a sa fiche `docs/releases/<version>.json` (date, résumé FR / EN, changements et fichiers, comme
+  `UPDATE_CHANGES.json`). **À écrire avant de publier une version** : `tools/build_release.py` refuse sans elle, et
+  `tests/test_release.py` le vérifie.
+- Le paquet officiel est construit par le workflow Pages (`tools/build_release.py --out site/updates`), jamais suivi par git :
+  le code seulement, `docs/RELEASE.json` (SHA-256 de chaque fichier), `UPDATE_CHANGES.json` de toute la série (pour les
+  portails plus anciens que 0.60.12). Zip reproductible.
+- Le serveur ne va jamais sur Internet : Admin → Update renvoie vers `versions.html#depuis=<version>` ; l'administrateur dépose
+  le paquet. `core/release.py` : contrôle du manifeste, une étape de revue par version apportée (on peut en sauter
+  plusieurs), fichiers modifiés à la main listés, « Plus tard ». `data/` n'est jamais touché ; le code d'avant est gardé.
+- Les scripts d'installation (`install.sh`, `install.ps1`) ne bloquent jamais sur du code modifié : une copie
+  `data/updates/code-local-*.patch`, puis la branche publiée.
+

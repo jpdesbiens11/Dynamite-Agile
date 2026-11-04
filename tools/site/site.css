@@ -146,3 +146,11 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .top .lang { margin-left: .2rem; padding: .3rem .55rem; border: 2px solid var(--ink); border-radius: 6px; color: var(--ink);
   font-weight: 700; font-size: .85rem; text-decoration: none; }
 .top .lang:hover, .top .lang:focus-visible { background: var(--y, #ffd23f); }
+/* 0.60.12: « Versions » page */
+.ver-you label { display: block; margin-bottom: .35rem; }
+.ver-input { font: inherit; padding: .35rem .6rem; width: 9rem; border: 1.4px solid rgba(38, 50, 63, .4); border-radius: 8px; }
+.ver-pkg { margin: .5rem 0 1.5rem; }
+.ver-pkg code.sha { word-break: break-all; }
+.ver-list > li .tag { display: inline-block; margin: 0 0 .3rem; padding: .05rem .5rem; font-size: .8rem; font-weight: 700;
+  background: var(--g); color: #fff; border-radius: 999px; }
+.ver-list > li > span { display: block; }

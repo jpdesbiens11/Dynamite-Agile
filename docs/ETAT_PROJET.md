@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.11)
-**Version :** 0.60.11 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** Diamond 💎 (D-O-023) — 0.60.11 livrée (Arbre fonctionnel) ; suite : 0.60.12 structure fonctionnelle
+**Dernière mise à jour :** 2026-11-04 (v0.60.12)
+**Version :** 0.60.12 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** Diamond 💎 (D-O-023) — 0.60.12 livrée (versions officielles, D-O-024) ; suite : 0.60.13 structure fonctionnelle
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -23,12 +23,13 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.09 | PDP modernisé avec le Lean Startup (D-O-021) : phases Discovery / Concept / Design / Validation et lancement, une boucle MVP par phase (tornade de « Débuter »), Lean Canvas, Concept Review, PDR / CDR, Validation Report ; MIP, RCS, RC, RVE retirés | Livré |
 | 0.60.10 | Serveur d'équipe sur un PC Windows (D-O-022) : `deploy/install.ps1`, autorité de certification de l'équipe (`tools/make_team_ca.py`), tâche planifiée, pare-feu privé ; 4e destination de la page d'installation FR / EN | Livré — à essayer sur un vrai PC Windows |
 | 0.60.11 | Diamond 💎 (D-O-023), 1 000 m : module, onglet, logo ; Arbre fonctionnel (primaire / secondaires / tertiaires / techniques, comment · pourquoi · quand, chemin critique, rétroaction, hors arbre, glisser-déposer, Alt + flèches, exemple lampe de bureau) | Livré |
-| 0.60.12 | Diamond : structure fonctionnelle (boundary diagram : In à gauche, Out à droite, flux entre les fonctions de l'arbre) | À faire |
-| 0.60.13 | Diamond : analyse de risque projet de haut niveau (avant le DFMEA) | À faire |
-| 0.60.14 | Diamond : DFMEA AIAG-VDA (3 niveaux, fonctions de l'arbre, S / O / D, RPN et AP, légende de l'AP, colonnes masquables, lignes ajouter / dupliquer / déplacer / effacer) | À faire |
-| 0.60.15 | Diamond : Golden Nuggets (first principles thinking, règles de conception, exemples) | À faire |
-| 0.60.16 | Prompt `site/starter.md` (FR / EN), sa page sur le site, liens depuis « Commencer », « Débuter » et Help (D-O-019) | À faire |
-| 0.60.17 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
+| 0.60.12 | Versions officielles (D-O-024) : paquet par version (`tools/build_release.py`, workflow Pages), page `versions.html` FR / EN, Admin → Update : manifeste, une étape par version, plusieurs versions d'un coup, fichiers modifiés à la main, « Plus tard » ; installateurs qui ne bloquent plus | Livré — essayé de 0.60.11 à 0.60.12 |
+| 0.60.13 | Diamond : structure fonctionnelle (boundary diagram : entrées à gauche, sorties à droite ; vue générale par sous-systèmes, vue détaillée avec les tertiaires ; flux énergie / matière / information selon la légende du cours) | À faire |
+| 0.60.14 | Diamond : analyse de risque projet de haut niveau (avant le DFMEA) | À faire |
+| 0.60.15 | Diamond : DFMEA AIAG-VDA (3 niveaux, fonctions de l'arbre, S / O / D, RPN et AP, légende de l'AP, colonnes masquables, lignes ajouter / dupliquer / déplacer / effacer) | À faire |
+| 0.60.16 | Diamond : Golden Nuggets (first principles thinking, règles de conception, exemples) | À faire |
+| 0.60.17 | Prompt `site/starter.md` (FR / EN), sa page sur le site, liens depuis « Commencer », « Débuter » et Help (D-O-019) | À faire |
+| 0.60.18 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
 
 ## Table 2 : Questions du brief §5 (toutes tranchées)
 
@@ -42,7 +43,10 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.11)
+## Relais (fin de 0.60.12)
+
+- Versions officielles (D-O-024) : **à chaque version, écrire `docs/releases/<version>.json`** (résumé FR / EN, changements, fichiers). `core/release.py` (manifeste, série, étapes par version, fichiers modifiés à la main, `api_later`), appelé par `core/update.py` ; `tools/build_release.py` ; `tools/site/versions.html` + `versions.js` (FR / EN) ; workflow `.github/workflows/pages.yml` (construit `site/updates/`). Écran : `static/js/admin_update_official.js`. `tests/test_release.py` (paquet reproductible, refus d'un paquet modifié, Plus tard, série 0.60.98 → 0.60.99 appliquée, page et workflow).
+
 
 - Diamond (D-O-023) : `modules/diamond/` — `functions.py` (règles de l'arbre : niveaux, `in_tree`, conseils `checks`, déplacements, archivage qui garde le numéro), `example.py` (lampe de bureau), migration diamond 1 (`diamond_functions`, liée à `projects(id)` : sauvegarde et restauration par le noyau). Écran : `static/js/diamond/` (`diamond.js` coquille Agile, `tree_layout.js` dessin HTML + SVG sans texte, `tree_panel.js`, `tree.js`) et `static/css/diamond.css`. Le DFMEA lira `diamond_functions` (id et numéro). « Copier / composer un Space » (`core/spacecopy.py`) ne connaît pas encore Diamond : à ajouter avec le DFMEA. `tests/test_diamond.py`.
 

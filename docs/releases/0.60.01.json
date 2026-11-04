@@ -1,0 +1,16 @@
+{
+ "version": "0.60.01",
+ "date": "2026-11-03",
+ "summary": {
+  "fr": "Première version open source : identité générique, Test Base et requis grand public, Generator sur les livrables du PDP, Timesheet du PDP, équipe d'exemple, « Profil d'études ».",
+  "en": "First open-source version: generic identity, consumer-product Test Base and requirements, Generator on the PDP deliverables, PDP Timesheet, sample team, « Profil d'études »."
+ },
+ "changes": [
+  {
+   "id": "C1",
+   "title": "Première version open source : identité générique, Test Base et requis grand public, Generator sur les livrables du PDP, Timesheet du PDP, équipe d'exemple, « Profil d'études ».",
+   "why": "",
+   "files": []
+  }
+ ]
+}

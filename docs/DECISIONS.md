@@ -243,3 +243,23 @@ suivi dans le DFMEA. Glisser une boîte sur une autre en fait l'un de ses « com
 passe avant le prompt `starter.md` ; l'arbre est propre à chaque Space, distinct de la liste centrale « Product Function »
 de Testing (TESTING), avec un numéro compatible (F12) pour les relier plus tard. Exemple original (lampe de bureau
 connectée, D-O-012). Suite, une par version : structure fonctionnelle, risques projet, DFMEA (RPN et AP), Golden Nuggets.
+
+### D-O-024 — Versions officielles : mettre à jour un portail installé, données gardées, sans appel sortant (2026-11-04, demande de JP)
+**Contexte :** JP veut qu'une équipe qui a installé 0.60.XX passe à une version plus récente sans toucher aux données ni
+aux réglages gérés par ses membres, qu'elle puisse accepter ou non la série de mises à jour, et y revenir plus tard. Le
+serveur ne doit faire aucun appel réseau sortant (réseau fermé). Choix de JP : **la version est proposée, rien ne sort**.
+**Décision :** le projet publie, sur son site, un paquet par version (`tools/build_release.py`, construit par le workflow
+Pages, jamais dans git) et une page `versions.html` (FR / EN) qui lit `updates/versions.json`, montre le paquet, sa SHA-256
+et les versions plus récentes que celle du portail (`#depuis=0.60.11`, le lien d'Admin → Update). Un seul paquet contient
+toute la série : on saute des versions sans risque, les migrations étant additives et cumulatives. Dans Admin → Update →
+Framework, bloc « Versions officielles » ; le paquet déposé passe la vérification habituelle, plus le contrôle de son
+manifeste `docs/RELEASE.json` (un fichier modifié après publication est refusé). La revue pas à pas (D-B-094) garde son
+principe, mais compte **une étape par version** apportée, avec ses changements ; « Plus tard » abandonne la vérification
+sans rien changer ; « Revenir à la … » reprend le code d'avant (3 copies). Les fichiers modifiés à la main depuis la
+dernière installation officielle sont listés avant d'être remplacés. `data/` (base, pièces jointes, `config.json`) n'est
+jamais touché. Un portail 0.60.11 ou plus ancien applique le paquet avec son propre écran (fusion des changements de la
+série dans `UPDATE_CHANGES.json`), essayé de 0.60.11 à 0.60.12. Les scripts d'installation ne bloquent plus sur du code
+modifié (copie en `.patch`, puis la branche publiée). L'empreinte prouve que le paquet n'a pas changé depuis sa
+publication, pas qui l'a publié : la comparer avec la page du site. Structure fonctionnelle de Diamond : en 0.60.13, flux
+typés énergie / matière / information selon la légende du cours (choix de JP).
+

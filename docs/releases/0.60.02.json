@@ -1,0 +1,16 @@
+{
+ "version": "0.60.02",
+ "date": "2026-11-03",
+ "summary": {
+  "fr": "Base propre, colonnes Generator pdp_step / pdp_sub, noms de la mine, site web, installation VPS en une commande.",
+  "en": "Clean base, Generator columns pdp_step / pdp_sub, the mine names, website, one-command VPS installation."
+ },
+ "changes": [
+  {
+   "id": "C1",
+   "title": "Base propre, colonnes Generator pdp_step / pdp_sub, noms de la mine, site web, installation VPS en une commande.",
+   "why": "",
+   "files": []
+  }
+ ]
+}

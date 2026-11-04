@@ -1,0 +1,16 @@
+{
+ "version": "0.60.04",
+ "date": "2026-11-04",
+ "summary": {
+  "fr": "FR / EN étape 1 : site web, guide de l'assistant et install.sh en anglais.",
+  "en": "FR / EN step 1: website, assistant guide and install.sh in English."
+ },
+ "changes": [
+  {
+   "id": "C1",
+   "title": "FR / EN étape 1 : site web, guide de l'assistant et install.sh en anglais.",
+   "why": "",
+   "files": []
+  }
+ ]
+}

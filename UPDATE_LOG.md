@@ -1,4 +1,17 @@
-# Journal de mise à jour — 0.60.11
+# Journal de mise à jour — 0.60.12
+
+- **Version :** 0.60.11 → 0.60.12 (2026-11-04)
+- **Changements :**
+  1. **Versions officielles** (D-O-024) : Admin → Update → Framework, bloc « Versions officielles » : lien vers la page des
+     versions du site, avec votre version ; le paquet téléchargé se dépose ici ; une étape de revue par version, plusieurs
+     versions d'un coup, « Plus tard » ; empreinte SHA-256 et fichiers modifiés à la main affichés. Données jamais touchées.
+  2. **Site** : nouvelle page « Versions » (FR / EN) ; paquet construit à chaque publication.
+  3. **Installation** : relancer la commande d'installation met à jour même après un paquet appliqué (copie `.patch`).
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.11
 
 - **Version :** 0.60.10 → 0.60.11 (2026-11-04)
 - **Changements :**
@@ -7,8 +20,6 @@
      tertiaires et fonctions techniques ; chemin critique, rétroaction, fonctions hors arbre ; glisser-déposer, Alt + flèches ;
      panneau de lecture (pourquoi ? comment ? quand ?) ; vue liste ; exemple « lampe de bureau connectée ».
 - **Base de données :** migration diamond 1 (table `diamond_functions`), additive.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.10
 
