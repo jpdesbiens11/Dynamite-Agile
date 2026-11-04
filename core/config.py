@@ -40,7 +40,7 @@ def load_config(data_dir):
             json.dump(DEFAULTS, handle, indent=2)
         return cfg
     try:
-        with cfg_path.open("r", encoding="utf-8") as handle:
+        with cfg_path.open("r", encoding="utf-8-sig") as handle:  # 0.60.10: a BOM (Notepad, PowerShell 5.1) is accepted
             user_cfg = json.load(handle)
         if not isinstance(user_cfg, dict):
             raise ValueError("the file must contain a JSON object")

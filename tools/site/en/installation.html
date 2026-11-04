@@ -28,6 +28,9 @@
     <label class="dest-card"><input type="radio" name="dest" value="essai">
       <b>On a server, as a private trial</b><span class="tag">No domain</span>
       <span>Nothing exposed to the Internet: only you open it, through an SSH tunnel. Go online later.</span></label>
+    <label class="dest-card"><input type="radio" name="dest" value="windows">
+      <b>On a Windows PC of the team</b><span class="tag">Local network, no Linux</span>
+      <span>A Windows PC that stays on hosts the tool; the team connects to it from the school or office network, over HTTPS.</span></label>
     <label class="dest-card"><input type="radio" name="dest" value="local">
       <b>On my computer</b><span class="tag">Solo trial, 5 minutes</span>
       <span>Windows, macOS or Linux, with the example team. Nobody else connects to it.</span></label>
@@ -172,6 +175,45 @@
         <label class="done"><input type="checkbox"> Done</label></li>
     </ol>
   </div>
+
+  <!-- ===================== D. Windows team server (0.60.10, D-O-022) ===================== -->
+  <ol class="stepper path" data-path="windows" hidden>
+    <li data-step="win-srv-pc"><b>Choose the PC that hosts the tool</b>
+      Windows 10, 11 or Server 2019 and later, plugged into the team's network and <b>always on</b> (Settings → System → Power:
+      sleep <i>Never</i>). The network must be marked <b>Private</b> (Settings → Network &amp; internet → Properties), otherwise
+      the firewall blocks the team.
+      <label class="done"><input type="checkbox"> Done</label></li>
+    <li data-step="win-srv-admin"><b>Open PowerShell as administrator</b>
+      On that PC: <b>Win + X</b> → <i>Terminal (Admin)</i> (or <i>Windows PowerShell (Admin)</i>), then <b>Yes</b>.
+      <p class="expect">The line starts with <code>PS C:\WINDOWS\system32&gt;</code>: you are administrator.</p>
+      <label class="done"><input type="checkbox"> Done</label></li>
+    <li data-step="win-srv-install"><b>Install, in one command</b>
+      <pre class="cmd" data-where="srv"><code>irm {{SITE_URL}}/install.ps1 -OutFile $env:TEMP\install-dynamite.ps1; $env:DA_LANG = "en"; powershell -ExecutionPolicy Bypass -File $env:TEMP\install-dynamite.ps1</code></pre>
+      <p class="expect">Five to ten minutes. The end shows <code>== Installed</code>, the address to open
+        (<code>https://pc-name</code> and its IP address) and the <b>temporary password</b> of the <code>admin</code> account:
+        keep this window open.</p>
+      <details><summary>What the command does</summary><p>It installs Python 3.12 and Git (winget), fetches the code into
+        <code>C:\DynamiteAgile</code>, creates the team's certificate authority and the HTTPS certificate of this PC, sets the
+        production configuration, opens port 443 for private networks only, and creates the « Dynamite Agile » task that starts
+        with Windows and restarts the tool if it stops. Run it again to update, nothing is lost. The script is readable here:
+        <a href="{{REPO}}/blob/main/deploy/install.ps1">deploy/install.ps1</a>.</p></details>
+      <details><summary>Port 443 already used, or another folder</summary>
+        <pre class="cmd" data-where="srv"><code>powershell -ExecutionPolicy Bypass -File $env:TEMP\install-dynamite.ps1 -Port 8443 -Dossier D:\DynamiteAgile</code></pre>
+        <p>The address then becomes <code>https://pc-name:8443</code>.</p></details>
+      <label class="done"><input type="checkbox"> Done</label></li>
+    <li data-step="win-srv-trust"><b>Trust the certificate, on each computer</b>
+      The script created <code>C:\DynamiteAgile\data\tls\partage\ca-dynamite.crt</code>. Copy this file to each computer of the
+      team (USB key, shared folder, email). On a Windows computer, in PowerShell (no administrator needed), in the folder of the file:
+      <pre class="cmd" data-where="pc"><code>Import-Certificate -FilePath .\ca-dynamite.crt -CertStoreLocation Cert:\CurrentUser\Root</code></pre>
+      <p class="expect">Windows asks to confirm the « Dynamite Equipe Root CA » authority: <b>Yes</b>. On macOS: double-click the
+        file, then Keychain → <i>Always Trust</i>. On Linux: Firefox or Chrome → Settings → Certificates → Authorities → Import.</p>
+      <label class="done"><input type="checkbox"> Done</label></li>
+    <li data-step="win-srv-open"><b>Open the tool and create your team</b>
+      From any computer, open <code>https://pc-name</code> (or <code>https://</code> + the IP address shown), account
+      <code>admin</code> and the temporary password; choose yours. Then ⚙ Admin → Spaces → <i>Commencer</i>, or ⚙ Admin →
+      Comptes → <i>Règles d'accès</i>. The <a href="guide.html">guide</a> walks you through.
+      <label class="done"><input type="checkbox"> Done</label></li>
+  </ol>
 
 {{TROUBLE}}
 </main>

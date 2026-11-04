@@ -390,6 +390,9 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     <label class="dest-card"><input type="radio" name="dest" value="essai">
       <b>Sur un serveur, en essai privé</b><span class="tag">Sans domaine</span>
       <span>Rien d'exposé sur Internet : vous seul l'ouvrez, par un tunnel SSH. Passez en ligne plus tard.</span></label>
+    <label class="dest-card"><input type="radio" name="dest" value="windows">
+      <b>Sur un PC Windows de l'équipe</b><span class="tag">Réseau local, sans Linux</span>
+      <span>Un PC Windows toujours allumé héberge l'outil ; l'équipe s'y connecte depuis le réseau de l'école ou du bureau, en HTTPS.</span></label>
     <label class="dest-card"><input type="radio" name="dest" value="local">
       <b>Sur mon ordinateur</b><span class="tag">Essai solo, 5 minutes</span>
       <span>Windows, macOS ou Linux, avec l'équipe d'exemple. Personne d'autre ne s'y connecte.</span></label>
@@ -535,6 +538,47 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     </ol>
   </div>
 
+  <!-- ===================== D. Windows team server (0.60.10, D-O-022) ===================== -->
+  <ol class="stepper path" data-path="windows" hidden>
+    <li data-step="win-srv-pc"><b>Choisissez le PC qui héberge l'outil</b>
+      Windows 10, 11 ou Server 2019 et plus, branché au réseau de l'équipe et <b>toujours allumé</b> (Paramètres → Système →
+      Alimentation : mise en veille <i>Jamais</i>). Le réseau doit être marqué <b>Privé</b> (Paramètres → Réseau et Internet →
+      Propriétés), sinon le pare-feu bloque l'équipe.
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+    <li data-step="win-srv-admin"><b>Ouvrez PowerShell en administrateur</b>
+      Sur ce PC : <b>Win + X</b> → <i>Terminal (admin)</i> (ou <i>Windows PowerShell (admin)</i>), puis <b>Oui</b>.
+      <p class="expect">La ligne commence par <code>PS C:\WINDOWS\system32&gt;</code> : vous êtes administrateur.</p>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+    <li data-step="win-srv-install"><b>Installez, en une commande</b>
+      <pre class="cmd" data-where="srv"><code>irm https://jpdesbiens11.github.io/Dynamite-Agile/install.ps1 -OutFile $env:TEMP\install-dynamite.ps1; powershell -ExecutionPolicy Bypass -File $env:TEMP\install-dynamite.ps1</code></pre>
+      <p class="expect">Cinq à dix minutes. La fin affiche <code>== C'est installé</code>, l'adresse à ouvrir
+        (<code>https://nom-du-pc</code> et son adresse IP) et le <b>mot de passe temporaire</b> du compte <code>admin</code> :
+        gardez cette fenêtre ouverte.</p>
+      <details><summary>Ce que fait la commande</summary><p>Elle installe Python 3.12 et Git (winget), récupère le code dans
+        <code>C:\DynamiteAgile</code>, crée l'autorité de certification de l'équipe et le certificat HTTPS de ce PC, règle la
+        configuration de production, ouvre le port 443 pour les réseaux privés seulement, et crée la tâche « Dynamite Agile » qui
+        démarre avec Windows et relance l'outil s'il s'arrête. On peut la relancer pour mettre à jour, sans rien perdre. Le
+        script est lisible ici : <a href="https://github.com/jpdesbiens11/Dynamite-Agile/blob/main/deploy/install.ps1">deploy/install.ps1</a>.</p></details>
+      <details><summary>Port 443 déjà pris, ou un autre dossier</summary>
+        <pre class="cmd" data-where="srv"><code>powershell -ExecutionPolicy Bypass -File $env:TEMP\install-dynamite.ps1 -Port 8443 -Dossier D:\DynamiteAgile</code></pre>
+        <p>L'adresse devient alors <code>https://nom-du-pc:8443</code>.</p></details>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+    <li data-step="win-srv-trust"><b>Faites confiance au certificat, sur chaque poste</b>
+      Le script a créé <code>C:\DynamiteAgile\data\tls\partage\ca-dynamite.crt</code>. Copiez ce fichier sur chaque poste de
+      l'équipe (clé USB, dossier partagé, courriel). Sur un poste Windows, dans PowerShell (pas besoin d'être administrateur), dans
+      le dossier du fichier :
+      <pre class="cmd" data-where="pc"><code>Import-Certificate -FilePath .\ca-dynamite.crt -CertStoreLocation Cert:\CurrentUser\Root</code></pre>
+      <p class="expect">Windows demande de confirmer l'autorité « Dynamite Equipe Root CA » : <b>Oui</b>. Sur macOS : double-cliquez
+        le fichier, puis Trousseau → <i>Toujours approuver</i>. Sous Linux : Firefox ou Chrome → Paramètres → Certificats →
+        Autorités → Importer.</p>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+    <li data-step="win-srv-open"><b>Ouvrez l'outil et créez votre équipe</b>
+      Depuis n'importe quel poste, ouvrez <code>https://nom-du-pc</code> (ou <code>https://</code> + l'adresse IP affichée), compte
+      <code>admin</code> et le mot de passe temporaire ; choisissez le vôtre. Puis ⚙ Admin → Spaces → <i>Commencer</i>, ou ⚙ Admin →
+      Comptes → <i>Règles d'accès</i>. Le <a href="guide.html">guide</a> vous accompagne.
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+  </ol>
+
   <h2 id="depannage">Si quelque chose bloque</h2>
   <p>Collez le message à votre assistant IA, ou cherchez-le ici.</p>
   <details class="trouble"><summary>« les ports 80 ou 443 sont déjà pris »</summary>
@@ -553,6 +597,18 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   <details class="trouble"><summary>« le service ne démarre pas »</summary>
     <p>Le script affiche les dernières lignes du journal : chaque refus nomme la valeur en cause et le correctif. Pour le revoir :</p>
     <pre class="cmd" data-where="srv"><code>journalctl -u dynamite-agile -n 50 --no-pager</code></pre></details>
+  <details class="trouble"><summary>PC Windows : « PowerShell n'est pas ouvert en administrateur »</summary>
+    <p>Fermez la fenêtre, puis <b>Win + X</b> → <i>Terminal (admin)</i> → <b>Oui</b>, et relancez la même commande.</p></details>
+  <details class="trouble"><summary>PC Windows : « le port 443 est déjà pris par … »</summary>
+    <p>Un autre service web occupe le port (IIS, un logiciel de visioconférence ou d'antivirus…). Arrêtez-le, ou installez sur un
+      autre port :</p>
+    <pre class="cmd" data-where="srv"><code>powershell -ExecutionPolicy Bypass -File $env:TEMP\install-dynamite.ps1 -Port 8443</code></pre></details>
+  <details class="trouble"><summary>PC Windows : l'équipe n'arrive pas à ouvrir l'adresse</summary>
+    <p>Le réseau du PC est marqué <b>Public</b> (Paramètres → Réseau et Internet → Propriétés → <i>Privé</i>), ou le nom du PC
+      n'est pas connu du réseau : ouvrez plutôt <code>https://</code> suivi de l'adresse IP affichée à la fin de l'installation.</p></details>
+  <details class="trouble"><summary>« Votre connexion n'est pas privée » (NET::ERR_CERT_AUTHORITY_INVALID)</summary>
+    <p>Ce poste ne connaît pas encore l'autorité de l'équipe : importez <code>ca-dynamite.crt</code> (étape « Faites confiance au
+      certificat »), puis fermez et rouvrez le navigateur. Ne contournez pas l'avertissement.</p></details>
   <details class="trouble"><summary>Sur mon ordinateur : « python n'est pas reconnu » ou l'adresse ne s'ouvre pas</summary>
     <p>Fermez et rouvrez le terminal après l'installation de Python. Si le port 8080 est déjà pris, lancez avec
       <code>--port 8090</code> et ouvrez <code>http://127.0.0.1:8090</code>.</p></details>
@@ -564,9 +620,13 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     <tr><td>Voir le journal</td><td><code>journalctl -u dynamite-agile -n 100 --no-pager</code></td></tr>
     <tr><td>Mot de passe admin oublié</td><td><code>sudo -u dynamite python3 /opt/dynamite_agile/app_dynamite_agile.py --reset-password admin</code></td></tr>
     <tr><td>Sauvegarder</td><td>Dans l'outil : ⚙ Admin → Update et sauvegardes ; et la sauvegarde du serveur chez l'hébergeur</td></tr>
+    <tr><td>PC Windows : mettre à jour, redémarrer, désinstaller</td><td>Relancez la commande d'installation (les données sont gardées) ;
+      <code>Restart-ScheduledTask "Dynamite Agile"</code> ; <code>… install-dynamite.ps1 -Desinstaller</code> (garde <code>data</code>)</td></tr>
+    <tr><td>PC Windows : journal, mot de passe oublié</td><td><code>Get-Content C:\DynamiteAgile\data\logs\server.log -Tail 50</code> ;
+      <code>python C:\DynamiteAgile\app_dynamite_agile.py --reset-password admin</code></td></tr>
     <tr><td>Passer de l'essai à l'équipe</td><td>Refaites le parcours « Sur un serveur en ligne » : la même commande avec votre domaine</td></tr></table>
 </main>
-<footer>Dynamite | Agile · logiciel libre sous licence MIT · version 0.60.09 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>Dynamite | Agile · logiciel libre sous licence MIT · version 0.60.10 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */
@@ -672,7 +732,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   const value = (k) => (state[k] || "").trim() || DEFAULTS[k];
 
   /* ---------- destination ---------- */
-  const DESTS = ["serveur", "essai", "local"];
+  const DESTS = ["serveur", "essai", "windows", "local"];  // 0.60.10: Windows team server (D-O-022)
   function setDest(dest, fromHash) {
     if (!DESTS.includes(dest)) dest = state.dest || "serveur";
     state.dest = dest; save();
@@ -714,9 +774,10 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       const where = {
         serveur: "on an online server (Linux VPS) with the domain name " + value("domain"),
         essai: "on a Linux server, as a private trial without a domain (SSH tunnel)",
+        windows: "on a Windows PC that hosts it for my team on our local network (PowerShell)",
         local: "on my computer (" + os + "), to try it",
       }[state.dest];
-      return ["Hello! I'm new to Linux and the terminal. I want to install Dynamite | Agile " + where + ".",
+      return ["Hello! I'm new to " + (state.dest === "windows" ? "PowerShell" : "Linux and the terminal") + ". I want to install Dynamite | Agile " + where + ".",
         "First read the procedure: " + page,
         "and the guide written for assistants: " + guide,
         "Guide me one step at a time: tell me where to type each command (on my computer or on the server) and what I " +
@@ -726,9 +787,10 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     const where = {
       serveur: "sur un serveur en ligne (VPS Linux) avec le nom de domaine " + value("domain"),
       essai: "sur un serveur Linux, en essai privé sans domaine (tunnel SSH)",
+      windows: "sur un PC Windows qui l'héberge pour mon équipe sur notre réseau local (PowerShell)",
       local: "sur mon ordinateur (" + os + "), pour l'essayer",
     }[state.dest];
-    return ["Bonjour ! Je débute avec Linux et le terminal. Je veux installer Dynamite | Agile " + where + ".",
+    return ["Bonjour ! Je débute avec " + (state.dest === "windows" ? "PowerShell" : "Linux et le terminal") + ". Je veux installer Dynamite | Agile " + where + ".",
       "Lis d'abord la procédure : " + page,
       "et le guide écrit pour les assistants : " + guide,
       "Guide-moi une étape à la fois : dis-moi où taper chaque commande (sur mon ordinateur ou sur le serveur) et ce que je " +

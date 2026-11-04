@@ -211,3 +211,18 @@ matériel et logiciel travaillent par hypothèses, MVP successifs et Sprints Agi
    `01_Discovery` … `04_Validation`, `05_Lean`.
 Un site existant reçoit les nouveaux libellés de Timesheet au démarrage, seulement là où le libellé d'origine n'a pas été
 reformulé. Le prompt `starter.md` passe en 0.60.10.
+
+### D-O-022 — Un PC Windows comme serveur d'équipe, installé par PowerShell (2026-11-04, demande de JP)
+**Contexte :** des équipes n'ont ni Linux ni domaine, mais un PC Windows qui peut rester allumé sur le réseau de l'école
+ou du bureau. Choix de JP : une procédure **serveur d'équipe sur Windows** (et non un essai solo de plus).
+**Décision :** une quatrième destination sur la page d'installation, « Sur un PC Windows de l'équipe », et
+`deploy/install.ps1` (publié en `site/install.ps1`), lancé dans PowerShell en administrateur. En une commande, qu'on
+relance pour mettre à jour : Python 3.12 et Git par winget, le code dans `C:\DynamiteAgile`, la configuration de
+production (`tools/write_config.py`), une règle de pare-feu pour les réseaux privés et de domaine seulement, et une tâche
+planifiée « Dynamite Agile » qui démarre avec Windows (compte SYSTEM) et relance le serveur s'il s'arrête ; `-Port`,
+`-Dossier`, `-Desinstaller` ; messages FR / EN (`$env:DA_LANG`). **HTTPS sans domaine :** le serveur refuse le réseau sans
+HTTPS (D-B-090) ; `tools/make_team_ca.py` crée l'autorité de certification de l'équipe (10 ans, la clé ne quitte pas le
+PC) et le certificat de ce PC (son nom, nom.local, ses adresses, 397 jours, renouvelé au besoin), avec l'`openssl` de Git
+pour Windows. Chaque poste importe une fois `ca-dynamite.crt` ; la page ne propose jamais de contourner l'avertissement du
+navigateur. Le script est enregistré en UTF-8 avec BOM, pour que Windows PowerShell 5.1 lise ses accents ; `config.json`
+accepte aussi un BOM (Bloc-notes). Le prompt `starter.md` passe en 0.60.11.
