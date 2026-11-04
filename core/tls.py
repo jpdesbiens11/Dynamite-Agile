@@ -103,11 +103,17 @@ def check_start(cfg, dev):
     if cfg.get("tls_client_required") and not cfg.get("tls_client_ca"):
         return ("mTLS demandé (« tls_client_required ») sans « tls_client_ca » : indiquez le fichier de la CA qui signe "
                 "les certificats clients, dans data/config.json.")
-    if not dev and not cfg.get("tls_cert") and not is_loopback(str(cfg.get("host", ""))):
+    if not dev and not cfg.get("tls_cert") and not is_loopback(str(cfg.get("host", ""))) and not _behind_proxy(cfg):
         return ("Production refusée : HTTPS est obligatoire dès que le serveur écoute sur le réseau (« host » = {}). "
                 "Correctif : indiquez « tls_cert » et « tls_key » (certificat de votre organisation ou d'une autorité publique, voir "
-                "deploy/TLS.md) dans data/config.json.".format(cfg.get("host")))
+                "deploy/TLS.md) dans data/config.json, ou, derrière un proxy HTTPS (Traefik), « trusted_proxies ».".format(cfg.get("host")))
     return None
+
+
+def _behind_proxy(cfg):
+    """0.60.17 (D-O-029): plain HTTP on the network is allowed only behind a trusted HTTPS proxy (core/proxy.py)."""
+    from . import proxy
+    return proxy.enabled(cfg)
 
 
 def cookie_name(secure):

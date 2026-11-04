@@ -42,6 +42,8 @@
   (0.60.16), `starter.md` (0.60.17).
 - **0.60.16** (2026-11-04) : Diamond → **Golden Nuggets** (D-O-028, `static/js/diamond/nuggets*.js`) : 20 premiers principes,
   algorithme en 5 étapes, règles SpaceX / Tesla. Diamond complet. Suit : `starter.md` (0.60.17).
+- **0.60.17** (2026-11-04) : **installation derrière Traefik** (D-O-029) : `install.sh --traefik`, `deploy/install_traefik.sh`,
+  noyau `core/proxy.py` (`trusted_proxies`). Suit : `starter.md` (0.60.18).
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

@@ -4,6 +4,7 @@
 # In one command, on the server (the script fetches the code into /opt/dynamite_agile, then installs):
 #   curl -fsSL <site>/install.sh | sudo bash -s -- atelier.mon-domaine.ca moi@exemple.ca     # online, HTTPS
 #   curl -fsSL <site>/install.sh | sudo bash -s -- --essai                                   # private trial
+#   curl -fsSL <site>/install.sh | sudo bash -s -- --traefik dynamite.srv123.hstgr.cloud      # behind Traefik (0.60.17)
 # Or from a clone:  sudo bash /opt/dynamite_agile/deploy/install.sh atelier.mon-domaine.ca moi@exemple.ca
 #
 # Online: the domain (A record) points to the IP of the server, ports 22, 80 and 443 are open in the host's panel
@@ -15,7 +16,7 @@
 set -euo pipefail
 
 REPO="${DA_REPO:-https://github.com/jpdesbiens11/Dynamite-Agile.git}"
-TARGET=/opt/dynamite_agile
+TARGET="${DA_DIR:-/opt/dynamite_agile}"   # another folder: DA_DIR=/opt/autre (0.60.17, a second instance on the same server)
 SERVICE=dynamite-agile
 
 EN=0; case "${DA_LANG:-fr}" in en*) EN=1 ;; esac
@@ -25,15 +26,25 @@ fail() { printf '\n\033[31m%s %s\033[0m\n' "$(t "Erreur :" "Error:")" "$*" >&2; 
 [ "$(id -u)" -eq 0 ] || fail "$(t "lancez la commande avec sudo (ou en root)." "run the command with sudo (or as root).")"
 
 MODE=online
-if [ "${1:-}" = "--essai" ]; then MODE=trial; DOMAIN=""; EMAIL=""; else DOMAIN="${1:-}"; EMAIL="${2:-}"; fi
+if [ "${1:-}" = "--essai" ]; then MODE=trial; DOMAIN=""; EMAIL=""
+elif [ "${1:-}" = "--traefik" ]; then MODE=traefik; DOMAIN="${2:-}"; EMAIL=""  # D-O-029: Traefik keeps 80 / 443
+else DOMAIN="${1:-}"; EMAIL="${2:-}"; fi
 if [ "$MODE" = online ] && { [ -z "$DOMAIN" ] || [ -z "$EMAIL" ]; }; then
   fail "$(t "il manque le domaine ou le courriel. Exemple : sudo bash install.sh atelier.mon-domaine.ca moi@exemple.ca   (ou --essai sans domaine)" "the domain or the email is missing. Example: sudo DA_LANG=en bash install.sh workshop.my-domain.com me@example.com   (or --essai without a domain)")"
 fi
+[ "$MODE" = traefik ] || [ "$TARGET" = /opt/dynamite_agile ] || fail "$(t "DA_DIR ne sert qu'avec --traefik (le service systemd attend /opt/dynamite_agile)." "DA_DIR is only for --traefik (the systemd service expects /opt/dynamite_agile).")"
 
 # ---------- 0. the code: when the script runs from curl (no clone yet), fetch it, then run the copy of the clone ----------
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]:-.}")/.." 2>/dev/null && pwd || pwd)"
 if [ ! -f "$HERE/app_dynamite_agile.py" ]; then
   say "0/7 $(t "Récupération du code dans" "Fetching the code into") $TARGET"
+  # 0.60.17: a folder that is not a clone of this repository (another application, an older private copy) is never touched.
+  if [ -d "$TARGET/.git" ] && ! git -C "$TARGET" remote get-url origin 2>/dev/null | grep -qi 'dynamite-agile'; then
+    fail "$(t "$TARGET contient un autre dépôt git ; rien n'a été modifié. Correctif : choisissez un autre dossier, par exemple  curl … | sudo DA_DIR=/opt/dynamite-agile-open bash -s -- …" "$TARGET holds another git repository; nothing was changed. Fix: choose another folder, for example  curl … | sudo DA_DIR=/opt/dynamite-agile-open bash -s -- …")"
+  fi
+  if [ ! -d "$TARGET/.git" ] && [ -n "$(ls -A "$TARGET" 2>/dev/null)" ]; then
+    fail "$(t "$TARGET existe déjà et n'est pas une installation de ce dépôt (une version plus ancienne ?) ; rien n'a été modifié. Correctif : installez à côté, dans un autre dossier :  curl … | sudo DA_DIR=/opt/dynamite-agile-open bash -s -- …" "$TARGET already exists and is not an installation of this repository (an older version?); nothing was changed. Fix: install next to it, in another folder:  curl … | sudo DA_DIR=/opt/dynamite-agile-open bash -s -- …")"
+  fi
   apt-get update -q && apt-get install -y -q git
   if [ -d "$TARGET/.git" ]; then
     # 0.60.12 (D-O-024): files changed since the last update (a package applied in Admin → Update, an edit by hand) never
@@ -48,11 +59,12 @@ if [ ! -f "$HERE/app_dynamite_agile.py" ]; then
 fi
 APP_DIR="$HERE"
 DATA_DIR="$APP_DIR/data"
+if [ "$MODE" = traefik ]; then exec bash "$APP_DIR/deploy/install_traefik.sh" "$DOMAIN"; fi
 [ "$APP_DIR" = "$TARGET" ] || fail "$(t "le code doit être dans $TARGET (ici : $APP_DIR). Correctif : sudo git clone $REPO $TARGET" "the code must be in $TARGET (here: $APP_DIR). Fix: sudo git clone $REPO $TARGET")"
 
 say "1/7 $(t "Paquets du système" "System packages") (python3, git, certbot, ufw)"
 apt-get update -q
-apt-get install -y -q python3 git certbot ufw
+apt-get install -y -q python3 git certbot ufw iproute2
 python3 -c 'import sys; assert sys.version_info >= (3, 10), sys.version' || fail "$(t "Python 3.10 ou plus récent est requis." "Python 3.10 or newer is required.")"
 
 say "2/7 $(t "Pare-feu" "Firewall")"
@@ -74,7 +86,7 @@ if [ "$MODE" = online ]; then
     || echo "  $(t "Attention : $DOMAIN pointe vers $ADDR, qui n'est pas une adresse de ce serveur" "Warning: $DOMAIN points to $ADDR, which is not an address of this server") ($(hostname -I)). $(t "On essaie quand même." "Trying anyway.")"
   if ss -ltnH '( sport = :80 or sport = :443 )' | grep -q .; then
     ss -ltnp '( sport = :80 or sport = :443 )'
-    fail "$(t "les ports 80 ou 443 sont déjà pris par un autre programme (ci-dessus, souvent une application Docker). Correctif : arrêtez-le (docker ps, puis docker stop <nom>), ou utilisez un autre serveur." "ports 80 or 443 are already in use by another program (above, often a Docker application). Fix: stop it (docker ps, then docker stop <name>), or use another server.")"
+    fail "$(t "les ports 80 ou 443 sont déjà pris par un autre programme (ci-dessus, souvent Traefik, le portier des applications Docker). Correctif : s'il s'agit de Traefik, installez derrière lui : sudo bash $APP_DIR/deploy/install.sh --traefik $DOMAIN" "ports 80 or 443 are already in use by another program (above, often Traefik, the gate of Docker applications). Fix: if it is Traefik, install behind it: sudo DA_LANG=en bash $APP_DIR/deploy/install.sh --traefik $DOMAIN")"
   fi
   certbot certonly --standalone --non-interactive --agree-tos -m "$EMAIL" -d "$DOMAIN" --keep-until-expiring \
     --pre-hook "systemctl stop $SERVICE || true" --post-hook "systemctl start $SERVICE || true"

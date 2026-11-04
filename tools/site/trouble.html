@@ -4,7 +4,14 @@
     <p>Une autre application occupe le web du serveur, souvent une application Docker installée par le panneau de l'hébergeur
       (un agent IA, n8n, un panneau d'administration…). Voyez laquelle, puis arrêtez-la ou utilisez un autre serveur :</p>
     <pre class="cmd" data-where="srv"><code>sudo ss -ltnp | grep -E ':(80|443) '</code>
-<code>docker ps</code></pre></details>
+<code>docker ps</code></pre>
+    <p><b>Si c'est Traefik</b> (le portier des applications Docker, par exemple sur un VPS Hostinger) : ne l'arrêtez pas,
+      installez Dynamite | Agile derrière lui. Traefik garde les ports et donne le certificat HTTPS ; vos autres applications
+      ne bougent pas. L'adresse doit pointer vers le serveur (chez Hostinger : <code>dynamite.srvXXXX.hstgr.cloud</code>).</p>
+    <pre class="cmd" data-where="srv"><code>curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo bash -s -- --traefik dynamite.srvXXXX.hstgr.cloud</code></pre>
+    <p>Si le message dit que <code>/opt/dynamite_agile</code> <b>existe déjà</b> (une installation plus ancienne) : rien n'a
+      été modifié ; installez à côté, dans un autre dossier.</p>
+    <pre class="cmd" data-where="srv"><code>curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo DA_DIR=/opt/dynamite-agile-open bash -s -- --traefik dynamite.srvXXXX.hstgr.cloud</code></pre></details>
   <details class="trouble"><summary>« le domaine … ne répond pas encore » ou certbot : « NXDOMAIN », « Timeout »</summary>
     <p>L'enregistrement A n'est pas encore visible, ou le port 80 est fermé dans le pare-feu du panneau. Vérifiez avec
       <code>nslookup</code> depuis votre ordinateur, ouvrez 80 et 443, attendez quelques minutes et relancez la même commande.</p></details>

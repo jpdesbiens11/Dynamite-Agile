@@ -2,39 +2,67 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Golden Nuggets : premiers principes, algorithme, règles (D-O-028)",
-      "why": "Contenu écrit pour la formation (paraphrases de méthodes publiques, TRIZ) ; recherche et thèmes.",
+      "title": "Noyau : derrière un proxy HTTPS de confiance (D-O-029)",
+      "why": "trusted_proxies, X-Forwarded-For / -Proto, cookie Secure, accès direct refusé en production.",
       "files": [
-        "static/js/diamond/nuggets_content.js",
-        "static/js/diamond/nuggets.js",
-        "static/js/diamond/diamond.js",
-        "static/css/diamond.css",
-        "core/modules.py",
-        "modules/diamond/__init__.py",
-        "tests/test_diamond_nuggets.py"
+        "core/proxy.py",
+        "core/router.py",
+        "core/tls.py",
+        "core/config.py",
+        "tests/test_proxy.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Training : topic DM-05 et son test",
-      "why": "Dix questions sur les Golden Nuggets.",
+      "title": "install.sh --traefik et deploy/install_traefik.sh",
+      "why": "Conteneur python:3.12-slim avec ses étiquettes Traefik, sans toucher au pare-feu ni aux autres applications.",
       "files": [
-        "modules/training/catalog.py",
-        "modules/training/quizzes/__init__.py",
-        "modules/training/quizzes/dm.py"
+        "deploy/install.sh",
+        "deploy/install_traefik.sh",
+        "site/install.sh",
+        "tests/test_traefik_install.py"
       ]
     },
     {
       "id": "C3",
-      "title": "Version 0.60.16, D-O-028 et documentation",
-      "why": "Décision, état du projet, journal, fiche de version, site.",
+      "title": "Site : dépannage « ports 80 ou 443 déjà pris » par Traefik (FR / EN)",
+      "why": "La commande --traefik, et le guide de l'assistant IA.",
+      "files": [
+        "tools/site/trouble.html",
+        "tools/site/en/trouble.html",
+        "tools/site/installer.md",
+        "tools/site/en/installer.md",
+        "site/installation.html",
+        "site/en/installation.html",
+        "site/installer.md",
+        "site/en/installer.md"
+      ]
+    },
+    {
+      "id": "C5",
+      "title": "Une installation existante n'est jamais touchée (DA_DIR)",
+      "why": "Sur un serveur qui a déjà une copie plus ancienne dans /opt/dynamite_agile, le script s'arrête sans rien modifier et propose un autre dossier ; les noms Traefik suivent le dossier ; le service systemd n'est arrêté que s'il tourne depuis ce même dossier.",
+      "files": [
+        "deploy/install.sh",
+        "deploy/install_traefik.sh",
+        "tools/site/trouble.html",
+        "tools/site/en/trouble.html",
+        "tools/site/installer.md",
+        "tools/site/en/installer.md",
+        "tests/test_traefik_install.py"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Version 0.60.17, D-O-029 et documentation",
+      "why": "Décision, état du projet, journal, fiche de version.",
       "files": [
         "core/__init__.py",
         "CLAUDE.md",
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.16.json",
+        "docs/releases/0.60.17.json",
         "tests/test_open_v060.py",
         "static/apps/vitrine/index.html"
       ]

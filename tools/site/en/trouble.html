@@ -4,7 +4,14 @@
     <p>Another application is using the server's web ports, often a Docker application installed by your host's control panel
       (an AI agent, n8n, an admin panel…). See which one, then stop it or use another server:</p>
     <pre class="cmd" data-where="srv"><code>sudo ss -ltnp | grep -E ':(80|443) '</code>
-<code>docker ps</code></pre></details>
+<code>docker ps</code></pre>
+    <p><b>If it is Traefik</b> (the gate of Docker applications, for example on a Hostinger VPS): do not stop it, install
+      Dynamite | Agile behind it. Traefik keeps the ports and provides the HTTPS certificate; your other applications stay as
+      they are. The address must point to the server (at Hostinger: <code>dynamite.srvXXXX.hstgr.cloud</code>).</p>
+    <pre class="cmd" data-where="srv"><code>curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo DA_LANG=en bash -s -- --traefik dynamite.srvXXXX.hstgr.cloud</code></pre>
+    <p>If the message says <code>/opt/dynamite_agile</code> <b>already exists</b> (an older installation): nothing was
+      changed; install next to it, in another folder.</p>
+    <pre class="cmd" data-where="srv"><code>curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo DA_LANG=en DA_DIR=/opt/dynamite-agile-open bash -s -- --traefik dynamite.srvXXXX.hstgr.cloud</code></pre></details>
   <details class="trouble"><summary>“the domain … does not answer yet” or certbot: “NXDOMAIN”, “Timeout”</summary>
     <p>The A record is not visible yet, or port 80 is closed in the control-panel firewall. Check with <code>nslookup</code> from
       your computer, open 80 and 443, wait a few minutes and run the same command again.</p></details>

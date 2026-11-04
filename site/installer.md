@@ -87,7 +87,8 @@ affichées, chaque refus y nomme la valeur et le correctif.
 
 | Message | Cause et correctif |
 |---|---|
-| `les ports 80 ou 443 sont déjà pris` | Une autre application (souvent Docker, installée par le panneau) occupe le web. `sudo ss -ltnp \| grep -E ':(80\|443) '` et `docker ps` pour la trouver ; l'arrêter ou prendre un autre serveur. |
+| `les ports 80 ou 443 sont déjà pris` | Une autre application (souvent Docker, installée par le panneau) occupe le web. `sudo ss -ltnp \| grep -E ':(80\|443) '` et `docker ps` pour la trouver ; l'arrêter ou prendre un autre serveur. **Si c'est Traefik** (VPS Hostinger avec applications Docker) : ne pas l'arrêter ; installer derrière lui avec `curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh \| sudo bash -s -- --traefik <adresse>` (Traefik garde les ports et le certificat). |
+| `existe déjà et n'est pas une installation de ce dépôt` | Une autre copie (souvent une version plus ancienne) est dans `/opt/dynamite_agile` ; rien n'a été modifié. Ne pas l'effacer : installer à côté avec `curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh \| sudo DA_DIR=/opt/dynamite-agile-open bash -s -- --traefik <adresse>`. |
 | `le domaine … ne répond pas encore`, certbot `NXDOMAIN` ou `Timeout` | L'enregistrement A n'est pas encore visible ou le port 80 est fermé dans le pare-feu du panneau. Vérifier, attendre, relancer la même commande. |
 | `Permission denied` (ssh) | Mauvais mot de passe root ; en choisir un nouveau dans le panneau, ou utiliser la console web. |
 | `curl: command not found` | `sudo apt update && sudo apt install -y curl` |
