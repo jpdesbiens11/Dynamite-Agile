@@ -141,6 +141,45 @@ html[data-sketch] .dm-st-port { border-radius: 999px; }
 html[data-sketch] .dm-st-system { border-color: var(--graphite); border-radius: var(--r-card); }
 html[data-term] .dm-st-node, html[data-term] .dm-st-flow-label { font-family: var(--mono); font-size: .76rem; box-shadow: none; }
 
+/* ---------- 0.60.20: Pièces × fonctions (D-O-031) ---------- */
+.dm-st-ptags { position: absolute; right: .35rem; bottom: -.7rem; display: flex; gap: .2rem; }
+.dm-st-ptag { padding: 0 .35rem; font: 700 .68rem/1.35 var(--mono); color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 999px; }
+.dm-st-ptag-multi { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 22%, var(--surface)); }
+.dm-st-ptags-many .dm-st-ptag:not(.dm-st-ptag-multi) { border-color: var(--warn); }
+.dm-pt { display: flex; flex-direction: column; gap: .8rem; }
+.dm-pt-intro { margin: 0; max-width: 90ch; }
+.dm-pt-stats { display: flex; flex-wrap: wrap; gap: .4rem; }
+.dm-pt-stat { padding: .2rem .65rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-size: .84rem; }
+.dm-pt-stat.dm-pt-good, td.dm-pt-good { background: color-mix(in srgb, var(--ok) 22%, var(--surface)); }
+.dm-pt-stat.dm-pt-warn, td.dm-pt-warn { background: color-mix(in srgb, var(--warn) 35%, var(--surface)); }
+td.dm-pt-bad { background: color-mix(in srgb, var(--danger) 16%, var(--surface)); }
+.dm-pt-scroll { max-width: 100%; }
+table.data.dm-pt-table { width: auto; border-collapse: collapse; font-size: .84rem; }
+table.data.dm-pt-table th.dm-pt-fn { vertical-align: bottom; width: 4.8rem; min-width: 4.8rem; max-width: 4.8rem; padding: .3rem .3rem;
+  text-align: left; font-weight: 600; white-space: normal; overflow-wrap: anywhere; }
+.dm-pt-fn .dm-code { display: block; }
+.dm-pt-fn-text { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; font-size: .74rem; font-weight: 500; line-height: 1.2; }
+table.data.dm-pt-table th.dm-pt-part { min-width: 15rem; text-align: left; font-weight: 500; white-space: normal; }
+.dm-pt-kind { margin-left: .2rem; }
+.dm-pt-edit-btn { margin-left: .3rem; font-size: .78rem; }
+.dm-pt-cell { padding: 0; text-align: center; border: 1px solid var(--line); }
+.dm-pt-cell { width: 4.8rem; }
+.dm-pt-toggle { width: 100%; min-width: 2.4rem; height: 2.1rem; border: 0; background: transparent; color: var(--acc-ink, var(--ink));
+  font-size: 1.05rem; cursor: pointer; }
+.dm-pt-toggle:hover, .dm-pt-toggle:focus-visible { background: color-mix(in srgb, var(--acc) 18%, transparent); outline: none; }
+.dm-pt-on { background: color-mix(in srgb, var(--acc) 30%, var(--surface)); }
+.dm-pt-count { text-align: center; font: 700 .85rem var(--mono); }
+.dm-pt-idle th { color: var(--muted); }
+.dm-pt-foot th { text-align: right; font-weight: 650; }
+.dm-pt-add, .dm-pt-edit { display: flex; flex-wrap: wrap; align-items: flex-end; gap: .6rem; max-width: 60rem; }
+.dm-pt-chips { display: flex; flex-wrap: wrap; gap: .3rem; margin: .2rem 0; }
+.dm-pt-chip { padding: .05rem .5rem; border: 1px solid var(--line); border-radius: 999px; font-size: .8rem; background: var(--surface-2); }
+.dm-pt-checks { display: flex; flex-direction: column; gap: .15rem; max-height: 12rem; overflow: auto; margin: .3rem 0; font-size: .85rem; }
+.dm-pt-quick { gap: .4rem; }
+.dm-pt-quick input { flex: 1 1 10rem; }
+html[data-term] .dm-pt-toggle, html[data-term] .dm-st-ptag { font-family: var(--mono); }
+
 /* ---------- 0.60.14: Analyse de risque projet ---------- */
 .dm-rk-left { display: flex; flex-direction: column; gap: .8rem; min-width: 0; }
 .dm-heat-box { display: flex; flex-direction: column; gap: .4rem; align-items: flex-start; }

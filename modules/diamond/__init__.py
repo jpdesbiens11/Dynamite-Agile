@@ -7,10 +7,12 @@ Sub-modules, one per iteration:
            sub-systems (general view) or the tertiary functions (detail view), energy / material / information flows.
   0.60.14  Analyse de risque projet (risks.py): the high-level register, P x I on 5 x 5, response, owner, residual risk.
   0.60.15  DFMEA AIAG-VDA (dfmea.py, dfmea_ap.py): three levels, the functions of the tree, S / O / D, RPN and AP.
+  0.60.20  Pièces (parts.py, example_parts.py): the parts tagged on the functions of the structure, the matrix parts x
+           functions and what it says about the architecture (integrated parts, functions shared by several parts).
   0.60.16  Golden Nuggets (static/js/diamond/nuggets*.js): first-principles thinking and design rules, with examples.
 Every table is tied to projects(id) (backup, restore, copy by the core); every write is journalled.
 """
-from . import dfmea, example, functions, risks, structure
+from . import dfmea, example, functions, parts, risks, structure
 
 SCHEMA = ""
 
@@ -135,6 +137,31 @@ MIGRATIONS = [
         );
         CREATE INDEX idx_diamond_dfmea_project ON diamond_dfmea(project_id, position);
     """),
+    (5, """
+        -- 0.60.20 (D-O-031): the parts and the functions each one carries out
+        CREATE TABLE diamond_parts (
+            id         INTEGER PRIMARY KEY,
+            project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            number     INTEGER NOT NULL,
+            name       TEXT NOT NULL,
+            kind       TEXT NOT NULL DEFAULT 'designed',
+            notes      TEXT NOT NULL DEFAULT '',
+            position   INTEGER NOT NULL DEFAULT 0,
+            created_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            created_at TEXT NOT NULL,
+            updated_at TEXT NOT NULL,
+            UNIQUE (project_id, number)
+        );
+        CREATE TABLE diamond_part_functions (
+            id          INTEGER PRIMARY KEY,
+            project_id  INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            part_id     INTEGER NOT NULL REFERENCES diamond_parts(id) ON DELETE CASCADE,
+            function_id INTEGER NOT NULL REFERENCES diamond_functions(id) ON DELETE CASCADE,
+            UNIQUE (part_id, function_id)
+        );
+        CREATE INDEX idx_diamond_parts_project ON diamond_parts(project_id);
+        CREATE INDEX idx_diamond_part_functions_project ON diamond_part_functions(project_id);
+    """),
 ]
 
 P = r"/api/diamond/p/(?P<pid>\d+)"
@@ -157,6 +184,11 @@ ROUTES = [
     ("PUT", P + r"/structure/position", structure.api_position, "user"),
     ("POST", P + r"/structure/layout/reset", structure.api_reset_layout, "user"),
     ("POST", P + r"/structure/example", example.api_structure_example, "user"),
+    ("POST", P + r"/structure/parts", parts.api_create, "user"),
+    ("POST", P + r"/structure/parts/example", example.api_parts_example, "user"),
+    ("PATCH", P + r"/structure/parts/(?P<oid>\d+)", parts.api_update, "user"),
+    ("PUT", P + r"/structure/parts/(?P<oid>\d+)/functions", parts.api_tag, "user"),
+    ("POST", P + r"/structure/parts/(?P<oid>\d+)/delete", parts.api_delete, "user"),
     ("GET", P + r"/risks", risks.api_list, "user"),
     ("POST", P + r"/risks", risks.api_create, "user"),
     ("GET", P + r"/risks/export\.csv", risks.api_export, "user"),

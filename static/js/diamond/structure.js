@@ -12,7 +12,8 @@
 
   async function view(page, ctx) {
     const base = D.base(ctx) + "/structure";
-    const state = { data: await api.get(base), view: "general", selected: null, link: null, labels: { general: true, detail: false } };
+    const state = { data: await api.get(base), view: "general", selected: null, link: null, labels: { general: true, detail: false },
+      showParts: true, editing: null };
     const holder = el("div", { class: "dm-page" });
     page.append(holder);
     const redraw = () => D.later(() => draw(holder, ctx, state, run));
@@ -51,7 +52,12 @@
         [["Ouvrir l'arbre fonctionnel", A.href(ctx, "ftree"), true]]));
       return;
     }
-    holder.append(tabs(state), legend());
+    holder.append(tabs(state));
+    if (state.view === "parts") {  // 0.60.20 (D-O-031): the matrix parts x functions instead of the diagram
+      holder.append(D.partsView(state, run, editable));
+      return;
+    }
+    holder.append(legend());
     if (!data.ports.length && !data.flows.length && editable) {
       holder.append(el("div", { class: "dm-advice" }, el("p", null, "Structure vide. Ajoutez les entrées et sorties du système dans le "
         + "panneau, puis reliez les blocs. Si cet arbre est celui de l'exemple (lampe de bureau), sa structure peut être chargée."),
@@ -82,12 +88,15 @@
     const flows = data.flows.filter((fl) => fl.view === state.view);
     const diagram = D.structureDraw({ data, view: state.view, saved: saved(state), selected: state.selected,
       link: state.link ? { key: D.structureKey(state.link.src.type, state.link.src.id) } : null, editable, onSelect, onMove, flows,
-      showLabels: state.labels[state.view] });
+      showLabels: state.labels[state.view], parts: state.showParts ? D.partsByFunction(data, state.view) : null });
     const startLink = (body) => { state.link = body; state.redraw(); };
     const showLabels = el("input", { type: "checkbox", checked: state.labels[state.view] });
     showLabels.addEventListener("change", () => { state.labels[state.view] = showLabels.checked; state.redraw(); });
+    const showParts = el("input", { type: "checkbox", checked: state.showParts });
+    showParts.addEventListener("change", () => { state.showParts = showParts.checked; state.redraw(); });
     holder.append(el("div", { class: "dm-actions dm-st-tools" }, el("label", { class: "dm-check", "data-new": "0.60.13-labels" }, showLabels,
       " Libellés des flux (sinon : ceux du bloc choisi)"),
+    data.parts.length ? el("label", { class: "dm-check", "data-new": "0.60.20-part-tags" }, showParts, " Pièces sur les blocs") : null,
     editable ? el("button", { type: "button", class: "btn btn-small", "data-new": "0.60.13-layout",
       onclick: () => { if (window.confirm("Replacer tous les blocs de cette vue automatiquement ?")) run("/layout/reset", { view: state.view }); } },
     "Replacer automatiquement") : null));
@@ -97,10 +106,12 @@
   }
 
   function tabs(state) {
-    return el("nav", { class: "subtabs dm-st-views", "aria-label": "Vues" }, Object.entries(state.data.labels.views).map(([k, label]) =>
-      el("a", { href: "#", class: "subtab" + (k === state.view ? " active" : ""), "aria-current": k === state.view ? "page" : null,
-        onclick: (ev) => { ev.preventDefault(); state.view = k; state.selected = null; state.link = null; state.redraw(); } },
-      label + " · " + state.data.flows.filter((f) => f.view === k).length + " flux")));
+    const go = (k) => (ev) => { ev.preventDefault(); state.view = k; state.selected = null; state.link = null; state.editing = null; state.redraw(); };
+    const tab = (k, label) => el("a", { href: "#", class: "subtab" + (k === state.view ? " active" : ""),
+      "aria-current": k === state.view ? "page" : null, onclick: go(k), "data-new": k === "parts" ? "0.60.20-parts-tab" : null }, label);
+    return el("nav", { class: "subtabs dm-st-views", "aria-label": "Vues" },
+      Object.entries(state.data.labels.views).map(([k, label]) => tab(k, label + " · " + state.data.flows.filter((f) => f.view === k).length + " flux")),
+      tab("parts", "Pièces × fonctions · " + state.data.parts.length + " pièce" + (state.data.parts.length > 1 ? "s" : "")));
   }
 
   function legend() {

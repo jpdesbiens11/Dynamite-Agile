@@ -7,7 +7,7 @@ outside the tree. Content written for Dynamite | Agile (no third-party example, 
 from core import audit
 from core.errors import ApiError
 
-from . import example_dfmea, example_risks, example_structure, functions as F
+from . import example_dfmea, example_parts, example_risks, example_structure, functions as F
 
 # (key, parent key | None, text, ftype, kano, importance, critical); the first one is the primary function
 LAMP = [
@@ -59,6 +59,8 @@ def api_example(ctx):
     for src, dst in FEEDBACK:
         ctx.conn.execute("UPDATE diamond_functions SET feedback_to = ? WHERE id = ?", (ids[dst], ids[src]))
     example_structure.load(ctx.conn, pid, _texts(items))  # 0.60.13: its functional structure too
+    if not ctx.conn.execute("SELECT 1 FROM diamond_parts WHERE project_id = ?", (pid,)).fetchone():
+        example_parts.load(ctx.conn, ctx.user["id"], pid, _texts(items))  # 0.60.20: and its parts
     if not ctx.conn.execute("SELECT 1 FROM diamond_risks WHERE project_id = ?", (pid,)).fetchone():
         example_risks.load(ctx.conn, ctx.user["id"], pid)  # 0.60.14: and its project risks
     if not ctx.conn.execute("SELECT 1 FROM diamond_dfmea WHERE project_id = ?", (pid,)).fetchone():
@@ -76,7 +78,19 @@ def api_structure_example(ctx):
     """0.60.13: the structure of the example for a tree loaded before (the lamp tree must be there, the structure empty)."""
     pid = F.access(ctx, "editor")
     ports, flows = example_structure.load(ctx.conn, pid, _texts(LAMP))
-    audit.log_action(ctx.conn, ctx.user["id"], "diamond_structure_example", "projects", pid, {"ports": ports, "flows": flows}, ctx.ip)
+    n = 0
+    if not ctx.conn.execute("SELECT 1 FROM diamond_parts WHERE project_id = ?", (pid,)).fetchone():
+        n = example_parts.load(ctx.conn, ctx.user["id"], pid, _texts(LAMP))  # 0.60.20
+    audit.log_action(ctx.conn, ctx.user["id"], "diamond_structure_example", "projects", pid, {"ports": ports, "flows": flows, "parts": n}, ctx.ip)
+    from . import structure
+    return structure.payload(ctx.conn, pid)
+
+
+def api_parts_example(ctx):
+    """0.60.20: the parts of the example, for a lamp structure loaded before (the Space has no part yet)."""
+    pid = F.access(ctx, "editor")
+    n = example_parts.load(ctx.conn, ctx.user["id"], pid, _texts(LAMP))
+    audit.log_action(ctx.conn, ctx.user["id"], "diamond_parts_example", "projects", pid, {"parts": n}, ctx.ip)
     from . import structure
     return structure.payload(ctx.conn, pid)
 

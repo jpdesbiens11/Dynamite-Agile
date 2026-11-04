@@ -14,7 +14,7 @@ when a box is dragged; without them the screen lays the boxes out by itself. Eve
 from core import audit, db, validate
 from core.errors import ApiError
 
-from . import functions as F
+from . import functions as F, parts
 
 VIEWS = {"general": "Vue générale (sous-systèmes)", "detail": "Vue détaillée (fonctions tertiaires)"}
 KINDS = {"energy": "Énergie", "material": "Matière", "information": "Information"}
@@ -110,7 +110,15 @@ def payload(conn, pid):
             "ports": ports, "flows": flows,
             "positions": [dict(r) for r in conn.execute("SELECT view, function_id, port_id, x, y FROM diamond_positions WHERE project_id = ?", (pid,))],
             "checks": checks(view_nodes, items, ports, flows),
-            "labels": {"views": VIEWS, "kinds": KINDS, "sides": SIDES}}
+            **_parts(conn, pid, view_nodes),
+            "labels": {"views": VIEWS, "kinds": KINDS, "sides": SIDES, "part_kinds": parts.KINDS}}
+
+
+def _parts(conn, pid, view_nodes):
+    """0.60.20 (D-O-031): the parts on the functions, and what the allocation says about the architecture."""
+    found = parts.rows(conn, pid, parts.taggable(view_nodes))
+    part_checks, stats = parts.analysis(found, view_nodes)
+    return {"parts": found, "part_checks": part_checks, "part_stats": stats}
 
 
 def _log(ctx, action, table, oid, details=None):
