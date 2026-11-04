@@ -1,0 +1,56 @@
+{
+  "version": "0.60.18",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Prompt de départ pour un assistant IA : une entrevue de 20 questions, une à la fois, qui produit le fichier Project Starter ; « Copier le prompt » dans Commencer, hors ligne aussi.",
+    "en": "Starting prompt for an AI assistant: a 20-question interview, one at a time, that produces the Project Starter file; « Copier le prompt » in Commencer, offline too."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Prompt starter.md (FR / EN) : l'entrevue et le format exact",
+      "why": "Six blocs (projet, équipe, temps, besoins / requis / essais, wiki, fichier), choix numérotés, récapitulatifs, normes « À vérifier », champs obligatoires, ordre du fichier, avertissements expliqués ; valeurs permises et exemple valide lus dans l'outil (core/starter_prompt.py). Essai à blanc : un fichier accepté du premier coup.",
+      "files": [
+        "tools/site/starter.md",
+        "tools/site/en/starter.md",
+        "core/starter_prompt.py",
+        "tests/test_starter_prompt.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Commencer : « 1. Préparer le fichier avec un assistant IA »",
+      "why": "Quatre étapes pour un débutant, Copier le prompt, Télécharger (.md), Copy the English prompt ; GET /api/starter/prompt le sert depuis l'outil, sans Internet.",
+      "files": [
+        "static/js/admin_starter.js",
+        "core/starter_apply.py",
+        "static/js/tools/debuter_content.js"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Site : starter.md et la section « Démarrer un projet avec un assistant IA » du guide",
+      "why": "Le même texte que dans l'outil, FR et EN.",
+      "files": [
+        "tools/build_site.py",
+        "tools/site/guide.html",
+        "tools/site/en/guide.html"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Version 0.60.18 et documentation",
+      "why": "Décision, état du projet, journal, fiche de version.",
+      "files": [
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.18.json",
+        "tests/test_open_v060.py",
+        "docs/STARTER_FORMAT.md"
+      ]
+    }
+  ]
+}

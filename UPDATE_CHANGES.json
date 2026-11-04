@@ -2,59 +2,38 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Noyau : derrière un proxy HTTPS de confiance (D-O-029)",
-      "why": "trusted_proxies, X-Forwarded-For / -Proto, cookie Secure, accès direct refusé en production.",
+      "title": "Prompt starter.md (FR / EN) : l'entrevue et le format exact",
+      "why": "Six blocs (projet, équipe, temps, besoins / requis / essais, wiki, fichier), choix numérotés, récapitulatifs, normes « À vérifier », champs obligatoires, ordre du fichier, avertissements expliqués ; valeurs permises et exemple valide lus dans l'outil (core/starter_prompt.py). Essai à blanc : un fichier accepté du premier coup.",
       "files": [
-        "core/proxy.py",
-        "core/router.py",
-        "core/tls.py",
-        "core/config.py",
-        "tests/test_proxy.py"
+        "tools/site/starter.md",
+        "tools/site/en/starter.md",
+        "core/starter_prompt.py",
+        "tests/test_starter_prompt.py"
       ]
     },
     {
       "id": "C2",
-      "title": "install.sh --traefik et deploy/install_traefik.sh",
-      "why": "Conteneur python:3.12-slim avec ses étiquettes Traefik, sans toucher au pare-feu ni aux autres applications.",
+      "title": "Commencer : « 1. Préparer le fichier avec un assistant IA »",
+      "why": "Quatre étapes pour un débutant, Copier le prompt, Télécharger (.md), Copy the English prompt ; GET /api/starter/prompt le sert depuis l'outil, sans Internet.",
       "files": [
-        "deploy/install.sh",
-        "deploy/install_traefik.sh",
-        "site/install.sh",
-        "tests/test_traefik_install.py"
+        "static/js/admin_starter.js",
+        "core/starter_apply.py",
+        "static/js/tools/debuter_content.js"
       ]
     },
     {
       "id": "C3",
-      "title": "Site : dépannage « ports 80 ou 443 déjà pris » par Traefik (FR / EN)",
-      "why": "La commande --traefik, et le guide de l'assistant IA.",
+      "title": "Site : starter.md et la section « Démarrer un projet avec un assistant IA » du guide",
+      "why": "Le même texte que dans l'outil, FR et EN.",
       "files": [
-        "tools/site/trouble.html",
-        "tools/site/en/trouble.html",
-        "tools/site/installer.md",
-        "tools/site/en/installer.md",
-        "site/installation.html",
-        "site/en/installation.html",
-        "site/installer.md",
-        "site/en/installer.md"
-      ]
-    },
-    {
-      "id": "C5",
-      "title": "Une installation existante n'est jamais touchée (DA_DIR)",
-      "why": "Sur un serveur qui a déjà une copie plus ancienne dans /opt/dynamite_agile, le script s'arrête sans rien modifier et propose un autre dossier ; les noms Traefik suivent le dossier ; le service systemd n'est arrêté que s'il tourne depuis ce même dossier.",
-      "files": [
-        "deploy/install.sh",
-        "deploy/install_traefik.sh",
-        "tools/site/trouble.html",
-        "tools/site/en/trouble.html",
-        "tools/site/installer.md",
-        "tools/site/en/installer.md",
-        "tests/test_traefik_install.py"
+        "tools/build_site.py",
+        "tools/site/guide.html",
+        "tools/site/en/guide.html"
       ]
     },
     {
       "id": "C4",
-      "title": "Version 0.60.17, D-O-029 et documentation",
+      "title": "Version 0.60.18 et documentation",
       "why": "Décision, état du projet, journal, fiche de version.",
       "files": [
         "core/__init__.py",
@@ -62,9 +41,9 @@
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.17.json",
+        "docs/releases/0.60.18.json",
         "tests/test_open_v060.py",
-        "static/apps/vitrine/index.html"
+        "docs/STARTER_FORMAT.md"
       ]
     }
   ]

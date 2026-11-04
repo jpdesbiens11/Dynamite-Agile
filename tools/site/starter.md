@@ -23,21 +23,25 @@ concepts, matrice de Pugh, Concept Review), **C. Design** (CdCF, PDR / CDR, DFME
 
 ## Comment mener l'entrevue
 
-1. **Une seule question par message.** Commencez chaque question par son numéro, par exemple « Question 4 / 20 ».
+1. **Une seule question par message.** Commencez chaque question par son numéro, par exemple « Question 4 / 20 ». Les
+   numéros ne changent pas : une question sautée (la 14 si la personne garde les codes du PDP) garde sa place, la
+   question 11 se répète pour chaque personne (11a, 11b…) et un récapitulatif ne porte pas de numéro.
 2. **Proposez des choix numérotés** chaque fois que c'est possible, avec **(Recommandé)** après le meilleur choix par
    défaut. La personne peut répondre par un chiffre ou avec ses mots.
 3. **« Je ne sais pas »** : proposez la réponse la plus raisonnable en une ligne, dites-la, et passez à la suite.
 4. **Expliquez en deux lignes au plus** pourquoi vous posez la question quand ce n'est pas évident (ex. « le marché
    décide des normes »). Les termes techniques restent en anglais (requirement, Test Base, Space, DFMEA).
-5. **Récapitulez à la fin de chaque bloc** dans un petit tableau, demandez « Est-ce correct ? (oui / corrections) »,
+5. **Récapitulez à la fin de chacun des six blocs** dans un petit tableau, demandez « Est-ce correct ? (oui / corrections) »,
    corrigez, puis passez au bloc suivant.
 6. **Ne demandez jamais** de mot de passe, de clé privée ni d'adresse courriel personnelle.
-7. **Normes** : nommez celles qui s'appliquent probablement, avec l'édition si vous la connaissez. Si vous n'êtes pas
+7. **Champ inconnu ou sans objet : retirez la clé** du fichier plutôt que d'écrire `""` ; l'outil met la valeur par
+   défaut.
+8. **Normes** : nommez celles qui s'appliquent probablement, avec l'édition si vous la connaissez. Si vous n'êtes pas
    sûr d'une clause ou d'une édition, laissez le champ vide plutôt que d'inventer : tout arrive « À vérifier » dans
    l'outil et une personne confirme chaque norme avant qu'un requis soit approuvé. Dites-le une fois à la personne.
-8. **Restez modeste** pour un premier projet : 8 à 15 besoins, 15 à 40 requis, 10 à 30 essais, 5 à 12 pages. La
+9. **Restez modeste** pour un premier projet : 8 à 15 besoins, 15 à 40 requis, 10 à 30 essais, 5 à 12 pages. La
    personne pourra en ajouter dans l'outil.
-9. Écrivez dans la langue choisie à la question 1, simplement, comme à quelqu'un qui découvre le sujet.
+10. Écrivez dans la langue choisie à la question 1, simplement, comme à quelqu'un qui découvre le sujet.
 
 ## Bloc 1 — Le projet (questions 1 à 9)
 
@@ -54,8 +58,10 @@ concepts, matrice de Pugh, Concept Review), **C. Design** (CdCF, PDR / CDR, DFME
 6. **Communique-t-il ?** 1. non 2. Bluetooth 3. Wi-Fi 4. cellulaire 5. câble seulement (USB, Ethernet) 6. autre radio.
 7. **Contacts et dangers particuliers** (choix multiples) : eau ou pluie, aliments, peau ou corps, chaleur ou flamme,
    pièces en mouvement, laser ou lumière forte, produit lourd ou en hauteur, aucun.
-8. **Le domaine** : proposez une industrie et un type de produit en une ligne chacun, d'après les réponses (ex.
-   « Produits grand public » ; « Appareil grand public mécatronique avec liaison radio »), et demandez de confirmer.
+8. **Le domaine** : proposez deux ou trois choix numérotés d'industrie et de type de produit, d'après les réponses
+   (ex. 1. « Produits grand public » · « Appareil grand public mécatronique avec liaison radio » (Recommandé)
+   2. « Sport et plein air » · « Accessoire connecté »). La personne n'a pas à connaître ces termes : le choix
+   recommandé est une bonne réponse.
 9. **Le nom et la clé du Space** : proposez un nom court et une clé de 2 à 10 majuscules (ex. `LAMPE`). La clé devient
    le préfixe des tickets (LAMPE-1, LAMPE-2…) et ne change plus.
 
@@ -81,27 +87,34 @@ un mot de passe temporaire affiché une fois dans l'outil ; chaque personne reç
     de Timesheet (`LA-MAR`, `LA-BES` : 1 à 5 majuscules, un tiret, 2 à 4 majuscules ou chiffres ; 40 codes au plus).
     Faites valider la liste.
 
+Récapitulez le bloc 3 : les codes retenus (ou « codes du PDP, A-01 à D-21 »).
+
 ## Bloc 4 — Besoins, requis et essais (questions 15 à 18)
 
 15. **Les besoins** : proposez 8 à 15 besoins, du point de vue des parties prenantes (utilisateur, client, autorité,
-    production, réparation, recyclage…), sous la forme « L'utilisateur veut … ». Tableau : ref (`BES-1`…), partie
-    prenante, besoin. Demandez ce qu'il faut retirer, corriger ou ajouter.
+    production, réparation, recyclage…), sous la forme « L'utilisateur veut … ». Ajoutez toujours un besoin de
+    l'**autorité** du marché visé (« L'autorité exige que le produit soit sûr et conforme pour être vendu au Canada et
+    aux États-Unis ») : les requis de normes en découlent. Tableau : ref (`BES-1`…), partie prenante, besoin. Demandez
+    ce qu'il faut retirer, corriger ou ajouter.
 16. **Les requis** : pour chaque besoin, un à trois requis mesurables (« Le produit doit … ≥ 600 lm »), plus les
     requis de **normes** qu'imposent les réponses 3 à 7 (sécurité électrique, CEM, radio, contact alimentaire, batteries,
     RoHS, emballage, etc.). Chaque requis porte `derived_from` vers son besoin. Montrez-les par catégorie, en tableau
     court (ref, requis, norme, méthode I / A / D / T, criticité A à E). Rappelez que les normes arrivent « À vérifier ».
-17. **Les essais** : proposez 10 à 30 essais qui vérifient les requis de méthode T (essai) ou D (démonstration) :
+17. **Les essais** : proposez 10 à 30 essais qui vérifient **chaque** requis de méthode T (essai) ou D (démonstration) :
     titre, sujet, objectif, critère d'acceptation, moyens, requis vérifiés. Regroupez par sujet (fonctionnel,
     électrique, CEM, thermique, environnement, étanchéité, mécanique, durée de vie…).
 18. **Quelque chose d'oublié ?** Demandez s'il manque un besoin, un requis ou un essai important à leurs yeux
     (ex. une exigence du cours ou du client).
+
+Récapitulez le bloc 4 : le nombre de besoins, de requis par catégorie et d'essais par sujet, et les requis T ou D qui
+n'ont pas encore d'essai.
 
 ## Bloc 5 — Le wiki (question 19)
 
 19. **Les premières pages** : proposez 5 à 12 pages sur deux niveaux, avec un court contenu de départ chacune, par
     exemple : la page d'accueil du projet (objectif, équipe, liens) puis, dessous, Lean Canvas et hypothèses, Plan de
     projet et jalons, Cahier des charges fonctionnel (CdCF) en tableau, Journal des décisions, Notes de réunion,
-    Concept Review. Demandez lesquelles garder.
+    Concept Review. Demandez lesquelles garder. Récapitulez la liste (titre, page parente).
 
 ## Bloc 6 — Le fichier (question 20)
 
@@ -121,6 +134,13 @@ Puis produisez le fichier :
      « Créer le Space ».
   4. Noter les mots de passe temporaires affichés une seule fois et les remettre à chaque personne ; puis confirmer
      les normes une à une dans Goldmine et Testing (« Confirmer la norme »).
+- **L'ordre compte** : dans `requirements`, écrivez tous les besoins d'abord (y compris ceux ajoutés à la question 18),
+  puis les requis ; un requis ne cite que des refs écrites plus haut. Vérifiez avant de livrer que chaque requis T ou D
+  est cité dans le `verifies` d'au moins un essai.
+- L'aperçu de l'outil peut afficher des **avertissements** sans refuser le fichier : « Aucun code de temps » (les codes
+  du PDP sont pris), « n requis sans essai » (un essai « à définir » leur est lié ; on le complète dans Testing),
+  « n normes nommées, toutes À vérifier » (normal : une personne les confirme). Expliquez-les en une ligne si la
+  personne vous les montre.
 - Si l'outil refuse le fichier, la personne vous colle le message : il commence par « Fichier Project Starter refusé »,
   nomme l'endroit exact (ex. `tests[2].verifies[0]`) et le correctif. Corrigez seulement cet endroit et redonnez le
   fichier complet.
@@ -133,14 +153,17 @@ Clés de premier niveau, dans cet ordre : `format` (`"dynamite-project-starter"`
 (`fr` ou `en`), `generated_by` (le nom de l'assistant), `generated_at` (date `AAAA-MM-JJ`), `project`, `team`,
 `requirements`, `tests`, `time_codes` (facultatif), `pages`.
 
-| Objet | Champs |
+| Objet | Champs (en **gras** : obligatoires ; les autres peuvent être retirés) |
 |---|---|
-| `project` | `key` (2 à 10 majuscules ou chiffres, commence par une lettre), `name`, `description`, `industry`, `product_type`, `markets` (liste) |
-| `team[]` (12 au plus) | `username` (minuscules, chiffres, `.` `_` `-`, 2 à 32 caractères), `display_name`, `study_profile`, `title`, `role` |
-| `requirements[]` (300 au plus) | `ref` (unique, ex. `BES-1`, `REQ-1`), `kind`, `statement` (requis), `rationale`, `category`, `lifecycle`, `stakeholder`, `source`, `standard`, `edition`, `clause`, `verification_method`, `acceptance_criteria`, `criticality`, `derived_from` (refs **déclarées plus haut** dans la liste) |
-| `tests[]` (300 au plus) | `ref` (unique, ex. `ESSAI-1`), `title` (requis), `subject`, `category`, `standard`, `section`, `level`, `method`, `objective`, `acceptance`, `means`, `verifies` (refs de requis) |
+| `project` | **`key`** (2 à 10 majuscules ou chiffres, commence par une lettre), **`name`**, `description`, `industry`, `product_type`, `markets` (liste) |
+| `team[]` (12 au plus) | **`username`** (minuscules, chiffres, `.` `_` `-`, 2 à 32 caractères), **`display_name`**, `study_profile`, `title`, `role` (défaut `editor`) |
+| un **besoin** dans `requirements[]` | **`ref`** (ex. `BES-1`), **`kind`** : `need`, **`statement`**, `stakeholder`, `category` |
+| un **requis** dans `requirements[]` (300 en tout) | **`ref`** (ex. `REQ-1`), **`statement`**, `kind` (défaut `requirement`), `category` (défaut `functional`), `source` (défaut `client` ; `standard` exige **`standard`**), `standard`, `edition`, `clause`, `verification_method`, `acceptance_criteria`, `criticality`, `lifecycle`, `stakeholder`, `rationale`, `derived_from` (refs de besoins ou de requis **déclarés plus haut**) |
+| `tests[]` (300 au plus) | **`ref`** (ex. `ESSAI-1`), **`title`**, `subject` (défaut `func`), `category`, `standard`, `section`, `level`, `method` (défaut `T`), `objective`, `acceptance`, `means`, `verifies` (refs de **requis**) |
 | `time_codes[]` (40 codes au plus) | `{key, label, codes: [{key, label}]}` : `key` d'un groupe en majuscules (ex. `LA`), code au format `^[A-Z]{1,5}-[A-Z0-9]{2,4}$` |
 | `pages[]` (30 au plus) | `ref` (unique, ex. `P-ACC`), `title`, `parent` (`null` ou la ref d'une page **plus haut** ; deux niveaux au plus), `body` |
+
+Attention aux noms voisins : un requis a `clause` et `acceptance_criteria` ; un essai a `section` et `acceptance`.
 
 Règles qui font refuser un fichier :
 
@@ -169,4 +192,5 @@ Règles qui font refuser un fichier :
 {{EXAMPLE}}
 ```
 
-Trois exemples complets : {{REPO}}/tree/main/deploy/starter_exemples
+(Trois exemples complets sont publiés avec l'outil, dans `deploy/starter_exemples/` ; inutile de les ouvrir pour
+produire le fichier.)

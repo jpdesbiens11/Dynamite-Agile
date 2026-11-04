@@ -1,4 +1,15 @@
-# Journal de mise à jour — 0.60.17
+# Journal de mise à jour — 0.60.18
+
+- **Version :** 0.60.17 → 0.60.18 (2026-11-04)
+- **Changements :**
+  1. **Prompt de départ** `starter.md` (D-O-019) : l'entrevue d'un assistant IA, 20 questions une à la fois, qui produit le fichier Project Starter ; valeurs permises et exemple tirés de l'outil.
+  2. **Commencer** : étape « 1. Préparer le fichier avec un assistant IA », Copier le prompt / Télécharger, hors ligne aussi.
+  3. **Site** : `starter.md` (FR / EN) et une section du guide.
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.17
 
 - **Version :** 0.60.16 → 0.60.17 (2026-11-04)
 - **Changements :**
@@ -8,8 +19,6 @@
   2. **Noyau** : `trusted_proxies` ; derrière le proxy, l'adresse du visiteur et le HTTPS sont reconnus ; accès direct refusé.
   3. **Site** : dépannage « ports 80 ou 443 déjà pris » quand c'est Traefik.
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.16
 
