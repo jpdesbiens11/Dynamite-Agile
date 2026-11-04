@@ -24,7 +24,7 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 |---|---|---|
 | 1 | Droits sur le contenu de référence | Réécrit en contenu original (D-O-009) |
 | 2 | Licence du code | MIT (D-O-010) |
-| 3 | Hébergement et nom du dépôt public | GitHub, `dynamite-agile` (D-O-011) ; compte propriétaire à préciser (`REPO` dans `tools/build_site.py`, `OWNER` en attendant) |
+| 3 | Hébergement et nom du dépôt public | GitHub, https://github.com/jpdesbiens11/Dynamite-Agile (D-O-011) ; site : https://jpdesbiens11.github.io/Dynamite-Agile |
 | 4 | Modules hors cours | Gardés ; évaluation par les pairs à venir (D-O-013) |
 | 5 | Profils d'études de l'équipe d'exemple | Confirmés (D-O-013) |
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
@@ -44,5 +44,5 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
   `fr` aujourd'hui), barre du haut, menus, Paramètres, Admin, messages d'erreur du serveur par catalogue.
 - Installation : `deploy/install.sh` (Ubuntu / Debian, Let's Encrypt, ufw, systemd) ; résumé dans
   `deploy/DEPLOIEMENT_VPS.md`, procédure illustrée dans `site/installation.html`, guide de l'assistant IA
-  `site/installer.md`. Pas encore essayé sur un vrai VPS ; l'URL `OWNER.github.io` attend le compte GitHub.
+  `site/installer.md`. Pas encore essayé sur un vrai VPS ; site publié par GitHub Pages sur https://jpdesbiens11.github.io/Dynamite-Agile une fois le code poussé et Pages activé (Settings → Pages → Source : GitHub Actions).
 - 0.60.02 est la base propre (D-O-012) : elle s'installe sur une base de données neuve ; migrations additives à partir d'ici.

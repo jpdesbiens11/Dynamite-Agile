@@ -14,7 +14,7 @@
 # Messages in French by default, in English with DA_LANG=en (sudo DA_LANG=en bash -s -- …).
 set -euo pipefail
 
-REPO="${DA_REPO:-https://github.com/OWNER/dynamite-agile.git}"
+REPO="${DA_REPO:-https://github.com/jpdesbiens11/Dynamite-Agile.git}"
 TARGET=/opt/dynamite_agile
 SERVICE=dynamite-agile
 

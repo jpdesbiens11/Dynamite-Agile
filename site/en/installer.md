@@ -1,7 +1,7 @@
 # Installing Dynamite | Agile — a guide for an AI assistant
 
 This file is for the AI assistant (Claude or another) that a beginner has opened next to their terminal to install
-Dynamite | Agile. The illustrated page for people is https://owner.github.io/dynamite-agile/en/installation.html.
+Dynamite | Agile. The illustrated page for people is https://jpdesbiens11.github.io/Dynamite-Agile/en/installation.html.
 
 ## How to guide
 
@@ -13,7 +13,7 @@ Dynamite | Agile. The illustrated page for people is https://owner.github.io/dyn
   (`PS C:\…>` on Windows, `…%` or `…$` on macOS / Linux). Help them know where they are.
 - With `DA_LANG=en`, every message of the script is in English; each error starts with `Error:` and names the fix: read it
   with them.
-- The script is public: https://github.com/OWNER/dynamite-agile/blob/main/deploy/install.sh
+- The script is public: https://github.com/jpdesbiens11/Dynamite-Agile/blob/main/deploy/install.sh
 
 ## Three destinations
 
@@ -32,9 +32,9 @@ Dynamite | Agile. The illustrated page for people is https://owner.github.io/dyn
 3. **Log in** (on their computer): `ssh root@IP`; answer `yes` the first time; the password does not show while typing.
    Alternative: the *Web console* button of the control panel.
 4. **Install** (on the server), with one command:
-   `curl -fsSL https://owner.github.io/dynamite-agile/install.sh | sudo DA_LANG=en bash -s -- workshop.my-domain.com me@example.com`
+   `curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo DA_LANG=en bash -s -- workshop.my-domain.com me@example.com`
    The script prints `== 1/7` to `== 7/7 Installed`, then the address and the temporary password of the `admin` account.
-   Without curl: `sudo apt update && sudo apt install -y git`, `sudo git clone https://github.com/OWNER/dynamite-agile.git /opt/dynamite_agile`, then
+   Without curl: `sudo apt update && sudo apt install -y git`, `sudo git clone https://github.com/jpdesbiens11/Dynamite-Agile.git /opt/dynamite_agile`, then
    `sudo DA_LANG=en bash /opt/dynamite_agile/deploy/install.sh workshop.my-domain.com me@example.com`.
 5. **Open** `https://workshop.my-domain.com`, account `admin`, the password shown, then choose a new one. Create the
    team: ⚙ Admin → Comptes → Règles d'accès; the project's Space: ⚙ Admin → Spaces.
@@ -42,7 +42,7 @@ Dynamite | Agile. The illustrated page for people is https://owner.github.io/dyn
 ## B. Server, private trial
 
 1. `ssh root@IP` (on their computer).
-2. On the server: `curl -fsSL https://owner.github.io/dynamite-agile/install.sh | sudo DA_LANG=en bash -s -- --essai`
+2. On the server: `curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo DA_LANG=en bash -s -- --essai`
 3. On their computer, in a **new** terminal left open: `ssh -N -L 8080:127.0.0.1:8080 root@IP`
    (it looks frozen: that's normal). Open `http://127.0.0.1:8080`, account `admin` / `admin`, example team.
 4. Going online later: follow path A; the same command with domain and email.
@@ -50,11 +50,11 @@ Dynamite | Agile. The illustrated page for people is https://owner.github.io/dyn
 ## C. Their computer
 
 - **Windows**: `winget install -e --id Python.Python.3.12` (or python.org, ticking “Add python.exe to PATH”), close and
-  reopen the terminal; download https://github.com/OWNER/dynamite-agile/archive/refs/heads/main.zip, extract it into Documents; double-click
-  `Lancer_dev_local.bat`, or `cd $HOME\Documents\dynamite-agile-main` then `python app_dynamite_agile.py --dev-admin`.
-- **macOS**: `xcode-select --install` (once), then `git clone https://github.com/OWNER/dynamite-agile.git ~/dynamite-agile` and
+  reopen the terminal; download https://github.com/jpdesbiens11/Dynamite-Agile/archive/refs/heads/main.zip, extract it into Documents; double-click
+  `Lancer_dev_local.bat`, or `cd $HOME\Documents\Dynamite-Agile-main` then `python app_dynamite_agile.py --dev-admin`.
+- **macOS**: `xcode-select --install` (once), then `git clone https://github.com/jpdesbiens11/Dynamite-Agile.git ~/dynamite-agile` and
   `cd ~/dynamite-agile && python3 app_dynamite_agile.py --dev-admin`.
-- **Linux**: `sudo apt update && sudo apt install -y python3 git`, `git clone https://github.com/OWNER/dynamite-agile.git ~/dynamite-agile`,
+- **Linux**: `sudo apt update && sudo apt install -y python3 git`, `git clone https://github.com/jpdesbiens11/Dynamite-Agile.git ~/dynamite-agile`,
   `cd ~/dynamite-agile && python3 app_dynamite_agile.py --dev-admin`.
 - Open `http://127.0.0.1:8080`, account `admin` / `admin` (development mode: never with real data).
 
@@ -73,6 +73,6 @@ Dynamite | Agile. The illustrated page for people is https://owner.github.io/dyn
 
 - Update: `sudo bash /opt/dynamite_agile/deploy/redeploy.sh` (data is never touched).
 - Forgotten admin password: `sudo -u dynamite python3 /opt/dynamite_agile/app_dynamite_agile.py --reset-password admin`.
-- Getting started: https://owner.github.io/dynamite-agile/en/guide.html; inside the tool, Help → the tour of the site.
+- Getting started: https://jpdesbiens11.github.io/Dynamite-Agile/en/guide.html; inside the tool, Help → the tour of the site.
 - The tool's interface is in French today; English is coming in the next versions (the module names and technical terms
   are already in English).

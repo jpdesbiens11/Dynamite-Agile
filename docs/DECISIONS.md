@@ -127,7 +127,7 @@ message. Un encadré invite à ouvrir un assistant IA à côté et lui donne un 
 procédure et `site/installer.md`, guide écrit pour l'assistant (une commande à la fois, jamais de mot de passe).
 `deploy/install.sh` se lance aussi par `curl … | sudo bash -s -- domaine courriel` : il récupère le code dans
 `/opt/dynamite_agile`, vérifie le DNS et les ports 80 / 443 avant certbot ; le site publie sa copie (`site/install.sh`,
-dépôt renseigné par `tools/build_site.py`, constante `OWNER`).
+dépôt renseigné par `tools/build_site.py`, constantes `OWNER` et `NAME` : `jpdesbiens11/Dynamite-Agile`, renseignées le 2026-11-04).
 
 ### D-O-017 — Interface et site en français et en anglais (2026-11-03, brief §5 Q6 : « FR/EN for sure at least »)
 **Décision :** Dynamite | Agile devient bilingue FR / EN (au moins ; d'autres langues pourront suivre par le même

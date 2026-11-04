@@ -23,9 +23,9 @@ from tools import site_text as T  # noqa: E402
 
 SRC = BASE / "tools" / "site"   # French templates; English ones in tools/site/en/
 OUT = BASE / "site"
-OWNER = "OWNER"  # D-O-011: the GitHub account of the repository, to set when it is created
-REPO = "https://github.com/{}/dynamite-agile".format(OWNER)
-SITE_URL = "https://{}.github.io/dynamite-agile".format(OWNER.lower())  # GitHub Pages (or the domain of the site)
+OWNER, NAME = "jpdesbiens11", "Dynamite-Agile"  # D-O-011: the public repository
+REPO = "https://github.com/{}/{}".format(OWNER, NAME)
+SITE_URL = "https://{}.github.io/{}".format(OWNER.lower(), NAME)  # GitHub Pages (or the domain of the site)
 PAGES = ("index.html", "installation.html", "guide.html")
 
 

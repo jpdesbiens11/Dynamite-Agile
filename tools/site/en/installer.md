@@ -51,7 +51,7 @@ Dynamite | Agile. The illustrated page for people is {{SITE_URL}}/en/installatio
 
 - **Windows**: `winget install -e --id Python.Python.3.12` (or python.org, ticking “Add python.exe to PATH”), close and
   reopen the terminal; download {{REPO}}/archive/refs/heads/main.zip, extract it into Documents; double-click
-  `Lancer_dev_local.bat`, or `cd $HOME\Documents\dynamite-agile-main` then `python app_dynamite_agile.py --dev-admin`.
+  `Lancer_dev_local.bat`, or `cd $HOME\Documents\Dynamite-Agile-main` then `python app_dynamite_agile.py --dev-admin`.
 - **macOS**: `xcode-select --install` (once), then `git clone {{REPO}}.git ~/dynamite-agile` and
   `cd ~/dynamite-agile && python3 app_dynamite_agile.py --dev-admin`.
 - **Linux**: `sudo apt update && sudo apt install -y python3 git`, `git clone {{REPO}}.git ~/dynamite-agile`,
