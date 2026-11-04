@@ -439,14 +439,14 @@
 
   async function logout() {
     try { await api.post("/api/logout"); } catch (err) { /* already logged out */ }
-    session.user = null;
-    DA.setCsrf(null);
-    DA.applyPolicy({}, null);
-    showLogin();
+    session.user = null; DA.setCsrf(null); DA.applyPolicy({}, null); showLogin();
   }
 
   /* ---------------- Router ---------------- */
-  async function route() {
+  async function route() {  // 0.60.23: same tab and Space (#/module/KEY): the page stays where it was (scrollkeep.js)
+    const hold = DA.placeHold(location.hash);
+    try { await routeTo(); } finally { DA.releaseScroll(hold); } }
+  async function routeTo() {
     closeMenus();
     if (!session.user) { showLogin(); return; }
     if (session.user.must_change_password) { showForcedPasswordChange(); return; }
@@ -456,7 +456,7 @@
     const parts = (location.hash && location.hash !== "#/" ? location.hash : start).replace(/^#\/?/, "").split("/");
     if (parts[0] === "user") { location.replace("#/settings"); return; }  // D-B-078
     if (parts[0] === "admin" && session.user.is_admin) {
-      DA.admin.render(renderShell("admin"), parts[1] || "users", parts[2]);  // D-B-105: part of a section
+      await DA.admin.render(renderShell("admin"), parts[1] || "users", parts[2]);  // D-B-105: part of a section
       return;
     }
     try {
@@ -473,7 +473,7 @@
     await DA.loadModuleAssets(session.modules);
     const mod = session.modules.find((m) => m.key === parts[0] && m.available);
     if (mod && DA.views[mod.key]) {
-      DA.views[mod.key](renderShell(mod.placement === "tools" ? "tools" : mod.key), parts.slice(1));  // D-B-065
+      await DA.views[mod.key](renderShell(mod.placement === "tools" ? "tools" : mod.key), parts.slice(1));  // D-B-065
       return;
     }
     renderHome();

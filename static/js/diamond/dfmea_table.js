@@ -38,6 +38,7 @@
       td.append(col.key === "ap" ? apBadge(row.ap, state.data.labels.ap) : el("span", { class: "dm-fm-rpn" }, row.rpn ? String(row.rpn) : "—"));
       return td;
     }
+    if (col.key === "detection_ctrl") td.append(keyTest(row, state, save, editable));  // 0.60.24 (D-O-033)
     if (!editable) {
       const text = col.type === "function" ? (row.function_number ? "F" + row.function_number + " " + row.function_text : "—") : (row[col.key] || "—");
       td.append(el("span", null, String(text)));
@@ -62,6 +63,24 @@
     input.addEventListener("keydown", (ev) => onKey(ev, row, col));
     td.append(input);
     return td;
+  }
+
+  /* 0.60.24 (D-O-033): the key test of the Test Base that detects the failure -- one per row, chosen in a list (the Test
+     Base of the Space, then the catalogue), changed or removed; the controls in words stay below it. */
+  function keyTest(row, state, save, editable) {
+    const name = (t) => t.code + " · " + t.title + (t.space && t.space !== state.key ? " (" + t.space + ")" : "");
+    const link = row.test_code ? el("a", { class: "dm-fm-test-link", href: "#/testing/" + (row.test_space || state.key),
+      "data-tip": "Ouvrir la Test Base de " + (row.test_space || state.key) }, editable ? "Ouvrir" : "🧪 " + row.test_code + " · " + row.test_title) : null;
+    if (!editable) return el("div", { class: "dm-fm-test" }, link || el("span", { class: "muted" }, "Aucun essai clé"));
+    const tests = state.data.tests || [];
+    const pick = el("select", { class: "dm-fm-test-pick", "aria-label": "Essai clé ligne " + row.line, "data-new": "0.60.24-key-test" },
+      el("option", { value: "" }, tests.length ? "— essai clé (Test Base) —" : "— aucun essai dans la Test Base —"),
+      tests.map((t) => el("option", { value: t.id, selected: String(row.test_id || "") === String(t.id) }, name(t))));
+    pick.dataset.row = row.id;
+    pick.dataset.col = "test_id";
+    pick.addEventListener("change", () => save(row.id, "test_id", pick.value ? Number(pick.value) : null));
+    return el("div", { class: "dm-fm-test" }, pick, row.test_id ? el("button", { type: "button", class: "link-btn dm-fm-test-x",
+      "aria-label": "Retirer l'essai clé de la ligne " + row.line, onclick: () => save(row.id, "test_id", null) }, "✕") : null, link);
   }
 
   /* opts: {state, visible: Set, editable, save(id, key, value), act(path, body), onKey} */

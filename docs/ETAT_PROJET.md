@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.22)
-**Version :** 0.60.22 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** 0.60.21 et 0.60.22 (demandes de JP du 2026-11-04) livrées : un seul Space pour tous les onglets ; Project Starter avec Diamond et plan de référence
+**Dernière mise à jour :** 2026-11-04 (v0.60.24)
+**Version :** 0.60.24 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** 0.60.23 et 0.60.24 (demandes de JP du 2026-11-04) : la page ne saute plus ; DFMEA avec essai clé de la Test Base
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -34,7 +34,9 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.20 | Diamond : pièces sur les fonctions, matrice pièces × fonctions, conseils d'architecture (D-O-031) ; Timesheet : code hors du Funding Space montré et refusé à la soumission | Livré |
 | 0.60.21 | Le Space de travail suit d'un onglet à l'autre, ☆ / ★ Space par défaut près de chaque liste ; copie de Space avec Diamond (D-O-030) | Livré |
 | 0.60.22 | Commencer : Diamond préliminaire (arbre, structure, pièces, risques, DFMEA) et plan de référence du PDP selon l'équipe ; prompt de 26 questions (D-O-032) | Livré |
-| 0.60.23 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
+| 0.60.23 | La page reste où l'on regarde (DA.keepScroll, routeur) ; panneau d'un sous-système avec les pièces de ses tertiaires | Livré |
+| 0.60.24 | DFMEA : un essai clé de la Test Base par ligne dans Detection Controls ; Project Starter dfmea[].test (D-O-033) | Livré |
+| 0.60.25 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
 
 ## Table 2 : Questions du brief §5 (toutes tranchées)
 
@@ -48,7 +50,13 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.22)
+## Relais (fin de 0.60.24)
+
+- Essai clé (D-O-033) : `modules/diamond/dfmea.py` (`tests()` : Space puis TESTING ; `_fields` valide `test_id` ; `_rows` joint `test_code`, `test_title`, `test_space`) ; écran `dfmea_table.js` (`keyTest`) ; Starter : `starter_diamond.parse(..., test_refs)`, `apply(..., test_ids)` (ref → id de ligne).
+
+
+- Défilement (0.60.23) : `static/js/tools/scrollkeep.js` (`DA.keepScroll(fn)`, `DA.holdScroll()` / `DA.releaseScroll(s)`) ; `DA.diamond.later` l'utilise ; `app.js` `route()` → `routeTo()` tient la position quand `module/KEY` ne change pas. Un module qui redessine hors de ces chemins peut appeler `DA.keepScroll(() => draw(...))`.
+
 
 - Starter + Diamond (D-O-032) : `core/starter_diamond.py` (`parse`, `apply`, `counts`) appelé par `core/starter.parse` et `starter_apply.api_apply` ; plan : `modules/exploration/reference.py` (`build`, `apply`). Exemple : `tools/make_starter_diamond_example.py` réécrit la clé `diamond` de `lampe_bureau.json` depuis `modules/diamond/example*.py`. Prompt : bloc 5 de `tools/site/starter.md` / `en/starter.md`. `tests/test_starter_diamond.py`.
 

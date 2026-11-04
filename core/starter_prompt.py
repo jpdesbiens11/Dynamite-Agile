@@ -77,6 +77,10 @@ def example():
     short["diamond"]["ports"] = [port]
     for fl in short["diamond"]["flows"]:
         fl["src"] = "E1"
+    kept = {t["ref"] for t in short["tests"]}
+    for row in short["diamond"]["dfmea"]:  # its key test must be one of the tests of the short example
+        if row.get("test") not in kept:
+            row.pop("test", None)
     for key in ("risks", "dfmea"):  # no empty field in the example (rule: remove the key)
         short["diamond"][key] = [{k: v for k, v in r.items() if v not in ("", None)} for r in short["diamond"][key]]
     return json.dumps(short, ensure_ascii=False, indent=1)

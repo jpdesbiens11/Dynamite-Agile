@@ -117,6 +117,9 @@ class StarterApplyTest(unittest.TestCase):
         data = json.loads(json.dumps(LAMPE))
         data["project"]["key"] = "LAMPE3"
         data["tests"] = [t for t in data["tests"] if t["ref"] != "ESSAI-6"]
+        for row in data["diamond"]["dfmea"]:  # 0.60.24: the DFMEA's key test is gone too
+            if row.get("test") == "ESSAI-6":
+                del row["test"]
         res = self.admin.post("/api/starter/apply", {"file": data, "drop": CODES})
         self.assertEqual(res["placeholder_for"], ["REQ-6"])
         row = self.sql("SELECT r.test_ref FROM agile_requirements r JOIN agile_issues i ON i.id = r.issue_id "

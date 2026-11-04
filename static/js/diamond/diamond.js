@@ -17,7 +17,8 @@
   DA.diamond = Object.assign(DA.diamond || {}, {
     SHELL,
     base: (ctx) => "/api/diamond/p/" + ctx.pid,
-    later: (fn) => setTimeout(fn, 0),  // redraw after the event that asked for it (never inside its own handler)
+    // redraw after the event that asked for it (never inside its own handler), the page staying where it was (0.60.23)
+    later: (fn) => setTimeout(() => DA.keepScroll(fn), 0),
   });
 
   DA.registerModule("diamond", (main, parts) => DA.agile.render(main, parts, SHELL));

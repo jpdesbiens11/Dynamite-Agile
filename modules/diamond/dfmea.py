@@ -34,8 +34,10 @@ MAX_ROWS = 600
 
 def _rows(conn, pid):
     items = [dict(r) for r in conn.execute(
-        "SELECT d.*, f.number AS function_number, f.text AS function_text, r.number AS risk_number FROM diamond_dfmea d "
+        "SELECT d.*, f.number AS function_number, f.text AS function_text, r.number AS risk_number, "
+        "t.test_id AS test_code, t.title AS test_title, tp.key AS test_space FROM diamond_dfmea d "
         "LEFT JOIN diamond_functions f ON f.id = d.function_id AND f.archived = 0 "
+        "LEFT JOIN testing_tests t ON t.id = d.test_id LEFT JOIN projects tp ON tp.id = t.project_id "
         "LEFT JOIN diamond_risks r ON r.id = d.risk_id AND r.archived = 0 "
         "WHERE d.project_id = ? ORDER BY d.position, d.id", (pid,))]
     for n, row in enumerate(items, start=1):
@@ -50,6 +52,18 @@ def _tree_functions(conn, pid):
     lv, tree = F.levels(items), F.in_tree(items)
     return [{"id": f["id"], "number": f["number"], "text": f["text"], "level": lv[f["id"]], "ftype": f["ftype"], "parent_id": f["parent_id"]}
             for f in sorted(items, key=lambda f: (lv[f["id"]], f["position"], f["number"])) if f["id"] in tree]
+
+
+CATALOGUE = "TESTING"
+
+
+def tests(conn, pid):
+    """0.60.24 (D-O-033): the tests a row may name as its key detection test -- the Test Base of this Space first, then
+    the reference catalogue (TESTING)."""
+    rows = conn.execute("SELECT t.id, t.test_id AS code, t.title, p.key AS space FROM testing_tests t JOIN projects p ON p.id = t.project_id "
+                        "WHERE t.project_id = ? OR p.key = ? ORDER BY CASE WHEN t.project_id = ? THEN 0 ELSE 1 END, t.test_id",
+                        (pid, CATALOGUE, pid)).fetchall()
+    return [dict(r) for r in rows]
 
 
 def checks(conn, pid, rows):
@@ -89,7 +103,8 @@ def payload(conn, pid):
     project = conn.execute("SELECT name FROM projects WHERE id = ?", (pid,)).fetchone()
     if project and project["name"] not in suggest["higher"]:
         suggest["higher"].insert(0, project["name"])
-    return {"rows": rows, "functions": _tree_functions(conn, pid), "suggest": suggest, "checks": checks(conn, pid, rows),
+    return {"rows": rows, "functions": _tree_functions(conn, pid), "tests": tests(conn, pid), "suggest": suggest,
+            "checks": checks(conn, pid, rows),
             "labels": {"texts": {k: v[0] for k, v in TEXTS.items()}, "ratings": RATINGS, "ap": AP.AP_LABELS},
             "legend": AP.legend()}
 
@@ -134,6 +149,19 @@ def _fields(conn, pid, body):
             if not conn.execute("SELECT 1 FROM diamond_functions WHERE id = ? AND project_id = ? AND archived = 0", (int(fid), pid)).fetchone():
                 raise ApiError(400, "Fonction introuvable dans l'arbre de ce Space. Correctif : choisissez une fonction de la liste.")
             out["function_id"] = int(fid)
+    if "test_id" in body:  # 0.60.24: one key test per row (choose, change, remove)
+        tid = body.get("test_id")
+        if tid in (None, "", 0, "0"):
+            out["test_id"] = None
+        else:
+            try:
+                tid = int(tid)
+            except (TypeError, ValueError):
+                tid = -1
+            if tid not in {t["id"] for t in tests(conn, pid)}:
+                raise ApiError(400, "Essai introuvable dans la Test Base de ce Space ni dans le catalogue. Correctif : choisissez un "
+                                    "essai de la liste.")
+            out["test_id"] = tid
     return out
 
 
@@ -152,6 +180,7 @@ def insert(conn, user_id, pid, fields, after_id=None):
     now = db.utc_now()
     values = {k: fields.get(k, "" if k in TEXTS else None) for k in COLUMNS}
     values["risk_id"] = fields.get("risk_id")
+    values["test_id"] = fields.get("test_id")
     cols = list(values)
     did = conn.execute("INSERT INTO diamond_dfmea (project_id, position, {}, created_by, created_at, updated_by, updated_at) "
                        "VALUES (?, 0, {}, ?, ?, ?, ?)".format(", ".join(cols), ", ".join("?" * len(cols))),
@@ -188,7 +217,7 @@ def api_update(ctx):
 def api_duplicate(ctx):
     pid = F.access(ctx, "editor")
     row = _row(ctx, pid)
-    did = insert(ctx.conn, ctx.user["id"], pid, {k: row[k] for k in COLUMNS + ["risk_id"]}, row["id"])
+    did = insert(ctx.conn, ctx.user["id"], pid, {k: row[k] for k in COLUMNS + ["risk_id", "test_id"]}, row["id"])
     _log(ctx, "diamond_dfmea_duplicate", did, {"from": row["id"]})
     return dict(payload(ctx.conn, pid), created=did)
 
@@ -259,12 +288,12 @@ def api_export(ctx):
     w = csv.writer(out, delimiter=";")
     w.writerow(["Ligne", "Higher-Level Element", "Focus Element", "Lower-Level Element", "Function of Focus Element",
                 "Requirement / Characteristic", "Failure Mode", "Failure Effect", "S", "Failure Cause", "Prevention Controls", "O",
-                "Detection Controls", "D", "RPN", "AP", "Actions", "Risque projet"])
+                "Detection Controls", "Essai clé (Test Base)", "D", "RPN", "AP", "Actions", "Risque projet"])
     for r in _rows(ctx.conn, pid):
         w.writerow([r["line"], r["higher"], r["focus"], r["lower"],
                     "F{} {}".format(r["function_number"], r["function_text"]) if r["function_number"] else "", r["requirement"],
                     r["failure_mode"], r["effect"], r["severity"] or "", r["cause"], r["prevention"], r["occurrence"] or "",
-                    r["detection_ctrl"], r["detection"] or "", r["rpn"] or "", AP.AP_LABELS.get(r["ap"], ""), r["action"],
+                    r["detection_ctrl"], "{} {}".format(r["test_code"], r["test_title"]) if r["test_code"] else "", r["detection"] or "", r["rpn"] or "", AP.AP_LABELS.get(r["ap"], ""), r["action"],
                     "R-{}".format(r["risk_number"]) if r["risk_number"] else ""])
     _log(ctx, "diamond_dfmea_export", pid)
     return RawFile(("﻿" + out.getvalue()).encode("utf-8"), "dfmea_{}.csv".format(key), "text/csv")

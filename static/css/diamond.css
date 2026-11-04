@@ -177,6 +177,9 @@ table.data.dm-pt-table th.dm-pt-part { min-width: 15rem; text-align: left; font-
 .dm-pt-chip { padding: .05rem .5rem; border: 1px solid var(--line); border-radius: 999px; font-size: .8rem; background: var(--surface-2); }
 .dm-pt-checks { display: flex; flex-direction: column; gap: .15rem; max-height: 12rem; overflow: auto; margin: .3rem 0; font-size: .85rem; }
 .dm-pt-quick { gap: .4rem; }
+.dm-pt-chip-via { border-style: dashed; }
+.dm-pt-via { color: var(--muted); }
+.dm-pt-checks > label { flex: none; }
 .dm-pt-quick input { flex: 1 1 10rem; }
 html[data-term] .dm-pt-toggle, html[data-term] .dm-st-ptag { font-family: var(--mono); }
 

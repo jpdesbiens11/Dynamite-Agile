@@ -2,46 +2,37 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Project Starter : Diamond préliminaire (D-O-032)",
-      "why": "Clé « diamond » du fichier : fonctions de l'arbre, entrées / sorties, flux des deux vues, pièces sur les fonctions, risques projet, premières lignes du DFMEA ; mêmes règles que les écrans de Diamond ; tout arrive en « Brouillon IA ». L'exemple de la lampe reprend l'exemple de Diamond.",
+      "title": "DFMEA → Detection Controls : l'essai clé de la Test Base (D-O-033)",
+      "why": "Une liste des essais (la Test Base du Space, puis le catalogue TESTING) en tête de la cellule : un seul essai clé par ligne, même si plusieurs pourraient démontrer la défaillance ; ✕ pour le retirer, « Ouvrir » vers la Test Base ; les contrôles en mots restent dessous. Dupliquer une ligne garde l'essai ; l'export CSV a une colonne « Essai clé ». Migration diamond 6.",
       "files": [
-        "core/starter_diamond.py",
-        "core/starter.py",
-        "core/starter_apply.py",
-        "static/js/admin_starter.js",
-        "tools/make_starter_diamond_example.py",
-        "tools/check_starter.py",
-        "deploy/starter_exemples/lampe_bureau.json",
-        "tests/test_starter_diamond.py"
+        "modules/diamond/__init__.py",
+        "modules/diamond/dfmea.py",
+        "static/js/diamond/dfmea_table.js",
+        "static/js/diamond/dfmea.js",
+        "static/css/diamond_dfmea.css",
+        "tests/test_diamond_dfmea.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Plan de référence du PDP dans Exploration (D-O-032)",
-      "why": "Les 19 étapes du PDP (codes de Timesheet), les revues en jalons, quatre phases sur la durée du projet (project.weeks, 15 par défaut, à partir de project.start_date), plus d'étapes en parallèle pour une équipe plus grande ; responsables à tour de rôle.",
+      "title": "Project Starter : l'essai clé de chaque ligne du DFMEA",
+      "why": "Champ dfmea[].test (la ref d'un essai du fichier), relié à l'essai créé dans la Test Base ; le prompt propose un seul essai clé par ligne ; l'exemple de la lampe en nomme six.",
       "files": [
-        "modules/exploration/reference.py",
+        "core/starter_diamond.py",
         "core/starter.py",
-        "core/starter_apply.py"
+        "core/starter_apply.py",
+        "core/starter_prompt.py",
+        "tools/make_starter_diamond_example.py",
+        "deploy/starter_exemples/lampe_bureau.json",
+        "tools/site/starter.md",
+        "tools/site/en/starter.md",
+        "tests/test_starter_diamond.py",
+        "tests/test_starter_apply.py"
       ]
     },
     {
       "id": "C3",
-      "title": "Prompt de départ : 26 questions à cliquer, sept blocs",
-      "why": "Réponses à cliquer (l'outil de questions à choix de l'assistant, menu à toucher dans Claude) : texte libre deux fois seulement, le produit et les noms de l'équipe ; propositions validées par un menu (C'est bon, Plus simple, Plus complet, Refaire). Calendrier (début, durée) et bloc Diamond (arbre, entrées / sorties, flux, pièces, risques et DFMEA) ; format de la clé diamond, valeurs permises et exemple tirés de l'outil.",
-      "files": [
-        "tools/site/starter.md",
-        "tools/site/en/starter.md",
-        "core/starter_prompt.py",
-        "tools/site/guide.html",
-        "tools/site/en/guide.html",
-        "docs/STARTER_FORMAT.md",
-        "tests/test_starter_prompt.py"
-      ]
-    },
-    {
-      "id": "C4",
-      "title": "Version 0.60.22 et documentation",
+      "title": "Version 0.60.24 et documentation",
       "why": "Décision, état du projet, journal, fiche de version.",
       "files": [
         "core/__init__.py",
@@ -49,7 +40,7 @@
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.22.json",
+        "docs/releases/0.60.24.json",
         "tests/test_open_v060.py"
       ]
     }

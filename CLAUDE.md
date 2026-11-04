@@ -54,6 +54,10 @@
   Copier / Dupliquer un Space emporte Diamond (`core/spacecopy.py`).
 - **0.60.22** (2026-11-04) : **Commencer remplit Diamond** (D-O-032, `core/starter_diamond.py`) et un **plan de référence du PDP**
   (`modules/exploration/reference.py`, selon `project.weeks` et l'équipe) ; prompt de 26 questions.
+- **0.60.23** (2026-11-04) : **la page reste où l'on regarde** (`DA.keepScroll`, `static/js/tools/scrollkeep.js` ; routeur du même Space) ;
+  panneau d'un sous-système avec les pièces de ses tertiaires.
+- **0.60.24** (2026-11-04) : DFMEA → **essai clé de la Test Base** dans Detection Controls (D-O-033, `diamond_dfmea.test_id`, migration diamond 6) ;
+  Project Starter `dfmea[].test`.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

@@ -65,3 +65,9 @@ html[data-term] :is(.dm-fm-h-lower, table.dm-fm thead th.dm-fm-h-lower) { backgr
 html[data-term] :is(.dm-fm-h-score, table.dm-fm thead th.dm-fm-h-score) { background: #30363d; color: #e6edf3; }
 html[data-term] .dm-fm-lower { background: rgba(255, 166, 87, .05); }
 html[data-term] table.dm-fm { font-family: var(--mono); font-size: .78rem; }
+
+/* 0.60.24 (D-O-033): the key test of the Test Base, in « Detection Controls » */
+.dm-fm-test { display: flex; flex-wrap: wrap; align-items: center; gap: .2rem .35rem; margin-bottom: .25rem; }
+.dm-fm-test-pick { flex: 1 1 10rem; min-width: 0; max-width: 100%; font-size: .8rem; }
+.dm-fm-test-x { font-size: .8rem; }
+.dm-fm-test-link { font-size: .78rem; }

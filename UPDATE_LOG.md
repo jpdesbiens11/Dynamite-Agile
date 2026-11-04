@@ -1,4 +1,22 @@
-# Journal de mise à jour — 0.60.22
+# Journal de mise à jour — 0.60.24
+
+- **Version :** 0.60.23 → 0.60.24 (2026-11-04)
+- **Changements :**
+  1. **DFMEA → essai clé** (D-O-033) : dans Detection Controls, un essai de la Test Base par ligne, à choisir, changer ou retirer.
+  2. **Commencer** : le fichier peut nommer l'essai clé de chaque ligne du DFMEA.
+- **Base de données :** migration diamond 6 (colonne `diamond_dfmea.test_id`, additive).
+
+## Précédent
+
+### Journal de mise à jour — 0.60.23
+
+- **Version :** 0.60.22 → 0.60.23 (2026-11-04)
+- **Changements :**
+  1. **La page reste où l'on regarde** : une sélection ou un changement ne fait plus sauter l'écran (Diamond, et toute nouvelle adresse dans le même onglet et le même Space).
+  2. **Structure fonctionnelle** : le panneau d'un sous-système liste les pièces de ses fonctions tertiaires.
+- **Base de données :** aucune migration.
+
+### Journal de mise à jour — 0.60.22
 
 - **Version :** 0.60.21 → 0.60.22 (2026-11-04)
 - **Changements :**
@@ -6,8 +24,6 @@
   2. **Commencer → plan de référence** : le Gantt du PDP dans Exploration, selon la durée et la taille de l'équipe.
   3. **Prompt de départ** : 26 questions surtout à cliquer (texte libre : le produit et les noms seulement), avec le calendrier et l'analyse fonctionnelle.
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.21
 

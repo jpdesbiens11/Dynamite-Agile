@@ -1,0 +1,54 @@
+{
+  "version": "0.60.24",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "DFMEA : un essai clé de la Test Base dans la colonne Detection Controls, à choisir, changer ou retirer ; Commencer le relie depuis le fichier.",
+    "en": "DFMEA: a key test of the Test Base in the Detection Controls column, to choose, change or remove; Commencer links it from the file."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "DFMEA → Detection Controls : l'essai clé de la Test Base (D-O-033)",
+      "why": "Une liste des essais (la Test Base du Space, puis le catalogue TESTING) en tête de la cellule : un seul essai clé par ligne, même si plusieurs pourraient démontrer la défaillance ; ✕ pour le retirer, « Ouvrir » vers la Test Base ; les contrôles en mots restent dessous. Dupliquer une ligne garde l'essai ; l'export CSV a une colonne « Essai clé ». Migration diamond 6.",
+      "files": [
+        "modules/diamond/__init__.py",
+        "modules/diamond/dfmea.py",
+        "static/js/diamond/dfmea_table.js",
+        "static/js/diamond/dfmea.js",
+        "static/css/diamond_dfmea.css",
+        "tests/test_diamond_dfmea.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Project Starter : l'essai clé de chaque ligne du DFMEA",
+      "why": "Champ dfmea[].test (la ref d'un essai du fichier), relié à l'essai créé dans la Test Base ; le prompt propose un seul essai clé par ligne ; l'exemple de la lampe en nomme six.",
+      "files": [
+        "core/starter_diamond.py",
+        "core/starter.py",
+        "core/starter_apply.py",
+        "core/starter_prompt.py",
+        "tools/make_starter_diamond_example.py",
+        "deploy/starter_exemples/lampe_bureau.json",
+        "tools/site/starter.md",
+        "tools/site/en/starter.md",
+        "tests/test_starter_diamond.py",
+        "tests/test_starter_apply.py"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Version 0.60.24 et documentation",
+      "why": "Décision, état du projet, journal, fiche de version.",
+      "files": [
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.24.json",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}

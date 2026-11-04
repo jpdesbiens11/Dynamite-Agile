@@ -132,7 +132,7 @@ def _views(functions):
     return {"general": set(secondaries), "detail": {f["ref"] for f in tertiaries} | {r for r in secondaries if r not in with_kids}}
 
 
-def parse(raw, language="fr"):
+def parse(raw, language="fr", test_refs=()):
     """The "diamond" object of the file -> its clean copy (empty lists when absent)."""
     raw = raw.get("diamond") or {}
     if not isinstance(raw, dict):
@@ -201,6 +201,10 @@ def parse(raw, language="fr"):
             _bad(path + ".failure_mode", "mode de défaillance vide.", "chaque ligne du DFMEA a un Failure Mode.")
         row.update({name: _scale(d, name, path, 1, 10, optional=True) for name in ("severity", "occurrence", "detection")})
         row["function"] = fn
+        test = d.get("test") or None  # 0.60.24 (D-O-033): the key test, a ref of the file's tests
+        if test is not None and test not in test_refs:
+            _bad(path + ".test", "essai « {} » introuvable.".format(test), "la ref d'un essai de la liste tests, ou retirez la clé.")
+        row["test"] = test
         dfmea.append(row)
     return {"functions": functions, "ports": ports, "flows": flows, "parts": parts, "risks": risks, "dfmea": dfmea,
             "note": NOTE[language]}
@@ -211,7 +215,7 @@ def counts(clean):
     return {k: len(d.get(k) or []) for k in LIMITS}
 
 
-def apply(conn, user_id, pid, d):
+def apply(conn, user_id, pid, d, test_ids=None):
     """Creates the Diamond items of one Space (inside the transaction of « Commencer »); returns their counts."""
     from modules.diamond import dfmea, functions as F, parts as P, risks as R, structure as S
     ids, ports = {}, {}
@@ -234,7 +238,8 @@ def apply(conn, user_id, pid, d):
         fields.update(function_id=ids.get(r["function"]), notes=d["note"])
         R.create(conn, user_id, pid, fields)
     for row in d["dfmea"]:
-        fields = {k: v for k, v in row.items() if k != "function"}
+        fields = {k: v for k, v in row.items() if k not in ("function", "test")}
         fields["function_id"] = ids.get(row["function"])
+        fields["test_id"] = (test_ids or {}).get(row.get("test"))
         dfmea.insert(conn, user_id, pid, fields)
     return {k: len(d[k]) for k in LIMITS}

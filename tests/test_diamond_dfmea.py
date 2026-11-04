@@ -122,6 +122,33 @@ class DfmeaApiTest(unittest.TestCase):
         self.assertEqual((row["failure_mode"], row["cause"], row["effect"]), ("Buse bouchée", "colle de mauvaise qualité", "aucun débit"))
         self.assertEqual(self.admin.post(self.base(self.own) + "/from-risks", {})["added"], 0)
 
+    def test_06_key_test(self):
+        """0.60.24 (D-O-033): one key test of the Test Base per row -- the Space's own tests, then the catalogue."""
+        with db.connect() as conn:
+            now = db.utc_now()
+            own = conn.execute("INSERT INTO testing_tests (project_id, test_id, title, subject, created_at, updated_at) "
+                               "VALUES (?, 'LAMPF-T1', 'Essai d''échauffement', 'therm', ?, ?)", (self.lamp, now, now)).lastrowid
+            other = conn.execute("INSERT INTO testing_tests (project_id, test_id, title, subject, created_at, updated_at) "
+                                 "VALUES (?, 'FMEA-T1', 'Autre Space', 'func', ?, ?)", (self.own, now, now)).lastrowid
+        data = self.admin.get(self.base(self.lamp))
+        offered = [t["id"] for t in data["tests"]]
+        self.assertEqual(offered[0], own)  # the Space first
+        self.assertNotIn(other, offered)
+        self.assertTrue(any(t["space"] == "TESTING" for t in data["tests"]))
+        row = data["rows"][0]
+        data = self.admin.patch(self.base(self.lamp) + "/rows/{}".format(row["id"]), {"test_id": own})
+        got = next(r for r in data["rows"] if r["id"] == row["id"])
+        self.assertEqual((got["test_id"], got["test_code"], got["test_space"]), (own, "LAMPF-T1", "LAMPF"))
+        with self.assertRaises(ApiFailure) as err:
+            self.admin.patch(self.base(self.lamp) + "/rows/{}".format(row["id"]), {"test_id": other})
+        self.assertEqual(err.exception.status, 400)
+        dup = self.admin.post(self.base(self.lamp) + "/rows/{}/duplicate".format(row["id"]), {})
+        self.assertEqual(next(r for r in dup["rows"] if r["id"] == dup["created"])["test_id"], own)
+        with self.admin.opener.open(self.url + self.base(self.lamp) + "/export.csv") as resp:
+            self.assertIn("LAMPF-T1 Essai d'échauffement", resp.read().decode("utf-8-sig"))
+        data = self.admin.patch(self.base(self.lamp) + "/rows/{}".format(row["id"]), {"test_id": None})
+        self.assertIsNone(next(r for r in data["rows"] if r["id"] == row["id"])["test_id"])
+
     def test_05_reader(self):
         made = self.admin.post("/api/admin/users", {"username": "nina4", "display_name": "Nina"})
         self.admin.put("/api/admin/projects/{}/members/{}".format(self.lamp, made["user"]["id"]), {"role": "reader"})
