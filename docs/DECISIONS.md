@@ -294,3 +294,24 @@ score, le panneau d'un risque (le score se recalcule en direct), Dupliquer, Arch
 sans action ou sans responsable, échéance dépassée, risque critique accepté sans justification, résiduel plus grand que
 l'actuel, risque technique élevé pas envoyé au DFMEA, une seule catégorie. L'exemple de la lampe de bureau a ses 9 risques.
 
+### D-O-027 — Diamond : le DFMEA AIAG-VDA, sur les fonctions de l'arbre (2026-11-04, demande de JP)
+**Contexte :** quatrième sous-module de Diamond (D-O-023), spécifié par JP : la structure AIAG-VDA à trois niveaux, les
+colonnes du gabarit, les en-têtes colorés par niveau, RPN et AP visibles, la légende de l'AP pour la formation, des
+colonnes qu'on cache, et des lignes très faciles à ajouter, dupliquer, déplacer et effacer.
+**Décision :** onglet « DFMEA » (#/diamond/KEY/dfmea), table `diamond_dfmea` (migration diamond 4), une ligne par chaîne de
+défaillance. Colonnes : Higher-Level Element, Focus Element, Lower-Level Element, Function of Focus Element (une fonction
+de l'arbre, liste), Requirement / Characteristic, Failure Mode, Failure Effect + S, Failure Cause, Prevention Controls + O,
+Detection Controls + D, RPN, AP, et Actions (optimisation). En-têtes : **blanc** pour le niveau supérieur (élément, effet,
+S), **bleu** pour l'élément analysé (élément, fonction, requirement, mode), **orange** pour le niveau inférieur (élément,
+cause, contrôles, O, D, actions : là où l'équipe travaille), foncé pour les scores. RPN = S × O × D et AP (High / Medium /
+Low) selon le tableau DFMEA du manuel AIAG-VDA (2019), dans `dfmea_ap.py` ; la page « Légende AP »
+(#/diamond/KEY/dfmeaap) explique pourquoi l'AP lit la sévérité d'abord, montre le tableau complet et résume les échelles
+S / O / D (paraphrases pour la formation, pas le texte du manuel ; l'écran invite à vérifier le tableau avec son exemplaire
+avant une revue formelle). Édition en place (enregistrée à la sortie de la cellule, les scores se recalculent sans
+redessiner), outils de ligne ↑ ↓ + ⧉ ×, Alt + ↑ / ↓, valeur identique à la ligne du dessus en gris (comme des cellules
+fusionnées), colonnes à cacher une à une ou par préréglage (gardé dans le navigateur), filtre par AP. « Depuis l'arbre »
+ajoute une ligne par fonction de la vue détaillée pas encore analysée ; « Depuis les risques », une par risque projet
+coché « À détailler dans le DFMEA ». Conseils : ligne sans fonction, mode sans cotation complète, AP High sans action,
+sévérité 9-10 avec une occurrence de 4 ou plus, fonction pas analysée, risque à reprendre. Export CSV. Exemple de la
+lampe : 7 lignes (un High, un Medium, le reste Low), deux reliées aux risques projet.
+

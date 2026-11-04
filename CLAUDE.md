@@ -37,6 +37,9 @@
 - **0.60.14** (2026-11-04) : Diamond → **Risques projet** (D-O-026, `modules/diamond/risks.py`, `static/js/diamond/risks*.js`) :
   registre R-n, P × I sur 5 × 5, carte maintenant / résiduelle, stratégie, responsable, lien vers le DFMEA. Suivent : DFMEA
   (0.60.15), Golden Nuggets (0.60.16), `starter.md` (0.60.17).
+- **0.60.15** (2026-11-04) : Diamond → **DFMEA** AIAG-VDA (D-O-027, `modules/diamond/dfmea*.py`, `static/js/diamond/dfmea*.js`) :
+  trois niveaux, fonctions de l'arbre, S / O / D, RPN et AP, légende AP (#/diamond/KEY/dfmeaap). Suivent : Golden Nuggets
+  (0.60.16), `starter.md` (0.60.17).
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

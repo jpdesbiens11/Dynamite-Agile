@@ -1,0 +1,61 @@
+{
+ "version": "0.60.15",
+ "date": "2026-11-04",
+ "summary": {
+  "fr": "Diamond : DFMEA AIAG-VDA — trois niveaux (en-têtes blanc, bleu, orange), les fonctions de l'arbre, S / O / D, RPN et Action Priority côte à côte, légende AP pour la formation, colonnes masquables, lignes à ajouter, dupliquer, déplacer, effacer.",
+  "en": "Diamond: AIAG-VDA DFMEA — three levels (white, blue, orange headers), the functions of the tree, S / O / D, RPN and Action Priority side by side, AP legend for training, columns that hide, rows to add, duplicate, move, delete."
+ },
+ "changes": [
+  {
+   "id": "C1",
+   "title": "DFMEA : lignes, cotation, AP et RPN (D-O-027)",
+   "why": "Structure AIAG-VDA sur les fonctions de l'arbre ; tableau AP ; Depuis l'arbre, Depuis les risques ; conseils ; CSV ; exemple de la lampe.",
+   "files": [
+    "modules/diamond/__init__.py",
+    "modules/diamond/dfmea.py",
+    "modules/diamond/dfmea_ap.py",
+    "modules/diamond/example.py",
+    "modules/diamond/example_dfmea.py",
+    "tests/test_diamond_dfmea.py"
+   ]
+  },
+  {
+   "id": "C2",
+   "title": "Écran du DFMEA et page de la légende AP",
+   "why": "Tableur aux en-têtes par niveau, édition en place, outils de ligne, Alt + flèches, colonnes masquables, filtre AP ; tableau AP et échelles S / O / D.",
+   "files": [
+    "static/js/diamond/diamond.js",
+    "static/js/diamond/dfmea.js",
+    "static/js/diamond/dfmea_table.js",
+    "static/js/diamond/dfmea_legend.js",
+    "static/css/diamond_dfmea.css",
+    "core/modules.py"
+   ]
+  },
+  {
+   "id": "C3",
+   "title": "Training : topic DM-04 et son test",
+   "why": "Onze questions sur le DFMEA, le RPN et l'AP.",
+   "files": [
+    "modules/training/catalog.py",
+    "modules/training/quizzes/__init__.py",
+    "modules/training/quizzes/dm.py"
+   ]
+  },
+  {
+   "id": "C4",
+   "title": "Version 0.60.15, D-O-027 et documentation",
+   "why": "Décision, état du projet, journal, fiche de version, site.",
+   "files": [
+    "core/__init__.py",
+    "CLAUDE.md",
+    "UPDATE_LOG.md",
+    "docs/DECISIONS.md",
+    "docs/ETAT_PROJET.md",
+    "docs/releases/0.60.15.json",
+    "tests/test_open_v060.py",
+    "static/apps/vitrine/index.html"
+   ]
+  }
+ ]
+}

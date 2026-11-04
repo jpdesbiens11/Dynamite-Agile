@@ -6,11 +6,11 @@ Sub-modules, one per iteration:
   0.60.13  Structure fonctionnelle (structure.py): boundary diagram -- inputs on the left, outputs on the right, the
            sub-systems (general view) or the tertiary functions (detail view), energy / material / information flows.
   0.60.14  Analyse de risque projet (risks.py): the high-level register, P x I on 5 x 5, response, owner, residual risk.
-  next     DFMEA AIAG-VDA (the same functions, RPN and AP),
-           Golden Nuggets (first-principles thinking and design rules, with examples).
+  0.60.15  DFMEA AIAG-VDA (dfmea.py, dfmea_ap.py): three levels, the functions of the tree, S / O / D, RPN and AP.
+  next     Golden Nuggets (first-principles thinking and design rules, with examples).
 Every table is tied to projects(id) (backup, restore, copy by the core); every write is journalled.
 """
-from . import example, functions, risks, structure
+from . import dfmea, example, functions, risks, structure
 
 SCHEMA = ""
 
@@ -107,6 +107,34 @@ MIGRATIONS = [
         );
         CREATE INDEX idx_diamond_risks_project ON diamond_risks(project_id);
     """),
+    (4, """
+        -- 0.60.15 (D-O-027): the DFMEA, one row per failure chain
+        CREATE TABLE diamond_dfmea (
+            id             INTEGER PRIMARY KEY,
+            project_id     INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            position       INTEGER NOT NULL DEFAULT 0,
+            higher         TEXT NOT NULL DEFAULT '',
+            focus          TEXT NOT NULL DEFAULT '',
+            lower          TEXT NOT NULL DEFAULT '',
+            function_id    INTEGER REFERENCES diamond_functions(id) ON DELETE SET NULL,
+            requirement    TEXT NOT NULL DEFAULT '',
+            failure_mode   TEXT NOT NULL DEFAULT '',
+            effect         TEXT NOT NULL DEFAULT '',
+            severity       INTEGER,
+            cause          TEXT NOT NULL DEFAULT '',
+            prevention     TEXT NOT NULL DEFAULT '',
+            occurrence     INTEGER,
+            detection_ctrl TEXT NOT NULL DEFAULT '',
+            detection      INTEGER,
+            action         TEXT NOT NULL DEFAULT '',
+            risk_id        INTEGER REFERENCES diamond_risks(id) ON DELETE SET NULL,
+            created_by     INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            created_at     TEXT NOT NULL,
+            updated_by     INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            updated_at     TEXT NOT NULL
+        );
+        CREATE INDEX idx_diamond_dfmea_project ON diamond_dfmea(project_id, position);
+    """),
 ]
 
 P = r"/api/diamond/p/(?P<pid>\d+)"
@@ -136,4 +164,14 @@ ROUTES = [
     ("PATCH", P + r"/risks/(?P<rid>\d+)", risks.api_update, "user"),
     ("POST", P + r"/risks/(?P<rid>\d+)/duplicate", risks.api_duplicate, "user"),
     ("POST", P + r"/risks/(?P<rid>\d+)/archive", risks.api_archive, "user"),
+    ("GET", P + r"/dfmea", dfmea.api_list, "user"),
+    ("POST", P + r"/dfmea/rows", dfmea.api_create, "user"),
+    ("GET", P + r"/dfmea/export\.csv", dfmea.api_export, "user"),
+    ("POST", P + r"/dfmea/from-tree", dfmea.api_from_tree, "user"),
+    ("POST", P + r"/dfmea/from-risks", dfmea.api_from_risks, "user"),
+    ("POST", P + r"/dfmea/example", example.api_dfmea_example, "user"),
+    ("PATCH", P + r"/dfmea/rows/(?P<did>\d+)", dfmea.api_update, "user"),
+    ("POST", P + r"/dfmea/rows/(?P<did>\d+)/duplicate", dfmea.api_duplicate, "user"),
+    ("POST", P + r"/dfmea/rows/(?P<did>\d+)/move", dfmea.api_move, "user"),
+    ("POST", P + r"/dfmea/rows/(?P<did>\d+)/delete", dfmea.api_delete, "user"),
 ]

@@ -122,7 +122,9 @@ def _topics():
             ("DM-02", "DM", "Structure fonctionnelle", "Boundary diagram : entrées et sorties du système, vue générale par "
              "sous-systèmes, vue détaillée, flux d'énergie, de matière et d'information.", "#/diamond", "Diamond → Structure fonctionnelle"),
             ("DM-03", "DM", "Analyse de risque projet", "Registre des risques : si / alors / ce qui, probabilité × impact, "
-             "stratégie, action, responsable, risque résiduel, lien vers le DFMEA.", "#/diamond", "Diamond → Risques projet")]
+             "stratégie, action, responsable, risque résiduel, lien vers le DFMEA.", "#/diamond", "Diamond → Risques projet"),
+            ("DM-04", "DM", "DFMEA (AIAG-VDA)", "Les trois niveaux de la structure, la chaîne de défaillance (effet, mode, cause), "
+             "S / O / D, RPN et Action Priority.", "#/diamond", "Diamond → DFMEA et sa légende AP")]
     return out
 
 

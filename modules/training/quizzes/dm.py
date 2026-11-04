@@ -150,3 +150,54 @@ pass: 80
 - [ ] Rien de plus
 - [ ] Qu'il soit archivé tout de suite
 """
+
+DM_04 = """# Quiz : Diamond — le DFMEA (AIAG-VDA)
+pass: 80
+## Quels sont les trois niveaux de la structure d'un DFMEA AIAG-VDA ?
+- [x] Higher-Level Element, Focus Element, Lower-Level Element
+- [ ] Système, logiciel, matériel
+- [ ] Besoin, requirement, essai
+## Sur quel niveau se lit le Failure Effect, coté par la sévérité (S) ?
+- [x] Higher-Level Element : l'utilisateur, le produit ou le système
+- [ ] Focus Element
+- [ ] Lower-Level Element
+## D'où vient la colonne « Function of Focus Element » ?
+- [x] De l'arbre fonctionnel de Diamond, fonction par fonction
+- [ ] D'une liste fixe de fonctions génériques
+- [ ] Elle s'écrit librement à chaque ligne
+## Où travaille-t-on pour éviter la défaillance (en-têtes orange) ?
+- [ ] Higher-Level Element et Failure Effect
+- [x] Lower-Level Element : Failure Cause, Prevention et Detection Controls
+- [ ] Focus Element et Requirement
+## Comment se calcule le RPN ?
+- [x] S × O × D, de 1 à 1000
+- [ ] S + O + D, de 3 à 30
+- [ ] Le plus grand des trois
+## Pourquoi l'AP plutôt que le RPN ?
+- [x] L'AP lit d'abord la sévérité : un effet grave n'est pas noyé par une bonne détection
+- [ ] L'AP est plus précis parce qu'il va jusqu'à 1000
+- [ ] L'AP ne tient pas compte de l'occurrence
+> S 1, O 10, D 10 donne RPN 100 mais AP Low ; S 9, O 4, D 1 donne RPN 36 mais AP Medium.
+## Une ligne a S 9, O 6, D 1. Quel est son AP ?
+- [x] High
+- [ ] Medium
+- [ ] Low
+> S 9-10 avec O 6-7 : High, quelle que soit la détection.
+## Que demande un AP High ?
+- [x] Une action pour améliorer la prévention ou la détection, ou la justification des contrôles actuels
+- [ ] Rien de plus qu'un AP Low
+- [ ] L'archivage de la ligne
+## La prévention agit sur quelle cote ?
+- [x] L'occurrence (O)
+- [ ] La sévérité (S)
+- [ ] La détection (D)
+> Les contrôles de détection agissent sur D ; seule une modification de la conception change S.
+## Comment déplacer une ligne du DFMEA au clavier ?
+- [x] Alt + ↑ ou Alt + ↓ dans une de ses cellules
+- [ ] Ctrl + X puis Ctrl + V
+- [ ] On ne peut pas la déplacer
+## Que fait « Depuis les risques » ?
+- [x] Ajoute une ligne par risque projet coché « À détailler dans le DFMEA »
+- [ ] Copie tout le registre de risques
+- [ ] Ferme les risques projet
+"""

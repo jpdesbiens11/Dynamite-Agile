@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.14)
-**Version :** 0.60.14 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** Diamond 💎 (D-O-023) — 0.60.14 livrée (risques projet, D-O-026) ; suite : 0.60.15 DFMEA
+**Dernière mise à jour :** 2026-11-04 (v0.60.15)
+**Version :** 0.60.15 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** Diamond 💎 (D-O-023) — 0.60.15 livrée (DFMEA, D-O-027) ; suite : 0.60.16 Golden Nuggets
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -26,7 +26,7 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.12 | Versions officielles (D-O-024) : paquet par version (`tools/build_release.py`, workflow Pages), page `versions.html` FR / EN, Admin → Update : manifeste, une étape par version, plusieurs versions d'un coup, fichiers modifiés à la main, « Plus tard » ; installateurs qui ne bloquent plus | Livré — essayé de 0.60.11 à 0.60.12 |
 | 0.60.13 | Diamond : structure fonctionnelle (D-O-025) : entrées à gauche, sorties à droite, vue générale (sous-systèmes) et détaillée (tertiaires), flux énergie / matière / information selon la légende du cours, conseils de la méthode, glisser, relier | Livré |
 | 0.60.14 | Diamond : analyse de risque projet (D-O-026) : registre R-n, carte 5 × 5 maintenant / résiduelle, stratégie, action, responsable, échéance, lien vers une fonction et vers le DFMEA, conseils, CSV | Livré |
-| 0.60.15 | Diamond : DFMEA AIAG-VDA (3 niveaux, fonctions de l'arbre, S / O / D, RPN et AP, légende de l'AP, colonnes masquables, lignes ajouter / dupliquer / déplacer / effacer) | À faire |
+| 0.60.15 | Diamond : DFMEA AIAG-VDA (D-O-027) : trois niveaux aux en-têtes blanc / bleu / orange, fonctions de l'arbre, S / O / D, RPN et AP, page de la légende AP, colonnes masquables, lignes ajouter / dupliquer / déplacer / effacer, Depuis l'arbre, Depuis les risques | Livré |
 | 0.60.16 | Diamond : Golden Nuggets (first principles thinking, règles de conception, exemples) | À faire |
 | 0.60.17 | Prompt `site/starter.md` (FR / EN), sa page sur le site, liens depuis « Commencer », « Débuter » et Help (D-O-019) | À faire |
 | 0.60.18 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
@@ -43,7 +43,10 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.14)
+## Relais (fin de 0.60.15)
+
+- DFMEA (D-O-027) : `modules/diamond/dfmea.py` (lignes, positions, `checks`, Depuis l'arbre / les risques, CSV), `dfmea_ap.py` (tableau AP, échelles, RPN), `example_dfmea.py` ; migration diamond 4. Écran : `static/js/diamond/dfmea.js` (vue, outils, colonnes en localStorage `diamond.dfmea.columns`), `dfmea_table.js` (tableur), `dfmea_legend.js` (#/diamond/KEY/dfmeaap) ; `static/css/diamond_dfmea.css`. `tests/test_diamond_dfmea.py`. Reste à faire : « Copier / composer un Space » ne connaît pas encore les tables Diamond (core/spacecopy.py).
+
 
 - Risques projet (D-O-026) : `modules/diamond/risks.py` (champs, niveaux `level()`, `checks`, CSV), `example_risks.py` ; migration diamond 3. Écran : `static/js/diamond/risks.js` (carte, filtres, registre compact quand le panneau est ouvert), `risks_panel.js`. Le DFMEA (0.60.15) reprend `diamond_functions` et les risques `to_dfmea = 1`. `tests/test_diamond_risks.py`.
 

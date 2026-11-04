@@ -1,4 +1,18 @@
-# Journal de mise à jour — 0.60.14
+# Journal de mise à jour — 0.60.15
+
+- **Version :** 0.60.14 → 0.60.15 (2026-11-04)
+- **Changements :**
+  1. **Diamond → DFMEA** (D-O-027) : le Design FMEA AIAG-VDA sur les fonctions de l'arbre : trois niveaux aux en-têtes blanc,
+     bleu et orange, chaîne effet / mode / cause, S / O / D, RPN et Action Priority côte à côte ; édition en place, lignes à
+     ajouter, dupliquer, déplacer (Alt + flèches) et effacer ; colonnes masquables ; Depuis l'arbre, Depuis les risques ;
+     conseils ; export CSV ; exemple de la lampe.
+  2. **Légende AP** : page de formation (pourquoi l'AP, tableau complet, échelles S / O / D).
+  3. **Training** : topic DM-04 et son test.
+- **Base de données :** migration diamond 4 (table `diamond_dfmea`), additive.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.14
 
 - **Version :** 0.60.13 → 0.60.14 (2026-11-04)
 - **Changements :**
@@ -7,8 +21,6 @@
      action, responsable, échéance, lien vers une fonction et « À détailler dans le DFMEA », conseils, export CSV.
   2. **Training** : topic DM-03 et son test.
 - **Base de données :** migration diamond 3 (table `diamond_risks`), additive.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.13
 

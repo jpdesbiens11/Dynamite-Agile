@@ -53,8 +53,9 @@ MODULE_MANIFEST = [
     {"key": "diamond", "label": "Diamond", "phase": "0.60.11", "module": diamond,
      "scripts": ["/js/diamond/diamond.js", "/js/diamond/tree_layout.js", "/js/diamond/tree_panel.js", "/js/diamond/tree.js",
                  "/js/diamond/structure_draw.js", "/js/diamond/structure_panel.js", "/js/diamond/structure.js",
-                 "/js/diamond/risks_panel.js", "/js/diamond/risks.js"],
-     "styles": ["/css/diamond.css"]},
+                 "/js/diamond/risks_panel.js", "/js/diamond/risks.js",
+                 "/js/diamond/dfmea_table.js", "/js/diamond/dfmea.js", "/js/diamond/dfmea_legend.js"],
+     "styles": ["/css/diamond.css", "/css/diamond_dfmea.css"]},
     # D-B-079: the test team's portal, right after Goldmine (test base + procedures in the space TESTING)
     {"key": "testing", "label": "Testing", "phase": "3.9", "module": testing,
      "scripts": ["/js/testing/testing.js", "/js/testing/testing_record.js", "/js/testing/testing_lists.js", "/js/testing/testing_plans.js"], "styles": ["/css/testing.css"]},
