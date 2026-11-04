@@ -1,0 +1,53 @@
+{
+  "version": "0.60.20",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Diamond : pièces sur les fonctions de la structure fonctionnelle et matrice pièces × fonctions (pièces intégrées, fonctions à plusieurs pièces) ; Timesheet : un code hors du Funding Space n'est plus masqué.",
+    "en": "Diamond: parts on the functions of the functional structure and a parts x functions matrix (integrated parts, functions needing several parts); Timesheet: a code outside the Funding Space is no longer hidden."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Diamond → Structure fonctionnelle : les pièces sur les fonctions (D-O-031)",
+      "why": "Pièces P-n (conçue, achetée, normalisée) étiquetées sur une ou plusieurs fonctions : leurs codes sur les blocs du schéma, la section « Pièces » du panneau d'une fonction, et la vue « Pièces × fonctions » (une case par lien, totaux par pièce et par fonction, indicateurs, conseils d'architecture). Exemple de la lampe. Migration diamond 5.",
+      "files": [
+        "modules/diamond/parts.py",
+        "modules/diamond/example_parts.py",
+        "modules/diamond/__init__.py",
+        "modules/diamond/structure.py",
+        "modules/diamond/example.py",
+        "static/js/diamond/structure_parts.js",
+        "static/js/diamond/structure.js",
+        "static/js/diamond/structure_draw.js",
+        "static/js/diamond/structure_panel.js",
+        "static/css/diamond.css",
+        "core/modules.py",
+        "tests/test_diamond_parts.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Timesheet : un code hors du Funding Space actuel est montré et bloque la soumission",
+      "why": "Après un changement de Funding Space, la plage gardait l'ancien code mais la liste affichait le premier code du nouveau : choisir ce code ne changeait rien, et la semaine soumise montrait l'ancien. Le code est maintenant affiché « hors du Funding Space », la soumission le refuse en nommant le correctif, et une nouvelle plage ne reprend jamais un ancien code.",
+      "files": [
+        "modules/timesheet/weeks.py",
+        "static/js/timesheet/timesheet.js",
+        "tests/test_timesheet_stale_code.py"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Version 0.60.20 et documentation",
+      "why": "Décision, état du projet, journal, fiche de version.",
+      "files": [
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.20.json",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}

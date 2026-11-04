@@ -1,12 +1,20 @@
-# Journal de mise à jour — 0.60.19
+# Journal de mise à jour — 0.60.20
+
+- **Version :** 0.60.19 → 0.60.20 (2026-11-04)
+- **Changements :**
+  1. **Diamond → Structure fonctionnelle : les pièces** (D-O-031) : chaque pièce étiquetée sur les fonctions qu'elle réalise ; vue « Pièces × fonctions » et conseils pour réduire la complexité et le coût.
+  2. **Timesheet** : après un changement de Funding Space, un ancien code est montré « hors du Funding Space » et la semaine n'est soumise qu'une fois corrigée.
+- **Base de données :** migration diamond 5 (tables `diamond_parts` et `diamond_part_functions`, additive).
+
+## Précédent
+
+### Journal de mise à jour — 0.60.19
 
 - **Version :** 0.60.18 → 0.60.19 (2026-11-04)
 - **Changements :**
   1. **Initiales automatiques** (D-O-030) : JDE d'après le nom, ADM pour admin, uniques, modifiables ; données aux comptes existants au démarrage.
   2. **Space par défaut** : corrigé, il ne revient plus en arrière (sauvegardes des réglages fusionnées) ; le wiki TOOLS n'est plus proposé.
 - **Base de données :** aucune migration ; au démarrage, les comptes sans initiales en reçoivent (réglages personnels, rien d'autre ne change).
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.18
 

@@ -171,7 +171,7 @@
       const pid = last && projects[last.project_id] ? last.project_id : data.projects[0].id;
       try {
         await api.post("/api/timesheet/entries", { work_date: day, project_id: pid,
-          task_key: last && last.project_id === pid ? last.task_key : undefined, hours: 1, description: "" });
+          task_key: last && last.project_id === pid && tasksOf(pid).some((t) => t.key === last.task_key && t.active !== false) ? last.task_key : undefined, hours: 1, description: "" });  // 0.60.20: never an old code
         refresh();
         setTimeout(() => { const all = page.querySelectorAll(".tt-desc"); if (all.length) all[all.length - 1].focus(); }, 150);
       } catch (err) { toast(err.message, "error"); }

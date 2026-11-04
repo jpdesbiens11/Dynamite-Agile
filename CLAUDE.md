@@ -48,6 +48,8 @@
   format exact tiré de l'outil (`core/starter_prompt.py`), « Copier le prompt » dans Commencer (`/api/starter/prompt`).
 - **0.60.19** (2026-11-04) : **initiales d'office** d'après le nom (JDE, ADM ; D-O-030, `core/prefs.ensure_initials`) ; **Space par défaut**
   corrigé : `prefs._put` fusionne ses clés (json_patch), deux sauvegardes simultanées ne s'annulent plus.
+- **0.60.20** (2026-11-04) : Diamond → **pièces sur les fonctions** (D-O-031, `modules/diamond/parts.py`, `static/js/diamond/structure_parts.js`) :
+  matrice pièces × fonctions, pièces intégrées, fonctions à plusieurs pièces ; Timesheet : code hors du Funding Space refusé.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,
