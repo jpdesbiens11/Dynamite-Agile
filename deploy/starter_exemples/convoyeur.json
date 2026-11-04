@@ -1,0 +1,49 @@
+{
+  "format": "dynamite-project-starter",
+  "format_version": 1,
+  "language": "fr",
+  "generated_by": "Exemple écrit à la main (0.60.05)",
+  "generated_at": "2026-11-04",
+  "project": {
+    "key": "CONVOY",
+    "name": "Convoyeur de table modulaire",
+    "description": "Convoyeur à courroie de 1,5 m pour petites pièces, en modules qui s'assemblent bout à bout, alimenté en 120 V et commandé par un automate programmable.",
+    "industry": "Équipement industriel",
+    "product_type": "Machine industrielle électrique",
+    "markets": ["CA", "US"]
+  },
+  "team": [
+    {"username": "olivier", "display_name": "Olivier", "study_profile": "Génie mécanique", "title": "Responsable mécanique", "role": "manager"},
+    {"username": "amina", "display_name": "Amina", "study_profile": "Génie électrique", "title": "Responsable commande et sécurité"},
+    {"username": "felix", "display_name": "Félix", "study_profile": "Génie de la production automatisée", "title": "Responsable intégration et fabrication"}
+  ],
+  "requirements": [
+    {"ref": "BES-1", "kind": "need", "stakeholder": "production", "statement": "Les opérateurs veulent déplacer des pièces entre deux postes sans les porter."},
+    {"ref": "BES-2", "kind": "need", "stakeholder": "safety", "category": "personnel_safety", "statement": "Aucun opérateur ne doit pouvoir se blesser aux points de pincement."},
+    {"ref": "REQ-1", "statement": "Le convoyeur doit transporter des charges jusqu'à 5 kg par mètre à une vitesse réglable de 0,1 à 0,5 m/s.", "category": "performance", "lifecycle": "operation", "source": "client", "verification_method": "T", "criticality": "B", "derived_from": ["BES-1"]},
+    {"ref": "REQ-2", "statement": "L'équipement électrique de la machine doit être conçu selon les règles de sécurité des machines.", "category": "safety", "source": "standard", "standard": "CSA C22.2 No. 301 / NFPA 79", "verification_method": "I", "criticality": "A", "derived_from": ["BES-2"]},
+    {"ref": "REQ-3", "statement": "Une appréciation du risque doit être faite et les mesures de réduction documentées.", "category": "personnel_safety", "source": "standard", "standard": "ISO 12100 ; CSA Z432", "verification_method": "A", "criticality": "A", "derived_from": ["BES-2"]},
+    {"ref": "REQ-4", "statement": "Un arrêt d'urgence accessible à chaque extrémité doit arrêter la courroie.", "category": "personnel_safety", "source": "standard", "standard": "ISO 13850", "verification_method": "T", "acceptance_criteria": "Arrêt complet en moins de 0,5 s à vitesse maximale.", "criticality": "A", "derived_from": ["BES-2"]}
+  ],
+  "tests": [
+    {"ref": "ESSAI-1", "title": "Capacité et plage de vitesse", "category": "custom", "level": "Product", "method": "T", "objective": "Charger 5 kg/m et mesurer la vitesse aux deux extrêmes.", "verifies": ["REQ-1"]},
+    {"ref": "ESSAI-2", "title": "Inspection de l'équipement électrique", "category": "standard", "standard": "CSA C22.2 No. 301 / NFPA 79", "level": "Product", "method": "I", "verifies": ["REQ-2"]},
+    {"ref": "ESSAI-3", "title": "Revue de l'appréciation du risque", "category": "standard", "standard": "ISO 12100 ; CSA Z432", "level": "Product", "method": "A", "verifies": ["REQ-3"]},
+    {"ref": "ESSAI-4", "title": "Temps d'arrêt d'urgence", "category": "standard", "standard": "ISO 13850", "level": "Product", "method": "T", "verifies": ["REQ-4"]}
+  ],
+  "time_codes": [
+    {"key": "CV-MEC", "label": "Mécanique : châssis, courroie, modules"},
+    {"key": "CV-CMD", "label": "Commande, automate et sécurité"},
+    {"key": "CV-RIS", "label": "Appréciation du risque"},
+    {"key": "CV-FAB", "label": "Fabrication et mise en service"}
+  ],
+  "pages": [
+    {"ref": "P-ACC", "title": "Convoyeur de table modulaire", "parent": null, "body": {"type": "doc", "content": [
+      {"type": "paragraph", "content": [{"type": "text", "text": "Objectif, équipe et livrables du projet."}]},
+      {"type": "children"}]}},
+    {"ref": "P-RIS", "title": "Appréciation du risque", "parent": "P-ACC", "body": {"type": "doc", "content": [
+      {"type": "table", "header": true, "rows": [
+        [[{"type": "text", "text": "Phénomène dangereux"}], [{"type": "text", "text": "Zone"}], [{"type": "text", "text": "Mesure"}]],
+        [[{"type": "text", "text": "Pincement"}], [{"type": "text", "text": "Rouleaux d'extrémité"}], [{"type": "text", "text": "Protecteur fixe"}]]]}]}}
+  ]
+}

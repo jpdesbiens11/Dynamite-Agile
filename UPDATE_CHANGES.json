@@ -2,44 +2,28 @@
  "changes": [
   {
    "id": "C1",
-   "title": "Site web en anglais (D-O-017, étape 1)",
-   "why": "Pages site/en/, bouton FR | EN, hreflang ; textes partagés par langue dans tools/site_text.py.",
+   "title": "Format Project Starter et son validateur (D-O-019)",
+   "why": "Fichier JSON préparé avec un assistant IA ; vérifié champ par champ, « À vérifier » et « Brouillon IA » imposés.",
    "files": [
-    "site/en/guide.html",
-    "site/en/index.html",
-    "site/en/installation.html",
-    "site/en/installer.md",
-    "site/guide.html",
-    "site/index.html",
-    "site/installation.html",
-    "static/apps/vitrine/index.html",
-    "tools/build_site.py",
-    "tools/site/en/chaine.html",
-    "tools/site/en/guide.html",
-    "tools/site/en/index.html",
-    "tools/site/en/installation.html",
-    "tools/site/en/installer.md",
-    "tools/site/en/journee.html",
-    "tools/site/en/trouble.html",
-    "tools/site/install.js",
-    "tools/site/site.css",
-    "tools/site/site.js",
-    "tools/site_text.py"
+    "core/starter.py",
+    "docs/STARTER_FORMAT.md",
+    "tools/check_starter.py"
    ]
   },
   {
    "id": "C2",
-   "title": "install.sh en anglais avec DA_LANG=en",
-   "why": "Chaque message et chaque erreur du script en anglais pour la page anglaise.",
+   "title": "Trois exemples de démarrage",
+   "why": "Lampe de bureau connectée, tensiomètre de poignet, convoyeur de table modulaire.",
    "files": [
-    "deploy/install.sh",
-    "site/install.sh"
+    "deploy/starter_exemples/convoyeur.json",
+    "deploy/starter_exemples/lampe_bureau.json",
+    "deploy/starter_exemples/tensiometre.json"
    ]
   },
   {
    "id": "C3",
-   "title": "Version 0.60.04, tests et documentation",
-   "why": "APP_VERSION, test du site bilingue, décisions, état du projet.",
+   "title": "Version 0.60.05, tests et documentation",
+   "why": "APP_VERSION, tests du validateur, décision D-O-019, état du projet, site reconstruit.",
    "files": [
     "CLAUDE.md",
     "UPDATE_CHANGES.json",
@@ -47,7 +31,15 @@
     "core/__init__.py",
     "docs/DECISIONS.md",
     "docs/ETAT_PROJET.md",
-    "tests/test_open_v060.py"
+    "site/en/guide.html",
+    "site/en/index.html",
+    "site/en/installation.html",
+    "site/guide.html",
+    "site/index.html",
+    "site/installation.html",
+    "static/apps/vitrine/index.html",
+    "tests/test_open_v060.py",
+    "tests/test_starter.py"
    ]
   }
  ]
