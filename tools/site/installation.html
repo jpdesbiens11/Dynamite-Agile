@@ -3,105 +3,184 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Installer Dynamite | Agile sur un VPS Linux</title>
-<meta name="description" content="Installer Dynamite | Agile sur un VPS Linux en trois commandes : HTTPS Let's Encrypt, pare-feu, service systemd.">
+<title>Installer Dynamite | Agile</title>
+<meta name="description" content="Installer Dynamite | Agile pas à pas : sur un serveur en ligne en une commande, en essai privé ou sur votre ordinateur.">
 {{FAVICON}}
 <style>
 {{CSS}}
 </style>
 </head>
-<body>
+<body data-site="{{SITE_URL}}">
 {{SPRITE}}
 {{TOP}}
-<main class="page">
-  <span class="kicker">Installation · 20 minutes</span>
-  <h1>Installer Dynamite | Agile <span class="hl" style="--hlc: var(--t)">sur votre VPS</span></h1>
-  <p class="lead">Un serveur Linux, un nom de domaine et trois commandes. L'exemple suit un VPS Hostinger (offre KVM), mais la
-    procédure vaut pour tout VPS Ubuntu ou Debian.</p>
-  <ul class="toc">
-    <li><a href="#prealables">1. Préalables</a></li><li><a href="#vps">2. Le VPS</a></li><li><a href="#domaine">3. Le domaine</a></li>
-    <li><a href="#connexion">4. Se connecter</a></li><li><a href="#installer">5. Installer</a></li><li><a href="#premier">6. Premier accès</a></li>
-    <li><a href="#entretien">7. Entretien</a></li><li><a href="#depannage">Dépannage</a></li></ul>
+<main class="page install">
+  <span class="kicker">Installation · 15 minutes · aucune connaissance de Linux requise</span>
+  <h1>Installer Dynamite | Agile</h1>
+  <p class="lead">Choisissez où l'installer, remplissez deux champs, puis copiez chaque commande d'un clic. Chaque bloc dit
+    <b>où</b> la coller : <span class="where pc">sur votre ordinateur</span> ou <span class="where srv">sur le serveur</span>.</p>
 
-  <h2 id="prealables" class="reveal">1. Ce qu'il faut</h2>
-  <table class="t reveal"><tr><th>Élément</th><th>Minimum</th><th>Remarque</th></tr>
-    <tr><td>Serveur</td><td>VPS Linux, 1 vCPU, 1 Go de mémoire, 10 Go de disque</td><td>Ubuntu 22.04 / 24.04 ou Debian 12. Une équipe de 10 personnes tient à l'aise sur la plus petite offre.</td></tr>
-    <tr><td>Accès</td><td>SSH en root (ou un compte avec <code>sudo</code>)</td><td>Ou la console web du panneau de l'hébergeur.</td></tr>
-    <tr><td>Domaine</td><td>Un nom de domaine ou un sous-domaine</td><td>Pour le certificat HTTPS gratuit (Let's Encrypt).</td></tr>
-    <tr><td>Ports</td><td>22, 80 et 443 libres</td><td>Aucun autre site ni application ne doit déjà occuper 80 ou 443 sur ce VPS.</td></tr></table>
+  <!-- 1. Where -->
+  <h2 id="ou">1. Où voulez-vous l'installer ?</h2>
+  <div class="dest" role="radiogroup" aria-label="Destination de l'installation">
+    <label class="dest-card"><input type="radio" name="dest" value="serveur" checked>
+      <b>Sur un serveur en ligne</b><span class="tag">Recommandé pour une équipe</span>
+      <span>Toute l'équipe s'y connecte de partout, en HTTPS. Il faut un VPS Linux et un nom de domaine.</span></label>
+    <label class="dest-card"><input type="radio" name="dest" value="essai">
+      <b>Sur un serveur, en essai privé</b><span class="tag">Sans domaine</span>
+      <span>Rien d'exposé sur Internet : vous seul l'ouvrez, par un tunnel SSH. Passez en ligne plus tard.</span></label>
+    <label class="dest-card"><input type="radio" name="dest" value="local">
+      <b>Sur mon ordinateur</b><span class="tag">Essai solo, 5 minutes</span>
+      <span>Windows, macOS ou Linux, avec l'équipe d'exemple. Personne d'autre ne s'y connecte.</span></label>
+  </div>
 
-  <h2 id="vps" class="reveal">2. Préparer le VPS</h2>
-  <ol class="stepper reveal">
-    <li><b>Choisir le système</b>Dans le panneau de l'hébergeur (Hostinger : hPanel → <i>VPS</i> → <i>OS &amp; Panel</i>), installez
-      <b>Ubuntu 24.04</b> sans panneau ni application, ou gardez celui en place s'il n'occupe pas les ports 80 et 443.</li>
-    <li><b>Noter l'adresse IP et l'accès root</b>Sur la page <i>Overview</i> du VPS : l'adresse IP, le nom d'utilisateur SSH
-      (<code>root</code>) et le mot de passe root (bouton <i>Change</i> pour en choisir un). Mieux encore : ajoutez votre clé SSH.</li>
-    <li><b>Ouvrir le pare-feu du panneau</b>Si l'hébergeur a son propre pare-feu (Hostinger : <i>Security</i> → <i>Firewall</i>),
-      autorisez les ports <b>22</b> (SSH), <b>80</b> et <b>443</b> (web). Le script règle ensuite le pare-feu du système.</li>
-  </ol>
+  <!-- 2. The AI assistant -->
+  <section class="agent" aria-labelledby="agent-h">
+    <h2 id="agent-h">2. Gardez un assistant IA à vos côtés <span class="opt">(conseillé)</span></h2>
+    <p>Ouvrez Claude (ou votre assistant habituel) dans une autre fenêtre et collez-lui ce message <b>avant de commencer</b> :
+      il lit cette procédure et vous guide une commande à la fois. Collez-lui ensuite ce que le terminal affiche, surtout
+      s'il y a un message en rouge.</p>
+    <pre class="cmd prompt" id="agent-prompt"><code id="agent-text"></code></pre>
+    <p class="muted">Ne lui donnez jamais un mot de passe ni une clé privée : ils se tapent seulement dans le terminal.</p>
+  </section>
 
-  <h2 id="domaine" class="reveal">3. Pointer le domaine vers le VPS</h2>
-  <ol class="stepper reveal">
-    <li><b>Créer l'enregistrement A</b>Dans le gestionnaire DNS de votre domaine (Hostinger : <i>DNS Manager</i>, ou
-      <i>Claim your free domain</i> sur la page du VPS), créez un enregistrement <b>A</b> : nom <code>atelier</code> (ou
-      <code>@</code> pour le domaine nu), valeur = l'adresse IP du VPS, TTL court (300 s).</li>
-    <li><b>Vérifier</b>Après quelques minutes, depuis votre poste : <code>ping atelier.mon-domaine.ca</code> doit répondre avec
-      l'adresse IP du VPS. Le certificat HTTPS ne peut pas être obtenu avant.</li>
-  </ol>
+  <!-- 3. Personalisation (server paths) -->
+  <section class="fill" data-for="serveur essai">
+    <h2>3. Vos informations</h2>
+    <p>Elles remplissent les commandes ci-dessous. Rien n'est envoyé nulle part : tout reste dans cette page.</p>
+    <div class="fields">
+      <label data-for="serveur">Nom de domaine <input id="f-domain" data-v="domain" autocomplete="off" spellcheck="false"
+        placeholder="atelier.mon-domaine.ca"></label>
+      <label data-for="serveur">Votre courriel <span class="muted">(avis d'expiration du certificat)</span>
+        <input id="f-email" data-v="email" type="email" autocomplete="email" placeholder="moi@exemple.ca"></label>
+      <label>Adresse IP du serveur <input id="f-ip" data-v="ip" inputmode="decimal" autocomplete="off" placeholder="203.0.113.10"></label>
+    </div>
+  </section>
 
-  <h2 id="connexion" class="reveal">4. Se connecter au VPS</h2>
-  <p class="reveal">Depuis un terminal (Windows : PowerShell ou Terminal ; macOS et Linux : Terminal), ou avec le bouton
-    <i>Web console</i> du panneau :</p>
-  <pre class="cmd reveal"><code>ssh root@ADRESSE_IP_DU_VPS</code></pre>
+  <div class="progress-bar" aria-live="polite"><div class="track"><i></i></div><span id="progress-text">0 étape faite</span></div>
 
-  <h2 id="installer" class="reveal">5. Installer en trois commandes</h2>
-  <p class="reveal">Remplacez le domaine et le courriel (il sert seulement aux avis d'expiration du certificat) :</p>
-  <pre class="cmd reveal"><code>sudo apt update &amp;&amp; sudo apt install -y git</code>
+  <!-- ===================== A. online server ===================== -->
+  <ol class="stepper path" data-path="serveur">
+    <li data-step="srv-vps"><b>Préparez le serveur</b>
+      Un VPS Linux <b>Ubuntu 24.04</b> (1 vCPU et 1 Go de mémoire suffisent). Dans le pare-feu du panneau de l'hébergeur, ouvrez
+      les ports <b>22, 80 et 443</b>.
+      <details><summary>Où trouver ça chez Hostinger</summary><ul>
+        <li>hPanel → <i>VPS</i> → <i>OS &amp; Panel</i> : système <b>Ubuntu 24.04</b> (sans application qui occupe les ports 80 ou 443).</li>
+        <li>Page <i>Overview</i> : l'<b>IP</b> du serveur, l'utilisateur SSH <b>root</b>, et <i>Root password → Change</i> pour choisir le mot de passe.</li>
+        <li><i>Security → Firewall</i> : autorisez 22, 80 et 443.</li></ul></details>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+
+    <li data-step="srv-dns"><b>Pointez le domaine vers le serveur</b>
+      Dans le gestionnaire DNS du domaine, créez un enregistrement <b>A</b> : nom <code>atelier</code> (ou <code>@</code>),
+      valeur <code data-v="ip">203.0.113.10</code>. Vérifiez quelques minutes plus tard :
+      <pre class="cmd" data-where="pc"><code>nslookup <span data-v="domain">atelier.mon-domaine.ca</span></code></pre>
+      <p class="expect">Vous devez voir <code data-v="ip">203.0.113.10</code> dans la réponse. Sinon, attendez encore un peu.</p>
+      <details><summary>Chez Hostinger</summary><p>hPanel → <i>Domains</i> → votre domaine → <i>DNS / Nameservers</i>, ou
+        <i>Claim your free domain</i> sur la page du VPS.</p></details>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+
+    <li data-step="srv-ssh"><b>Connectez-vous au serveur</b>
+      Ouvrez un terminal (Windows : <i>Terminal</i> ou <i>PowerShell</i> ; macOS : <i>Terminal</i>) et tapez le mot de passe root
+      quand il est demandé (rien ne s'affiche pendant la frappe, c'est normal) :
+      <pre class="cmd" data-where="pc"><code>ssh root@<span data-v="ip">203.0.113.10</span></code></pre>
+      <p class="expect">La ligne commence maintenant par <code>root@…</code> : vous êtes sur le serveur. À la première connexion,
+        répondez <code>yes</code>. Pas de terminal ? Le bouton <i>Web console</i> du panneau fait la même chose.</p>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+
+    <li data-step="srv-install"><b>Installez, en une commande</b>
+      <pre class="cmd" data-where="srv"><code>curl -fsSL {{SITE_URL}}/install.sh | sudo bash -s -- <span data-v="domain">atelier.mon-domaine.ca</span> <span data-v="email">moi@exemple.ca</span></code></pre>
+      <p class="expect">Deux à cinq minutes. La fin affiche <code>== 7/7 C'est installé</code>, l'adresse à ouvrir et le
+        <b>mot de passe temporaire</b> du compte <code>admin</code> : gardez cette fenêtre ouverte.</p>
+      <details><summary>Ce que fait la commande</summary><p>Elle récupère le code dans <code>/opt/dynamite_agile</code>, installe
+        Python, git, certbot et le pare-feu, crée l'utilisateur système <code>dynamite</code>, obtient le certificat HTTPS (renouvelé
+        tout seul), règle la configuration de production et démarre le service. On peut la relancer sans rien perdre.
+        Le script est lisible ici : <a href="{{REPO}}/blob/main/deploy/install.sh">deploy/install.sh</a>.</p></details>
+      <details><summary>Je préfère trois commandes, sans curl</summary>
+        <pre class="cmd" data-where="srv"><code>sudo apt update &amp;&amp; sudo apt install -y git</code>
 <code>sudo git clone {{REPO}}.git /opt/dynamite_agile</code>
-<code>sudo bash /opt/dynamite_agile/deploy/install.sh atelier.mon-domaine.ca moi@exemple.ca</code></pre>
-  <div class="note reveal"><b>Ce que fait le script</b>, dans l'ordre : paquets du système (Python 3, git, certbot, ufw) ;
-    pare-feu (22, 80, 443) ; utilisateur système <code>dynamite</code> sans droits root ; certificat HTTPS Let's Encrypt, renouvelé
-    tout seul ; <code>data/config.json</code> pour la production (HTTPS sur 443, redirection depuis 80, mode développement coupé) ;
-    service <code>dynamite-agile</code> démarré au boot ; affichage du mot de passe temporaire du compte <code>admin</code>.
-    On peut le relancer sans rien perdre.</div>
+<code>sudo bash /opt/dynamite_agile/deploy/install.sh <span data-v="domain">atelier.mon-domaine.ca</span> <span data-v="email">moi@exemple.ca</span></code></pre></details>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
 
-  <h2 id="premier" class="reveal">6. Premier accès et votre équipe</h2>
-  <ol class="stepper reveal">
-    <li><b>Se connecter</b>Ouvrez <code>https://atelier.mon-domaine.ca</code>, compte <code>admin</code>, avec le mot de passe affiché
-      par le script ; choisissez tout de suite le vôtre.</li>
-    <li><b>Créer les comptes</b>⚙ Admin → Comptes → <i>Règles d'accès</i> : une ligne par personne, vérifiée à blanc avant d'être
-      appliquée. Chacun reçoit un mot de passe temporaire à changer à la première connexion.
-      <pre class="cmd"><code>utilisateur nina | Nina | utilisateur | actif</code>
-<code>profil      nina | Génie mécanique</code>
-<code>droit       nina | EQP | admin-projet</code></pre></li>
-    <li><b>Créer le Space du projet</b>⚙ Admin → Spaces : une clé (ex. <code>EQP</code>) et un nom. Le Space est prêt dans chaque
-      onglet, avec une carte « Commencer ici ».</li>
-    <li><b>Faire le tour guidé</b>Help → le tour du site, un chapitre par outil, avec son exercice dans le Space bac à sable HEADLAMP.
-      Voir aussi le <a href="guide.html">guide de prise en main</a>.</li>
+    <li data-step="srv-open"><b>Ouvrez l'outil et créez votre équipe</b>
+      Ouvrez <a class="live" data-href="https://{domain}" href="#">https://<span data-v="domain">atelier.mon-domaine.ca</span></a>,
+      compte <code>admin</code> et le mot de passe affiché ; choisissez le vôtre. Puis ⚙ Admin → Comptes → <i>Règles d'accès</i>,
+      une ligne par personne, et ⚙ Admin → Spaces pour le Space du projet. Le <a href="guide.html">guide</a> vous accompagne.
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
   </ol>
 
-  <h2 id="entretien" class="reveal">7. Entretien</h2>
-  <table class="t reveal"><tr><th>Pour…</th><th>Faire</th></tr>
-    <tr><td>Mettre à jour le code</td><td><code>sudo bash /opt/dynamite_agile/deploy/redeploy.sh</code> (les données ne sont jamais touchées)</td></tr>
-    <tr><td>Sauvegarder</td><td>⚙ Admin → Update et sauvegardes : points de restauration, sauvegarde d'un Space ; et la sauvegarde du VPS chez l'hébergeur</td></tr>
-    <tr><td>Voir le journal du service</td><td><code>journalctl -u dynamite-agile -n 100</code></td></tr>
-    <tr><td>Redémarrer</td><td><code>sudo systemctl restart dynamite-agile</code></td></tr>
-    <tr><td>Mot de passe admin oublié</td><td><code>sudo -u dynamite python3 /opt/dynamite_agile/app_dynamite_agile.py --reset-password admin</code></td></tr>
-    <tr><td>Vérifier HTTPS</td><td>⚙ Admin → Sécurité réseau : HTTPS actif, TLS 1.3, HSTS</td></tr>
-    <tr><td>Déménager</td><td>⚙ Admin → Update et sauvegardes → Site complet, vers un site neuf</td></tr></table>
+  <!-- ===================== B. private trial ===================== -->
+  <ol class="stepper path" data-path="essai" hidden>
+    <li data-step="try-vps"><b>Ayez un serveur Linux</b>
+      Un VPS <b>Ubuntu 24.04</b> et son accès root suffisent : pas de domaine, aucun port à ouvrir à part SSH (22).
+      <details><summary>Chez Hostinger</summary><p>Page <i>Overview</i> du VPS : l'IP, l'utilisateur <b>root</b> et le mot de passe
+        (<i>Root password → Change</i>).</p></details>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+    <li data-step="try-ssh"><b>Connectez-vous au serveur</b>
+      <pre class="cmd" data-where="pc"><code>ssh root@<span data-v="ip">203.0.113.10</span></code></pre>
+      <p class="expect">La ligne commence par <code>root@…</code>. Répondez <code>yes</code> à la première connexion.</p>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+    <li data-step="try-install"><b>Installez l'essai, en une commande</b>
+      <pre class="cmd" data-where="srv"><code>curl -fsSL {{SITE_URL}}/install.sh | sudo bash -s -- --essai</code></pre>
+      <p class="expect">La fin affiche <code>== 7/7 C'est installé</code> et la commande du tunnel.</p>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+    <li data-step="try-tunnel"><b>Ouvrez le tunnel, depuis votre ordinateur</b>
+      Dans un <b>nouveau</b> terminal sur votre ordinateur (laissez-le ouvert pendant l'essai) :
+      <pre class="cmd" data-where="pc"><code>ssh -N -L 8080:127.0.0.1:8080 root@<span data-v="ip">203.0.113.10</span></code></pre>
+      <p class="expect">Le terminal semble figé : c'est normal, le tunnel est ouvert. Ouvrez
+        <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>, compte <code>admin</code> / <code>admin</code>, avec l'équipe
+        d'exemple. Pour passer en ligne plus tard, refaites le parcours « Sur un serveur en ligne ».</p>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+  </ol>
 
-  <h2 id="depannage" class="reveal">Dépannage</h2>
-  <table class="t reveal"><tr><th>Message</th><th>Cause et correctif</th></tr>
-    <tr><td>« les ports 80 ou 443 sont déjà pris »</td><td>Un serveur web ou une application installée par le panneau (souvent dans
-      Docker) écoute déjà. Arrêtez-la ou installez Dynamite | Agile sur un autre VPS.</td></tr>
-    <tr><td>certbot : « Timeout during connect » ou « NXDOMAIN »</td><td>Le domaine ne pointe pas encore vers le VPS, ou le port 80 est
-      fermé dans le pare-feu du panneau. Vérifiez l'enregistrement A et le pare-feu, attendez la propagation, relancez le script.</td></tr>
-    <tr><td>Le service ne démarre pas</td><td><code>journalctl -u dynamite-agile -n 50</code> : chaque refus nomme la valeur fautive et le correctif.</td></tr>
-    <tr><td>Pas encore de domaine</td><td>Essai privé par tunnel SSH : voir <code>deploy/DEPLOIEMENT_VPS.md</code> dans le dépôt.</td></tr></table>
+  <!-- ===================== C. my computer ===================== -->
+  <div class="path" data-path="local" hidden>
+    <div class="os-tabs" role="tablist" aria-label="Système">
+      <button type="button" role="tab" data-os="windows" aria-selected="true">Windows</button>
+      <button type="button" role="tab" data-os="mac" aria-selected="false">macOS</button>
+      <button type="button" role="tab" data-os="linux" aria-selected="false">Linux</button></div>
+    <ol class="stepper" data-os-panel="windows">
+      <li data-step="win-py"><b>Installez Python</b> Dans <i>Terminal</i> ou <i>PowerShell</i> :
+        <pre class="cmd" data-where="pc"><code>winget install -e --id Python.Python.3.12</code></pre>
+        <p class="expect">Ou depuis python.org, en cochant « Add python.exe to PATH ». Fermez puis rouvrez le terminal.</p>
+        <label class="done"><input type="checkbox"> C'est fait</label></li>
+      <li data-step="win-get"><b>Téléchargez l'outil</b> <a class="btn" href="{{REPO}}/archive/refs/heads/main.zip">Télécharger le .zip</a>,
+        puis clic droit → <i>Extraire tout</i> dans votre dossier Documents.
+        <label class="done"><input type="checkbox"> C'est fait</label></li>
+      <li data-step="win-run"><b>Lancez-le</b> Double-cliquez <code>Lancer_dev_local.bat</code> dans le dossier extrait, ou :
+        <pre class="cmd" data-where="pc"><code>cd $HOME\Documents\dynamite-agile-main</code>
+<code>python app_dynamite_agile.py --dev-admin</code></pre>
+        <p class="expect">Ouvrez <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>, compte <code>admin</code> / <code>admin</code>.
+          Fermer la fenêtre arrête l'outil.</p>
+        <label class="done"><input type="checkbox"> C'est fait</label></li>
+    </ol>
+    <ol class="stepper" data-os-panel="mac" hidden>
+      <li data-step="mac-tools"><b>Installez les outils de base</b> Dans <i>Terminal</i> (une fois) :
+        <pre class="cmd" data-where="pc"><code>xcode-select --install</code></pre>
+        <label class="done"><input type="checkbox"> C'est fait</label></li>
+      <li data-step="mac-run"><b>Téléchargez et lancez</b>
+        <pre class="cmd" data-where="pc"><code>git clone {{REPO}}.git ~/dynamite-agile</code>
+<code>cd ~/dynamite-agile &amp;&amp; python3 app_dynamite_agile.py --dev-admin</code></pre>
+        <p class="expect">Ouvrez <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>, compte <code>admin</code> / <code>admin</code>.
+          Ctrl+C arrête l'outil.</p>
+        <label class="done"><input type="checkbox"> C'est fait</label></li>
+    </ol>
+    <ol class="stepper" data-os-panel="linux" hidden>
+      <li data-step="lin-run"><b>Installez, téléchargez et lancez</b>
+        <pre class="cmd" data-where="pc"><code>sudo apt update &amp;&amp; sudo apt install -y python3 git</code>
+<code>git clone {{REPO}}.git ~/dynamite-agile</code>
+<code>cd ~/dynamite-agile &amp;&amp; python3 app_dynamite_agile.py --dev-admin</code></pre>
+        <p class="expect">Ouvrez <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>, compte <code>admin</code> / <code>admin</code>.</p>
+        <label class="done"><input type="checkbox"> C'est fait</label></li>
+    </ol>
+  </div>
+
+{{TROUBLE}}
 </main>
 {{FOOTER}}
 <script>
 {{SITE_JS}}
+</script>
+<script>
+{{INSTALL_JS}}
 </script>
 </body>
 </html>

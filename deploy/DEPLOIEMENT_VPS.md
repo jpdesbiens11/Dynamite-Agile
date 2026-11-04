@@ -1,7 +1,7 @@
 # Dynamite | Agile — Installer sur un VPS Linux
 
-La procédure illustrée pas à pas est sur le site du projet (`site/installation.html`). Ce fichier en est le résumé
-pour qui lit le dépôt.
+La procédure illustrée pas à pas, pour débutants, est sur le site du projet (`site/installation.html`) ; un guide pour
+l'assistant IA qui accompagne la personne est publié à côté (`site/installer.md`). Ce fichier en est le résumé.
 
 ## Ce qu'il faut
 
@@ -11,19 +11,26 @@ pour qui lit le dépôt.
 - Les ports **22, 80 et 443** ouverts dans le pare-feu du panneau de l'hébergeur, s'il en a un ; aucun autre
   programme ne doit déjà occuper 80 ou 443 sur ce VPS.
 
-## Les trois commandes
+## Une commande
+
+Connecté au serveur (`ssh root@<IP>` ou la console web de l'hébergeur) :
+
+```bash
+curl -fsSL https://<compte>.github.io/dynamite-agile/install.sh | sudo bash -s -- mon-domaine.ca moi@exemple.ca
+```
+
+La commande récupère le code dans `/opt/dynamite_agile`, puis `deploy/install.sh` installe Python, git, certbot et le
+pare-feu `ufw` (22, 80, 443), crée l'utilisateur système `dynamite`, vérifie que le domaine pointe vers le serveur et que
+les ports 80 / 443 sont libres, obtient le certificat HTTPS Let's Encrypt (renouvelé automatiquement), écrit
+`data/config.json` pour la production (`dev_mode: false`, HTTPS sur 443, redirection depuis 80), installe et démarre le
+service systemd `dynamite-agile`, puis affiche le mot de passe temporaire du compte `admin`. On peut la relancer sans rien
+perdre (`data/` est gardé). Sans curl, en trois commandes :
 
 ```bash
 sudo apt update && sudo apt install -y git
 sudo git clone https://github.com/<compte>/dynamite-agile.git /opt/dynamite_agile
 sudo bash /opt/dynamite_agile/deploy/install.sh mon-domaine.ca moi@exemple.ca
 ```
-
-`deploy/install.sh` installe Python, git, certbot et le pare-feu `ufw` (22, 80, 443), crée l'utilisateur système
-`dynamite`, obtient le certificat HTTPS Let's Encrypt (renouvelé automatiquement), écrit `data/config.json` pour la
-production (`dev_mode: false`, HTTPS sur 443, redirection depuis 80), installe et démarre le service systemd
-`dynamite-agile`, puis affiche le mot de passe temporaire du compte `admin`. Le script peut être relancé sans rien
-perdre (`data/` est gardé).
 
 ## Ensuite
 
@@ -37,18 +44,16 @@ perdre (`data/` est gardé).
 | Sauvegardes | ⚙ Admin → Update et sauvegardes (points de restauration, sauvegarde d'un Space) ; plus la sauvegarde du VPS chez l'hébergeur |
 | Sécurité réseau | ⚙ Admin → Sécurité réseau (HTTPS actif, TLS 1.3, HSTS) ; mTLS optionnel : `deploy/TLS.md` |
 
-## Essai sans domaine (tunnel SSH)
-
-Pour essayer avant d'avoir un domaine : lancez le serveur en local sur le VPS et ouvrez-le par un tunnel SSH, sans
-rien exposer sur Internet.
+## Essai privé, sans domaine
 
 ```bash
-sudo -u dynamite python3 /opt/dynamite_agile/app_dynamite_agile.py --host 127.0.0.1 --port 8080 --dev-admin
-# sur votre poste :
-ssh -N -L 8080:127.0.0.1:8080 root@<IP du VPS>     # puis http://127.0.0.1:8080
+curl -fsSL https://<compte>.github.io/dynamite-agile/install.sh | sudo bash -s -- --essai     # sur le serveur
+ssh -N -L 8080:127.0.0.1:8080 root@<IP du VPS>                                                # sur votre poste
 ```
 
-Le mode développement (`--dev-admin`) crée l'équipe d'exemple et accepte admin / admin : jamais avec de vraies données.
+Puis `http://127.0.0.1:8080`, admin / admin, avec l'équipe d'exemple : rien n'est exposé sur Internet (mode
+développement, jamais avec de vraies données). Pour passer en ligne, relancez la commande avec votre domaine et votre
+courriel.
 
 ## Le dossier `data/`
 

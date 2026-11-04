@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Installer Dynamite | Agile sur un VPS Linux</title>
-<meta name="description" content="Installer Dynamite | Agile sur un VPS Linux en trois commandes : HTTPS Let's Encrypt, pare-feu, service systemd.">
+<title>Installer Dynamite | Agile</title>
+<meta name="description" content="Installer Dynamite | Agile pas à pas : sur un serveur en ligne en une commande, en essai privé ou sur votre ordinateur.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='3' width='26' height='26' rx='3' fill='%23ffd23f' stroke='%2326323f' stroke-width='2'/%3E%3Cpath d='M18 6 L11 17 H16 L14 26 L22 14 H17 Z' fill='none' stroke='%2326323f' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
 :root {
@@ -280,9 +280,64 @@ pre code { background: none; padding: 0; font: inherit; }
   table.t { display: block; overflow-x: auto; }
 }
 
+/* ---------- installation page ---------- */
+.install h2 { margin-top: 2.2rem; }
+.where { display: inline-block; padding: .05rem .5rem; border-radius: var(--r-hand); font: 700 .78rem var(--sans); vertical-align: .1em; }
+.where.pc { background: #e3eeff; color: #0a58ad; }
+.where.srv { background: #dcf7e6; color: #1a6e3e; }
+pre.cmd .where { position: absolute; top: .55rem; left: .8rem; border: 1.2px solid rgba(255, 255, 255, .5); }
+pre.cmd[data-where] { padding-top: 2.4rem; }
+pre.cmd { white-space: pre-wrap; overflow-wrap: anywhere; padding-right: 5.2rem; }
+.dest { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
+.dest-card { position: relative; display: flex; flex-direction: column; gap: .35rem; padding: 1rem 1.1rem 1.1rem; cursor: pointer;
+  background: #fff; border: 1.8px solid rgba(38, 50, 63, .3); border-radius: var(--r-card); box-shadow: var(--shadow);
+  transition: transform .2s var(--pop), border-color .2s; }
+.dest-card:hover { transform: translateY(-2px); }
+.dest-card.on { border-color: var(--blue); box-shadow: 5px 5px 0 #0b3f8f; }
+.dest-card input { position: absolute; opacity: 0; }
+.dest-card b { font: 700 1.15rem var(--hand); }
+.dest-card .tag { align-self: flex-start; padding: .05rem .5rem; border-radius: var(--r-hand); background: var(--y); font: 700 .75rem var(--sans); }
+.dest-card span:last-child { color: var(--ink-2); font-size: .93rem; }
+.dest-card:focus-within { outline: 3px solid var(--blue); outline-offset: 2px; }
+.agent { margin: 2rem 0 0; padding: 1.1rem 1.2rem; max-width: none; background: #fff7ef; border: 1.8px dashed var(--o); border-radius: var(--r-card); }
+.agent h2 { margin-top: 0; }
+.agent .opt { font: 600 .9rem var(--sans); color: var(--ink-2); }
+pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); border-color: var(--o); }
+.muted { color: var(--ink-2); font-size: .92rem; }
+.fill { padding: 0; max-width: none; }
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .9rem; }
+.fields label { display: flex; flex-direction: column; gap: .3rem; font-weight: 650; }
+.fields input { padding: .6rem .7rem; font: 500 1rem "Cascadia Mono", Consolas, monospace; border: 1.6px solid var(--ink);
+  border-radius: 8px; background: #fff; }
+.fields input:focus { outline: 3px solid color-mix(in srgb, var(--y) 80%, transparent); }
+.progress-bar { position: sticky; top: 80px; z-index: 5; display: flex; align-items: center; gap: .8rem; margin: 2rem 0 1rem;
+  padding: .5rem .8rem; background: rgba(252, 251, 247, .95); border: 1.4px solid rgba(38, 50, 63, .25); border-radius: 10px; }
+.progress-bar .track { flex: 1; height: 10px; border-radius: var(--r-hand); background: #eef1f5; overflow: hidden; }
+.progress-bar .track i { display: block; height: 100%; width: 0; background: var(--g); transition: width .5s var(--pop); }
+.progress-bar span { font: 700 .9rem var(--hand); min-width: 11.5rem; text-align: right; }
+.stepper > li.ok { border-color: var(--g); background: #f6fdf8; }
+.stepper > li.ok::before { content: "✓"; background: var(--g); }
+.expect { margin: .5rem 0 0; padding: .45rem .7rem; border-left: 4px solid var(--g); background: rgba(95, 208, 138, .1); border-radius: 6px; font-size: .94rem; }
+.done { display: inline-flex; align-items: center; gap: .45rem; margin-top: .8rem; padding: .3rem .7rem; font-weight: 650; cursor: pointer;
+  border: 1.4px solid rgba(38, 50, 63, .3); border-radius: var(--r-hand); background: #fff; }
+.done input { width: 1.1rem; height: 1.1rem; accent-color: var(--g); }
+.stepper details { margin-top: .6rem; }
+.stepper summary, .trouble summary { cursor: pointer; font-weight: 650; color: var(--blue); }
+.ph { opacity: .75; font-style: italic; }
+.os-tabs { display: flex; gap: .5rem; margin: 1.6rem 0 1rem; }
+.os-tabs button { padding: .5rem 1rem; font: 650 1rem var(--sans); border: 1.6px solid var(--ink); border-radius: var(--r-hand);
+  background: #fff; cursor: pointer; }
+.os-tabs button[aria-selected="true"] { background: var(--ink); color: #fff; }
+.trouble { margin: .6rem 0; padding: .7rem 1rem; background: #fff; border: 1.4px solid rgba(38, 50, 63, .25); border-radius: 10px; }
+.trouble p, .trouble pre { margin-bottom: 0; }
+@media (max-width: 640px) {
+  .progress-bar { top: 112px; }
+  .progress-bar span { min-width: 0; }
+}
+
 </style>
 </head>
-<body>
+<body data-site="https://owner.github.io/dynamite-agile">
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
 <symbol id="i-dashboard" viewBox="0 0 24 24"><path d="M3.76 15.12C3.84 14.71 4.01 13.51 4.25 12.66C4.5 11.8 4.81 10.79 5.21 9.98C5.6 9.17 5.96 8.26 6.64 7.78C7.32 7.3 8.36 7.36 9.27 7.1C10.17 6.84 11.15 6.26 12.07 6.24C12.98 6.23 13.93 6.78 14.76 7.02C15.59 7.25 16.43 7.15 17.04 7.66C17.65 8.18 17.98 9.32 18.41 10.12C18.84 10.92 19.28 11.6 19.61 12.43C19.94 13.27 20.26 14.68 20.38 15.13" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.87 15.11C3.87 14.6 3.61 12.79 3.83 12.02C4.06 11.24 4.73 11.02 5.21 10.46C5.7 9.89 6.01 9.28 6.76 8.64C7.51 7.99 8.76 6.95 9.7 6.58C10.65 6.2 11.61 6.29 12.43 6.37C13.25 6.45 13.85 6.76 14.63 7.05C15.41 7.33 16.35 7.69 17.11 8.09C17.87 8.49 18.7 8.78 19.18 9.44C19.66 10.1 19.66 11.16 19.98 12.04C20.3 12.91 20.9 14.25 21.09 14.7" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M11.7 15.13Q14 12.39 16.17 9.54" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.43 14.8Q14.38 12.18 16.29 9.53" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M13.28 14.86C13.3 14.93 13.47 15.14 13.41 15.32C13.35 15.49 13.12 15.79 12.93 15.91C12.74 16.03 12.46 16.01 12.26 16.06C12.06 16.11 11.89 16.2 11.74 16.21C11.59 16.22 11.49 16.3 11.35 16.12C11.21 15.95 11.03 15.37 10.92 15.16C10.81 14.94 10.72 14.99 10.69 14.83C10.66 14.67 10.63 14.38 10.76 14.19C10.89 14.01 11.24 13.84 11.48 13.74C11.72 13.63 11.97 13.52 12.18 13.57C12.4 13.63 12.62 13.99 12.78 14.05C12.93 14.12 12.99 13.86 13.11 13.94C13.22 14.03 13.45 14.37 13.47 14.57C13.49 14.77 13.28 15.06 13.24 15.15" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.11 15.17C13.12 15.18 13.25 15 13.18 15.22C13.1 15.43 12.8 16.32 12.65 16.45C12.5 16.58 12.39 16 12.27 15.98C12.14 15.96 12.13 16.29 11.9 16.33C11.67 16.38 11.13 16.42 10.89 16.25C10.66 16.07 10.58 15.47 10.5 15.28C10.42 15.1 10.33 15.29 10.42 15.14C10.52 14.98 10.92 14.61 11.06 14.36C11.19 14.1 11.07 13.71 11.24 13.58C11.42 13.45 11.9 13.49 12.11 13.58C12.31 13.66 12.33 13.99 12.48 14.11C12.63 14.23 12.86 14.12 13.01 14.27C13.15 14.43 13.32 14.86 13.35 15.06C13.38 15.26 13.22 15.4 13.2 15.46" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M4.25 19.65Q12.11 19.58 19.97 19.4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.61 19.77Q12.31 19.8 20.01 19.81" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M6.42 9.47Q6.99 9.82 7.58 10.16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.95 9.38Q6.78 9.92 7.64 10.41" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M12.13 6.49Q12.16 7.37 12.22 8.25" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.85 7.13Q12.11 7.66 12.4 8.19" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M17.96 9.04Q17.24 9.66 16.52 10.28" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.02 9.02Q17.39 9.75 16.81 10.52" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M2.72 11.69Q7.41 7.81 12.21 4.06M11.58 3.93Q16.35 8.08 21.4 11.9" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.99 11.9Q7.69 8.31 11.83 4.06M11.77 4.24Q16.24 8.26 21.04 11.9" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M5.39 10.95Q12.15 10.83 18.91 10.76M18.37 10.9Q18.28 15.68 18.27 20.46M18.68 20.37Q11.93 20.15 5.19 20.38M5.57 20.95Q5.56 16.04 5.38 11.13" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.31 11.39Q11.95 11.61 18.59 11.38M18.9 11.36Q18.72 16.25 18.73 21.14M18.61 20.11Q12.06 19.7 5.51 20.1M5.25 20.64Q5.47 15.63 5.11 10.61" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M10.15 14.22Q12.1 14.48 14.06 14.68M13.69 14.63Q13.67 17.77 13.9 20.91M14.1 20.26Q12.19 20.48 10.29 20.62M10.38 20.72Q10.34 17.47 10.31 14.22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.21 14.53Q11.98 14.22 13.75 14.13M14.12 14.32Q14 17.47 13.48 20.62M13.84 20.27Q12.09 20.44 10.34 20.5M10.03 20.4Q10.07 17.55 9.96 14.7" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
@@ -312,93 +367,198 @@ pre code { background: none; padding: 0; font: inherit; }
   <nav aria-label="Pages"><a href="index.html">Accueil</a><a href="installation.html" class="on" aria-current="page">Installation</a><a href="guide.html">Guide</a></nav>
   <a class="btn btn-primary gh" href="https://github.com/OWNER/dynamite-agile">GitHub</a>
 </header>
-<main class="page">
-  <span class="kicker">Installation · 20 minutes</span>
-  <h1>Installer Dynamite | Agile <span class="hl" style="--hlc: var(--t)">sur votre VPS</span></h1>
-  <p class="lead">Un serveur Linux, un nom de domaine et trois commandes. L'exemple suit un VPS Hostinger (offre KVM), mais la
-    procédure vaut pour tout VPS Ubuntu ou Debian.</p>
-  <ul class="toc">
-    <li><a href="#prealables">1. Préalables</a></li><li><a href="#vps">2. Le VPS</a></li><li><a href="#domaine">3. Le domaine</a></li>
-    <li><a href="#connexion">4. Se connecter</a></li><li><a href="#installer">5. Installer</a></li><li><a href="#premier">6. Premier accès</a></li>
-    <li><a href="#entretien">7. Entretien</a></li><li><a href="#depannage">Dépannage</a></li></ul>
+<main class="page install">
+  <span class="kicker">Installation · 15 minutes · aucune connaissance de Linux requise</span>
+  <h1>Installer Dynamite | Agile</h1>
+  <p class="lead">Choisissez où l'installer, remplissez deux champs, puis copiez chaque commande d'un clic. Chaque bloc dit
+    <b>où</b> la coller : <span class="where pc">sur votre ordinateur</span> ou <span class="where srv">sur le serveur</span>.</p>
 
-  <h2 id="prealables" class="reveal">1. Ce qu'il faut</h2>
-  <table class="t reveal"><tr><th>Élément</th><th>Minimum</th><th>Remarque</th></tr>
-    <tr><td>Serveur</td><td>VPS Linux, 1 vCPU, 1 Go de mémoire, 10 Go de disque</td><td>Ubuntu 22.04 / 24.04 ou Debian 12. Une équipe de 10 personnes tient à l'aise sur la plus petite offre.</td></tr>
-    <tr><td>Accès</td><td>SSH en root (ou un compte avec <code>sudo</code>)</td><td>Ou la console web du panneau de l'hébergeur.</td></tr>
-    <tr><td>Domaine</td><td>Un nom de domaine ou un sous-domaine</td><td>Pour le certificat HTTPS gratuit (Let's Encrypt).</td></tr>
-    <tr><td>Ports</td><td>22, 80 et 443 libres</td><td>Aucun autre site ni application ne doit déjà occuper 80 ou 443 sur ce VPS.</td></tr></table>
+  <!-- 1. Where -->
+  <h2 id="ou">1. Où voulez-vous l'installer ?</h2>
+  <div class="dest" role="radiogroup" aria-label="Destination de l'installation">
+    <label class="dest-card"><input type="radio" name="dest" value="serveur" checked>
+      <b>Sur un serveur en ligne</b><span class="tag">Recommandé pour une équipe</span>
+      <span>Toute l'équipe s'y connecte de partout, en HTTPS. Il faut un VPS Linux et un nom de domaine.</span></label>
+    <label class="dest-card"><input type="radio" name="dest" value="essai">
+      <b>Sur un serveur, en essai privé</b><span class="tag">Sans domaine</span>
+      <span>Rien d'exposé sur Internet : vous seul l'ouvrez, par un tunnel SSH. Passez en ligne plus tard.</span></label>
+    <label class="dest-card"><input type="radio" name="dest" value="local">
+      <b>Sur mon ordinateur</b><span class="tag">Essai solo, 5 minutes</span>
+      <span>Windows, macOS ou Linux, avec l'équipe d'exemple. Personne d'autre ne s'y connecte.</span></label>
+  </div>
 
-  <h2 id="vps" class="reveal">2. Préparer le VPS</h2>
-  <ol class="stepper reveal">
-    <li><b>Choisir le système</b>Dans le panneau de l'hébergeur (Hostinger : hPanel → <i>VPS</i> → <i>OS &amp; Panel</i>), installez
-      <b>Ubuntu 24.04</b> sans panneau ni application, ou gardez celui en place s'il n'occupe pas les ports 80 et 443.</li>
-    <li><b>Noter l'adresse IP et l'accès root</b>Sur la page <i>Overview</i> du VPS : l'adresse IP, le nom d'utilisateur SSH
-      (<code>root</code>) et le mot de passe root (bouton <i>Change</i> pour en choisir un). Mieux encore : ajoutez votre clé SSH.</li>
-    <li><b>Ouvrir le pare-feu du panneau</b>Si l'hébergeur a son propre pare-feu (Hostinger : <i>Security</i> → <i>Firewall</i>),
-      autorisez les ports <b>22</b> (SSH), <b>80</b> et <b>443</b> (web). Le script règle ensuite le pare-feu du système.</li>
-  </ol>
+  <!-- 2. The AI assistant -->
+  <section class="agent" aria-labelledby="agent-h">
+    <h2 id="agent-h">2. Gardez un assistant IA à vos côtés <span class="opt">(conseillé)</span></h2>
+    <p>Ouvrez Claude (ou votre assistant habituel) dans une autre fenêtre et collez-lui ce message <b>avant de commencer</b> :
+      il lit cette procédure et vous guide une commande à la fois. Collez-lui ensuite ce que le terminal affiche, surtout
+      s'il y a un message en rouge.</p>
+    <pre class="cmd prompt" id="agent-prompt"><code id="agent-text"></code></pre>
+    <p class="muted">Ne lui donnez jamais un mot de passe ni une clé privée : ils se tapent seulement dans le terminal.</p>
+  </section>
 
-  <h2 id="domaine" class="reveal">3. Pointer le domaine vers le VPS</h2>
-  <ol class="stepper reveal">
-    <li><b>Créer l'enregistrement A</b>Dans le gestionnaire DNS de votre domaine (Hostinger : <i>DNS Manager</i>, ou
-      <i>Claim your free domain</i> sur la page du VPS), créez un enregistrement <b>A</b> : nom <code>atelier</code> (ou
-      <code>@</code> pour le domaine nu), valeur = l'adresse IP du VPS, TTL court (300 s).</li>
-    <li><b>Vérifier</b>Après quelques minutes, depuis votre poste : <code>ping atelier.mon-domaine.ca</code> doit répondre avec
-      l'adresse IP du VPS. Le certificat HTTPS ne peut pas être obtenu avant.</li>
-  </ol>
+  <!-- 3. Personalisation (server paths) -->
+  <section class="fill" data-for="serveur essai">
+    <h2>3. Vos informations</h2>
+    <p>Elles remplissent les commandes ci-dessous. Rien n'est envoyé nulle part : tout reste dans cette page.</p>
+    <div class="fields">
+      <label data-for="serveur">Nom de domaine <input id="f-domain" data-v="domain" autocomplete="off" spellcheck="false"
+        placeholder="atelier.mon-domaine.ca"></label>
+      <label data-for="serveur">Votre courriel <span class="muted">(avis d'expiration du certificat)</span>
+        <input id="f-email" data-v="email" type="email" autocomplete="email" placeholder="moi@exemple.ca"></label>
+      <label>Adresse IP du serveur <input id="f-ip" data-v="ip" inputmode="decimal" autocomplete="off" placeholder="203.0.113.10"></label>
+    </div>
+  </section>
 
-  <h2 id="connexion" class="reveal">4. Se connecter au VPS</h2>
-  <p class="reveal">Depuis un terminal (Windows : PowerShell ou Terminal ; macOS et Linux : Terminal), ou avec le bouton
-    <i>Web console</i> du panneau :</p>
-  <pre class="cmd reveal"><code>ssh root@ADRESSE_IP_DU_VPS</code></pre>
+  <div class="progress-bar" aria-live="polite"><div class="track"><i></i></div><span id="progress-text">0 étape faite</span></div>
 
-  <h2 id="installer" class="reveal">5. Installer en trois commandes</h2>
-  <p class="reveal">Remplacez le domaine et le courriel (il sert seulement aux avis d'expiration du certificat) :</p>
-  <pre class="cmd reveal"><code>sudo apt update &amp;&amp; sudo apt install -y git</code>
+  <!-- ===================== A. online server ===================== -->
+  <ol class="stepper path" data-path="serveur">
+    <li data-step="srv-vps"><b>Préparez le serveur</b>
+      Un VPS Linux <b>Ubuntu 24.04</b> (1 vCPU et 1 Go de mémoire suffisent). Dans le pare-feu du panneau de l'hébergeur, ouvrez
+      les ports <b>22, 80 et 443</b>.
+      <details><summary>Où trouver ça chez Hostinger</summary><ul>
+        <li>hPanel → <i>VPS</i> → <i>OS &amp; Panel</i> : système <b>Ubuntu 24.04</b> (sans application qui occupe les ports 80 ou 443).</li>
+        <li>Page <i>Overview</i> : l'<b>IP</b> du serveur, l'utilisateur SSH <b>root</b>, et <i>Root password → Change</i> pour choisir le mot de passe.</li>
+        <li><i>Security → Firewall</i> : autorisez 22, 80 et 443.</li></ul></details>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+
+    <li data-step="srv-dns"><b>Pointez le domaine vers le serveur</b>
+      Dans le gestionnaire DNS du domaine, créez un enregistrement <b>A</b> : nom <code>atelier</code> (ou <code>@</code>),
+      valeur <code data-v="ip">203.0.113.10</code>. Vérifiez quelques minutes plus tard :
+      <pre class="cmd" data-where="pc"><code>nslookup <span data-v="domain">atelier.mon-domaine.ca</span></code></pre>
+      <p class="expect">Vous devez voir <code data-v="ip">203.0.113.10</code> dans la réponse. Sinon, attendez encore un peu.</p>
+      <details><summary>Chez Hostinger</summary><p>hPanel → <i>Domains</i> → votre domaine → <i>DNS / Nameservers</i>, ou
+        <i>Claim your free domain</i> sur la page du VPS.</p></details>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+
+    <li data-step="srv-ssh"><b>Connectez-vous au serveur</b>
+      Ouvrez un terminal (Windows : <i>Terminal</i> ou <i>PowerShell</i> ; macOS : <i>Terminal</i>) et tapez le mot de passe root
+      quand il est demandé (rien ne s'affiche pendant la frappe, c'est normal) :
+      <pre class="cmd" data-where="pc"><code>ssh root@<span data-v="ip">203.0.113.10</span></code></pre>
+      <p class="expect">La ligne commence maintenant par <code>root@…</code> : vous êtes sur le serveur. À la première connexion,
+        répondez <code>yes</code>. Pas de terminal ? Le bouton <i>Web console</i> du panneau fait la même chose.</p>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+
+    <li data-step="srv-install"><b>Installez, en une commande</b>
+      <pre class="cmd" data-where="srv"><code>curl -fsSL https://owner.github.io/dynamite-agile/install.sh | sudo bash -s -- <span data-v="domain">atelier.mon-domaine.ca</span> <span data-v="email">moi@exemple.ca</span></code></pre>
+      <p class="expect">Deux à cinq minutes. La fin affiche <code>== 7/7 C'est installé</code>, l'adresse à ouvrir et le
+        <b>mot de passe temporaire</b> du compte <code>admin</code> : gardez cette fenêtre ouverte.</p>
+      <details><summary>Ce que fait la commande</summary><p>Elle récupère le code dans <code>/opt/dynamite_agile</code>, installe
+        Python, git, certbot et le pare-feu, crée l'utilisateur système <code>dynamite</code>, obtient le certificat HTTPS (renouvelé
+        tout seul), règle la configuration de production et démarre le service. On peut la relancer sans rien perdre.
+        Le script est lisible ici : <a href="https://github.com/OWNER/dynamite-agile/blob/main/deploy/install.sh">deploy/install.sh</a>.</p></details>
+      <details><summary>Je préfère trois commandes, sans curl</summary>
+        <pre class="cmd" data-where="srv"><code>sudo apt update &amp;&amp; sudo apt install -y git</code>
 <code>sudo git clone https://github.com/OWNER/dynamite-agile.git /opt/dynamite_agile</code>
-<code>sudo bash /opt/dynamite_agile/deploy/install.sh atelier.mon-domaine.ca moi@exemple.ca</code></pre>
-  <div class="note reveal"><b>Ce que fait le script</b>, dans l'ordre : paquets du système (Python 3, git, certbot, ufw) ;
-    pare-feu (22, 80, 443) ; utilisateur système <code>dynamite</code> sans droits root ; certificat HTTPS Let's Encrypt, renouvelé
-    tout seul ; <code>data/config.json</code> pour la production (HTTPS sur 443, redirection depuis 80, mode développement coupé) ;
-    service <code>dynamite-agile</code> démarré au boot ; affichage du mot de passe temporaire du compte <code>admin</code>.
-    On peut le relancer sans rien perdre.</div>
+<code>sudo bash /opt/dynamite_agile/deploy/install.sh <span data-v="domain">atelier.mon-domaine.ca</span> <span data-v="email">moi@exemple.ca</span></code></pre></details>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
 
-  <h2 id="premier" class="reveal">6. Premier accès et votre équipe</h2>
-  <ol class="stepper reveal">
-    <li><b>Se connecter</b>Ouvrez <code>https://atelier.mon-domaine.ca</code>, compte <code>admin</code>, avec le mot de passe affiché
-      par le script ; choisissez tout de suite le vôtre.</li>
-    <li><b>Créer les comptes</b>⚙ Admin → Comptes → <i>Règles d'accès</i> : une ligne par personne, vérifiée à blanc avant d'être
-      appliquée. Chacun reçoit un mot de passe temporaire à changer à la première connexion.
-      <pre class="cmd"><code>utilisateur nina | Nina | utilisateur | actif</code>
-<code>profil      nina | Génie mécanique</code>
-<code>droit       nina | EQP | admin-projet</code></pre></li>
-    <li><b>Créer le Space du projet</b>⚙ Admin → Spaces : une clé (ex. <code>EQP</code>) et un nom. Le Space est prêt dans chaque
-      onglet, avec une carte « Commencer ici ».</li>
-    <li><b>Faire le tour guidé</b>Help → le tour du site, un chapitre par outil, avec son exercice dans le Space bac à sable HEADLAMP.
-      Voir aussi le <a href="guide.html">guide de prise en main</a>.</li>
+    <li data-step="srv-open"><b>Ouvrez l'outil et créez votre équipe</b>
+      Ouvrez <a class="live" data-href="https://{domain}" href="#">https://<span data-v="domain">atelier.mon-domaine.ca</span></a>,
+      compte <code>admin</code> et le mot de passe affiché ; choisissez le vôtre. Puis ⚙ Admin → Comptes → <i>Règles d'accès</i>,
+      une ligne par personne, et ⚙ Admin → Spaces pour le Space du projet. Le <a href="guide.html">guide</a> vous accompagne.
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
   </ol>
 
-  <h2 id="entretien" class="reveal">7. Entretien</h2>
-  <table class="t reveal"><tr><th>Pour…</th><th>Faire</th></tr>
-    <tr><td>Mettre à jour le code</td><td><code>sudo bash /opt/dynamite_agile/deploy/redeploy.sh</code> (les données ne sont jamais touchées)</td></tr>
-    <tr><td>Sauvegarder</td><td>⚙ Admin → Update et sauvegardes : points de restauration, sauvegarde d'un Space ; et la sauvegarde du VPS chez l'hébergeur</td></tr>
-    <tr><td>Voir le journal du service</td><td><code>journalctl -u dynamite-agile -n 100</code></td></tr>
-    <tr><td>Redémarrer</td><td><code>sudo systemctl restart dynamite-agile</code></td></tr>
-    <tr><td>Mot de passe admin oublié</td><td><code>sudo -u dynamite python3 /opt/dynamite_agile/app_dynamite_agile.py --reset-password admin</code></td></tr>
-    <tr><td>Vérifier HTTPS</td><td>⚙ Admin → Sécurité réseau : HTTPS actif, TLS 1.3, HSTS</td></tr>
-    <tr><td>Déménager</td><td>⚙ Admin → Update et sauvegardes → Site complet, vers un site neuf</td></tr></table>
+  <!-- ===================== B. private trial ===================== -->
+  <ol class="stepper path" data-path="essai" hidden>
+    <li data-step="try-vps"><b>Ayez un serveur Linux</b>
+      Un VPS <b>Ubuntu 24.04</b> et son accès root suffisent : pas de domaine, aucun port à ouvrir à part SSH (22).
+      <details><summary>Chez Hostinger</summary><p>Page <i>Overview</i> du VPS : l'IP, l'utilisateur <b>root</b> et le mot de passe
+        (<i>Root password → Change</i>).</p></details>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+    <li data-step="try-ssh"><b>Connectez-vous au serveur</b>
+      <pre class="cmd" data-where="pc"><code>ssh root@<span data-v="ip">203.0.113.10</span></code></pre>
+      <p class="expect">La ligne commence par <code>root@…</code>. Répondez <code>yes</code> à la première connexion.</p>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+    <li data-step="try-install"><b>Installez l'essai, en une commande</b>
+      <pre class="cmd" data-where="srv"><code>curl -fsSL https://owner.github.io/dynamite-agile/install.sh | sudo bash -s -- --essai</code></pre>
+      <p class="expect">La fin affiche <code>== 7/7 C'est installé</code> et la commande du tunnel.</p>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+    <li data-step="try-tunnel"><b>Ouvrez le tunnel, depuis votre ordinateur</b>
+      Dans un <b>nouveau</b> terminal sur votre ordinateur (laissez-le ouvert pendant l'essai) :
+      <pre class="cmd" data-where="pc"><code>ssh -N -L 8080:127.0.0.1:8080 root@<span data-v="ip">203.0.113.10</span></code></pre>
+      <p class="expect">Le terminal semble figé : c'est normal, le tunnel est ouvert. Ouvrez
+        <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>, compte <code>admin</code> / <code>admin</code>, avec l'équipe
+        d'exemple. Pour passer en ligne plus tard, refaites le parcours « Sur un serveur en ligne ».</p>
+      <label class="done"><input type="checkbox"> C'est fait</label></li>
+  </ol>
 
-  <h2 id="depannage" class="reveal">Dépannage</h2>
-  <table class="t reveal"><tr><th>Message</th><th>Cause et correctif</th></tr>
-    <tr><td>« les ports 80 ou 443 sont déjà pris »</td><td>Un serveur web ou une application installée par le panneau (souvent dans
-      Docker) écoute déjà. Arrêtez-la ou installez Dynamite | Agile sur un autre VPS.</td></tr>
-    <tr><td>certbot : « Timeout during connect » ou « NXDOMAIN »</td><td>Le domaine ne pointe pas encore vers le VPS, ou le port 80 est
-      fermé dans le pare-feu du panneau. Vérifiez l'enregistrement A et le pare-feu, attendez la propagation, relancez le script.</td></tr>
-    <tr><td>Le service ne démarre pas</td><td><code>journalctl -u dynamite-agile -n 50</code> : chaque refus nomme la valeur fautive et le correctif.</td></tr>
-    <tr><td>Pas encore de domaine</td><td>Essai privé par tunnel SSH : voir <code>deploy/DEPLOIEMENT_VPS.md</code> dans le dépôt.</td></tr></table>
+  <!-- ===================== C. my computer ===================== -->
+  <div class="path" data-path="local" hidden>
+    <div class="os-tabs" role="tablist" aria-label="Système">
+      <button type="button" role="tab" data-os="windows" aria-selected="true">Windows</button>
+      <button type="button" role="tab" data-os="mac" aria-selected="false">macOS</button>
+      <button type="button" role="tab" data-os="linux" aria-selected="false">Linux</button></div>
+    <ol class="stepper" data-os-panel="windows">
+      <li data-step="win-py"><b>Installez Python</b> Dans <i>Terminal</i> ou <i>PowerShell</i> :
+        <pre class="cmd" data-where="pc"><code>winget install -e --id Python.Python.3.12</code></pre>
+        <p class="expect">Ou depuis python.org, en cochant « Add python.exe to PATH ». Fermez puis rouvrez le terminal.</p>
+        <label class="done"><input type="checkbox"> C'est fait</label></li>
+      <li data-step="win-get"><b>Téléchargez l'outil</b> <a class="btn" href="https://github.com/OWNER/dynamite-agile/archive/refs/heads/main.zip">Télécharger le .zip</a>,
+        puis clic droit → <i>Extraire tout</i> dans votre dossier Documents.
+        <label class="done"><input type="checkbox"> C'est fait</label></li>
+      <li data-step="win-run"><b>Lancez-le</b> Double-cliquez <code>Lancer_dev_local.bat</code> dans le dossier extrait, ou :
+        <pre class="cmd" data-where="pc"><code>cd $HOME\Documents\dynamite-agile-main</code>
+<code>python app_dynamite_agile.py --dev-admin</code></pre>
+        <p class="expect">Ouvrez <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>, compte <code>admin</code> / <code>admin</code>.
+          Fermer la fenêtre arrête l'outil.</p>
+        <label class="done"><input type="checkbox"> C'est fait</label></li>
+    </ol>
+    <ol class="stepper" data-os-panel="mac" hidden>
+      <li data-step="mac-tools"><b>Installez les outils de base</b> Dans <i>Terminal</i> (une fois) :
+        <pre class="cmd" data-where="pc"><code>xcode-select --install</code></pre>
+        <label class="done"><input type="checkbox"> C'est fait</label></li>
+      <li data-step="mac-run"><b>Téléchargez et lancez</b>
+        <pre class="cmd" data-where="pc"><code>git clone https://github.com/OWNER/dynamite-agile.git ~/dynamite-agile</code>
+<code>cd ~/dynamite-agile &amp;&amp; python3 app_dynamite_agile.py --dev-admin</code></pre>
+        <p class="expect">Ouvrez <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>, compte <code>admin</code> / <code>admin</code>.
+          Ctrl+C arrête l'outil.</p>
+        <label class="done"><input type="checkbox"> C'est fait</label></li>
+    </ol>
+    <ol class="stepper" data-os-panel="linux" hidden>
+      <li data-step="lin-run"><b>Installez, téléchargez et lancez</b>
+        <pre class="cmd" data-where="pc"><code>sudo apt update &amp;&amp; sudo apt install -y python3 git</code>
+<code>git clone https://github.com/OWNER/dynamite-agile.git ~/dynamite-agile</code>
+<code>cd ~/dynamite-agile &amp;&amp; python3 app_dynamite_agile.py --dev-admin</code></pre>
+        <p class="expect">Ouvrez <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>, compte <code>admin</code> / <code>admin</code>.</p>
+        <label class="done"><input type="checkbox"> C'est fait</label></li>
+    </ol>
+  </div>
+
+  <h2 id="depannage">Si quelque chose bloque</h2>
+  <p>Collez le message à votre assistant IA, ou cherchez-le ici.</p>
+  <details class="trouble"><summary>« les ports 80 ou 443 sont déjà pris »</summary>
+    <p>Une autre application occupe le web du serveur, souvent une application Docker installée par le panneau de l'hébergeur
+      (un agent IA, n8n, un panneau d'administration…). Voyez laquelle, puis arrêtez-la ou utilisez un autre serveur :</p>
+    <pre class="cmd" data-where="srv"><code>sudo ss -ltnp | grep -E ':(80|443) '</code>
+<code>docker ps</code></pre></details>
+  <details class="trouble"><summary>« le domaine … ne répond pas encore » ou certbot : « NXDOMAIN », « Timeout »</summary>
+    <p>L'enregistrement A n'est pas encore visible, ou le port 80 est fermé dans le pare-feu du panneau. Vérifiez avec
+      <code>nslookup</code> depuis votre ordinateur, ouvrez 80 et 443, attendez quelques minutes et relancez la même commande.</p></details>
+  <details class="trouble"><summary>« Permission denied » à la connexion SSH</summary>
+    <p>Mot de passe root erroné (rien ne s'affiche pendant la frappe, c'est normal). Choisissez-en un nouveau dans le panneau de
+      l'hébergeur, ou utilisez sa console web.</p></details>
+  <details class="trouble"><summary>« curl: command not found »</summary>
+    <pre class="cmd" data-where="srv"><code>sudo apt update &amp;&amp; sudo apt install -y curl</code></pre></details>
+  <details class="trouble"><summary>« le service ne démarre pas »</summary>
+    <p>Le script affiche les dernières lignes du journal : chaque refus nomme la valeur en cause et le correctif. Pour le revoir :</p>
+    <pre class="cmd" data-where="srv"><code>journalctl -u dynamite-agile -n 50 --no-pager</code></pre></details>
+  <details class="trouble"><summary>Sur mon ordinateur : « python n'est pas reconnu » ou l'adresse ne s'ouvre pas</summary>
+    <p>Fermez et rouvrez le terminal après l'installation de Python. Si le port 8080 est déjà pris, lancez avec
+      <code>--port 8090</code> et ouvrez <code>http://127.0.0.1:8090</code>.</p></details>
+
+  <h2 id="entretien">Ensuite, sur le serveur</h2>
+  <table class="t"><tr><th>Pour…</th><th>Sur le serveur</th></tr>
+    <tr><td>Mettre à jour l'outil</td><td><code>sudo bash /opt/dynamite_agile/deploy/redeploy.sh</code> (les données ne sont jamais touchées)</td></tr>
+    <tr><td>Redémarrer</td><td><code>sudo systemctl restart dynamite-agile</code></td></tr>
+    <tr><td>Voir le journal</td><td><code>journalctl -u dynamite-agile -n 100 --no-pager</code></td></tr>
+    <tr><td>Mot de passe admin oublié</td><td><code>sudo -u dynamite python3 /opt/dynamite_agile/app_dynamite_agile.py --reset-password admin</code></td></tr>
+    <tr><td>Sauvegarder</td><td>Dans l'outil : ⚙ Admin → Update et sauvegardes ; et la sauvegarde du serveur chez l'hébergeur</td></tr>
+    <tr><td>Passer de l'essai à l'équipe</td><td>Refaites le parcours « Sur un serveur en ligne » : la même commande avec votre domaine</td></tr></table>
 </main>
-<footer>Dynamite | Agile · logiciel libre sous licence MIT · version 0.60.02 · Jean-Philippe Desbiens · <a href="https://github.com/OWNER/dynamite-agile">GitHub</a></footer>
+<footer>Dynamite | Agile · logiciel libre sous licence MIT · version 0.60.03 · Jean-Philippe Desbiens · <a href="https://github.com/OWNER/dynamite-agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */
@@ -471,12 +631,121 @@ pre code { background: none; padding: 0; font: inherit; }
         if (ci <= line.length) {
           term.textContent = lines.slice(0, li).join("\n") + (li ? "\n" : "") + line.slice(0, ci);
           ci += 1;
-          setTimeout(type, line.startsWith("✓") ? 6 : 22);
+          setTimeout(type, /^(✓|==)/.test(line) ? 6 : 22);
         } else { li += 1; ci = 0; setTimeout(type, 420); }
       })();
     }), { threshold: .5 });
     to.observe(term);
   }
+})();
+
+</script>
+<script>
+/* Installation page (D-O-015): choice of destination, fields that fill the commands, the message for an AI assistant,
+   steps ticked off. Everything stays in the page (localStorage for this visitor only, wrapped in try/catch). */
+(function () {
+  "use strict";
+  const SITE = document.body.dataset.site;
+  const KEY = "da.install";
+  const store = {
+    read() { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (err) { return {}; } },
+    write(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (err) { /* private window: fine */ } },
+  };
+  const state = Object.assign({ dest: "serveur", os: "", domain: "", email: "", ip: "", done: {} }, store.read());
+  const save = () => store.write(state);
+  const $ = (s, root) => (root || document).querySelector(s);
+  const $$ = (s, root) => Array.from((root || document).querySelectorAll(s));
+  const DEFAULTS = { domain: "atelier.mon-domaine.ca", email: "moi@exemple.ca", ip: "203.0.113.10" };
+  const value = (k) => (state[k] || "").trim() || DEFAULTS[k];
+
+  /* ---------- destination ---------- */
+  const DESTS = ["serveur", "essai", "local"];
+  function setDest(dest, fromHash) {
+    if (!DESTS.includes(dest)) dest = state.dest || "serveur";
+    state.dest = dest; save();
+    $$('input[name="dest"]').forEach((r) => { r.checked = r.value === dest; r.closest(".dest-card").classList.toggle("on", r.checked); });
+    $$(".path").forEach((p) => { p.hidden = p.dataset.path !== dest; });
+    $$("[data-for]").forEach((n) => { n.hidden = !n.dataset.for.split(" ").includes(dest); });
+    if (!fromHash) history.replaceState(null, "", "#" + dest);
+    fill(); progress();
+  }
+  $$('input[name="dest"]').forEach((r) => r.addEventListener("change", () => setDest(r.value)));
+
+  /* ---------- operating system (my computer) ---------- */
+  function setOs(os) {
+    state.os = os; save();
+    $$(".os-tabs [data-os]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.os === os)));
+    $$("[data-os-panel]").forEach((p) => { p.hidden = p.dataset.osPanel !== os; });
+    progress();
+  }
+  $$(".os-tabs [data-os]").forEach((b) => b.addEventListener("click", () => setOs(b.dataset.os)));
+  const guess = /Mac/i.test(navigator.platform) ? "mac" : /Linux/i.test(navigator.platform) ? "linux" : "windows";
+
+  /* ---------- fields fill the commands and the message ---------- */
+  ["domain", "email", "ip"].forEach((k) => {
+    const input = $("#f-" + k);
+    if (!input) return;
+    input.value = state[k] || "";
+    input.addEventListener("input", () => { state[k] = input.value.replace(/^https?:\/\//, "").replace(/\/.*$/, "").trim(); save(); fill(); });
+  });
+  function fill() {
+    $$("span[data-v], code[data-v]").forEach((n) => { n.textContent = value(n.dataset.v); n.classList.toggle("ph", !state[n.dataset.v]); });
+    $$("a.live").forEach((a) => { a.href = a.dataset.href.replace("{domain}", value("domain")); });
+    $("#agent-text").textContent = prompt();
+  }
+  function prompt() {
+    const page = SITE + "/installation.html#" + state.dest;
+    const guide = SITE + "/installer.md";
+    const where = {
+      serveur: "sur un serveur en ligne (VPS Linux) avec le nom de domaine " + value("domain"),
+      essai: "sur un serveur Linux, en essai privé sans domaine (tunnel SSH)",
+      local: "sur mon ordinateur (" + ({ windows: "Windows", mac: "macOS", linux: "Linux" }[state.os || guess]) + "), pour l'essayer",
+    }[state.dest];
+    return ["Bonjour ! Je débute avec Linux et le terminal. Je veux installer Dynamite | Agile " + where + ".",
+      "Lis d'abord la procédure : " + page,
+      "et le guide écrit pour les assistants : " + guide,
+      "Guide-moi une étape à la fois : dis-moi où taper chaque commande (sur mon ordinateur ou sur le serveur) et ce que je " +
+      "devrais voir, puis attends que je te colle ce que le terminal affiche avant de passer à la suite. Si un message est en " +
+      "rouge, explique-le simplement et propose le correctif. Ne me demande jamais un mot de passe ni une clé privée."].join("\n");
+  }
+
+  /* ---------- steps ticked off and the progress bar ---------- */
+  $$("[data-step]").forEach((li) => {
+    const box = $(".done input", li);
+    if (!box) return;
+    box.checked = !!state.done[li.dataset.step];
+    li.classList.toggle("ok", box.checked);
+    box.addEventListener("change", () => {
+      state.done[li.dataset.step] = box.checked; save();
+      li.classList.toggle("ok", box.checked); progress();
+      if (box.checked) {
+        const next = $$("[data-step]", li.closest(".stepper")).find((n) => !$(".done input", n).checked);
+        if (next) next.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    });
+  });
+  function progress() {
+    const lists = $$(".path:not([hidden]) .stepper:not([hidden]), .stepper.path:not([hidden])");
+    const steps = lists.flatMap((l) => $$("[data-step]", l));
+    const done = steps.filter((li) => $(".done input", li).checked).length;
+    $(".progress-bar .track i").style.width = steps.length ? (100 * done / steps.length) + "%" : "0";
+    $("#progress-text").textContent = done === steps.length && steps.length
+      ? "Toutes les étapes sont faites ✓" : "Étapes faites : " + done + " / " + steps.length;
+  }
+
+  /* ---------- the « where » label on every command block ---------- */
+  $$("pre.cmd[data-where]").forEach((pre) => {
+    const pc = pre.dataset.where === "pc";
+    const tag = document.createElement("span");
+    tag.className = "where " + (pc ? "pc" : "srv");
+    tag.textContent = pc ? "sur votre ordinateur" : "sur le serveur";
+    pre.prepend(tag);
+  });
+
+  setOs(state.os || guess);
+  const start = (location.hash || "").slice(1);
+  setDest(DESTS.includes(start) ? start : state.dest, DESTS.includes(start));
+  addEventListener("hashchange", () => { const h = location.hash.slice(1); if (DESTS.includes(h)) setDest(h, true); });
 })();
 
 </script>

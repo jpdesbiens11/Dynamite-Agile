@@ -1,0 +1,30 @@
+  <h2 id="depannage">Si quelque chose bloque</h2>
+  <p>Collez le message à votre assistant IA, ou cherchez-le ici.</p>
+  <details class="trouble"><summary>« les ports 80 ou 443 sont déjà pris »</summary>
+    <p>Une autre application occupe le web du serveur, souvent une application Docker installée par le panneau de l'hébergeur
+      (un agent IA, n8n, un panneau d'administration…). Voyez laquelle, puis arrêtez-la ou utilisez un autre serveur :</p>
+    <pre class="cmd" data-where="srv"><code>sudo ss -ltnp | grep -E ':(80|443) '</code>
+<code>docker ps</code></pre></details>
+  <details class="trouble"><summary>« le domaine … ne répond pas encore » ou certbot : « NXDOMAIN », « Timeout »</summary>
+    <p>L'enregistrement A n'est pas encore visible, ou le port 80 est fermé dans le pare-feu du panneau. Vérifiez avec
+      <code>nslookup</code> depuis votre ordinateur, ouvrez 80 et 443, attendez quelques minutes et relancez la même commande.</p></details>
+  <details class="trouble"><summary>« Permission denied » à la connexion SSH</summary>
+    <p>Mot de passe root erroné (rien ne s'affiche pendant la frappe, c'est normal). Choisissez-en un nouveau dans le panneau de
+      l'hébergeur, ou utilisez sa console web.</p></details>
+  <details class="trouble"><summary>« curl: command not found »</summary>
+    <pre class="cmd" data-where="srv"><code>sudo apt update &amp;&amp; sudo apt install -y curl</code></pre></details>
+  <details class="trouble"><summary>« le service ne démarre pas »</summary>
+    <p>Le script affiche les dernières lignes du journal : chaque refus nomme la valeur en cause et le correctif. Pour le revoir :</p>
+    <pre class="cmd" data-where="srv"><code>journalctl -u dynamite-agile -n 50 --no-pager</code></pre></details>
+  <details class="trouble"><summary>Sur mon ordinateur : « python n'est pas reconnu » ou l'adresse ne s'ouvre pas</summary>
+    <p>Fermez et rouvrez le terminal après l'installation de Python. Si le port 8080 est déjà pris, lancez avec
+      <code>--port 8090</code> et ouvrez <code>http://127.0.0.1:8090</code>.</p></details>
+
+  <h2 id="entretien">Ensuite, sur le serveur</h2>
+  <table class="t"><tr><th>Pour…</th><th>Sur le serveur</th></tr>
+    <tr><td>Mettre à jour l'outil</td><td><code>sudo bash /opt/dynamite_agile/deploy/redeploy.sh</code> (les données ne sont jamais touchées)</td></tr>
+    <tr><td>Redémarrer</td><td><code>sudo systemctl restart dynamite-agile</code></td></tr>
+    <tr><td>Voir le journal</td><td><code>journalctl -u dynamite-agile -n 100 --no-pager</code></td></tr>
+    <tr><td>Mot de passe admin oublié</td><td><code>sudo -u dynamite python3 /opt/dynamite_agile/app_dynamite_agile.py --reset-password admin</code></td></tr>
+    <tr><td>Sauvegarder</td><td>Dans l'outil : ⚙ Admin → Update et sauvegardes ; et la sauvegarde du serveur chez l'hébergeur</td></tr>
+    <tr><td>Passer de l'essai à l'équipe</td><td>Refaites le parcours « Sur un serveur en ligne » : la même commande avec votre domaine</td></tr></table>

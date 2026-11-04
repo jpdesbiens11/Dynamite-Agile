@@ -69,7 +69,7 @@
         if (ci <= line.length) {
           term.textContent = lines.slice(0, li).join("\n") + (li ? "\n" : "") + line.slice(0, ci);
           ci += 1;
-          setTimeout(type, line.startsWith("✓") ? 6 : 22);
+          setTimeout(type, /^(✓|==)/.test(line) ? 6 : 22);
         } else { li += 1; ci = 0; setTimeout(type, 420); }
       })();
     }), { threshold: .5 });

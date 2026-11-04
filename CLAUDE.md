@@ -15,6 +15,8 @@
   `tests/test_open_v060.py`) ; colonnes Generator `pdp_step` / `pdp_sub` ; noms de la mine (`docs/NOMS_DES_MODULES.md`,
   FAQ de Help) ; site web distinct (`site/`, sources `tools/site/`, `tools/build_site.py`, GitHub Pages) ; installation
   VPS `deploy/install.sh`. Décisions D-O-012 à D-O-015.
+- **0.60.03** : installation pour débutants (`tools/site/installation.html`, `install.js`, `installer.md` pour l'assistant IA),
+  `deploy/install.sh` en une commande (`curl … | sudo bash -s -- domaine courriel`, ou `--essai`). D-O-016.
 - **Modules** : Dynamite (wiki), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

@@ -114,3 +114,17 @@ l'outil, mais ses objectifs sont autres : faire comprendre et donner envie, puis
 d'entrée : une storyline défilante à animations progressives, qui reprend la séquence de la journée de l'équipe
 (Dashboard → Goldmine → Exploration → Agile → Dynamite → Testing → Timesheet → Training & Help) et amène doucement au
 vif du sujet ; graphiques actuels de l'outil, aucune ressource externe, mouvement coupé par `prefers-reduced-motion`.
+
+### D-O-016 — Installation pour débutants, en une commande (2026-11-03, demande de JP)
+**Contexte :** l'installation doit être aussi facile que celle des outils qui donnent leurs commandes prêtes à copier ; la
+destination change d'une personne à l'autre.
+**Décision :** `site/installation.html` commence par le choix de la destination — **serveur en ligne** (VPS + domaine,
+HTTPS), **serveur en essai privé** (sans domaine, tunnel SSH, `install.sh --essai`), **mon ordinateur** (onglets Windows,
+macOS, Linux). Des champs domaine, courriel et IP remplissent les commandes (rien n'est envoyé ; mémorisés dans le
+navigateur seulement) ; chaque bloc dit où le coller (« sur votre ordinateur » / « sur le serveur »), ce qu'on doit voir
+ensuite, et se copie d'un clic ; cases « C'est fait » et barre de progression ; aides Hostinger repliables ; dépannage par
+message. Un encadré invite à ouvrir un assistant IA à côté et lui donne un message prêt à coller avec le lien de la
+procédure et `site/installer.md`, guide écrit pour l'assistant (une commande à la fois, jamais de mot de passe).
+`deploy/install.sh` se lance aussi par `curl … | sudo bash -s -- domaine courriel` : il récupère le code dans
+`/opt/dynamite_agile`, vérifie le DNS et les ports 80 / 443 avant certbot ; le site publie sa copie (`site/install.sh`,
+dépôt renseigné par `tools/build_site.py`, constante `OWNER`).

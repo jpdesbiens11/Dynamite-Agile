@@ -54,7 +54,7 @@ def scanned_files():
 
 class StaticContentTest(unittest.TestCase):
     def test_01_version(self):
-        self.assertEqual(APP_VERSION, "0.60.02")
+        self.assertEqual(APP_VERSION, "0.60.03")
 
     def test_02_nothing_of_the_original_use_left(self):
         hits = []
@@ -125,7 +125,8 @@ class StaticContentTest(unittest.TestCase):
     def test_08b_website(self):
         """D-O-015: the website is its own deliverable in site/, built from tools/site/, self-contained."""
         import subprocess
-        before = {n: (BASE_DIR / "site" / n).read_text("utf-8") for n in ("index.html", "installation.html", "guide.html")}
+        before = {n: (BASE_DIR / "site" / n).read_text("utf-8")
+                  for n in ("index.html", "installation.html", "guide.html", "install.sh", "installer.md")}
         subprocess.run([sys.executable, str(BASE_DIR / "tools" / "build_site.py")], check=True, capture_output=True)
         for name, old in before.items():
             page = (BASE_DIR / "site" / name).read_text("utf-8")
@@ -135,10 +136,21 @@ class StaticContentTest(unittest.TestCase):
         index = before["index.html"]
         for part in ('id="descente"', 'class="level"', 'id="journee"', 'id="chaine"', 'id="outils"', 'id="term"'):
             self.assertIn(part, index)
-        self.assertIn("deploy/install.sh", before["installation.html"])
+        page = before["installation.html"]
+        for part in ('name="dest" value="serveur"', 'value="essai"', 'value="local"', 'id="agent-text"', "install.sh | sudo bash -s --",
+                     'data-where="pc"', 'data-where="srv"', 'data-os-panel="windows"', "--essai"):
+            self.assertIn(part, page)
+        from tools import build_site
+        script = (BASE_DIR / "site" / "install.sh").read_text("utf-8")
+        self.assertIn('REPO="${{DA_REPO:-{}.git}}"'.format(build_site.REPO), script)
+        self.assertEqual(subprocess.run(["bash", "-n", str(BASE_DIR / "site" / "install.sh")]).returncode, 0)
+        agent = (BASE_DIR / "site" / "installer.md").read_text("utf-8")
+        self.assertIn(build_site.SITE_URL + "/install.sh", agent)
+        self.assertIn("Ne demandez jamais un mot de passe", agent)
         self.assertTrue((BASE_DIR / ".github" / "workflows" / "pages.yml").exists())
         install = (BASE_DIR / "deploy" / "install.sh").read_text("utf-8")
-        for part in ("certbot certonly", '"dev_mode": False', "systemctl enable --now", "INITIAL_ADMIN_PASSWORD.txt"):
+        for part in ("certbot certonly", '"dev_mode": False', "systemctl enable --now", "INITIAL_ADMIN_PASSWORD.txt", "--essai",
+                     "git clone --depth 1"):
             self.assertIn(part, install)
 
     def test_09_files_stay_short(self):

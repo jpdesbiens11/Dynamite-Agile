@@ -87,3 +87,58 @@ pre code { background: none; padding: 0; font: inherit; }
   .level img { width: 80px; }
   table.t { display: block; overflow-x: auto; }
 }
+
+/* ---------- installation page ---------- */
+.install h2 { margin-top: 2.2rem; }
+.where { display: inline-block; padding: .05rem .5rem; border-radius: var(--r-hand); font: 700 .78rem var(--sans); vertical-align: .1em; }
+.where.pc { background: #e3eeff; color: #0a58ad; }
+.where.srv { background: #dcf7e6; color: #1a6e3e; }
+pre.cmd .where { position: absolute; top: .55rem; left: .8rem; border: 1.2px solid rgba(255, 255, 255, .5); }
+pre.cmd[data-where] { padding-top: 2.4rem; }
+pre.cmd { white-space: pre-wrap; overflow-wrap: anywhere; padding-right: 5.2rem; }
+.dest { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
+.dest-card { position: relative; display: flex; flex-direction: column; gap: .35rem; padding: 1rem 1.1rem 1.1rem; cursor: pointer;
+  background: #fff; border: 1.8px solid rgba(38, 50, 63, .3); border-radius: var(--r-card); box-shadow: var(--shadow);
+  transition: transform .2s var(--pop), border-color .2s; }
+.dest-card:hover { transform: translateY(-2px); }
+.dest-card.on { border-color: var(--blue); box-shadow: 5px 5px 0 #0b3f8f; }
+.dest-card input { position: absolute; opacity: 0; }
+.dest-card b { font: 700 1.15rem var(--hand); }
+.dest-card .tag { align-self: flex-start; padding: .05rem .5rem; border-radius: var(--r-hand); background: var(--y); font: 700 .75rem var(--sans); }
+.dest-card span:last-child { color: var(--ink-2); font-size: .93rem; }
+.dest-card:focus-within { outline: 3px solid var(--blue); outline-offset: 2px; }
+.agent { margin: 2rem 0 0; padding: 1.1rem 1.2rem; max-width: none; background: #fff7ef; border: 1.8px dashed var(--o); border-radius: var(--r-card); }
+.agent h2 { margin-top: 0; }
+.agent .opt { font: 600 .9rem var(--sans); color: var(--ink-2); }
+pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); border-color: var(--o); }
+.muted { color: var(--ink-2); font-size: .92rem; }
+.fill { padding: 0; max-width: none; }
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .9rem; }
+.fields label { display: flex; flex-direction: column; gap: .3rem; font-weight: 650; }
+.fields input { padding: .6rem .7rem; font: 500 1rem "Cascadia Mono", Consolas, monospace; border: 1.6px solid var(--ink);
+  border-radius: 8px; background: #fff; }
+.fields input:focus { outline: 3px solid color-mix(in srgb, var(--y) 80%, transparent); }
+.progress-bar { position: sticky; top: 80px; z-index: 5; display: flex; align-items: center; gap: .8rem; margin: 2rem 0 1rem;
+  padding: .5rem .8rem; background: rgba(252, 251, 247, .95); border: 1.4px solid rgba(38, 50, 63, .25); border-radius: 10px; }
+.progress-bar .track { flex: 1; height: 10px; border-radius: var(--r-hand); background: #eef1f5; overflow: hidden; }
+.progress-bar .track i { display: block; height: 100%; width: 0; background: var(--g); transition: width .5s var(--pop); }
+.progress-bar span { font: 700 .9rem var(--hand); min-width: 11.5rem; text-align: right; }
+.stepper > li.ok { border-color: var(--g); background: #f6fdf8; }
+.stepper > li.ok::before { content: "✓"; background: var(--g); }
+.expect { margin: .5rem 0 0; padding: .45rem .7rem; border-left: 4px solid var(--g); background: rgba(95, 208, 138, .1); border-radius: 6px; font-size: .94rem; }
+.done { display: inline-flex; align-items: center; gap: .45rem; margin-top: .8rem; padding: .3rem .7rem; font-weight: 650; cursor: pointer;
+  border: 1.4px solid rgba(38, 50, 63, .3); border-radius: var(--r-hand); background: #fff; }
+.done input { width: 1.1rem; height: 1.1rem; accent-color: var(--g); }
+.stepper details { margin-top: .6rem; }
+.stepper summary, .trouble summary { cursor: pointer; font-weight: 650; color: var(--blue); }
+.ph { opacity: .75; font-style: italic; }
+.os-tabs { display: flex; gap: .5rem; margin: 1.6rem 0 1rem; }
+.os-tabs button { padding: .5rem 1rem; font: 650 1rem var(--sans); border: 1.6px solid var(--ink); border-radius: var(--r-hand);
+  background: #fff; cursor: pointer; }
+.os-tabs button[aria-selected="true"] { background: var(--ink); color: #fff; }
+.trouble { margin: .6rem 0; padding: .7rem 1rem; background: #fff; border: 1.4px solid rgba(38, 50, 63, .25); border-radius: 10px; }
+.trouble p, .trouble pre { margin-bottom: 0; }
+@media (max-width: 640px) {
+  .progress-bar { top: 112px; }
+  .progress-bar span { min-width: 0; }
+}

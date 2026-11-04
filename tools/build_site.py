@@ -20,7 +20,9 @@ sys.path.insert(0, str(BASE))
 
 SRC = BASE / "tools" / "site"
 OUT = BASE / "site"
-REPO = "https://github.com/OWNER/dynamite-agile"  # D-O-011: OWNER = the GitHub account, to set when the repository is created
+OWNER = "OWNER"  # D-O-011: the GitHub account of the repository, to set when it is created
+REPO = "https://github.com/{}/dynamite-agile".format(OWNER)
+SITE_URL = "https://{}.github.io/dynamite-agile".format(OWNER.lower())  # GitHub Pages (or the domain of the site)
 PAGES = (("index.html", "Accueil"), ("installation.html", "Installation"), ("guide.html", "Guide"))
 
 # (logo, depth in m, name, in the mine, in the project) -- the descent of the landing page and the guide (D-O-014)
@@ -42,10 +44,10 @@ MINE = [
     ("training", 450, "Training & HeadLamp", "L'école de la mine et la lampe frontale qui éclaire la galerie.",
      "La <b>formation</b>, le tour guidé et un bac à sable pour s'exercer sans risque."),
 ]
-TERM = ["$ sudo apt update && sudo apt install -y git",
-        "$ sudo git clone {}.git /opt/dynamite_agile".format(REPO),
-        "$ sudo bash /opt/dynamite_agile/deploy/install.sh atelier.mon-domaine.ca moi@exemple.ca",
-        "✓ HTTPS Let's Encrypt · pare-feu · service dynamite-agile",
+TERM = ["$ ssh root@203.0.113.10",
+        "root@serveur:~# curl -fsSL {}/install.sh | sudo bash -s -- atelier.mon-domaine.ca moi@exemple.ca".format(SITE_URL),
+        "== 1/7 Paquets du système … == 6/7 Service « dynamite-agile »",
+        "== 7/7 C'est installé",
         "✓ Ouvrez https://atelier.mon-domaine.ca — compte admin, mot de passe affiché ci-dessus"]
 
 
@@ -99,6 +101,7 @@ def build():
         "SPRITE": (BASE / "static" / "img" / "icons.svg").read_text(encoding="utf-8").strip(),
         "SITE_JS": (SRC / "site.js").read_text(encoding="utf-8"),
         "REPO": REPO,
+        "SITE_URL": SITE_URL,
         "FOOTER": ('<footer>Dynamite | Agile · logiciel libre sous licence MIT · version {} · '
                    'Jean-Philippe Desbiens · <a href="{}">GitHub</a></footer>').format(APP_VERSION, REPO),
     }
@@ -116,6 +119,9 @@ def build():
     for name, _label in PAGES:
         page = (SRC / name).read_text(encoding="utf-8")
         values = dict(common, TOP=_top(name), MINE_ROWS=_mine_rows(), **(landing if name == "index.html" else {}))
+        if name == "installation.html":
+            values.update(TROUBLE=(SRC / "trouble.html").read_text(encoding="utf-8").rstrip(),
+                          INSTALL_JS=(SRC / "install.js").read_text(encoding="utf-8"))
         for key, value in values.items():
             page = page.replace("{{" + key + "}}", value)
         left = re.findall(r"\{\{[A-Z_]+\}\}", page)
@@ -123,6 +129,13 @@ def build():
             raise SystemExit("{} : marqueurs non remplacés {}".format(name, left))
         (OUT / name).write_text(page, encoding="utf-8")
         written.append((OUT / name, len(page)))
+    # the script the one-command installation fetches, and the guide an AI assistant reads next to the person
+    script = (BASE / "deploy" / "install.sh").read_text(encoding="utf-8")
+    script = re.sub(r'REPO="\$\{DA_REPO:-[^}]*\}"', 'REPO="${{DA_REPO:-{}.git}}"'.format(REPO), script)
+    (OUT / "install.sh").write_text(script, encoding="utf-8")
+    guide = (SRC / "installer.md").read_text(encoding="utf-8").replace("{{SITE_URL}}", SITE_URL).replace("{{REPO}}", REPO)
+    (OUT / "installer.md").write_text(guide, encoding="utf-8")
+    written += [(OUT / "install.sh", len(script)), (OUT / "installer.md", len(guide))]
     (OUT / ".nojekyll").write_text("", encoding="utf-8")  # GitHub Pages: serve the files as they are
     return written
 
