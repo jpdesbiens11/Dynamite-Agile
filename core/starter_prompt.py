@@ -73,7 +73,12 @@ def example():
                         "parts": [p for p in d["parts"] if set(p["functions"]) <= keep and p["functions"]][:2],
                         "risks": [r for r in d["risks"] if r.get("function") in keep][:1],
                         "dfmea": [r for r in d["dfmea"] if r["function"] in keep][:1]}
-    short["diamond"]["ports"] = [d["ports"][3]]
+    port = dict(d["ports"][3], ref="E1")
+    short["diamond"]["ports"] = [port]
+    for fl in short["diamond"]["flows"]:
+        fl["src"] = "E1"
+    for key in ("risks", "dfmea"):  # no empty field in the example (rule: remove the key)
+        short["diamond"][key] = [{k: v for k, v in r.items() if v not in ("", None)} for r in short["diamond"][key]]
     return json.dumps(short, ensure_ascii=False, indent=1)
 
 

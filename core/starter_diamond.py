@@ -102,6 +102,9 @@ def _functions(raw, v):
         ftype = _choice(f, "type", path, v["type"], "usage")
         if parent is None:
             if primary is None:
+                if ftype != "usage":
+                    _bad(path, "la première fonction sans parent est la fonction primaire ; « {} » est de type {}.".format(ref, ftype),
+                         "écrivez la fonction primaire (type usage) en premier ; les fonctions d'estime viennent après.")
                 primary = ref
             depth = 1
         else:
@@ -161,8 +164,10 @@ def parse(raw, language="fr"):
                 _bad(path + "." + end, "« {} » n'est pas une fonction de la vue {}.".format(ref, view),
                      "vue general : les fonctions secondaires ; vue detail : les fonctions tertiaires (sans les techniques).")
             ends.append(ref)
-        if ends[0] == ends[1] or (ends[0] in side and ends[1] in side):
-            _bad(path, "flux sans fonction traversée.", "faites passer le flux par la fonction qui le traite.")
+        if ends[0] == ends[1]:
+            _bad(path, "flux de « {} » vers elle-même.".format(ends[0]), "un flux relie deux éléments différents.")
+        if ends[0] in side and ends[1] in side:
+            _bad(path, "flux d'une entrée directement vers une sortie.", "faites passer le flux par la fonction qui le traite.")
         flows.append({"view": view, "kind": _choice(fl, "kind", path, v["kind"], "energy"),
                       "label": _text(fl, "label", path, 60), "src": ends[0], "dst": ends[1]})
     taggable = views["general"] | views["detail"]

@@ -2,8 +2,9 @@
 
 > **For you (the person):** copy **all of this text**, from top to bottom, into a new conversation with an AI assistant
 > (Claude.ai, ChatGPT, Gemini, Copilot…), then send it. The assistant will ask one question at a time, about 26 in all
-> (45 to 60 minutes). Answer in your own words; "I don't know" is a good answer: it will then suggest a reasonable
-> choice. At the end it gives you a `.json` file to import into the tool: **⚙ Admin → Spaces → Commencer**. Nothing is
+> (30 to 45 minutes). **You answer mostly by clicking**: each question comes with its answer choices (in Claude, a menu
+> of answers to tap). You only type twice: your product in one sentence and the names of the team. "I don't know" is
+> always a choice: the assistant then takes a reasonable value. At the end it gives you a `.json` file to import into the tool: **⚙ Admin → Spaces → Commencer**. Nothing is
 > created until you have seen the preview and clicked "Create the Space".
 >
 > Never give a password to the assistant: it does not need one.
@@ -26,8 +27,16 @@ Concept Review), **C. Design** (functional specification, PDR / CDR, DFMEA, draw
 1. **One question per message.** Start each question with its number, for example "Question 4 / 26". Numbers never
    change: a skipped question (15 when the person keeps the PDP codes) keeps its place, question 11 repeats for each
    person (11a, 11b…) and a recap carries no number.
-2. **Offer numbered choices** whenever possible, with **(Recommended)** after the best default. The person may answer
-   with a number or in their own words.
+2. **Answers to click, not to type.** The person does not want to type during the interview. If your interface has a
+   multiple-choice question tool (buttons or a menu of answers to click — in Claude, it shows as a menu to tap), **use it
+   for every question**: 2 to 4 short choices, the best first with "(Recommended)", always "I don't know"; multiple
+   choices where stated. Without such a tool, number the choices so the person answers with a number. **Ask for free
+   text only twice**: the product (question 2) and the names of the team (question 11, all in one message). Everything
+   else is proposed: you write, the person chooses. More than 4 choices (e.g. markets): group them ("Canada and United
+   States (Recommended)", "Canada only", "North America and Europe", "Other") or ask in two menus.
+   **To approve a proposal** (needs, requirements, tests, functions, parts, risks, pages), show it as a table then offer
+   a menu: "Looks good (Recommended)", "Simpler (fewer items)", "More complete", "Redo differently". "Simpler" or "More
+   complete": redo the proposal and ask again.
 3. **"I don't know"**: suggest the most reasonable answer in one line, say it, and move on.
 4. **Explain in two lines at most** why you ask when it is not obvious (e.g. "the market decides the standards").
    Technical terms stay in English (requirement, Test Base, Space, DFMEA).
@@ -46,8 +55,9 @@ Concept Review), **C. Design** (functional specification, PDR / CDR, DFMEA, draw
 
 1. **Language** of the project and of the interview: 1. English (Recommended if the person writes in English)
    2. Français.
-2. **The product in one sentence**: what is it, and what problem does it solve? Give an example: "a desk lamp whose
-   light colour you adjust with your phone".
+2. **The product in one sentence** (one of the two typed answers): what is it, and what problem does it solve? Give an
+   example: "a desk lamp whose light colour you adjust with your phone". Also offer "I have no idea yet": then suggest
+   three course products (connected lamp, smart water bottle, connected cat feeder) to choose from.
 3. **Who uses it, and where?** Multiple choices: home, office, school, workshop or factory, outdoors, car or truck, hospital
    or clinic, laboratory. Also ask whether children will use it.
 4. **Where will it be sold?** (the market decides the standards) Multiple choices: Canada, United States, Europe,
@@ -61,18 +71,21 @@ Concept Review), **C. Design** (functional specification, PDR / CDR, DFMEA, draw
 8. **The field**: suggest two or three numbered choices of industry and product type, from the answers (e.g.
    1. "Consumer products" · "Consumer mechatronic device with a radio link" (Recommended) 2. "Sports and outdoors" ·
    "Connected accessory"). The person need not know these terms: the recommended choice is a good answer.
-9. **The name and key of the Space**: suggest a short name and a key of 2 to 10 capitals (e.g. `LAMP`). The key becomes
+9. **The name and key of the Space**: suggest three pairs short name / key of 2 to 10 capitals (e.g. "Connected lamp" /
+   `LAMP`) to choose from. The key becomes
    the prefix of tickets (LAMP-1, LAMP-2…) and never changes.
 
 Recap block 1 (table), then write a **description** of 2 to 4 sentences and have it confirmed.
 
 ## Block 2 — The team (questions 10 to 12)
 
-10. **How many people** in the team (12 at most)?
-11. **For each person, one at a time**: first and last name, field of study (e.g. mechanical engineering, electrical
-    engineering, industrial design, computer engineering) and what they handle in the project. Suggest their title
-    (e.g. "Mechanical and enclosure lead") and a user name (first name in lower case without accents, e.g. `lea`).
-12. **Who coordinates?** That person gets the role `manager`; the others `editor`; a teacher or a client who only reads
+10. **How many people** in the team: menu "2", "3", "4 (Recommended)", "5 or more" (12 at most).
+11. **The names** (the second typed answer): all the first and last names in one message, separated by commas. Then,
+    **for each person, a menu**: their field of study (mechanical engineering, electrical engineering, industrial
+    design, computer engineering, other) — 11a, 11b… Suggest their title from the field yourself (e.g. "Mechanical and
+    enclosure lead") and a user name (first name in lower case without accents, e.g. `lea`); they are approved at the
+    recap.
+12. **Who coordinates?** A menu with the names. That person gets the role `manager`; the others `editor`; a teacher or a client who only reads
     gets `reader`. Nobody becomes an administrator through this file.
 
 Recap the team (table: name, user, field of study, title, role). Accounts are created on approval, with a temporary
@@ -80,8 +93,9 @@ password shown once in the tool; each person also gets their traceability initia
 
 ## Block 3 — The calendar and time (questions 13 to 15)
 
-13. **The calendar**: start date of the project (YYYY-MM-DD; "I don't know" → next Monday) and length in weeks
-    (Recommended: 15, one term; 30 for two terms). The tool draws a **reference plan** (Gantt) from it: the 19 steps of
+13. **The calendar**, in two menus: the start ("Next Monday (Recommended)", "Start of the winter term", "Start of the
+    fall term", "I don't know") and the length ("15 weeks, one term (Recommended)", "30 weeks, two terms", "8 weeks").
+    Convert to a YYYY-MM-DD date (a Monday) and a number of weeks. The tool draws a **reference plan** (Gantt) from it: the 19 steps of
     the PDP, the reviews (Lean Canvas, Concept Review, PDR, CDR, Validation Report) as milestones, and more steps side by
     side for a larger team. Write them in `project.start_date` and `project.weeks`.
 14. **Timesheet codes**: 1. the PDP codes already in the tool, A-01 to D-21 (Recommended for a course project)
@@ -126,10 +140,11 @@ Show each proposal as a table or an indented list, and have it corrected.
     e.g. "12 V current", "Touch of the user") and what it gives back or rejects (on the right: "Light", "Heat"). Refs
     `E1`… and `S1`…, with the kind energy, material or information.
 22. **The flows**: first the **general view** (inputs → secondary functions → outputs), then the **detail view** (the
-    same flows, carried by the tertiary functions). Each function exchanges at least one flow. Kind and short label
+    same flows, carried by the tertiary functions). Each secondary and tertiary function exchanges at least one flow (never the
+    primary function, nor an esteem or technique function: they are not blocks of the structure). Kind and short label
     ("current", "set point", "heat").
 23. **The parts of the concept**: 6 to 15 parts or sub-assemblies (designed, bought, standard) and the secondary or
-    tertiary functions each one carries out. Point out the parts that carry several functions (good for cost) and the
+    tertiary functions each one carries out (never the primary, an esteem or a technique function). Point out the parts that carry several functions (good for cost) and the
     functions that need several parts (ways to simplify).
 24. **Risks and DFMEA**: 5 to 10 **project risks** (title, cause, consequence, category, phase A to D, probability and
     impact from 1 to 5, response, action), then 4 to 8 first **DFMEA** rows on the most critical functions (element,
@@ -190,9 +205,9 @@ Top-level keys, in this order: `format` (`"dynamite-project-starter"`), `format_
 | `tests[]` (300 at most) | **`ref`** (e.g. `TEST-1`), **`title`**, `subject` (default `func`), `category`, `standard`, `section`, `level`, `method` (default `T`), `objective`, `acceptance`, `means`, `verifies` (refs of **requirements**) |
 | `time_codes[]` (40 codes at most) | `{key, label, codes: [{key, label}]}`: group `key` in capitals (e.g. `LA`), code in the format `^[A-Z]{1,5}-[A-Z0-9]{2,4}$` |
 | `pages[]` (30 at most) | `ref` (unique, e.g. `P-HOME`), `title`, `parent` (`null` or the ref of a page **higher**; two levels at most), `body` |
-| `diamond.functions[]` (120 at most) | **`ref`** (e.g. `F1`), **`text`**, `type` (default `usage`), `parent` (ref **higher**, or `null`: the **first** function without a parent is the primary one; another without a parent stays outside the tree), `kano`, `importance`, `critical` (`true`: critical path), `notes` |
+| `diamond.functions[]` (120 at most) | **`ref`** (e.g. `F1`), **`text`**, `type` (default `usage`), `parent` (ref **higher**, or `null`: write the **primary function first** (type `usage`), it is the first without a parent; another without a parent stays outside the tree), `kano`, `importance`, `critical` (`true`: critical path), `notes` |
 | `diamond.ports[]` (40 at most) | **`ref`** (e.g. `E1`, `S1`), **`side`** (`in` input, `out` output), **`label`**, `kind` |
-| `diamond.flows[]` (200 at most) | **`view`** (`general`: between secondary functions; `detail`: between tertiary functions, without the technique ones), `kind`, `label`, **`src`**, **`dst`** (refs of a function or of an input / output; a flow leaves an input or a function and reaches a function or an output) |
+| `diamond.flows[]` (200 at most) | **`view`** (`general`: between secondary functions; `detail`: between tertiary functions, without the technique ones, and the secondaries that have no tertiary), `kind`, `label`, **`src`**, **`dst`** (refs of a function or of an input / output; a flow leaves an input or a function and reaches a function or an output) |
 | `diamond.parts[]` (80 at most) | **`name`**, `kind` (default `designed`), `notes`, `functions` (refs of secondary or tertiary functions) |
 | `diamond.risks[]` (60 at most) | **`title`**, **`probability`** and **`impact`** (integers 1 to 5), `cause`, `consequence`, `category`, `phase`, `response`, `action`, `function` (ref) |
 | `diamond.dfmea[]` (120 at most) | `higher`, `focus`, `lower`, `function` (ref), `requirement`, **`failure_mode`**, `effect`, `severity`, `cause`, `prevention`, `occurrence`, `detection_ctrl`, `detection` (S, O, D: integers 1 to 10), `action` |
@@ -455,7 +470,7 @@ Rules that make a file refused:
   ],
   "ports": [
    {
-    "ref": "E4",
+    "ref": "E1",
     "side": "in",
     "label": "Force de la main",
     "kind": "energy"
@@ -466,14 +481,14 @@ Rules that make a file refused:
     "view": "general",
     "kind": "energy",
     "label": "force",
-    "src": "E4",
+    "src": "E1",
     "dst": "F2"
    },
    {
     "view": "detail",
     "kind": "energy",
     "label": "force",
-    "src": "E4",
+    "src": "E1",
     "dst": "F4"
    }
   ],
@@ -523,8 +538,7 @@ Rules that make a file refused:
     "prevention": "Calcul du centre de gravité",
     "occurrence": 4,
     "detection_ctrl": "Essai de stabilité sur plan incliné",
-    "detection": 3,
-    "action": ""
+    "detection": 3
    }
   ]
  }

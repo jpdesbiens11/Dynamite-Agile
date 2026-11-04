@@ -22,9 +22,14 @@ class StarterPromptTest(unittest.TestCase):
             for value in ("personnel_safety", "Product in Use", "ingress", "verification_method", "dynamite-project-starter"):
                 self.assertIn(value, text, (lang, value))
             self.assertIn("⚙ Admin → Spaces → Commencer", text)
-            for value in ("diamond.flows[]", "project.weeks", "`designed`", "`reduire`"):  # 0.60.22
+            for value in ("diamond.flows[]", "project.weeks", "`designed`", "`reduire`", "(Recomm"):  # 0.60.22
                 self.assertIn(value, text, (lang, value))
             self.assertNotIn('"marks": [{', text)  # marks are plain strings in Dynamite
+
+    def test_05_click_first(self):
+        """0.60.22: answers to click (the multiple-choice tool of the interface), free text only twice."""
+        self.assertIn("Ne demandez du texte libre que deux fois", starter_prompt.render("fr"))
+        self.assertIn("Ask for free\n   text only twice", starter_prompt.render("en"))
 
     def test_02_example_is_valid(self):
         clean, _ = starter.parse(json.loads(starter_prompt.example()))

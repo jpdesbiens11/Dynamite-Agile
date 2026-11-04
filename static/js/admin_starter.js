@@ -93,8 +93,9 @@
       el("ol", null,
         el("li", null, "Copiez le prompt (bouton ci-dessous)."),
         el("li", null, "Ouvrez une nouvelle conversation avec Claude.ai, ChatGPT, Gemini ou Copilot, collez le prompt et envoyez-le."),
-        el("li", null, "Répondez aux questions, une à la fois : environ 26, de 45 à 60 minutes. « Je ne sais pas » est une "
-          + "bonne réponse : l'assistant proposera un choix raisonnable. Ne lui donnez jamais de mot de passe."),
+        el("li", null, "Répondez aux questions, une à la fois, surtout en cliquant les choix proposés (environ 26, de 30 à 45 minutes) : "
+          + "vous n'écrivez que votre produit en une phrase et les noms de l'équipe. « Je ne sais pas » est toujours un choix. "
+          + "Ne donnez jamais de mot de passe."),
         el("li", null, "Enregistrez le fichier .json qu'il vous donne, puis déposez-le à l'étape 2.")),
       el("div", { class: "actions" },
         el("button", { type: "button", class: "btn btn-primary", onclick: () => copy("fr") }, "Copier le prompt"),

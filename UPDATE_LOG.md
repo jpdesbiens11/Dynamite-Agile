@@ -1,12 +1,21 @@
-# Journal de mise à jour — 0.60.21
+# Journal de mise à jour — 0.60.22
+
+- **Version :** 0.60.21 → 0.60.22 (2026-11-04)
+- **Changements :**
+  1. **Commencer → Diamond préliminaire** (D-O-032) : arbre fonctionnel, structure, pièces, risques et DFMEA créés depuis le fichier, en « Brouillon IA ».
+  2. **Commencer → plan de référence** : le Gantt du PDP dans Exploration, selon la durée et la taille de l'équipe.
+  3. **Prompt de départ** : 26 questions surtout à cliquer (texte libre : le produit et les noms seulement), avec le calendrier et l'analyse fonctionnelle.
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.21
 
 - **Version :** 0.60.20 → 0.60.21 (2026-11-04)
 - **Changements :**
   1. **Un seul Space pour tous les onglets** : le Space choisi dans n'importe quel module suit dans les autres ; ☆ / ★ à côté de chaque liste de Spaces pour le Space par défaut.
   2. **Copier / Dupliquer un Space** : tout Diamond suit (arbre, structure, pièces, risques, DFMEA).
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.20
 

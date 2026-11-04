@@ -2,46 +2,54 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Le Space de travail suit d'un onglet à l'autre",
-      "why": "Choisir un Space dans la liste déroulante d'un module ne valait que pour cet onglet : l'onglet suivant rouvrait l'ancien. Le dernier Space ouvert (dans cet onglet du navigateur) est maintenant celui de tous les modules ; les Spaces communs (HEADLAMP, TOOLS, TESTING, TRAINING) ne l'emportent jamais ; une nouvelle visite s'ouvre sur le Space par défaut.",
+      "title": "Project Starter : Diamond préliminaire (D-O-032)",
+      "why": "Clé « diamond » du fichier : fonctions de l'arbre, entrées / sorties, flux des deux vues, pièces sur les fonctions, risques projet, premières lignes du DFMEA ; mêmes règles que les écrans de Diamond ; tout arrive en « Brouillon IA ». L'exemple de la lampe reprend l'exemple de Diamond.",
       "files": [
-        "static/js/tools/spaces.js",
-        "static/js/toolbox/tools.js",
-        "tests/test_space_follow.py"
+        "core/starter_diamond.py",
+        "core/starter.py",
+        "core/starter_apply.py",
+        "static/js/admin_starter.js",
+        "tools/make_starter_diamond_example.py",
+        "tools/check_starter.py",
+        "deploy/starter_exemples/lampe_bureau.json",
+        "tests/test_starter_diamond.py"
       ]
     },
     {
       "id": "C2",
-      "title": "☆ / ★ Space par défaut à côté de chaque liste de Spaces",
-      "why": "Dans Dynamite, Agile, Goldmine, Diamond, Exploration, Testing et Generator : un clic en fait le Space par défaut (où le site s'ouvre), un second le retire.",
+      "title": "Plan de référence du PDP dans Exploration (D-O-032)",
+      "why": "Les 19 étapes du PDP (codes de Timesheet), les revues en jalons, quatre phases sur la durée du projet (project.weeks, 15 par défaut, à partir de project.start_date), plus d'étapes en parallèle pour une équipe plus grande ; responsables à tour de rôle.",
       "files": [
-        "static/js/tools/spaces.js",
-        "static/js/agile/agile.js",
-        "static/js/dynamite/dynamite.js",
-        "static/js/codex/codex.js",
-        "static/js/exploration/exploration.js",
-        "static/css/app.css"
+        "modules/exploration/reference.py",
+        "core/starter.py",
+        "core/starter_apply.py"
       ]
     },
     {
       "id": "C3",
-      "title": "Copier / Dupliquer un Space : Diamond aussi",
-      "why": "L'arbre, la structure (entrées, sorties, flux, positions), les pièces, les risques et le DFMEA suivent la copie, liens refaits vers les nouvelles fonctions.",
+      "title": "Prompt de départ : 26 questions à cliquer, sept blocs",
+      "why": "Réponses à cliquer (l'outil de questions à choix de l'assistant, menu à toucher dans Claude) : texte libre deux fois seulement, le produit et les noms de l'équipe ; propositions validées par un menu (C'est bon, Plus simple, Plus complet, Refaire). Calendrier (début, durée) et bloc Diamond (arbre, entrées / sorties, flux, pièces, risques et DFMEA) ; format de la clé diamond, valeurs permises et exemple tirés de l'outil.",
       "files": [
-        "core/spacecopy.py",
-        "tests/test_diamond_parts.py"
+        "tools/site/starter.md",
+        "tools/site/en/starter.md",
+        "core/starter_prompt.py",
+        "tools/site/guide.html",
+        "tools/site/en/guide.html",
+        "docs/STARTER_FORMAT.md",
+        "tests/test_starter_prompt.py"
       ]
     },
     {
       "id": "C4",
-      "title": "Version 0.60.21 et documentation",
-      "why": "État du projet, journal, fiche de version.",
+      "title": "Version 0.60.22 et documentation",
+      "why": "Décision, état du projet, journal, fiche de version.",
       "files": [
         "core/__init__.py",
         "CLAUDE.md",
         "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.21.json",
+        "docs/releases/0.60.22.json",
         "tests/test_open_v060.py"
       ]
     }

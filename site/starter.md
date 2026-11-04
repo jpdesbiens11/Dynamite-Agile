@@ -2,8 +2,9 @@
 
 > **Pour vous (la personne) :** copiez **tout ce texte**, du début à la fin, dans une nouvelle conversation avec un
 > assistant IA (Claude.ai, ChatGPT, Gemini, Copilot…), puis envoyez-le. L'assistant vous posera une question à la fois,
-> environ 26 en tout (45 à 60 minutes). Répondez avec vos mots ; « je ne sais pas » est une bonne réponse : il proposera
-> alors un choix raisonnable. À la fin, il vous donne un fichier `.json` à importer dans l'outil :
+> environ 26 en tout (30 à 45 minutes). **Vous répondez surtout en cliquant** : chaque question arrive avec ses choix
+> de réponse (dans Claude, un menu de réponses à toucher). Vous n'écrivez que deux fois : votre produit en une phrase et
+> les noms de l'équipe. « Je ne sais pas » est toujours un choix : l'assistant prend alors une valeur raisonnable. À la fin, il vous donne un fichier `.json` à importer dans l'outil :
 > **⚙ Admin → Spaces → Commencer**. Rien n'est créé avant que vous ayez vu l'aperçu et cliqué « Créer le Space ».
 >
 > Ne donnez jamais de mot de passe à l'assistant : il n'en a pas besoin.
@@ -26,8 +27,17 @@ concepts, matrice de Pugh, Concept Review), **C. Design** (CdCF, PDR / CDR, DFME
 1. **Une seule question par message.** Commencez chaque question par son numéro, par exemple « Question 4 / 26 ». Les
    numéros ne changent pas : une question sautée (la 15 si la personne garde les codes du PDP) garde sa place, la
    question 11 se répète pour chaque personne (11a, 11b…) et un récapitulatif ne porte pas de numéro.
-2. **Proposez des choix numérotés** chaque fois que c'est possible, avec **(Recommandé)** après le meilleur choix par
-   défaut. La personne peut répondre par un chiffre ou avec ses mots.
+2. **Des réponses à cliquer, pas à écrire.** La personne ne veut pas taper pendant l'entrevue. Si votre interface a
+   un outil de questions à choix (boutons ou menu de réponses à cliquer — dans Claude, il s'affiche comme un menu à
+   toucher), **utilisez-le pour chaque question** : 2 à 4 choix courts, le meilleur en premier avec « (Recommandé) »,
+   toujours « Je ne sais pas » ; choix multiples là où c'est indiqué. Sans un tel outil, numérotez les choix pour
+   qu'on réponde par un chiffre. **Ne demandez du texte libre que deux fois** : le produit (question 2) et les noms de
+   l'équipe (question 11, tous en un seul message). Tout le reste se propose : vous rédigez, la personne choisit.
+   Plus de 4 choix (ex. les marchés) : regroupez-les (« Canada et États-Unis (Recommandé) », « Canada seulement »,
+   « Amérique du Nord et Europe », « Autre ») ou posez la question en deux menus.
+   **Pour valider une proposition** (besoins, requis, essais, fonctions, pièces, risques, pages), montrez-la en tableau
+   puis offrez un menu : « C'est bon (Recommandé) », « Plus simple (moins d'éléments) », « Plus complet », « Refaire
+   autrement ». « Plus simple » ou « Plus complet » : refaites la proposition et redemandez.
 3. **« Je ne sais pas »** : proposez la réponse la plus raisonnable en une ligne, dites-la, et passez à la suite.
 4. **Expliquez en deux lignes au plus** pourquoi vous posez la question quand ce n'est pas évident (ex. « le marché
    décide des normes »). Les termes techniques restent en anglais (requirement, Test Base, Space, DFMEA).
@@ -46,12 +56,15 @@ concepts, matrice de Pugh, Concept Review), **C. Design** (CdCF, PDR / CDR, DFME
 ## Bloc 1 — Le projet (questions 1 à 9)
 
 1. **Langue** du projet et de l'entrevue : 1. Français (Recommandé si la personne écrit en français) 2. English.
-2. **Le produit en une phrase** : qu'est-ce que c'est, et quel problème règle-t-il ? Donnez un exemple : « une lampe de
-   bureau dont on règle la couleur de la lumière avec son téléphone ».
+2. **Le produit en une phrase** (une des deux réponses écrites) : qu'est-ce que c'est, et quel problème règle-t-il ?
+   Donnez un exemple : « une lampe de bureau dont on règle la couleur de la lumière avec son téléphone ». Offrez aussi
+   « Je n'ai pas encore d'idée » : proposez alors trois produits de cours (lampe connectée, gourde intelligente,
+   distributeur de croquettes connecté) à choisir.
 3. **Qui l'utilise, et où ?** Choix multiples : maison, bureau, école, atelier ou usine, extérieur, véhicule, hôpital ou
    clinique, laboratoire. Demandez aussi s'il sera utilisé par des enfants.
 4. **Où sera-t-il vendu ?** (le marché décide des normes) Choix multiples : Canada, États-Unis, Europe, Royaume-Uni,
-   Mexique, Australie, Japon, Chine, Corée, Inde, Brésil, international. « Projet de cours seulement » → Canada.
+   Mexique, Australie, Japon, Chine, Corée, Inde, Brésil, international, en menus de 4 choix au plus (voir la règle 2).
+   « Projet de cours seulement » → Canada.
 5. **D'où vient l'énergie ?** 1. pile ou batterie non rechargeable 2. batterie rechargeable (USB ou chargeur)
    3. prise murale (120 / 240 V) 4. bloc d'alimentation externe 5. aucune énergie (produit purement mécanique)
    6. autre (ex. moteur thermique, solaire).
@@ -62,18 +75,21 @@ concepts, matrice de Pugh, Concept Review), **C. Design** (CdCF, PDR / CDR, DFME
    (ex. 1. « Produits grand public » · « Appareil grand public mécatronique avec liaison radio » (Recommandé)
    2. « Sport et plein air » · « Accessoire connecté »). La personne n'a pas à connaître ces termes : le choix
    recommandé est une bonne réponse.
-9. **Le nom et la clé du Space** : proposez un nom court et une clé de 2 à 10 majuscules (ex. `LAMPE`). La clé devient
-   le préfixe des tickets (LAMPE-1, LAMPE-2…) et ne change plus.
+9. **Le nom et la clé du Space** : proposez trois couples nom court / clé de 2 à 10 majuscules (ex. « Lampe connectée »
+   / `LAMPE`) à choisir. La clé devient le préfixe des tickets (LAMPE-1, LAMPE-2…) et ne change plus.
 
-Récapitulez le bloc 1 (tableau), puis rédigez une **description** de 2 à 4 phrases et faites-la valider.
+Récapitulez le bloc 1 (tableau), puis rédigez une **description** de 2 à 4 phrases et faites-la valider (menu de la
+règle 2).
 
 ## Bloc 2 — L'équipe (questions 10 à 12)
 
-10. **Combien de personnes** dans l'équipe (12 au plus) ?
-11. **Pour chaque personne, une à la fois** : prénom et nom, profil d'études (ex. génie mécanique, génie électrique,
-    design industriel, génie informatique) et ce dont elle s'occupe dans le projet. Proposez son titre (ex.
-    « Responsable mécanique et boîtier ») et un nom d'utilisateur (prénom en minuscules sans accent, ex. `lea`).
-12. **Qui coordonne ?** Cette personne reçoit le rôle `manager` ; les autres `editor` ; un enseignant ou un client qui
+10. **Combien de personnes** dans l'équipe : menu « 2 », « 3 », « 4 (Recommandé) », « 5 ou plus » (12 au plus).
+11. **Les noms** (la deuxième réponse écrite) : tous les prénoms et noms en un seul message, séparés par des virgules.
+    Puis, **pour chaque personne, un menu** : son profil d'études (génie mécanique, génie électrique, design industriel,
+    génie informatique, autre) — 11a, 11b… Proposez vous-même son titre selon son profil (ex. « Responsable mécanique et
+    boîtier ») et un nom d'utilisateur (prénom en minuscules sans accent, ex. `lea`) ; ils seront validés au
+    récapitulatif.
+12. **Qui coordonne ?** Un menu avec les noms. Cette personne reçoit le rôle `manager` ; les autres `editor` ; un enseignant ou un client qui
     ne fait que lire reçoit `reader`. Personne n'est administrateur par ce fichier.
 
 Récapitulez l'équipe (tableau : nom, utilisateur, profil, titre, rôle). Les comptes sont créés à l'approbation, avec
@@ -81,8 +97,9 @@ un mot de passe temporaire affiché une fois dans l'outil ; chaque personne reç
 
 ## Bloc 3 — Le calendrier et le temps (questions 13 à 15)
 
-13. **Le calendrier** : date de début du projet (AAAA-MM-JJ ; « je ne sais pas » → lundi prochain) et durée en
-    semaines (Recommandé : 15, une session ; 30 pour deux sessions). L'outil en tire un **plan de référence** (Gantt) : les
+13. **Le calendrier**, en deux menus : le début (« Lundi prochain (Recommandé) », « Début de la session d'hiver »,
+    « Début de la session d'automne », « Je ne sais pas ») et la durée (« 15 semaines, une session (Recommandé) »,
+    « 30 semaines, deux sessions », « 8 semaines »). Convertissez en date AAAA-MM-JJ (un lundi) et en nombre de semaines. L'outil en tire un **plan de référence** (Gantt) : les
     19 étapes du PDP, les revues (Lean Canvas, Concept Review, PDR, CDR, Validation Report) comme jalons, et plus
     d'étapes en parallèle pour une équipe plus grande. Écrivez-les dans `project.start_date` et `project.weeks`.
 14. **Codes de feuille de temps** : 1. les codes du PDP déjà dans l'outil, A-01 à D-21 (Recommandé pour un projet de
@@ -127,10 +144,11 @@ marqué « Brouillon IA ». Montrez chaque proposition en tableau ou en liste in
     « Courant 12 V », « Toucher de l'utilisateur ») et ce qu'il rend ou rejette (à droite : « Lumière », « Chaleur »).
     Refs `E1`… et `S1`…, avec le type énergie, matière ou information.
 22. **Les flux** : d'abord la **vue générale** (entrées → fonctions secondaires → sorties), puis la **vue détaillée**
-    (les mêmes flux, portés par les fonctions tertiaires). Chaque fonction échange au moins un flux. Type et court
+    (les mêmes flux, portés par les fonctions tertiaires). Chaque fonction secondaire et tertiaire échange au moins un flux (jamais la
+    fonction primaire, ni une fonction d'estime ou technique : elles ne sont pas des blocs de la structure). Type et court
     libellé (« courant », « consigne », « chaleur »).
 23. **Les pièces du concept** : 6 à 15 pièces ou sous-ensembles (conçue, achetée, normalisée) et les fonctions
-    secondaires ou tertiaires que chacune réalise. Signalez les pièces qui réalisent plusieurs fonctions (bon pour le
+    secondaires ou tertiaires que chacune réalise (jamais la primaire, une fonction d'estime ou technique). Signalez les pièces qui réalisent plusieurs fonctions (bon pour le
     coût) et les fonctions qui demandent plusieurs pièces (pistes de simplification).
 24. **Les risques et le DFMEA** : 5 à 10 **risques projet** (titre, cause, conséquence, catégorie, phase A à D,
     probabilité et impact de 1 à 5, stratégie, action), puis 4 à 8 premières lignes de **DFMEA** sur les fonctions les
@@ -194,9 +212,9 @@ Clés de premier niveau, dans cet ordre : `format` (`"dynamite-project-starter"`
 | `tests[]` (300 au plus) | **`ref`** (ex. `ESSAI-1`), **`title`**, `subject` (défaut `func`), `category`, `standard`, `section`, `level`, `method` (défaut `T`), `objective`, `acceptance`, `means`, `verifies` (refs de **requis**) |
 | `time_codes[]` (40 codes au plus) | `{key, label, codes: [{key, label}]}` : `key` d'un groupe en majuscules (ex. `LA`), code au format `^[A-Z]{1,5}-[A-Z0-9]{2,4}$` |
 | `pages[]` (30 au plus) | `ref` (unique, ex. `P-ACC`), `title`, `parent` (`null` ou la ref d'une page **plus haut** ; deux niveaux au plus), `body` |
-| `diamond.functions[]` (120 au plus) | **`ref`** (ex. `F1`), **`text`**, `type` (défaut `usage`), `parent` (ref **plus haut**, ou `null` : la **première** fonction sans parent est la primaire ; une autre sans parent reste hors de l'arbre), `kano`, `importance`, `critical` (`true` : chemin critique), `notes` |
+| `diamond.functions[]` (120 au plus) | **`ref`** (ex. `F1`), **`text`**, `type` (défaut `usage`), `parent` (ref **plus haut**, ou `null` : écrivez la fonction **primaire en premier** (type `usage`), c'est la première sans parent ; une autre sans parent reste hors de l'arbre), `kano`, `importance`, `critical` (`true` : chemin critique), `notes` |
 | `diamond.ports[]` (40 au plus) | **`ref`** (ex. `E1`, `S1`), **`side`** (`in` entrée, `out` sortie), **`label`**, `kind` |
-| `diamond.flows[]` (200 au plus) | **`view`** (`general` : entre fonctions secondaires ; `detail` : entre fonctions tertiaires, sans les techniques), `kind`, `label`, **`src`**, **`dst`** (refs de fonction ou d'entrée / sortie ; un flux part d'une entrée ou d'une fonction et arrive à une fonction ou à une sortie) |
+| `diamond.flows[]` (200 au plus) | **`view`** (`general` : entre fonctions secondaires ; `detail` : entre fonctions tertiaires, sans les techniques, et les secondaires qui n'ont pas de tertiaire), `kind`, `label`, **`src`**, **`dst`** (refs de fonction ou d'entrée / sortie ; un flux part d'une entrée ou d'une fonction et arrive à une fonction ou à une sortie) |
 | `diamond.parts[]` (80 au plus) | **`name`**, `kind` (défaut `designed`), `notes`, `functions` (refs de fonctions secondaires ou tertiaires) |
 | `diamond.risks[]` (60 au plus) | **`title`**, **`probability`** et **`impact`** (entiers 1 à 5), `cause`, `consequence`, `category`, `phase`, `response`, `action`, `function` (ref) |
 | `diamond.dfmea[]` (120 au plus) | `higher`, `focus`, `lower`, `function` (ref), `requirement`, **`failure_mode`**, `effect`, `severity`, `cause`, `prevention`, `occurrence`, `detection_ctrl`, `detection` (S, O, D : entiers 1 à 10), `action` |
@@ -459,7 +477,7 @@ Règles qui font refuser un fichier :
   ],
   "ports": [
    {
-    "ref": "E4",
+    "ref": "E1",
     "side": "in",
     "label": "Force de la main",
     "kind": "energy"
@@ -470,14 +488,14 @@ Règles qui font refuser un fichier :
     "view": "general",
     "kind": "energy",
     "label": "force",
-    "src": "E4",
+    "src": "E1",
     "dst": "F2"
    },
    {
     "view": "detail",
     "kind": "energy",
     "label": "force",
-    "src": "E4",
+    "src": "E1",
     "dst": "F4"
    }
   ],
@@ -527,8 +545,7 @@ Règles qui font refuser un fichier :
     "prevention": "Calcul du centre de gravité",
     "occurrence": 4,
     "detection_ctrl": "Essai de stabilité sur plan incliné",
-    "detection": 3,
-    "action": ""
+    "detection": 3
    }
   ]
  }
