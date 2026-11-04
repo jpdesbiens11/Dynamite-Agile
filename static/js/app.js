@@ -194,6 +194,11 @@
         link.append(el("span", { class: "mention-count", hidden: true, "aria-live": "polite" }));
         return link;
       }
+      if (key === "debuter") {  // 0.60.08: the project path, first tab
+        const link = navLink(t("nav.debuter"), "#/debuter", active === "debuter", "debuter");
+        link.setAttribute("data-new", "0.60.08-debuter");
+        return link;
+      }
       if (key === "home") return navLink(t("nav.home"), "#/home", active === "home", "home");
       const m = modules.find((x) => x.key === key);
       if (!m) return null;
@@ -445,7 +450,8 @@
     if (!session.user) { showLogin(); return; }
     if (session.user.must_change_password) { showForcedPasswordChange(); return; }
 
-    const start = "#/" + ((session.prefs && session.prefs.landing) || "dashboard");  // D-B-032: dashboard by default
+    const prefs = session.prefs || {};  // 0.60.08: « Débuter » until it is closed, then the chosen landing page (D-B-032)
+    const start = "#/" + (prefs.debuter_done === false ? "debuter" : (prefs.landing || "dashboard"));
     const parts = (location.hash && location.hash !== "#/" ? location.hash : start).replace(/^#\/?/, "").split("/");
     if (parts[0] === "user") { location.replace("#/settings"); return; }  // D-B-078
     if (parts[0] === "admin" && session.user.is_admin) {

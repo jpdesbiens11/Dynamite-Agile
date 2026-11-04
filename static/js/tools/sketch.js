@@ -40,8 +40,9 @@
 
   /* key -> [icon, tooltip]; groups are separated by a hand-drawn tick in the top bar */
   DA.NAV = {
-    groups: [["dashboard", "home"], ["goldmine", "exploration", "agile", "dynamite", "testing"], ["tools", "training", "timesheet"]],
+    groups: [["debuter", "dashboard", "home"], ["goldmine", "exploration", "agile", "dynamite", "testing"], ["tools", "training", "timesheet"]],
     items: {
+      debuter: ["bolt", "Débuter : démarrer un projet, étape par étape"],  // 0.60.08
       dashboard: ["dashboard", "Tout ce qui vous attend, dans tous vos Spaces"],
       home: ["spaces", "Vos Spaces et qui contacter"],
       goldmine: ["goldmine", "Needs et requirements, traçabilité jusqu'au test"],

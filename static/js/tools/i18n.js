@@ -8,7 +8,7 @@
 
   const TEXT = {
     fr: {
-      "nav.dashboard": "Dashboard", "nav.home": "Accueil", "nav.admin": "Admin", "nav.user": "User",
+      "nav.debuter": "Débuter", "nav.dashboard": "Dashboard", "nav.home": "Accueil", "nav.admin": "Admin", "nav.user": "User",
       "menu.settings": "Paramètres", "menu.members": "Membres de mes Spaces", "menu.objectives": "Mes objectifs", "menu.password": "Changer mon mot de passe",
       "menu.admin": "Administration", "menu.about": "À propos", "menu.logout": "Se déconnecter",
       "tools.search": "Rechercher…", "tools.auditList": "Liste Audit", "tools.audit": "Audit",
@@ -31,11 +31,11 @@
       "theme.carnet": "Thème par défaut (croquis d'ingénieur)", "theme.terminal": "Terminal R&D (labo geek, sombre)", "theme.atlassian": "Atlassian (couleurs Jira / Confluence)", "theme.contrast": "Contraste élevé",
       "font.system": "Segoe UI (système)", "font.atlassian": "Pile système Atlassian", "font.readable": "Grande lisibilité (Verdana)",
       "density.comfortable": "Confortable", "density.compact": "Compacte",
-      "landing.dashboard": "Mon Dashboard", "landing.home": "Accueil (mes Spaces)",
+      "landing.dashboard": "Mon Dashboard", "landing.home": "Accueil (mes Spaces)", "landing.debuter": "Débuter (parcours du projet)",
       "mem.title": "Membres du Space", "mem.add": "Ajouter", "mem.role": "Droit", "mem.remove": "Retirer",
     },
     en: {
-      "nav.dashboard": "Dashboard", "nav.home": "Home", "nav.admin": "Admin", "nav.user": "User",
+      "nav.debuter": "Get started", "nav.dashboard": "Dashboard", "nav.home": "Home", "nav.admin": "Admin", "nav.user": "User",
       "menu.settings": "Settings", "menu.members": "My projects' members", "menu.objectives": "My objectives", "menu.password": "Change my password",
       "menu.admin": "Administration", "menu.about": "About", "menu.logout": "Sign out",
       "tools.search": "Search…", "tools.auditList": "Audit list", "tools.audit": "Audit",
@@ -58,7 +58,7 @@
       "theme.carnet": "Default theme (engineer sketch)", "theme.terminal": "R&D Terminal (geek lab, dark)", "theme.atlassian": "Atlassian (Jira / Confluence colors)", "theme.contrast": "High contrast",
       "font.system": "Segoe UI (system)", "font.atlassian": "Atlassian system stack", "font.readable": "High readability (Verdana)",
       "density.comfortable": "Comfortable", "density.compact": "Compact",
-      "landing.dashboard": "My dashboard", "landing.home": "Home (my projects)",
+      "landing.dashboard": "My dashboard", "landing.home": "Home (my projects)", "landing.debuter": "Get started (project path)",
       "mem.title": "Project members", "mem.add": "Add", "mem.role": "Right", "mem.remove": "Remove",
     },
   };
