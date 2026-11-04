@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.10)
-**Version :** 0.60.10 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** démarrer un projet avec un assistant IA (D-O-019) — 0.60.10 livrée (serveur d'équipe sur Windows, D-O-022) ; suite : 0.60.11 `starter.md`
+**Dernière mise à jour :** 2026-11-04 (v0.60.11)
+**Version :** 0.60.11 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** Diamond 💎 (D-O-023) — 0.60.11 livrée (Arbre fonctionnel) ; suite : 0.60.12 structure fonctionnelle
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -22,8 +22,13 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.08 | Page « Débuter » (D-O-020) : parcours du projet phase par phase, module par module ; page d'arrivée jusqu'à ce qu'on la ferme, puis onglet | Livré |
 | 0.60.09 | PDP modernisé avec le Lean Startup (D-O-021) : phases Discovery / Concept / Design / Validation et lancement, une boucle MVP par phase (tornade de « Débuter »), Lean Canvas, Concept Review, PDR / CDR, Validation Report ; MIP, RCS, RC, RVE retirés | Livré |
 | 0.60.10 | Serveur d'équipe sur un PC Windows (D-O-022) : `deploy/install.ps1`, autorité de certification de l'équipe (`tools/make_team_ca.py`), tâche planifiée, pare-feu privé ; 4e destination de la page d'installation FR / EN | Livré — à essayer sur un vrai PC Windows |
-| 0.60.11 | Prompt `site/starter.md` (FR / EN), sa page sur le site, liens depuis « Commencer », « Débuter » et Help (D-O-019) | À faire |
-| 0.60.12 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; analyse fonctionnelle visuelle (arbre à 3 niveaux, méthodes de recherche des fonctions, lien CdCF) ; boundary diagram éditable ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
+| 0.60.11 | Diamond 💎 (D-O-023), 1 000 m : module, onglet, logo ; Arbre fonctionnel (primaire / secondaires / tertiaires / techniques, comment · pourquoi · quand, chemin critique, rétroaction, hors arbre, glisser-déposer, Alt + flèches, exemple lampe de bureau) | Livré |
+| 0.60.12 | Diamond : structure fonctionnelle (boundary diagram : In à gauche, Out à droite, flux entre les fonctions de l'arbre) | À faire |
+| 0.60.13 | Diamond : analyse de risque projet de haut niveau (avant le DFMEA) | À faire |
+| 0.60.14 | Diamond : DFMEA AIAG-VDA (3 niveaux, fonctions de l'arbre, S / O / D, RPN et AP, légende de l'AP, colonnes masquables, lignes ajouter / dupliquer / déplacer / effacer) | À faire |
+| 0.60.15 | Diamond : Golden Nuggets (first principles thinking, règles de conception, exemples) | À faire |
+| 0.60.16 | Prompt `site/starter.md` (FR / EN), sa page sur le site, liens depuis « Commencer », « Débuter » et Help (D-O-019) | À faire |
+| 0.60.17 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
 
 ## Table 2 : Questions du brief §5 (toutes tranchées)
 
@@ -37,7 +42,10 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.10)
+## Relais (fin de 0.60.11)
+
+- Diamond (D-O-023) : `modules/diamond/` — `functions.py` (règles de l'arbre : niveaux, `in_tree`, conseils `checks`, déplacements, archivage qui garde le numéro), `example.py` (lampe de bureau), migration diamond 1 (`diamond_functions`, liée à `projects(id)` : sauvegarde et restauration par le noyau). Écran : `static/js/diamond/` (`diamond.js` coquille Agile, `tree_layout.js` dessin HTML + SVG sans texte, `tree_panel.js`, `tree.js`) et `static/css/diamond.css`. Le DFMEA lira `diamond_functions` (id et numéro). « Copier / composer un Space » (`core/spacecopy.py`) ne connaît pas encore Diamond : à ajouter avec le DFMEA. `tests/test_diamond.py`.
+
 
 - Windows (D-O-022) : `deploy/install.ps1` (UTF-8 avec BOM, PowerShell 5.1), `tools/make_team_ca.py`, `tools/write_config.py`, chemin D de `tools/site/installation.html` et `installer.md` (FR / EN). **Pas encore exécuté sur un vrai Windows** : la session de développement n'a ni Windows ni PowerShell ; à essayer avant de l'annoncer.
 

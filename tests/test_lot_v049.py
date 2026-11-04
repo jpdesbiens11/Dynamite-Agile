@@ -26,7 +26,7 @@ COVERAGE = {"dashboard": "HL-12", "dynamite": "HL-03", "agile": "HL-06", "goldmi
             "exploration": "HL-05", "tools": "HL-08", "training": "HL-14", "codex": "TL-06",
             "timesheet": "HL-09", "admin": "HL-11", "search": "HL-10", "objectives": "RH-01", "team": "RH-02",
             "bdc-definitions": "KB-01", "bdc-gtd": "KB-02", "bdc-functions": "KB-03",
-            "ideation": "TL-01", "pugh": "TL-02", "kt": "TL-03"}
+            "ideation": "TL-01", "pugh": "TL-02", "kt": "TL-03", "diamond": "DM-01"}
 
 
 def answers(parsed, wrong=()):

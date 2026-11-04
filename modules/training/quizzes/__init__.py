@@ -5,7 +5,7 @@ topic, in the Markdown format of modules/training/quiz.py, 80 % to pass, circle-
 catalog.ensure() puts a default quiz in a topic whose quiz is empty or still a previous default (UPGRADES); a quiz
 edited by an administrator is never replaced.
 """
-from . import hl_a, hl_b, hl_c, kb, rh, tl
+from . import dm, hl_a, hl_b, hl_c, kb, rh, tl
 
 QUIZZES = {
     "HL-01": hl_a.HL_01, "HL-02": hl_a.HL_02, "HL-03": hl_a.HL_03, "HL-04": hl_a.HL_04, "HL-05": hl_a.HL_05,
@@ -14,6 +14,7 @@ QUIZZES = {
     "KB-01": kb.KB_01, "KB-02": kb.KB_02, "KB-03": kb.KB_03,
     "TL-01": tl.TL_01, "TL-02": tl.TL_02, "TL-03": tl.TL_03, "TL-06": tl.TL_06,
     "RH-01": rh.RH_01, "RH-02": rh.RH_02,
+    "DM-01": dm.DM_01,  # 0.60.11
 }
 
 

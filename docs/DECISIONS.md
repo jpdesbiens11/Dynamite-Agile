@@ -226,3 +226,20 @@ PC) et le certificat de ce PC (son nom, nom.local, ses adresses, 397 jours, reno
 pour Windows. Chaque poste importe une fois `ca-dynamite.crt` ; la page ne propose jamais de contourner l'avertissement du
 navigateur. Le script est enregistré en UTF-8 avec BOM, pour que Windows PowerShell 5.1 lise ses accents ; `config.json`
 accepte aussi un BOM (Bloc-notes). Le prompt `starter.md` passe en 0.60.11.
+
+### D-O-023 — Diamond 💎 : l'analyse fonctionnelle à 1 000 m, en commençant par l'arbre fonctionnel (2026-11-04, demande de JP)
+**Contexte :** JP demande un nouveau module, « Diamond », au plus profond de la mine (1 000 m), qui réunit l'arbre
+fonctionnel, la structure fonctionnelle (boundary diagram), une analyse de risque projet de haut niveau, un DFMEA
+AIAG-VDA qui reprend exactement les fonctions de l'arbre, et une page « Golden Nuggets ».
+**Décision :** un module `modules/diamond/` (onglet entre Goldmine et Exploration, ordre d'usage : besoins → fonctions →
+plan ; accent « glace » `--hl-ice` / `#a5d6ff`, logo diamant taillé), construit un sous-module par version. **0.60.11 :
+Arbre fonctionnel.** Un arbre par Space (table `diamond_functions`) : une fonction primaire à gauche, ses « comment » à
+droite, les sœurs de haut en bas dans l'ordre de la première utilisation (« quand »), la branche de protection en
+dernier ; trois niveaux (primaire, secondaire, tertiaire) et un 4e réservé aux fonctions techniques ; chemin critique
+(flèches épaisses), rétroaction des fonctions de contrôle (pointillés) ; type (usage, estime, technique, contrainte),
+Kano, importance, notes à la conception. Le numéro F1, F2… est gardé pour toujours, même archivé (jamais redonné), pour le
+suivi dans le DFMEA. Glisser une boîte sur une autre en fait l'un de ses « comment » ; Alt + flèches déplace au clavier ;
+« Hors arbre » garde les fonctions d'estime ou en attente. Hypothèses prises sans attendre (CLAUDE.md : avancer) : Diamond
+passe avant le prompt `starter.md` ; l'arbre est propre à chaque Space, distinct de la liste centrale « Product Function »
+de Testing (TESTING), avec un numéro compatible (F12) pour les relier plus tard. Exemple original (lampe de bureau
+connectée, D-O-012). Suite, une par version : structure fonctionnelle, risques projet, DFMEA (RPN et AP), Golden Nuggets.

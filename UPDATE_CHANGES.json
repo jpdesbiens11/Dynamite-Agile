@@ -1,55 +1,33 @@
 {
- "changes": [
-  {
-   "id": "C1",
-   "title": "Serveur d'équipe sur Windows : install.ps1 et certificat de l'équipe (D-O-022)",
-   "why": "PowerShell admin, winget, tâche planifiée, pare-feu privé, HTTPS sans domaine.",
-   "files": [
-    "deploy/install.ps1",
-    "site/install.ps1",
-    "tools/build_site.py",
-    "tools/make_team_ca.py",
-    "tools/write_config.py",
-    "core/config.py",
-    "tests/test_windows_install.py"
-   ]
-  },
-  {
-   "id": "C2",
-   "title": "Page d'installation : destination « PC Windows de l'équipe » (FR / EN)",
-   "why": "Étapes, confiance au certificat, dépannage et entretien ; guide de l'assistant IA.",
-   "files": [
-    "site/en/guide.html",
-    "site/en/index.html",
-    "site/en/installation.html",
-    "site/en/installer.md",
-    "site/guide.html",
-    "site/index.html",
-    "site/installation.html",
-    "site/installer.md",
-    "tools/site/en/installation.html",
-    "tools/site/en/installer.md",
-    "tools/site/en/trouble.html",
-    "tools/site/install.js",
-    "tools/site/installation.html",
-    "tools/site/installer.md",
-    "tools/site/trouble.html"
-   ]
-  },
-  {
-   "id": "C3",
-   "title": "Version 0.60.10 et documentation",
-   "why": "APP_VERSION, D-O-022, état du projet, vitrine.",
-   "files": [
-    "CLAUDE.md",
-    "UPDATE_CHANGES.json",
-    "UPDATE_LOG.md",
-    "core/__init__.py",
-    "docs/DECISIONS.md",
-    "docs/ETAT_PROJET.md",
-    "static/apps/vitrine/index.html",
-    "tests/test_open_v060.py"
-   ]
-  }
- ]
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Diamond 💎 : nouveau module à 1 000 m (D-O-023)",
+      "why": "Analyse fonctionnelle du produit, un sous-module par version.",
+      "files": [
+        "modules/diamond/__init__.py",
+        "core/modules.py",
+        "static/js/diamond/diamond.js",
+        "static/js/tools/sketch.js",
+        "tools/make_sketch_assets.py",
+        "static/css/sketch.css",
+        "static/css/terminal.css",
+        "tools/site_text.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Arbre fonctionnel : comment, pourquoi, quand",
+      "why": "Primaire, secondaires, tertiaires, techniques ; chemin critique, rétroaction, hors arbre, exemple.",
+      "files": [
+        "modules/diamond/functions.py",
+        "modules/diamond/example.py",
+        "static/js/diamond/tree.js",
+        "static/js/diamond/tree_layout.js",
+        "static/js/diamond/tree_panel.js",
+        "static/css/diamond.css",
+        "tests/test_diamond.py"
+      ]
+    }
+  ]
 }
