@@ -144,6 +144,11 @@ def build():
         guide = (src / "installer.md").read_text(encoding="utf-8").replace("{{SITE_URL}}", SITE_URL).replace("{{REPO}}", REPO)
         (out / "installer.md").write_text(guide, encoding="utf-8")
         written.append((out / "installer.md", len(guide)))
+        # 0.60.18 (D-O-019): the prompt of the Project Starter, the same text as « Commencer » serves in the tool
+        from core import starter_prompt
+        prompt = starter_prompt.render(lang, SITE_URL, REPO)
+        (out / "starter.md").write_text(prompt, encoding="utf-8")
+        written.append((out / "starter.md", len(prompt)))
     # the script the one-command installation fetches (one for both languages: DA_LANG=en for English messages)
     script = (BASE / "deploy" / "install.sh").read_text(encoding="utf-8")
     script = re.sub(r'REPO="\$\{DA_REPO:-[^}]*\}"', 'REPO="${{DA_REPO:-{}.git}}"'.format(REPO), script)

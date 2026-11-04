@@ -243,9 +243,22 @@ def api_status(ctx):
     return {"show": started == 0, "started": started}
 
 
+def api_prompt(ctx):
+    """0.60.18: the prompt to paste into an AI assistant (FR / EN), served by the tool itself so it works offline too."""
+    from . import starter_prompt
+    from .files import RawFile
+    lang = "en" if str((ctx.query or {}).get("lang") or "fr")[:2] == "en" else "fr"
+    text = starter_prompt.render(lang)
+    if str((ctx.query or {}).get("download") or "") == "1":
+        return RawFile(text.encode("utf-8"), "starter.md" if lang == "fr" else "starter_en.md", "text/markdown; charset=utf-8",
+                       export=False)
+    return {"lang": lang, "text": text}
+
+
 ROUTES = [
     ("GET", r"/api/starter/status", api_status, "admin"),
     ("GET", r"/api/starter/examples", api_examples, "admin"),
+    ("GET", r"/api/starter/prompt", api_prompt, "user"),
     ("POST", r"/api/starter/check", api_check, "admin"),
     ("POST", r"/api/starter/apply", api_apply, "admin"),
 ]

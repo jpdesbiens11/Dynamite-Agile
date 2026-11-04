@@ -18,7 +18,7 @@
   <h1>Getting started with <span class="hl" style="--hlc: var(--c)">Dynamite | Agile</span></h1>
   <p class="lead">A team's path, from the first account to the validated prototype. The complete guide, with an exercise for
     each tool, is inside the tool itself: <b>Help</b> → the tour of the site, and the <b>HEADLAMP</b> sandbox Space.</p>
-  <ul class="toc"><li><a href="#admin">The administrator</a></li><li><a href="#chef">The team lead</a></li>
+  <ul class="toc"><li><a href="#admin">The administrator</a></li><li><a href="#starter">Start with an AI assistant</a></li><li><a href="#chef">The team lead</a></li>
     <li><a href="#membre">Every member</a></li><li><a href="#pdp">The PDP in the tool</a></li><li><a href="#mine">The mine names</a></li>
     <li><a href="#financement">Funded project</a></li></ul>
 
@@ -30,6 +30,20 @@
     <li><b>Approvers</b>Everyone chooses their approver (the instructor, the team lead) in the menu under their name → Paramètres;
       the administrator corrects it if needed (“Feuille de temps…”).</li>
     <li><b>Backups</b>⚙ Admin → Update et sauvegardes: a restore point is taken every day and before every bulk operation.</li>
+  </ol>
+
+  <h2 id="starter" class="reveal" data-new="0.60.18-starter-guide">Start a project with an AI assistant</h2>
+  <p class="reveal">No need to know in advance which requirements, standards or tests fit your product: an AI assistant
+    suggests them in an interview, one question at a time, and gives you a file to import.</p>
+  <ol class="stepper reveal">
+    <li><b>Copy the prompt</b>⚙ Admin → Spaces → Commencer → "Copy the English prompt" (or open
+      <a href="starter.md">starter.md</a> and copy all the text).</li>
+    <li><b>The interview</b>Paste it into a new conversation (Claude.ai, ChatGPT, Gemini, Copilot). About 20 questions,
+      30 to 45 minutes: the product, energy, radio, hazards, market, team, then the needs, requirements, tests and pages it
+      suggests and you correct. "I don't know" is a good answer.</li>
+    <li><b>The file</b>Save the <code>.json</code> file it gives (Notepad → Save as, UTF-8 encoding).</li>
+    <li><b>The import</b>Commencer → drop the file, read the preview, "Create the Space". Standards arrive "To verify":
+      confirm them one by one before approving a requirement.</li>
   </ol>
 
   <h2 id="chef" class="reveal">The team lead: launching the project</h2>

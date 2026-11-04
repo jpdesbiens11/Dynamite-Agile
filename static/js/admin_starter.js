@@ -67,10 +67,39 @@
       el("p", { class: "muted" }, "Un assistant IA (Claude ou un autre) vous pose des questions sur votre produit, votre "
         + "industrie et votre marché, puis vous donne un fichier .json. Ce fichier crée ici un nouveau Space, à côté des "
         + "exemples : l'équipe, les besoins et requirements, les essais, les codes de temps et les premières pages."),
+      promptBox(),
+      el("h3", null, "2. Déposer le fichier"),
       el("div", { class: "form-row", "data-new": "0.60.07-starter" },
         field("Fichier Project Starter (.json)", fileInput, "Rien n'est créé avant votre confirmation."),
         field("Ou essayer avec un exemple", example)),
       out);
+  }
+
+  /* 0.60.18: step 1 spelled out for a beginner -- the prompt is served by the tool itself, so it works offline too. */
+  function promptBox() {
+    async function copy(lang) {
+      try {
+        const data = await api.get("/api/starter/prompt?lang=" + lang);
+        await navigator.clipboard.writeText(data.text);
+        toast("Prompt copié : collez-le dans une nouvelle conversation avec l'assistant IA.", "success");
+      } catch (err) {
+        toast("Copie impossible ici. Correctif : utilisez « Télécharger », puis copiez le texte du fichier.", "error");
+      }
+    }
+    return el("div", { class: "panel starter-prompt", "data-new": "0.60.18-starter-prompt" },
+      el("h3", null, "1. Préparer le fichier avec un assistant IA"),
+      el("ol", null,
+        el("li", null, "Copiez le prompt (bouton ci-dessous)."),
+        el("li", null, "Ouvrez une nouvelle conversation avec Claude.ai, ChatGPT, Gemini ou Copilot, collez le prompt et envoyez-le."),
+        el("li", null, "Répondez aux questions, une à la fois : environ 20, de 30 à 45 minutes. « Je ne sais pas » est une "
+          + "bonne réponse : l'assistant proposera un choix raisonnable. Ne lui donnez jamais de mot de passe."),
+        el("li", null, "Enregistrez le fichier .json qu'il vous donne, puis déposez-le à l'étape 2.")),
+      el("div", { class: "actions" },
+        el("button", { type: "button", class: "btn btn-primary", onclick: () => copy("fr") }, "Copier le prompt"),
+        el("a", { class: "btn", href: "/api/starter/prompt?lang=fr&download=1", download: "" }, "Télécharger (.md)"),
+        el("button", { type: "button", class: "btn", onclick: () => copy("en") }, "Copy the English prompt")),
+      el("p", { class: "muted" }, "Le prompt contient les questions, les règles de l'entrevue et le format exact du fichier, "
+        + "avec les valeurs que l'outil accepte."));
   }
 
   function show(out, node) { clear(out); out.append(node); }
