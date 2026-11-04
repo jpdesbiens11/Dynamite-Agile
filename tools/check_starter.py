@@ -35,6 +35,9 @@ def main(argv):
     print("Fichier accepté : {}".format(info["project"]))
     for key, label in LABELS:
         print("  {:>4} {}".format(info[key], label))
+    d = {k: v for k, v in info.items() if k.startswith("diamond_") and v}
+    if d:  # 0.60.22 (D-O-032)
+        print("  Diamond : " + ", ".join("{} {}".format(v, k[8:]) for k, v in d.items()))
     for line in warnings:
         print("Attention : " + line)
     return 0

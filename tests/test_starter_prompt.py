@@ -17,16 +17,24 @@ class StarterPromptTest(unittest.TestCase):
         for lang in ("fr", "en"):
             text = starter_prompt.render(lang)
             self.assertEqual(re.findall(r"\{\{[A-Z_]+\}\}", text), [], lang)
-            for question in range(1, 21):  # 20 questions, numbered, one per message
+            for question in range(1, 27):  # 26 questions, numbered, one per message
                 self.assertRegex(text, r"\n{}\. \*\*".format(question) if question < 10 else r"\n{}\. ".format(question))
             for value in ("personnel_safety", "Product in Use", "ingress", "verification_method", "dynamite-project-starter"):
                 self.assertIn(value, text, (lang, value))
             self.assertIn("⚙ Admin → Spaces → Commencer", text)
+            for value in ("diamond.flows[]", "project.weeks", "`designed`", "`reduire`", "(Recomm"):  # 0.60.22
+                self.assertIn(value, text, (lang, value))
             self.assertNotIn('"marks": [{', text)  # marks are plain strings in Dynamite
+
+    def test_05_click_first(self):
+        """0.60.22: answers to click (the multiple-choice tool of the interface), free text only twice."""
+        self.assertIn("Ne demandez du texte libre que deux fois", starter_prompt.render("fr"))
+        self.assertIn("Ask for free\n   text only twice", starter_prompt.render("en"))
 
     def test_02_example_is_valid(self):
         clean, _ = starter.parse(json.loads(starter_prompt.example()))
         self.assertEqual(len(clean["requirements"]), 2)
+        self.assertEqual(len(clean["diamond"]["functions"]), 4)
         self.assertEqual(clean["tests"][0]["verifies"], [clean["requirements"][1]["ref"]])
 
     def test_03_values_follow_the_tool(self):

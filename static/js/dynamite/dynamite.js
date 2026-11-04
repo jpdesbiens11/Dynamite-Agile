@@ -45,7 +45,7 @@
     DA.session.projects.map((p) => el("option", { value: p.key, selected: p.key === ctx.key }, p.key + " · " + p.name)));
     return el("aside", { class: "dy-sidebar" },
       el("img", { src: DA.mark("dynamite"), alt: "", class: "dy-mark-img" }),
-      picker,
+      DA.spaces.withStar(picker, ctx.key),
       canEdit(ctx) ? el("a", { class: "btn btn-small dy-new", href: "#/dynamite/" + ctx.key + "/new" }, "+ Nouvelle page") : null,
       el("div", { class: "dy-tree-title" }, "Pages"),
       tree(ctx, activeId), DA.spaces.allLink("dynamite"));  // D-B-098

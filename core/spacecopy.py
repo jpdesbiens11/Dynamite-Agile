@@ -12,6 +12,7 @@ Parts and their tables:
   goldmine     requirements and needs (requirement tickets), agile_requirements, Q&A, Pugh matrices
   testing      the Test Base (testing_tests + history) of a Space, or the reference catalogue (copied lazily, D-B-097)
   exploration  the plan (Gantt)
+  diamond      the functional tree, structure (inputs, outputs, flows, positions), parts, project risks, DFMEA (0.60.21)
   tools        ideation sessions and Kepner-Tregoe (not Generator: its numbers are unique on the whole platform)
   members      the members of a Space and their rights
 When Agile and Goldmine come from two Spaces, Agile's settings are kept and the requirements are matched to them by
@@ -23,9 +24,9 @@ import shutil
 from . import admin, audit, backup, db, modules, permissions, uploads
 from .errors import ApiError
 
-PARTS = ("dynamite", "agile", "goldmine", "testing", "exploration", "tools", "members")
+PARTS = ("dynamite", "agile", "goldmine", "diamond", "testing", "exploration", "tools", "members")
 LABELS = {"dynamite": "Dynamite (wiki)", "agile": "Agile (tickets, Sprints, réglages)", "goldmine": "Goldmine (Requirements, needs, Q&A, Pugh)",
-          "testing": "Testing (Test Base)", "exploration": "Exploration (Gantt)", "tools": "Tools (idéation, Kepner-Tregoe)",
+          "diamond": "Diamond (arbre, structure, pièces, risques, DFMEA)", "testing": "Testing (Test Base)", "exploration": "Exploration (Gantt)", "tools": "Tools (idéation, Kepner-Tregoe)",
           "members": "Membres et droits"}
 INFRA = ("agile_settings", "agile_workflows", "agile_statuses", "agile_transitions", "agile_issue_types", "agile_labels",
          "agile_versions")
@@ -34,6 +35,8 @@ GOLDMINE = ("agile_requirements", "goldmine_qa", "goldmine_qa_events", "goldmine
             "goldmine_pugh_criteria", "goldmine_pugh_scores")
 ATTACHMENT_MODULES = {"dynamite": ("dynamite",), "agile": ("agile",), "goldmine": ("goldmine", "agile_requirement")}
 CATALOGUE = "TESTING"
+DIAMOND = ("diamond_functions", "diamond_ports", "diamond_flows", "diamond_positions", "diamond_parts", "diamond_part_functions",
+           "diamond_risks", "diamond_dfmea")
 
 
 def _tables_of(part, infra):
@@ -45,6 +48,8 @@ def _tables_of(part, infra):
         return (INFRA if infra else ()) + ("agile_issues",) + ISSUE_CHILDREN + GOLDMINE
     if part == "testing":
         return ("testing_tests", "testing_history")
+    if part == "diamond":
+        return DIAMOND
     if part == "exploration":
         return ("exploration_plans", "exploration_tasks", "exploration_counters")
     if part == "tools":
@@ -185,12 +190,12 @@ def summary(conn, parts):
             continue
         rows = plan.get(src["key"], {})
         req = _req_types(conn, src["id"])
-        n = {"dynamite": len(rows.get("dynamite_pages", [])), "testing": len(rows.get("testing_tests", [])),
+        n = {"dynamite": len(rows.get("dynamite_pages", [])), "diamond": len(rows.get("diamond_functions", [])), "testing": len(rows.get("testing_tests", [])),
              "exploration": len(rows.get("exploration_tasks", [])), "tools": len(rows.get("tools_ideation", [])) + len(rows.get("tools_kt", [])),
              "members": len(rows.get("memberships", [])),
              "agile": sum(1 for r in rows.get("agile_issues", []) if r["type_id"] not in req),
              "goldmine": sum(1 for r in rows.get("agile_issues", []) if r["type_id"] in req)}[part]
-        unit = {"dynamite": "page(s)", "testing": "test(s)", "exploration": "tâche(s)", "tools": "session(s)",
+        unit = {"dynamite": "page(s)", "diamond": "fonction(s)", "testing": "test(s)", "exploration": "tâche(s)", "tools": "session(s)",
                 "members": "membre(s)", "agile": "ticket(s)", "goldmine": "Requirement(s) / need(s)"}[part]
         out.append({"part": part, "label": LABELS[part], "source": src["key"], "detail": "{} {}".format(n, unit)})
     return out

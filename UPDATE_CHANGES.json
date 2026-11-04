@@ -2,36 +2,46 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Diamond → Structure fonctionnelle : les pièces sur les fonctions (D-O-031)",
-      "why": "Pièces P-n (conçue, achetée, normalisée) étiquetées sur une ou plusieurs fonctions : leurs codes sur les blocs du schéma, la section « Pièces » du panneau d'une fonction, et la vue « Pièces × fonctions » (une case par lien, totaux par pièce et par fonction, indicateurs, conseils d'architecture). Exemple de la lampe. Migration diamond 5.",
+      "title": "Project Starter : Diamond préliminaire (D-O-032)",
+      "why": "Clé « diamond » du fichier : fonctions de l'arbre, entrées / sorties, flux des deux vues, pièces sur les fonctions, risques projet, premières lignes du DFMEA ; mêmes règles que les écrans de Diamond ; tout arrive en « Brouillon IA ». L'exemple de la lampe reprend l'exemple de Diamond.",
       "files": [
-        "modules/diamond/parts.py",
-        "modules/diamond/example_parts.py",
-        "modules/diamond/__init__.py",
-        "modules/diamond/structure.py",
-        "modules/diamond/example.py",
-        "static/js/diamond/structure_parts.js",
-        "static/js/diamond/structure.js",
-        "static/js/diamond/structure_draw.js",
-        "static/js/diamond/structure_panel.js",
-        "static/css/diamond.css",
-        "core/modules.py",
-        "tests/test_diamond_parts.py"
+        "core/starter_diamond.py",
+        "core/starter.py",
+        "core/starter_apply.py",
+        "static/js/admin_starter.js",
+        "tools/make_starter_diamond_example.py",
+        "tools/check_starter.py",
+        "deploy/starter_exemples/lampe_bureau.json",
+        "tests/test_starter_diamond.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Timesheet : un code hors du Funding Space actuel est montré et bloque la soumission",
-      "why": "Après un changement de Funding Space, la plage gardait l'ancien code mais la liste affichait le premier code du nouveau : choisir ce code ne changeait rien, et la semaine soumise montrait l'ancien. Le code est maintenant affiché « hors du Funding Space », la soumission le refuse en nommant le correctif, et une nouvelle plage ne reprend jamais un ancien code.",
+      "title": "Plan de référence du PDP dans Exploration (D-O-032)",
+      "why": "Les 19 étapes du PDP (codes de Timesheet), les revues en jalons, quatre phases sur la durée du projet (project.weeks, 15 par défaut, à partir de project.start_date), plus d'étapes en parallèle pour une équipe plus grande ; responsables à tour de rôle.",
       "files": [
-        "modules/timesheet/weeks.py",
-        "static/js/timesheet/timesheet.js",
-        "tests/test_timesheet_stale_code.py"
+        "modules/exploration/reference.py",
+        "core/starter.py",
+        "core/starter_apply.py"
       ]
     },
     {
       "id": "C3",
-      "title": "Version 0.60.20 et documentation",
+      "title": "Prompt de départ : 26 questions à cliquer, sept blocs",
+      "why": "Réponses à cliquer (l'outil de questions à choix de l'assistant, menu à toucher dans Claude) : texte libre deux fois seulement, le produit et les noms de l'équipe ; propositions validées par un menu (C'est bon, Plus simple, Plus complet, Refaire). Calendrier (début, durée) et bloc Diamond (arbre, entrées / sorties, flux, pièces, risques et DFMEA) ; format de la clé diamond, valeurs permises et exemple tirés de l'outil.",
+      "files": [
+        "tools/site/starter.md",
+        "tools/site/en/starter.md",
+        "core/starter_prompt.py",
+        "tools/site/guide.html",
+        "tools/site/en/guide.html",
+        "docs/STARTER_FORMAT.md",
+        "tests/test_starter_prompt.py"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Version 0.60.22 et documentation",
       "why": "Décision, état du projet, journal, fiche de version.",
       "files": [
         "core/__init__.py",
@@ -39,7 +49,7 @@
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.20.json",
+        "docs/releases/0.60.22.json",
         "tests/test_open_v060.py"
       ]
     }

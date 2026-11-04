@@ -160,7 +160,7 @@
     }, options(DA.session.projects.map((p) => [p.key, p.key + " · " + p.name]), ctx.key));
     return el("aside", { class: "ag-sidebar ag-shell-" + shell.module },
       el("div", { class: "ag-sidebar-mark" }, shell.mark()),
-      picker,
+      DA.spaces.withStar(picker, ctx.key),
       el("nav", { class: "ag-nav", "aria-label": "Navigation " + shell.title },
         shell.nav.map(([view, label]) => el("a", {
           class: "ag-nav-item" + (view === active ? " active" : ""), href: href(ctx, view),

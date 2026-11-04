@@ -96,6 +96,26 @@ class DiamondPartsTest(unittest.TestCase):
             self.admin.post(self.base(self.own) + "/parts/{}/delete".format(lamp["parts"][0]["id"]), {})
         self.assertEqual(err.exception.status, 404)
 
+    def test_05_copy_keeps_diamond(self):
+        """0.60.21: « Dupliquer / Enregistrer sous » and « Copier / composer » take the whole of Diamond along."""
+        made = self.admin.post("/api/admin/projects/{}/copy".format(self.lamp), {"key": "LAMPC", "name": "Copie lampe"})
+        new = made["project"]["id"]
+        tables = ("diamond_functions", "diamond_ports", "diamond_flows", "diamond_parts", "diamond_part_functions",
+                  "diamond_risks", "diamond_dfmea")
+        with db.connect() as conn:
+            for t in tables:
+                n = lambda pid: conn.execute("SELECT COUNT(*) FROM {} WHERE project_id = ?".format(t), (pid,)).fetchone()[0]  # noqa: E731
+                self.assertEqual(n(new), n(self.lamp), t)
+                self.assertGreater(n(new), 0, t)
+            bad = conn.execute("SELECT COUNT(*) FROM diamond_flows fl JOIN diamond_functions f ON f.id = fl.src_function_id "
+                               "WHERE fl.project_id = ? AND f.project_id != ?", (new, new)).fetchone()[0]
+            self.assertEqual(bad, 0)
+            parents = conn.execute("SELECT COUNT(*) FROM diamond_functions c JOIN diamond_functions p ON p.id = c.parent_id "
+                                   "WHERE c.project_id = ? AND p.project_id = ?", (new, new)).fetchone()[0]
+            self.assertGreater(parents, 10)
+        s = self.admin.get(self.base(new))
+        self.assertEqual(len(s["parts"]), len(self.admin.get(self.base(self.lamp))["parts"]))
+
     def test_04_screen(self):
         js = (BASE_DIR / "static" / "js" / "diamond" / "structure_parts.js").read_text("utf-8")
         for needed in ("0.60.20-parts-matrix", "0.60.20-part-panel", "aria-pressed", "partsByFunction"):

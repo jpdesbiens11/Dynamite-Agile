@@ -523,3 +523,12 @@ input.starter-code { min-width: 6.5rem; max-width: 8rem; font-family: var(--mono
 .dbt-legend-exit { flex-direction: column; gap: 0 !important; }
 .dbt-chip { flex: 0 0 auto; width: .9rem; height: .9rem; border-radius: 50%; background: var(--c); transform: translateY(.1rem); }
 .dbt-foot { max-width: 60rem; justify-content: flex-start; margin: 1.2rem 0 2rem; }
+
+/* 0.60.21: the Space drop-down of a module and its ☆ / ★ (default Space) */
+.sp-picker-row { display: flex; align-items: center; gap: .3rem; margin-bottom: 1rem; }
+.sp-picker-row > select { margin-bottom: 0 !important; }
+.sp-picker-row > select { flex: 1 1 auto; min-width: 0; }
+.sp-star { flex: none; width: 2rem; height: 2rem; padding: 0; border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--surface); color: var(--muted); font-size: 1.1rem; line-height: 1; cursor: pointer; }
+.sp-star:hover, .sp-star:focus-visible { color: var(--ink); border-color: var(--acc, var(--agile)); }
+.sp-star-on { color: var(--warn); border-color: var(--warn); background: color-mix(in srgb, var(--warn) 14%, var(--surface)); }

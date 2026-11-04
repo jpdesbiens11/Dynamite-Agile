@@ -214,8 +214,14 @@ def api_apply(ctx):
     test_ids, placeholder_for = _tests(ctx, pid, clean)
     req_keys = _requirements(ctx, pid, key, clean, test_ids)
     page_ids = _pages(ctx, pid, clean)
+    from . import starter_diamond  # 0.60.22 (D-O-032)
+    made = starter_diamond.apply(ctx.conn, ctx.user["id"], pid, clean["diamond"])
+    from modules.exploration import reference  # 0.60.22: the reference Gantt of the PDP, sized for the team
+    owners = [r["id"] for m in clean["team"] for r in ctx.conn.execute("SELECT id FROM users WHERE username = ?", (m["username"],))]
+    plan_tasks = reference.apply(ctx, pid, reference.parse_start(project["start_date"]), project["weeks"], owners or [ctx.user["id"]])
     counts = {"accounts_created": len(created), "accounts_reused": len(reused), "requirements": len(req_keys),
-              "tests": len(test_ids), "time_codes": len(codes), "pages": len(page_ids)}
+              "tests": len(test_ids), "time_codes": len(codes), "pages": len(page_ids),
+              **{"diamond_" + k: n for k, n in made.items()}, "plan_tasks": plan_tasks}
     audit.log_action(ctx.conn, ctx.user["id"], "starter_applied", "project", pid,
                      dict(counts, key=key, generated_by=clean["generated_by"][:120], task_set=set_key or ""), ctx.ip)
     return {"project": {"id": pid, "key": key, "name": space["name"]}, "accounts": created, "reused": reused,
