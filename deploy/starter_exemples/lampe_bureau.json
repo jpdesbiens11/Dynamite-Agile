@@ -1,0 +1,67 @@
+{
+  "format": "dynamite-project-starter",
+  "format_version": 1,
+  "language": "fr",
+  "generated_by": "Exemple écrit à la main (0.60.05)",
+  "generated_at": "2026-11-04",
+  "project": {
+    "key": "LAMPE",
+    "name": "Lampe de bureau connectée",
+    "description": "Lampe de bureau à DEL à intensité et température de couleur réglables, commandée par un bouton tactile et par une application mobile (Bluetooth Low Energy). Alimentée par un bloc d'alimentation externe 12 V.",
+    "industry": "Produits grand public",
+    "product_type": "Appareil grand public mécatronique avec liaison radio",
+    "markets": ["CA", "US"]
+  },
+  "team": [
+    {"username": "maya", "display_name": "Maya", "study_profile": "Génie mécanique", "title": "Responsable mécanique et boîtier", "role": "manager"},
+    {"username": "samuel", "display_name": "Samuel", "study_profile": "Génie électrique", "title": "Responsable électronique et alimentation"},
+    {"username": "ines", "display_name": "Inès", "study_profile": "Design industriel", "title": "Responsable ergonomie et apparence"},
+    {"username": "theo", "display_name": "Théo", "study_profile": "Génie informatique", "title": "Responsable micrologiciel et application"}
+  ],
+  "requirements": [
+    {"ref": "BES-1", "kind": "need", "stakeholder": "user", "category": "functional", "statement": "L'utilisateur veut régler la lumière sans se lever ni chercher un interrupteur."},
+    {"ref": "BES-2", "kind": "need", "stakeholder": "authority", "category": "regulatory", "statement": "Le produit doit pouvoir être vendu au Canada et aux États-Unis."},
+    {"ref": "REQ-1", "statement": "La lampe doit produire un flux lumineux d'au moins 600 lm à pleine intensité.", "category": "performance", "lifecycle": "operation", "source": "client", "verification_method": "T", "acceptance_criteria": "Flux mesuré ≥ 600 lm en sphère intégrante, après 30 min de stabilisation.", "criticality": "B", "derived_from": ["BES-1"]},
+    {"ref": "REQ-2", "statement": "L'intensité doit être réglable de 5 % à 100 % sans scintillement perceptible.", "category": "functional", "lifecycle": "operation", "source": "client", "verification_method": "T", "acceptance_criteria": "Indice de scintillement < 0,1 sur toute la plage.", "criticality": "B", "derived_from": ["BES-1"]},
+    {"ref": "REQ-3", "statement": "Le produit doit satisfaire aux exigences de sécurité des équipements audio/vidéo, TI et de communication.", "category": "safety", "source": "standard", "standard": "CSA C22.2 No. 62368-1 / UL 62368-1", "verification_method": "T", "criticality": "A", "derived_from": ["BES-2"]},
+    {"ref": "REQ-4", "statement": "Les émissions conduites et rayonnées doivent respecter les limites de classe B.", "category": "regulatory", "source": "standard", "standard": "ICES-003 ; FCC Part 15 Subpart B", "verification_method": "T", "criticality": "A", "derived_from": ["BES-2"]},
+    {"ref": "REQ-5", "statement": "L'émetteur radio doit être conforme aux règles d'homologation des appareils à faible puissance.", "category": "regulatory", "source": "standard", "standard": "ISED RSS-247 ; FCC Part 15 Subpart C", "verification_method": "T", "criticality": "A", "derived_from": ["BES-2"]},
+    {"ref": "REQ-6", "statement": "La lampe doit survivre à une chute de 0,75 m sur un plancher de bois franc, sans danger ni perte de fonction.", "category": "environmental", "lifecycle": "operation", "source": "internal", "verification_method": "T", "acceptance_criteria": "6 chutes, une par face ; aucune pièce sous tension accessible, lampe fonctionnelle.", "criticality": "C"}
+  ],
+  "tests": [
+    {"ref": "ESSAI-1", "title": "Flux lumineux et efficacité", "category": "industry", "level": "Product", "method": "T", "objective": "Mesurer le flux et la puissance absorbée à 100 %.", "acceptance": "≥ 600 lm.", "means": "Sphère intégrante, wattmètre.", "verifies": ["REQ-1"]},
+    {"ref": "ESSAI-2", "title": "Scintillement sur la plage de gradation", "category": "industry", "level": "Product", "method": "T", "objective": "Mesurer l'indice de scintillement de 5 % à 100 %.", "acceptance": "< 0,1.", "means": "Photodiode rapide et oscilloscope.", "verifies": ["REQ-2"]},
+    {"ref": "ESSAI-3", "title": "Évaluation de sécurité", "category": "standard", "standard": "CSA C22.2 No. 62368-1 / UL 62368-1", "level": "Product", "method": "T", "objective": "Classer les sources d'énergie et vérifier les protections.", "verifies": ["REQ-3"]},
+    {"ref": "ESSAI-4", "title": "Émissions conduites et rayonnées", "category": "standard", "standard": "ICES-003 ; FCC Part 15 Subpart B", "level": "Product", "method": "T", "verifies": ["REQ-4"]},
+    {"ref": "ESSAI-5", "title": "Homologation radio", "category": "standard", "standard": "ISED RSS-247 ; FCC Part 15 Subpart C", "level": "Product", "method": "T", "verifies": ["REQ-5"]},
+    {"ref": "ESSAI-6", "title": "Chute libre", "category": "custom", "level": "Product in Use", "method": "T", "objective": "Six chutes de 0,75 m, une par face.", "verifies": ["REQ-6"]}
+  ],
+  "time_codes": [
+    {"key": "LA", "label": "Pré-étude et besoins", "codes": [
+      {"key": "LA-MAR", "label": "Étude de marché et lampes de référence"},
+      {"key": "LA-BES", "label": "Besoins des utilisateurs et CdCF"}]},
+    {"key": "LB", "label": "Concepts", "codes": [
+      {"key": "LB-OPT", "label": "Optique et dissipation thermique"},
+      {"key": "LB-ELE", "label": "Pilote DEL et alimentation"},
+      {"key": "LB-APP", "label": "Application mobile et micrologiciel"}]},
+    {"key": "LC", "label": "Prototype et essais", "codes": [
+      {"key": "LC-FAB", "label": "Fabrication du prototype"},
+      {"key": "LC-ESA", "label": "Essais de performance et pré-conformité"}]}
+  ],
+  "pages": [
+    {"ref": "P-ACC", "title": "Lampe de bureau connectée", "parent": null, "body": {"type": "doc", "content": [
+      {"type": "paragraph", "content": [{"type": "text", "text": "Page d'accueil du projet : objectif, équipe et liens vers les livrables."}]},
+      {"type": "children"}]}},
+    {"ref": "P-MIP", "title": "Mémoire d'identification de projet (MIP)", "parent": "P-ACC", "body": {"type": "doc", "content": [
+      {"type": "heading", "level": 2, "content": [{"type": "text", "text": "Contexte"}]},
+      {"type": "paragraph", "content": [{"type": "text", "text": "Les lampes de bureau courantes n'offrent pas de réglage fin de la température de couleur."}]},
+      {"type": "heading", "level": 2, "content": [{"type": "text", "text": "Objectifs"}]},
+      {"type": "bullet_list", "items": [
+        [{"type": "paragraph", "content": [{"type": "text", "text": "Lumière réglable de 2700 K à 6500 K."}]}],
+        [{"type": "paragraph", "content": [{"type": "text", "text": "Prototype fonctionnel à la fin de la session."}]}]]}]}},
+    {"ref": "P-CDCF", "title": "Cahier des charges fonctionnel (CdCF)", "parent": "P-ACC", "body": {"type": "doc", "content": [
+      {"type": "table", "header": true, "rows": [
+        [[{"type": "text", "text": "Fonction"}], [{"type": "text", "text": "Spécification"}], [{"type": "text", "text": "Niveau"}], [{"type": "text", "text": "Flexibilité"}]],
+        [[{"type": "text", "text": "Éclairer la surface de travail"}], [{"type": "text", "text": "Flux lumineux"}], [{"type": "text", "text": "600 lm"}], [{"type": "text", "text": "Min."}]]]}]}}
+  ]
+}

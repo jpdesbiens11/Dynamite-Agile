@@ -19,6 +19,7 @@
   `deploy/install.sh` en une commande (`curl … | sudo bash -s -- domaine courriel`, ou `--essai`). D-O-016.
 - **0.60.04** (2026-11-04) : FR / EN étape 1 (D-O-017) : site web en anglais (`tools/site/en/` → `site/en/`, textes
   partagés dans `tools/site_text.py`, bouton FR | EN), `installer.md` anglais, `install.sh` en anglais avec `DA_LANG=en`.
+- **0.60.05** (2026-11-04) : format Project Starter (D-O-019) : fichier JSON préparé avec un assistant IA, validé par `core/starter.py` (`tools/check_starter.py`, `docs/STARTER_FORMAT.md`, exemples `deploy/starter_exemples/`) ; l'écran « Commencer » suit en 0.60.06.
 - **Modules** : Dynamite (wiki), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

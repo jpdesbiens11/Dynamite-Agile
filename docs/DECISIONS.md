@@ -143,3 +143,20 @@ Help, de HEADLAMP, des tests Training, des exemples et des exports Word.
 **Décision :** la règle A / B à tour de rôle ne s'applique plus : un seul compte (Max), un seul projet Claude, un chantier
 à la fois. `docs/FONDATIONS.md` §11 est simplifié ; `ETAT_PROJET.md` garde son bloc « Relais » pour reprendre d'une
 conversation à l'autre, sans champ « Session active ».
+
+### D-O-019 — Démarrer un projet avec un assistant IA : le fichier Project Starter (2026-11-04, demande de JP)
+**Contexte :** un débutant installe l'outil, puis se retrouve devant des modules vides ; il ne sait pas quels requis,
+quelles normes, quels essais ni quels codes de temps conviennent à son industrie et à son marché.
+**Décision :** un prompt public `site/starter.md`, à coller dans Claude.ai, Claude Code ou un autre assistant, pose ses
+questions une à la fois, avec des choix de réponse, et produit un fichier JSON `dynamite-project-starter` (version 1,
+`docs/STARTER_FORMAT.md`). Le bouton « Commencer », mis en évidence dans l'outil, le lit et crée un **nouveau Space à
+côté des exemples** (rien n'est supprimé ni écrasé). Choix de JP, une question à la fois : (1) texte à coller plutôt
+qu'un skill ; (2) nouveau Space à côté des exemples ; (3) comptes de l'équipe créés à l'approbation, mot de passe
+temporaire affiché une fois, jamais administrateur, nom existant réutilisé tel quel ; (4) normes et essais générés
+librement par l'IA, tous « À vérifier » — un requis ne passe à « Approuvé » qu'après confirmation de sa norme (édition,
+date) par une personne ; (5) codes de temps générés par l'IA, deux niveaux, 40 au plus, modifiables dans l'aperçu ;
+(6) pages Dynamite libres, 30 au plus, deux niveaux, texte et blocs seulement, marquées « Brouillon IA » ;
+(7) livraison en pull request sur `jpdesbiens11/Dynamite-Agile`. Le fichier n'est pas scellé : `core/starter.py` vérifie
+tout et retire au fichier ce qu'une personne seule décide. Itérations : 0.60.05 le format, le validateur,
+`tools/check_starter.py` et trois exemples ; 0.60.06 l'écran « Commencer » (aperçu, création en une transaction,
+audit) ; 0.60.07 le prompt FR / EN et sa page.

@@ -1,0 +1,53 @@
+{
+  "format": "dynamite-project-starter",
+  "format_version": 1,
+  "language": "fr",
+  "generated_by": "Exemple écrit à la main (0.60.05)",
+  "generated_at": "2026-11-04",
+  "project": {
+    "key": "TENSIO",
+    "name": "Tensiomètre de poignet",
+    "description": "Tensiomètre automatique de poignet pour usage à domicile, avec mémoire de 60 mesures et transfert vers une application. Projet d'étude : le prototype n'est pas destiné à un usage clinique.",
+    "industry": "Dispositifs médicaux",
+    "product_type": "Appareil électromédical à domicile, alimenté par piles",
+    "markets": ["CA", "US", "EU"]
+  },
+  "team": [
+    {"username": "chloe", "display_name": "Chloé", "study_profile": "Génie biomédical", "title": "Responsable mesure et validation", "role": "manager"},
+    {"username": "karim", "display_name": "Karim", "study_profile": "Génie électrique", "title": "Responsable électronique"},
+    {"username": "jade", "display_name": "Jade", "study_profile": "Génie mécanique", "title": "Responsable brassard et pompe"}
+  ],
+  "requirements": [
+    {"ref": "BES-1", "kind": "need", "stakeholder": "user", "statement": "La personne veut suivre sa pression artérielle chez elle, seule, sans aide."},
+    {"ref": "BES-2", "kind": "need", "stakeholder": "authority", "category": "regulatory", "statement": "Un appareil électromédical doit démontrer sa sécurité et sa performance avant sa mise en marché."},
+    {"ref": "REQ-1", "statement": "L'écart moyen entre l'appareil et la méthode de référence doit être d'au plus ±5 mmHg, avec un écart type d'au plus 8 mmHg.", "category": "performance", "source": "standard", "standard": "ISO 81060-2", "verification_method": "T", "criticality": "A", "derived_from": ["BES-1", "BES-2"]},
+    {"ref": "REQ-2", "statement": "L'appareil doit satisfaire aux exigences générales de sécurité de base et de performance essentielle.", "category": "safety", "source": "standard", "standard": "IEC 60601-1", "verification_method": "T", "criticality": "A", "derived_from": ["BES-2"]},
+    {"ref": "REQ-3", "statement": "Le dispositif doit être conçu pour l'environnement des soins à domicile.", "category": "environmental", "source": "standard", "standard": "IEC 60601-1-11", "verification_method": "A", "criticality": "B", "derived_from": ["BES-2"]},
+    {"ref": "REQ-4", "statement": "Un dossier de gestion des risques doit couvrir tout le cycle de vie du dispositif.", "category": "safety", "source": "standard", "standard": "ISO 14971", "verification_method": "I", "criticality": "A", "derived_from": ["BES-2"]},
+    {"ref": "REQ-5", "statement": "La pression du brassard ne doit jamais dépasser 300 mmHg, même en cas de défaillance du capteur.", "category": "personnel_safety", "source": "derived", "verification_method": "T", "acceptance_criteria": "Coupure de la pompe et ouverture de la valve en moins de 1 s au-delà de 300 mmHg.", "criticality": "A", "derived_from": ["REQ-2"]}
+  ],
+  "tests": [
+    {"ref": "ESSAI-1", "title": "Exactitude clinique (protocole d'étude simplifié)", "category": "standard", "standard": "ISO 81060-2", "level": "Product in Use", "method": "T", "verifies": ["REQ-1"]},
+    {"ref": "ESSAI-2", "title": "Sécurité électrique et mécanique", "category": "standard", "standard": "IEC 60601-1", "level": "Product", "method": "T", "verifies": ["REQ-2"]},
+    {"ref": "ESSAI-3", "title": "Revue de l'usage à domicile", "category": "standard", "standard": "IEC 60601-1-11", "level": "Product", "method": "A", "verifies": ["REQ-3"]},
+    {"ref": "ESSAI-4", "title": "Revue du dossier de gestion des risques", "category": "standard", "standard": "ISO 14971", "level": "Product", "method": "I", "verifies": ["REQ-4"]},
+    {"ref": "ESSAI-5", "title": "Surpression simulée du brassard", "category": "custom", "level": "Subsystem", "method": "T", "objective": "Simuler un capteur bloqué et mesurer le temps de coupure.", "acceptance": "< 1 s au-delà de 300 mmHg.", "verifies": ["REQ-5"]}
+  ],
+  "time_codes": [
+    {"key": "TA", "label": "Pré-étude et cadre réglementaire", "codes": [
+      {"key": "TA-REG", "label": "Normes et classification du dispositif"},
+      {"key": "TA-RIS", "label": "Gestion des risques"}]},
+    {"key": "TB", "label": "Conception", "codes": [
+      {"key": "TB-MES", "label": "Chaîne de mesure et algorithme"},
+      {"key": "TB-PNE", "label": "Pompe, valve et brassard"}]},
+    {"key": "TC", "label": "Validation", "codes": [
+      {"key": "TC-ESA", "label": "Essais de sécurité et d'exactitude"}]}
+  ],
+  "pages": [
+    {"ref": "P-ACC", "title": "Tensiomètre de poignet", "parent": null, "body": {"type": "doc", "content": [
+      {"type": "panel", "kind": "warning", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "Projet d'étude : aucune mesure du prototype ne doit servir à une décision médicale."}]}]},
+      {"type": "children"}]}},
+    {"ref": "P-RIS", "title": "Plan de gestion des risques", "parent": "P-ACC", "body": {"type": "doc", "content": [
+      {"type": "paragraph", "content": [{"type": "text", "text": "Dangers identifiés, estimation, mesures de maîtrise et risque résiduel, mis à jour à chaque phase."}]}]}}
+  ]
+}
