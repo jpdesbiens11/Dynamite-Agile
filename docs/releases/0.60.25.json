@@ -1,0 +1,43 @@
+{
+  "version": "0.60.25",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Sur un téléphone : barre du haut compacte avec un menu ☰ qui glisse de la gauche, une seule colonne, tableaux qui défilent dans leur cadre, texte un peu plus petit, cibles tactiles de 44 px.",
+    "en": "On a phone: a compact top bar with a ☰ menu sliding from the left, one column, tables scrolling in their own box, slightly smaller text, 44 px touch targets."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Téléphones : barre compacte et menu tiroir (D-O-034)",
+      "why": "Sous 760 px (un Galaxy S25 fait 384 px), la barre garde le logo, ☰ et le compte ; les onglets, la recherche, Help et ⚙ Admin passent dans un tiroir vertical à gauche, qui se ferme au choix, sur le fond, avec Échap ou à la page suivante. La page ne déborde plus (896 px avant, 384 px maintenant).",
+      "files": [
+        "static/js/tools/mobile.js",
+        "static/css/mobile.css",
+        "static/index.html",
+        "tests/test_mobile.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Téléphones : une colonne, tableaux, textes et cibles",
+      "why": "Le panneau de gauche d'un module passe au-dessus du contenu (liste des Spaces, ☆, navigation qui défile) ; les tableaux larges défilent dans leur cadre ; texte de base 14 px ; boutons et champs de 40 à 44 px ; dialogues pleine largeur ; page de connexion avec le formulaire d'abord.",
+      "files": [
+        "static/css/mobile.css"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Version 0.60.25 et documentation",
+      "why": "Décision, état du projet, journal, fiche de version.",
+      "files": [
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.25.json",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}

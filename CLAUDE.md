@@ -58,6 +58,8 @@
   panneau d'un sous-système avec les pièces de ses tertiaires.
 - **0.60.24** (2026-11-04) : DFMEA → **essai clé de la Test Base** dans Detection Controls (D-O-033, `diamond_dfmea.test_id`, migration diamond 6) ;
   Project Starter `dfmea[].test`.
+- **0.60.25** (2026-11-04) : **téléphones** (D-O-034, `static/js/tools/mobile.js`, `static/css/mobile.css`) : barre compacte et menu tiroir ☰,
+  une colonne, tableaux défilants, cibles de 44 px.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

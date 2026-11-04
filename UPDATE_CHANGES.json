@@ -2,37 +2,26 @@
   "changes": [
     {
       "id": "C1",
-      "title": "DFMEA → Detection Controls : l'essai clé de la Test Base (D-O-033)",
-      "why": "Une liste des essais (la Test Base du Space, puis le catalogue TESTING) en tête de la cellule : un seul essai clé par ligne, même si plusieurs pourraient démontrer la défaillance ; ✕ pour le retirer, « Ouvrir » vers la Test Base ; les contrôles en mots restent dessous. Dupliquer une ligne garde l'essai ; l'export CSV a une colonne « Essai clé ». Migration diamond 6.",
+      "title": "Téléphones : barre compacte et menu tiroir (D-O-034)",
+      "why": "Sous 760 px (un Galaxy S25 fait 384 px), la barre garde le logo, ☰ et le compte ; les onglets, la recherche, Help et ⚙ Admin passent dans un tiroir vertical à gauche, qui se ferme au choix, sur le fond, avec Échap ou à la page suivante. La page ne déborde plus (896 px avant, 384 px maintenant).",
       "files": [
-        "modules/diamond/__init__.py",
-        "modules/diamond/dfmea.py",
-        "static/js/diamond/dfmea_table.js",
-        "static/js/diamond/dfmea.js",
-        "static/css/diamond_dfmea.css",
-        "tests/test_diamond_dfmea.py"
+        "static/js/tools/mobile.js",
+        "static/css/mobile.css",
+        "static/index.html",
+        "tests/test_mobile.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Project Starter : l'essai clé de chaque ligne du DFMEA",
-      "why": "Champ dfmea[].test (la ref d'un essai du fichier), relié à l'essai créé dans la Test Base ; le prompt propose un seul essai clé par ligne ; l'exemple de la lampe en nomme six.",
+      "title": "Téléphones : une colonne, tableaux, textes et cibles",
+      "why": "Le panneau de gauche d'un module passe au-dessus du contenu (liste des Spaces, ☆, navigation qui défile) ; les tableaux larges défilent dans leur cadre ; texte de base 14 px ; boutons et champs de 40 à 44 px ; dialogues pleine largeur ; page de connexion avec le formulaire d'abord.",
       "files": [
-        "core/starter_diamond.py",
-        "core/starter.py",
-        "core/starter_apply.py",
-        "core/starter_prompt.py",
-        "tools/make_starter_diamond_example.py",
-        "deploy/starter_exemples/lampe_bureau.json",
-        "tools/site/starter.md",
-        "tools/site/en/starter.md",
-        "tests/test_starter_diamond.py",
-        "tests/test_starter_apply.py"
+        "static/css/mobile.css"
       ]
     },
     {
       "id": "C3",
-      "title": "Version 0.60.24 et documentation",
+      "title": "Version 0.60.25 et documentation",
       "why": "Décision, état du projet, journal, fiche de version.",
       "files": [
         "core/__init__.py",
@@ -40,7 +29,7 @@
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.24.json",
+        "docs/releases/0.60.25.json",
         "tests/test_open_v060.py"
       ]
     }
