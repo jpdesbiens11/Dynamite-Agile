@@ -66,6 +66,8 @@ class StarterDiamondTest(unittest.TestCase):
         rows = d.get("rows") or d.get("items") or []
         self.assertEqual(len(rows), 7)
         self.assertTrue(all(r["function_id"] for r in rows))
+        self.assertEqual(sum(1 for r in rows if r["test_id"]), 6)  # 0.60.24: the key tests of the file
+        self.assertTrue(all(r["test_space"] == "LAMPE" for r in rows if r["test_id"]))
         with db.connect() as conn:
             note = conn.execute("SELECT notes FROM diamond_functions WHERE project_id = ? AND number = 2", (self.pid,)).fetchone()["notes"]
         self.assertIn("Brouillon IA", note)
@@ -98,6 +100,9 @@ class StarterDiamondTest(unittest.TestCase):
         bad = copy.deepcopy(LAMPE)
         bad["diamond"]["dfmea"][0]["severity"] = 11
         self.assertIn("de 1 à 10", refused(bad))
+        bad = copy.deepcopy(LAMPE)
+        bad["diamond"]["dfmea"][0]["test"] = "ESSAI-99"
+        self.assertIn("diamond.dfmea[0].test", refused(bad))
         bad = copy.deepcopy(LAMPE)
         bad["diamond"]["functions"] = []
         self.assertIn("sans arbre fonctionnel", refused(bad))

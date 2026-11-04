@@ -13,6 +13,8 @@ sys.path.insert(0, str(BASE))
 from modules.diamond import example, example_dfmea, example_parts, example_risks, example_structure  # noqa: E402
 
 TARGET = BASE / "deploy" / "starter_exemples" / "lampe_bureau.json"
+KEY_TESTS = {"Chaleur mal dissipée": "ESSAI-3", "Contact thermique insuffisant": "ESSAI-3", "Scintillement à faible intensité": "ESSAI-2",
+             "Commande perdue": "ESSAI-5", "Surface trop chaude": "ESSAI-3", "La lampe bascule": "ESSAI-6"}
 
 
 def build():
@@ -51,6 +53,9 @@ def build():
               "failure_mode": mode, "effect": effect, "severity": s, "cause": cause, "prevention": prev, "occurrence": o,
               "detection_ctrl": det, "detection": d, "action": action}
              for focus, lower, ftext, req, mode, effect, s, cause, prev, o, det, d, action, _risk in example_dfmea.LAMP]
+    for row in dfmea:  # 0.60.24 (D-O-033): the key test of the lamp's tests that detects the failure
+        if row["failure_mode"] in KEY_TESTS:
+            row["test"] = KEY_TESTS[row["failure_mode"]]
     return {"functions": functions, "ports": ports, "flows": flows, "parts": parts, "risks": risks, "dfmea": dfmea}
 
 

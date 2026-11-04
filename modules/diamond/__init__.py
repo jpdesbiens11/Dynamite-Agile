@@ -162,6 +162,10 @@ MIGRATIONS = [
         CREATE INDEX idx_diamond_parts_project ON diamond_parts(project_id);
         CREATE INDEX idx_diamond_part_functions_project ON diamond_part_functions(project_id);
     """),
+    (6, """
+        -- 0.60.24 (D-O-033): the key test of the Test Base that detects the failure, in « Detection Controls »
+        ALTER TABLE diamond_dfmea ADD COLUMN test_id INTEGER REFERENCES testing_tests(id) ON DELETE SET NULL;
+    """),
 ]
 
 P = r"/api/diamond/p/(?P<pid>\d+)"

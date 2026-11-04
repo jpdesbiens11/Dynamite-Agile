@@ -30,7 +30,7 @@
 
   async function view(page, ctx) {
     const base = D.base(ctx) + "/dfmea";
-    const state = { data: await api.get(base), visible: loadVisible(), ap: "", focus: null };
+    const state = { key: ctx.key, data: await api.get(base), visible: loadVisible(), ap: "", focus: null };
     const holder = el("div", { class: "dm-page" });
     page.append(holder);
     const redraw = () => D.later(() => draw(holder, ctx, state, api_));
@@ -49,6 +49,7 @@
         try {
           state.data = await api.patch(base + "/rows/" + id, body);
           const row = state.data.rows.find((r) => r.id === id);
+          if (key === "test_id") { redraw(); return; }  // 0.60.24: the cell shows the test chosen and its link
           if (row) D.dfmeaRefreshRow(holder, row, state.data.labels.ap);
           drawChecks(holder, state);
         } catch (err) { toast(err.message, "error"); }

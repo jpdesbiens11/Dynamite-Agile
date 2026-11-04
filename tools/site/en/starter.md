@@ -148,7 +148,8 @@ Show each proposal as a table or an indented list, and have it corrected.
     functions that need several parts (ways to simplify).
 24. **Risks and DFMEA**: 5 to 10 **project risks** (title, cause, consequence, category, phase A to D, probability and
     impact from 1 to 5, response, action), then 4 to 8 first **DFMEA** rows on the most critical functions (element,
-    function, failure mode, effect and severity S, cause and occurrence O, controls and detection D, from 1 to 10).
+    function, failure mode, effect and severity S, cause and occurrence O, controls and detection D, from 1 to 10); for each row, suggest **a single key test** from the list of tests (question 18)
+    that detects the failure, even if several could.
 
 Recap block 5: number of functions by level, of inputs, outputs, flows by view, parts, risks and DFMEA rows.
 
@@ -210,7 +211,7 @@ Top-level keys, in this order: `format` (`"dynamite-project-starter"`), `format_
 | `diamond.flows[]` (200 at most) | **`view`** (`general`: between secondary functions; `detail`: between tertiary functions, without the technique ones, and the secondaries that have no tertiary), `kind`, `label`, **`src`**, **`dst`** (refs of a function or of an input / output; a flow leaves an input or a function and reaches a function or an output) |
 | `diamond.parts[]` (80 at most) | **`name`**, `kind` (default `designed`), `notes`, `functions` (refs of secondary or tertiary functions) |
 | `diamond.risks[]` (60 at most) | **`title`**, **`probability`** and **`impact`** (integers 1 to 5), `cause`, `consequence`, `category`, `phase`, `response`, `action`, `function` (ref) |
-| `diamond.dfmea[]` (120 at most) | `higher`, `focus`, `lower`, `function` (ref), `requirement`, **`failure_mode`**, `effect`, `severity`, `cause`, `prevention`, `occurrence`, `detection_ctrl`, `detection` (S, O, D: integers 1 to 10), `action` |
+| `diamond.dfmea[]` (120 at most) | `higher`, `focus`, `lower`, `function` (ref), `requirement`, **`failure_mode`**, `effect`, `severity`, `cause`, `prevention`, `occurrence`, `detection_ctrl`, `test` (the ref of the **key test** that detects the failure, one per row, taken from `tests`), `detection` (S, O, D: integers 1 to 10), `action` |
 
 Mind the similar names: a requirement has `clause` and `acceptance_criteria`; a test has `section` and `acceptance`.
 

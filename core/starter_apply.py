@@ -215,7 +215,9 @@ def api_apply(ctx):
     req_keys = _requirements(ctx, pid, key, clean, test_ids)
     page_ids = _pages(ctx, pid, clean)
     from . import starter_diamond  # 0.60.22 (D-O-032)
-    made = starter_diamond.apply(ctx.conn, ctx.user["id"], pid, clean["diamond"])
+    rows = {r["test_id"]: r["id"] for r in ctx.conn.execute("SELECT id, test_id FROM testing_tests WHERE project_id = ?", (pid,))}
+    made = starter_diamond.apply(ctx.conn, ctx.user["id"], pid, clean["diamond"],
+                                 {ref: rows.get(code) for ref, code in test_ids.items()})  # ref -> row id of the test
     from modules.exploration import reference  # 0.60.22: the reference Gantt of the PDP, sized for the team
     owners = [r["id"] for m in clean["team"] for r in ctx.conn.execute("SELECT id FROM users WHERE username = ?", (m["username"],))]
     plan_tasks = reference.apply(ctx, pid, reference.parse_start(project["start_date"]), project["weeks"], owners or [ctx.user["id"]])

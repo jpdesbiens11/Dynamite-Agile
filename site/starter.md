@@ -153,7 +153,8 @@ marqué « Brouillon IA ». Montrez chaque proposition en tableau ou en liste in
 24. **Les risques et le DFMEA** : 5 à 10 **risques projet** (titre, cause, conséquence, catégorie, phase A à D,
     probabilité et impact de 1 à 5, stratégie, action), puis 4 à 8 premières lignes de **DFMEA** sur les fonctions les
     plus critiques (élément, fonction, mode de défaillance, effet et sévérité S, cause et occurrence O, contrôles et
-    détection D, de 1 à 10).
+    détection D, de 1 à 10) ; pour chaque ligne, proposez **un seul essai clé** de la liste des essais (question 18) qui détecte
+    la défaillance, même si plusieurs le pourraient.
 
 Récapitulez le bloc 5 : nombre de fonctions par niveau, d'entrées, de sorties, de flux par vue, de pièces, de risques et
 de lignes de DFMEA.
@@ -217,7 +218,7 @@ Clés de premier niveau, dans cet ordre : `format` (`"dynamite-project-starter"`
 | `diamond.flows[]` (200 au plus) | **`view`** (`general` : entre fonctions secondaires ; `detail` : entre fonctions tertiaires, sans les techniques, et les secondaires qui n'ont pas de tertiaire), `kind`, `label`, **`src`**, **`dst`** (refs de fonction ou d'entrée / sortie ; un flux part d'une entrée ou d'une fonction et arrive à une fonction ou à une sortie) |
 | `diamond.parts[]` (80 au plus) | **`name`**, `kind` (défaut `designed`), `notes`, `functions` (refs de fonctions secondaires ou tertiaires) |
 | `diamond.risks[]` (60 au plus) | **`title`**, **`probability`** et **`impact`** (entiers 1 à 5), `cause`, `consequence`, `category`, `phase`, `response`, `action`, `function` (ref) |
-| `diamond.dfmea[]` (120 au plus) | `higher`, `focus`, `lower`, `function` (ref), `requirement`, **`failure_mode`**, `effect`, `severity`, `cause`, `prevention`, `occurrence`, `detection_ctrl`, `detection` (S, O, D : entiers 1 à 10), `action` |
+| `diamond.dfmea[]` (120 au plus) | `higher`, `focus`, `lower`, `function` (ref), `requirement`, **`failure_mode`**, `effect`, `severity`, `cause`, `prevention`, `occurrence`, `detection_ctrl`, `test` (la ref de l'**essai clé** qui détecte la défaillance, un seul par ligne, pris dans `tests`), `detection` (S, O, D : entiers 1 à 10), `action` |
 
 Attention aux noms voisins : un requis a `clause` et `acceptance_criteria` ; un essai a `section` et `acceptance`.
 
