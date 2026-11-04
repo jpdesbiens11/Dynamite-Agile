@@ -96,7 +96,7 @@
       methods,
       acceptance_criteria: area("acceptance_criteria", 2, 2000, "Mesurable : ex. surface accessible ≤ 45 °C après 30 min"),
       allocation: text("allocation", 120, "ex. Sous-système de chauffage"),
-      verification_ref: text("verification_ref", 200, "ex. RVE-012 rév. A (test X)"),
+      verification_ref: text("verification_ref", 200, "ex. VVR-012 rév. A (test X)"),
       revision: text("revision", 10, "A"),
       received_at: el("input", { type: "date", value: v.received_at || "" }),
     };

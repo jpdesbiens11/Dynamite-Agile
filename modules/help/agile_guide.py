@@ -111,7 +111,7 @@ def body(ids):
         _h(2, "6. Pour et contre"),
         _table(["Pour", "Contre"],
                ["Des résultats visibles toutes les 1 à 3 semaines", "Demande de la discipline : Daily, Review et Retrospective à chaque Sprint"],
-               ["Les priorités s'ajustent souvent, sans tout replanifier", "Peu adapté seul aux jalons fixes d'un cours (remises du MIP, RCS, RC, RVE : à combiner avec Exploration)"],
+               ["Les priorités s'ajustent souvent, sans tout replanifier", "Peu adapté seul aux jalons fixes d'un cours (revues de fin de phase : à combiner avec Exploration)"],
                ["Chacun voit qui fait quoi (Board)", "Estimer en points s'apprend : les premiers Sprints sont souvent mal dosés"],
                ["La traçabilité est gardée (liens vers Goldmine, historique)", "Un Backlog non tenu à jour devient vite une liste inutile"]),
         _h(2, "7. Limites de l'outil"),
@@ -129,7 +129,7 @@ def body(ids):
         _ul("« Combien de temps dure un Sprint ? » 2 semaines est un bon départ ; gardez la même durée d'un Sprint à l'autre.",
             "« Faut-il estimer en heures ? » Non : en Story Points relatifs (1, 2, 3, 5, 8). Comparez à un ticket de référence.",
             "« Qui décide de l'ordre du Backlog ? » Le Product Owner, avec l'équipe.",
-            "« Et les remises du cours ? » Un Epic par livrable du PDP (MIP, RCS, RC, RVE) ; ses Stories et Tasks dans les "
+            "« Et les remises du cours ? » Un Epic par boucle du PDP (MVP 0 à 3, jusqu'à sa revue : Lean Canvas, Concept Review, PDR / CDR, Validation Report) ; ses Stories et Tasks dans les "
             "Sprints, et la date de remise dans Exploration.",
             "« Où parler d'un ticket ? » Dans ses commentaires, avec @identifiant : la discussion reste au bon endroit.",
             "« Comment voir mon travail ? » Le Dashboard, et « Mes éléments » dans la barre du haut."),

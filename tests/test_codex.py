@@ -39,21 +39,24 @@ class CatalogTest(unittest.TestCase):
         made = catalog.names("CDCF", 46290, 50000, "11", "03", "CHAUF", 2, "CdCF: pistolet / v2?")
         self.assertEqual(made["reference"], "CDCF-46290-50000")
         self.assertEqual(made["file_name"], "CDCF-46290-50000_2_CHAUF CdCF- pistolet - v2-")
-        self.assertEqual(made["svn_path"], "Documents/02_Etude-conceptuelle/11-03_CHAUF/")
+        self.assertEqual(made["svn_path"], "Documents/02_Concept/11-03_CHAUF/")
         plain = catalog.names("PRO", 46290, 7, "09", "00", "", 1, "")
         self.assertEqual(plain["file_name"], "PRO-46290-00007_1")
-        self.assertEqual(plain["svn_path"], "Documents/06_Rapports/09-00_FCT/")
-        same = catalog.names("MIP", 46290, 7, "06", "00", "RSK", 1, "")
-        self.assertEqual(same["svn_path"], "Documents/01_Pre-etude/06-00_RSK/")
+        self.assertEqual(plain["svn_path"], "Documents/07_Rapports/09-00_FCT/")
+        same = catalog.names("LCV", 46290, 7, "06", "00", "RSK", 1, "")
+        self.assertEqual(same["svn_path"], "Documents/01_Discovery/06-00_RSK/")
+        old = catalog.names("MIP", 46290, 7, "06", "00", "RSK", 1, "")  # 0.60.09: a retired code keeps its folder
+        self.assertEqual(old["svn_path"], "Documents/01_Pre-etude/06-00_RSK/")
 
     def test_catalog_complete(self):
         """0.60.01: the deliverables of the product development process, filed by step of the PDP."""
-        self.assertEqual(len(catalog.DOC_TYPES), 34)
-        for code in ("MIP", "RCS", "CDCF", "RC", "RVE"):
+        self.assertEqual(len(catalog.DOC_TYPES), 37)
+        for code in ("LCV", "CRV", "CDCF", "PDR", "CDR", "VVR", "MVP", "BML"):  # 0.60.09 (D-O-021)
             self.assertIn(code, catalog.DOC_TYPES)
         self.assertEqual(sorted(catalog.STEPS), ["{:02d}".format(n) for n in list(range(1, 16)) + [19, 20, 21]])
         self.assertEqual(catalog.STEPS["09"]["name"], "Recherche des fonctions")
-        self.assertEqual(catalog.RETIRED_TYPES, {})
+        self.assertEqual({c: t["replaced_by"] for c, t in catalog.RETIRED_TYPES.items()},
+                         {"MIP": "LCV", "RCS": "CRV", "RC": "CDR", "RVE": "VVR"})
 
 
 class CodexApiTest(unittest.TestCase):
@@ -96,7 +99,7 @@ class CodexApiTest(unittest.TestCase):
 
     def test_1_meta_and_nav(self):
         meta = self.admin.get("/api/codex/meta")
-        self.assertEqual(meta["doc_groups"][0]["types"][0]["code"], "MIP")  # 0.60.01: deliverables of the PDP
+        self.assertEqual(meta["doc_groups"][0]["types"][0]["code"], "LCV")  # 0.60.09: Lean Canvas opens the path
         mods = {m["key"]: m for m in self.admin.get("/api/me")["modules"]}
         self.assertTrue(mods["codex"]["available"])
         self.assertIn("/js/codex/codex.js", mods["codex"]["scripts"])
@@ -108,7 +111,7 @@ class CodexApiTest(unittest.TestCase):
         self.assertNotEqual((a["date_serial"], a["time_serial"]), (b["date_serial"], b["time_serial"]))
         self.assertRegex(a["reference"], r"^CDCF-\d{5}-\d{5}$")
         self.assertTrue(a["file_name"].endswith("_1_CHAUF CdCF pistolet"))
-        self.assertEqual(a["svn_path"], "Documents/02_Etude-conceptuelle/11-03_CHAUF/")
+        self.assertEqual(a["svn_path"], "Documents/02_Concept/11-03_CHAUF/")
         self.assertEqual(a["created_by_name"], "Édith Essai")
 
     def test_3_collision_in_code(self):
@@ -175,14 +178,17 @@ class CodexApiTest(unittest.TestCase):
     def test_8_pdp_deliverables(self):
         """0.60.01: every deliverable of the PDP can be reserved; an unknown step is refused with the list to choose from."""
         edith = self.people["edith"]
-        for code, step in (("MIP", "06"), ("RCS", "12"), ("AF", "09"), ("RC", "15"), ("RVE", "21")):
+        for code, step in (("LCV", "06"), ("CRV", "12"), ("AF", "09"), ("PDR", "14"), ("CDR", "15"), ("VVR", "21"), ("BML", "07")):
             ref = self.reserve(edith, doc_type=code, step=step, title="")
             self.assertTrue(ref["reference"].startswith(code + "-"))
             self.assertEqual(ref["pdp_step"], step)
         with self.assertRaises(ApiFailure) as err:
             self.reserve(edith, step="16")
         self.assertIn("Étape du PDP", str(err.exception))
-        self.assertEqual(self.admin.get("/api/codex/meta")["retired_types"], [])
+        self.assertEqual(sorted(t["code"] for t in self.admin.get("/api/codex/meta")["retired_types"]), ["MIP", "RC", "RCS", "RVE"])
+        with self.assertRaises(ApiFailure) as err:  # 0.60.09: a retired code points to its replacement
+            self.reserve(edith, doc_type="MIP", step="06", title="")
+        self.assertIn("LCV", str(err.exception))
 
     def test_7_other_project_hidden(self):
         with self.assertRaises(ApiFailure) as err:

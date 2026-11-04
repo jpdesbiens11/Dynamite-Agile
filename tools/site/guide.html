@@ -36,7 +36,7 @@
   <ol class="stepper reveal">
     <li><b>Les besoins (Goldmine)</b>Partez des besoins du client et des parties prenantes ; le catalogue générique d'un produit grand public
       (<code>deploy/requis_generiques.csv</code>) s'importe en un clic, puis s'adapte au CdCF.</li>
-    <li><b>Le plan (Exploration)</b>Les phases du PDP, les jalons (MIP, RCS, RC, RVE) et le Gantt ; aller-retour Excel possible.</li>
+    <li><b>Le plan (Exploration)</b>Les phases du PDP, une boucle MVP par phase, les revues (Lean Canvas, Concept Review, PDR / CDR, Validation Report) et le Gantt ; aller-retour Excel possible.</li>
     <li><b>Les sprints (Agile)</b>Backlog → Sprint → Board ; chaque ticket « implements » un requirement.</li>
     <li><b>La décision (Tools)</b>Idéation en brainwriting, matrice de Pugh, Kepner-Tregoe ; le nom et le dossier de chaque document par Generator.</li>
   </ol>
@@ -50,11 +50,14 @@
     <tr><td>Pour apprendre</td><td>Training, Help</td><td>Son plan de formation, les tests, le tour guidé et HEADLAMP pour s'exercer sans risque.</td></tr></table>
 
   <h2 id="pdp" class="reveal">Le PDP du cours dans l'outil</h2>
-  <table class="t reveal"><tr><th>Phase</th><th>Codes de temps</th><th>Livrables (Generator)</th></tr>
-    <tr><td>A. Pré-étude</td><td>A-01 à A-06</td><td>MIP, étude de marché, spécifications préliminaires, échéancier, risques</td></tr>
-    <tr><td>B. Étude conceptuelle</td><td>B-07 à B-12</td><td>RCS, besoins, analyse fonctionnelle, CdCF, DFQ, matrice morphologique, Pugh</td></tr>
-    <tr><td>C. Conception</td><td>C-13 à C-15</td><td>RC, sous-systèmes, calculs, AMDEC, revue de conception</td></tr>
-    <tr><td>D. Fabrication et validation</td><td>D-FAB, D-19 à D-21</td><td>Fabrication, plan d'expériences, rapport d'essai, RVE</td></tr></table>
+  <p class="reveal">Chaque phase est une boucle <b>Build → Measure → Learn</b> (Lean Startup) : un MVP teste les hypothèses les plus
+    risquées, les Sprints Agile rythment le travail matériel et logiciel, et la phase se ferme sur une revue et la décision de
+    persévérer ou de pivoter. Les boucles montent comme une tornade, de plus en plus larges et rapides, jusqu'au lancement.</p>
+  <table class="t reveal"><tr><th>Phase</th><th>MVP</th><th>Codes de temps</th><th>Livrables (Generator)</th></tr>
+    <tr><td>A. Discovery</td><td>MVP 0 : le problème existe-t-il ?</td><td>A-01 à A-06</td><td>Lean Canvas et hypothèses (LCV), étude de marché, spécifications préliminaires, échéancier, risques</td></tr>
+    <tr><td>B. Concept</td><td>MVP 1 : le concept plaît-il ?</td><td>B-07 à B-12</td><td>Concept Review (CRV), besoins, analyse fonctionnelle, CdCF, DFQ, matrice morphologique, Pugh</td></tr>
+    <tr><td>C. Design</td><td>MVP 2 : ça fonctionne ?</td><td>C-13 à C-15</td><td>PDR, CDR, sous-systèmes, calculs, AMDEC</td></tr>
+    <tr><td>D. Validation et lancement</td><td>MVP 3 : prêt pour le marché ?</td><td>D-FAB, D-19 à D-21</td><td>Validation Report (VVR), fabrication, protocole et résultats d'essai</td></tr></table>
 
   <h2 id="mine" class="reveal">Les noms de la mine</h2>
   <table class="t reveal"><tr><th>Outil</th><th>Dans la mine</th><th>Dans le projet</th></tr>

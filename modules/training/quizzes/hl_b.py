@@ -153,17 +153,17 @@ pass: 80
 - [ ] Chacun seul, sans voir les idées des autres jusqu'à la fin
 - [ ] Oralement, l'animateur note les idées
 ## Sur quoi sont rangés les types de documents de Generator ?
-- [x] Les phases du PDP : pré-étude, étude conceptuelle, conception, fabrication et validation
+- [x] Les phases du PDP : Discovery, Concept, Design, Validation et lancement
 - [ ] Les chapitres d'une norme
 - [ ] L'ordre alphabétique seulement
 ## À quelle étape du PDP range-t-on un CdCF dans Generator ?
 - [x] 11 — Définition des spécifications d'ingénierie
 - [ ] 01 — Étude de marché
 - [ ] 21 — Tests de validation
-## Quel livrable termine l'étude conceptuelle ?
-- [x] Le RCS (rapport de conception système)
-- [ ] Le MIP
-- [ ] Le RVE
+## Quelle revue termine la phase B. Concept ?
+- [x] La Concept Review (CRV), avec le bilan du MVP 1
+- [ ] Le Lean Canvas
+- [ ] Le Validation Report
 """
 
 HL_09 = """# Quiz : Timesheet — déclarer ses heures

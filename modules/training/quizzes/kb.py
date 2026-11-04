@@ -34,10 +34,10 @@ pass: 80
 - [x] Le cahier des charges fonctionnel
 - [ ] Le compte rendu de conception finale
 - [ ] Le calendrier de fabrication
-## Que désigne l'acronyme RVE ?
-- [ ] Le rapport de vérification électrique
-- [x] Le rapport de validation expérimentale
-- [ ] La revue de conception
+## Que désigne l'acronyme MVP ?
+- [ ] Le meilleur prototype validé
+- [x] Le Minimum Viable Product : la plus petite version qui teste une hypothèse
+- [ ] La matrice de validation du produit
 ## Que désigne IADT pour un requirement ?
 - [x] Les méthodes de vérification : Inspection, Analysis, Demonstration, Test
 - [ ] Les quatre phases du PDP

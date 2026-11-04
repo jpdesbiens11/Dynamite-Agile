@@ -104,7 +104,7 @@ def _topics():
             ("TL-03", "TL", "Kepner-Tregoe", "Décider entre alternatives : MUST, WANT, risques.", "#/tools/design", "Tools → Design")]
     # 0.50.10 (D-B-128): platform coverage -- what the topics above did not cover yet.
     out += [("TL-06", "TL", "Generator — références documentaires du PDP",
-             "Numéro série UTC, nom de fichier, dossier, livrables par phase du PDP (MIP, RCS, CdCF, RC, RVE), registre.",
+             "Numéro série UTC, nom de fichier, dossier, livrables par phase du PDP (LCV, CRV, CdCF, PDR, CDR, VVR), registre.",
              "#/help/generator", "Help — Tools, Generator pas à pas"),
             ("RH", None, "Suivi personnel — objectifs, évaluation, profil",
              "Les pages du menu à votre nom : Mes objectifs, l'évaluation de l'année ou du stage, le profil, Mon équipe.",

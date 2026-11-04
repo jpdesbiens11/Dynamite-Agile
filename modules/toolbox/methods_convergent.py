@@ -53,7 +53,7 @@ CONVERGENT = [
 
 REFERENCE = [
     {"key": "generator", "name": "Reference Generator", "family": "reference", "tool": "codex",
-     "tagline": "Numéroter et classer les documents du PDP (MIP, RCS, CdCF, RC, RVE…).",
+     "tagline": "Numéroter et classer les documents du PDP (Lean Canvas, Concept Review, CdCF, PDR / CDR, Validation Report…).",
      "goal": "Réserver une référence documentaire unique (numéro série attribué par le serveur), avec le nom de "
              "fichier et le dossier.",
      "when": "Avant de créer tout document de conception, d'analyse ou de test.",

@@ -77,8 +77,20 @@ class DebuterScreenTest(unittest.TestCase):
         content = (JS / "tools" / "debuter_content.js").read_text("utf-8")
         order = [content.index('id: "{}"'.format(p)) for p in ("avant", "A", "B", "C", "D", "continu")]
         self.assertEqual(order, sorted(order))
-        for deliverable in ("MIP", "RCS", "RC (", "RVE"):
+        for deliverable in ("Lean Canvas", "Concept Review", "PDR", "CDR", "Validation Report"):  # 0.60.09 (D-O-021)
             self.assertIn(deliverable, content)
+        for retired in ("MIP", "RCS", "RVE", "Pré-étude"):
+            self.assertNotIn(retired, content)
+        self.assertEqual(content.count('mvp: "MVP '), 4)  # one MVP per phase: the four turns of the tornado
+
+    def test_06_tornado_without_text(self):
+        """0.60.09: the spiral is drawn in SVG without any text (FONDATIONS §5); its legend is HTML."""
+        tornado = (JS / "tools" / "debuter_tornado.js").read_text("utf-8")
+        self.assertNotIn('"text"', tornado)
+        self.assertIn("createElementNS", tornado)
+        self.assertIn("0.60.09-tornado", tornado)
+        index = (BASE_DIR / "static" / "index.html").read_text("utf-8")
+        self.assertLess(index.index("/js/tools/debuter_tornado.js"), index.index("/js/tools/debuter.js"))
 
 
 if __name__ == "__main__":

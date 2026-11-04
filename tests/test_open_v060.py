@@ -54,7 +54,7 @@ def scanned_files():
 
 class StaticContentTest(unittest.TestCase):
     def test_01_version(self):
-        self.assertEqual(APP_VERSION, "0.60.08")
+        self.assertEqual(APP_VERSION, "0.60.09")
 
     def test_02_nothing_of_the_original_use_left(self):
         hits = []
@@ -103,8 +103,8 @@ class StaticContentTest(unittest.TestCase):
     def test_06_generator_pdp(self):
         from modules.codex import catalog
         codes = {code for _g, types in catalog.DOC_GROUPS for code, *_ in types}
-        self.assertTrue({"MIP", "RCS", "RC", "RVE", "CDCF"} <= codes)
-        self.assertEqual(catalog.svn_path("01_Pre-etude", "01", "00", "CHAUF"), "Documents/01_Pre-etude/01-00_CHAUF/")
+        self.assertTrue({"LCV", "CRV", "PDR", "CDR", "VVR", "CDCF"} <= codes)  # 0.60.09 (D-O-021)
+        self.assertEqual(catalog.svn_path("01_Discovery", "01", "00", "CHAUF"), "Documents/01_Discovery/01-00_CHAUF/")
 
     def test_07_time_codes_follow_the_pdp(self):
         from modules.timesheet import catalog
