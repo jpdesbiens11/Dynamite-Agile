@@ -58,8 +58,8 @@ REQUIREMENTS = [
      "séparément.", "internal", "Analyse fonctionnelle", "functional", "B", "T",
      "Chaque fonction secondaire satisfait son critère du CdCF.", "test", "GN-001", "TST-FUN-03"),
     ("GR-004", "Norme de sécurité applicable", "Le produit doit être conçu selon IEC 60335-1 (appareil domestique) ou "
-     "IEC 62368-1 (appareil audio, vidéo ou informatique), choisie et justifiée en pré-étude.", "standard",
-     "IEC 60335-1 ; IEC 62368-1", "regulatory", "A", "A", "Norme choisie et justifiée dans le RCS.", "design", "GN-003",
+     "IEC 62368-1 (appareil audio, vidéo ou informatique), choisie et justifiée en Discovery.", "standard",
+     "IEC 60335-1 ; IEC 62368-1", "regulatory", "A", "A", "Norme choisie et justifiée dans la Concept Review.", "design", "GN-003",
      "TST-VER-04"),
     ("GR-005", "Parties sous tension inaccessibles", "Aucune partie sous tension dangereuse ne doit être accessible au "
      "doigt d'épreuve, capot fermé.", "standard", "CSA C22.2 No. 60335-1 / UL 60335-1", "personnel_safety", "A", "T",

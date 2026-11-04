@@ -63,7 +63,7 @@
       const body = { kind, title: title.value, description: desc.value };
       try { await api.post("/api/objectives/" + data.person.id + "/" + data.year, body); close(); reload(); }
       catch (err) { toast(err.message, "error"); }
-    } }, field("Objectif", title, kind === "development" ? "Ex. « Maîtriser l'analyse fonctionnelle d'un produit »" : "Ex. « Remettre le RCS de l'équipe d'ici décembre »"),
+    } }, field("Objectif", title, kind === "development" ? "Ex. « Maîtriser l'analyse fonctionnelle d'un produit »" : "Ex. « Passer la Concept Review de l'équipe d'ici décembre »"),
     field("Description (optionnel)", desc),
     el("div", { class: "form-actions" }, el("button", { type: "button", class: "btn", onclick: () => close() }, "Annuler"),
       el("button", { type: "submit", class: "btn btn-primary" }, "Ajouter")));

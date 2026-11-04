@@ -195,25 +195,29 @@ pass: 80
 TL_06 = """# Quiz : Generator — références documentaires du PDP
 pass: 80
 ## Sur quoi sont rangés les types de documents de Generator ?
-- [x] Les quatre phases du PDP : pré-étude, étude conceptuelle, conception, fabrication et validation
+- [x] Les quatre phases du PDP : Discovery, Concept, Design, Validation et lancement
 - [ ] Les chapitres d'une norme
 - [ ] L'ordre alphabétique seulement
-## Quel livrable termine la pré-étude ?
-- [x] Le MIP (mémoire d'identification de projet)
-- [ ] Le RVE
-- [ ] Le RC
-## Quel livrable termine l'étude conceptuelle ?
-- [x] Le RCS (rapport de conception système)
-- [ ] Le MIP
-- [ ] Le RVE
+## Quel livrable termine la phase A. Discovery ?
+- [x] Le Lean Canvas et les hypothèses à tester (LCV)
+- [ ] Le Validation Report
+- [ ] La Critical Design Review
+## Quelle revue termine la phase B. Concept ?
+- [x] La Concept Review (CRV)
+- [ ] Le Lean Canvas
+- [ ] Le Validation Report
 ## À quelle étape du PDP range-t-on le CdCF ?
 - [x] 11 — Définition des spécifications d'ingénierie
 - [ ] 03 — Définition du projet
 - [ ] 21 — Tests de validation
-## Quel livrable termine la fabrication et la validation du prototype ?
-- [ ] Le RC
-- [x] Le RVE (rapport de validation expérimentale)
+## Quel livrable termine la phase D. Validation et lancement ?
+- [ ] La Preliminary Design Review
+- [x] Le Validation Report (VVR : vérification et validation)
 - [ ] Le CdCF
+## Que décide-t-on au bilan Build-Measure-Learn d'un MVP ?
+- [x] Persévérer ou pivoter, selon ce que les mesures ont appris
+- [ ] Le nom de fichier du rapport
+- [ ] La couleur du thème
 ## Comment est formée une référence ?
 - [x] TYPE-DDDDD-TTTTT : le type puis la date-heure série Excel en UTC
 - [ ] Un compteur par Space

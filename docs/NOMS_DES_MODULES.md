@@ -13,7 +13,7 @@ analogies ci-dessous servent à retenir le rôle de chaque outil ; elles sont re
 | **Agile** | Les équipes de forage qui travaillent par quarts : chacun sait quel front attaquer cette semaine. | Backlog, sprints et Board ; Change Management (PR, bugs, ECN) quand la galerie dévie. |
 | **Testing** | L'essai du minerai (le laboratoire d'analyse) : on mesure la teneur avant de déclarer le filon rentable. | La Test Base, les procédures et les plans d'essai qui prouvent chaque requirement. |
 | **Tools** | La boîte à outils du mineur : pic, pelle, et les bons instruments pour chaque roche. | Les méthodes de conception (idéation, Pugh, Kepner-Tregoe) et Generator. |
-| **Generator** | Le poinçon des lots : chaque wagon sorti reçoit son numéro, jamais réutilisé. | Le nom, le numéro et le dossier de chaque document du PDP (MIP, CdCF, RC, RVE…). |
+| **Generator** | Le poinçon des lots : chaque wagon sorti reçoit son numéro, jamais réutilisé. | Le nom, le numéro et le dossier de chaque document du PDP (Lean Canvas, CdCF, PDR / CDR, Validation Report…). |
 | **Timesheet** | Le carnet de quart (le pointage) : qui a travaillé à quel front, combien d'heures. | La feuille de temps par étape du PDP, les vacances, les réclamations de financement. |
 | **Training** | L'école de la mine : on apprend les gestes avant de descendre. | Les topics, les tests et les plans de formation. |
 | **Help & HeadLamp** | La lanterne : elle éclaire la galerie juste devant vous. | Le tour du site pas à pas et le Space bac à sable HEADLAMP pour s'exercer sans risque. |

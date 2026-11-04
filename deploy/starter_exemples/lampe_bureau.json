@@ -37,7 +37,7 @@
     {"ref": "ESSAI-6", "subject": "mech", "title": "Chute libre", "category": "custom", "level": "Product in Use", "method": "T", "objective": "Six chutes de 0,75 m, une par face.", "verifies": ["REQ-6"]}
   ],
   "time_codes": [
-    {"key": "LA", "label": "Pré-étude et besoins", "codes": [
+    {"key": "LA", "label": "Discovery et besoins", "codes": [
       {"key": "LA-MAR", "label": "Étude de marché et lampes de référence"},
       {"key": "LA-BES", "label": "Besoins des utilisateurs et CdCF"}]},
     {"key": "LB", "label": "Concepts", "codes": [
@@ -52,7 +52,7 @@
     {"ref": "P-ACC", "title": "Lampe de bureau connectée", "parent": null, "body": {"type": "doc", "content": [
       {"type": "paragraph", "content": [{"type": "text", "text": "Page d'accueil du projet : objectif, équipe et liens vers les livrables."}]},
       {"type": "children"}]}},
-    {"ref": "P-MIP", "title": "Mémoire d'identification de projet (MIP)", "parent": "P-ACC", "body": {"type": "doc", "content": [
+    {"ref": "P-LCV", "title": "Lean Canvas et hypothèses à tester", "parent": "P-ACC", "body": {"type": "doc", "content": [
       {"type": "heading", "level": 2, "content": [{"type": "text", "text": "Contexte"}]},
       {"type": "paragraph", "content": [{"type": "text", "text": "Les lampes de bureau courantes n'offrent pas de réglage fin de la température de couleur."}]},
       {"type": "heading", "level": 2, "content": [{"type": "text", "text": "Objectifs"}]},
