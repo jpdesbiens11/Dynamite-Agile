@@ -315,3 +315,16 @@ coché « À détailler dans le DFMEA ». Conseils : ligne sans fonction, mode s
 sévérité 9-10 avec une occurrence de 4 ou plus, fonction pas analysée, risque à reprendre. Export CSV. Exemple de la
 lampe : 7 lignes (un High, un Medium, le reste Low), deux reliées aux risques projet.
 
+### D-O-028 — Diamond : la page Golden Nuggets (2026-11-04, demande de JP)
+**Contexte :** dernière pièce de Diamond (D-O-023) : des lignes directrices claires sur la pensée à partir des premiers
+principes (les vingt les plus courantes dans l'industrie, un peu dans l'esprit de TRIZ, avec des exemples concrets) et sur
+les grandes règles de conception de SpaceX et Tesla.
+**Décision :** onglet « Golden Nuggets » (#/diamond/KEY/nuggets), contenu statique (`static/js/diamond/nuggets_content.js`),
+trois parties : **20 principes** (dont 13 principes inventifs de TRIZ nommés), **l'algorithme en 5 étapes** (exigences
+moins bêtes, supprimer, simplifier, accélérer, automatiser — dans cet ordre) et **5 règles de conception** de SpaceX et
+Tesla. Chaque nugget : l'idée, un exemple de l'industrie, et « Sur votre projet » (la lampe d'exemple, et l'écran de
+l'outil où il s'applique : Goldmine, arbre, structure, risques, DFMEA, Pugh, Testing, Débuter). Recherche et thèmes.
+**Rigueur :** paraphrases de méthodes décrites publiquement par Elon Musk, SpaceX et Tesla (entrevues, visite de Starbase
+de 2021) et des principes de TRIZ (G. Altshuller) : aucune citation mise entre guillemets, aucun chiffre qu'on ne puisse
+pas soutenir ; la page l'indique. Topic Training DM-05.
+

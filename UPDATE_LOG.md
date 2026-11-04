@@ -1,4 +1,16 @@
-# Journal de mise à jour — 0.60.15
+# Journal de mise à jour — 0.60.16
+
+- **Version :** 0.60.15 → 0.60.16 (2026-11-04)
+- **Changements :**
+  1. **Diamond → Golden Nuggets** (D-O-028) : vingt principes pour concevoir à partir des premiers principes (esprit TRIZ),
+     l'algorithme en cinq étapes et les règles de conception de SpaceX et Tesla, chacun avec un exemple de l'industrie et
+     son usage sur le projet ; recherche et thèmes.
+  2. **Training** : topic DM-05 et son test.
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.15
 
 - **Version :** 0.60.14 → 0.60.15 (2026-11-04)
 - **Changements :**
@@ -9,8 +21,6 @@
   2. **Légende AP** : page de formation (pourquoi l'AP, tableau complet, échelles S / O / D).
   3. **Training** : topic DM-04 et son test.
 - **Base de données :** migration diamond 4 (table `diamond_dfmea`), additive.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.14
 

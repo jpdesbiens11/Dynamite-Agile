@@ -124,7 +124,9 @@ def _topics():
             ("DM-03", "DM", "Analyse de risque projet", "Registre des risques : si / alors / ce qui, probabilité × impact, "
              "stratégie, action, responsable, risque résiduel, lien vers le DFMEA.", "#/diamond", "Diamond → Risques projet"),
             ("DM-04", "DM", "DFMEA (AIAG-VDA)", "Les trois niveaux de la structure, la chaîne de défaillance (effet, mode, cause), "
-             "S / O / D, RPN et Action Priority.", "#/diamond", "Diamond → DFMEA et sa légende AP")]
+             "S / O / D, RPN et Action Priority.", "#/diamond", "Diamond → DFMEA et sa légende AP"),
+            ("DM-05", "DM", "Golden Nuggets", "Penser à partir des premiers principes : vingt principes dans l'esprit de TRIZ, "
+             "l'algorithme en cinq étapes et les règles de conception de SpaceX et Tesla.", "#/diamond", "Diamond → Golden Nuggets")]
     return out
 
 

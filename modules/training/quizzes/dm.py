@@ -201,3 +201,48 @@ pass: 80
 - [ ] Copie tout le registre de risques
 - [ ] Ferme les risques projet
 """
+
+DM_05 = """# Quiz : Diamond — Golden Nuggets
+pass: 80
+## Que veut dire raisonner « à partir des premiers principes » ?
+- [x] Ramener le problème à ce que la physique et les coûts imposent, puis reconstruire la solution
+- [ ] Copier la solution du meilleur concurrent
+- [ ] Suivre les normes de l'industrie sans les questionner
+## Quelle est la première étape de l'algorithme en cinq étapes ?
+- [x] Rendre les exigences moins bêtes
+- [ ] Automatiser
+- [ ] Simplifier et optimiser
+## Dans quel ordre vient l'automatisation ?
+- [ ] En premier, pour gagner du temps
+- [ ] En troisième
+- [x] En dernier, après avoir supprimé, simplifié et accéléré
+> Automatiser trop tôt, c'est automatiser une pièce ou un procédé qu'il aurait fallu supprimer.
+## Pourquoi chaque exigence doit-elle porter le nom d'une personne ?
+- [x] Pour pouvoir lui demander pourquoi, et remettre l'exigence en question avec elle
+- [ ] Pour savoir qui blâmer en cas d'échec
+- [ ] Parce que la norme l'exige
+## « La meilleure pièce est celle qu'on n'a pas. » Qu'est-ce que cela donne dans le DFMEA ?
+- [x] Un mode de défaillance disparaît pour de bon quand la pièce disparaît
+- [ ] Il faut ajouter un contrôle de détection par pièce
+- [ ] La sévérité baisse automatiquement
+## Le bloc d'alimentation externe de la lampe applique quel principe ?
+- [x] Sortir la partie gênante (extraction)
+- [ ] Inverser
+- [ ] Agir par impulsions
+## Une pièce qui ne se monte que dans le bon sens applique quel principe ?
+- [x] L'asymétrie (détrompage)
+- [ ] La segmentation
+- [ ] La copie bon marché
+## Que montre l'exemple du coût des matières d'une batterie ?
+- [x] L'écart entre le prix et les matières vient de la fabrication, donc il peut se réduire
+- [ ] Les batteries ne peuvent pas coûter moins cher
+- [ ] Il faut toujours acheter le moins cher
+## La gradation des DEL par MLI applique quel principe ?
+- [x] Agir par impulsions (action périodique)
+- [ ] Qualité locale
+- [ ] Intermédiaire
+## Que dit la règle « essayer tôt, jusqu'à la rupture » ?
+- [x] Un essai qui casse apprend plus qu'une analyse qui rassure
+- [ ] Il ne faut tester que le produit final
+- [ ] Un prototype ne doit jamais casser
+"""

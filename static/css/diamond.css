@@ -167,6 +167,26 @@ html[data-term] .dm-st-node, html[data-term] .dm-st-flow-label { font-family: va
 .dm-rk-filters select { max-width: 16rem; }
 html[data-term] .dm-heat-cell { box-shadow: none; }
 
+/* ---------- 0.60.16: Golden Nuggets ---------- */
+.dm-nug-source { margin: 0; font-size: .82rem; color: var(--muted); max-width: 90ch; }
+.dm-nug-bar { align-items: center; gap: .6rem 1rem; }
+.dm-nug-bar input[type=search] { min-width: 18rem; flex: 1 1 18rem; max-width: 28rem; }
+.dm-nug-tags { display: flex; flex-wrap: wrap; gap: .3rem; }
+.dm-nug-tag { padding: .15rem .6rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink);
+  font: inherit; font-size: .8rem; cursor: pointer; }
+.dm-nug-tag.active { border-color: var(--acc); background: color-mix(in srgb, var(--acc) 30%, var(--surface)); font-weight: 650; }
+.dm-nug-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr)); gap: 1rem; }
+.dm-nug-steps { display: flex; flex-direction: column; gap: .8rem; max-width: 80ch; }
+.dm-nug { display: flex; flex-direction: column; gap: .4rem; padding: .9rem 1rem; background: var(--surface); border: 1px solid var(--line);
+  border-top: 4px solid var(--acc); border-radius: var(--radius-lg); box-shadow: var(--shadow); }
+.dm-nug p { margin: 0; font-size: .9rem; line-height: 1.45; }
+.dm-nug-top { display: flex; align-items: baseline; flex-wrap: wrap; gap: .5rem; }
+.dm-nug-top h3 { margin: 0; font-size: 1rem; flex: 1 1 12rem; }
+.dm-nug-ex { color: var(--muted); }
+.dm-nug-apply { padding: .4rem .6rem; border-radius: var(--radius-sm); background: color-mix(in srgb, var(--acc) 12%, var(--surface-2)); }
+.dm-nug-step { border-top-width: 1px; border-left: 6px solid var(--acc); }
+html[data-sketch] .dm-nug { border-radius: var(--r-card); border-color: var(--graphite); box-shadow: var(--shadow-sketch); }
+
 @media (max-width: 1100px) {
   .dm-work { grid-template-columns: minmax(0, 1fr); }
   .dm-panel { position: static; }

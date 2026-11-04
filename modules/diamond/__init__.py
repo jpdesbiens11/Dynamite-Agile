@@ -7,7 +7,7 @@ Sub-modules, one per iteration:
            sub-systems (general view) or the tertiary functions (detail view), energy / material / information flows.
   0.60.14  Analyse de risque projet (risks.py): the high-level register, P x I on 5 x 5, response, owner, residual risk.
   0.60.15  DFMEA AIAG-VDA (dfmea.py, dfmea_ap.py): three levels, the functions of the tree, S / O / D, RPN and AP.
-  next     Golden Nuggets (first-principles thinking and design rules, with examples).
+  0.60.16  Golden Nuggets (static/js/diamond/nuggets*.js): first-principles thinking and design rules, with examples.
 Every table is tied to projects(id) (backup, restore, copy by the core); every write is journalled.
 """
 from . import dfmea, example, functions, risks, structure

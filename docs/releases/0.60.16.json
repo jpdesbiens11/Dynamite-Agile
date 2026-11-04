@@ -1,0 +1,49 @@
+{
+ "version": "0.60.16",
+ "date": "2026-11-04",
+ "summary": {
+  "fr": "Diamond : Golden Nuggets — vingt principes de conception à partir des premiers principes (esprit TRIZ), l'algorithme en cinq étapes et les règles de conception de SpaceX et Tesla, chacun avec un exemple de l'industrie et son usage sur le projet.",
+  "en": "Diamond: Golden Nuggets — twenty first-principles design principles (in the spirit of TRIZ), the 5-step algorithm and the design rules of SpaceX and Tesla, each with an industry example and its use on the project."
+ },
+ "changes": [
+  {
+   "id": "C1",
+   "title": "Golden Nuggets : premiers principes, algorithme, règles (D-O-028)",
+   "why": "Contenu écrit pour la formation (paraphrases de méthodes publiques, TRIZ) ; recherche et thèmes.",
+   "files": [
+    "static/js/diamond/nuggets_content.js",
+    "static/js/diamond/nuggets.js",
+    "static/js/diamond/diamond.js",
+    "static/css/diamond.css",
+    "core/modules.py",
+    "modules/diamond/__init__.py",
+    "tests/test_diamond_nuggets.py"
+   ]
+  },
+  {
+   "id": "C2",
+   "title": "Training : topic DM-05 et son test",
+   "why": "Dix questions sur les Golden Nuggets.",
+   "files": [
+    "modules/training/catalog.py",
+    "modules/training/quizzes/__init__.py",
+    "modules/training/quizzes/dm.py"
+   ]
+  },
+  {
+   "id": "C3",
+   "title": "Version 0.60.16, D-O-028 et documentation",
+   "why": "Décision, état du projet, journal, fiche de version, site.",
+   "files": [
+    "core/__init__.py",
+    "CLAUDE.md",
+    "UPDATE_LOG.md",
+    "docs/DECISIONS.md",
+    "docs/ETAT_PROJET.md",
+    "docs/releases/0.60.16.json",
+    "tests/test_open_v060.py",
+    "static/apps/vitrine/index.html"
+   ]
+  }
+ ]
+}

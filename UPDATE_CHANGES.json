@@ -2,34 +2,22 @@
   "changes": [
     {
       "id": "C1",
-      "title": "DFMEA : lignes, cotation, AP et RPN (D-O-027)",
-      "why": "Structure AIAG-VDA sur les fonctions de l'arbre ; tableau AP ; Depuis l'arbre, Depuis les risques ; conseils ; CSV ; exemple de la lampe.",
+      "title": "Golden Nuggets : premiers principes, algorithme, règles (D-O-028)",
+      "why": "Contenu écrit pour la formation (paraphrases de méthodes publiques, TRIZ) ; recherche et thèmes.",
       "files": [
+        "static/js/diamond/nuggets_content.js",
+        "static/js/diamond/nuggets.js",
+        "static/js/diamond/diamond.js",
+        "static/css/diamond.css",
+        "core/modules.py",
         "modules/diamond/__init__.py",
-        "modules/diamond/dfmea.py",
-        "modules/diamond/dfmea_ap.py",
-        "modules/diamond/example.py",
-        "modules/diamond/example_dfmea.py",
-        "tests/test_diamond_dfmea.py"
+        "tests/test_diamond_nuggets.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Écran du DFMEA et page de la légende AP",
-      "why": "Tableur aux en-têtes par niveau, édition en place, outils de ligne, Alt + flèches, colonnes masquables, filtre AP ; tableau AP et échelles S / O / D.",
-      "files": [
-        "static/js/diamond/diamond.js",
-        "static/js/diamond/dfmea.js",
-        "static/js/diamond/dfmea_table.js",
-        "static/js/diamond/dfmea_legend.js",
-        "static/css/diamond_dfmea.css",
-        "core/modules.py"
-      ]
-    },
-    {
-      "id": "C3",
-      "title": "Training : topic DM-04 et son test",
-      "why": "Onze questions sur le DFMEA, le RPN et l'AP.",
+      "title": "Training : topic DM-05 et son test",
+      "why": "Dix questions sur les Golden Nuggets.",
       "files": [
         "modules/training/catalog.py",
         "modules/training/quizzes/__init__.py",
@@ -37,8 +25,8 @@
       ]
     },
     {
-      "id": "C4",
-      "title": "Version 0.60.15, D-O-027 et documentation",
+      "id": "C3",
+      "title": "Version 0.60.16, D-O-028 et documentation",
       "why": "Décision, état du projet, journal, fiche de version, site.",
       "files": [
         "core/__init__.py",
@@ -46,7 +34,7 @@
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.15.json",
+        "docs/releases/0.60.16.json",
         "tests/test_open_v060.py",
         "static/apps/vitrine/index.html"
       ]

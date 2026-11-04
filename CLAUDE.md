@@ -40,6 +40,8 @@
 - **0.60.15** (2026-11-04) : Diamond → **DFMEA** AIAG-VDA (D-O-027, `modules/diamond/dfmea*.py`, `static/js/diamond/dfmea*.js`) :
   trois niveaux, fonctions de l'arbre, S / O / D, RPN et AP, légende AP (#/diamond/KEY/dfmeaap). Suivent : Golden Nuggets
   (0.60.16), `starter.md` (0.60.17).
+- **0.60.16** (2026-11-04) : Diamond → **Golden Nuggets** (D-O-028, `static/js/diamond/nuggets*.js`) : 20 premiers principes,
+  algorithme en 5 étapes, règles SpaceX / Tesla. Diamond complet. Suit : `starter.md` (0.60.17).
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,
