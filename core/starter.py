@@ -30,7 +30,7 @@ from .errors import ApiError
 
 FORMAT = "dynamite-project-starter"
 FORMAT_VERSION = 1
-MAX_BYTES = 2 * 1024 * 1024
+MAX_BYTES = 1536 * 1024  # fits in a 2 Mo JSON request (core/router.MAX_JSON_BYTES) once escaped
 LIMITS = {"team": 12, "requirements": 300, "tests": 300, "time_codes": 40, "pages": 30}
 KEY_RE = re.compile(r"^[A-Z][A-Z0-9]{1,9}$")                      # same rule as core/admin.PROJECT_KEY_RE
 USERNAME_RE = re.compile(r"^[a-z0-9][a-z0-9._-]{1,31}$")          # same rule as core/admin.USERNAME_RE
@@ -295,7 +295,7 @@ def parse(data):
     """Bytes, text or an already decoded object -> (clean starter, warnings). Raises ApiError on the first fault."""
     if isinstance(data, (bytes, bytearray)):
         if len(data) > MAX_BYTES:
-            _bad("fichier", "plus de 2 Mo.", "réduisez le nombre de pages ou de requis.")
+            _bad("fichier", "plus de 1,5 Mo.", "réduisez le nombre de pages ou de requis.")
         try:
             data = data.decode("utf-8-sig")
         except UnicodeDecodeError:

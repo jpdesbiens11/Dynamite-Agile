@@ -336,5 +336,11 @@ MIGRATIONS = [
     (14, """
         -- D-B-086: maturity of a need (Need Status).
         ALTER TABLE agile_requirements ADD COLUMN need_status TEXT NOT NULL DEFAULT '';
+    """),    (15, """
+        -- 0.60.06 (D-O-019): review of the standard a requirement names. '' = nothing to review; 'to_verify' = named by
+        -- an AI assistant (Project Starter), to be confirmed by a person; 'verified' = confirmed. standard_checked keeps
+        -- who confirmed it, when, and the edition (« 2026-11-04 · nina · IEC 62368-1:2023 »).
+        ALTER TABLE agile_requirements ADD COLUMN standard_review TEXT NOT NULL DEFAULT '';
+        ALTER TABLE agile_requirements ADD COLUMN standard_checked TEXT NOT NULL DEFAULT '';
     """),
 ]
