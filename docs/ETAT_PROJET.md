@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.25)
-**Version :** 0.60.25 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** 0.60.25 (demande de JP du 2026-11-04) : téléphones
+**Dernière mise à jour :** 2026-11-04 (v0.60.27)
+**Version :** 0.60.27 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** 0.60.26 et 0.60.27 (demandes de JP du 2026-11-04) : choix multiples ; téléphone pour l'essentiel
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -37,7 +37,9 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.23 | La page reste où l'on regarde (DA.keepScroll, routeur) ; panneau d'un sous-système avec les pièces de ses tertiaires | Livré |
 | 0.60.24 | DFMEA : un essai clé de la Test Base par ligne dans Detection Controls ; Project Starter dfmea[].test (D-O-033) | Livré |
 | 0.60.25 | Téléphones : barre compacte, menu tiroir, une colonne, tableaux défilants, cibles de 44 px (D-O-034) | Livré |
-| 0.60.26 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
+| 0.60.26 | Choix multiples appliqués ensemble : Appliquer ou clic à côté, Échap pour annuler (D-O-035) | Livré |
+| 0.60.27 | Téléphone : cartes pour Goldmine / Testing / Timesheet, Dynamite + Page / IA / Partager, grands écrans pour l'ordinateur (D-O-036) | Livré |
+| 0.60.28 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
 
 ## Table 2 : Questions du brief §5 (toutes tranchées)
 
@@ -51,7 +53,13 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.25)
+## Relais (fin de 0.60.27)
+
+- Téléphone, l'essentiel (D-O-036) : `static/js/tools/mobile_views.js` (`PC_ONLY`, `CARDS`, `dynamiteBar`, `share`) ; règles dans la deuxième partie de `static/css/mobile.css` (`table.data[data-cards]`, `.pc-only-note`, `.dy-fab`). Les colonnes cachées des cartes se nomment par leur en-tête (`td[data-label=…]`).
+
+
+- Choix multiples (D-O-035) : `DA.choiceBatch(box, apply)` dans `static/js/tools/choices.js` ; usages : `structure_parts.js` (panneau d'une fonction → `state.runMany`), `dfmea.js` (Colonnes, `state.colsOpen`).
+
 
 - Téléphones (D-O-034) : `static/js/tools/mobile.js` (observe `#app`, déplace `nav.tabs`, `.topbar-tools`, `nav.tabs-end`, `.admin-tab` dans `body > .nav-drawer`), `static/css/mobile.css` (règles `html.da-phone …` sous 760 px). Un écran neuf : vérifier à 384 px que `document.documentElement.scrollWidth` reste 384.
 

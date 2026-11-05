@@ -145,14 +145,17 @@
         : el("p", { class: "muted" }, "Aucune pièce."));
     if (!editable) return box;
     if (data.parts.length) {
-      box.append(el("div", { class: "dm-pt-checks", "data-new": "0.60.23-part-via" }, data.parts.map((p) => {
+      const checks = el("div", { class: "dm-pt-checks", "data-new": "0.60.23-part-via" }, data.parts.map((p) => {
         const inherited = !direct(p) && via(p).length > 0;
         const input = el("input", { type: "checkbox", checked: direct(p) || inherited, disabled: inherited });
-        input.addEventListener("change", () => run("/parts/" + p.id + "/functions", { function_id: fid, on: input.checked }, "put"));
+        input.dataset.part = p.id;  // 0.60.26: several ticks, applied together (DA.choiceBatch)
         return el("label", { class: "dm-check" + (inherited ? " dm-pt-via" : ""),
           "data-tip": inherited ? "Réalise " + via(p).join(", ") + " (fonction tertiaire de ce sous-système) : modifiez-la dans la vue détaillée ou la matrice" : null },
         input, " " + code(p) + " " + p.name + (inherited ? " (par " + via(p).join(", ") + ")" : ""));
-      })));
+      }));
+      box.append(checks);
+      DA.choiceBatch(box, (list) => state.runMany(list.map((i) => ["/parts/" + i.dataset.part + "/functions",
+        { function_id: fid, on: i.checked }, "put"])));
     }
     const name = el("input", { type: "text", maxlength: 80, placeholder: "Nouvelle pièce pour cette fonction", "aria-label": "Nouvelle pièce" });
     box.append(el("form", { class: "dm-row dm-pt-quick", onsubmit: (ev) => {

@@ -2,26 +2,36 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Téléphones : barre compacte et menu tiroir (D-O-034)",
-      "why": "Sous 760 px (un Galaxy S25 fait 384 px), la barre garde le logo, ☰ et le compte ; les onglets, la recherche, Help et ⚙ Admin passent dans un tiroir vertical à gauche, qui se ferme au choix, sur le fond, avec Échap ou à la page suivante. La page ne déborde plus (896 px avant, 384 px maintenant).",
+      "title": "Les grands écrans restent pour l'ordinateur (D-O-036)",
+      "why": "Sur un téléphone, Diamond, Exploration (Gantt) et Tools montrent une note « sur un ordinateur » et des liens vers ce qui se fait au téléphone ; le menu ☰ les marque « 💻 ordinateur ».",
       "files": [
-        "static/js/tools/mobile.js",
-        "static/css/mobile.css",
-        "static/index.html",
-        "tests/test_mobile.py"
+        "static/js/tools/mobile_views.js",
+        "static/css/mobile.css"
       ]
     },
     {
       "id": "C2",
-      "title": "Téléphones : une colonne, tableaux, textes et cibles",
-      "why": "Le panneau de gauche d'un module passe au-dessus du contenu (liste des Spaces, ☆, navigation qui défile) ; les tableaux larges défilent dans leur cadre ; texte de base 14 px ; boutons et champs de 40 à 44 px ; dialogues pleine largeur ; page de connexion avec le formulaire d'abord.",
+      "title": "Goldmine, Testing, feuille de temps : des cartes, une à la fois",
+      "why": "Chaque ligne de tableau devient une carte avec le nom de ses colonnes, l'une sous l'autre ; une carte de Goldmine ou de Testing s'ouvre d'un toucher ; seules les colonnes utiles en déplacement restent ; les filtres se replient derrière « Filtres (n) » ; les barres d'export et d'import sont cachées.",
       "files": [
+        "static/js/tools/mobile_views.js",
         "static/css/mobile.css"
       ]
     },
     {
       "id": "C3",
-      "title": "Version 0.60.25 et documentation",
+      "title": "Dynamite au téléphone : créer, avec l'IA, partager",
+      "why": "Une barre en bas de l'écran : « + Page », « ✨ Avec l'IA » (ouvre une page neuve et l'import d'un agent IA), « Partager » (la feuille de partage du téléphone, ou le lien copié) ; page compacte (Modifier et + Sous-page), arbre des pages court.",
+      "files": [
+        "static/js/tools/mobile_views.js",
+        "static/css/mobile.css",
+        "static/index.html",
+        "tests/test_mobile_views.py"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Version 0.60.27 et documentation",
       "why": "Décision, état du projet, journal, fiche de version.",
       "files": [
         "core/__init__.py",
@@ -29,7 +39,7 @@
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.25.json",
+        "docs/releases/0.60.27.json",
         "tests/test_open_v060.py"
       ]
     }
