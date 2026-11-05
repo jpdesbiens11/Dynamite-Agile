@@ -19,9 +19,9 @@
     showLogin("Votre session a expiré. Reconnectez-vous.");
   };
 
-  /* D-B-052: « hide the sandbox » setting -- the HeadLamp space disappears everywhere except in
+  /* D-B-052: « hide the sandbox » setting -- the DEMO space disappears everywhere except in
      Dynamite (its wiki is the users' help) and Help. */
-  const SANDBOX_KEY = "HEADLAMP";
+  const SANDBOX_KEY = "DEMO";
   const WIKI_ONLY_KEY = "TOOLS";  // D-B-068: the Tools wiki shows only in Dynamite (reached from the Tools tab)
   function visibleProjects(view) {
     const all = (session.allProjects || []).filter((p) => p.key !== WIKI_ONLY_KEY || view === "dynamite");
@@ -239,20 +239,6 @@
       manages ? link(t("menu.members"), "#/members", "members") : null, link("Révisions", "#/revisions", "revisions"));
   }
 
-  function themeItem(theme, label) {
-    const current = (session.prefs && session.prefs.theme) || "carnet";
-    const item = menuItem(label, async () => {
-      try {
-        session.prefs = await DA.savePrefs({ theme });
-        route();  // re-render: icons, marks and colours of the chosen theme
-      } catch (err) { toast(err.message, "error"); }
-    });
-    item.classList.add("menu-check");
-    item.setAttribute("role", "menuitemradio");
-    item.setAttribute("aria-checked", current === theme ? "true" : "false");
-    return item;
-  }
-
   function menuItem(label, action) {
     return el("button", { type: "button", class: "menu-item", role: "menuitem", onclick: () => { closeMenus(); action(); } }, label);
   }
@@ -269,10 +255,7 @@
       session.team && session.team.size ? menuItem(DA.teamLabel(session.team), () => { location.hash = "#/team"; }) : null,  // D-B-112
       manages ? menuItem(t("menu.members"), () => { location.hash = "#/members"; }) : null,
       el("hr"),
-      /* D-B-089: the two themes of the platform, one click away (also in Paramètres → Thème) */
-      el("span", { class: "menu-label", "data-new": "0.45.1-theme-menu" }, "Thème"),
-      themeItem("carnet", "Thème par défaut (croquis)"), themeItem("terminal", "Terminal R&D (labo geek)"),  // D-B-088
-      el("hr"),
+      el("hr"),  // 0.60.48 (D-O-057): the themes are in Paramètres only
       menuItem(t("menu.password"), openPasswordDialog),
       menuItem(t("menu.about"), showAbout),
       menuItem("Découvrir la plateforme (vitrine)", () => { window.open("/apps/vitrine/index.html", "_blank", "noopener"); }),  // D-B-087

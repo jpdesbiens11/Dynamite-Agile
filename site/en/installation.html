@@ -393,14 +393,14 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 
 /* ---------- landing storyline (0.60.40, D-O-049): the need, then deeper and deeper down to the diamonds ---------- */
 .story { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.1rem; margin-top: 1.4rem; }
-.scene { position: relative; padding: 1.2rem 1.2rem 1.1rem; background: rgba(255, 255, 255, .92); border: 1.6px solid rgba(38, 50, 63, .25);
+.story-card { position: relative; padding: 1.2rem 1.2rem 1.1rem; background: rgba(255, 255, 255, .92); border: 1.6px solid rgba(38, 50, 63, .25);
   border-radius: var(--r-card); box-shadow: var(--shadow); transition-delay: var(--d, 0ms); }
-.scene .scene-n { position: absolute; top: -.8rem; left: 1rem; display: grid; place-items: center; width: 1.8rem; height: 1.8rem;
+.story-card .scene-n { position: absolute; top: -.8rem; left: 1rem; display: grid; place-items: center; width: 1.8rem; height: 1.8rem;
   border-radius: 50%; background: var(--o); color: #fff; border: 1.6px solid var(--ink); font: 700 .95rem var(--hand); }
-.scene .ico { width: 30px; height: 30px; margin: .3rem 0 .2rem; color: var(--ink); }
-.scene h3 { margin: .2rem 0 .4rem; font: 700 1.25rem var(--hand); }
-.scene p { margin: 0; color: var(--ink-2); }
-.scene:last-child { border-color: var(--b); box-shadow: 5px 5px 0 #0b3f8f; }
+.story-card .ico { width: 30px; height: 30px; margin: .3rem 0 .2rem; color: var(--ink); }
+.story-card h3 { margin: .2rem 0 .4rem; font: 700 1.25rem var(--hand); }
+.story-card p { margin: 0; color: var(--ink-2); }
+.story-card:last-child { border-color: var(--b); box-shadow: 5px 5px 0 #0b3f8f; }
 #descente { --deep: 0; position: relative; border-radius: 28px; padding-bottom: 2rem;
   background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, #1b2733 calc(var(--deep) * 22%), transparent) 45%,
     color-mix(in srgb, #0f1720 calc(var(--deep) * 70%), transparent) 100%); transition: background .8s ease; }
@@ -453,6 +453,11 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .share-item:hover, .share-item:focus-visible { background: color-mix(in srgb, var(--y, #ffd23f) 55%, #fff); outline: none; }
 @media (max-width: 720px) { .share-btn span { display: none; } .share-menu { right: 1rem; } }
 @media (max-width: 480px) { .top .gh { display: none; } }  /* GitHub stays in the footer; the top bar keeps one line */
+/* 0.60.49: « d'où faites-vous l'installation ? » asked once, before the 5 steps, whatever the destination */
+.pc-first { display: block; margin: 1.4rem 0 1.2rem; padding: 1rem 1.2rem; border: 2px solid var(--ink); border-radius: var(--r-card, 12px);
+  border-style: solid; background: color-mix(in srgb, var(--y, #ffd23f) 22%, #fff); }
+.pc-first h2 { margin: 0 0 .3rem; font-size: 1.25rem; }
+.pc-first p { margin: 0 0 .7rem; }
 
 </style>
 </head>
@@ -496,7 +501,17 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   <h1>Install DynamiteAgile</h1>
   <p class="lead">Five steps, top to bottom. Each command copies in one click, and a label says <b>where</b> to paste it:
     <span class="where pc">on your computer</span> or <span class="where srv">on the server</span>.</p>
-  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Latest version: 0.60.47</b> · 2026-11-04 — « Share » button at the top of every page of the website (FR and EN): the current page, with its tab (for example the local-server installation); on a phone, the phone&#x27;s share sheet; on a computer, copy the link, email, text message, WhatsApp, LinkedIn, Facebook or X. <a href="versions.html">See all versions →</a><br>Already installed? ⚙ Admin → Update → « Mise à jour en ligne » (online update): check, read, approve, follow live.</p>
+  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Latest version: 0.60.49</b> · 2026-11-05 — One Space at installation: DEMO. It brings together the former HeadLamp (guided tour, sandbox, training, reference library) and the complete Rover example (every module filled from MVP 0 to MVP 3), without example accounts. An administrator hides it for everyone when the real project starts (⚙ Admin → Spaces → « Cacher pour tous »); the Help documentation stays available. An existing installation gets its HEADLAMP Space renamed DEMO and receives the Rover once. <a href="versions.html">See all versions →</a><br>Already installed? ⚙ Admin → Update → « Mise à jour en ligne » (online update): check, read, approve, follow live.</p>
+
+  <section class="pc-pick pc-first" data-new="0.60.49-from-where" aria-labelledby="from-where">
+    <h2 id="from-where">Before you start: where are you installing from?</h2>
+    <p>The computer <b>on which you type the commands</b> (the one showing this page). It is not necessarily where the tool
+      will run: that is step 1. Every « on your computer » command follows this choice.</p>
+    <div class="seg" role="radiogroup" aria-label="Your computer">
+      <label><input type="radio" name="pc" value="win"> Windows</label>
+      <label><input type="radio" name="pc" value="mac"> macOS</label>
+      <label><input type="radio" name="pc" value="linux"> Linux</label></div>
+  </section>
 
   <div class="progress-bar" aria-live="polite"><div class="track"><i></i></div><span id="progress-text">0 steps done</span></div>
 
@@ -522,13 +537,6 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
             <circle cx="25" cy="15" r="2" fill="#3cba6b"/><rect x="14" y="27" width="36" height="19" rx="3" fill="#cfe3ff"/></svg>
           <b>Team Windows PC</b><span class="tag">Team's network</span>
           <span>A <b>Windows</b> PC that stays on hosts the tool; the team connects over the local network.</span></label>
-      </div>
-      <div class="pc-pick" data-new="0.60.44-my-computer">
-        <span><b>Your computer</b> (the one showing this page): the commands follow it.</span>
-        <div class="seg" role="radiogroup" aria-label="Your computer">
-          <label><input type="radio" name="pc" value="win"> Windows</label>
-          <label><input type="radio" name="pc" value="mac"> macOS</label>
-          <label><input type="radio" name="pc" value="linux"> Linux</label></div>
       </div>
       <details class="ai-help"><summary>Need help? An AI assistant guides you step by step</summary>
         <p>Open Claude (or your usual assistant) and paste this message: it reads this page and guides you one command at a time.
@@ -707,19 +715,18 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     </li>
   </ol>
 
-  <section id="exemple" class="example-space reveal" data-new="0.60.46-rover">
-    <h2>A complete academic example, if you want it: the Rover</h2>
-    <p>Your installation stays empty. To see the method applied end to end, load the <b>Rover</b> example: a small autonomous
-      robot built on an all-terrain RC car, driven by a Raspberry Pi and a web app on the phone, that slows down near an obstacle
-      and goes around it slowly. Every module is filled and documented, from MVP 0 to MVP 3: needs and requirements, Test Base,
-      function tree, structure, parts, risks and DFMEA, backlog by MVP, ideation, Pugh, Kepner-Tregoe, Generator deliverables,
-      PDP plan and 28 wiki pages that explain every decision.</p>
+  <section id="exemple" class="example-space reveal" data-new="0.60.49-demo">
+    <h2>From the installation: the DEMO Space</h2>
+    <p>The tool opens on a single Space, <b>DEMO</b>: the guided tour of every tool, a sandbox where everything can be tried
+      risk-free, the training documents and the reference library. It also holds a complete example, the <b>Rover</b>: a small
+      autonomous robot built on an all-terrain RC car, driven by a Raspberry Pi and a web app, that slows down near an obstacle
+      and goes around it slowly. Every module is filled from MVP 0 to MVP 3: needs and requirements, Test Base, function tree,
+      structure, parts, risks and DFMEA, backlog, ideation, Pugh, Kepner-Tregoe, deliverables, PDP plan and pages that explain
+      every decision.</p>
     <ol class="stepper">
-      <li><b>Download the file</b><a class="btn btn-primary" href="../spaces/rover.json" download="rover.json">Download rover.json</a>
-        (about 190 KB, in French; a Project Starter file, like the ones an AI assistant prepares).</li>
-      <li><b>Load it in the tool</b>⚙ Admin → Spaces → <b>Commencer</b> → step 2, drop <code>rover.json</code>, read the preview, then « Créer le Space ROVER ».</li>
-      <li><b>Explore</b>Open the page « Rover — accueil du projet » in Dynamite: the reading guide says where to look, module by module.
-        The accounts Nina, Léa, Hugo and Alexis get a temporary password; delete the Space when you no longer need it.</li>
+      <li><b>Explore</b>Dynamite → DEMO → « Rover — accueil du projet »: the reading guide says where to look, module by module.</li>
+      <li><b>Start your project</b>⚙ Admin → Spaces → <b>Commencer</b>: an AI assistant prepares your product's Space.</li>
+      <li><b>Hide DEMO</b>When the real project starts, ⚙ Admin → Spaces → DEMO → « Cacher pour tous ». The Help documentation stays available.</li>
     </ol>
   </section>
 
@@ -778,7 +785,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       <code>python C:\DynamiteAgile\app_dynamite_agile.py --reset-password admin</code></td></tr>
     <tr><td>Move from trial to team</td><td>Follow the “On an online server” path: the same command with your domain</td></tr></table>
 </main>
-<footer>DynamiteAgile · free software under the MIT licence · version 0.60.47 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>DynamiteAgile · free software under the MIT licence · version 0.60.49 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */

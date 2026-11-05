@@ -295,7 +295,7 @@ footer { text-align: center; padding: 2rem 1rem 3rem; color: var(--ink-2); font-
           <span class="gain hl">On voit où le temps de l'équipe est passé, phase par phase.</span></article>
         <article class="step" data-scene="7" data-acc="var(--p)"><span class="time">17:00</span>
           <h3><svg class="ico"><use href="#i-training"/></svg>Training &amp; Help</h3>
-          <p>Un topic sur la matrice de Pugh de son plan de formation, puis HeadLamp pour essayer le nouvel outil sans risque.</p>
+          <p>Un topic sur la matrice de Pugh de son plan de formation, puis DEMO pour essayer le nouvel outil sans risque.</p>
           <span class="gain hl">On apprend là où on travaille.</span></article>
       </div>
       <div class="stage" aria-hidden="true">
@@ -348,7 +348,7 @@ footer { text-align: center; padding: 2rem 1rem 3rem; color: var(--ink-2); font-
           <div class="scene" data-s="7" style="--acc: var(--p)"><div class="mini-h">Mon plan de formation 2026</div>
             <div>TL-02 — Matrice de Pugh</div><div class="progress"><i></i></div>
             <div class="rows"><div class="row" style="grid-template-columns:1fr auto"><span>Test Markdown · 20 questions</span><span class="chip g">18 / 20</span></div>
-              <div class="row" style="grid-template-columns:1fr auto"><span>HeadLamp · étape 6 Agile</span><span class="chip y">En cours</span></div></div></div>
+              <div class="row" style="grid-template-columns:1fr auto"><span>DEMO · étape 6 Agile</span><span class="chip y">En cours</span></div></div></div>
         </div>
       </div>
     </div>
@@ -385,7 +385,7 @@ footer { text-align: center; padding: 2rem 1rem 3rem; color: var(--ink-2); font-
       <article class="tool reveal" style="--a: var(--c)"><svg class="ico"><use href="#i-tools"/></svg><h3>Tools</h3><p>Idéation en brainwriting, Pugh Matrix, Kepner-Tregoe et Generator des livrables du PDP.</p></article>
       <article class="tool reveal" style="--a: var(--p)"><svg class="ico"><use href="#i-training"/></svg><h3>Training</h3><p>Topics, plans de formation, tests corrigés sur le serveur, suivi par l&#x27;enseignant.</p></article>
       <article class="tool reveal" style="--a: var(--t)"><svg class="ico"><use href="#i-timesheet"/></svg><h3>Timesheet</h3><p>Ma semaine par étape du PDP, approbation, export Excel et rapport Word.</p></article>
-      <article class="tool reveal" style="--a: var(--y)"><svg class="ico"><use href="#i-help"/></svg><h3>Help &amp; HeadLamp</h3><p>Le guide pas à pas, la FAQ et un Space bac à sable pour apprendre sans risque.</p></article>
+      <article class="tool reveal" style="--a: var(--y)"><svg class="ico"><use href="#i-help"/></svg><h3>Help &amp; DEMO</h3><p>Le guide pas à pas, la FAQ et le Space DEMO : un exemple complet et un bac à sable pour apprendre sans risque.</p></article>
     </div>
   </section>
 
@@ -407,12 +407,12 @@ footer { text-align: center; padding: 2rem 1rem 3rem; color: var(--ink-2); font-
 
   <section class="final reveal">
     <h2>Votre prochaine idée commence <span class="hl">dans le carnet</span>.</h2>
-    <p class="sub" style="margin-left:auto; margin-right:auto">Connectez-vous, faites le parcours HeadLamp en une heure, puis ouvrez votre Space.</p>
+    <p class="sub" style="margin-left:auto; margin-right:auto">Connectez-vous, faites le parcours DEMO en une heure, puis ouvrez votre Space.</p>
     <div class="cta"><a class="btn btn-primary" href="/"><svg class="ico"><use href="#i-bolt"/></svg>Ouvrir l'outil</a>
       <a class="btn" href="/#/help"><svg class="ico"><use href="#i-help"/></svg>Commencer par Help</a></div>
   </section>
 </main>
-<footer>Dynamite | Agile · logiciel libre · sur votre serveur · version 0.60.47</footer>
+<footer>Dynamite | Agile · logiciel libre · sur votre serveur · version 0.60.49</footer>
 
 <script>
 (function () {
@@ -439,7 +439,7 @@ footer { text-align: center; padding: 2rem 1rem 3rem; color: var(--ink-2); font-
 
   /* ---------- journey: the step in the middle of the screen drives the mock-up ---------- */
   const steps = Array.from(document.querySelectorAll(".step"));
-  const scenes = Array.from(document.querySelectorAll(".scene"));
+  const scenes = Array.from(document.querySelectorAll("#screen .scene"));
   const tabs = Array.from(document.querySelectorAll(".bar .tab"));
   const screen = document.getElementById("screen");
   let current = -1, timers = [];

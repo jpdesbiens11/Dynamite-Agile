@@ -1,5 +1,5 @@
 """Training catalogue (D-A-045): the TRAINING Space that holds the topics (D-A-010), the default topics -- the
-HeadLamp sections (linked to their Help chapter), the knowledge-base pages, the Tools methods of the Dynamite
+DEMO sections (linked to their Help chapter), the knowledge-base pages, the Tools methods of the Dynamite
 wiki and the personal follow-up (RH, 0.50.10) -- one example test for the administrators, and the default workflow
 (editable by the administrators, stored in app_settings).
 
@@ -59,7 +59,7 @@ pass: 80
 """
 
 def project_id(conn):
-    """The Space of the training topics: TRAINING on an installation made before 0.60.41, else HeadLamp (D-O-050)."""
+    """The Space of the training topics: TRAINING on an installation made before 0.60.41, else DEMO (D-O-050)."""
     from modules.help import reference
     return reference.space(conn, KEY)
 
@@ -81,19 +81,19 @@ def save_workflow(conn, rules):
 
 def _topics():
     from modules.help.headlamp import STEPS, TOPIC_CODES  # 0.47.0: stable code per chapter, whatever its position
-    out = [("HL", None, "HeadLamp — prise en main de la plateforme",
-            "Le parcours d'accueil : une section par outil, chacune avec son exercice dans le Space HEADLAMP.",
-            "#/dynamite/HEADLAMP", "Space HEADLAMP")]
+    out = [("HL", None, "DEMO — prise en main de la plateforme",
+            "Le parcours d'accueil : une section par outil, chacune avec son exercice dans le Space DEMO.",
+            "#/dynamite/DEMO", "Space DEMO")]
     for n, (chapter, title, exercise) in enumerate(STEPS, start=1):
         out.append((TOPIC_CODES[chapter], "HL", title, "Exercice : " + exercise, "#/help/" + chapter,
                     "Help — chapitre {}".format(n)))
-    out += [("KB", None, "Base de connaissances (BDC)", "Les pages de référence du wiki Dynamite.", "#/dynamite/HEADLAMP",
+    out += [("KB", None, "Base de connaissances (BDC)", "Les pages de référence du wiki Dynamite.", "#/dynamite/DEMO",
              "Base de connaissances"),
             ("KB-01", "KB", "Definitions et Acronyms de l'outil",
              "Les termes techniques (en anglais) et leur équivalent français ; le vocabulaire de l'analyse fonctionnelle.",
              "#/testing/lists", "Testing → Listes centrales"),
             ("KB-02", "KB", "Getting Things Done — les principes", "Organiser ses tâches : Inbox, Next Actions, Weekly Review.",
-             "#/dynamite/HEADLAMP", "Page « Getting Things Done »"),
+             "#/dynamite/DEMO", "Page « Getting Things Done »"),
             ("KB-03", "KB", "Structure des fonctions du produit (F-XX)", "Les fonctions de l'analyse fonctionnelle "
              "et leurs composants.", "#/testing/lists", "Page BDC des fonctions"),
             ("TL", None, "Méthodes de conception (Tools)", "Les méthodes de l'onglet Tools et leurs pages dans le Space TOOLS.",
@@ -135,7 +135,7 @@ def ensure(ctx):
     """Create the TRAINING Space and the default topics once (a topic edited by an administrator is left alone)."""
     conn = ctx.conn
     from modules.help import reference
-    pid = reference.ensure(ctx, KEY)  # 0.60.41 (D-O-050): HeadLamp, or TRAINING on an older installation
+    pid = reference.ensure(ctx, KEY)  # 0.60.41 (D-O-050): DEMO, or TRAINING on an older installation
     have = {r["code"]: r["id"] for r in conn.execute("SELECT id, code FROM training_topics WHERE project_id = ?", (pid,))}
     now = db.utc_now()
     for pos, (code, parent, title, content, ref, ref_label) in enumerate(_topics()):

@@ -465,3 +465,11 @@ Le prompt `starter.md` passe en 0.60.18.
 ### D-O-056 — Un bouton « Partager » sur le site (2026-11-05, demande de JP)
 **Contexte :** JP veut que les amis se passent la bonne nouvelle : le site au complet ou une sous-page, par exemple la procédure d'installation.
 **Décision :** un bouton « Partager » dans la barre du haut de chaque page (FR / EN) partage l'adresse exacte, ancre comprise. Au téléphone, la feuille de partage du système (Messenger, Teams, etc. y sont) ; ailleurs, un menu de liens simples : copier le lien, courriel, texto, WhatsApp, LinkedIn, Facebook, X. Aucun script de réseau social n'est chargé ; sous 480 px, le bouton GitHub passe au pied de page pour garder la barre sur une ligne.
+
+### D-O-057 — La langue d'un clic, les thèmes dans Paramètres (2026-11-05, demande de JP)
+**Contexte :** JP veut que les anglophones choisissent FR / EN dans l'interface principale, comme sur le site, sans aller dans les paramètres ; et que les thèmes quittent le menu déroulant du compte.
+**Décision :** un bouton FR | EN dans la barre du haut (`static/js/tools/langswitch.js`) enregistre la préférence `language` (`fr` ou `en`, D-B-042 levée) et redessine la page. Le cadre de l'outil est traduit (`static/js/tools/i18n.js`) ; les écrans des modules suivront (D-O-017, étapes 2 à 4). Les thèmes se choisissent dans Paramètres → Thème seulement.
+
+### D-O-058 — Un seul Space à l'installation : DEMO (2026-11-05, demande de JP)
+**Contexte :** JP veut une installation légère avec un seul projet : HeadLamp et le Rover combinés en un Space DEMO (démo des outils, bac à sable, documents de formation), par défaut à l'installation ; l'administrateur le cache quand l'équipe commence son vrai projet. Le nom HeadLamp disparaît de la plateforme. Remplace la partie « jamais par défaut » de D-O-055.
+**Décision :** la clé du Space devient DEMO (`modules/help/headlamp.py`, renommage au démarrage d'une installation existante, journalisé, Space par défaut des personnes suivi). Le Rover (`deploy/spaces_exemples/rover.json`) est chargé une fois dans DEMO par le code de Commencer (`modules/help/demo_example.py`), sans comptes d'exemple. « Cacher pour tous » (⚙ Admin → Spaces) écrit `app_settings.demo` ; `permissions.visible_projects` laisse alors DEMO hors des listes, ses pages restant ouvertes par lien.

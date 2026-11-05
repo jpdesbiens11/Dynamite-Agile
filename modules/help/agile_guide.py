@@ -1,8 +1,8 @@
 """« Méthode Agile avec l'outil Agile — guide pas à pas » (D-A-050): the Agile method (Scrum style) explained with the
 names of the functions of the Agile tab, a worked example on the team project Space EQP, fall-backs, pros and cons,
 limitations, known issues and a FAQ -- in French, technical terms in English (D-B-085). Page of the « Base de
-connaissances (BDC) » of HEADLAMP, generated at start-up while nobody edited it. Screenshots (guide_agile/*.png),
-when the folder holds some, are stored once as images of the HEADLAMP Space; 0.60.01 ships none (the former ones
+connaissances (BDC) » of DEMO, generated at start-up while nobody edited it. Screenshots (guide_agile/*.png),
+when the folder holds some, are stored once as images of the DEMO Space; 0.60.01 ships none (the former ones
 showed the former example and are to be redone on the example team).
 """
 import json
@@ -140,7 +140,7 @@ def body(ids):
 
 
 def _images(ctx, pid):
-    """Store the screenshots once as images of the HEADLAMP Space (deduplicated by content)."""
+    """Store the screenshots once as images of the DEMO Space (deduplicated by content)."""
     from core import uploads
     ids = {}
     for name in SHOTS:

@@ -41,13 +41,13 @@ ID_RE = re.compile(r"^[A-Z][A-Z0-9]*(-[A-Z0-9]+){1,4}$")
 
 
 def project_id(conn):
-    """The Space of the reference Test Base: TESTING on an installation made before 0.60.41, else HeadLamp (D-O-050)."""
+    """The Space of the reference Test Base: TESTING on an installation made before 0.60.41, else DEMO (D-O-050)."""
     from modules.help import reference
     return reference.space(conn, KEY)
 
 
 def ref_key(conn):
-    """The key of the reference Space (HEADLAMP, or TESTING on an installation made before 0.60.41, D-O-050)."""
+    """The key of the reference Space (DEMO, or TESTING on an installation made before 0.60.41, D-O-050)."""
     pid = project_id(conn)
     row = conn.execute("SELECT key FROM projects WHERE id = ?", (pid,)).fetchone() if pid else None
     return row["key"] if row else KEY
@@ -80,7 +80,8 @@ def copy_base(conn, source_pid, target_pid, user_id=None):
     """Copy every test of a Space's base into another Space (the target must have none). Returns the count."""
     now = db.utc_now()
     count = 0
-    for r in conn.execute("SELECT * FROM testing_tests WHERE project_id = ? ORDER BY id", (source_pid,)).fetchall():
+    for r in conn.execute("SELECT * FROM testing_tests WHERE project_id = ? AND origin != 'example' ORDER BY id",  # 0.60.49: not the Rover's
+                          (source_pid,)).fetchall():
         conn.execute("INSERT INTO testing_tests (project_id, {cols}, created_by, created_at, updated_by, updated_at) "
                      "VALUES (?, {marks}, ?, ?, ?, ?)".format(cols=", ".join(COPY_COLS), marks=", ".join("?" for _ in COPY_COLS)),
                      (target_pid,) + tuple(r[c] for c in COPY_COLS) + (user_id, now, user_id, now))
@@ -311,7 +312,7 @@ def _ensure_pages(ctx, pid):
         own = ctx.conn.execute("SELECT key FROM projects WHERE id = ?", (pid,)).fetchone()["key"] == KEY
         if home is not None and own:  # the TESTING Space of an older installation: its home is the hub
             hub = home
-        else:  # 0.60.41 (D-O-050): in HeadLamp, the hub is a page under the home, never the home itself
+        else:  # 0.60.41 (D-O-050): in DEMO, the hub is a page under the home, never the home itself
             made = api.post(base, {"title": HUB, "parent_id": home["id"] if home else None, "body": hub_page(tests)})
             hub = made.get("page") or made
     refresh(hub["id"], HUB, hub_page(tests))
@@ -326,7 +327,7 @@ def _ensure_pages(ctx, pid):
 
 
 def ensure(ctx):
-    """Fill the reference Test Base, its central lists and the draft procedure pages in the reference Space (HeadLamp,
+    """Fill the reference Test Base, its central lists and the draft procedure pages in the reference Space (DEMO,
     or TESTING on an installation made before 0.60.41, D-O-050); everyone is an editor there."""
     from modules.help import reference
     pid = reference.ensure(ctx, KEY)
@@ -344,7 +345,7 @@ def ensure(ctx):
 def require_space(conn):
     pid = project_id(conn)
     if pid is None:
-        raise ApiError(404, "La Test Base de référence n'existe pas encore (Space HeadLamp). Correctif : redémarrez le serveur.")
+        raise ApiError(404, "La Test Base de référence n'existe pas encore (Space DEMO). Correctif : redémarrez le serveur.")
     return pid
 
 

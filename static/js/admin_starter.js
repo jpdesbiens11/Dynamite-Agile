@@ -82,8 +82,8 @@
   /* 0.60.18: step 1 spelled out for a beginner -- the prompt is served by the tool itself, so it works offline too. */
   function promptBox() {
     /* 0.60.43 (D-O-052): a proven Space of the team as the worked example of the prompt */
-    const spaces = (DA.session.projects || []).filter((p) => p.key !== "HEADLAMP" && ["manager", "admin"].includes(p.role)
-      || (DA.session.user && DA.session.user.is_admin && p.key !== "HEADLAMP"));
+    const spaces = (DA.session.projects || []).filter((p) => p.key !== "DEMO" && ["manager", "admin"].includes(p.role)
+      || (DA.session.user && DA.session.user.is_admin && p.key !== "DEMO"));
     const source = el("select", { "aria-label": "Space éprouvé en exemple", "data-new": "0.60.43-proven" },
       el("option", { value: "" }, "Sans Space éprouvé (exemple générique)"),
       spaces.map((p) => el("option", { value: p.key }, "Partir de " + p.key + " · " + p.name)));

@@ -393,14 +393,14 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 
 /* ---------- landing storyline (0.60.40, D-O-049): the need, then deeper and deeper down to the diamonds ---------- */
 .story { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.1rem; margin-top: 1.4rem; }
-.scene { position: relative; padding: 1.2rem 1.2rem 1.1rem; background: rgba(255, 255, 255, .92); border: 1.6px solid rgba(38, 50, 63, .25);
+.story-card { position: relative; padding: 1.2rem 1.2rem 1.1rem; background: rgba(255, 255, 255, .92); border: 1.6px solid rgba(38, 50, 63, .25);
   border-radius: var(--r-card); box-shadow: var(--shadow); transition-delay: var(--d, 0ms); }
-.scene .scene-n { position: absolute; top: -.8rem; left: 1rem; display: grid; place-items: center; width: 1.8rem; height: 1.8rem;
+.story-card .scene-n { position: absolute; top: -.8rem; left: 1rem; display: grid; place-items: center; width: 1.8rem; height: 1.8rem;
   border-radius: 50%; background: var(--o); color: #fff; border: 1.6px solid var(--ink); font: 700 .95rem var(--hand); }
-.scene .ico { width: 30px; height: 30px; margin: .3rem 0 .2rem; color: var(--ink); }
-.scene h3 { margin: .2rem 0 .4rem; font: 700 1.25rem var(--hand); }
-.scene p { margin: 0; color: var(--ink-2); }
-.scene:last-child { border-color: var(--b); box-shadow: 5px 5px 0 #0b3f8f; }
+.story-card .ico { width: 30px; height: 30px; margin: .3rem 0 .2rem; color: var(--ink); }
+.story-card h3 { margin: .2rem 0 .4rem; font: 700 1.25rem var(--hand); }
+.story-card p { margin: 0; color: var(--ink-2); }
+.story-card:last-child { border-color: var(--b); box-shadow: 5px 5px 0 #0b3f8f; }
 #descente { --deep: 0; position: relative; border-radius: 28px; padding-bottom: 2rem;
   background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, #1b2733 calc(var(--deep) * 22%), transparent) 45%,
     color-mix(in srgb, #0f1720 calc(var(--deep) * 70%), transparent) 100%); transition: background .8s ease; }
@@ -453,6 +453,11 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .share-item:hover, .share-item:focus-visible { background: color-mix(in srgb, var(--y, #ffd23f) 55%, #fff); outline: none; }
 @media (max-width: 720px) { .share-btn span { display: none; } .share-menu { right: 1rem; } }
 @media (max-width: 480px) { .top .gh { display: none; } }  /* GitHub stays in the footer; the top bar keeps one line */
+/* 0.60.49: « d'où faites-vous l'installation ? » asked once, before the 5 steps, whatever the destination */
+.pc-first { display: block; margin: 1.4rem 0 1.2rem; padding: 1rem 1.2rem; border: 2px solid var(--ink); border-radius: var(--r-card, 12px);
+  border-style: solid; background: color-mix(in srgb, var(--y, #ffd23f) 22%, #fff); }
+.pc-first h2 { margin: 0 0 .3rem; font-size: 1.25rem; }
+.pc-first p { margin: 0 0 .7rem; }
 
 </style>
 </head>
@@ -523,7 +528,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   <h2>All versions</h2>
   <ol id="ver-list" class="stepper ver-list"></ol>
 </main>
-<footer>DynamiteAgile · free software under the MIT licence · version 0.60.47 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>DynamiteAgile · free software under the MIT licence · version 0.60.49 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */

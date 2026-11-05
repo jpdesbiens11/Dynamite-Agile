@@ -1,5 +1,5 @@
-"""The module documentation in the HeadLamp library (0.60.45, D-O-054): a hub page « Documentation des modules » under the
-HeadLamp home and one child page per module, in the order of the descent into the mine. Generated at start-up through the
+"""The module documentation in the DEMO library (0.60.45, D-O-054): a hub page « Documentation des modules » under the
+DEMO home and one child page per module, in the order of the descent into the mine. Generated at start-up through the
 Dynamite handlers (validated, versioned, journalled); a page edited by a person is left alone, the others follow the text
 of module_docs.py. The titles stay the same: they are how the pages are found again.
 """
@@ -65,9 +65,9 @@ def hub_body():
                           "pourquoi le module existe, le besoin qu'il couvre, le pas à pas, ce qu'on y fait de MVP 0 à MVP x, et ses "
                           "références de la plus à la moins pertinente.")),
         _table(["Module", "Profondeur", "À quoi il sert"], *rows),
-        _panel("success", _p(_t("Un exemple complet, si vous le voulez :", "bold"), " le Rover, un petit véhicule autonome sur une auto "
-                             "téléguidée, avec tous les modules remplis de MVP 0 à MVP 3. Il ne s'installe pas tout seul : "
-                             "téléchargez rover.json depuis la page d'installation du site, puis ⚙ Admin → Spaces → Commencer.")),
+        _panel("success", _p(_t("Un exemple complet dans ce Space :", "bold"), " le Rover, un petit véhicule autonome sur une auto "
+                             "téléguidée, avec tous les modules remplis de MVP 0 à MVP 3. Commencez par la page « Rover — accueil du "
+                             "projet » : son guide de lecture dit où regarder, module par module.")),
         _h(2, "Les pages"), {"type": "children"})
 
 
@@ -90,7 +90,7 @@ def _put(ctx, api, base, pages, name, parent_id, doc):
 
 
 def ensure(ctx):
-    """Create or refresh the hub and the module pages in HeadLamp. Returns {hub, pages: {module key: page id}} or None."""
+    """Create or refresh the hub and the module pages in DEMO. Returns {hub, pages: {module key: page id}} or None."""
     pid = project_id(ctx.conn)
     if pid is None:
         return None

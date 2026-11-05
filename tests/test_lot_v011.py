@@ -189,7 +189,7 @@ class LotV011Test(unittest.TestCase):
 
     def test_06_bdc_upgrade(self):
         from modules.help import gtd
-        hl = self.projects["HEADLAMP"]
+        hl = self.projects["DEMO"]
         base = "/api/dynamite/p/{}/pages".format(hl)
         pages = self.admin.get(base)["pages"]
         hub = next(p for p in pages if p["title"] == gtd.HUB)

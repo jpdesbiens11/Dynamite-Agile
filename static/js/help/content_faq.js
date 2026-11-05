@@ -45,7 +45,7 @@
         ["p", "Chaque requirement doit nommer au moins un test de la base **Testing** qui la vérifie : c'est ce qui garantit qu'aucune requirement n'arrive en campagne de tests sans moyen de preuve. Choisissez-le dans « Test Procedure » (liste par sujet). Une inspection, une analyse ou une démonstration a aussi sa fiche (sujet « Vérification sans test », TST-VER-…). Pour un need particulier, un « Custom Test » (TST-CUS-…), ou demandez à l'équipe de tests d'en créer un. Un requirement enregistrée avant cette règle apparaît dans « À compléter » (sans Test Procedure) et doit recevoir son test à sa prochaine modification. Un besoin n'a pas de test."]] },
 
     { q: "Il manque un équipement, un lieu ou une fonction dans la liste : que faire ?",
-      blocks: [["p", "Les listes sont centrales pour éviter les variantes (« pot vibrant », « shaker », « table vib »…). Demandez l'ajout à un Admin du Space HeadLamp (la bibliothèque de référence) : Testing → Listes → « + Ajouter » (code court et stable, ex. EQ-HALT). Une entrée remplacée se désactive : elle reste sur les tests qui l'ont, mais n'est plus proposée. Les fonctions sont aussi publiées dans la page « Product Function Structure (F-XX) » de la Base de connaissances (BDC)."]] },
+      blocks: [["p", "Les listes sont centrales pour éviter les variantes (« pot vibrant », « shaker », « table vib »…). Demandez l'ajout à un Admin du Space DEMO (la bibliothèque de référence) : Testing → Listes → « + Ajouter » (code court et stable, ex. EQ-HALT). Une entrée remplacée se désactive : elle reste sur les tests qui l'ont, mais n'est plus proposée. Les fonctions sont aussi publiées dans la page « Product Function Structure (F-XX) » de la Base de connaissances (BDC)."]] },
 
     { q: "Pourquoi je ne peux pas modifier ce ticket ?",
       blocks: [["p", "Un ticket se modifie par **son responsable** (l'assigné) ou un administrateur. Vous pouvez le commenter ; s'il n'a pas de responsable, « Prendre le ticket ». Pour le confier à quelqu'un d'autre, le responsable change l'assigné."]] },
@@ -115,8 +115,8 @@
         ["tip", "Une révision pèse quelques Mo (base compressée ; les pièces jointes ne sont pas recopiées, elles ne changent jamais). "
           + "Les droits appliqués en consultation sont ceux d'aujourd'hui."]] },
 
-    { q: "Est-ce que HeadLamp [Sandbox] compte pour de vrai ?",
-      blocks: [["p", "Non : HeadLamp [Sandbox] est un **bac à sable**. Créez, modifiez, cassez : rien n'y touche aux vrais Spaces. Ses requirements et références sont des exemples ; il est fermé aux feuilles de temps."]] },
+    { q: "Est-ce que DEMO compte pour de vrai ?",
+      blocks: [["p", "Non : DEMO est un **bac à sable**. Créez, modifiez, cassez : rien n'y touche aux vrais Spaces. Ses requirements et références sont des exemples ; il est fermé aux feuilles de temps."]] },
 
     { q: "Le thème n'a pas changé : où le choisir ?",
       blocks: [["p", "Menu à votre nom (en haut à droite) → section **Thème** : Thème par défaut ou Terminal R&D, un clic. Les autres "
@@ -151,6 +151,6 @@
           ["Testing", "L'essai du minerai : mesurer la teneur", "Test Base, procédures et plans d'essai"],
           ["Tools et Generator", "La boîte à outils et le poinçon des lots", "Méthodes de conception, numéros de documents"],
           ["Timesheet", "Le carnet de quart", "Heures par étape du PDP, vacances, réclamations"],
-          ["Training, Help & HeadLamp", "L'école de la mine et la HeadLamp qui éclaire la galerie", "Formation, tour du site, bac à sable"]]]] }
+          ["Training, Help & DEMO", "L'école de la mine et la DEMO qui éclaire la galerie", "Formation, tour du site, bac à sable"]]]] }
   ];
 })();

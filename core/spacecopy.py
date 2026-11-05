@@ -34,11 +34,11 @@ ISSUE_CHILDREN = ("agile_comments", "agile_history", "agile_issue_labels", "agil
 GOLDMINE = ("agile_requirements", "goldmine_qa", "goldmine_qa_events", "goldmine_pugh", "goldmine_pugh_concepts",
             "goldmine_pugh_criteria", "goldmine_pugh_scores")
 ATTACHMENT_MODULES = {"dynamite": ("dynamite",), "agile": ("agile",), "goldmine": ("goldmine", "agile_requirement")}
-CATALOGUE = "TESTING"  # before 0.60.41; the reference Test Base now lives in HeadLamp (D-O-050), see _cat()
+CATALOGUE = "TESTING"  # before 0.60.41; the reference Test Base now lives in DEMO (D-O-050), see _cat()
 
 
 def _cat(conn):
-    """The key of the Space that holds the reference Test Base (HeadLamp, or TESTING on an older installation)."""
+    """The key of the Space that holds the reference Test Base (DEMO, or TESTING on an older installation)."""
     try:
         from modules.testing import catalog
         pid = catalog.project_id(conn)

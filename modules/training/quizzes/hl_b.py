@@ -48,7 +48,7 @@ pass: 80
 - [x] Ajouter des réponses seulement
 - [ ] Changer le responsable des tickets
 ## Où trouve-t-on la méthode Agile pas à pas, avec captures ?
-- [x] Dans la Base de connaissances du Space HEADLAMP (Dynamite)
+- [x] Dans la Base de connaissances du Space DEMO (Dynamite)
 - [ ] Dans le Space wiki TOOLS, avec les méthodes de conception
 - [ ] Dans Help → FAQ, question « Agile, Goldmine, Exploration »
 ## Quelle question Agile aide-t-il à répondre ?
@@ -250,7 +250,7 @@ pass: 80
 - [ ] Efface la recherche
 ## Vous voyez un problème à l'écran. Que faire ?
 - [x] Cliquer « Audit » sur cet écran, décrire le problème, envoyer
-- [ ] Écrire un ticket dans le Space HEADLAMP
+- [ ] Écrire un ticket dans le Space DEMO
 - [ ] Envoyer un courriel à l'IT
 ## Audit ne capture pas la page automatiquement. Pourquoi, et que faire ?
 - [x] Elle demande HTTPS : prenez la capture (Win+Maj+S) et collez-la

@@ -2,7 +2,7 @@
 
 Source of truth: the central lists « definition » and « acronym » (lists.py, Testing → Listes, edited by the TESTING
 Space admins and the administrators). From them:
-  * three Dynamite pages of the « Base de connaissances (BDC) » (HEADLAMP): Definitions, Acronyms and the French
+  * three Dynamite pages of the « Base de connaissances (BDC) » (DEMO): Definitions, Acronyms and the French
     translation of the English terms (D-B-085) -- regenerated after every change, left alone once edited by hand;
   * the « Definitions and Conventions » and « Acronyms » sections of the Word exports of Goldmine and Testing.
 """
@@ -160,7 +160,7 @@ def _ensure(ctx, api, base, pages, parent, title, body):
 
 
 def ensure_pages(ctx):
-    """Create / refresh the three glossary pages under « Base de connaissances (BDC) » (HEADLAMP)."""
+    """Create / refresh the three glossary pages under « Base de connaissances (BDC) » (DEMO)."""
     from modules.help import gtd
     from modules.help.local_api import LocalApi
     pid = gtd.project_id(ctx.conn)

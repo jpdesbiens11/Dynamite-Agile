@@ -2,21 +2,45 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Partager une page du site (D-O-056)",
-      "why": "Les amis se passent le site ou une sous-page précise (la procédure d'installation) sans recopier l'adresse ; de simples liens, rien n'est chargé des réseaux sociaux avant le clic.",
+      "title": "HEADLAMP devient DEMO (D-O-058)",
+      "why": "Clé, nom, page d'accueil et Space par défaut des personnes renommés au démarrage, journalisés ; le nom HeadLamp quitte la plateforme.",
       "files": [
-        "tools/build_site.py",
-        "tools/site_text.py",
-        "tools/site/site.js",
-        "tools/site/site.css"
+        "modules/help/headlamp.py",
+        "modules/help/tour.py",
+        "modules/help/reference.py",
+        "static/js/help/help.js",
+        "static/js/app.js"
       ]
     },
     {
       "id": "C2",
-      "title": "Tests",
-      "why": "tests/test_site_share.py : le bouton sur les 10 pages, la page en cours avec son ancre, aucun script ni image d'un réseau social.",
+      "title": "Le Rover dans DEMO (D-O-058)",
+      "why": "Chargé une fois au démarrage par le même code que Commencer, sans les comptes d'exemple ni le bandeau Brouillon IA ; ses pages à côté de l'accueil DEMO.",
       "files": [
-        "tests/test_site_share.py"
+        "modules/help/demo_example.py",
+        "modules/help/__init__.py"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Cacher DEMO pour tous (D-O-058)",
+      "why": "Réglage de la plateforme (app_settings « demo ») : DEMO quitte toutes les listes ; ses pages restent ouvertes par lien (Help, documentation).",
+      "files": [
+        "core/permissions.py",
+        "core/prefs.py",
+        "static/js/admin.js"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Textes, site et tests",
+      "why": "DEMO partout dans l'outil, le site (installation, guide, modules, descente de la mine) et la vitrine ; tests/test_demo_space.py.",
+      "files": [
+        "tools/site_text.py",
+        "tools/site/installation.html",
+        "tools/site/en/installation.html",
+        "modules/help/module_docs.py",
+        "tests/test_demo_space.py"
       ]
     }
   ]

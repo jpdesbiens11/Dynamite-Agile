@@ -1,6 +1,6 @@
 {
   "version": "0.60.46",
-  "date": "2026-11-04",
+  "date": "2026-11-05",
   "summary": {
     "fr": "Exemple académique complet « Rover » : un petit véhicule autonome sur une auto téléguidée tout-terrain, piloté par un Raspberry Pi et une application web, qui contourne lentement les obstacles. Tous les modules sont remplis et documentés de MVP 0 à MVP 3. Il ne s'installe jamais tout seul : la page d'installation le propose en téléchargement, et une équipe le charge si elle le veut (Commencer). Le format Project Starter reçoit les méthodes de conception (idéation, Pugh, Kepner-Tregoe).",
     "en": "Complete academic example « Rover »: a small autonomous robot on an all-terrain RC car, driven by a Raspberry Pi and a web app, that goes slowly around obstacles. Every module is filled and documented from MVP 0 to MVP 3. It never installs by itself: the installation page offers it for download, and a team loads it if it wants (Commencer). The Project Starter format gets the design methods (ideation, Pugh, Kepner-Tregoe)."

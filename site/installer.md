@@ -129,6 +129,6 @@ affichées, chaque refus y nomme la valeur et le correctif.
 - Mot de passe admin oublié : `sudo -u dynamite python3 /opt/dynamite_agile/app_dynamite_agile.py --reset-password admin`.
 - Prise en main : https://jpdesbiens11.github.io/Dynamite-Agile/guide.html ; dans l'outil, Help → le tour du site.
 
-## L'exemple académique Rover (0.60.46)
+## Le Space DEMO (0.60.49)
 
-La page d'installation propose, à la fin, un exemple complet à charger si la personne le veut : `spaces/rover.json`. Il ne s'installe jamais tout seul. Pour le charger : ⚙ Admin → Spaces → Commencer → étape 2, déposer le fichier, lire l'aperçu, « Créer le Space ROVER ». Il crée quatre comptes d'exemple (Nina, Léa, Hugo, Alexis) avec un mot de passe temporaire ; le Space se supprime ensuite comme n'importe quel autre.
+Une installation neuve s'ouvre sur un seul Space, DEMO : le tour guidé, un bac à sable, la formation, la bibliothèque de référence et l'exemple complet du Rover (tous les modules remplis). Aucun compte d'exemple n'est créé. Quand l'équipe commence son vrai projet (⚙ Admin → Spaces → Commencer), un administrateur cache DEMO pour tous : ⚙ Admin → Spaces → DEMO → « Cacher pour tous ».

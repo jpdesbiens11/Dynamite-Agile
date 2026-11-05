@@ -19,8 +19,8 @@
 
   T.catBadge = (code, labels) => el("span", { class: "badge tg-cat " + (CAT_CLASS[code] || "") }, labels.categories[code] || code);
   T.statusBadge = (status) => el("span", { class: "badge badge-" + (STATUS_CLASS[status] || "neutral") }, status);
-  /* 0.60.41 (D-O-050): the reference catalogue lives in HeadLamp; TESTING only on an installation made before */
-  T.ref = () => ((DA.session.projects || []).some((p) => p.key === "TESTING") ? "TESTING" : "HEADLAMP");
+  /* 0.60.41 (D-O-050): the reference catalogue lives in DEMO; TESTING only on an installation made before */
+  T.ref = () => ((DA.session.projects || []).some((p) => p.key === "TESTING") ? "TESTING" : "DEMO");
   T.pageHref = (page) => (page ? "#/dynamite/" + T.ref() + "/page/" + page.id : null);
   T.space = "";  // D-B-097: the Space whose Test Base is shown (set by the route)
   T.api = (url) => url + (url.indexOf("?") < 0 ? "?" : "&") + "space=" + encodeURIComponent(T.space);
@@ -157,7 +157,7 @@
         + "Spaces déjà copiés. " : "Base propre au Space " + data.space + " (copie du catalogue, modifiable sans toucher les "
         + "autres Spaces). ") + "Base des tests possibles d'un produit grand public mécatronique : standards (sécurité électrique, "
       + "CEM, IP, chute, durée de vie…), pratiques de l'industrie et custom tests de l'équipe. Chaque requirement Goldmine choisit ses tests "
-      + "dans « Test Procedure » ; chaque sujet a sa procédure (wiki de référence, HeadLamp).", [
+      + "dans « Test Procedure » ; chaque sujet a sa procédure (wiki de référence, DEMO).", [
       hub ? el("a", { class: "btn btn-small", href: T.pageHref(hub) }, "Procedures (wiki)") : null,
       data.can_edit ? el("button", { type: "button", class: "btn btn-small btn-primary", onclick: () => openCreate(data, subject) }, "Nouveau Test") : null,
       exportBtn, wordBtn, planBtn, data.can_edit ? importButton(reload) : null,

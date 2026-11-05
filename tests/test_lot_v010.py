@@ -49,7 +49,7 @@ class LotV010Test(unittest.TestCase):
         with db.connect() as conn:
             auth.ensure_initial_admin(conn, data_dir, dev_password="admin")
         startup.run(data_dir, cfg)
-        startup.run(data_dir, cfg)  # idempotent (INT, HEADLAMP, BDC pages)
+        startup.run(data_dir, cfg)  # idempotent (INT, DEMO, BDC pages)
         cls.data_dir = data_dir
         cls.server = router.create_server(cfg, BASE_DIR / "static", data_dir)
         threading.Thread(target=cls.server.serve_forever, daemon=True).start()
@@ -105,8 +105,10 @@ class LotV010Test(unittest.TestCase):
         self.assertEqual(self.people["theo"].get("/api/me")["prefs"]["theme"], "carnet")  # D-B-087: default (was atlassian, D-B-035)
         prefs = nora.put("/api/me/prefs", {"theme": "atlassian", "font_size": "112", "my_items": True})["prefs"]
         self.assertEqual((prefs["theme"], prefs["language"], prefs["font_size"], prefs["my_items"]), ("atlassian", "fr", "112", True))
-        with self.assertRaises(ApiFailure):  # D-B-042: French only
-            nora.put("/api/me/prefs", {"language": "en"})
+        self.assertEqual(nora.put("/api/me/prefs", {"language": "en"})["prefs"]["language"], "en")  # 0.60.48 (D-O-057)
+        nora.put("/api/me/prefs", {"language": "fr"})
+        with self.assertRaises(ApiFailure):
+            nora.put("/api/me/prefs", {"language": "de"})
         self.assertEqual(nora.get("/api/me")["prefs"]["theme"], "atlassian")
         for bad in ({"theme": "neon"}, {"manager_id": self.ids["nora"]}, {"vacation_bank_hours": "beaucoup"}):
             with self.assertRaises(ApiFailure) as err:
@@ -255,7 +257,7 @@ class LotV010Test(unittest.TestCase):
 
     # ---------------- D-B-033: HeadLamp « Connaissances » ----------------
     def test_07_gtd_pages(self):
-        hl = self.projects["HEADLAMP"]
+        hl = self.projects["DEMO"]
         titles = [p["title"] for p in self.admin.get("/api/dynamite/p/{}/pages".format(hl))["pages"]]
         for title in ("Base de connaissances (BDC)", "Getting Things Done — les principes",  # D-B-040
                       "GTD appliqué au développement mécatronique", "Revue hebdomadaire GTD — gabarit"):

@@ -1,11 +1,25 @@
-# Journal de mise à jour — 0.60.47
+# Journal de mise à jour — 0.60.49
+
+- **Version :** 0.60.48 → 0.60.49 (2026-11-04)
+- **Changements :**
+  1. **Un seul Space, DEMO** (D-O-058) : HeadLamp + Rover, sans compte d'exemple ; « Cacher pour tous » ; HEADLAMP renommé DEMO.
+- **Base de données :** ['app_settings « demo » {hidden} ; projects.key HEADLAMP → DEMO au démarrage (pas de migration de schéma).']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.48
+
+- **Version :** 0.60.47 → 0.60.48 (2026-11-04)
+- **Changements :**
+  1. **FR | EN dans la barre du haut** (D-O-057) ; thèmes seulement dans Paramètres.
+- **Base de données :** []
+
+### Journal de mise à jour — 0.60.47
 
 - **Version :** 0.60.46 → 0.60.47 (2026-11-04)
 - **Changements :**
   1. **Partager** en haut du site (D-O-056) : la page en cours, par la feuille du téléphone ou un menu (lien, courriel, texto, WhatsApp, LinkedIn, Facebook, X).
 - **Base de données :** []
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.46
 

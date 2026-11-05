@@ -250,6 +250,7 @@
   async function renderProjects(body, selectedId) {
     if (/^\d+$/.test(String(selectedId || "")) && DA.spaceCard) { await DA.spaceCard.render(body, Number(selectedId)); return; }  // D-B-133
     const data = await api.get("/api/admin/projects");
+    const demo = await api.get("/api/admin/demo").catch(() => null);  // 0.60.49 (D-O-058)
     clear(body);
     const refresh = () => renderProjects(body, selectedId);
 
@@ -288,6 +289,12 @@
           onclick: () => run(() => api.patch("/api/admin/projects/" + project.id, { is_archived: !project.is_archived }),
             project.is_archived ? "Space réactivé." : "Space archivé.", refresh),
         }, project.is_archived ? "Désarchiver" : "Archiver"),
+        demo && project.key === demo.key ? el("button", {  // 0.60.49 (D-O-058): hidden for everyone, pages still reachable by link
+          type: "button", class: "btn btn-small", "data-new": "0.60.49-demo-hide",
+          "data-tip": "DEMO disparaît de toutes les listes ; la documentation de Help reste accessible.",
+          onclick: () => run(() => api.put("/api/admin/demo", { hidden: !demo.hidden }),
+            demo.hidden ? "DEMO est de nouveau visible pour tous." : "DEMO est caché pour tous.", refresh),
+        }, demo.hidden ? "Montrer à tous" : "Cacher pour tous") : null,
         DA.adminExtra ? DA.adminExtra.projectActions(project, refresh) : null))));
 
     body.append(form, el("div", { class: "sc-entry" }, DA.spaceCopy ? DA.spaceCopy.button((made) => renderProjects(body, made.project.id)) : null),

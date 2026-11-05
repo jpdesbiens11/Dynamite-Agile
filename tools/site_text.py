@@ -25,13 +25,13 @@ SHARE = {"fr": ("Partager", "Partager cette page", "Copier le lien", "Lien copi�
 SWITCH = {"fr": ("EN", "English", "en"), "en": ("FR", "Français", "fr")}  # (label, title, hreflang) of the other language
 
 # (logo, depth in m, name, {lang: (in the mine, in the project)}) -- the descent of the landing page and the guide (D-O-014);
-# 0.60.40 (D-O-049): in the order of a project, deeper at every step, down to the diamonds. HeadLamp keeps its name.
+# 0.60.40 (D-O-049): in the order of a project, deeper at every step, down to the diamonds. 0.60.49 (D-O-058): the first level is DEMO.
 MINE = [
-    ("help", 0, "HeadLamp & Training", {
-        "fr": ("On allume la HeadLamp avant de descendre : elle éclaire la galerie juste devant soi.",
-               "Le <b>tour guidé</b>, un Space bac à sable pour s'exercer sans risque, et la <b>formation</b> de l'équipe."),
-        "en": ("You switch on the HeadLamp before going down: it lights the tunnel just ahead.",
-               "The <b>guided tour</b>, a sandbox Space to practise risk-free, and the team's <b>training</b>.")}),
+    ("help", 0, "DEMO & Training", {
+        "fr": ("La galerie d'essai, à l'entrée de la mine : on y essaie chaque outil avant de descendre.",
+               "Le Space <b>DEMO</b> : le tour guidé, un exemple complet (le Rover), un bac à sable et la <b>formation</b> de l'équipe."),
+        "en": ("The test tunnel at the mine entrance: every tool is tried there before going down.",
+               "The <b>DEMO</b> Space: the guided tour, a complete example (the Rover), a sandbox and the team's <b>training</b>.")}),
     ("exploration", 60, "Exploration", {
         "fr": ("La prospection : on étudie le terrain et on décide où creuser, dans quel ordre.",
                "Le <b>plan du produit</b> : phases du PDP (Discovery, Concept, Design, Validation), MVP, jalons, Gantt."),
@@ -114,7 +114,7 @@ TOOLS_EN = {
     "Tools": "Brainwriting ideation, Pugh Matrix, Kepner-Tregoe and the Generator of the PDP deliverables.",
     "Training": "Topics, training plans, tests graded on the server, follow-up by the instructor.",
     "Timesheet": "My week per PDP step, approval, Excel export and Word report.",
-    "Help & HeadLamp": "The step-by-step guide, the FAQ and a sandbox Space to learn risk-free.",
+    "Help & DEMO": "The step-by-step guide, the FAQ and the DEMO Space: a complete example and a sandbox to learn risk-free.",
 }
 TOOLS_HEAD_EN = ('    <h2 class="reveal">Eleven tools, <span class="hl" style="--hlc: var(--b)">one sign-in</span></h2>\n'
                  '    <p class="sub reveal">One account, the same rights per Space, the same search everywhere and the same audit log.</p>')

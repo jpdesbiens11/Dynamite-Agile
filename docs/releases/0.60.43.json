@@ -1,6 +1,6 @@
 {
   "version": "0.60.43",
-  "date": "2026-11-04",
+  "date": "2026-11-05",
   "summary": {
     "fr": "Le Project Starter remplit tous les modules : le backlog Agile par MVP (une Version par MVP, epics puis stories) et les livrables du Generator s'ajoutent ; un Space éprouvé se relit comme fichier Project Starter (« Exporter comme modèle (IA) ») et sert d'exemple au prompt du prochain produit (« Modèle » dans Commencer).",
     "en": "The Project Starter fills every module: the Agile backlog by MVP (one Version per MVP, epics then stories) and the Generator deliverables are added; a proven Space reads back as a Project Starter file (« Exporter comme modèle (IA) ») and becomes the example of the prompt for the next product (« Modèle » in Commencer)."

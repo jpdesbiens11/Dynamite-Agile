@@ -1,4 +1,4 @@
-"""The « Modules » page of the website (0.60.45, D-O-054), built from the same text as the HeadLamp library of the tool
+"""The « Modules » page of the website (0.60.45, D-O-054), built from the same text as the DEMO library of the tool
 (modules/help/module_docs*.py): for every module, why it exists, the need it covers, the steps, what it does from MVP 0 to
 MVP x, and its references from the most to the least relevant. The « why » of each reference is written in French only."""
 import base64

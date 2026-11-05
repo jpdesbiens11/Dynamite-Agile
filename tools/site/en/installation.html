@@ -20,6 +20,16 @@
     <span class="where pc">on your computer</span> or <span class="where srv">on the server</span>.</p>
 {{LATEST}}
 
+  <section class="pc-pick pc-first" data-new="0.60.49-from-where" aria-labelledby="from-where">
+    <h2 id="from-where">Before you start: where are you installing from?</h2>
+    <p>The computer <b>on which you type the commands</b> (the one showing this page). It is not necessarily where the tool
+      will run: that is step 1. Every « on your computer » command follows this choice.</p>
+    <div class="seg" role="radiogroup" aria-label="Your computer">
+      <label><input type="radio" name="pc" value="win"> Windows</label>
+      <label><input type="radio" name="pc" value="mac"> macOS</label>
+      <label><input type="radio" name="pc" value="linux"> Linux</label></div>
+  </section>
+
   <div class="progress-bar" aria-live="polite"><div class="track"><i></i></div><span id="progress-text">0 steps done</span></div>
 
   <ol class="wiz">
@@ -44,13 +54,6 @@
             <circle cx="25" cy="15" r="2" fill="#3cba6b"/><rect x="14" y="27" width="36" height="19" rx="3" fill="#cfe3ff"/></svg>
           <b>Team Windows PC</b><span class="tag">Team's network</span>
           <span>A <b>Windows</b> PC that stays on hosts the tool; the team connects over the local network.</span></label>
-      </div>
-      <div class="pc-pick" data-new="0.60.44-my-computer">
-        <span><b>Your computer</b> (the one showing this page): the commands follow it.</span>
-        <div class="seg" role="radiogroup" aria-label="Your computer">
-          <label><input type="radio" name="pc" value="win"> Windows</label>
-          <label><input type="radio" name="pc" value="mac"> macOS</label>
-          <label><input type="radio" name="pc" value="linux"> Linux</label></div>
       </div>
       <details class="ai-help"><summary>Need help? An AI assistant guides you step by step</summary>
         <p>Open Claude (or your usual assistant) and paste this message: it reads this page and guides you one command at a time.
@@ -229,19 +232,18 @@
     </li>
   </ol>
 
-  <section id="exemple" class="example-space reveal" data-new="0.60.46-rover">
-    <h2>A complete academic example, if you want it: the Rover</h2>
-    <p>Your installation stays empty. To see the method applied end to end, load the <b>Rover</b> example: a small autonomous
-      robot built on an all-terrain RC car, driven by a Raspberry Pi and a web app on the phone, that slows down near an obstacle
-      and goes around it slowly. Every module is filled and documented, from MVP 0 to MVP 3: needs and requirements, Test Base,
-      function tree, structure, parts, risks and DFMEA, backlog by MVP, ideation, Pugh, Kepner-Tregoe, Generator deliverables,
-      PDP plan and 28 wiki pages that explain every decision.</p>
+  <section id="exemple" class="example-space reveal" data-new="0.60.49-demo">
+    <h2>From the installation: the DEMO Space</h2>
+    <p>The tool opens on a single Space, <b>DEMO</b>: the guided tour of every tool, a sandbox where everything can be tried
+      risk-free, the training documents and the reference library. It also holds a complete example, the <b>Rover</b>: a small
+      autonomous robot built on an all-terrain RC car, driven by a Raspberry Pi and a web app, that slows down near an obstacle
+      and goes around it slowly. Every module is filled from MVP 0 to MVP 3: needs and requirements, Test Base, function tree,
+      structure, parts, risks and DFMEA, backlog, ideation, Pugh, Kepner-Tregoe, deliverables, PDP plan and pages that explain
+      every decision.</p>
     <ol class="stepper">
-      <li><b>Download the file</b><a class="btn btn-primary" href="../spaces/rover.json" download="rover.json">Download rover.json</a>
-        (about 190 KB, in French; a Project Starter file, like the ones an AI assistant prepares).</li>
-      <li><b>Load it in the tool</b>⚙ Admin → Spaces → <b>Commencer</b> → step 2, drop <code>rover.json</code>, read the preview, then « Créer le Space ROVER ».</li>
-      <li><b>Explore</b>Open the page « Rover — accueil du projet » in Dynamite: the reading guide says where to look, module by module.
-        The accounts Nina, Léa, Hugo and Alexis get a temporary password; delete the Space when you no longer need it.</li>
+      <li><b>Explore</b>Dynamite → DEMO → « Rover — accueil du projet »: the reading guide says where to look, module by module.</li>
+      <li><b>Start your project</b>⚙ Admin → Spaces → <b>Commencer</b>: an AI assistant prepares your product's Space.</li>
+      <li><b>Hide DEMO</b>When the real project starts, ⚙ Admin → Spaces → DEMO → « Cacher pour tous ». The Help documentation stays available.</li>
     </ol>
   </section>
 

@@ -1,6 +1,6 @@
 /* Help - the chronological path (D-B-024), « tour du site » 0.47.0 (D-B-092): the chapters follow the top bar
    (Dashboard, Accueil | Goldmine, Exploration, Agile, Dynamite, Testing | Tools, Training, Timesheet) and the order a
-   product is developed. Each chapter ends with its HeadLamp exercise (ticket found by chapter id, modules/help/tour.py).
+   product is developed. Each chapter ends with its DEMO exercise (ticket found by chapter id, modules/help/tour.py).
    Content only (data), rendered by help.js with textContent -- never HTML.
    Blocks: ["p", text] ["h", text] ["steps", [..]] ["list", [..]] ["tip", text] ["warn", text]
    ["table", [header], [[row]...]]. **bold** is the only inline markup. The chapters of Testing, Tools, Training and
@@ -36,7 +36,7 @@
           "À la première connexion, choisissez votre mot de passe (au moins 12 caractères). Plus tard : menu à votre nom → « Changer mon mot de passe ».",
           "Donnez votre **clé de traçabilité de 3 lettres** (vos initiales) : menu à votre nom → Paramètres → « Mes initiales ». Sans elle, aucune écriture n'est acceptée (bandeau jaune « Initiales requises »).",
           "Sur l'**Accueil** : vos Spaces et votre rôle dans chacun, puis « Qui contacter ? » (qui s'occupe de quoi).",
-          "Rejoignez le Space **HeadLamp [Sandbox]** (bouton dans le panneau de gauche de cette aide) : un bac à sable où tout peut être essayé sans risque."]],
+          "Rejoignez le Space **DEMO** (bouton dans le panneau de gauche de cette aide) : un bac à sable où tout peut être essayé sans risque."]],
         ["h", "Thèmes et réglages"],
         ["list", [
           "**Menu à votre nom → Thème** : **Thème par défaut** (croquis d'ingénieur, icônes dessinées à la main) ou **Terminal R&D** (labo geek, sombre, invite de commande et séquence de démarrage). Un clic, l'écran se redessine ; le choix vous suit sur tous vos postes.",
@@ -80,7 +80,7 @@
         ["list", [
           "Un ticket se modifie seulement par **son responsable** (l'assigné) ou un administrateur ; les autres le lisent et le commentent.",
           "Un ticket sans responsable se prend avec « Prendre le ticket ».",
-          "Un Space par produit, autonome de Goldmine à Timesheet. Un seul Space commun : **HEADLAMP**, le bac à sable et la bibliothèque de référence (catalogue d'essais, méthodes de Tools, formation, codes de temps).",
+          "Un Space par produit, autonome de Goldmine à Timesheet. Un seul Space commun : **DEMO**, le bac à sable et la bibliothèque de référence (catalogue d'essais, méthodes de Tools, formation, codes de temps).",
           "Un Space qui vous manque ? Demandez l'accès à un administrateur."]]] },
 
     { id: "goldmine", title: "Goldmine : capter les needs et les requirements", tool: "Goldmine",
@@ -126,7 +126,7 @@
           "**Board** : chaque responsable déplace sa carte d'une colonne à l'autre selon le workflow du Space.",
           "Dans un ticket : commentaires (cochez « Question » pour une question au client, @collègue pour le prévenir), liens (bloque, implémente…), synthèse client.",
           "« Tickets » : liste filtrable ; **⚙ Admin → Paramètres du Space** (administrateurs) : workflows, types, labels, versions."]],
-        ["p", "La méthode pas à pas, avec captures : Dynamite → HEADLAMP → Base de connaissances → « Guide de la méthode Agile »."],
+        ["p", "La méthode pas à pas, avec captures : Dynamite → DEMO → Base de connaissances → « Guide de la méthode Agile »."],
         ["h", "Import / Export"],
         ["p", "Tickets et questions client s'échangent en CSV lisible par Excel. Partez **toujours d'un export**, modifiez, réimportez : une ligne inchangée ne change rien, une ligne refusée est listée avec son numéro de ligne Excel et le correctif."]] },
 
@@ -155,7 +155,7 @@
         ["h", "Importer d'une IA"],
         ["p", "« ✨ Importer d'une IA » (ou menu « / ») : collez la réponse d'un agent IA (Markdown, HTML ou texte), vérifiez l'aperçu, insérez au curseur ou remplacez la page. Titres, listes, tableaux, code, liens et encadrés « > [!NOTE] » sont conservés."],
         ["h", "Base de connaissances (BDC)"],
-        ["p", "Dans HEADLAMP → Dynamite : Getting Things Done, Product Function Structure (F-XX), Definitions et Acronyms, guide de la méthode Agile, « Mettre à jour le site (Admin → Update) »."],
+        ["p", "Dans DEMO → Dynamite : Getting Things Done, Product Function Structure (F-XX), Definitions et Acronyms, guide de la méthode Agile, « Mettre à jour le site (Admin → Update) »."],
         ["warn", "Une page vient d'être modifiée par un collègue pendant que vous éditiez ? L'enregistrement est refusé avec le nom de l'auteur : copiez votre texte, rechargez, réappliquez."]] },
   ];
 })();

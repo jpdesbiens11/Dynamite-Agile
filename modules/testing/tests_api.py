@@ -89,7 +89,7 @@ def space(ctx, minimum="reader"):
     row = ctx.conn.execute("SELECT id, key FROM projects WHERE key = ?", (key,)).fetchone()
     if row is None:
         raise ApiError(404, "Space « {} » introuvable. Correctif : choisissez un Space de la liste de Testing.".format(key[:20]))
-    if row["id"] == catalog.project_id(ctx.conn):  # the reference Space (HeadLamp; TESTING before 0.60.41)
+    if row["id"] == catalog.project_id(ctx.conn):  # the reference Space (DEMO; TESTING before 0.60.41)
         _join(ctx, row["id"])
     elif permissions.project_role(ctx.conn, ctx.user, row["id"]) is None:
         raise ApiError(404, "Space « {} » introuvable ou non accessible.".format(key[:20]))

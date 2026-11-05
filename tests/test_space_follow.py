@@ -11,7 +11,7 @@ sys.path.insert(0, str(BASE_DIR))
 class SpaceFollowTest(unittest.TestCase):
     def test_01_spaces_js(self):
         js = (BASE_DIR / "static" / "js" / "tools" / "spaces.js").read_text("utf-8")
-        for needed in ("workKey()", "sessionStorage", '"HEADLAMP", "TOOLS", "TESTING", "TRAINING"', "0.60.21-default-star",
+        for needed in ("workKey()", "sessionStorage", '"DEMO", "TOOLS", "TESTING", "TRAINING"', "0.60.21-default-star",
                        "const key = this.workKey();", "return this.defaultKey() || "):  # 0.60.28: the star first
             self.assertIn(needed, js, needed)
 

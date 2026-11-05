@@ -44,7 +44,7 @@ def api_dashboard(ctx):
         audit.log_action(ctx.conn, ctx.user["id"], "dashboard_viewed_as", "user", target["id"], None, ctx.ip)
     visible = permissions.visible_projects(ctx.conn, target)
     if prefs.get(ctx.conn, target["id"]).get("hide_sandbox"):  # D-B-052: sandbox hidden by the person
-        visible = [p for p in visible if p["key"] != "HEADLAMP"]
+        visible = [p for p in visible if p["key"] != "DEMO"]
     visible = [p for p in visible if p["key"] != "TOOLS"]  # D-B-068: the Tools wiki is not a work space
     # 0.60.42 (D-O-051): the default Space is the whole environment -- the dashboard shows it alone, unless ?all=1
     default = prefs.get(ctx.conn, target["id"]).get("default_space") or ""

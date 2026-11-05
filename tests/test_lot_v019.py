@@ -67,7 +67,7 @@ class LotV019Test(unittest.TestCase):
 
     def test_01_space_base_and_procedures(self):
         data = self.tia.get("/api/testing/tests")  # tia joins TESTING as an editor on first use
-        self.assertEqual(len(data["tests"]), len(TESTS))
+        self.assertEqual(len([t for t in data["tests"] if t["origin"] != "example"]), len(TESTS))  # 0.60.49: + the Rover's tests in DEMO
         self.assertTrue(data["can_edit"])
         ids = {t["test_id"]: t for t in data["tests"]}
         self.assertEqual(ids["TST-ENV-03"]["standard"], "IEC 60068-2-6")
@@ -75,7 +75,7 @@ class LotV019Test(unittest.TestCase):
         self.assertEqual(ids["TST-CUS-01"]["category"], "custom")
         self.assertEqual(ids["TST-CUS-01"]["status"], "Draft")
         self.assertTrue(all(t["procedure"] for t in data["tests"]))  # every subject has its procedure page
-        tpid = {p["key"]: p["id"] for p in self.admin.get("/api/admin/projects")["projects"]}["HEADLAMP"]
+        tpid = {p["key"]: p["id"] for p in self.admin.get("/api/admin/projects")["projects"]}["DEMO"]
         titles = {p["title"] for p in self.admin.get("/api/dynamite/p/{}/pages".format(tpid))["pages"]}
         self.assertIn("Testing — Test Procedures", titles)
         self.assertEqual(sum(1 for t in titles if t.startswith("PRC-")), len(PROCEDURES))
@@ -131,9 +131,9 @@ class LotV019Test(unittest.TestCase):
 
     def test_05_create_edit_and_catalogue_follow_up(self):
         made = self.tia.post("/api/testing/tests", {"title": "Chute du chariot", "subject": "mech"})
-        self.assertEqual(made["test_id"], "TST-MEC-04")
+        self.assertRegex(made["test_id"], r"^TST-MEC-\d\d$")  # 0.60.49: after the Rover's tests in DEMO
         self.assertEqual(self.status(lambda: self.tia.post("/api/testing/tests", {"title": "x", "subject": "mech",
-                                                                                   "test_id": "TST-MEC-04"})), 409)
+                                                                                   "test_id": made["test_id"]})), 409)
         self.tia.patch("/api/testing/tests/TST-ENV-02", {"notes": "Moyens : laboratoire externe."})
         with db.connect() as conn:  # the code changed the catalogue: TST-ENV-01 not edited, TST-ENV-02 edited
             conn.execute("UPDATE testing_tests SET title = 'ancien' WHERE test_id IN ('TST-ENV-02', 'TST-ENV-01')")
@@ -145,11 +145,11 @@ class LotV019Test(unittest.TestCase):
         self.assertTrue(rec["history"])
         with db.connect() as conn:
             conn.execute("UPDATE memberships SET role = 'reader' WHERE user_id = (SELECT id FROM users WHERE username = 'tia') "
-                         "AND project_id = (SELECT id FROM projects WHERE key = 'HEADLAMP')")
+                         "AND project_id = (SELECT id FROM projects WHERE key = 'DEMO')")
         self.assertEqual(self.status(lambda: self.tia.patch("/api/testing/tests/TST-ENV-02", {"notes": "x"})), 403)
         with db.connect() as conn:
             conn.execute("UPDATE memberships SET role = 'editor' WHERE user_id = (SELECT id FROM users WHERE username = 'tia') "
-                         "AND project_id = (SELECT id FROM projects WHERE key = 'HEADLAMP')")
+                         "AND project_id = (SELECT id FROM projects WHERE key = 'DEMO')")
 
     def test_06_csv_round_trip_of_the_base(self):
         with self.admin.opener.open(self.url + "/api/testing/export.csv?ids=TST-MEC-01,TST-MEC-02") as resp:

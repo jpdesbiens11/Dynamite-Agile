@@ -81,9 +81,9 @@ class LotV012Test(unittest.TestCase):
     # ---------------- D-B-053: sandbox mark  ----------------
     def test_01_policy_in_gen_and_sandbox_mark(self):
         names = {p["key"]: p["name"] for p in self.admin.get("/api/admin/projects")["projects"]}
-        self.assertIn("[Sandbox]", names["HEADLAMP"])
-        self.assertIn("HeadLamp [Sandbox] — Bienvenue", self.pages(self.projects["HEADLAMP"]))
-        self.assertNotIn("Principes de la compagnie — vacances et congés", self.pages(self.projects["HEADLAMP"]))
+        self.assertIn("bac à sable", names["DEMO"])  # 0.60.49 (D-O-058): DEMO, sandbox and training
+        self.assertIn("DEMO — Bienvenue", self.pages(self.projects["DEMO"]))
+        self.assertNotIn("Principes de la compagnie — vacances et congés", self.pages(self.projects["DEMO"]))
         startup.run(self.data_dir, self.cfg)  # idempotent
 
     # ---------------- D-B-049: move / copy ----------------
@@ -168,10 +168,10 @@ class LotV012Test(unittest.TestCase):
     def test_05_hide_sandbox(self):
         marc = self.people["marc"]
         marc.post("/api/help/headlamp/join")
-        self.assertIn("HEADLAMP", [p["key"] for p in marc.get("/api/dashboard")["projects"]])
+        self.assertIn("DEMO", [p["key"] for p in marc.get("/api/dashboard")["projects"]])
         self.assertTrue(marc.put("/api/me/prefs", {"hide_sandbox": True})["prefs"]["hide_sandbox"])
-        self.assertNotIn("HEADLAMP", [p["key"] for p in marc.get("/api/dashboard")["projects"]])
-        hl = self.projects["HEADLAMP"]
+        self.assertNotIn("DEMO", [p["key"] for p in marc.get("/api/dashboard")["projects"]])
+        hl = self.projects["DEMO"]
         self.assertTrue(marc.get("/api/dynamite/p/{}/pages".format(hl))["pages"])  # the wiki stays open
 
 

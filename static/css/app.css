@@ -610,3 +610,7 @@ html.da-phone .sh-cols { grid-template-columns: 1fr; }
 .uo-version ul { margin: .1rem 0 .3rem; color: var(--muted); font-size: .9rem; }
 .uo-toggle { font-weight: 600; }
 @media (prefers-reduced-motion: reduce) { .uo-bar i { transition: none; } }
+/* 0.60.48 (D-O-057): FR | EN in the top bar */
+.tb-lang { min-width: 2.4rem; padding: .3rem .5rem; border: 1.5px solid currentColor; border-radius: var(--radius-sm); background: transparent;
+  color: inherit; font: 700 .8rem var(--mono); letter-spacing: .04em; cursor: pointer; }
+.tb-lang:hover, .tb-lang:focus-visible { border-color: var(--acc, var(--agile)); color: var(--acc, var(--agile)); }

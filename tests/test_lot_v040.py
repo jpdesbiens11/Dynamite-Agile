@@ -63,7 +63,7 @@ class LotV040Test(unittest.TestCase):
         self.assertTrue(ref["reference"])
         p1 = self.admin.get("/api/testing/tests?space=P1")
         self.assertEqual(p1["space"], "P1")
-        self.assertEqual(len(p1["tests"]), len(ref["tests"]))  # a copy of the catalogue
+        self.assertEqual(len(p1["tests"]), len([t for t in ref["tests"] if t["origin"] != "example"]))  # the catalogue, not the Rover
         self.admin.patch("/api/testing/tests/TST-ELE-01?space=P1", {"title": "Capacité P1"})
         self.assertEqual(self.admin.get("/api/testing/tests/TST-ELE-01?space=P1")["test"]["title"], "Capacité P1")
         self.assertNotEqual(self.admin.get("/api/testing/tests/TST-ELE-01")["test"]["title"], "Capacité P1")

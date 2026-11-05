@@ -26,7 +26,7 @@
     set("data-font", current.font, "system");
     set("data-size", current.font_size, "100");
     set("data-density", current.density, "comfortable");
-    DA.setLanguage("fr");  // D-B-042: French; the browser's « Traduire » does the rest
+    DA.setLanguage(current.language || "fr");  // 0.60.48 (D-O-057): FR | EN in the top bar (langswitch.js)
   };
   DA.prefs = () => current;
 
@@ -92,9 +92,11 @@
     const sizes = { 90: "90 %", 100: "100 %", 112: "112 %", 125: "125 %" };
 
     const display = el("section", { class: "panel" }, el("h2", null, t("set.display")),
-      el("p", { class: "muted set-translate" }, "Langue : la plateforme est en français. Pour la lire dans une autre langue, "
-        + "utilisez la traduction de votre navigateur (Edge ou Chrome : clic droit → « Traduire en … ») : elle traduit tout, "
-        + "contenu des tickets et des pages compris."),
+      el("p", { class: "muted set-translate" }, DA.lang() === "en"
+        ? "Language: FR | EN at the top of every page. The tool's frame is in English; the screens of the modules are being "
+          + "translated one by one. For any other language, use your browser's translation (right-click → « Translate to … »)."
+        : "Langue : FR | EN en haut de chaque page. Pour une autre langue, utilisez la traduction de votre navigateur "
+          + "(clic droit → « Traduire en … ») : elle traduit tout, contenu des tickets et des pages compris."),
       field(t("set.theme"), select("theme", c.theme, (o) => t("theme." + o), p.theme, auto("theme"))),
       field(t("set.font"), select("font", c.font, (o) => t("font." + o), p.font, auto("font"))),
       field(t("set.size"), select("font_size", c.font_size, (o) => sizes[o], p.font_size, auto("font_size"))),
@@ -113,7 +115,7 @@
     sandbox.addEventListener("change", () => auto("hide_sandbox")(sandbox.checked));
     const work = el("section", { class: "panel" }, el("h2", null, t("set.work")),
       el("label", { class: "check" }, mine, t("set.mine")),
-      el("label", { class: "check" }, sandbox, "Cacher le Space HeadLamp [Sandbox]"),
+      el("label", { class: "check" }, sandbox, "Cacher le Space DEMO"),
       el("p", { class: "muted" }, "Projet de test et ressources pédagogiques. Son wiki reste toujours visible dans Dynamite et depuis Help : c'est l'aide des utilisateurs."),
       field(t("set.initials"), initials, t("set.initialsHelp")),
       el("p", { class: "muted" }, t("tools.mineOff")));

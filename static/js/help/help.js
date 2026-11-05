@@ -1,6 +1,6 @@
 /* Help - top tab right of the tabs, after a vertical bar (D-B-024): the chronological guide
-   (content_path.js), the FAQ (content_faq.js) and the HeadLamp learning
-   project -- each chapter points to its HeadLamp step and to the tool.
+   (content_path.js), the FAQ (content_faq.js) and the DEMO learning
+   project -- each chapter points to its DEMO step and to the tool.
    Chapters marked « fait » are remembered in this browser, per user. */
 (function () {
   "use strict";
@@ -8,19 +8,19 @@
   const { api, el, clear, toast } = DA;
   const HELP = DA.help;
   HELP.path.forEach((c, i) => { c.step = i + 1; });  // 0.47.0: the number is the position in the tour
-  const HL = "HEADLAMP";
-  const TRY = {  // where to practise each chapter in HeadLamp
-    bienvenue: ["#/dynamite/" + HL, "Ouvrir la page d'accueil HeadLamp [Sandbox]"],
+  const HL = "DEMO";
+  const TRY = {  // where to practise each chapter in DEMO
+    bienvenue: ["#/dynamite/" + HL, "Ouvrir la page d'accueil DEMO"],
     dashboard: ["#/dashboard", "Ouvrir le Dashboard"],
     testing: ["#/testing", "Ouvrir la Test Base"],
     training: ["#/training", "Ouvrir mon plan de formation"],
     projets: ["#/home", "Ouvrir l'Accueil"],
-    dynamite: ["#/dynamite/" + HL, "Ouvrir Dynamite · HeadLamp [Sandbox]"],
-    goldmine: ["#/goldmine/" + HL, "Ouvrir Goldmine · HeadLamp [Sandbox]"],
-    exploration: ["#/exploration/" + HL + "/plan", "Ouvrir le plan HeadLamp [Sandbox]"],
-    agile: ["#/agile/" + HL + "/board", "Ouvrir le tableau HeadLamp [Sandbox]"],
-    changements: ["#/agile/" + HL + "/changes", "Ouvrir Change Management · HeadLamp [Sandbox]"],
-    generator: ["#/codex/" + HL + "/generer", "Ouvrir Generator · HeadLamp [Sandbox]"],  // Tools → Generator
+    dynamite: ["#/dynamite/" + HL, "Ouvrir Dynamite · DEMO"],
+    goldmine: ["#/goldmine/" + HL, "Ouvrir Goldmine · DEMO"],
+    exploration: ["#/exploration/" + HL + "/plan", "Ouvrir le plan DEMO"],
+    agile: ["#/agile/" + HL + "/board", "Ouvrir le tableau DEMO"],
+    changements: ["#/agile/" + HL + "/changes", "Ouvrir Change Management · DEMO"],
+    generator: ["#/codex/" + HL + "/generer", "Ouvrir Generator · DEMO"],  // Tools → Generator
     timesheet: ["#/timesheet", "Ouvrir ma semaine"],
     "recherche-audit": ["#/audit", "Ouvrir la liste Audit"],
     administration: ["#/admin/users", "Ouvrir Admin"],
@@ -81,16 +81,16 @@
   }
 
   function headlampCard() {
-    const box = el("div", { class: "hp-headlamp" }, el("strong", null, "HeadLamp [Sandbox]"),
+    const box = el("div", { class: "hp-headlamp" }, el("strong", null, "DEMO"),
       el("p", { class: "muted" }, "Le Space d'apprentissage : essayez chaque étape sans risque."));
     if (!headlamp || !headlamp.project) { box.append(el("p", { class: "muted" }, "Pas encore créé (redémarrez le serveur).")); return box; }
     if (headlamp.member) {
-      box.append(el("a", { class: "btn btn-small", href: "#/dynamite/" + HL }, "Ouvrir le wiki HeadLamp [Sandbox]"));
+      box.append(el("a", { class: "btn btn-small", href: "#/dynamite/" + HL }, "Ouvrir le wiki DEMO"));
     } else {
       box.append(el("button", { type: "button", class: "btn btn-primary btn-small", onclick: async () => {
-        try { headlamp = await api.post("/api/help/headlamp/join"); toast("Bienvenue dans HeadLamp [Sandbox] !", "success"); location.hash = "#/dynamite/" + HL; }
+        try { headlamp = await api.post("/api/help/headlamp/join"); toast("Bienvenue dans DEMO !", "success"); location.hash = "#/dynamite/" + HL; }
         catch (err) { toast(err.message, "error"); }
-      } }, "Rejoindre HeadLamp [Sandbox]"));
+      } }, "Rejoindre DEMO"));
     }
     return box;
   }
@@ -111,7 +111,7 @@
   function homeView(page) {
     page.append(el("div", { class: "page-head" }, el("h1", null, "Help — guide de la plateforme"),
       el("p", { class: "muted" }, "Suivez les chapitres dans l'ordre : c'est l'ordre dans lequel un projet se met en place. "
-        + "Chaque chapitre a son exercice dans le Space d'apprentissage HeadLamp [Sandbox].")),
+        + "Chaque chapitre a son exercice dans le Space d'apprentissage DEMO.")),
     el("div", { class: "hp-cards" }, HELP.path.map((c) => el("a", { class: "hp-card" + (done()[c.id] ? " hp-card-done" : ""), href: "#/help/" + c.id,
       "data-new": c.isNew ? "0.47.0-help-" + c.id : null },  // D-A-049: chapters added by the tour of the site
       el("span", { class: "hp-card-step" }, "Étape " + c.step + " · " + c.tool), el("strong", null, c.title),
@@ -122,7 +122,7 @@
     el("a", { href: "#/help/faq" }, "Toute la FAQ →"));
   }
 
-  /* 0.60.45 (D-O-054): the documentation of every module, pages of the HeadLamp library */
+  /* 0.60.45 (D-O-054): the documentation of every module, pages of the DEMO library */
   function docsSection() {
     const docs = headlamp && headlamp.docs;
     if (!docs) return null;
@@ -131,7 +131,7 @@
       el("h2", null, "Documentation des modules"),
       el("p", { class: "muted" }, "Pour chaque module : pourquoi il existe, le besoin couvert, le pas à pas, ce qu'on y fait de MVP 0 à "
         + "MVP x, et ses références de la plus à la moins pertinente. "
-        + (headlamp.member ? "" : "Rejoignez HeadLamp [Sandbox] (panneau de gauche) pour lire ces pages.")),
+        + (headlamp.member ? "" : "Rejoignez DEMO (panneau de gauche) pour lire ces pages.")),
       el("div", { class: "hp-cards" }, docs.modules.filter((m) => m.page).map((m) => el("a", { class: "hp-card", href: href(m.page) },
         el("span", { class: "hp-card-step" }, "Module"), el("strong", null, m.name), el("span", { class: "muted" }, m.role)))),
       el("a", { href: href(docs.hub) }, "Toute la documentation →"));
@@ -148,10 +148,10 @@
       el("div", { class: "page-head" }, el("span", { class: "hp-card-step" }, "Étape " + c.step + " sur " + HELP.path.length + " · " + c.tool),
         el("h1", null, c.title), el("p", { class: "muted" }, c.summary)),
       el("div", { class: "hp-body" }, c.blocks.map(block)),
-      el("section", { class: "hp-try" }, el("h2", null, "Exercice HeadLamp [Sandbox]"),
+      el("section", { class: "hp-try" }, el("h2", null, "Exercice DEMO"),
         step ? el("p", null, "Ticket ", el("a", { href: "#/agile/" + HL + "/issue/" + step.number }, step.key),
           " — status : " + step.status + ". Lisez la consigne dans le ticket, puis faites l'exercice.")
-          : el("p", { class: "muted" }, "Rejoignez HeadLamp [Sandbox] (panneau de gauche) pour faire l'exercice de cette étape."),
+          : el("p", { class: "muted" }, "Rejoignez DEMO (panneau de gauche) pour faire l'exercice de cette étape."),
         el("a", { class: "btn", href }, label)),
       el("label", { class: "check hp-done" }, box, "J'ai terminé cette étape"),
       el("div", { class: "hp-pager" },

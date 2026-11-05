@@ -23,7 +23,7 @@
   let cachedSpace = "";
   function space() {
     const key = (location.hash.split("/")[2] || "").toUpperCase();
-    return /^[A-Z][A-Z0-9]{1,9}$/.test(key) ? key : ((DA.session.projects || []).some((p) => p.key === "TESTING") ? "TESTING" : "HEADLAMP");
+    return /^[A-Z][A-Z0-9]{1,9}$/.test(key) ? key : ((DA.session.projects || []).some((p) => p.key === "TESTING") ? "TESTING" : "DEMO");
   }
   const testHref = (id) => "#/testing/" + space() + "/test/" + id;
 
