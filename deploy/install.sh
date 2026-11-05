@@ -79,6 +79,15 @@ ufw allow OpenSSH >/dev/null
 if [ "$MODE" = online ]; then ufw allow 80/tcp >/dev/null; ufw allow 443/tcp >/dev/null; fi
 ufw --force enable >/dev/null
 ufw status | sed -n '1,12p'
+# 0.60.39: some cloud images (Oracle Cloud Ubuntu) ship their own iptables rules that reject everything but SSH, under ufw:
+# open 80 and 443 there too, and keep the rule after a reboot.
+if [ "$MODE" = online ] && [ -f /etc/iptables/rules.v4 ] && grep -q "REJECT" /etc/iptables/rules.v4; then
+  for p in 80 443; do
+    iptables -C INPUT -p tcp --dport "$p" -j ACCEPT 2>/dev/null || iptables -I INPUT 1 -p tcp --dport "$p" -j ACCEPT
+  done
+  command -v netfilter-persistent >/dev/null && netfilter-persistent save >/dev/null 2>&1 || true
+  echo "$(t "Règles iptables de l'image : ports 80 et 443 ouverts." "Image iptables rules: ports 80 and 443 opened.")"
+fi
 
 say "3/7 $(t "Utilisateur système" "System user") « dynamite »"
 id dynamite >/dev/null 2>&1 || useradd --system --home-dir "$APP_DIR" --shell /usr/sbin/nologin dynamite

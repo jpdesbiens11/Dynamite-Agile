@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.38
+# Journal de mise à jour — 0.60.39
+
+- **Version :** 0.60.38 → 0.60.39 (2026-11-04)
+- **Changements :**
+  1. **Installation en 5 étapes** (D-O-048) : Linux ou Windows, un VPS vide (Hostinger, Oracle Cloud gratuit, DigitalOcean), l'adresse, la connexion, une commande.
+- **Base de données :** []
+
+## Précédent
+
+### Journal de mise à jour — 0.60.38
 
 - **Version :** 0.60.37 → 0.60.38 (2026-11-04)
 - **Changements :**
   1. **Responsables des actions** (D-O-047) : DFMEA avec responsable, échéance, status ; « Suivre dans Agile » ; Mes actions Diamond ; Bob sait qui fait quoi.
 - **Base de données :** ['diamond 7 : diamond_dfmea.action_owner_id, action_due, action_status, issue_id ; diamond_risks.issue_id']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.37
 

@@ -96,11 +96,11 @@ class SiteTest(unittest.TestCase):
         for page in ("site/installation.html", "site/en/installation.html"):
             html = (BASE_DIR / page).read_text("utf-8")
             self.assertIn('value="windows"', html, page)
-            self.assertIn('data-path="windows"', html, page)
+            self.assertIn('data-os="windows"', html, page)
             self.assertIn("/install.ps1 -OutFile", html, page)
             self.assertIn("Cert:\\CurrentUser\\Root", html, page)
         js = (BASE_DIR / "site" / "installation.html").read_text("utf-8")
-        self.assertIn('"windows", "local"]', js)
+        self.assertIn('["linux", "windows"]', js)
         for guide in ("site/installer.md", "site/en/installer.md"):
             self.assertIn("install.ps1", (BASE_DIR / guide).read_text("utf-8"), guide)
 

@@ -2,64 +2,46 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Le DFMEA rattrape les risques (D-O-047)",
-      "why": "Colonnes Responsable (un membre du Space), Échéance, Status (À faire, En cours, Fait) et Ticket Agile ; préréglage « Actions et suivi » ; ligne en retard signalée ; conseils : action en retard, action sans responsable.",
+      "title": "Page d'installation en 5 étapes (D-O-048)",
+      "why": "Étape 1 : Linux ou Windows, en grandes cartes avec icône ; étapes 2 à 5 propres au système ; l'hébergeur choisi adapte les consignes et la commande SSH (clé et utilisateur ubuntu chez Oracle) ; serveur supposé vide, les cas particuliers passent par l'assistant IA (message prêt à coller). FR et EN.",
       "files": [
-        "modules/diamond/actions.py",
-        "modules/diamond/dfmea.py",
-        "modules/diamond/__init__.py",
-        "static/js/diamond/dfmea_table.js",
-        "static/js/diamond/dfmea.js",
-        "static/css/diamond_dfmea.css"
+        "tools/site/installation.html",
+        "tools/site/en/installation.html",
+        "tools/site/install.js",
+        "tools/site/site.css"
       ]
     },
     {
       "id": "C2",
-      "title": "Suivre dans Agile",
-      "why": "Un bouton par risque et par ligne du DFMEA : un ticket du même Space avec le responsable, l'échéance, la priorité et le lien vers la ligne ; le status de la ligne est lu sur le ticket, jamais recopié.",
+      "title": "Images de nuage fermées par iptables",
+      "why": "install.sh ouvre aussi 80 et 443 dans les règles iptables livrées avec certaines images (Oracle Cloud Ubuntu), et les garde après un redémarrage.",
       "files": [
-        "modules/diamond/actions.py",
-        "modules/diamond/risks.py",
-        "static/js/diamond/risks.js",
-        "static/js/diamond/risks_panel.js"
+        "deploy/install.sh"
       ]
     },
     {
       "id": "C3",
-      "title": "Mes actions Diamond et Bob",
-      "why": "Carte du Dashboard (en retard d'abord, status modifiable quand l'action n'est pas suivie dans Agile, lien pointeur vers la ligne) ; « actions » dans la synthèse de Bob (responsable, échéance, retard, ticket).",
+      "title": "Guide de l'assistant IA",
+      "why": "installer.md décrit la page en 5 étapes, les particularités de chaque hébergeur et DuckDNS ; l'essai privé et l'essai local restent pour qui les demande.",
       "files": [
-        "modules/diamond/actions.py",
-        "modules/diamond/bot.py",
-        "deploy/bob/BOB_LE_MINEUR.md",
-        "static/js/tools/dashboard.js"
+        "tools/site/installer.md",
+        "tools/site/en/installer.md"
       ]
     },
     {
       "id": "C4",
-      "title": "Exports et Project Starter",
-      "why": "Excel et CSV : Responsable, Échéance, Status, Ticket Agile ; Project Starter : owner (username de l'équipe) et due sur les risques et les lignes du DFMEA. Correctif : « null » ne s'affiche plus au-dessus des Messages du Dashboard.",
+      "title": "Version 0.60.39, tests et documentation",
+      "why": "Tests de la page mis à jour ; décisions, état du projet, journal, fiche de version.",
       "files": [
-        "modules/diamond/export_xlsx.py",
-        "core/starter_diamond.py",
-        "core/starter.py",
-        "core/starter_prompt.py",
-        "docs/STARTER_FORMAT.md"
-      ]
-    },
-    {
-      "id": "C5",
-      "title": "Version 0.60.38, tests et documentation",
-      "why": "tests/test_diamond_actions.py, test_starter_diamond ; décisions, état du projet, journal, fiche de version.",
-      "files": [
-        "tests/test_diamond_actions.py",
-        "tests/test_starter_diamond.py",
+        "tests/test_install_traefik_choice.py",
+        "tests/test_windows_install.py",
+        "tests/test_open_v060.py",
         "core/__init__.py",
         "CLAUDE.md",
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.38.json"
+        "docs/releases/0.60.39.json"
       ]
     }
   ]

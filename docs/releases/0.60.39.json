@@ -1,0 +1,54 @@
+{
+  "version": "0.60.39",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Installation en 5 étapes, pour un étudiant ou un entrepreneur non technique : 1. Linux ou Windows (nom et icône), puis quatre étapes de haut en bas ; pour Linux, un VPS vide chez Hostinger, Oracle Cloud (gratuit) ou DigitalOcean (étudiants), l'adresse web (ou un sous-domaine gratuit DuckDNS), la connexion et une seule commande.",
+    "en": "Installation in 5 steps, for a non-technical student or entrepreneur: 1. Linux or Windows (name and icon), then four steps top to bottom; for Linux, an empty VPS at Hostinger, Oracle Cloud (free) or DigitalOcean (students), the web address (or a free DuckDNS subdomain), connecting and one single command."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Page d'installation en 5 étapes (D-O-048)",
+      "why": "Étape 1 : Linux ou Windows, en grandes cartes avec icône ; étapes 2 à 5 propres au système ; l'hébergeur choisi adapte les consignes et la commande SSH (clé et utilisateur ubuntu chez Oracle) ; serveur supposé vide, les cas particuliers passent par l'assistant IA (message prêt à coller). FR et EN.",
+      "files": [
+        "tools/site/installation.html",
+        "tools/site/en/installation.html",
+        "tools/site/install.js",
+        "tools/site/site.css"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Images de nuage fermées par iptables",
+      "why": "install.sh ouvre aussi 80 et 443 dans les règles iptables livrées avec certaines images (Oracle Cloud Ubuntu), et les garde après un redémarrage.",
+      "files": [
+        "deploy/install.sh"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Guide de l'assistant IA",
+      "why": "installer.md décrit la page en 5 étapes, les particularités de chaque hébergeur et DuckDNS ; l'essai privé et l'essai local restent pour qui les demande.",
+      "files": [
+        "tools/site/installer.md",
+        "tools/site/en/installer.md"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Version 0.60.39, tests et documentation",
+      "why": "Tests de la page mis à jour ; décisions, état du projet, journal, fiche de version.",
+      "files": [
+        "tests/test_install_traefik_choice.py",
+        "tests/test_windows_install.py",
+        "tests/test_open_v060.py",
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.39.json"
+      ]
+    }
+  ]
+}

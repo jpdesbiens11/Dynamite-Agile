@@ -15,6 +15,19 @@ Dynamite | Agile. The illustrated page for people is {{SITE_URL}}/en/installatio
   with them.
 - The script is public: {{REPO}}/blob/main/deploy/install.sh
 
+## The page in 5 steps (0.60.39)
+
+The installation page has two paths: **Linux** (1. the system, 2. an empty VPS: Hostinger, Oracle Cloud Always Free or
+DigitalOcean, 3. the web address and email, 4. connect, 5. install) and **Windows** (1. the system, 2. the PC, 3. PowerShell as
+administrator, 4. install, 5. the certificate on each computer). It assumes an **empty** server: if the person's is not (Docker,
+Traefik, a host's panel, other sites), adapt with the cases below. The private trial and the trial on one's computer are no longer
+on the page: offer them only when asked.
+
+Depending on the host: **Oracle Cloud** gives the user `ubuntu` (not `root`) and a key: `ssh -i file.key ubuntu@IP`, then `sudo`
+before the command (already in it); open 80 and 443 in the subnet's *Security List*; the image's iptables rules are opened by the
+installation. **DigitalOcean** and **Hostinger** give `root`. Without a domain: a free DuckDNS subdomain (`name.duckdns.org`)
+pointing to the IP.
+
 ## Four destinations
 
 | Destination | For whom | What is needed |
