@@ -24,6 +24,11 @@
     { key: "rpn", label: "RPN", group: "score", type: "calc", tip: "S × O × D, de 1 à 1000" },
     { key: "ap", label: "AP", group: "score", type: "calc", tip: "Action Priority (AIAG-VDA) : High, Medium, Low" },
     { key: "action", label: "Actions", group: "lower", type: "area", tip: "Ce qui sera fait pour réduire O ou D (optimisation)" },
+    // 0.60.38 (D-O-047): who carries the action, by when, where it stands, and its Agile ticket
+    { key: "action_owner_id", label: "Responsable", group: "act", type: "owner", tip: "Le membre de l'équipe qui porte l'action" },
+    { key: "action_due", label: "Échéance", group: "act", type: "date", tip: "La date où l'action doit être faite" },
+    { key: "action_status", label: "Status", group: "act", type: "status", tip: "À faire, En cours, Fait — suit le ticket Agile s'il y en a un" },
+    { key: "ticket", label: "Ticket Agile", group: "act", type: "ticket", tip: "« Suivre dans Agile » crée un ticket ; son status devient celui de la ligne" },
   ];
 
   function apBadge(ap, labels) {
@@ -39,6 +44,7 @@
       return td;
     }
     if (col.key === "detection_ctrl") td.append(keyTest(row, state, save, editable));  // 0.60.24 (D-O-033)
+    if (["owner", "date", "status", "ticket"].includes(col.type)) return actionCell(td, col, row, state, save, editable);
     if (!editable) {
       const text = col.type === "function" ? (row.function_number ? "F" + row.function_number + " " + row.function_text : "—") : (row[col.key] || "—");
       td.append(el("span", null, String(text)));
@@ -85,6 +91,44 @@
       "aria-label": "Retirer l'essai clé de la ligne " + row.line, onclick: () => save(row.id, "test_id", null) }, "✕") : null, link);
   }
 
+  /* 0.60.38 (D-O-047): the follow-up columns of the action */
+  function actionCell(td, col, row, state, save, editable) {
+    const tag = (n) => { n.dataset.row = row.id; n.dataset.col = col.key; return n; };
+    const name = (state.data.members.find((m) => m.id === row.action_owner_id) || {}).display_name || row.action_owner_name || "";
+    const statusLabel = state.data.labels.statuses[row.action_status] || row.action_status;
+    if (row.late) td.classList.add("dm-fm-late");
+    if (col.type === "ticket") {
+      if (row.ticket) {
+        td.append(el("a", { class: "dm-fm-ticket", href: row.ticket.href, "data-tip": row.ticket.status + (row.ticket.assignee ? " · " + row.ticket.assignee : "") },
+          "🎫 " + row.ticket.key), el("span", { class: "muted dm-fm-ticket-st" }, row.ticket.status));
+      } else if (editable && state.track) {
+        td.append(el("button", { type: "button", class: "btn btn-small dm-fm-track", disabled: !String(row.action || "").trim(),
+          "data-tip": String(row.action || "").trim() ? "Créer un ticket dans l'Agile de ce Space : le responsable, l'échéance, un lien vers cette ligne"
+            : "Écrivez d'abord l'action", onclick: () => state.track(row.id) }, "Suivre dans Agile"));
+      } else td.append(el("span", { class: "muted" }, "—"));
+      return td;
+    }
+    if (!editable || (col.type === "status" && row.status_from_ticket)) {
+      const text = col.type === "owner" ? name : col.type === "date" ? row.action_due : statusLabel;
+      td.append(el("span", { class: col.type === "status" ? "dm-act-st dm-act-" + row.action_status : null,
+        "data-tip": col.type === "status" && row.status_from_ticket ? "Suit le ticket " + row.ticket.key : null }, text || "—"));
+      return td;
+    }
+    let input;
+    if (col.type === "owner") {
+      input = el("select", { "aria-label": "Responsable ligne " + row.line }, el("option", { value: "" }, "— personne —"),
+        state.data.members.map((m) => el("option", { value: m.id, selected: m.id === row.action_owner_id }, m.display_name)));
+    } else if (col.type === "date") {
+      input = el("input", { type: "date", value: row.action_due || "", "aria-label": "Échéance ligne " + row.line });
+    } else {
+      input = el("select", { "aria-label": "Status de l'action ligne " + row.line, class: "dm-act-" + row.action_status },
+        Object.entries(state.data.labels.statuses).map(([k, label]) => el("option", { value: k, selected: k === row.action_status }, label)));
+    }
+    tag(input).addEventListener("change", () => save(row.id, col.key, input.value));
+    td.append(input);
+    return td;
+  }
+
   const completedText = (c) => [c.added + " ligne(s) ajoutée(s) (une par fonction sans ligne)", c.tested + " essai(s) clé(s) relié(s)",
     c.practices + " ligne(s) avec les bonnes pratiques"].join(" · ") + ".";
 
@@ -127,6 +171,8 @@
     const rpn = tr.querySelector(".dm-fm-k-rpn"), ap = tr.querySelector(".dm-fm-k-ap");
     if (rpn) { while (rpn.firstChild) rpn.removeChild(rpn.firstChild); rpn.append(el("span", { class: "dm-fm-rpn" }, row.rpn ? String(row.rpn) : "—")); }
     if (ap) { while (ap.firstChild) ap.removeChild(ap.firstChild); ap.append(apBadge(row.ap, labels)); }
+    const track = tr.querySelector(".dm-fm-track");  // 0.60.38: « Suivre dans Agile » once the action is written
+    if (track) track.disabled = !String(row.action || "").trim();
   }
 
   DA.diamond = Object.assign(DA.diamond || {}, { DFMEA_COLS: COLS, dfmeaTable: table, dfmeaRefreshRow: refreshRow, apBadge, completedText });

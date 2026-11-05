@@ -333,7 +333,8 @@ def parse(data):
     clean["time_codes"] = _time_codes(raw)
     clean["pages"] = _pages(raw, language)
     from . import starter_diamond  # 0.60.22 (D-O-032): the functional tree and what derives from it
-    clean["diamond"] = starter_diamond.parse(raw, language, {t["ref"] for t in clean["tests"]})
+    clean["diamond"] = starter_diamond.parse(raw, language, {t["ref"] for t in clean["tests"]},
+                                              {m["username"] for m in clean["team"]})
     return clean, _warnings(clean)
 
 

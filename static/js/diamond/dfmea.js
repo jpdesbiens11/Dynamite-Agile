@@ -14,6 +14,7 @@
     ["Structure et fonction", ["higher", "focus", "lower", "function_id", "requirement", "failure_mode"]],
     ["Chaîne de défaillance", ["focus", "function_id", "failure_mode", "effect", "severity", "cause", "occurrence", "detection", "ap"]],
     ["Contrôles et cotation", ["failure_mode", "cause", "prevention", "occurrence", "detection_ctrl", "detection", "severity", "rpn", "ap", "action"]],
+    ["Actions et suivi", ["function_id", "failure_mode", "ap", "action", "action_owner_id", "action_due", "action_status", "ticket"]],  // 0.60.38
   ];
   const LAMP = "Éclairer une surface de travail";
 
@@ -46,17 +47,25 @@
       },
       save: async (id, key, value) => {
         const body = {};
-        body[key] = key === "function_id" || ["severity", "occurrence", "detection"].includes(key) ? (value ? Number(value) : null) : value;
+        body[key] = ["function_id", "action_owner_id", "severity", "occurrence", "detection"].includes(key) ? (value ? Number(value) : null) : value;
         try {
           state.data = await api.patch(base + "/rows/" + id, body);
           const row = state.data.rows.find((r) => r.id === id);
-          if (key === "test_id") { redraw(); return; }  // 0.60.24: the cell shows the test chosen and its link
+          if (key === "test_id" || key.startsWith("action_")) { redraw(); return; }  // 0.60.24 key test; 0.60.38 late, status colours
           if (row) D.dfmeaRefreshRow(holder, row, state.data.labels.ap);
           drawChecks(holder, state);
         } catch (err) { toast(err.message, "error"); }
       },
     };
     state.redraw = redraw;
+    state.track = async (id) => {  // 0.60.38 (D-O-047): « Suivre dans Agile »
+      try {
+        const res = await api.post(D.base(ctx) + "/actions/dfmea/" + id + "/track", {});
+        state.data = res;
+        toast("Ticket " + res.tracked + " créé dans Agile : son status devient celui de la ligne.", "success");
+      } catch (err) { toast(err.message, "error"); }
+      redraw();
+    };
     draw(holder, ctx, state, api_);
   }
 
@@ -73,7 +82,8 @@
         + "inférieur (O), les contrôles de prévention et de détection (D). RPN et Action Priority côte à côte.")),
     el("div", { class: "dm-legend dm-fm-levels" }, el("span", { class: "dm-fm-chip dm-fm-h-higher" }, "Higher-Level Element"),
       el("span", { class: "dm-fm-chip dm-fm-h-focus" }, "Focus Element"), el("span", { class: "dm-fm-chip dm-fm-h-lower" }, "Lower-Level Element"),
-      el("span", { class: "dm-fm-chip dm-fm-h-score" }, "Scores : RPN et AP")));
+      el("span", { class: "dm-fm-chip dm-fm-h-score" }, "Scores : RPN et AP"),
+      el("span", { class: "dm-fm-chip dm-fm-h-act", "data-new": "0.60.38-act" }, "Suivi de l'action : responsable, échéance, ticket")));
     if (!data.functions.length) {
       holder.append(DA.spaces.startHere("Construisez d'abord l'arbre fonctionnel", "Le DFMEA reprend exactement les fonctions de l'arbre : "
         + "sans fonction, il n'y a rien à analyser.", [["Ouvrir l'arbre fonctionnel", A.href(ctx, "ftree"), true]]));

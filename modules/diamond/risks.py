@@ -16,6 +16,7 @@ from core import audit, db, validate
 from core.errors import ApiError
 from core.files import RawFile
 
+from . import actions as ACT
 from . import functions as F
 
 CATEGORIES = {"technique": "Technique", "delais": "Délais", "couts": "Coûts", "equipe": "Équipe et ressources",
@@ -131,7 +132,7 @@ def rows(conn, pid):
         r["level"] = level(r["score"])
         r["residual_score"] = r["residual_p"] * r["residual_i"] if r["residual_p"] and r["residual_i"] else None
         r["residual_level"] = level(r["residual_score"])
-    return items
+    return ACT.enrich(conn, items, "risk")  # 0.60.38 (D-O-047): the status of a risk followed in Agile is its ticket's
 
 
 def checks(items, today=None):
@@ -247,13 +248,13 @@ def api_export(ctx):
     w = csv.writer(out, delimiter=";")
     w.writerow(["Code", "Risque", "Cause", "Conséquence", "Catégorie", "Phase", "Probabilité", "Impact", "Score", "Niveau",
                 "Stratégie", "Action", "Responsable", "Échéance", "Status", "P résiduelle", "I résiduel", "Score résiduel",
-                "Fonction", "À détailler dans le DFMEA", "Notes"])
+                "Fonction", "À détailler dans le DFMEA", "Ticket Agile", "Notes"])
     for r in rows(ctx.conn, pid):
         w.writerow(["R-{}".format(r["number"]), r["title"], r["cause"], r["consequence"], CATEGORIES.get(r["category"], r["category"]),
                     PHASES.get(r["phase"], ""), r["probability"], r["impact"], r["score"], r["level"]["label"],
                     RESPONSES.get(r["response"], "") if r["response"] else "", r["action"], r["owner_name"] or "", r["due_date"],
                     STATUSES.get(r["status"], r["status"]), r["residual_p"] or "", r["residual_i"] or "", r["residual_score"] or "",
                     "F{} {}".format(r["function_number"], r["function_text"]) if r["function_number"] else "",
-                    "Oui" if r["to_dfmea"] else "", r["notes"]])
+                    "Oui" if r["to_dfmea"] else "", r["ticket"]["key"] if r["ticket"] else "", r["notes"]])
     _log(ctx, "diamond_risk_export", pid)
     return RawFile(("﻿" + out.getvalue()).encode("utf-8"), "risques_projet_{}.csv".format(key), "text/csv")

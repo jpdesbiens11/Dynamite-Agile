@@ -6,9 +6,11 @@ the functions, the project risks and the first DFMEA rows.
                 "ports": [{ref, side: in | out, label, kind}],
                 "flows": [{view: general | detail, kind, label, src: ref, dst: ref}],
                 "parts": [{ref, name, kind, notes, functions: [ref]}],
-                "risks": [{title, cause, consequence, category, phase, probability, impact, response, action, function}],
+                "risks": [{title, cause, consequence, category, phase, probability, impact, response, action, function,
+                           owner, due}],
                 "dfmea": [{higher, focus, lower, function, requirement, failure_mode, effect, severity, cause, prevention,
-                           occurrence, detection_ctrl, detection, action}]}
+                           occurrence, detection_ctrl, detection, action, owner, due}]}
+owner (0.60.38, D-O-047): the username of a person of the "team" list who carries the action; due: AAAA-MM-JJ.
 
 The first function without a parent is the primary function; its descendants are the tree (secondary, tertiary,
 technique at level 4); other functions without a parent stay outside the tree (« estime »). The rules are those of the
@@ -132,7 +134,22 @@ def _views(functions):
     return {"general": set(secondaries), "detail": {f["ref"] for f in tertiaries} | {r for r in secondaries if r not in with_kids}}
 
 
-def parse(raw, language="fr", test_refs=()):
+def _owner(obj, path, usernames):
+    """0.60.38 (D-O-047): who carries the action (a username of the team) and by when."""
+    who = obj.get("owner") or None
+    if who is not None and who not in usernames:
+        _bad(path + ".owner", "« {} » n'est pas dans l'équipe.".format(str(who)[:40]), "le username d'une personne de la liste team, ou retirez la clé.")
+    when = str(obj.get("due") or "").strip()
+    if when:
+        import datetime as dt
+        try:
+            dt.date.fromisoformat(when)
+        except ValueError:
+            _bad(path + ".due", "date « {} ».".format(when[:20]), "AAAA-MM-JJ, ou retirez la clé.")
+    return {"owner": who, "due": when}
+
+
+def parse(raw, language="fr", test_refs=(), usernames=()):
     """The "diamond" object of the file -> its clean copy (empty lists when absent)."""
     raw = raw.get("diamond") or {}
     if not isinstance(raw, dict):
@@ -189,7 +206,7 @@ def parse(raw, language="fr", test_refs=()):
                       "consequence": _text(r, "consequence", path, 400), "category": _choice(r, "category", path, v["category"], "technique"),
                       "phase": _choice(r, "phase", path, v["phase"]), "probability": _scale(r, "probability", path, 1, 5),
                       "impact": _scale(r, "impact", path, 1, 5), "response": _choice(r, "response", path, v["response"]),
-                      "action": _text(r, "action", path, 600), "function": fn})
+                      "action": _text(r, "action", path, 600), "function": fn, **_owner(r, path, usernames)})
     dfmea = []
     for i, d in enumerate(_list(raw, "dfmea")):
         path = "dfmea[{}]".format(i)
@@ -210,6 +227,7 @@ def parse(raw, language="fr", test_refs=()):
         if test is not None and test not in test_refs:
             _bad(path + ".test", "essai « {} » introuvable.".format(test), "la ref d'un essai de la liste tests, ou retirez la clé.")
         row["test"] = test
+        row.update(_owner(d, path, usernames))
         dfmea.append(row)
     return {"functions": functions, "ports": ports, "flows": flows, "parts": parts, "risks": risks, "dfmea": dfmea,
             "note": NOTE[language]}
@@ -228,6 +246,7 @@ def apply(conn, user_id, pid, d, test_ids=None):
     """Creates the Diamond items of one Space (inside the transaction of « Commencer »); returns their counts."""
     from modules.diamond import dfmea, functions as F, parts as P, risks as R, structure as S
     ids, ports = {}, {}
+    user_of = lambda name: (conn.execute("SELECT id FROM users WHERE username = ?", (name,)).fetchone() or [None])[0] if name else None  # noqa: E731
     for f in d["functions"]:
         notes = (f["notes"] + " — " if f["notes"] else "") + d["note"]
         ids[f["ref"]] = F.create(conn, user_id, pid, {"text": f["text"], "ftype": f["ftype"], "kano": f["kano"],
@@ -244,10 +263,11 @@ def apply(conn, user_id, pid, d, test_ids=None):
             P.tag(conn, pid, oid, ids[ref])
     for r in d["risks"]:
         fields = {k: r[k] for k in ("title", "cause", "consequence", "category", "phase", "probability", "impact", "response", "action")}
-        fields.update(function_id=ids.get(r["function"]), notes=d["note"])
+        fields.update(function_id=ids.get(r["function"]), notes=d["note"], owner_id=user_of(r.get("owner")), due_date=r.get("due") or "")
         R.create(conn, user_id, pid, fields)
     for row in d["dfmea"]:
-        fields = {k: v for k, v in row.items() if k not in ("function", "test")}
+        fields = {k: v for k, v in row.items() if k not in ("function", "test", "owner", "due")}
+        fields.update(action_owner_id=user_of(row.get("owner")), action_due=row.get("due") or None)
         fields["function_id"] = ids.get(row["function"])
         fields["test_id"] = (test_ids or {}).get(row.get("test"))
         dfmea.insert(conn, user_id, pid, fields)

@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.37
+# Journal de mise à jour — 0.60.38
+
+- **Version :** 0.60.37 → 0.60.38 (2026-11-04)
+- **Changements :**
+  1. **Responsables des actions** (D-O-047) : DFMEA avec responsable, échéance, status ; « Suivre dans Agile » ; Mes actions Diamond ; Bob sait qui fait quoi.
+- **Base de données :** ['diamond 7 : diamond_dfmea.action_owner_id, action_due, action_status, issue_id ; diamond_risks.issue_id']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.37
 
 - **Version :** 0.60.36 → 0.60.37 (2026-11-04)
 - **Changements :**
   1. **Bob le mineur, plus sûr et plus rapide** (D-O-044) : une commande `dynamite`, fiche directive, recherche qui comprend une phrase et donne le meilleur lien.
 - **Base de données :** []
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.36
 

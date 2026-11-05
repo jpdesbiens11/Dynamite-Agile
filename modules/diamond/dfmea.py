@@ -18,6 +18,7 @@ from core import audit, db, validate
 from core.errors import ApiError
 from core.files import RawFile
 
+from . import actions as ACT
 from . import dfmea_ap as AP
 from . import dfmea_practices as GP
 from . import functions as F
@@ -35,17 +36,20 @@ MAX_ROWS = 600
 
 def _rows(conn, pid):
     items = [dict(r) for r in conn.execute(
-        "SELECT d.*, f.number AS function_number, f.text AS function_text, r.number AS risk_number, "
+        "SELECT d.*, f.number AS function_number, f.text AS function_text, r.number AS risk_number, ow.display_name AS action_owner_name, "
         "t.test_id AS test_code, t.title AS test_title, tp.key AS test_space FROM diamond_dfmea d "
         "LEFT JOIN diamond_functions f ON f.id = d.function_id AND f.archived = 0 "
         "LEFT JOIN testing_tests t ON t.id = d.test_id LEFT JOIN projects tp ON tp.id = t.project_id "
-        "LEFT JOIN diamond_risks r ON r.id = d.risk_id AND r.archived = 0 "
+        "LEFT JOIN diamond_risks r ON r.id = d.risk_id AND r.archived = 0 LEFT JOIN users ow ON ow.id = d.action_owner_id "
         "WHERE d.project_id = ? ORDER BY d.position, d.id", (pid,))]
     for n, row in enumerate(items, start=1):
         row["line"] = n
         row["rpn"] = AP.rpn(row["severity"], row["occurrence"], row["detection"])
         row["ap"] = AP.action_priority(row["severity"], row["occurrence"], row["detection"])
-    return items
+    return ACT.enrich(conn, items, "dfmea")  # 0.60.38 (D-O-047): owner, due date, status, Agile ticket
+
+
+rows = _rows
 
 
 def _tree_functions(conn, pid):
@@ -80,6 +84,12 @@ def checks(conn, pid, rows):
     unrated = [r for r in rows if r["failure_mode"] and r["failure_mode"] != GP.RAS and not r["ap"]]
     if unrated:
         out.append("Ligne(s) {} : mode de défaillance sans cotation S, O et D complète.".format(", ".join(str(r["line"]) for r in unrated[:10])))
+    late = [r for r in rows if r["late"]]  # 0.60.38 (D-O-047)
+    if late:
+        out.append("Ligne(s) {} : action en retard sur son échéance.".format(", ".join(str(r["line"]) for r in late[:10])))
+    orphan = [r for r in rows if r["action"].strip() and not r["action_owner_id"] and r["action_status"] != "done"]
+    if orphan:
+        out.append("Ligne(s) {} : action sans responsable — choisissez un membre de l'équipe.".format(", ".join(str(r["line"]) for r in orphan[:10])))
     high = [r for r in rows if r["ap"] == "H" and not r["action"].strip()]
     if high:
         out.append("Ligne(s) {} : AP High sans action — une action est attendue (ou la justification des contrôles actuels).".format(
@@ -117,8 +127,8 @@ def payload(conn, pid):
     if project and project["name"] not in suggest["higher"]:
         suggest["higher"].insert(0, project["name"])
     return {"rows": rows, "functions": _tree_functions(conn, pid), "tests": tests(conn, pid), "suggest": suggest,
-            "checks": checks(conn, pid, rows),
-            "labels": {"texts": {k: v[0] for k, v in TEXTS.items()}, "ratings": RATINGS, "ap": AP.AP_LABELS},
+            "checks": checks(conn, pid, rows), "members": ACT.members(conn, pid),
+            "labels": {"texts": {k: v[0] for k, v in TEXTS.items()}, "ratings": RATINGS, "ap": AP.AP_LABELS, "statuses": ACT.DFMEA_STATUSES},
             "legend": AP.legend()}
 
 
@@ -162,6 +172,15 @@ def _fields(conn, pid, body):
             if not conn.execute("SELECT 1 FROM diamond_functions WHERE id = ? AND project_id = ? AND archived = 0", (int(fid), pid)).fetchone():
                 raise ApiError(400, "Fonction introuvable dans l'arbre de ce Space. Correctif : choisissez une fonction de la liste.")
             out["function_id"] = int(fid)
+    if "action_owner_id" in body:  # 0.60.38 (D-O-047): who carries the action, by when, where it stands
+        out["action_owner_id"] = ACT.owner(conn, pid, body.get("action_owner_id"))
+    if "action_due" in body:
+        out["action_due"] = ACT.due(body.get("action_due"))
+    if "action_status" in body:
+        value = str(body.get("action_status") or "open")
+        if value not in ACT.DFMEA_STATUSES:
+            raise ApiError(400, "Status de l'action « {} » inconnu. Correctif : {}.".format(value, ", ".join(ACT.DFMEA_STATUSES.values())))
+        out["action_status"] = value
     if "test_id" in body:  # 0.60.24: one key test per row (choose, change, remove)
         tid = body.get("test_id")
         if tid in (None, "", 0, "0"):
@@ -194,6 +213,9 @@ def insert(conn, user_id, pid, fields, after_id=None):
     values = {k: fields.get(k, "" if k in TEXTS else None) for k in COLUMNS}
     values["risk_id"] = fields.get("risk_id")
     values["test_id"] = fields.get("test_id")
+    for name in ("action_owner_id", "action_due", "action_status"):  # 0.60.38
+        if fields.get(name) is not None:
+            values[name] = fields[name]
     cols = list(values)
     did = conn.execute("INSERT INTO diamond_dfmea (project_id, position, {}, created_by, created_at, updated_by, updated_at) "
                        "VALUES (?, 0, {}, ?, ?, ?, ?)".format(", ".join(cols), ", ".join("?" * len(cols))),
@@ -230,7 +252,7 @@ def api_update(ctx):
 def api_duplicate(ctx):
     pid = F.access(ctx, "editor")
     row = _row(ctx, pid)
-    did = insert(ctx.conn, ctx.user["id"], pid, {k: row[k] for k in COLUMNS + ["risk_id", "test_id"]}, row["id"])
+    did = insert(ctx.conn, ctx.user["id"], pid, {k: row[k] for k in COLUMNS + ["risk_id", "test_id", "action_owner_id", "action_due"]}, row["id"])
     _log(ctx, "diamond_dfmea_duplicate", did, {"from": row["id"]})
     return dict(payload(ctx.conn, pid), created=did)
 
@@ -301,12 +323,14 @@ def api_export(ctx):
     w = csv.writer(out, delimiter=";")
     w.writerow(["Ligne", "Higher-Level Element", "Focus Element", "Lower-Level Element", "Function of Focus Element",
                 "Requirement / Characteristic", "Failure Mode", "Failure Effect", "S", "Failure Cause", "Prevention Controls", "O",
-                "Detection Controls", "Essai clé (Test Base)", "D", "RPN", "AP", "Actions", "Risque projet"])
+                "Detection Controls", "Essai clé (Test Base)", "D", "RPN", "AP", "Actions", "Responsable", "Échéance", "Status de l'action",
+                "Ticket Agile", "Risque projet"])
     for r in _rows(ctx.conn, pid):
         w.writerow([r["line"], r["higher"], r["focus"], r["lower"],
                     "F{} {}".format(r["function_number"], r["function_text"]) if r["function_number"] else "", r["requirement"],
                     r["failure_mode"], r["effect"], r["severity"] or "", r["cause"], r["prevention"], r["occurrence"] or "",
                     r["detection_ctrl"], "{} {}".format(r["test_code"], r["test_title"]) if r["test_code"] else "", r["detection"] or "", r["rpn"] or "", AP.AP_LABELS.get(r["ap"], ""), r["action"],
-                    "R-{}".format(r["risk_number"]) if r["risk_number"] else ""])
+                    r["action_owner_name"] or "", r["action_due"], ACT.DFMEA_STATUSES.get(r["action_status"], ""),
+                    r["ticket"]["key"] if r["ticket"] else "", "R-{}".format(r["risk_number"]) if r["risk_number"] else ""])
     _log(ctx, "diamond_dfmea_export", pid)
     return RawFile(("﻿" + out.getvalue()).encode("utf-8"), "dfmea_{}.csv".format(key), "text/csv")
