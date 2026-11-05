@@ -34,6 +34,8 @@
       "aria-expanded": "false", onclick: () => (document.documentElement.classList.contains("nav-open") ? close() : open()) },
     el("span", { class: "nav-toggle-bars", "aria-hidden": "true" }));
     bar.prepend(toggle);
+    // 0.60.29 (D-O-038): « Partager » stays in sight on a phone, beside the account
+    if (DA.shareButton) bar.insertBefore(DA.shareButton("phone"), bar.querySelector(".user-area"));
     document.body.append(backdrop, drawer);
   }
 

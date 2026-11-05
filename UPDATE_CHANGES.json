@@ -2,77 +2,38 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Aucune fonction oubliée dans le DFMEA (D-O-037)",
-      "why": "« Commencer » et le nouveau bouton « Compléter le DFMEA » ajoutent une ligne à chaque fonction sans ligne (primaire, secondaires, tertiaires, techniques et fonctions hors arbre) : perte, partielle, intermittente ou non voulue, à préciser ; une fonction mère renvoie aux lignes de ses enfants.",
+      "title": "Bouton « Partager » dans la barre du haut (D-O-038)",
+      "why": "Chaque page se partage en dehors de l'outil, en plus du @ qui pointe un membre dedans : lien à copier, Courriel, Texto, Messenger, WhatsApp, Teams et « Autres applications… » quand le système a sa feuille de partage. Le texte sélectionné part comme citation.",
       "files": [
-        "modules/diamond/dfmea_complete.py",
-        "modules/diamond/dfmea.py",
-        "modules/diamond/__init__.py",
-        "static/js/diamond/dfmea.js"
+        "static/js/tools/share.js",
+        "static/css/app.css",
+        "static/index.html",
+        "tools/make_sketch_assets.py",
+        "static/img/icons.svg",
+        "static/img/icons-term.svg"
       ]
     },
     {
       "id": "C2",
-      "title": "L'essai clé relié tout seul",
-      "why": "Chaque ligne sans essai reçoit l'essai le plus pertinent : le sujet d'essai appelé par la fonction (sécurité électrique, thermique, CEM, logiciel, mécanique…), puis les mots partagés ; la Test Base du Space d'abord, le catalogue ensuite. Les choix du fichier restent.",
+      "title": "Au téléphone : à côté du menu ☰",
+      "why": "L'icône reste visible dans la barre compacte et ouvre directement la feuille de partage du téléphone ; la barre de Dynamite « Partager » fait de même.",
       "files": [
-        "modules/diamond/dfmea_complete.py",
-        "core/starter_diamond.py"
+        "static/js/tools/mobile.js",
+        "static/js/tools/mobile_views.js"
       ]
     },
     {
       "id": "C3",
-      "title": "Les bonnes pratiques de l'industrie en prévention",
-      "why": "Prevention Controls énumère, par thème, les pratiques de conception reconnues (distances d'isolement et lignes de fuite, derating, facteur de sécurité, analyse de tolérances, watchdog, IEC 62366-1, DFM / DFA…) et quatre pratiques pour toute fonction, après le texte de l'équipe : pour former les jeunes ingénieurs et garder la mémoire des anciens.",
+      "title": "Version 0.60.29, tests et documentation",
+      "why": "tests/test_share.py ; décision, état du projet, journal, fiche de version.",
       "files": [
-        "modules/diamond/dfmea_practices.py",
-        "static/js/diamond/dfmea_table.js",
-        "static/css/diamond_dfmea.css"
-      ]
-    },
-    {
-      "id": "C4",
-      "title": "« Rien à signaler » (RAS), seulement justifié",
-      "why": "RAS, « rien à signaler » ou N/A deviennent « Rien à signaler (RAS) » ; sans justification dans Failure Effect, le Project Starter refuse et le DFMEA le signale ; avec justification, un rappel : officiellement, toute fonction peut tomber en panne.",
-      "files": [
-        "modules/diamond/dfmea_practices.py",
-        "modules/diamond/dfmea.py",
-        "core/starter_diamond.py",
-        "tools/site/starter.md",
-        "tools/site/en/starter.md"
-      ]
-    },
-    {
-      "id": "C5",
-      "title": "Le Space étoilé ouvre chaque onglet",
-      "why": "Au changement d'onglet, le Space par défaut (★) gagne sur le dernier Space visité : un téléphone garde son onglet de navigateur des jours durant.",
-      "files": [
-        "static/js/tools/spaces.js",
-        "tests/test_space_follow.py"
-      ]
-    },
-    {
-      "id": "C6",
-      "title": "About : l'auteur, vanille puis personnalisable, merci",
-      "why": "25 ans de pratique et la formation en méthodologie de conception de l'Université de Sherbrooke ; outils vanille mis à jour par GitHub et Update, 100 % personnalisables avec Claude Opus ; merci aux collègues de carrière.",
-      "files": [
-        "static/js/about/about.js"
-      ]
-    },
-    {
-      "id": "C7",
-      "title": "Version 0.60.28, tests et documentation",
-      "why": "tests/test_dfmea_complete.py ; décision, état du projet, journal, fiche de version.",
-      "files": [
-        "tests/test_dfmea_complete.py",
-        "tests/test_starter_diamond.py",
-        "tests/test_diamond_dfmea.py",
+        "tests/test_share.py",
         "core/__init__.py",
         "CLAUDE.md",
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.28.json",
+        "docs/releases/0.60.29.json",
         "tests/test_open_v060.py"
       ]
     }

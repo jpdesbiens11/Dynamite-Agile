@@ -12,7 +12,7 @@ class MobileViewsTest(unittest.TestCase):
     def test_01_script(self):
         js = (BASE_DIR / "static" / "js" / "tools" / "mobile_views.js").read_text("utf-8")
         for needed in ('diamond: "Diamond"', 'exploration:', 'tools:', '["goldmine", "testing", "timesheet"]', "data-label",
-                       "navigator.share", "navigator.clipboard", ".dy-ai-btn", "0.60.27-dy-fab", "0.60.27-pc-only", "da-phone"):
+                       "DA.share({ direct: true })", ".dy-ai-btn", "0.60.27-dy-fab", "0.60.27-pc-only", "da-phone"):
             self.assertIn(needed, js, needed)
         self.assertNotIn("innerHTML", js)
         self.assertIn('<script src="/js/tools/mobile_views.js" defer></script>', (BASE_DIR / "static" / "index.html").read_text("utf-8"))

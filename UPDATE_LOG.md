@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.28
+# Journal de mise à jour — 0.60.29
+
+- **Version :** 0.60.28 → 0.60.29 (2026-11-04)
+- **Changements :**
+  1. **Partager** (D-O-038) : feuille de partage du téléphone, ou lien, courriel, texto, Messenger, WhatsApp et Teams, depuis la barre du haut.
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.28
 
 - **Version :** 0.60.27 → 0.60.28 (2026-11-04)
 - **Changements :**
   1. **DFMEA complet** (D-O-037) : une ligne par fonction, l'essai clé relié, les bonnes pratiques de l'industrie en prévention, RAS justifié ; le Space étoilé ouvre chaque onglet ; About enrichi.
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.27
 
