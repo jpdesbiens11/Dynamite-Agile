@@ -75,7 +75,7 @@ class LotV019Test(unittest.TestCase):
         self.assertEqual(ids["TST-CUS-01"]["category"], "custom")
         self.assertEqual(ids["TST-CUS-01"]["status"], "Draft")
         self.assertTrue(all(t["procedure"] for t in data["tests"]))  # every subject has its procedure page
-        tpid = {p["key"]: p["id"] for p in self.admin.get("/api/admin/projects")["projects"]}["TESTING"]
+        tpid = {p["key"]: p["id"] for p in self.admin.get("/api/admin/projects")["projects"]}["HEADLAMP"]
         titles = {p["title"] for p in self.admin.get("/api/dynamite/p/{}/pages".format(tpid))["pages"]}
         self.assertIn("Testing — Test Procedures", titles)
         self.assertEqual(sum(1 for t in titles if t.startswith("PRC-")), len(PROCEDURES))
@@ -145,11 +145,11 @@ class LotV019Test(unittest.TestCase):
         self.assertTrue(rec["history"])
         with db.connect() as conn:
             conn.execute("UPDATE memberships SET role = 'reader' WHERE user_id = (SELECT id FROM users WHERE username = 'tia') "
-                         "AND project_id = (SELECT id FROM projects WHERE key = 'TESTING')")
+                         "AND project_id = (SELECT id FROM projects WHERE key = 'HEADLAMP')")
         self.assertEqual(self.status(lambda: self.tia.patch("/api/testing/tests/TST-ENV-02", {"notes": "x"})), 403)
         with db.connect() as conn:
             conn.execute("UPDATE memberships SET role = 'editor' WHERE user_id = (SELECT id FROM users WHERE username = 'tia') "
-                         "AND project_id = (SELECT id FROM projects WHERE key = 'TESTING')")
+                         "AND project_id = (SELECT id FROM projects WHERE key = 'HEADLAMP')")
 
     def test_06_csv_round_trip_of_the_base(self):
         with self.admin.opener.open(self.url + "/api/testing/export.csv?ids=TST-MEC-01,TST-MEC-02") as resp:

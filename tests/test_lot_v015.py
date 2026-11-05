@@ -70,7 +70,7 @@ class LotV015Test(unittest.TestCase):
             self.assertIn(k, keys)
             self.assertTrue(keys[k]["page_id"] and keys[k]["faq_id"], k)
         self.assertEqual(keys["pugh"]["family"], "convergent")
-        tools_pid = {p["key"]: p["id"] for p in self.admin.get("/api/admin/projects")["projects"]}["TOOLS"]
+        tools_pid = {p["key"]: p["id"] for p in self.admin.get("/api/admin/projects")["projects"]}["HEADLAMP"]
         page = self.people["remi"].get("/api/dynamite/p/{}/pages/{}".format(tools_pid, keys["brainstorming"]["faq_id"]))["page"]
         self.assertIn("FAQ", page["title"])
         startup.run(self.data_dir, self.cfg)  # idempotent: no duplicate page

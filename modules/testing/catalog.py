@@ -41,8 +41,16 @@ ID_RE = re.compile(r"^[A-Z][A-Z0-9]*(-[A-Z0-9]+){1,4}$")
 
 
 def project_id(conn):
-    row = conn.execute("SELECT id FROM projects WHERE key = ?", (KEY,)).fetchone()
-    return row["id"] if row else None
+    """The Space of the reference Test Base: TESTING on an installation made before 0.60.41, else HeadLamp (D-O-050)."""
+    from modules.help import reference
+    return reference.space(conn, KEY)
+
+
+def ref_key(conn):
+    """The key of the reference Space (HEADLAMP, or TESTING on an installation made before 0.60.41, D-O-050)."""
+    pid = project_id(conn)
+    row = conn.execute("SELECT key FROM projects WHERE id = ?", (pid,)).fetchone() if pid else None
+    return row["key"] if row else KEY
 
 
 def procedure_title(code, subject):
@@ -300,10 +308,11 @@ def _ensure_pages(ctx, pid):
     hub = titles.get(HUB) or titles.get("Testing — Procedures d'essai")  # D-B-085: renamed hub
     if hub is None:
         home = next((p for p in pages if not p.get("parent_id")), None)
-        if home is not None:
+        own = ctx.conn.execute("SELECT key FROM projects WHERE id = ?", (pid,)).fetchone()["key"] == KEY
+        if home is not None and own:  # the TESTING Space of an older installation: its home is the hub
             hub = home
-        else:
-            made = api.post(base, {"title": HUB, "body": hub_page(tests)})
+        else:  # 0.60.41 (D-O-050): in HeadLamp, the hub is a page under the home, never the home itself
+            made = api.post(base, {"title": HUB, "parent_id": home["id"] if home else None, "body": hub_page(tests)})
             hub = made.get("page") or made
     refresh(hub["id"], HUB, hub_page(tests))
     for proc in PROCEDURES:
@@ -317,12 +326,10 @@ def _ensure_pages(ctx, pid):
 
 
 def ensure(ctx):
-    """Create the TESTING space, fill the test base and the draft procedure pages; everyone is an editor."""
-    pid = project_id(ctx.conn)
-    if pid is None:
-        from modules.timesheet import manage as timesheet
-        pid = admin.create_project_record(ctx, KEY, NAME, DESCRIPTION)["id"]
-        timesheet.save_settings(ctx.conn, pid, organism="Interne", enabled=False)
+    """Fill the reference Test Base, its central lists and the draft procedure pages in the reference Space (HeadLamp,
+    or TESTING on an installation made before 0.60.41, D-O-050); everyone is an editor there."""
+    from modules.help import reference
+    pid = reference.ensure(ctx, KEY)
     lists.seed(ctx.conn, pid)
     from . import legacy
     legacy.upgrade(ctx.conn)  # D-B-085: statuses and default list labels in English
@@ -337,7 +344,7 @@ def ensure(ctx):
 def require_space(conn):
     pid = project_id(conn)
     if pid is None:
-        raise ApiError(404, "Le Space TESTING n'existe pas encore. Correctif : redémarrez le serveur.")
+        raise ApiError(404, "La Test Base de référence n'existe pas encore (Space HeadLamp). Correctif : redémarrez le serveur.")
     return pid
 
 

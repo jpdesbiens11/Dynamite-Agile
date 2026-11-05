@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.40
+# Journal de mise à jour — 0.60.41
+
+- **Version :** 0.60.40 → 0.60.41 (2026-11-04)
+- **Changements :**
+  1. **Un Space, un produit** (D-O-050) : installation neuve vide sauf HeadLamp (bac à sable et bibliothèque de référence) ; chaque Space en vase clos.
+- **Base de données :** []
+
+## Précédent
+
+### Journal de mise à jour — 0.60.40
 
 - **Version :** 0.60.39 → 0.60.40 (2026-11-04)
 - **Changements :**
   1. **Accueil en storyline** (D-O-049) : le besoin, puis la descente dans la mine jusqu'aux diamants ; HeadLamp ne se traduit pas.
 - **Base de données :** []
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.39
 

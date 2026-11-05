@@ -78,8 +78,9 @@ def hub_page():
 
 
 def project_id(conn):
-    row = conn.execute("SELECT id FROM projects WHERE key = ?", (KEY,)).fetchone()
-    return row["id"] if row else None
+    """The Space of the method pages: TOOLS on an installation made before 0.60.41, else HeadLamp (D-O-050)."""
+    from modules.help import reference
+    return reference.space(conn, KEY)
 
 
 def _generated(ctx, page_id):
@@ -117,12 +118,8 @@ def _retire(ctx, api, base, pages, title):
 
 def ensure(ctx):
     """Create the TOOLS space, its hub and every missing method / FAQ page; everyone is an editor."""
-    from core import admin
-    pid = project_id(ctx.conn)
-    if pid is None:
-        from modules.timesheet import manage as timesheet
-        pid = admin.create_project_record(ctx, KEY, NAME, DESCRIPTION)["id"]
-        timesheet.save_settings(ctx.conn, pid, organism="Interne", enabled=False)
+    from modules.help import reference
+    pid = reference.ensure(ctx, KEY)  # 0.60.41 (D-O-050): HeadLamp, or TOOLS on an older installation
     api = local_api(ctx)
     base = "/api/dynamite/p/{}/pages".format(pid)
     pages = api.get(base)["pages"]
@@ -137,13 +134,14 @@ def ensure(ctx):
     hub = titles.get(HUB)
     if hub is None:
         home = next((p for p in pages if not p.get("parent_id")), None)
-        if home is not None and home["title"] != HUB:  # the Space's home page becomes the hub
+        own = ctx.conn.execute("SELECT key FROM projects WHERE id = ?", (pid,)).fetchone()["key"] == KEY
+        if home is not None and own and home["title"] != HUB:  # the TOOLS Space of an older installation: its home is the hub
             page = api.get(base + "/{}".format(home["id"]))["page"]
             api.put(base + "/{}".format(home["id"]), {"title": HUB, "body": hub_page(), "base_version": page["version"],
                                                      "note": GENERATED})
             hub = home
-        else:
-            made = api.post(base, {"title": HUB, "body": hub_page()})
+        else:  # 0.60.41 (D-O-050): in HeadLamp, a page under the home -- never the home itself
+            made = api.post(base, {"title": HUB, "parent_id": home["id"] if home and not own else None, "body": hub_page()})
             hub = made.get("page") or made
     _refresh(ctx, api, base, hub["id"], HUB, hub_page())
     for m in METHODS:

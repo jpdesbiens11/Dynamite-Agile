@@ -81,7 +81,7 @@ class PlatformToolsTest(unittest.TestCase):
         self.assertEqual(conf["TSK"]["task_set"], "pdp")
         # Théo is member of nothing, yet can log time on the Spaces open to all
         week = self.people["theo"].get("/api/timesheet/week")
-        self.assertEqual([p["key"] for p in week["projects"]], ["CRS", "INT"])  # INT: internal time and leave
+        self.assertEqual([p["key"] for p in week["projects"]], ["CRS"])  # 0.60.41 (D-O-050): no INT; leave in every Space
         self.assertEqual(len(week["meta"]["task_sets"]["pdp"]["tasks"]), 19)  # 0.60.01: steps of the PDP
         self.assertEqual(len(week["meta"]["task_sets"][self.cours]["tasks"]), 3)
 

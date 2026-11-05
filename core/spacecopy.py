@@ -34,7 +34,18 @@ ISSUE_CHILDREN = ("agile_comments", "agile_history", "agile_issue_labels", "agil
 GOLDMINE = ("agile_requirements", "goldmine_qa", "goldmine_qa_events", "goldmine_pugh", "goldmine_pugh_concepts",
             "goldmine_pugh_criteria", "goldmine_pugh_scores")
 ATTACHMENT_MODULES = {"dynamite": ("dynamite",), "agile": ("agile",), "goldmine": ("goldmine", "agile_requirement")}
-CATALOGUE = "TESTING"
+CATALOGUE = "TESTING"  # before 0.60.41; the reference Test Base now lives in HeadLamp (D-O-050), see _cat()
+
+
+def _cat(conn):
+    """The key of the Space that holds the reference Test Base (HeadLamp, or TESTING on an older installation)."""
+    try:
+        from modules.testing import catalog
+        pid = catalog.project_id(conn)
+    except Exception:
+        return CATALOGUE
+    row = conn.execute("SELECT key FROM projects WHERE id = ?", (pid,)).fetchone() if pid else None
+    return row["key"] if row else CATALOGUE
 DIAMOND = ("diamond_functions", "diamond_ports", "diamond_flows", "diamond_positions", "diamond_parts", "diamond_part_functions",
            "diamond_risks", "diamond_dfmea")
 
@@ -85,7 +96,7 @@ def _plan(conn, parts):
     collected, plan = {}, {}
     infra_src = (parts.get("agile") or parts.get("goldmine") or {}).get("key")
     for part, src in parts.items():
-        if part == "testing" and src["key"] == CATALOGUE:
+        if part == "testing" and src["key"] == _cat(conn):
             continue  # the catalogue: copied lazily (D-B-097)
         if src["key"] not in collected:
             collected[src["key"]] = backup.collect(conn, src["id"])[1]
@@ -185,8 +196,8 @@ def summary(conn, parts):
         if src is None:
             out.append({"part": part, "label": LABELS[part], "source": "", "detail": "Vide (comme un Space neuf)"})
             continue
-        if part == "testing" and src["key"] == CATALOGUE:
-            out.append({"part": part, "label": LABELS[part], "source": CATALOGUE, "detail": "copie du catalogue de référence"})
+        if part == "testing" and src["key"] == _cat(conn):
+            out.append({"part": part, "label": LABELS[part], "source": src["key"], "detail": "copie du catalogue de référence"})
             continue
         rows = plan.get(src["key"], {})
         req = _req_types(conn, src["id"])
@@ -235,7 +246,7 @@ def compose(ctx, key, name, description, parts):
     if "timesheet" in hooks:
         hooks["timesheet"](ctx, pid)
     testing = parts.get("testing")
-    if testing and testing["key"] != CATALOGUE:
+    if testing and testing["key"] != _cat(ctx.conn):
         pass  # copied with its rows above
     top = ctx.conn.execute("SELECT COALESCE(MAX(number), 0) FROM agile_issues WHERE project_id = ?", (pid,)).fetchone()[0]
     ctx.conn.execute("UPDATE projects SET next_ticket_number = ? WHERE id = ?", (top + 1, pid))
@@ -249,7 +260,7 @@ def compose(ctx, key, name, description, parts):
 def api_sources(ctx):
     permissions.require_admin(ctx.user)
     rows = ctx.conn.execute("SELECT id, key, name FROM projects WHERE is_archived = 0 ORDER BY key").fetchall()
-    return {"parts": [{"part": p, "label": LABELS[p]} for p in PARTS], "spaces": [dict(r) for r in rows], "catalogue": CATALOGUE}
+    return {"parts": [{"part": p, "label": LABELS[p]} for p in PARTS], "spaces": [dict(r) for r in rows], "catalogue": _cat(ctx.conn)}
 
 
 def api_compose(ctx):

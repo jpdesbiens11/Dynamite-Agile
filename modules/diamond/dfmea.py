@@ -60,15 +60,19 @@ def _tree_functions(conn, pid):
              "in_tree": f["id"] in tree} for f in sorted(items, key=lambda f: (f["id"] not in tree, lv[f["id"]], f["position"], f["number"]))]
 
 
-CATALOGUE = "TESTING"
+CATALOGUE = "TESTING"  # the key of the reference Space on an installation made before 0.60.41 (kept for older data)
 
 
 def tests(conn, pid):
-    """0.60.24 (D-O-033): the tests a row may name as its key detection test -- the Test Base of this Space first, then
-    the reference catalogue (TESTING)."""
+    """0.60.24 (D-O-033): the tests a row may name as its key detection test. 0.60.41 (D-O-050): the Space is a closed
+    environment -- only its own Test Base (copied once from the reference catalogue when it has none)."""
+    try:
+        from modules.testing import catalog
+        catalog.base(conn, pid)
+    except Exception:  # before the Testing migrations (tests of old lots)
+        pass
     rows = conn.execute("SELECT t.id, t.test_id AS code, t.title, p.key AS space FROM testing_tests t JOIN projects p ON p.id = t.project_id "
-                        "WHERE t.project_id = ? OR p.key = ? ORDER BY CASE WHEN t.project_id = ? THEN 0 ELSE 1 END, t.test_id",
-                        (pid, CATALOGUE, pid)).fetchall()
+                        "WHERE t.project_id = ? ORDER BY t.test_id", (pid,)).fetchall()
     return [dict(r) for r in rows]
 
 

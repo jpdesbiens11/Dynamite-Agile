@@ -54,7 +54,7 @@ def scanned_files():
 
 class StaticContentTest(unittest.TestCase):
     def test_01_version(self):
-        self.assertEqual(APP_VERSION, "0.60.40")
+        self.assertEqual(APP_VERSION, "0.60.41")
 
     def test_02_nothing_of_the_original_use_left(self):
         hits = []
@@ -221,7 +221,8 @@ class ExampleSiteTest(unittest.TestCase):
 
     def test_03_example_spaces(self):
         keys = {p["key"] for p in self.admin.get("/api/admin/projects")["projects"]}
-        self.assertEqual(keys, {"EQP", "INT", "HEADLAMP", "TESTING", "TOOLS", "TRAINING"})
+        # 0.60.41 (D-O-050): no TESTING, TOOLS, TRAINING nor INT Space; HeadLamp holds the reference content
+        self.assertEqual(keys, {"EQP", "HEADLAMP"})
 
     def test_04_unknown_theme_falls_back(self):
         from core import prefs
@@ -248,7 +249,7 @@ class ExampleSiteTest(unittest.TestCase):
         for code, hours, text in (("PARI-01", 3, "Modèle CAO du boîtier rev A"), ("PARI-02", 2.5, "Essai de chute, 10 chutes")):
             self.admin.post("/api/timesheet/entries", {"work_date": monday, "project_id": projects["EQP"], "task_key": code,
                                                        "hours": hours, "description": text})
-        self.admin.post("/api/timesheet/entries", {"work_date": monday, "project_id": projects["INT"], "task_key": "INT-VAC",
+        self.admin.post("/api/timesheet/entries", {"work_date": monday, "project_id": projects["EQP"], "task_key": "INT-VAC",
                                                    "hours": 4, "description": "Vacances"})
         query = "from={0}&to={0}&status=all&tasks=PARI-01,PARI-02".format(monday)
         status, _h, data = self.admin.raw_get("/api/timesheet/export.xlsx?" + query)

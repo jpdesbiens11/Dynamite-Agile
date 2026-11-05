@@ -61,7 +61,10 @@
     const editable = w.editable;
     const projects = {};
     data.projects.forEach((p) => { projects[p.id] = p; });
-    const tasksOf = (pid) => (data.meta.task_sets[(projects[pid] || { task_set: "pdp" }).task_set] || { tasks: [] }).tasks;
+    const tasksOf = (pid) => {  // 0.60.41 (D-O-050): the Space's set, plus the leave codes every Space offers
+      const own = (data.meta.task_sets[(projects[pid] || { task_set: "pdp" }).task_set] || { tasks: [] }).tasks;
+      return own.concat((data.meta.leave || []).filter((t) => !own.some((o) => o.key === t.key)));
+    };
     const refresh = () => { const holder = page; clear(holder); weekView(holder, w.start, goWeek); };
 
     const jump = el("input", { type: "date", value: w.start, "aria-label": "Aller à la semaine du" });

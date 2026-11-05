@@ -559,3 +559,13 @@ actions)` (`static/js/tools/spaces.js`) pour l'état vide guidé « Commencer ic
   SHA-256 publiée, contrôles du paquet officiel (`core/update.check`), sauvegarde du code et point de restauration, puis
   redémarrage. L'écran suit `/progress` (%, étape, lignes) puis `/api/about` jusqu'à la nouvelle version.
 - Un module n'appelle jamais le réseau lui-même ; il n'y a pas de vérification automatique en arrière-plan.
+
+## 15. Un Space, un produit (0.60.41, D-O-050)
+
+- Une installation neuve ne crée qu'**HEADLAMP** : le bac à sable, et la **bibliothèque de référence** (Test Base générique,
+  procédures et listes de Testing, méthodes de Tools, sujets de Training, jeux de codes de temps). `modules/help/reference.py`
+  dit où vit chaque contenu : l'ancien Space (TESTING, TOOLS, TRAINING, INT) s'il existe encore, sinon HeadLamp.
+- Chaque autre Space est un **vase clos**, de Goldmine à Timesheet : sa Test Base est copiée une fois depuis la référence
+  puis vit seule ; le DFMEA ne propose que ses essais ; les codes de congé (INT-VAC, INT-SAN) s'offrent dans chaque Space.
+- Aucun Space d'exemple : `--exemple` (ou `example_space` dans la config) recrée EQP et ses quatre étudiants pour le
+  développement seulement.

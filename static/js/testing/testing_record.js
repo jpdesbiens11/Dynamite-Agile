@@ -91,7 +91,7 @@
       el("div", { class: "form-row" }, field("Level", f.level), field("Method (IADT)", f.method), field("Test Location", f.location)),
       el("div", { class: "field" }, el("span", { class: "field-label" }, "Equipment (liste centrale)"), eq.node),
       el("div", { class: "field" }, el("span", { class: "field-label" }, "Functions"), fn.node),
-      list.can_manage_lists ? null : el("p", { class: "field-hint" }, "Un équipement, un lieu ou une fonction manque ? Demandez-le à un Admin du Space TESTING (Testing → Listes)."),
+      list.can_manage_lists ? null : el("p", { class: "field-hint" }, "Un équipement, un lieu ou une fonction manque ? Demandez-le à un Admin du Space HeadLamp (Testing → Listes)."),
       field("Objectif et déroulement", f.objective), field("Acceptance Criteria", f.acceptance),
       field("Test Means", f.means), field("Notes de l'équipe", f.notes), error,
       el("div", { class: "form-actions" }, el("button", { type: "button", class: "btn", onclick: show }, "Annuler"),

@@ -1,0 +1,77 @@
+{
+  "version": "0.60.41",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Un Space, un produit : une installation neuve est vide, à part HeadLamp, qui devient le bac à sable et la bibliothèque de référence (catalogue d'essais, procédures, listes, méthodes de Tools, formation, codes de temps) ; chaque Space vit seul de Goldmine à Timesheet, avec sa propre Test Base et les codes de congé ; plus de Space d'exemple.",
+    "en": "One Space, one product: a fresh installation is empty but for HeadLamp, which becomes the sandbox and the reference library (test catalogue, procedures, lists, Tools methods, training, time codes); every Space lives on its own from Goldmine to Timesheet, with its own Test Base and the leave codes; no more example Space."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "HeadLamp, seul Space commun (D-O-050)",
+      "why": "modules/help/reference.py : le contenu de référence va dans HeadLamp ; TESTING, TOOLS, TRAINING et INT ne sont plus créés ; une installation existante les garde tels quels (rien n'est effacé). Les pages-hubs de Testing et de Tools se placent sous l'accueil de HeadLamp.",
+      "files": [
+        "modules/help/reference.py",
+        "modules/help/headlamp.py",
+        "modules/help/gtd.py",
+        "modules/testing/catalog.py",
+        "modules/toolbox/catalog.py",
+        "modules/training/catalog.py",
+        "modules/timesheet/__init__.py",
+        "modules/timesheet/budget.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Chaque Space en vase clos",
+      "why": "Testing : la Test Base par défaut est celle de la référence, chaque Space a sa copie ; le DFMEA et « Compléter le DFMEA » ne proposent que les essais du Space ; Timesheet : INT-VAC et INT-SAN offerts dans chaque Space ; la copie d'un Space reconnaît le catalogue de HeadLamp.",
+      "files": [
+        "modules/testing/tests_api.py",
+        "modules/testing/plans.py",
+        "modules/diamond/dfmea.py",
+        "modules/diamond/dfmea_complete.py",
+        "core/spacecopy.py",
+        "static/js/testing/testing.js",
+        "static/js/agile/goldmine_tests.js",
+        "static/js/admin_spacecopy.js",
+        "static/js/timesheet/timesheet.js"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Plus de Space d'exemple",
+      "why": "Le mode développement ne crée plus EQP ni l'équipe d'exemple (option --exemple pour le développement) ; l'essai privé démarre vide ; textes de l'aide, de Testing et de Timesheet à jour.",
+      "files": [
+        "app_dynamite_agile.py",
+        "deploy/install.sh",
+        "static/js/help/content_path.js",
+        "static/js/help/content_faq.js",
+        "static/js/testing/testing_lists.js",
+        "static/js/testing/testing_record.js",
+        "static/js/timesheet/manage.js",
+        "docs/FONDATIONS.md"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Version 0.60.41, tests et documentation",
+      "why": "tests/test_closed_spaces.py ; tests des anciens lots ajustés (référence dans HeadLamp, congés dans chaque Space) ; décisions, état du projet, journal, fiche de version.",
+      "files": [
+        "tests/test_closed_spaces.py",
+        "tests/test_lot_v010.py",
+        "tests/test_lot_v015.py",
+        "tests/test_lot_v017.py",
+        "tests/test_lot_v019.py",
+        "tests/test_diamond_dfmea.py",
+        "tests/test_open_v060.py",
+        "tests/test_platform_tools.py",
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.41.json"
+      ]
+    }
+  ]
+}

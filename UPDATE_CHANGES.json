@@ -2,48 +2,69 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Le besoin, scène par scène (D-O-049)",
-      "why": "Quatre scènes qui apparaissent au défilement, avant la mine : pourquoi l'outil existe pour les jeunes ingénieurs et l'industrie.",
+      "title": "HeadLamp, seul Space commun (D-O-050)",
+      "why": "modules/help/reference.py : le contenu de référence va dans HeadLamp ; TESTING, TOOLS, TRAINING et INT ne sont plus créés ; une installation existante les garde tels quels (rien n'est effacé). Les pages-hubs de Testing et de Tools se placent sous l'accueil de HeadLamp.",
       "files": [
-        "tools/site_text.py",
-        "tools/build_site.py",
-        "tools/site/index.html",
-        "tools/site/en/index.html",
-        "tools/site/site.css"
+        "modules/help/reference.py",
+        "modules/help/headlamp.py",
+        "modules/help/gtd.py",
+        "modules/testing/catalog.py",
+        "modules/toolbox/catalog.py",
+        "modules/training/catalog.py",
+        "modules/timesheet/__init__.py",
+        "modules/timesheet/budget.py"
       ]
     },
     {
       "id": "C2",
-      "title": "La descente jusqu'aux diamants",
-      "why": "Les niveaux suivent le projet (HeadLamp à la surface, Exploration, Dynamite, Goldmine, Tools, Agile, Testing, Timesheet, Diamond à 1 000 m) ; la roche s'assombrit avec la profondeur, Diamond brille, puis « Vous êtes au fond : les diamants ».",
+      "title": "Chaque Space en vase clos",
+      "why": "Testing : la Test Base par défaut est celle de la référence, chaque Space a sa copie ; le DFMEA et « Compléter le DFMEA » ne proposent que les essais du Space ; Timesheet : INT-VAC et INT-SAN offerts dans chaque Space ; la copie d'un Space reconnaît le catalogue de HeadLamp.",
       "files": [
-        "tools/site_text.py",
-        "tools/site/site.js",
-        "tools/site/site.css"
+        "modules/testing/tests_api.py",
+        "modules/testing/plans.py",
+        "modules/diamond/dfmea.py",
+        "modules/diamond/dfmea_complete.py",
+        "core/spacecopy.py",
+        "static/js/testing/testing.js",
+        "static/js/agile/goldmine_tests.js",
+        "static/js/admin_spacecopy.js",
+        "static/js/timesheet/timesheet.js"
       ]
     },
     {
       "id": "C3",
-      "title": "HeadLamp ne se traduit pas ; DynamiteAgile en un mot",
-      "why": "« la lanterne » retirée (site, FAQ, noms des modules) ; titres et pied de page du site en « DynamiteAgile ».",
+      "title": "Plus de Space d'exemple",
+      "why": "Le mode développement ne crée plus EQP ni l'équipe d'exemple (option --exemple pour le développement) ; l'essai privé démarre vide ; textes de l'aide, de Testing et de Timesheet à jour.",
       "files": [
+        "app_dynamite_agile.py",
+        "deploy/install.sh",
+        "static/js/help/content_path.js",
         "static/js/help/content_faq.js",
-        "docs/NOMS_DES_MODULES.md",
-        "tools/site_text.py"
+        "static/js/testing/testing_lists.js",
+        "static/js/testing/testing_record.js",
+        "static/js/timesheet/manage.js",
+        "docs/FONDATIONS.md"
       ]
     },
     {
       "id": "C4",
-      "title": "Version 0.60.40, tests et documentation",
-      "why": "tests/test_landing_story.py ; décisions, état du projet, journal, fiche de version.",
+      "title": "Version 0.60.41, tests et documentation",
+      "why": "tests/test_closed_spaces.py ; tests des anciens lots ajustés (référence dans HeadLamp, congés dans chaque Space) ; décisions, état du projet, journal, fiche de version.",
       "files": [
-        "tests/test_landing_story.py",
+        "tests/test_closed_spaces.py",
+        "tests/test_lot_v010.py",
+        "tests/test_lot_v015.py",
+        "tests/test_lot_v017.py",
+        "tests/test_lot_v019.py",
+        "tests/test_diamond_dfmea.py",
+        "tests/test_open_v060.py",
+        "tests/test_platform_tools.py",
         "core/__init__.py",
         "CLAUDE.md",
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.40.json"
+        "docs/releases/0.60.41.json"
       ]
     }
   ]

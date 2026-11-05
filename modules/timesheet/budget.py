@@ -22,9 +22,9 @@ NOT_CLAIMABLE = {"INT-VAC", "INT-SAN"}  # vacation, health leave: never claimed 
 
 
 def _company_id(conn):
-    """The Space that holds the code tables (TOOLS)."""
-    row = conn.execute("SELECT id FROM projects WHERE key = ?", (catalog.CODES_KEY,)).fetchone()
-    return row["id"] if row else None
+    """The Space that holds the code tables: TOOLS on an installation made before 0.60.41, else HeadLamp (D-O-050)."""
+    from modules.help import reference
+    return reference.space(conn, catalog.CODES_KEY)
 
 
 def seed(conn):
@@ -74,15 +74,25 @@ def labels(conn):
     return {t["key"]: t["label"] for s in structure(conn).values() for t in s["tasks"]}
 
 
+def leave(conn, struct=None):
+    """0.60.41 (D-O-050): the leave codes (INT-VAC, INT-SAN) every Space offers, whatever its set -- vacation and
+    health leave are logged in the Space one works in; never claimable."""
+    struct = struct or structure(conn)
+    return [t for s in struct.values() for t in s["tasks"] if t["key"] in NOT_CLAIMABLE and t["active"]]
+
+
 def allowed(conn, set_key):
-    """Active codes a range of a Space with this set may use."""
-    s = structure(conn).get(set_key) or structure(conn).get(catalog.DEFAULT_SET) or {"tasks": []}
-    return [t["key"] for t in s["tasks"] if t["active"]]
+    """Active codes a range of a Space with this set may use (its set, plus the leave codes)."""
+    struct = structure(conn)
+    s = struct.get(set_key) or struct.get(catalog.DEFAULT_SET) or {"tasks": []}
+    codes = [t["key"] for t in s["tasks"] if t["active"]]
+    return codes + [t["key"] for t in leave(conn, struct) if t["key"] not in codes]
 
 
 def meta(conn):
-    return {"task_sets": {k: {"label": v["label"], "active": v["active"], "tasks": v["tasks"]}
-                          for k, v in structure(conn).items()}, "statuses": catalog.STATUSES}
+    struct = structure(conn)
+    return {"task_sets": {k: {"label": v["label"], "active": v["active"], "tasks": v["tasks"]} for k, v in struct.items()},
+            "leave": leave(conn, struct), "statuses": catalog.STATUSES}
 
 
 # --------------------------------------------------------------------------
