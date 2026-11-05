@@ -4,6 +4,7 @@
 # In one command, on the server (the script fetches the code into /opt/dynamite_agile, then installs):
 #   curl -fsSL <site>/install.sh | sudo bash -s -- atelier.mon-domaine.ca moi@exemple.ca     # online, HTTPS
 #   curl -fsSL <site>/install.sh | sudo bash -s -- --essai                                   # private trial
+#   curl -fsSL <site>/install.sh | sudo bash -s -- --local                                   # team's local network (0.60.44)
 #   curl -fsSL <site>/install.sh | sudo bash -s -- --traefik dynamite.srv123.hstgr.cloud      # behind Traefik (0.60.17)
 # Or from a clone:  sudo bash /opt/dynamite_agile/deploy/install.sh atelier.mon-domaine.ca moi@exemple.ca
 #
@@ -27,6 +28,7 @@ fail() { printf '\n\033[31m%s %s\033[0m\n' "$(t "Erreur :" "Error:")" "$*" >&2; 
 
 MODE=online
 if [ "${1:-}" = "--essai" ]; then MODE=trial; DOMAIN=""; EMAIL=""
+elif [ "${1:-}" = "--local" ]; then MODE=local; DOMAIN=""; EMAIL=""  # 0.60.44 (D-O-053): a Linux server on the team's network
 elif [ "${1:-}" = "--traefik" ]; then MODE=traefik; DOMAIN="${2:-}"; EMAIL=""  # D-O-029: Traefik keeps 80 / 443
 else DOMAIN="${1:-}"; EMAIL="${2:-}"; fi
 if [ "$MODE" = online ] && { [ -z "$DOMAIN" ] || [ -z "$EMAIL" ]; }; then
@@ -69,14 +71,19 @@ fi
 if [ "$MODE" = traefik ]; then exec bash "$APP_DIR/deploy/install_traefik.sh" "$DOMAIN"; fi
 [ "$APP_DIR" = "$TARGET" ] || fail "$(t "le code doit être dans $TARGET (ici : $APP_DIR). Correctif : sudo git clone $REPO $TARGET" "the code must be in $TARGET (here: $APP_DIR). Fix: sudo git clone $REPO $TARGET")"
 
-say "1/7 $(t "Paquets du système" "System packages") (python3, git, certbot, ufw)"
+say "1/7 $(t "Paquets du système" "System packages") (python3, git, certbot, ufw, openssl)"
 apt-get update -q
-apt-get install -y -q python3 git certbot ufw iproute2
+apt-get install -y -q python3 git certbot ufw iproute2 openssl
 python3 -c 'import sys; assert sys.version_info >= (3, 10), sys.version' || fail "$(t "Python 3.10 ou plus récent est requis." "Python 3.10 or newer is required.")"
 
 say "2/7 $(t "Pare-feu" "Firewall")"
 ufw allow OpenSSH >/dev/null
 if [ "$MODE" = online ]; then ufw allow 80/tcp >/dev/null; ufw allow 443/tcp >/dev/null; fi
+if [ "$MODE" = local ]; then  # 0.60.44: the team's local network only (private address ranges), never the Internet
+  for net in 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16; do
+    ufw allow from "$net" to any port 443 proto tcp >/dev/null; ufw allow from "$net" to any port 80 proto tcp >/dev/null
+  done
+fi
 ufw --force enable >/dev/null
 ufw status | sed -n '1,12p'
 # 0.60.39: some cloud images (Oracle Cloud Ubuntu) ship their own iptables rules that reject everything but SSH, under ufw:
@@ -115,6 +122,9 @@ install -m 600 -o dynamite -g dynamite /etc/letsencrypt/live/$DOMAIN/privkey.pem
 EOF
   chmod 755 "$HOOK"
   sh "$HOOK"
+elif [ "$MODE" = local ]; then
+  say "4/7 $(t "Certificat HTTPS de l'équipe (son autorité de certification, réseau local)" "The team's HTTPS certificate (its own certificate authority, local network)")"
+  python3 "$APP_DIR/tools/make_team_ca.py" --data-dir "$DATA_DIR" --name "$(hostname)" || fail "$(t "le certificat de l'équipe n'a pas pu être créé." "the team certificate could not be created.")"
 else
   say "4/7 $(t "Essai privé : pas de certificat, rien d'exposé sur Internet" "Private trial: no certificate, nothing exposed to the Internet")"
 fi
@@ -130,6 +140,13 @@ if mode == "online":
                 "http_redirect_port": 80, "public_name": domain, "dev_mode": False})
     print(("  production: https://{} (port 443, redirect from 80), development mode off" if en else
            "  production : https://{} (port 443, redirection depuis 80), mode développement coupé").format(domain))
+elif mode == "local":  # 0.60.44 (D-O-053): HTTPS on the team's network, the certificate of the team's own CA
+    import socket
+    name = socket.gethostname().lower()
+    cfg.update({"host": "0.0.0.0", "port": 443, "tls_cert": "tls/server.crt", "tls_key": "tls/server.key",
+                "http_redirect_port": 80, "public_name": name, "dev_mode": False})
+    print(("  local network: https://{} (port 443), development mode off" if en else
+           "  réseau local : https://{} (port 443), mode développement coupé").format(name))
 else:
     cfg.update({"host": "127.0.0.1", "port": 8080, "tls_cert": "", "tls_key": "", "http_redirect_port": 0,
                 "public_name": "", "dev_mode": True})
@@ -148,8 +165,14 @@ systemctl is-active --quiet "$SERVICE" || { journalctl -u "$SERVICE" -n 30 --no-
 echo "  $(t "Service actif." "Service running.")"
 
 say "7/7 $(t "C'est installé" "Installed")"
-if [ "$MODE" = online ]; then
-  echo "  $(t "Ouvrez :" "Open:")  https://$DOMAIN"
+if [ "$MODE" = online ] || [ "$MODE" = local ]; then
+  if [ "$MODE" = local ]; then
+    echo "  $(t "Ouvrez, depuis un poste du réseau :" "Open, from a computer on the network:")  https://$(hostname | tr 'A-Z' 'a-z')  ($(t "ou" "or") https://$(hostname -I | awk '{print $1}'))"
+    echo "  $(t "Une fois par poste, faites confiance au certificat de l'équipe :" "Once per computer, trust the team's certificate:") $DATA_DIR/tls/partage/ca-dynamite.crt"
+    echo "  $(t "Après l'installation, le serveur peut rester sans Internet : l'outil n'en a pas besoin." "After the installation, the server may stay without Internet: the tool does not need it.")"
+  else
+    echo "  $(t "Ouvrez :" "Open:")  https://$DOMAIN"
+  fi
   if [ -f "$DATA_DIR/INITIAL_ADMIN_PASSWORD.txt" ]; then
     echo "  $(t "Compte administrateur (mot de passe temporaire, à changer à la première connexion) :" "Administrator account (temporary password, to change at first login):")"
     sed 's/^/    /' "$DATA_DIR/INITIAL_ADMIN_PASSWORD.txt"

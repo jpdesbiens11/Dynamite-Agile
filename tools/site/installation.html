@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Installer DynamiteAgile</title>
-<meta name="description" content="Installer DynamiteAgile en 5 étapes, sans connaissances techniques : Linux (un serveur en ligne) ou Windows (un PC de l'équipe).">
+<meta name="description" content="Installer DynamiteAgile en 5 étapes, sans connaissances techniques : un serveur en ligne, un serveur Linux local ou un PC Windows de l'équipe, depuis Windows, macOS ou Linux.">
 {{FAVICON}}
 <style>
 {{CSS}}
@@ -23,36 +23,47 @@
   <div class="progress-bar" aria-live="polite"><div class="track"><i></i></div><span id="progress-text">0 étape faite</span></div>
 
   <ol class="wiz">
-    <!-- ================= 1. System ================= -->
-    <li class="wiz-step" data-step="os">
-      <h2><span class="n">1</span> Linux ou Windows ?</h2>
-      <p>Où l'outil va-t-il tourner pour votre équipe ?</p>
-      <div class="os-pick" role="radiogroup" aria-label="Système">
-        <label class="os-card"><input type="radio" name="os" value="linux" checked>
-          <svg class="os-ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="10" width="52" height="44" rx="8" fill="#14202b"/>
-            <path d="M16 26l8 6-8 6" fill="none" stroke="#7ee2a8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M29 40h14" stroke="#7ee2a8" stroke-width="4" stroke-linecap="round"/></svg>
-          <b>Linux</b><span class="tag">Recommandé</span>
-          <span>Un <b>serveur en ligne</b> (VPS) : toute l'équipe s'y connecte de partout, en HTTPS. Gratuit ou quelques dollars par mois.</span></label>
-        <label class="os-card"><input type="radio" name="os" value="windows">
+    <!-- ================= 1. Where it runs, and the person's own computer ================= -->
+    <li class="wiz-step" data-step="dest">
+      <h2><span class="n">1</span> Où l'outil va-t-il tourner ?</h2>
+      <div class="os-pick" role="radiogroup" aria-label="Où l'outil tourne">
+        <label class="os-card"><input type="radio" name="dest" value="online" checked>
+          <svg class="os-ico" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="24" fill="#cfe3ff" stroke="#14202b" stroke-width="3"/>
+            <path d="M8 32h48M32 8c-9 8-9 40 0 48M32 8c9 8 9 40 0 48" fill="none" stroke="#14202b" stroke-width="2.5"/></svg>
+          <b>Serveur en ligne</b><span class="tag">Recommandé · Linux</span>
+          <span>Un <b>VPS Linux</b> loué (un gratuit existe) : l'équipe s'y connecte de partout, en HTTPS.</span></label>
+        <label class="os-card"><input type="radio" name="dest" value="local">
+          <svg class="os-ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="10" width="52" height="34" rx="6" fill="#14202b"/>
+            <path d="M16 22l7 5-7 5" fill="none" stroke="#7ee2a8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M27 33h12" stroke="#7ee2a8" stroke-width="3.5" stroke-linecap="round"/><path d="M22 52h20M32 44v8" stroke="#14202b" stroke-width="3"/></svg>
+          <b>Serveur local Linux</b><span class="tag">Réseau de l'équipe</span>
+          <span>Un PC ou mini-PC sous <b>Ubuntu</b>, à l'école ou au bureau ; il peut ensuite rester <b>sans Internet</b>.</span></label>
+        <label class="os-card"><input type="radio" name="dest" value="windows">
           <svg class="os-ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="10" width="52" height="44" rx="6" fill="#fff" stroke="#14202b" stroke-width="3"/>
             <path d="M6 20h52" stroke="#14202b" stroke-width="3"/><circle cx="13" cy="15" r="2" fill="#e8554e"/><circle cx="19" cy="15" r="2" fill="#f2b632"/>
             <circle cx="25" cy="15" r="2" fill="#3cba6b"/><rect x="14" y="27" width="36" height="19" rx="3" fill="#cfe3ff"/></svg>
-          <b>Windows</b><span class="tag">Réseau local</span>
-          <span>Un <b>PC de l'équipe</b> toujours allumé, à l'école ou au bureau : l'équipe s'y connecte par le réseau local.</span></label>
+          <b>PC Windows de l'équipe</b><span class="tag">Réseau de l'équipe</span>
+          <span>Un PC <b>Windows</b> toujours allumé héberge l'outil ; l'équipe s'y connecte par le réseau local.</span></label>
+      </div>
+      <div class="pc-pick" data-new="0.60.44-my-computer">
+        <span><b>Votre ordinateur</b> (celui où vous lisez cette page) : les commandes s'y adaptent.</span>
+        <div class="seg" role="radiogroup" aria-label="Votre ordinateur">
+          <label><input type="radio" name="pc" value="win"> Windows</label>
+          <label><input type="radio" name="pc" value="mac"> macOS</label>
+          <label><input type="radio" name="pc" value="linux"> Linux</label></div>
       </div>
       <details class="ai-help"><summary>Besoin d'aide ? Un assistant IA vous guide pas à pas</summary>
         <p>Ouvrez Claude (ou votre assistant habituel) et collez-lui ce message : il lit cette page et vous guide une commande à
           la fois. Collez-lui ensuite ce que l'écran affiche, surtout un message en rouge. Pour un serveur qui n'est pas vide
-          (d'autres applications, Docker…), c'est lui qui adapte la procédure.</p>
+          (d'autres applications, Docker…) ou sans Internet du tout, c'est lui qui adapte la procédure.</p>
         <pre class="cmd prompt"><code id="agent-text"></code></pre>
         <p class="muted">Ne lui donnez jamais un mot de passe ni une clé privée : ils se tapent seulement dans le terminal.</p>
       </details>
       <label class="done"><input type="checkbox"> C'est choisi</label>
     </li>
 
-    <!-- ================= LINUX ================= -->
-    <li class="wiz-step" data-step="lx-vps" data-os="linux">
+    <!-- ================= ONLINE SERVER (Linux VPS) ================= -->
+    <li class="wiz-step" data-step="on-vps" data-dest="online">
       <h2><span class="n">2</span> Prenez un serveur (VPS)</h2>
       <p>Un serveur <b>vide</b> sous <b>Ubuntu 24.04</b> : 1 processeur et 1 Go de mémoire suffisent. Choisissez un hébergeur :</p>
       <div class="vps-pick" role="radiogroup" aria-label="Hébergeur">
@@ -72,7 +83,8 @@
         <li>Sur <a href="https://www.oracle.com/cloud/free/" rel="noopener">oracle.com/cloud/free</a>, créez un compte « Free Tier ».</li>
         <li><i>Compute → Instances → Create instance</i> : image <b>Canonical Ubuntu 24.04</b>, forme <b>VM.Standard.A1.Flex</b>
           (ou <b>VM.Standard.E2.1.Micro</b> si l'autre est indisponible), toutes deux « Always Free ».</li>
-        <li>À la création, <b>Save private key</b> : gardez ce fichier <code>.key</code>, il remplace le mot de passe.</li>
+        <li>À la création, <b>Save private key</b> : gardez ce fichier <code>.key</code> dans votre dossier <b>Téléchargements</b>, il
+          remplace le mot de passe.</li>
         <li>Page de l'instance → <i>Subnet → Security List → Add Ingress Rules</i> : source <code>0.0.0.0/0</code>, TCP, ports
           <b>80</b> puis <b>443</b>. Notez l'<b>adresse IP publique</b>.</li></ol></div>
       <div class="vps-how" data-vps="digitalocean" hidden><ol>
@@ -84,35 +96,47 @@
       <label class="done"><input type="checkbox"> C'est fait</label>
     </li>
 
-    <li class="wiz-step" data-step="lx-dns" data-os="linux">
+    <li class="wiz-step" data-step="on-dns" data-dest="online">
       <h2><span class="n">3</span> Donnez-lui une adresse web</h2>
       <p>L'équipe ouvrira l'outil par une adresse comme <code>atelier.mon-domaine.ca</code>, en HTTPS. Dans le gestionnaire DNS du
         domaine, créez un enregistrement <b>A</b> : nom <code>atelier</code>, valeur <code data-v="ip">203.0.113.10</code>.</p>
+      <p class="vps-how" data-vps="hostinger" data-new="0.60.44-hostname"><b>Chez Hostinger, rien à régler :</b> votre VPS a déjà un
+        nom gratuit (hPanel → <i>VPS</i> → <i>Overview</i> → <i>Hostname</i>, ex. <code>srv123456.hstgr.cloud</code>) qui pointe vers
+        son adresse IP. Utilisez-le tel quel, ou avec un mot devant : <code>atelier.srv123456.hstgr.cloud</code>.</p>
       <details><summary>Pas de nom de domaine ?</summary><ul>
-        <li>Achetez-en un (une dizaine de dollars par an), ou utilisez celui offert par votre forfait Hostinger.</li>
+        <li>Chez Hostinger : le nom gratuit du VPS, ci-dessus. Ou achetez un domaine (une dizaine de dollars par an).</li>
         <li>Gratuit : un sous-domaine <a href="https://www.duckdns.org" rel="noopener">DuckDNS</a>
           (<code>mon-equipe.duckdns.org</code>) : connectez-vous, choisissez le nom, collez l'adresse IP, <i>update ip</i>.</li></ul></details>
       <div class="fields">
         <label>Adresse de l'outil <input id="f-domain" data-v="domain" autocomplete="off" spellcheck="false" placeholder="atelier.mon-domaine.ca"></label>
         <label>Votre courriel <span class="muted">(avis du certificat HTTPS)</span>
           <input id="f-email" data-v="email" type="email" autocomplete="email" placeholder="moi@exemple.ca"></label></div>
-      <p class="expect">Vérifiez quelques minutes plus tard : <code>nslookup <span data-v="domain">atelier.mon-domaine.ca</span></code>
-        dans un terminal doit répondre <code data-v="ip">203.0.113.10</code>.</p>
+      <p>Vérifiez quelques minutes plus tard, dans un terminal (<span data-pc-text="open"></span>) :</p>
+      <pre class="cmd" data-where="pc"><code>nslookup <span data-v="domain">atelier.mon-domaine.ca</span></code></pre>
+      <p class="expect">La réponse doit montrer <code data-v="ip">203.0.113.10</code>. Sinon, attendez encore un peu.</p>
       <label class="done"><input type="checkbox"> C'est fait</label>
     </li>
 
-    <li class="wiz-step" data-step="lx-ssh" data-os="linux">
+    <li class="wiz-step" data-step="on-ssh" data-dest="online">
       <h2><span class="n">4</span> Connectez-vous au serveur</h2>
-      <p>Ouvrez un terminal (Windows : <i>Terminal</i> ; macOS : <i>Terminal</i>) et tapez :</p>
+      <p>Ouvrez un terminal sur votre ordinateur (<span data-pc-text="open"></span>) et tapez :</p>
       <pre class="cmd" data-where="pc" data-vps-cmd="password"><code>ssh root@<span data-v="ip">203.0.113.10</span></code></pre>
-      <pre class="cmd" data-where="pc" data-vps-cmd="key" hidden><code>ssh -i ~/Downloads/ssh-key.key ubuntu@<span data-v="ip">203.0.113.10</span></code></pre>
-      <p class="expect">Répondez <code>yes</code> à la première connexion, puis tapez le mot de passe (rien ne s'affiche, c'est
-        normal). La ligne commence par <code>root@…</code> ou <code>ubuntu@…</code> : vous êtes sur le serveur. Sans terminal, le
-        bouton <i>Console</i> de l'hébergeur fait la même chose.</p>
+      <div data-vps-cmd="key" hidden>
+        <p>Une fois, protégez la clé téléchargée (sinon la connexion la refuse) :</p>
+        <pre class="cmd" data-where="pc" data-pc="win"><code>icacls $HOME\Downloads\ssh-key.key /inheritance:r /grant:r "$($env:USERNAME):(R)"</code></pre>
+        <pre class="cmd" data-where="pc" data-pc="unix"><code>chmod 600 ~/Downloads/ssh-key.key</code></pre>
+        <p>Puis connectez-vous :</p>
+        <pre class="cmd" data-where="pc" data-pc="win"><code>ssh -i $HOME\Downloads\ssh-key.key ubuntu@<span data-v="ip">203.0.113.10</span></code></pre>
+        <pre class="cmd" data-where="pc" data-pc="unix"><code>ssh -i ~/Downloads/ssh-key.key ubuntu@<span data-v="ip">203.0.113.10</span></code></pre>
+        <p class="muted">Le fichier porte un autre nom ? Remplacez <code>ssh-key.key</code> par le sien.</p>
+      </div>
+      <p class="expect">Répondez <code>yes</code> à la première connexion, puis tapez le mot de passe s'il est demandé (rien ne
+        s'affiche, c'est normal). La ligne commence par <code>root@…</code> ou <code>ubuntu@…</code> : vous êtes sur le serveur.
+        Sans terminal, le bouton <i>Console</i> de l'hébergeur fait la même chose.</p>
       <label class="done"><input type="checkbox"> C'est fait</label>
     </li>
 
-    <li class="wiz-step" data-step="lx-install" data-os="linux">
+    <li class="wiz-step" data-step="on-install" data-dest="online">
       <h2><span class="n">5</span> Installez, en une commande</h2>
       <pre class="cmd" data-where="srv"><code>curl -fsSL {{SITE_URL}}/install.sh | sudo bash -s -- <span data-v="domain">atelier.mon-domaine.ca</span> <span data-v="email">moi@exemple.ca</span></code></pre>
       <p class="expect">Deux à cinq minutes. La fin affiche <code>== 7/7 C'est installé</code>, l'adresse et le <b>mot de passe
@@ -126,20 +150,67 @@
       <label class="done"><input type="checkbox"> C'est installé</label>
     </li>
 
-    <!-- ================= WINDOWS ================= -->
-    <li class="wiz-step" data-step="win-pc" data-os="windows" hidden>
-      <h2><span class="n">2</span> Choisissez le PC de l'équipe</h2>
-      <p>Windows 10, 11 ou Server, branché au réseau de l'équipe et <b>toujours allumé</b> (Paramètres → Système → Alimentation :
-        mise en veille <i>Jamais</i>). Le réseau doit être <b>Privé</b> (Paramètres → Réseau et Internet → Propriétés).</p>
+    <!-- ================= LOCAL LINUX SERVER (team's network) ================= -->
+    <li class="wiz-step" data-step="lo-pc" data-dest="local" hidden>
+      <h2><span class="n">2</span> Préparez le serveur local</h2>
+      <p>Un PC ou mini-PC <b>toujours allumé</b>, branché au réseau de l'équipe, avec <b>Ubuntu 24.04</b> installé (clé USB
+        d'installation depuis <a href="https://ubuntu.com/download/server" rel="noopener">ubuntu.com</a>). Il a besoin d'Internet
+        <b>pendant l'installation seulement</b> (cinq minutes, pour télécharger Python et l'outil) ; ensuite il peut rester sans
+        Internet, l'outil n'en a pas besoin.</p>
+      <p>Sur ce serveur, notez son <b>adresse IP</b> sur le réseau :</p>
+      <pre class="cmd" data-where="srv"><code>hostname -I</code></pre>
+      <div class="fields"><label>Adresse IP du serveur local <input id="f-lip" data-v="lip" inputmode="decimal" autocomplete="off" placeholder="192.168.1.20"></label></div>
+      <p class="muted">Aucun Internet du tout, même pour installer ? Demandez à l'assistant IA (étape 1) la procédure par clé USB.</p>
       <label class="done"><input type="checkbox"> C'est fait</label>
     </li>
-    <li class="wiz-step" data-step="win-admin" data-os="windows" hidden>
+    <li class="wiz-step" data-step="lo-ssh" data-dest="local" hidden>
+      <h2><span class="n">3</span> Connectez-vous au serveur</h2>
+      <p>Au clavier du serveur, ou depuis votre ordinateur, dans un terminal (<span data-pc-text="open"></span>) :</p>
+      <pre class="cmd" data-where="pc"><code>ssh <span data-v="luser">votre-nom</span>@<span data-v="lip">192.168.1.20</span></code></pre>
+      <div class="fields"><label>Votre nom d'utilisateur sur ce serveur <input id="f-luser" data-v="luser" autocomplete="off" spellcheck="false" placeholder="votre-nom"></label></div>
+      <p class="expect">Répondez <code>yes</code> à la première connexion, tapez votre mot de passe (rien ne s'affiche, c'est normal).</p>
+      <label class="done"><input type="checkbox"> C'est fait</label>
+    </li>
+    <li class="wiz-step" data-step="lo-install" data-dest="local" hidden>
+      <h2><span class="n">4</span> Installez, en une commande</h2>
+      <pre class="cmd" data-where="srv"><code>curl -fsSL {{SITE_URL}}/install.sh | sudo bash -s -- --local</code></pre>
+      <p class="expect">Deux à cinq minutes. La fin affiche <code>== 7/7 C'est installé</code>, l'adresse
+        (<code>https://nom-du-serveur</code>), le <b>mot de passe temporaire</b> du compte <code>admin</code> et le fichier du
+        certificat de l'équipe, <code>/opt/dynamite_agile/data/tls/partage/ca-dynamite.crt</code>.</p>
+      <details><summary>Ce que fait la commande</summary><p>Comme pour un serveur en ligne, mais sans domaine : elle crée
+        l'autorité de certification de l'équipe et le certificat HTTPS de ce serveur, et n'ouvre les ports 80 et 443 qu'aux adresses
+        du réseau local. Le script : <a href="{{REPO}}/blob/main/deploy/install.sh">deploy/install.sh</a>.</p></details>
+      <label class="done"><input type="checkbox"> C'est fait</label>
+    </li>
+    <li class="wiz-step" data-step="lo-trust" data-dest="local" hidden>
+      <h2><span class="n">5</span> Ouvrez l'outil sur chaque poste</h2>
+      <p>Une fois par poste, récupérez le certificat de l'équipe, depuis votre ordinateur :</p>
+      <pre class="cmd" data-where="pc"><code>scp <span data-v="luser">votre-nom</span>@<span data-v="lip">192.168.1.20</span>:/opt/dynamite_agile/data/tls/partage/ca-dynamite.crt .</code></pre>
+      <p>puis faites-lui confiance :</p>
+      <pre class="cmd" data-where="pc" data-pc="win"><code>Import-Certificate -FilePath .\ca-dynamite.crt -CertStoreLocation Cert:\CurrentUser\Root</code></pre>
+      <pre class="cmd" data-where="pc" data-pc="mac"><code>sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ca-dynamite.crt</code></pre>
+      <pre class="cmd" data-where="pc" data-pc="linux"><code>sudo cp ca-dynamite.crt /usr/local/share/ca-certificates/ &amp;&amp; sudo update-ca-certificates</code></pre>
+      <p class="expect">Ouvrez <code>https://<span data-v="lip">192.168.1.20</span></code>, compte <code>admin</code> et le mot de
+        passe temporaire, puis <b>⚙ Admin → Spaces → Commencer</b>. Firefox a ses propres certificats : Paramètres → Certificats →
+        Autorités → Importer.</p>
+      <label class="done"><input type="checkbox"> C'est installé</label>
+    </li>
+
+    <!-- ================= WINDOWS TEAM PC ================= -->
+    <li class="wiz-step" data-step="win-pc" data-dest="windows" hidden>
+      <h2><span class="n">2</span> Choisissez le PC de l'équipe</h2>
+      <p>Windows 10, 11 ou Server, branché au réseau de l'équipe et <b>toujours allumé</b> (Paramètres → Système → Alimentation :
+        mise en veille <i>Jamais</i>). Le réseau doit être <b>Privé</b> (Paramètres → Réseau et Internet → Propriétés). Internet
+        sert pendant l'installation seulement.</p>
+      <label class="done"><input type="checkbox"> C'est fait</label>
+    </li>
+    <li class="wiz-step" data-step="win-admin" data-dest="windows" hidden>
       <h2><span class="n">3</span> Ouvrez PowerShell en administrateur</h2>
       <p>Sur ce PC : <b>Win + X</b> → <i>Terminal (admin)</i>, puis <b>Oui</b>.</p>
       <p class="expect">La ligne commence par <code>PS C:\WINDOWS\system32&gt;</code>.</p>
       <label class="done"><input type="checkbox"> C'est fait</label>
     </li>
-    <li class="wiz-step" data-step="win-install" data-os="windows" hidden>
+    <li class="wiz-step" data-step="win-install" data-dest="windows" hidden>
       <h2><span class="n">4</span> Installez, en une commande</h2>
       <pre class="cmd" data-where="srv"><code>irm {{SITE_URL}}/install.ps1 -OutFile $env:TEMP\install-dynamite.ps1; powershell -ExecutionPolicy Bypass -File $env:TEMP\install-dynamite.ps1</code></pre>
       <p class="expect">Cinq à dix minutes. La fin affiche <code>== C'est installé</code>, l'adresse (<code>https://nom-du-pc</code>)
@@ -149,13 +220,15 @@
         crée la tâche qui démarre l'outil avec Windows. Le script : <a href="{{REPO}}/blob/main/deploy/install.ps1">deploy/install.ps1</a>.</p></details>
       <label class="done"><input type="checkbox"> C'est fait</label>
     </li>
-    <li class="wiz-step" data-step="win-trust" data-os="windows" hidden>
+    <li class="wiz-step" data-step="win-trust" data-dest="windows" hidden>
       <h2><span class="n">5</span> Ouvrez l'outil sur chaque poste</h2>
       <p>Copiez <code>C:\DynamiteAgile\data\tls\partage\ca-dynamite.crt</code> sur chaque poste (clé USB, dossier partagé), puis,
-        sur chaque poste Windows, dans PowerShell, dans le dossier du fichier :</p>
-      <pre class="cmd" data-where="pc"><code>Import-Certificate -FilePath .\ca-dynamite.crt -CertStoreLocation Cert:\CurrentUser\Root</code></pre>
-      <p class="expect">Répondez <b>Oui</b>. Ouvrez <code>https://nom-du-pc</code>, compte <code>admin</code> et le mot de passe
-        temporaire, puis <b>⚙ Admin → Spaces → Commencer</b>. Sur macOS : double-cliquez le fichier → Trousseau → <i>Toujours approuver</i>.</p>
+        dans le dossier du fichier, faites-lui confiance :</p>
+      <pre class="cmd" data-where="pc" data-pc="win"><code>Import-Certificate -FilePath .\ca-dynamite.crt -CertStoreLocation Cert:\CurrentUser\Root</code></pre>
+      <pre class="cmd" data-where="pc" data-pc="mac"><code>sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ca-dynamite.crt</code></pre>
+      <pre class="cmd" data-where="pc" data-pc="linux"><code>sudo cp ca-dynamite.crt /usr/local/share/ca-certificates/ &amp;&amp; sudo update-ca-certificates</code></pre>
+      <p class="expect">Ouvrez <code>https://nom-du-pc</code>, compte <code>admin</code> et le mot de passe temporaire, puis
+        <b>⚙ Admin → Spaces → Commencer</b>.</p>
       <label class="done"><input type="checkbox"> C'est installé</label>
     </li>
   </ol>

@@ -54,7 +54,7 @@ def scanned_files():
 
 class StaticContentTest(unittest.TestCase):
     def test_01_version(self):
-        self.assertEqual(APP_VERSION, "0.60.43")
+        self.assertEqual(APP_VERSION, "0.60.44")
 
     def test_02_nothing_of_the_original_use_left(self):
         hits = []
@@ -138,8 +138,9 @@ class StaticContentTest(unittest.TestCase):
         for part in ('id="descente"', 'class="level"', 'id="journee"', 'id="chaine"', 'id="outils"', 'id="term"'):
             self.assertIn(part, index)
         page = before["installation.html"]
-        for part in ('name="os" value="linux"', 'name="os" value="windows"', 'name="vps" value="oracle"', 'id="agent-text"',
-                     "install.sh | sudo bash -s --", 'data-where="pc"', 'data-where="srv"', 'data-os="windows"'):  # 0.60.39: 5 steps
+        for part in ('name="dest" value="online"', 'name="dest" value="local"', 'name="dest" value="windows"', 'name="pc" value="win"',
+                     'name="vps" value="oracle"', 'id="agent-text"', "install.sh | sudo bash -s --", "-- --local", 'data-where="pc"',
+                     'data-where="srv"', 'data-dest="windows"', 'data-pc="mac"'):  # 0.60.39: 5 steps; 0.60.44: 3 places, 3 computers
             self.assertIn(part, page)
         from tools import build_site
         script = (BASE_DIR / "site" / "install.sh").read_text("utf-8")

@@ -416,6 +416,16 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 #descente .surface { color: var(--ink); background: rgba(255, 255, 255, .9); border-radius: 14px; padding: .6rem 1rem; }
 @media (prefers-reduced-motion: reduce) { .level[data-depth="1000"].in img, .diamonds.in .gems { animation: none; } }
 #descente .shaft .depth { color: color-mix(in srgb, #ffffff calc(var(--deep) * 100%), var(--ink)); text-shadow: 0 1px 2px rgba(0, 0, 0, calc(var(--deep) * .5)); }
+/* 0.60.44 (D-O-053): « Votre ordinateur » -- the commands typed on it follow it */
+.pc-pick { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin: .4rem 0 .2rem; padding: .7rem .9rem;
+  background: #f7f9fc; border: 1.2px dashed rgba(38, 50, 63, .3); border-radius: 10px; }
+.seg { display: inline-flex; border: 1.6px solid var(--ink); border-radius: 999px; overflow: hidden; }
+.seg label { position: relative; padding: .35rem .9rem; cursor: pointer; font-weight: 650; border-left: 1.2px solid rgba(38, 50, 63, .3); }
+.seg label:first-child { border-left: 0; }
+.seg label.on { background: var(--blue); color: #fff; }
+.seg input { position: absolute; opacity: 0; }
+.seg label:focus-within { outline: 3px solid var(--blue); outline-offset: -3px; }
+[data-pc][hidden], [data-vps-cmd][hidden] { display: none !important; }
 
 </style>
 </head>
@@ -685,7 +695,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       <a class="btn" href="https://github.com/jpdesbiens11/Dynamite-Agile">Le code sur GitHub</a></div>
   </section>
 </main>
-<footer>DynamiteAgile · logiciel libre sous licence MIT · version 0.60.43 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>DynamiteAgile · logiciel libre sous licence MIT · version 0.60.44 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 (function () {
   "use strict";

@@ -14,7 +14,15 @@ installer Dynamite | Agile. La page humaine, illustrée, est https://jpdesbiens1
 - Chaque message d'erreur du script commence par `Erreur :` et nomme le correctif : lisez-le avec elle.
 - Le code du script est public : https://github.com/jpdesbiens11/Dynamite-Agile/blob/main/deploy/install.sh
 
-## La page en 5 étapes (0.60.39)
+## La page en 5 étapes (0.60.39, 0.60.44)
+
+À l'étape 1, la personne choisit **où l'outil tourne** (serveur en ligne, serveur Linux local, PC Windows de l'équipe) et
+**son propre ordinateur** (Windows, macOS, Linux) : les commandes à taper sur son ordinateur s'y adaptent (ouvrir un
+terminal, protéger la clé Oracle avec `icacls` ou `chmod 600`, faire confiance au certificat de l'équipe). Le **serveur
+Linux local** s'installe avec `install.sh --local` : HTTPS par l'autorité de certification de l'équipe, ports 80 et 443
+ouverts au réseau local seulement ; Internet sert pendant l'installation seulement. Chez **Hostinger**, le nom gratuit du
+VPS (`srvNNNNNN.hstgr.cloud`, ou `atelier.srvNNNNNN.hstgr.cloud`) pointe déjà vers son IP : aucun DNS à régler.
+
 
 La page d'installation suit deux parcours : **Linux** (1. le système, 2. un VPS vide : Hostinger, Oracle Cloud Always Free ou
 DigitalOcean, 3. l'adresse web et le courriel, 4. se connecter, 5. installer) et **Windows** (1. le système, 2. le PC, 3.

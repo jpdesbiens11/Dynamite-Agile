@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.43
+# Journal de mise à jour — 0.60.44
+
+- **Version :** 0.60.43 → 0.60.44 (2026-11-04)
+- **Changements :**
+  1. **Installation selon l'endroit et l'ordinateur** (D-O-053) : VPS, serveur local sans Internet ou PC Windows ; commandes Windows, macOS ou Linux ; install.sh --local.
+- **Base de données :** []
+
+## Précédent
+
+### Journal de mise à jour — 0.60.43
 
 - **Version :** 0.60.42 → 0.60.43 (2026-11-04)
 - **Changements :**
   1. **Project Starter complet** (D-O-052) : backlog Agile par MVP et livrables du Generator ; un Space éprouvé sert de modèle à l'IA.
 - **Base de données :** []
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.42
 

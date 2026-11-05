@@ -15,7 +15,15 @@ Dynamite | Agile. The illustrated page for people is {{SITE_URL}}/en/installatio
   with them.
 - The script is public: {{REPO}}/blob/main/deploy/install.sh
 
-## The page in 5 steps (0.60.39)
+## The page in 5 steps (0.60.39, 0.60.44)
+
+At step 1, the person chooses **where the tool runs** (online server, local Linux server, team Windows PC) and **their own
+computer** (Windows, macOS, Linux): the commands typed on their computer follow it (opening a terminal, protecting the Oracle
+key with `icacls` or `chmod 600`, trusting the team's certificate). The **local Linux server** installs with
+`install.sh --local`: HTTPS from the team's certificate authority, ports 80 and 443 open to the local network only; Internet
+is needed during the installation only. At **Hostinger**, the VPS's free name (`srvNNNNNN.hstgr.cloud`, or
+`workshop.srvNNNNNN.hstgr.cloud`) already points to its IP: no DNS to set.
+
 
 The installation page has two paths: **Linux** (1. the system, 2. an empty VPS: Hostinger, Oracle Cloud Always Free or
 DigitalOcean, 3. the web address and email, 4. connect, 5. install) and **Windows** (1. the system, 2. the PC, 3. PowerShell as

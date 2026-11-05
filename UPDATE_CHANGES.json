@@ -2,43 +2,33 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Backlog par MVP et livrables (D-O-052)",
-      "why": "core/starter_more.py : backlog (epic, story, task, bug ; parent, MVP, responsable, priorité, points) et deliverables (codes du Generator) ; chaque MVP devient une Version d'Agile ; question 26 du prompt, format et exemple à jour.",
+      "title": "install.sh --local (D-O-053)",
+      "why": "Serveur Linux du réseau de l'équipe, qui peut rester sans Internet : autorité de certification de l'équipe (tools/make_team_ca.py), HTTPS sur le nom de la machine, pare-feu ouvert aux seuls réseaux privés.",
       "files": [
-        "core/starter_more.py",
-        "core/starter.py",
-        "core/starter_apply.py",
-        "core/starter_prompt.py",
-        "tools/site/starter.md",
-        "tools/site/en/starter.md",
-        "deploy/starter_exemples/lampe_bureau.json",
-        "docs/STARTER_FORMAT.md"
+        "deploy/install.sh"
       ]
     },
     {
       "id": "C2",
-      "title": "Un Space éprouvé comme modèle",
-      "why": "core/starter_export.py et starter_export_more.py : GET /api/starter/export?space=KEY relit un Space au format exact (validé par core/starter.parse) ; ?source=KEY ajoute ce fichier au prompt ; boutons « Exporter comme modèle (IA) » (Spaces) et « Modèle » (Commencer).",
+      "title": "Page d'installation : où et sur quel ordinateur (D-O-053)",
+      "why": "Trois destinations en 5 étapes chacune, choix « Votre ordinateur » : clé Oracle protégée par icacls (Windows) ou chmod 600, confiance au certificat par Windows, macOS ou Linux ; note sur l'adresse srvNNNN.hstgr.cloud de Hostinger ; prompt de l'assistant IA avec l'ordinateur.",
       "files": [
-        "core/starter_export.py",
-        "core/starter_export_more.py",
-        "static/js/admin_starter.js",
-        "static/js/admin_spacecard.js"
+        "tools/site/installation.html",
+        "tools/site/en/installation.html",
+        "tools/site/install.js",
+        "tools/site/site.css",
+        "tools/site/installer.md",
+        "tools/site/en/installer.md"
       ]
     },
     {
       "id": "C3",
-      "title": "Version 0.60.43, tests et documentation",
-      "why": "tests/test_starter_more.py (création, refus, relecture, prompt, droits) ; décisions, état du projet, journal, fiche de version.",
+      "title": "Tests",
+      "why": "tests/test_install_local.py ; test_open_v060 et test_windows_install suivent les trois destinations.",
       "files": [
-        "tests/test_starter_more.py",
-        "tests/test_starter_prompt.py",
-        "core/__init__.py",
-        "CLAUDE.md",
-        "UPDATE_LOG.md",
-        "docs/DECISIONS.md",
-        "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.43.json"
+        "tests/test_install_local.py",
+        "tests/test_open_v060.py",
+        "tests/test_windows_install.py"
       ]
     }
   ]

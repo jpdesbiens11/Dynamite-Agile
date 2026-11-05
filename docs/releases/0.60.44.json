@@ -1,0 +1,41 @@
+{
+  "version": "0.60.44",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Installation « Crystal Clear » : l'étape 1 demande où l'outil tourne (VPS en ligne, serveur Linux local sans Internet, PC Windows de l'équipe) et sur quel ordinateur on tape (Windows, macOS, Linux) ; chaque commande « sur votre ordinateur » suit ce choix (PowerShell ou Terminal). install.sh --local sert le réseau de l'équipe avec son propre certificat.",
+    "en": "« Crystal Clear » installation: step 1 asks where the tool runs (online VPS, local Linux server without Internet, the team's Windows PC) and which computer you type on (Windows, macOS, Linux); every « on your computer » command follows that choice (PowerShell or Terminal). install.sh --local serves the team's network with its own certificate."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "install.sh --local (D-O-053)",
+      "why": "Serveur Linux du réseau de l'équipe, qui peut rester sans Internet : autorité de certification de l'équipe (tools/make_team_ca.py), HTTPS sur le nom de la machine, pare-feu ouvert aux seuls réseaux privés.",
+      "files": [
+        "deploy/install.sh"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Page d'installation : où et sur quel ordinateur (D-O-053)",
+      "why": "Trois destinations en 5 étapes chacune, choix « Votre ordinateur » : clé Oracle protégée par icacls (Windows) ou chmod 600, confiance au certificat par Windows, macOS ou Linux ; note sur l'adresse srvNNNN.hstgr.cloud de Hostinger ; prompt de l'assistant IA avec l'ordinateur.",
+      "files": [
+        "tools/site/installation.html",
+        "tools/site/en/installation.html",
+        "tools/site/install.js",
+        "tools/site/site.css",
+        "tools/site/installer.md",
+        "tools/site/en/installer.md"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Tests",
+      "why": "tests/test_install_local.py ; test_open_v060 et test_windows_install suivent les trois destinations.",
+      "files": [
+        "tests/test_install_local.py",
+        "tests/test_open_v060.py",
+        "tests/test_windows_install.py"
+      ]
+    }
+  ]
+}
