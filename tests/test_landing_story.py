@@ -27,7 +27,7 @@ class LandingStoryTest(unittest.TestCase):
         for rel in ("site/index.html", "site/en/index.html"):
             page = (BASE_DIR / rel).read_text("utf-8")
             self.assertIn('id="besoin"', page)
-            self.assertEqual(page.count('class="scene reveal"'), len(T.STORY))
+            self.assertEqual(page.count('class="story-card reveal"'), len(T.STORY))
             self.assertLess(page.index('id="besoin"'), page.index('id="descente"'))
             self.assertIn('class="diamonds reveal"', page)
             self.assertLess(page.index('data-depth="1000"'), page.index('class="diamonds reveal"'))

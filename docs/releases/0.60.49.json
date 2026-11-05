@@ -1,53 +1,64 @@
 {
-  "version": "0.60.49",
-  "date": "2026-11-04",
-  "summary": {
-    "fr": "Un seul Space à l'installation : DEMO. Il réunit l'ancien HeadLamp (tour guidé, bac à sable, formation, bibliothèque de référence) et l'exemple complet du Rover (tous les modules remplis de MVP 0 à MVP 3), sans compte d'exemple. Un administrateur le cache pour tous quand le vrai projet commence (⚙ Admin → Spaces → « Cacher pour tous ») ; la documentation de Help reste accessible. Une installation existante voit son Space HEADLAMP renommé DEMO et reçoit le Rover une fois.",
-    "en": "One Space at installation: DEMO. It brings together the former HeadLamp (guided tour, sandbox, training, reference library) and the complete Rover example (every module filled from MVP 0 to MVP 3), without example accounts. An administrator hides it for everyone when the real project starts (⚙ Admin → Spaces → « Cacher pour tous »); the Help documentation stays available. An existing installation gets its HEADLAMP Space renamed DEMO and receives the Rover once."
+ "version": "0.60.49",
+ "date": "2026-11-04",
+ "summary": {
+  "fr": "Un seul Space à l'installation : DEMO. Il réunit l'ancien HeadLamp (tour guidé, bac à sable, formation, bibliothèque de référence) et l'exemple complet du Rover (tous les modules remplis de MVP 0 à MVP 3), sans compte d'exemple. Un administrateur le cache pour tous quand le vrai projet commence (⚙ Admin → Spaces → « Cacher pour tous ») ; la documentation de Help reste accessible. Une installation existante voit son Space HEADLAMP renommé DEMO et reçoit le Rover une fois.",
+  "en": "One Space at installation: DEMO. It brings together the former HeadLamp (guided tour, sandbox, training, reference library) and the complete Rover example (every module filled from MVP 0 to MVP 3), without example accounts. An administrator hides it for everyone when the real project starts (⚙ Admin → Spaces → « Cacher pour tous »); the Help documentation stays available. An existing installation gets its HEADLAMP Space renamed DEMO and receives the Rover once."
+ },
+ "changes": [
+  {
+   "id": "C1",
+   "title": "HEADLAMP devient DEMO (D-O-058)",
+   "why": "Clé, nom, page d'accueil et Space par défaut des personnes renommés au démarrage, journalisés ; le nom HeadLamp quitte la plateforme.",
+   "files": [
+    "modules/help/headlamp.py",
+    "modules/help/tour.py",
+    "modules/help/reference.py",
+    "static/js/help/help.js",
+    "static/js/app.js"
+   ]
   },
-  "changes": [
-    {
-      "id": "C1",
-      "title": "HEADLAMP devient DEMO (D-O-058)",
-      "why": "Clé, nom, page d'accueil et Space par défaut des personnes renommés au démarrage, journalisés ; le nom HeadLamp quitte la plateforme.",
-      "files": [
-        "modules/help/headlamp.py",
-        "modules/help/tour.py",
-        "modules/help/reference.py",
-        "static/js/help/help.js",
-        "static/js/app.js"
-      ]
-    },
-    {
-      "id": "C2",
-      "title": "Le Rover dans DEMO (D-O-058)",
-      "why": "Chargé une fois au démarrage par le même code que Commencer, sans les comptes d'exemple ni le bandeau Brouillon IA ; ses pages à côté de l'accueil DEMO.",
-      "files": [
-        "modules/help/demo_example.py",
-        "modules/help/__init__.py"
-      ]
-    },
-    {
-      "id": "C3",
-      "title": "Cacher DEMO pour tous (D-O-058)",
-      "why": "Réglage de la plateforme (app_settings « demo ») : DEMO quitte toutes les listes ; ses pages restent ouvertes par lien (Help, documentation).",
-      "files": [
-        "core/permissions.py",
-        "core/prefs.py",
-        "static/js/admin.js"
-      ]
-    },
-    {
-      "id": "C4",
-      "title": "Textes, site et tests",
-      "why": "DEMO partout dans l'outil, le site (installation, guide, modules, descente de la mine) et la vitrine ; tests/test_demo_space.py.",
-      "files": [
-        "tools/site_text.py",
-        "tools/site/installation.html",
-        "tools/site/en/installation.html",
-        "modules/help/module_docs.py",
-        "tests/test_demo_space.py"
-      ]
-    }
-  ]
+  {
+   "id": "C2",
+   "title": "Le Rover dans DEMO (D-O-058)",
+   "why": "Chargé une fois au démarrage par le même code que Commencer, sans les comptes d'exemple ni le bandeau Brouillon IA ; ses pages à côté de l'accueil DEMO.",
+   "files": [
+    "modules/help/demo_example.py",
+    "modules/help/__init__.py"
+   ]
+  },
+  {
+   "id": "C3",
+   "title": "Cacher DEMO pour tous (D-O-058)",
+   "why": "Réglage de la plateforme (app_settings « demo ») : DEMO quitte toutes les listes ; ses pages restent ouvertes par lien (Help, documentation).",
+   "files": [
+    "core/permissions.py",
+    "core/prefs.py",
+    "static/js/admin.js"
+   ]
+  },
+  {
+   "id": "C4",
+   "title": "Textes, site et tests",
+   "why": "DEMO partout dans l'outil, le site (installation, guide, modules, descente de la mine) et la vitrine ; tests/test_demo_space.py.",
+   "files": [
+    "tools/site_text.py",
+    "tools/site/installation.html",
+    "tools/site/en/installation.html",
+    "modules/help/module_docs.py",
+    "tests/test_demo_space.py"
+   ]
+  },
+  {
+   "id": "C5",
+   "title": "Site : la journée de l'équipe retrouve ses écrans",
+   "why": "Les cartes de la storyline (0.60.40) portaient aussi la classe .scene : l'écran de la « journée avec l'équipe » restait vide. Les cartes s'appellent maintenant .story-card et le script ne lit que les écrans de #screen.",
+   "files": [
+    "tools/site/site.css",
+    "tools/build_site.py",
+    "tools/vitrine/template.html",
+    "tests/test_landing_story.py"
+   ]
+  }
+ ]
 }

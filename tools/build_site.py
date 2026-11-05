@@ -83,7 +83,7 @@ def _levels(lang):
 def _story(lang):
     """0.60.40 (D-O-049): the storyline before the descent -- one scene per card, revealed while scrolling."""
     head, sub = T.STORY_HEAD[lang]
-    scenes = "\n".join('      <article class="scene reveal" style="--d: {}ms"><span class="scene-n">{}</span><svg class="ico"><use href="#i-{}"/></svg>'
+    scenes = "\n".join('      <article class="story-card reveal" style="--d: {}ms"><span class="scene-n">{}</span><svg class="ico"><use href="#i-{}"/></svg>'
                        '<h3>{}</h3><p>{}</p></article>'.format(i * 120, i + 1, icon, html.escape(text[lang][0]), html.escape(text[lang][1]))
                        for i, (icon, text) in enumerate(T.STORY))
     return ('  <section id="besoin" data-new="0.60.40-story">\n    <h2 class="reveal">{}</h2>\n    <p class="sub reveal">{}</p>\n'

@@ -393,14 +393,14 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 
 /* ---------- landing storyline (0.60.40, D-O-049): the need, then deeper and deeper down to the diamonds ---------- */
 .story { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.1rem; margin-top: 1.4rem; }
-.scene { position: relative; padding: 1.2rem 1.2rem 1.1rem; background: rgba(255, 255, 255, .92); border: 1.6px solid rgba(38, 50, 63, .25);
+.story-card { position: relative; padding: 1.2rem 1.2rem 1.1rem; background: rgba(255, 255, 255, .92); border: 1.6px solid rgba(38, 50, 63, .25);
   border-radius: var(--r-card); box-shadow: var(--shadow); transition-delay: var(--d, 0ms); }
-.scene .scene-n { position: absolute; top: -.8rem; left: 1rem; display: grid; place-items: center; width: 1.8rem; height: 1.8rem;
+.story-card .scene-n { position: absolute; top: -.8rem; left: 1rem; display: grid; place-items: center; width: 1.8rem; height: 1.8rem;
   border-radius: 50%; background: var(--o); color: #fff; border: 1.6px solid var(--ink); font: 700 .95rem var(--hand); }
-.scene .ico { width: 30px; height: 30px; margin: .3rem 0 .2rem; color: var(--ink); }
-.scene h3 { margin: .2rem 0 .4rem; font: 700 1.25rem var(--hand); }
-.scene p { margin: 0; color: var(--ink-2); }
-.scene:last-child { border-color: var(--b); box-shadow: 5px 5px 0 #0b3f8f; }
+.story-card .ico { width: 30px; height: 30px; margin: .3rem 0 .2rem; color: var(--ink); }
+.story-card h3 { margin: .2rem 0 .4rem; font: 700 1.25rem var(--hand); }
+.story-card p { margin: 0; color: var(--ink-2); }
+.story-card:last-child { border-color: var(--b); box-shadow: 5px 5px 0 #0b3f8f; }
 #descente { --deep: 0; position: relative; border-radius: 28px; padding-bottom: 2rem;
   background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, #1b2733 calc(var(--deep) * 22%), transparent) 45%,
     color-mix(in srgb, #0f1720 calc(var(--deep) * 70%), transparent) 100%); transition: background .8s ease; }
@@ -516,10 +516,10 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     <h2 class="reveal">Le <span class="hl" style="--hlc: var(--o)">besoin</span>, avant la mine</h2>
     <p class="sub reveal">Pourquoi cet outil existe : ce qu'un jeune ingénieur vit en arrivant, ce que l'industrie lui demande.</p>
     <div class="story">
-      <article class="scene reveal" style="--d: 0ms"><span class="scene-n">1</span><svg class="ico"><use href="#i-search"/></svg><h3>Le premier projet</h3><p>Une idée, une équipe de quatre, un semestre. Les notes sont dans un cahier, les besoins dans un courriel, le plan dans un tableur, les essais nulle part. Personne ne sait ce qui est décidé.</p></article>
-      <article class="scene reveal" style="--d: 120ms"><span class="scene-n">2</span><svg class="ico"><use href="#i-audit"/></svg><h3>Ce que l&#x27;industrie exige</h3><p>Chaque requirement relié au besoin du client et prouvé par un essai, les risques analysés (DFMEA), des revues de conception, les heures justifiées pour le financement : c&#x27;est le métier.</p></article>
-      <article class="scene reveal" style="--d: 240ms"><span class="scene-n">3</span><svg class="ico"><use href="#i-spaces"/></svg><h3>Ce qui manque</h3><p>Les outils des grandes entreprises coûtent cher et demandent des mois ; les outils gratuits sont épars. L&#x27;équipe étudiante ou la start-up apprend la rigueur trop tard, souvent à ses dépens.</p></article>
-      <article class="scene reveal" style="--d: 360ms"><span class="scene-n">4</span><svg class="ico"><use href="#i-bolt"/></svg><h3>Un Space, un produit</h3><p>DynamiteAgile réunit tout dans un Space par produit, du besoin au lancement, MVP0 à MVPx. Un assistant IA prépare le Space au complet ; l&#x27;équipe apprend la méthode en l&#x27;appliquant.</p></article>
+      <article class="story-card reveal" style="--d: 0ms"><span class="scene-n">1</span><svg class="ico"><use href="#i-search"/></svg><h3>Le premier projet</h3><p>Une idée, une équipe de quatre, un semestre. Les notes sont dans un cahier, les besoins dans un courriel, le plan dans un tableur, les essais nulle part. Personne ne sait ce qui est décidé.</p></article>
+      <article class="story-card reveal" style="--d: 120ms"><span class="scene-n">2</span><svg class="ico"><use href="#i-audit"/></svg><h3>Ce que l&#x27;industrie exige</h3><p>Chaque requirement relié au besoin du client et prouvé par un essai, les risques analysés (DFMEA), des revues de conception, les heures justifiées pour le financement : c&#x27;est le métier.</p></article>
+      <article class="story-card reveal" style="--d: 240ms"><span class="scene-n">3</span><svg class="ico"><use href="#i-spaces"/></svg><h3>Ce qui manque</h3><p>Les outils des grandes entreprises coûtent cher et demandent des mois ; les outils gratuits sont épars. L&#x27;équipe étudiante ou la start-up apprend la rigueur trop tard, souvent à ses dépens.</p></article>
+      <article class="story-card reveal" style="--d: 360ms"><span class="scene-n">4</span><svg class="ico"><use href="#i-bolt"/></svg><h3>Un Space, un produit</h3><p>DynamiteAgile réunit tout dans un Space par produit, du besoin au lancement, MVP0 à MVPx. Un assistant IA prépare le Space au complet ; l&#x27;équipe apprend la méthode en l&#x27;appliquant.</p></article>
     </div>
   </section>
 
@@ -749,7 +749,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 
   /* ---------- journey: the step in the middle of the screen drives the mock-up ---------- */
   const steps = Array.from(document.querySelectorAll(".step"));
-  const scenes = Array.from(document.querySelectorAll(".scene"));
+  const scenes = Array.from(document.querySelectorAll("#screen .scene"));
   const tabs = Array.from(document.querySelectorAll(".bar .tab"));
   const screen = document.getElementById("screen");
   let current = -1, timers = [];
