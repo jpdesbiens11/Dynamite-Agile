@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.27
+# Journal de mise à jour — 0.60.28
+
+- **Version :** 0.60.27 → 0.60.28 (2026-11-04)
+- **Changements :**
+  1. **DFMEA complet** (D-O-037) : une ligne par fonction, l'essai clé relié, les bonnes pratiques de l'industrie en prévention, RAS justifié ; le Space étoilé ouvre chaque onglet ; About enrichi.
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.27
 
 - **Version :** 0.60.26 → 0.60.27 (2026-11-04)
 - **Changements :**
   1. **Téléphone, l'essentiel** (D-O-036) : Goldmine, Testing et feuille de temps en cartes ; Dynamite avec « + Page », « ✨ Avec l'IA », « Partager » ; Diamond, Gantt et Tools pour l'ordinateur.
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.26
 

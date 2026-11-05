@@ -149,7 +149,11 @@ Show each proposal as a table or an indented list, and have it corrected.
 24. **Risks and DFMEA**: 5 to 10 **project risks** (title, cause, consequence, category, phase A to D, probability and
     impact from 1 to 5, response, action), then 4 to 8 first **DFMEA** rows on the most critical functions (element,
     function, failure mode, effect and severity S, cause and occurrence O, controls and detection D, from 1 to 10); for each row, suggest **a single key test** from the list of tests (question 18)
-    that detects the failure, even if several could.
+    that detects the failure, even if several could. **No function is skipped**: officially, every function can fail.
+    « Rien à signaler » (nothing to report, `"failure_mode": "RAS"`) is allowed only when the team chooses it, with the
+    reason in `effect`. In `prevention`, name the design good practices specific to this product; « Commencer » then adds a
+    row for each function without one, links the most relevant key test to each row without one and lists the industry
+    good practices in prevention.
 
 Recap block 5: number of functions by level, of inputs, outputs, flows by view, parts, risks and DFMEA rows.
 

@@ -197,6 +197,11 @@ def parse(raw, language="fr", test_refs=()):
         if fn is not None and fn not in refs:
             _bad(path + ".function", "fonction « {} » introuvable.".format(fn), "la ref d'une fonction de l'arbre, ou retirez la clé.")
         row = {name: _text(d, name, path, limit) for name, (_label, limit) in v["dfmea_texts"].items()}
+        from modules.diamond import dfmea_practices as GP
+        row["failure_mode"] = GP.ras(row["failure_mode"])  # 0.60.28: « Rien à signaler », justified in effect
+        if row["failure_mode"] == GP.RAS and not row["effect"]:
+            _bad(path + ".effect", "« Rien à signaler » sans justification.", "écrivez dans effect pourquoi cette fonction ne peut pas "
+                 "faillir (officiellement, toute fonction peut tomber en panne), ou décrivez un vrai mode de défaillance.")
         if not row["failure_mode"]:
             _bad(path + ".failure_mode", "mode de défaillance vide.", "chaque ligne du DFMEA a un Failure Mode.")
         row.update({name: _scale(d, name, path, 1, 10, optional=True) for name in ("severity", "occurrence", "detection")})
@@ -211,8 +216,12 @@ def parse(raw, language="fr", test_refs=()):
 
 
 def counts(clean):
+    """What « Commencer » will create; DFMEA: the file's rows plus one per function of the tree without a row (D-O-037)."""
     d = clean.get("diamond") or {}
-    return {k: len(d.get(k) or []) for k in LIMITS}
+    out = {k: len(d.get(k) or []) for k in LIMITS}
+    if d.get("functions"):
+        out["dfmea"] += len({f["ref"] for f in d["functions"] if f["in_tree"]} - {r["function"] for r in d.get("dfmea") or []})
+    return out
 
 
 def apply(conn, user_id, pid, d, test_ids=None):
@@ -242,4 +251,6 @@ def apply(conn, user_id, pid, d, test_ids=None):
         fields["function_id"] = ids.get(row["function"])
         fields["test_id"] = (test_ids or {}).get(row.get("test"))
         dfmea.insert(conn, user_id, pid, fields)
-    return {k: len(d[k]) for k in LIMITS}
+    from modules.diamond import dfmea_complete  # 0.60.28 (D-O-037): every function, its key test, the good practices
+    done = dfmea_complete.complete(conn, user_id, pid)
+    return dict({k: len(d[k]) for k in LIMITS}, dfmea=len(d["dfmea"]) + done["added"], dfmea_tests=done["tested"])

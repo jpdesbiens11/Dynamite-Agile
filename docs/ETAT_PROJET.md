@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.27)
-**Version :** 0.60.27 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** 0.60.26 et 0.60.27 (demandes de JP du 2026-11-04) : choix multiples ; téléphone pour l'essentiel
+**Dernière mise à jour :** 2026-11-04 (v0.60.28)
+**Version :** 0.60.28 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** 0.60.28 (demandes de JP du 2026-11-04) : DFMEA complet, Space étoilé, About
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -39,7 +39,8 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.25 | Téléphones : barre compacte, menu tiroir, une colonne, tableaux défilants, cibles de 44 px (D-O-034) | Livré |
 | 0.60.26 | Choix multiples appliqués ensemble : Appliquer ou clic à côté, Échap pour annuler (D-O-035) | Livré |
 | 0.60.27 | Téléphone : cartes pour Goldmine / Testing / Timesheet, Dynamite + Page / IA / Partager, grands écrans pour l'ordinateur (D-O-036) | Livré |
-| 0.60.28 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
+| 0.60.28 | DFMEA : une ligne par fonction, essai clé relié, bonnes pratiques en prévention, RAS justifié ; Space étoilé ; About (D-O-037) | Livré |
+| 0.60.29 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
 
 ## Table 2 : Questions du brief §5 (toutes tranchées)
 
@@ -53,7 +54,10 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.27)
+## Relais (fin de 0.60.28)
+
+- DFMEA complet (D-O-037) : `modules/diamond/dfmea_complete.py` (`complete`, `pick`, `api_complete`) et `modules/diamond/dfmea_practices.py` (`THEMES`, `GENERAL`, `block`, `ras`). Pour ajouter une bonne pratique ou un thème, éditer `THEMES` (mots sans accents, au début d'un mot). `starter_diamond.apply` appelle `complete` en dernier.
+
 
 - Téléphone, l'essentiel (D-O-036) : `static/js/tools/mobile_views.js` (`PC_ONLY`, `CARDS`, `dynamiteBar`, `share`) ; règles dans la deuxième partie de `static/css/mobile.css` (`table.data[data-cards]`, `.pc-only-note`, `.dy-fab`). Les colonnes cachées des cartes se nomment par leur en-tête (`td[data-label=…]`).
 

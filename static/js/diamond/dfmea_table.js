@@ -55,7 +55,9 @@
     } else if (col.type === "text") {
       input = el("input", { type: "text", value: row[col.key] || "", maxlength: 160, list: "dm-fm-list-" + col.key, "aria-label": col.label + " ligne " + row.line });
     } else {
-      input = el("textarea", { rows: 2, maxlength: col.key === "action" ? 600 : 400, "aria-label": col.label + " ligne " + row.line }, row[col.key] || "");
+      const lines = String(row[col.key] || "").split("\n").length;  // 0.60.28: the good practices, one per line
+      input = el("textarea", { rows: Math.min(Math.max(lines, 2), 12), maxlength: { action: 600, prevention: 4000 }[col.key] || 400,
+        "aria-label": col.label + " ligne " + row.line }, row[col.key] || "");
     }
     input.dataset.row = row.id;
     input.dataset.col = col.key;
@@ -82,6 +84,9 @@
     return el("div", { class: "dm-fm-test" }, pick, row.test_id ? el("button", { type: "button", class: "link-btn dm-fm-test-x",
       "aria-label": "Retirer l'essai clé de la ligne " + row.line, onclick: () => save(row.id, "test_id", null) }, "✕") : null, link);
   }
+
+  const completedText = (c) => [c.added + " ligne(s) ajoutée(s) (une par fonction sans ligne)", c.tested + " essai(s) clé(s) relié(s)",
+    c.practices + " ligne(s) avec les bonnes pratiques"].join(" · ") + ".";
 
   /* opts: {state, visible: Set, editable, save(id, key, value), act(path, body), onKey} */
   function table(opts) {
@@ -124,5 +129,5 @@
     if (ap) { while (ap.firstChild) ap.removeChild(ap.firstChild); ap.append(apBadge(row.ap, labels)); }
   }
 
-  DA.diamond = Object.assign(DA.diamond || {}, { DFMEA_COLS: COLS, dfmeaTable: table, dfmeaRefreshRow: refreshRow, apBadge });
+  DA.diamond = Object.assign(DA.diamond || {}, { DFMEA_COLS: COLS, dfmeaTable: table, dfmeaRefreshRow: refreshRow, apBadge, completedText });
 })();
