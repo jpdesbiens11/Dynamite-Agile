@@ -51,7 +51,15 @@ def _top(current, lang):
             '<rect x="3" y="3" width="26" height="26" rx="4" fill="#ffd23f" stroke="#26323f" stroke-width="2"/>'
             '<path d="M18 6 L11 17 H16 L14 26 L22 14 H17 Z" fill="none" stroke="#26323f" stroke-width="2" stroke-linejoin="round"/>'
             '</svg><span class="logo-word" role="img" aria-label="Dynamite Agile"><span class="lw-d">Dynamite</span><span class="lw-a">Agile</span></span></a>\n  <nav aria-label="Pages">{}</nav>\n  {}\n'
-            '  <a class="btn btn-primary gh" href="{}">GitHub</a>\n</header>').format(links, switch, REPO)
+            '  {}\n  <a class="btn btn-primary gh" href="{}">GitHub</a>\n</header>').format(links, switch, _share(lang), REPO)
+
+
+def _share(lang):
+    """0.60.47 (D-O-056): « Partager » in the top bar -- the phone's share sheet, or a small menu (site.js)."""
+    texts = html.escape(json.dumps(T.SHARE[lang], ensure_ascii=False), quote=True)
+    return ('<button type="button" class="share-btn" data-new="0.60.47-site-share" data-t="{}" aria-haspopup="true" '
+            'aria-expanded="false"><svg class="ico" aria-hidden="true"><use href="#i-share"/></svg><span>{}</span></button>'
+            ).format(texts, T.SHARE[lang][0])
 
 
 def _alternates(name):

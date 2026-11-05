@@ -2,61 +2,21 @@
   "changes": [
     {
       "id": "C1",
-      "title": "L'exemple Rover (D-O-055)",
-      "why": "Un fichier Project Starter complet écrit par tools/make_rover_example.py à partir de tools/rover/ : équipe de 4, 9 besoins et 24 requirements, 20 essais, 39 fonctions, structure, 23 pièces, 10 risques, DFMEA d'une ligne par fonction, backlog MVP 0 à MVP 3, 21 livrables, 28 pages de wiki qui expliquent chaque décision.",
+      "title": "Partager une page du site (D-O-056)",
+      "why": "Les amis se passent le site ou une sous-page précise (la procédure d'installation) sans recopier l'adresse ; de simples liens, rien n'est chargé des réseaux sociaux avant le clic.",
       "files": [
-        "tools/make_rover_example.py",
-        "tools/rover/__init__.py",
-        "tools/rover/doc.py",
-        "tools/rover/base.py",
-        "tools/rover/diamond.py",
-        "tools/rover/dfmea_more.py",
-        "tools/rover/agile.py",
-        "tools/rover/methods.py",
-        "tools/rover/pages_ab.py",
-        "tools/rover/pages_cd.py",
-        "deploy/spaces_exemples/rover.json"
+        "tools/build_site.py",
+        "tools/site_text.py",
+        "tools/site/site.js",
+        "tools/site/site.css"
       ]
     },
     {
       "id": "C2",
-      "title": "Méthodes de conception dans le Project Starter (D-O-055)",
-      "why": "« tools » : séance d'idéation, matrice de Pugh sur les requirements et analyse Kepner-Tregoe, créées par les handlers des modules, relues par l'export d'un Space éprouvé, décrites dans le prompt.",
-      "files": [
-        "core/starter_tools.py",
-        "core/starter_export_tools.py",
-        "core/starter_more.py",
-        "core/starter.py",
-        "core/starter_apply.py",
-        "core/starter_export.py",
-        "static/js/admin_starter.js",
-        "tools/site/starter.md",
-        "tools/site/en/starter.md",
-        "docs/STARTER_FORMAT.md"
-      ]
-    },
-    {
-      "id": "C3",
-      "title": "Présenté sur le portail d'installation, jamais chargé par défaut",
-      "why": "Section « Un exemple académique complet, si vous le voulez » de la page d'installation (FR / EN) avec le téléchargement site/spaces/rover.json ; mentions dans installer.md, la page Modules et la documentation HeadLamp.",
-      "files": [
-        "tools/build_site.py",
-        "tools/site/installation.html",
-        "tools/site/en/installation.html",
-        "tools/site/site.css",
-        "tools/site/installer.md",
-        "tools/site/en/installer.md",
-        "tools/site/modules.html",
-        "tools/site/en/modules.html",
-        "modules/help/module_docs_pages.py"
-      ]
-    },
-    {
-      "id": "C4",
       "title": "Tests",
-      "why": "tests/test_rover_example.py : fichier à jour et valide, une ligne de DFMEA par fonction, numéros des fonctions gardés, méthodes vérifiées, installation neuve sans ROVER, chargement complet et relecture.",
+      "why": "tests/test_site_share.py : le bouton sur les 10 pages, la page en cours avec son ancre, aucun script ni image d'un réseau social.",
       "files": [
-        "tests/test_rover_example.py"
+        "tests/test_site_share.py"
       ]
     }
   ]

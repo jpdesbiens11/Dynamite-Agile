@@ -80,3 +80,50 @@
     to.observe(term);
   }
 })();
+
+/* 0.60.47 (D-O-056): « Partager » in the top bar -- the page being read, with its anchor (#local, #exemple…). On a phone,
+   the system share sheet; elsewhere a small menu: copy the link, email, text message, WhatsApp, LinkedIn, Facebook, X
+   (Messenger through the phone's sheet). Plain links: nothing is loaded from those sites until the person clicks. */
+(function () {
+  "use strict";
+  const button = document.querySelector(".share-btn");
+  if (!button) return;
+  const [label, title, copy, copied, email, sms, message] = JSON.parse(button.dataset.t);
+  const url = () => location.href;
+  const enc = encodeURIComponent;
+  const menu = document.createElement("div");
+  menu.className = "share-menu"; menu.hidden = true; menu.setAttribute("role", "menu"); menu.setAttribute("aria-label", title);
+  function item(text, href) {
+    const a = document.createElement(href ? "a" : "button");
+    a.className = "share-item"; a.textContent = text; a.setAttribute("role", "menuitem");
+    if (href) { a.target = "_blank"; a.rel = "noopener"; a.addEventListener("click", () => { a.href = href(); close(); }); }
+    else a.type = "button";
+    menu.append(a);
+    return a;
+  }
+  const copyItem = item(copy);
+  copyItem.addEventListener("click", () => {
+    const done = () => { copyItem.textContent = copied; setTimeout(() => { copyItem.textContent = copy; close(); }, 1200); };
+    if (navigator.clipboard) navigator.clipboard.writeText(url()).then(done, done); else done();
+  });
+  item(email, () => "mailto:?subject=" + enc(document.title) + "&body=" + enc(message + " " + url()));
+  item(sms, () => "sms:?&body=" + enc(message + " " + url()));
+  item("WhatsApp", () => "https://wa.me/?text=" + enc(message + " " + url()));
+  item("LinkedIn", () => "https://www.linkedin.com/sharing/share-offsite/?url=" + enc(url()));
+  item("Facebook", () => "https://www.facebook.com/sharer/sharer.php?u=" + enc(url()));
+  item("X", () => "https://x.com/intent/post?text=" + enc(message) + "&url=" + enc(url()));
+  button.after(menu);
+  function close() { menu.hidden = true; button.setAttribute("aria-expanded", "false"); }
+  function open() { menu.hidden = false; button.setAttribute("aria-expanded", "true"); menu.querySelector(".share-item").focus(); }
+  button.addEventListener("click", async (ev) => {
+    ev.stopPropagation();
+    const phone = window.matchMedia("(pointer: coarse)").matches;
+    if (phone && navigator.share) {
+      try { await navigator.share({ title: document.title, text: message, url: url() }); return; } catch (err) { if (err && err.name === "AbortError") return; }
+    }
+    if (menu.hidden) open(); else close();
+  });
+  document.addEventListener("click", (ev) => { if (!menu.hidden && !menu.contains(ev.target)) close(); });
+  document.addEventListener("keydown", (ev) => { if (ev.key === "Escape" && !menu.hidden) { close(); button.focus(); } });
+  button.title = title;
+})();
