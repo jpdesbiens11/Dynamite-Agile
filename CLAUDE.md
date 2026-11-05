@@ -88,6 +88,8 @@
   status ; « Suivre dans Agile » (status lu sur le ticket) ; Mes actions Diamond ; actions dans la synthèse de Bob.
 - **0.60.39** (2026-11-05) : **installation en 5 étapes** (D-O-048, `tools/site/installation.html`, `install.js`) : Linux ou Windows, VPS vide (Hostinger, Oracle
   Cloud gratuit, DigitalOcean), adresse (ou DuckDNS), connexion, une commande ; install.sh ouvre les iptables des images Oracle.
+- **0.60.40** (2026-11-05) : **accueil en storyline** (D-O-049, `tools/site_text.py` MINE / STORY) : le besoin en 4 scènes, puis la descente dans l'ordre du projet,
+  plus profonde et plus sombre, jusqu'aux diamants ; HeadLamp ne se traduit pas.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

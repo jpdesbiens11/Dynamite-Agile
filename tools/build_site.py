@@ -72,6 +72,16 @@ def _levels(lang):
     return "\n".join(out)
 
 
+def _story(lang):
+    """0.60.40 (D-O-049): the storyline before the descent -- one scene per card, revealed while scrolling."""
+    head, sub = T.STORY_HEAD[lang]
+    scenes = "\n".join('      <article class="scene reveal" style="--d: {}ms"><span class="scene-n">{}</span><svg class="ico"><use href="#i-{}"/></svg>'
+                       '<h3>{}</h3><p>{}</p></article>'.format(i * 120, i + 1, icon, html.escape(text[lang][0]), html.escape(text[lang][1]))
+                       for i, (icon, text) in enumerate(T.STORY))
+    return ('  <section id="besoin" data-new="0.60.40-story">\n    <h2 class="reveal">{}</h2>\n    <p class="sub reveal">{}</p>\n'
+            '    <div class="story">\n{}\n    </div>\n  </section>').format(head, sub, scenes)
+
+
 def _mine_rows(lang):
     return "\n".join("    <tr><td><b>{}</b></td><td>{}</td><td>{}</td></tr>".format(html.escape(name), html.escape(text[lang][0]),
                                                                               text[lang][1]) for _k, _d, name, text in T.MINE)
@@ -121,6 +131,8 @@ def _landing(vitrine, lang, src):
     return {
         "HERO": hero,
         "LEVELS": _levels(lang),
+        "STORY": _story(lang),
+        "DIAMONDS": T.DIAMONDS[lang],
         "JOURNEY": _section(vitrine, "journee") if lang == "fr" else "  " + (src / "journee.html").read_text(encoding="utf-8").strip(),
         "CHAIN": _section(vitrine, "chaine") if lang == "fr" else "  " + (src / "chaine.html").read_text(encoding="utf-8").strip(),
         "TOOLS": _section(vitrine, "outils") if lang == "fr" else _tools_en(),

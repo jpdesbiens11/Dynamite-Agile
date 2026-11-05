@@ -31,8 +31,10 @@
   const rope = document.querySelector(".shaft .rope");
   const depth = document.querySelector(".shaft .depth");
   if (levels.length && rope && depth) {
+    const shaftSection = document.getElementById("descente");
     function goTo(meters, ratio) {
       rope.style.setProperty("--depth", (ratio * 100).toFixed(1) + "%");
+      if (shaftSection) shaftSection.style.setProperty("--deep", ratio.toFixed(3));  // 0.60.40: the rock darkens as you go down
       const from = Number(depth.dataset.m || 0), start = performance.now();
       depth.dataset.m = meters;
       if (reduce) { depth.textContent = meters + " m"; return; }

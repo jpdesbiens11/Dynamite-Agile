@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.39
+# Journal de mise à jour — 0.60.40
+
+- **Version :** 0.60.39 → 0.60.40 (2026-11-04)
+- **Changements :**
+  1. **Accueil en storyline** (D-O-049) : le besoin, puis la descente dans la mine jusqu'aux diamants ; HeadLamp ne se traduit pas.
+- **Base de données :** []
+
+## Précédent
+
+### Journal de mise à jour — 0.60.39
 
 - **Version :** 0.60.38 → 0.60.39 (2026-11-04)
 - **Changements :**
   1. **Installation en 5 étapes** (D-O-048) : Linux ou Windows, un VPS vide (Hostinger, Oracle Cloud gratuit, DigitalOcean), l'adresse, la connexion, une commande.
 - **Base de données :** []
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.38
 

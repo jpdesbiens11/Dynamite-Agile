@@ -151,6 +151,6 @@
           ["Testing", "L'essai du minerai : mesurer la teneur", "Test Base, procédures et plans d'essai"],
           ["Tools et Generator", "La boîte à outils et le poinçon des lots", "Méthodes de conception, numéros de documents"],
           ["Timesheet", "Le carnet de quart", "Heures par étape du PDP, vacances, réclamations"],
-          ["Training, Help & HeadLamp", "L'école de la mine et la lanterne", "Formation, tour du site, bac à sable"]]]] }
+          ["Training, Help & HeadLamp", "L'école de la mine et la HeadLamp qui éclaire la galerie", "Formation, tour du site, bac à sable"]]]] }
   ];
 })();

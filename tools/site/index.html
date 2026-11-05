@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dynamite | Agile — l'atelier libre de conception de produit</title>
-<meta name="description" content="Dynamite | Agile : besoins, requirements, plan, sprints, wiki, essais, formation et heures pour les équipes de conception de produit. Logiciel libre (MIT), sur votre serveur.">
+<title>DynamiteAgile — l'atelier libre de conception de produit</title>
+<meta name="description" content="DynamiteAgile : besoins, requirements, plan, sprints, wiki, essais, formation et heures pour les équipes de conception de produit. Logiciel libre (MIT), sur votre serveur.">
 {{FAVICON}}
 <style>
 {{CSS}}
@@ -21,23 +21,26 @@
     <div>
       <span class="kicker">Logiciel libre · Conception de produit · Équipes étudiantes et start-ups</span>
       <h1>Chaque bon produit commence <span class="hl">par ce qu'on découvre</span>.</h1>
-      <p class="lead">Dynamite | Agile est l'atelier d'une équipe de conception : on y prospecte le besoin, on dégage le savoir,
-        on extrait les requirements en or et on prouve chacun par un essai. Du besoin du client au prototype validé, dans un
-        seul outil, installé sur votre serveur.</p>
+      <p class="lead">DynamiteAgile est l'atelier d'une équipe de conception : un Space par produit, où l'on prospecte le besoin,
+        dégage le savoir, extrait les requirements en or, les prouve par des essais et taille les diamants de l'analyse
+        fonctionnelle. Du besoin du client au produit lancé, MVP après MVP, sur votre serveur.</p>
       <div class="cta">
         <a class="btn btn-primary" href="#descente"><svg class="ico"><use href="#i-bolt"/></svg>Descendre dans la mine</a>
-        <a class="btn" href="installation.html"><svg class="ico"><use href="#i-admin"/></svg>Installer en une commande</a>
+        <a class="btn" href="installation.html"><svg class="ico"><use href="#i-admin"/></svg>Installer en 5 étapes</a>
       </div>
       <span class="scroll-hint">↓ descendez, la mine s'ouvre</span>
     </div>
     <div class="hero-art">{{HERO}}</div>
   </div>
 
-  <!-- 2. The descent: one module per level, the mine analogy and the role in the project -->
+  <!-- 1b. The need, scene by scene (0.60.40, D-O-049) -->
+{{STORY}}
+
+  <!-- 2. The descent: one module per level, deeper at every step, down to the diamonds -->
   <section id="descente">
-    <h2 class="reveal">Une <span class="hl" style="--hlc: var(--o)">mine</span>, dix outils</h2>
-    <p class="sub reveal">Concevoir un produit, c'est exploiter un gisement. Chaque outil porte le nom de son geste ; descendez
-      un niveau à la fois.</p>
+    <h2 class="reveal">Une <span class="hl" style="--hlc: var(--o)">mine</span>, un produit</h2>
+    <p class="sub reveal">Concevoir un produit, c'est exploiter un gisement. Chaque outil porte le nom de son geste, dans l'ordre
+      du projet : descendez un niveau à la fois, de plus en plus profond, jusqu'aux diamants.</p>
     <div class="descent">
       <div class="shaft" aria-hidden="true">
         <svg class="lamp" viewBox="0 0 48 48"><circle cx="24" cy="24" r="17" fill="#ffd23f" stroke="#26323f" stroke-width="2.5"/>
@@ -47,7 +50,8 @@
       </div>
       <div class="levels">
 {{LEVELS}}
-        <p class="surface reveal">… et le <span class="hl" style="--hlc: var(--b)">Dashboard</span> vous remonte à la surface : tout ce qui vous attend, dans tous vos Spaces.</p>
+        <p class="diamonds reveal" data-new="0.60.40-diamonds"><span class="gems" aria-hidden="true">💎 💎 💎</span>{{DIAMONDS}}</p>
+        <p class="surface reveal">… et le <span class="hl" style="--hlc: var(--b)">Dashboard</span> vous remonte à la surface : tout ce qui vous attend dans le Space de votre produit.</p>
       </div>
     </div>
   </section>
@@ -66,8 +70,8 @@
 
   <!-- 6. On your server in three commands -->
   <section id="installer" class="center reveal">
-    <h2>Sur <span class="hl" style="--hlc: var(--t)">votre serveur</span>, en une commande</h2>
-    <p class="sub">Connectez-vous à votre VPS, collez une commande, et le script fait le reste : HTTPS, pare-feu, service, compte administrateur. Un essai sur votre ordinateur prend cinq minutes.
+    <h2>Sur <span class="hl" style="--hlc: var(--t)">votre serveur</span>, en 5 étapes</h2>
+    <p class="sub">Linux ou Windows, un serveur vide (un gratuit existe), une adresse, puis une commande : le script fait le reste, HTTPS, pare-feu, service, compte administrateur.
       Aucun abonnement, aucun service cloud, aucune donnée qui sort.</p>
     <div class="term"><div class="tbar"><i></i><i></i><i></i></div><pre id="term" data-lines="{{TERM}}"></pre></div>
     <div class="cta" style="margin-top:1.6rem"><a class="btn btn-primary" href="installation.html">Procédure pas à pas</a>
@@ -88,7 +92,7 @@
 
   <section class="final reveal">
     <h2>Votre prochain produit commence <span class="hl">dans la mine</span>.</h2>
-    <div class="cta"><a class="btn btn-primary" href="installation.html"><svg class="ico"><use href="#i-bolt"/></svg>Installer Dynamite | Agile</a>
+    <div class="cta"><a class="btn btn-primary" href="installation.html"><svg class="ico"><use href="#i-bolt"/></svg>Installer DynamiteAgile</a>
       <a class="btn" href="{{REPO}}">Le code sur GitHub</a></div>
   </section>
 </main>

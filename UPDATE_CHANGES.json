@@ -2,46 +2,48 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Page d'installation en 5 étapes (D-O-048)",
-      "why": "Étape 1 : Linux ou Windows, en grandes cartes avec icône ; étapes 2 à 5 propres au système ; l'hébergeur choisi adapte les consignes et la commande SSH (clé et utilisateur ubuntu chez Oracle) ; serveur supposé vide, les cas particuliers passent par l'assistant IA (message prêt à coller). FR et EN.",
+      "title": "Le besoin, scène par scène (D-O-049)",
+      "why": "Quatre scènes qui apparaissent au défilement, avant la mine : pourquoi l'outil existe pour les jeunes ingénieurs et l'industrie.",
       "files": [
-        "tools/site/installation.html",
-        "tools/site/en/installation.html",
-        "tools/site/install.js",
+        "tools/site_text.py",
+        "tools/build_site.py",
+        "tools/site/index.html",
+        "tools/site/en/index.html",
         "tools/site/site.css"
       ]
     },
     {
       "id": "C2",
-      "title": "Images de nuage fermées par iptables",
-      "why": "install.sh ouvre aussi 80 et 443 dans les règles iptables livrées avec certaines images (Oracle Cloud Ubuntu), et les garde après un redémarrage.",
+      "title": "La descente jusqu'aux diamants",
+      "why": "Les niveaux suivent le projet (HeadLamp à la surface, Exploration, Dynamite, Goldmine, Tools, Agile, Testing, Timesheet, Diamond à 1 000 m) ; la roche s'assombrit avec la profondeur, Diamond brille, puis « Vous êtes au fond : les diamants ».",
       "files": [
-        "deploy/install.sh"
+        "tools/site_text.py",
+        "tools/site/site.js",
+        "tools/site/site.css"
       ]
     },
     {
       "id": "C3",
-      "title": "Guide de l'assistant IA",
-      "why": "installer.md décrit la page en 5 étapes, les particularités de chaque hébergeur et DuckDNS ; l'essai privé et l'essai local restent pour qui les demande.",
+      "title": "HeadLamp ne se traduit pas ; DynamiteAgile en un mot",
+      "why": "« la lanterne » retirée (site, FAQ, noms des modules) ; titres et pied de page du site en « DynamiteAgile ».",
       "files": [
-        "tools/site/installer.md",
-        "tools/site/en/installer.md"
+        "static/js/help/content_faq.js",
+        "docs/NOMS_DES_MODULES.md",
+        "tools/site_text.py"
       ]
     },
     {
       "id": "C4",
-      "title": "Version 0.60.39, tests et documentation",
-      "why": "Tests de la page mis à jour ; décisions, état du projet, journal, fiche de version.",
+      "title": "Version 0.60.40, tests et documentation",
+      "why": "tests/test_landing_story.py ; décisions, état du projet, journal, fiche de version.",
       "files": [
-        "tests/test_install_traefik_choice.py",
-        "tests/test_windows_install.py",
-        "tests/test_open_v060.py",
+        "tests/test_landing_story.py",
         "core/__init__.py",
         "CLAUDE.md",
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.39.json"
+        "docs/releases/0.60.40.json"
       ]
     }
   ]
