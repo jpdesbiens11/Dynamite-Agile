@@ -13,7 +13,7 @@
     const query = decodeURIComponent(cut >= 0 ? raw.slice(0, cut) : raw).trim();
     const params = new URLSearchParams(cut >= 0 ? raw.slice(cut + 1) : "");
     const opts = {};
-    ["spaces", "types", "in", "since", "until", "open", "sort", "adv"].forEach((k) => { if (params.get(k)) opts[k] = params.get(k); });
+    ["spaces", "types", "in", "since", "until", "open", "sort", "adv", "all"].forEach((k) => { if (params.get(k)) opts[k] = params.get(k); });
     return { query, opts };
   }
 
@@ -71,6 +71,16 @@
         el("button", { type: "submit", class: "btn btn-primary" }, "Rechercher")));
   }
 
+  /* 0.60.42 (D-O-051): where the search looks -- the default Space, or every Space in one click */
+  function scopeLine(query, opts) {
+    const def = DA.spaces && DA.spaces.defaultKey ? DA.spaces.defaultKey() : "";
+    if (!def || opts.spaces) return null;
+    return el("p", { class: "ts-scope", "data-new": "0.60.42-search-scope" }, opts.all
+      ? ["Dans tous vos Spaces. ", el("a", { href: S().hashFor(query, Object.assign({}, opts, { all: "" })) }, "Revenir au Space ★ " + def)]
+      : ["Dans le Space ★ ", el("strong", null, def), " (votre Space par défaut). ",
+        el("a", { href: S().hashFor(query, Object.assign({}, opts, { all: "1" })) }, "Chercher dans tous les Spaces")]);
+  }
+
   async function render(main, parts) {
     const { query, opts } = parse(parts);
     const run = (q, o) => { S().go(q, o); if (!String(q || "").trim()) location.hash = "#/search/?adv=1"; };
@@ -84,9 +94,10 @@
     main.append(el("div", { class: "page-head ts-head" }, S().magnifier("ts-page-mark"),
       el("div", { class: "ts-head-main" }, el("h1", null, query ? "Recherche : « " + query + " »" : "Recherche"),
         el("div", { class: "ts-page-row" }, quick, el("button", { type: "button", class: "btn btn-primary", onclick: () => run(quick.value, opts) }, "Rechercher")),
-        el("p", { class: "muted" }, "Partout où vous avez accès : pages et commentaires Dynamite, tickets et commentaires, requirements et "
-          + "needs, tests Testing, PR / bugs / ECN, questions client, tasks Exploration, idées et analyses Tools, références Generator, "
-          + "personnes et observations Audit."))), details, holder);
+        scopeLine(query, opts),
+        el("p", { class: "muted" }, "Pages et commentaires Dynamite, tickets et commentaires, requirements et "
+          + "needs, tests Testing, fonctions, risques et DFMEA de Diamond, PR / bugs / ECN, questions client, tasks Exploration, "
+          + "idées et analyses Tools, références Generator, personnes et observations Audit."))), details, holder);
 
     let data;
     try { data = await api.get(S().apiUrl(query || "", opts)); }

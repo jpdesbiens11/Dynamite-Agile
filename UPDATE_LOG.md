@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.41
+# Journal de mise à jour — 0.60.42
+
+- **Version :** 0.60.41 → 0.60.42 (2026-11-04)
+- **Changements :**
+  1. **Le Space par défaut, tout l'environnement** (D-O-051) : Dashboard, recherche et feuille de temps sur le produit ; « Commencer » le règle.
+- **Base de données :** []
+
+## Précédent
+
+### Journal de mise à jour — 0.60.41
 
 - **Version :** 0.60.40 → 0.60.41 (2026-11-04)
 - **Changements :**
   1. **Un Space, un produit** (D-O-050) : installation neuve vide sauf HeadLamp (bac à sable et bibliothèque de référence) ; chaque Space en vase clos.
 - **Base de données :** []
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.40
 

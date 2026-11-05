@@ -224,6 +224,11 @@ def api_apply(ctx):
     counts = {"accounts_created": len(created), "accounts_reused": len(reused), "requirements": len(req_keys),
               "tests": len(test_ids), "time_codes": len(codes), "pages": len(page_ids),
               **{"diamond_" + k: n for k, n in made.items()}, "plan_tasks": plan_tasks}
+    # 0.60.42 (D-O-051): the new product becomes the default Space of whoever has none yet -- the whole platform opens on it
+    from core import prefs as P
+    for uid in set(owners + [ctx.user["id"]]):
+        if not P.get(ctx.conn, uid).get("default_space"):
+            P._put(ctx.conn, uid, {"default_space": key})
     audit.log_action(ctx.conn, ctx.user["id"], "starter_applied", "project", pid,
                      dict(counts, key=key, generated_by=clean["generated_by"][:120], task_set=set_key or ""), ctx.ip)
     return {"project": {"id": pid, "key": key, "name": space["name"]}, "accounts": created, "reused": reused,

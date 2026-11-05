@@ -88,13 +88,15 @@
   }
 
   let viewAs = "";  // D-B-046: administrators look at an employee's dashboard, read-only
+  let showAll = false;  // 0.60.42 (D-O-051): the default Space alone, or every Space
 
   async function render(main) {
     const y = window.scrollY;
     const first = !main.querySelector(".db-grid");
     if (first) { clear(main); main.append(el("p", { class: "loading" }, "…")); }
     let data;
-    try { data = await api.get("/api/dashboard" + (viewAs ? "?user=" + viewAs : "")); } catch (err) { toast(err.message, "error"); viewAs = ""; return; }
+    const q = [viewAs ? "user=" + viewAs : "", showAll ? "all=1" : ""].filter(Boolean).join("&");
+    try { data = await api.get("/api/dashboard" + (q ? "?" + q : "")); } catch (err) { toast(err.message, "error"); viewAs = ""; return; }
     const reload = () => render(main);
     DA.refreshView = reload;
     /* D-A-046: « Messages » (@mentions) at the top left -- personal, so never in the read-only « voir comme » mode */
@@ -115,9 +117,15 @@
     main.append(el("div", { class: "db-head" },
       el("div", null, el("h1", null, data.viewing ? "Dashboard de " + data.viewing.display_name : DA.t("dash.title")),
         el("p", { class: "muted" }, data.viewing ? "Charge de travail courante, telle que la personne la voit."
-          : DA.t("dash.hello") + " " + data.user + ". " + DA.t("dash.sub"))),
+          : DA.t("dash.hello") + " " + data.user + ". " + (data.scope && data.scope.space
+            ? "Tout ce qui vous attend dans le Space de votre produit." : DA.t("dash.sub")))),
       picker ? el("label", { class: "db-viewas-wrap" }, "Voir le Dashboard de ", picker) : null,
-      el("p", { class: "muted db-hint" }, data.viewing ? "" : "Changez un status ici (menu ▾), ou « Ouvrir » la liste filtrée sur vos éléments.")),
+      el("p", { class: "muted db-hint" }, data.viewing ? "" : "Changez un status ici (menu ▾), ou « Ouvrir » la liste filtrée sur vos éléments."),
+      data.default_space ? el("p", { class: "db-scope", "data-new": "0.60.42-dash-scope" }, data.scope.space
+        ? ["Space ★ ", el("strong", null, data.scope.space), " : tout ce qui vous attend dans ce produit. ",
+          el("button", { type: "button", class: "link-btn", onclick: () => { showAll = true; render(main); } }, "Voir tous mes Spaces")]
+        : ["Tous vos Spaces. ", el("button", { type: "button", class: "link-btn", onclick: () => { showAll = false; render(main); } },
+          "Revenir au Space ★ " + data.default_space)]) : ""),
     data.viewing ? el("p", { class: "db-audit-banner", role: "status" }, el("strong", null, "Mode audit — lecture seule. "),
       "Vous voyez le Dashboard de " + data.viewing.display_name + " ; rien ne peut être modifié ici. La consultation est journalisée. ",
       el("button", { type: "button", class: "link-btn", onclick: () => { viewAs = ""; render(main); } }, "Revenir à mon Dashboard")) : "",

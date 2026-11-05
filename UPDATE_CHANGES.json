@@ -2,69 +2,45 @@
   "changes": [
     {
       "id": "C1",
-      "title": "HeadLamp, seul Space commun (D-O-050)",
-      "why": "modules/help/reference.py : le contenu de référence va dans HeadLamp ; TESTING, TOOLS, TRAINING et INT ne sont plus créés ; une installation existante les garde tels quels (rien n'est effacé). Les pages-hubs de Testing et de Tools se placent sous l'accueil de HeadLamp.",
+      "title": "Dashboard du produit (D-O-051)",
+      "why": "Avec un Space par défaut, le Dashboard ne montre que lui ; ?all=1 et le lien « Voir tous mes Spaces » montrent tout.",
       "files": [
-        "modules/help/reference.py",
-        "modules/help/headlamp.py",
-        "modules/help/gtd.py",
-        "modules/testing/catalog.py",
-        "modules/toolbox/catalog.py",
-        "modules/training/catalog.py",
-        "modules/timesheet/__init__.py",
-        "modules/timesheet/budget.py"
+        "core/dashboard.py",
+        "static/js/tools/dashboard.js",
+        "static/css/themes.css"
       ]
     },
     {
       "id": "C2",
-      "title": "Chaque Space en vase clos",
-      "why": "Testing : la Test Base par défaut est celle de la référence, chaque Space a sa copie ; le DFMEA et « Compléter le DFMEA » ne proposent que les essais du Space ; Timesheet : INT-VAC et INT-SAN offerts dans chaque Space ; la copie d'un Space reconnaît le catalogue de HeadLamp.",
+      "title": "Recherche dans le produit",
+      "why": "La barre du haut et la page de résultats cherchent dans le Space par défaut, sauf « Chercher dans tous les Spaces » ou des Spaces choisis.",
       "files": [
-        "modules/testing/tests_api.py",
-        "modules/testing/plans.py",
-        "modules/diamond/dfmea.py",
-        "modules/diamond/dfmea_complete.py",
-        "core/spacecopy.py",
-        "static/js/testing/testing.js",
-        "static/js/agile/goldmine_tests.js",
-        "static/js/admin_spacecopy.js",
-        "static/js/timesheet/timesheet.js"
+        "static/js/tools/search.js",
+        "static/js/tools/search_page.js",
+        "static/css/tools.css"
       ]
     },
     {
       "id": "C3",
-      "title": "Plus de Space d'exemple",
-      "why": "Le mode développement ne crée plus EQP ni l'équipe d'exemple (option --exemple pour le développement) ; l'essai privé démarre vide ; textes de l'aide, de Testing et de Timesheet à jour.",
+      "title": "Feuille de temps et Commencer",
+      "why": "Une nouvelle plage va d'abord dans le Space par défaut ; « Commencer » le règle pour le créateur et l'équipe qui n'en ont pas.",
       "files": [
-        "app_dynamite_agile.py",
-        "deploy/install.sh",
-        "static/js/help/content_path.js",
-        "static/js/help/content_faq.js",
-        "static/js/testing/testing_lists.js",
-        "static/js/testing/testing_record.js",
-        "static/js/timesheet/manage.js",
-        "docs/FONDATIONS.md"
+        "static/js/timesheet/timesheet.js",
+        "core/starter_apply.py"
       ]
     },
     {
       "id": "C4",
-      "title": "Version 0.60.41, tests et documentation",
-      "why": "tests/test_closed_spaces.py ; tests des anciens lots ajustés (référence dans HeadLamp, congés dans chaque Space) ; décisions, état du projet, journal, fiche de version.",
+      "title": "Version 0.60.42, tests et documentation",
+      "why": "tests/test_default_space_scope.py ; décisions, état du projet, journal, fiche de version.",
       "files": [
-        "tests/test_closed_spaces.py",
-        "tests/test_lot_v010.py",
-        "tests/test_lot_v015.py",
-        "tests/test_lot_v017.py",
-        "tests/test_lot_v019.py",
-        "tests/test_diamond_dfmea.py",
-        "tests/test_open_v060.py",
-        "tests/test_platform_tools.py",
+        "tests/test_default_space_scope.py",
         "core/__init__.py",
         "CLAUDE.md",
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.41.json"
+        "docs/releases/0.60.42.json"
       ]
     }
   ]

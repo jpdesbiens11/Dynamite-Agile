@@ -171,7 +171,9 @@
     async function add() {
       const last = data.entries[data.entries.length - 1];
       const day = data.days.includes(data.today) ? data.today : (last ? last.work_date : data.days[0]);
-      const pid = last && projects[last.project_id] ? last.project_id : data.projects[0].id;
+      const def = DA.spaces && DA.spaces.defaultKey ? DA.spaces.defaultKey() : "";  // 0.60.42 (D-O-051): the default Space first
+      const mine = def ? data.projects.find((p) => p.key === def) : null;
+      const pid = last && projects[last.project_id] ? last.project_id : (mine || data.projects[0]).id;
       try {
         await api.post("/api/timesheet/entries", { work_date: day, project_id: pid,
           task_key: last && last.project_id === pid && tasksOf(pid).some((t) => t.key === last.task_key && t.active !== false) ? last.task_key : undefined, hours: 1, description: "" });  // 0.60.20: never an old code

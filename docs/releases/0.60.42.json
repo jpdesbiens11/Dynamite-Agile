@@ -1,0 +1,53 @@
+{
+  "version": "0.60.42",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Le Space par défaut devient tout l'environnement : le Dashboard ne montre que ce produit (« Voir tous mes Spaces » d'un clic), la recherche y cherche d'abord (« Chercher dans tous les Spaces »), la feuille de temps y saisit d'abord ; « Commencer » rend le nouveau produit Space par défaut de l'équipe.",
+    "en": "The default Space becomes the whole environment: the Dashboard shows this product alone (« Voir tous mes Spaces » in one click), the search looks there first, the timesheet logs there first; « Commencer » makes the new product the team's default Space."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Dashboard du produit (D-O-051)",
+      "why": "Avec un Space par défaut, le Dashboard ne montre que lui ; ?all=1 et le lien « Voir tous mes Spaces » montrent tout.",
+      "files": [
+        "core/dashboard.py",
+        "static/js/tools/dashboard.js",
+        "static/css/themes.css"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Recherche dans le produit",
+      "why": "La barre du haut et la page de résultats cherchent dans le Space par défaut, sauf « Chercher dans tous les Spaces » ou des Spaces choisis.",
+      "files": [
+        "static/js/tools/search.js",
+        "static/js/tools/search_page.js",
+        "static/css/tools.css"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Feuille de temps et Commencer",
+      "why": "Une nouvelle plage va d'abord dans le Space par défaut ; « Commencer » le règle pour le créateur et l'équipe qui n'en ont pas.",
+      "files": [
+        "static/js/timesheet/timesheet.js",
+        "core/starter_apply.py"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Version 0.60.42, tests et documentation",
+      "why": "tests/test_default_space_scope.py ; décisions, état du projet, journal, fiche de version.",
+      "files": [
+        "tests/test_default_space_scope.py",
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.42.json"
+      ]
+    }
+  ]
+}

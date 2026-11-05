@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.41)
-**Version :** 0.60.41 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** 0.60.41 (choix de JP du 2026-11-05) : un Space, un produit
+**Dernière mise à jour :** 2026-11-04 (v0.60.42)
+**Version :** 0.60.42 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** 0.60.42 (demande de JP du 2026-11-05) : le Space par défaut, tout l'environnement
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -62,7 +62,10 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.41)
+## Relais (fin de 0.60.42)
+
+- Space par défaut (D-O-051) : `core/dashboard.py` (scope, ?all=1), `search.js` scope(). Suivent : prompt complet et export d'un Space éprouvé (0.60.43), documentation par module (0.60.44).
+
 
 - Spaces en vase clos (D-O-050) : `modules/help/reference.py` (space, ensure) ; `catalog.ref_key` (Testing) ; `budget.leave`. Suivent : le Space par défaut couvre toute la plateforme (0.60.42), le prompt complet et l'export d'un Space éprouvé (0.60.43), la documentation (0.60.44).
 

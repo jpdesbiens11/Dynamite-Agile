@@ -92,6 +92,8 @@
   plus profonde et plus sombre, jusqu'aux diamants ; HeadLamp ne se traduit pas.
 - **0.60.41** (2026-11-05) : **un Space, un produit** (D-O-050, `modules/help/reference.py`) : installation neuve vide sauf HeadLamp (bac à sable et bibliothèque de
   référence) ; TESTING / TOOLS / TRAINING / INT plus créés ; Test Base par Space, DFMEA sur ses essais, congés dans chaque Space ; `--exemple`.
+- **0.60.42** (2026-11-05) : **le Space par défaut, tout l'environnement** (D-O-051) : Dashboard du produit (?all=1), recherche dans le Space par défaut,
+  feuille de temps sur lui ; « Commencer » le règle pour l'équipe.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,
