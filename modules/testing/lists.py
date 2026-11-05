@@ -5,7 +5,7 @@ One central list per kind (testing_lists, rattachée au Space TESTING). Tests pi
 (several) and product functions (several) from them; Goldmine requirements pick their functions. Only a manager
 of TESTING (« Admin du Space ») or an administrator adds, renames or deactivates an entry -- a used entry is never
 deleted, only deactivated (it stays on the items that have it, it is no longer offered). The product functions are
-also published as a Dynamite page of the « Base de connaissances (BDC) » (HEADLAMP), regenerated from the list.
+also published as a Dynamite page of the « Base de connaissances (BDC) » (DEMO), regenerated from the list.
 """
 import json
 import re
@@ -211,7 +211,7 @@ def after_change(ctx, kind):
         if admin is None:
             return
         sctx = StartupContext(ctx.conn, admin, getattr(ctx, "data_dir", None), getattr(ctx, "config", {}))
-        if kind == "function":  # written as the platform, like at start-up (the manager may not edit HEADLAMP)
+        if kind == "function":  # written as the platform, like at start-up (the manager may not edit DEMO)
             ensure_bdc_page(sctx)
         else:
             from . import glossary
@@ -242,7 +242,7 @@ def bdc_page(rows):
 
 
 def ensure_bdc_page(ctx):
-    """Create / refresh the product functions page under « Base de connaissances (BDC) » (HEADLAMP)."""
+    """Create / refresh the product functions page under « Base de connaissances (BDC) » (DEMO)."""
     import json as _json
     from modules.dynamite import content
     from modules.help import gtd

@@ -197,7 +197,7 @@ def clean(conn, user_id, body):
         out["my_items"] = validate.boolean(body, "my_items")
     if "debuter_done" in body:  # 0.60.08
         out["debuter_done"] = validate.boolean(body, "debuter_done")
-    if "hide_sandbox" in body:  # D-B-052: hide the HeadLamp sandbox space (its wiki stays visible)
+    if "hide_sandbox" in body:  # D-B-052: hide the DEMO sandbox space (its wiki stays visible)
         out["hide_sandbox"] = validate.boolean(body, "hide_sandbox")
     if "manager_id" in body:
         value = body.get("manager_id")
@@ -337,6 +337,20 @@ def api_privacy_event(ctx):
     return {"ok": True}
 
 
+def api_demo_get(ctx):
+    """0.60.49 (D-O-058): is the DEMO Space hidden for everyone?"""
+    return {"hidden": permissions.demo_hidden(ctx.conn), "key": permissions.DEMO_KEY}
+
+
+def api_demo_put(ctx):
+    hidden = validate.boolean(ctx.body, "hidden")
+    ctx.conn.execute("INSERT INTO app_settings (key, value, updated_by, updated_at) VALUES ('demo', ?, ?, ?) "
+                     "ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_by = excluded.updated_by, "
+                     "updated_at = excluded.updated_at", (json.dumps({"hidden": hidden}), ctx.user["id"], db.utc_now()))
+    audit.log_action(ctx.conn, ctx.user["id"], "demo_hidden" if hidden else "demo_shown", "settings", None, None, ctx.ip)
+    return api_demo_get(ctx)
+
+
 ROUTES = [
     ("GET", r"/api/me/prefs", api_get, "user"),
     ("PUT", r"/api/me/prefs", api_put, "user"),
@@ -344,5 +358,7 @@ ROUTES = [
     ("PUT", r"/api/admin/users/(?P<uid>\d+)/prefs", api_admin_put, "admin"),
     ("GET", r"/api/admin/policy", api_policy_get, "admin"),
     ("PUT", r"/api/admin/policy", api_policy_put, "admin"),
+    ("GET", r"/api/admin/demo", api_demo_get, "admin"),  # 0.60.49 (D-O-058)
+    ("PUT", r"/api/admin/demo", api_demo_put, "admin"),
     ("POST", r"/api/privacy/event", api_privacy_event, "user"),
 ]

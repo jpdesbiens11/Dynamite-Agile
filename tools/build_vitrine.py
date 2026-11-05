@@ -26,7 +26,7 @@ TOOLS = [  # (icon, accent, name, sentence)
     ("tools", "--c", "Tools", "Idéation en brainwriting, Pugh Matrix, Kepner-Tregoe et Generator des livrables du PDP."),
     ("training", "--p", "Training", "Topics, plans de formation, tests corrigés sur le serveur, suivi par l'enseignant."),
     ("timesheet", "--t", "Timesheet", "Ma semaine par étape du PDP, approbation, export Excel et rapport Word."),
-    ("help", "--y", "Help & HeadLamp", "Le guide pas à pas, la FAQ et un Space bac à sable pour apprendre sans risque."),
+    ("help", "--y", "Help & DEMO", "Le guide pas à pas, la FAQ et le Space DEMO : un exemple complet et un bac à sable pour apprendre sans risque."),
 ]
 
 

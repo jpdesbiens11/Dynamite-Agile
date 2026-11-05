@@ -44,7 +44,7 @@
   function spacePicker() {
     const spaces = workSpaces();
     const current = spaces.find((p) => p.key === DA.spaces.workKey()) || spaces.find((p) => p.key === remembered())
-      || spaces.find((p) => p.key !== "HEADLAMP") || spaces[0];  // D-B-134: the default Space first
+      || spaces.find((p) => p.key !== "DEMO") || spaces[0];  // D-B-134: the default Space first
     const picker = el("select", { class: "tl-space", "aria-label": "Space de travail" },
       spaces.map((p) => el("option", { value: p.key, selected: current && p.key === current.key }, p.key + " · " + p.name)));
     picker.addEventListener("change", () => remember(picker.value));

@@ -1,10 +1,10 @@
 """Tour of the site (0.47.0, D-B-092): the steps of the Help path in the order of the top bar and of a project, the
-HeadLamp exercise of each step, and the one-time update of an existing HeadLamp [Sandbox] Space.
+DEMO exercise of each step, and the one-time update of an existing DEMO Space.
 
 - STEPS is the order of static/js/help/content_path.js (the chapter id is the key; the number is the position).
 - TOPIC_CODES keeps the Training topic code of each chapter stable (HL-01…HL-11 were numbered in the 0.37 order:
   a training plan that already holds HL-09 « Timesheet » keeps it); new chapters get the next codes.
-- sync(): an existing HEADLAMP gets one ticket per new chapter, its step tickets renumbered to the new order (keys
+- sync(): an existing DEMO gets one ticket per new chapter, its step tickets renumbered to the new order (keys
   and statuses kept), and its wiki home rebuilt -- only if nobody has edited it. Idempotent, journalled (LocalApi).
 """
 import re
@@ -14,18 +14,18 @@ from .local_api import LocalApi
 # (chapter id of the Help path, title, exercise) -- order of the top bar: Accueil, Dashboard | Goldmine … | Tools …
 STEPS = [
     ("bienvenue", "Bienvenue, barre du haut et réglages",
-     "Lisez la page d'accueil HeadLamp (Dynamite). Dans le menu à votre nom, essayez le Thème par défaut et Terminal R&D ; "
+     "Lisez la page d'accueil DEMO (Dynamite). Dans le menu à votre nom, essayez le Thème par défaut et Terminal R&D ; "
      "appuyez sur Ctrl+K et tapez « headlamp » ; sur l'Accueil, parcourez « Qui contacter ? »."),
     ("dashboard", "Dashboard et Messages (@mentions)",
      "Ouvrez le Dashboard. Dans votre page d'exercice Dynamite, écrivez « @<votre identifiant> » : une Note arrive dans "
      "Messages → Reçus. Mentionnez un collègue, puis retrouvez le message dans Messages → Envoyés."),
     ("projets", "Spaces, rôles et droits",
-     "Sur l'Accueil, repérez votre rôle dans HEADLAMP (Editor) et dans vos Spaces. Qui est l'Assignee de ce ticket ?"),
+     "Sur l'Accueil, repérez votre rôle dans DEMO (Editor) et dans vos Spaces. Qui est l'Assignee de ce ticket ?"),
     ("goldmine", "Goldmine : un requirement",
-     "Goldmine → HEADLAMP : lisez les deux Requirements d'exemple, puis créez le vôtre (Statement vérifiable, "
+     "Goldmine → DEMO : lisez les deux Requirements d'exemple, puis créez le vôtre (Statement vérifiable, "
      "Verification Method, Acceptance Criteria, Test Procedure) et faites-le passer « In Analysis »."),
     ("exploration", "Exploration : lire un plan",
-     "Exploration → HEADLAMP : repérez les quatre semaines du parcours sur le Gantt, puis « Exporter Excel » et "
+     "Exploration → DEMO : repérez les quatre semaines du parcours sur le Gantt, puis « Exporter Excel » et "
      "ouvrez le fichier (feuille « Lisez-moi »)."),
     ("agile", "Agile : mon premier ticket",
      "Créez « Mon premier ticket — <prénom> » ; sur le Board, faites-le avancer jusqu'à Done. Ajoutez un "
@@ -40,16 +40,16 @@ STEPS = [
      "Testing → Test Base : créez un test custom (Subject « Electrical Safety »), ouvrez-le et ses requirements ; "
      "cochez-le, « Créer un plan de test avec la sélection », générez le Word, puis passez le plan à Cancelled."),
     ("generator", "Tools : Design et Generator",
-     "Tools → Generator → HEADLAMP : réservez une TN (Note technique), étape 09 Recherche des fonctions, titre « Notes HeadLamp <prénom> » ; "
+     "Tools → Generator → DEMO : réservez une TN (Note technique), étape 09 Recherche des fonctions, titre « Notes DEMO <prénom> » ; "
      "puis Tools → Design : ouvrez la page et la FAQ de la Pugh Matrix."),
     ("training", "Training : mon plan de formation",
      "Training → Mon plan : ajoutez le topic HL-09 (Timesheet) et passez son test ; sous 80 %, reprenez les questions "
      "manquées jusqu'à les réussir : l'item passe à Completed (vert). Votre gestionnaire (l'enseignant) l'évalue et le passe à Achieved."),
     ("timesheet", "Timesheet : ma première semaine",
-     "Timesheet : ajoutez une plage sur le Space de votre équipe, code B-09 · Recherche des fonctions, avec la description « Parcours HeadLamp », "
+     "Timesheet : ajoutez une plage sur le Space de votre équipe, code B-09 · Recherche des fonctions, avec la description « Parcours DEMO », "
      "puis soumettez la semaine."),
     ("recherche-audit", "Recherche, palette et Audit",
-     "Cherchez « HeadLamp » dans la barre du haut, puis retrouvez la même page avec Ctrl+K. Envoyez un Audit de test "
+     "Cherchez « DEMO » dans la barre du haut, puis retrouvez la même page avec Ctrl+K. Envoyez un Audit de test "
      "de type « Question » depuis n'importe quel écran."),
     ("administration", "Admin (administrateurs seulement)",
      "Administrateurs : ouvrez Règles d'accès et exportez le texte ; Admin → Sécurité réseau ; Timesheet → Spaces et "
@@ -63,7 +63,8 @@ WEEKS = [("S1", "Semaine 1", "Découvrir : Help, réglages, Dashboard, Spaces", 
          ("S2", "Semaine 2", "Requirements et plan : Goldmine, Exploration", "Étapes 4 et 5.", "S1"),
          ("S3", "Semaine 3", "Exécuter et documenter : Agile, Change Management, Dynamite, Testing", "Étapes 6 à 9.", "S2"),
          ("S4", "Semaine 4", "Outils et suivi : Tools, Training, Timesheet, Recherche, Admin", "Étapes 10 à 14.", "S3")]
-SYSTEM_NOTES = ("Parcours HeadLamp", "Titre marqué [Sandbox]", "Parcours HeadLamp — tour du site 0.47.0")
+SYSTEM_NOTES = ("Parcours DEMO", "Titre marqué [Sandbox]", "Parcours DEMO — tour du site 0.47.0", "Space renommé DEMO",
+                "Parcours HeadLamp", "Parcours HeadLamp — tour du site 0.47.0")  # 0.60.49: notes written before DEMO
 CHAPTER = re.compile(r"#/help/([a-z-]+)\)")
 
 
@@ -77,22 +78,22 @@ def ticket_fields(n, chapter, title, exercise):
 
 
 def step_tickets(conn, pid):
-    """chapter id -> {number, title, description} of the existing step tickets of HEADLAMP."""
+    """chapter id -> {number, title, description} of the existing step tickets of DEMO."""
     out = {}
     for r in conn.execute("SELECT number, title, description FROM agile_issues WHERE project_id = ? AND title LIKE 'Étape %'",
                           (pid,)).fetchall():
         found = CHAPTER.search(r["description"] or "")
         if found:
-            out.setdefault(found.group(1), dict(r, key="HEADLAMP-{}".format(r["number"])))
+            out.setdefault(found.group(1), dict(r, key="DEMO-{}".format(r["number"])))
     return out
 
 
 def sync(ctx, pid, hub_builder):
-    """Existing HEADLAMP: add the missing step tickets, renumber the others, refresh the untouched hub page."""
+    """Existing DEMO: add the missing step tickets, renumber the others, refresh the untouched hub page."""
     conn, api = ctx.conn, LocalApi(ctx)
     base = "/api/agile/p/{}".format(pid)
     have = step_tickets(conn, pid)
-    epic = conn.execute("SELECT number, description FROM agile_issues WHERE project_id = ? AND title = 'Parcours HeadLamp'",
+    epic = conn.execute("SELECT number, description FROM agile_issues WHERE project_id = ? AND title IN ('Parcours DEMO', 'Parcours HeadLamp')",
                         (pid,)).fetchone()
     changed = 0
     for n, (chapter, title, exercise) in enumerate(STEPS, start=1):

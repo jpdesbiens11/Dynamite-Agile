@@ -51,7 +51,7 @@
     el("div", { class: "tr-toolbar" }, field("Année", year), pick, el("span", { class: "tr-counts" }, counts)));
     if (!data.items.length) {
       main.append(el("div", { class: "empty" }, el("p", null, "Aucun topic dans ce plan. Choisissez-en un ci-dessus, par exemple les "
-        + "sections HeadLamp.")));
+        + "sections DEMO.")));
       return;
     }
     main.append(el("div", { class: "tr-items" }, data.items.map((it) => itemCard(it, data, self, reload))));
@@ -141,7 +141,7 @@
       parent_id: el("select", null, el("option", { value: "" }, "— topic principal —"),
         data.topics.filter((p) => !p.parent_id && p.id !== t.id).map((p) => el("option", { value: p.id, selected: p.id === t.parent_id }, p.code + " · " + p.title))),
       content: el("textarea", { rows: 3, maxlength: 6000 }), reference: el("input", { type: "text", maxlength: 400, value: t.reference,
-        placeholder: "ex. #/dynamite/HEADLAMP/page/12 ou #/help/timesheet" }),
+        placeholder: "ex. #/dynamite/DEMO/page/12 ou #/help/timesheet" }),
       ref_label: el("input", { type: "text", maxlength: 200, value: t.ref_label, placeholder: "Texte du lien" }),
       quiz_md: el("textarea", { rows: 12, maxlength: 60000, class: "tr-md", placeholder: data.example_quiz || "" }),
       active: el("input", { type: "checkbox", checked: !!t.active }),

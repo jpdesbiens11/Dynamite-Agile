@@ -73,7 +73,7 @@
       T.head("Listes centrales", "Equipment, test locations et fonctions du produit : les tests et les requirements les choisissent "
         + "dans ces listes, jamais en texte libre. Acronyms et definitions : publiés dans la BDC et insérés automatiquement "
         + "dans les exports Word de Goldmine et Testing." + (data.can_manage ? "" : " Modification réservée aux Admin du Space "
-        + "de référence (HeadLamp) et aux administrateurs."), [data.bdc_href ? el("a", { class: "btn btn-small", href: data.bdc_href },
+        + "de référence (DEMO) et aux administrateurs."), [data.bdc_href ? el("a", { class: "btn btn-small", href: data.bdc_href },
         "Page BDC des fonctions") : null].concat(pages)));
     Object.entries(data.kinds).forEach(([kind, label]) => {
       const items = data.items.filter((x) => x.kind === kind);

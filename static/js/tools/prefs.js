@@ -115,7 +115,7 @@
     sandbox.addEventListener("change", () => auto("hide_sandbox")(sandbox.checked));
     const work = el("section", { class: "panel" }, el("h2", null, t("set.work")),
       el("label", { class: "check" }, mine, t("set.mine")),
-      el("label", { class: "check" }, sandbox, "Cacher le Space HeadLamp [Sandbox]"),
+      el("label", { class: "check" }, sandbox, "Cacher le Space DEMO"),
       el("p", { class: "muted" }, "Projet de test et ressources pédagogiques. Son wiki reste toujours visible dans Dynamite et depuis Help : c'est l'aide des utilisateurs."),
       field(t("set.initials"), initials, t("set.initialsHelp")),
       el("p", { class: "muted" }, t("tools.mineOff")));

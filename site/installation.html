@@ -496,7 +496,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   <h1>Installer DynamiteAgile</h1>
   <p class="lead">Cinq étapes, de haut en bas. Chaque commande se copie d'un clic, et une étiquette dit <b>où</b> la coller :
     <span class="where pc">sur votre ordinateur</span> ou <span class="where srv">sur le serveur</span>.</p>
-  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Dernière version : 0.60.48</b> · 2026-11-04 — FR | EN dans la barre du haut de la plateforme, comme sur le site : un clic change la langue de l&#x27;interface, sans passer par Paramètres (le cadre de l&#x27;outil est traduit ; les écrans des modules suivent). Les thèmes ne sont plus dans le menu du compte, seulement dans Paramètres. <a href="versions.html">Voir toutes les versions →</a><br>Déjà installé ? ⚙ Admin → Update → « Mise à jour en ligne » : vérifier, lire, approuver, suivre en direct.</p>
+  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Dernière version : 0.60.49</b> · 2026-11-04 — Un seul Space à l&#x27;installation : DEMO. Il réunit l&#x27;ancien HeadLamp (tour guidé, bac à sable, formation, bibliothèque de référence) et l&#x27;exemple complet du Rover (tous les modules remplis de MVP 0 à MVP 3), sans compte d&#x27;exemple. Un administrateur le cache pour tous quand le vrai projet commence (⚙ Admin → Spaces → « Cacher pour tous ») ; la documentation de Help reste accessible. Une installation existante voit son Space HEADLAMP renommé DEMO et reçoit le Rover une fois. <a href="versions.html">Voir toutes les versions →</a><br>Déjà installé ? ⚙ Admin → Update → « Mise à jour en ligne » : vérifier, lire, approuver, suivre en direct.</p>
 
   <div class="progress-bar" aria-live="polite"><div class="track"><i></i></div><span id="progress-text">0 étape faite</span></div>
 
@@ -711,19 +711,18 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     </li>
   </ol>
 
-  <section id="exemple" class="example-space reveal" data-new="0.60.46-rover">
-    <h2>Un exemple académique complet, si vous le voulez : le Rover</h2>
-    <p>Votre installation reste vide. Pour voir la méthode appliquée de bout en bout, chargez l'exemple <b>Rover</b> : un petit
-      véhicule autonome bâti sur une auto téléguidée tout-terrain, piloté par un Raspberry Pi et une application web sur le
-      téléphone, qui ralentit à l'approche d'un obstacle et le contourne lentement. Tous les modules sont remplis et documentés,
-      de MVP 0 à MVP 3 : besoins et requirements, Test Base, arbre fonctionnel, structure, pièces, risques et DFMEA, backlog par
-      MVP, idéation, Pugh, Kepner-Tregoe, livrables du Generator, plan du PDP et 28 pages de wiki qui expliquent chaque décision.</p>
+  <section id="exemple" class="example-space reveal" data-new="0.60.49-demo">
+    <h2>Dès l'installation : le Space DEMO</h2>
+    <p>L'outil s'ouvre sur un seul Space, <b>DEMO</b> : le tour guidé de chaque outil, un bac à sable où tout s'essaie sans
+      risque, les documents de formation et la bibliothèque de référence. Il contient aussi un exemple complet, le <b>Rover</b> :
+      un petit véhicule autonome bâti sur une auto téléguidée tout-terrain, piloté par un Raspberry Pi et une application web,
+      qui ralentit à l'approche d'un obstacle et le contourne lentement. Tous les modules y sont remplis de MVP 0 à MVP 3 :
+      besoins et requirements, Test Base, arbre fonctionnel, structure, pièces, risques et DFMEA, backlog, idéation, Pugh,
+      Kepner-Tregoe, livrables, plan du PDP et des pages qui expliquent chaque décision.</p>
     <ol class="stepper">
-      <li><b>Téléchargez le fichier</b><a class="btn btn-primary" href="spaces/rover.json" download="rover.json">Télécharger rover.json</a>
-        (environ 190 Ko, en français ; un fichier Project Starter, comme ceux qu'un assistant IA prépare).</li>
-      <li><b>Chargez-le dans l'outil</b>⚙ Admin → Spaces → <b>Commencer</b> → étape 2, déposez <code>rover.json</code>, lisez l'aperçu, puis « Créer le Space ROVER ».</li>
-      <li><b>Explorez</b>Ouvrez la page « Rover — accueil du projet » dans Dynamite : le guide de lecture dit où regarder, module par module.
-        Les comptes Nina, Léa, Hugo et Alexis reçoivent un mot de passe temporaire ; supprimez le Space quand vous n'en avez plus besoin.</li>
+      <li><b>Explorez</b>Dynamite → DEMO → « Rover — accueil du projet » : le guide de lecture dit où regarder, module par module.</li>
+      <li><b>Commencez votre projet</b>⚙ Admin → Spaces → <b>Commencer</b> : un assistant IA prépare le Space de votre produit.</li>
+      <li><b>Cachez DEMO</b>Quand le vrai projet démarre, ⚙ Admin → Spaces → DEMO → « Cacher pour tous ». La documentation de Help reste accessible.</li>
     </ol>
   </section>
 
@@ -783,7 +782,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       <code>python C:\DynamiteAgile\app_dynamite_agile.py --reset-password admin</code></td></tr>
     <tr><td>Passer de l'essai à l'équipe</td><td>Refaites le parcours « Sur un serveur en ligne » : la même commande avec votre domaine</td></tr></table>
 </main>
-<footer>DynamiteAgile · logiciel libre sous licence MIT · version 0.60.48 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>DynamiteAgile · logiciel libre sous licence MIT · version 0.60.49 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */

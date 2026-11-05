@@ -1,11 +1,11 @@
-"""HeadLamp « Base de connaissances (BDC) » section (D-B-033, renamed D-B-040): the main ideas of Getting
+"""DEMO « Base de connaissances (BDC) » section (D-B-033, renamed D-B-040): the main ideas of Getting
 Things Done (David Allen), written in our own words, with practical examples
 for mechatronic product development done on this platform.
 
-Added once to HEADLAMP (at creation, or at the next start-up for an existing
-HEADLAMP): a « Connaissances » hub page and three child pages. Pages are
+Added once to DEMO (at creation, or at the next start-up for an existing
+DEMO): a « Connaissances » hub page and three child pages. Pages are
 created through the Dynamite API handlers (local_api), like the rest of
-HeadLamp, so they are validated, versioned and journalled.
+DEMO, so they are validated, versioned and journalled.
 """
 from .headlamp import KEY, _doc, _h, _link, _p, _panel, _t, _table, project_id
 from .local_api import LocalApi
@@ -34,7 +34,7 @@ def _nugget(*nodes):
     return _p(_t("◆ Pépite — ", "bold", {"type": "color", "color": "orange"}), *nodes)
 
 
-PEPITE_MARK = "◆ Pépite"  # present in the v2 content (D-B-040): used to upgrade older HeadLamp pages
+PEPITE_MARK = "◆ Pépite"  # present in the v2 content (D-B-040): used to upgrade older DEMO pages
 
 
 def main_page():
@@ -258,7 +258,7 @@ def ensure_policy(ctx):
     """The leave principles live in the internal Space INT, under « Politiques de l'équipe » (once; never rewritten)."""
     from modules.timesheet import catalog
     from . import reference
-    pid = reference.space(ctx.conn, catalog.INTERNAL_KEY)  # 0.60.41 (D-O-050): INT on an older installation, else HeadLamp
+    pid = reference.space(ctx.conn, catalog.INTERNAL_KEY)  # 0.60.41 (D-O-050): INT on an older installation, else DEMO
     if pid is None:
         return False
     row = {"id": pid}

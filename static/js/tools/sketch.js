@@ -54,7 +54,7 @@
       tools: ["tools", "Idéation, Pugh, Kepner-Tregoe, Generator"],
       training: ["training", "Topics, plans de formation et tests"],
       timesheet: ["timesheet", "Ma semaine, approbations et exports"],
-      help: ["help", "Guide, FAQ et HeadLamp"],
+      help: ["help", "Guide, FAQ et DEMO"],
       about: ["about", "Qui a fait Dynamite | Agile, et comment"],  // 0.60.01
     },
   };

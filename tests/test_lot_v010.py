@@ -49,7 +49,7 @@ class LotV010Test(unittest.TestCase):
         with db.connect() as conn:
             auth.ensure_initial_admin(conn, data_dir, dev_password="admin")
         startup.run(data_dir, cfg)
-        startup.run(data_dir, cfg)  # idempotent (INT, HEADLAMP, BDC pages)
+        startup.run(data_dir, cfg)  # idempotent (INT, DEMO, BDC pages)
         cls.data_dir = data_dir
         cls.server = router.create_server(cfg, BASE_DIR / "static", data_dir)
         threading.Thread(target=cls.server.serve_forever, daemon=True).start()
@@ -257,7 +257,7 @@ class LotV010Test(unittest.TestCase):
 
     # ---------------- D-B-033: HeadLamp « Connaissances » ----------------
     def test_07_gtd_pages(self):
-        hl = self.projects["HEADLAMP"]
+        hl = self.projects["DEMO"]
         titles = [p["title"] for p in self.admin.get("/api/dynamite/p/{}/pages".format(hl))["pages"]]
         for title in ("Base de connaissances (BDC)", "Getting Things Done — les principes",  # D-B-040
                       "GTD appliqué au développement mécatronique", "Revue hebdomadaire GTD — gabarit"):

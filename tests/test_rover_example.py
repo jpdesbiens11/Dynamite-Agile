@@ -47,14 +47,13 @@ class RoverFileTest(unittest.TestCase):
             starter.parse(json.dumps(raw))
         self.assertIn("0 ou 1", caught.exception.message)
 
-    def test_03_published_on_the_installation_page_only(self):
+    def test_03_demo_on_the_installation_page(self):
         subprocess.run([sys.executable, str(BASE_DIR / "tools" / "build_site.py")], check=True, capture_output=True)
-        self.assertEqual((BASE_DIR / "site" / "spaces" / "rover.json").read_bytes(), FILE.read_bytes())
-        for rel, href in (("site/installation.html", 'href="spaces/rover.json"'), ("site/en/installation.html", 'href="../spaces/rover.json"')):
+        for rel in ("site/installation.html", "site/en/installation.html"):
             page = (BASE_DIR / rel).read_text("utf-8")
-            self.assertIn(href, page)
-            self.assertIn('data-new="0.60.46-rover"', page)
-        self.assertFalse((BASE_DIR / "deploy" / "starter_exemples" / "rover.json").exists())  # not among the in-tool examples
+            self.assertIn('data-new="0.60.49-demo"', page)
+            self.assertIn("Cacher pour tous", page)
+        self.assertFalse((BASE_DIR / "deploy" / "starter_exemples" / "rover.json").exists())  # not among the « Commencer » examples
 
 
 class RoverApplyTest(unittest.TestCase):
@@ -79,9 +78,9 @@ class RoverApplyTest(unittest.TestCase):
         cls.server.server_close()
         cls.tmp.cleanup()
 
-    def test_10_fresh_install_has_no_rover_then_loads_it(self):
+    def test_10_rover_file_still_loads_as_its_own_space(self):
         keys = [p["key"] for p in self.admin.get("/api/admin/projects")["projects"]]
-        self.assertNotIn("ROVER", keys)
+        self.assertEqual(keys, ["DEMO"])  # 0.60.49 (D-O-058): one Space at installation
         self.assertNotIn("rover", [x["id"] for x in self.admin.get("/api/starter/examples")["examples"]])
         result = self.admin.post("/api/starter/apply", {"file": FILE.read_text("utf-8")})
         counts = result["counts"]

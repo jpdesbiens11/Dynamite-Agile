@@ -1,4 +1,4 @@
-"""In-process API calls (D-B-024), used at start-up to fill the HeadLamp
+"""In-process API calls (D-B-024), used at start-up to fill the DEMO
 learning project through the very same handlers, validations and audit log
 as a user in the browser -- without an HTTP server or a password.
 """

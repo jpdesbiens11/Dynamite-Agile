@@ -78,7 +78,7 @@ def hub_page():
 
 
 def project_id(conn):
-    """The Space of the method pages: TOOLS on an installation made before 0.60.41, else HeadLamp (D-O-050)."""
+    """The Space of the method pages: TOOLS on an installation made before 0.60.41, else DEMO (D-O-050)."""
     from modules.help import reference
     return reference.space(conn, KEY)
 
@@ -119,7 +119,7 @@ def _retire(ctx, api, base, pages, title):
 def ensure(ctx):
     """Create the TOOLS space, its hub and every missing method / FAQ page; everyone is an editor."""
     from modules.help import reference
-    pid = reference.ensure(ctx, KEY)  # 0.60.41 (D-O-050): HeadLamp, or TOOLS on an older installation
+    pid = reference.ensure(ctx, KEY)  # 0.60.41 (D-O-050): DEMO, or TOOLS on an older installation
     api = local_api(ctx)
     base = "/api/dynamite/p/{}/pages".format(pid)
     pages = api.get(base)["pages"]
@@ -140,7 +140,7 @@ def ensure(ctx):
             api.put(base + "/{}".format(home["id"]), {"title": HUB, "body": hub_page(), "base_version": page["version"],
                                                      "note": GENERATED})
             hub = home
-        else:  # 0.60.41 (D-O-050): in HeadLamp, a page under the home -- never the home itself
+        else:  # 0.60.41 (D-O-050): in DEMO, a page under the home -- never the home itself
             made = api.post(base, {"title": HUB, "parent_id": home["id"] if home and not own else None, "body": hub_page()})
             hub = made.get("page") or made
     _refresh(ctx, api, base, hub["id"], HUB, hub_page())

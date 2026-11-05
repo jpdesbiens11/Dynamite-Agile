@@ -14,7 +14,7 @@
     const description = el("input", { type: "text", maxlength: 500, autocomplete: "off" });
     const selects = {};
     data.parts.forEach(({ part }) => {
-      const cat = data.catalogue || "HEADLAMP";  // 0.60.41 (D-O-050): HeadLamp, or TESTING on an older installation
+      const cat = data.catalogue || "DEMO";  // 0.60.41 (D-O-050): DEMO, or TESTING on an older installation
       const first = part === "testing" ? [[cat, "Catalogue de référence (" + cat + ")"]]
         : [["", part === "members" ? "Aucun (vous seul, Admin du Space)" : "Vide (comme un Space neuf)"]];
       const spaces = data.spaces.filter((s) => !(part === "testing" && s.key === cat)).map((s) => [s.key, s.key + " · " + s.name]);

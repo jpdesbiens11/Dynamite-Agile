@@ -133,7 +133,7 @@ class LotV031Test(unittest.TestCase):
         self.assertEqual(self.admin.get("/api/new/seen")["seen"], [])
         self.admin.post("/api/new/seen", {"id": "0.41.0-admin-update"})
         self.assertEqual(self.admin.get("/api/new/seen")["seen"], ["0.41.0-admin-update"])
-        pid = {p["key"]: p["id"] for p in self.admin.get("/api/admin/projects")["projects"]}["HEADLAMP"]
+        pid = {p["key"]: p["id"] for p in self.admin.get("/api/admin/projects")["projects"]}["DEMO"]
         titles = [p["title"] for p in self.admin.get("/api/dynamite/p/{}/pages".format(pid))["pages"]]
         self.assertIn("Mettre à jour le site (Admin → Update) — pas à pas", titles)
 

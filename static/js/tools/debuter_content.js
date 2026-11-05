@@ -20,8 +20,8 @@
           [["Commencer", "#/admin/start"], ["Créer un Space", "#/admin/projects"], ["Comptes", "#/admin/users"]], true],
         ["help", "Prendre ses repères",
           "Changez votre mot de passe temporaire, vérifiez vos initiales (données d'après votre nom), choisissez votre thème et votre page d'arrivée. Le bac à sable "
-          + "HeadLamp et le guide montrent chaque outil sur un projet fictif.",
-          [["Paramètres", "#/settings"], ["Guide et HeadLamp", "#/help"]]],
+          + "DEMO et le guide montrent chaque outil sur un projet fictif.",
+          [["Paramètres", "#/settings"], ["Guide et DEMO", "#/help"]]],
         ["home", "Trouver son Space",
           "L'Accueil liste vos Spaces et qui contacter pour quoi. Choisissez votre Space par défaut : chaque onglet s'ouvrira dessus.",
           [["Accueil", "#/home"]]],

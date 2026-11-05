@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.48)
-**Version :** 0.60.48 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** 0.60.48 (demande de JP du 2026-11-05) : FR | EN dans la barre du haut, thèmes dans Paramètres
+**Dernière mise à jour :** 2026-11-04 (v0.60.49)
+**Version :** 0.60.49 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** 0.60.49 (demande de JP du 2026-11-05) : un seul Space DEMO à l'installation
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -62,7 +62,10 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.48)
+## Relais (fin de 0.60.49)
+
+- DEMO (D-O-058) : `modules/help/headlamp.py` (KEY, migrate), `modules/help/demo_example.py` (Rover, une fois), `permissions.demo_hidden`, `/api/admin/demo`.
+
 
 - Langue (D-O-057) : `static/js/tools/langswitch.js` (bouton), `prefs.CHOICES["language"]`, textes du cadre dans `static/js/tools/i18n.js` (`DA.t`). Suit : traduire les écrans des modules.
 

@@ -1,6 +1,6 @@
 """« Mettre à jour le site (Admin → Update) — pas à pas » (D-A-049; three parts and the step-by-step review, D-B-094; one tab
 « Update et sauvegardes » with five parts and the 2 × 3 chances, D-B-104 / D-B-105): the step-by-step guide, in plain words,
-in the « Base de connaissances (BDC) » of HEADLAMP. Generated at start-up while nobody edited it (then left alone). The
+in the « Base de connaissances (BDC) » of DEMO. Generated at start-up while nobody edited it (then left alone). The
 title stays the same: it is how the page is found again.
 """
 import json

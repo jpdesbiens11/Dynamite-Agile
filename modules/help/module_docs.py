@@ -1,7 +1,7 @@
 """Documentation of every module for learning students (0.60.45, D-O-054): why the module exists, the need it covers,
 how to use it step by step, what it does from one MVP to the next (MVP 0 to MVP 3, then MVP x) and its references from the
 most to the least relevant (module_docs_refs.py). One source for two readers:
-- the HeadLamp library in the tool (module_docs_pages.py: one Dynamite page per module, regenerated while nobody edits it);
+- the DEMO library in the tool (module_docs_pages.py: one Dynamite page per module, regenerated while nobody edits it);
 - the « Modules » page of the website (tools/build_site.py, French and English).
 
     MODULES = [{key, name, depth, refs: [ids], parts: [{name, fr, en, refs}], fr: {...}, en: {...}}]
@@ -24,32 +24,32 @@ def _m(key, name, depth, refs, fr, en, parts=()):
 
 
 FIRST = [
-    _m("help", "HeadLamp & Training", 0, ["mit_ocw", "ulrich", "ries", "blank"], fr={
+    _m("help", "DEMO & Training", 0, ["mit_ocw", "ulrich", "ries", "blank"], fr={
         "role": "Apprendre l'outil et la méthode sans rien casser.",
-        "why": "On n'apprend pas la rigueur d'ingénierie dans un document : on l'apprend en la pratiquant. HeadLamp est un Space "
-               "bac à sable où chaque outil a son exercice ; Training suit ce que chaque membre de l'équipe doit savoir.",
+        "why": "On n'apprend pas la rigueur d'ingénierie dans un document : on l'apprend en la pratiquant. DEMO est un Space "
+               "bac à sable où chaque outil a son exercice, avec un exemple complet (le Rover) ; Training suit ce que chaque membre de l'équipe doit savoir.",
         "need": "Une équipe nouvelle doit être productive en une semaine, sans peur d'abîmer le vrai projet, et l'enseignant ou le "
                 "chef d'équipe doit voir qui sait faire quoi.",
-        "steps": [("Rejoindre HeadLamp", "Help → « Rejoindre HeadLamp [Sandbox] » : vous devenez éditeur du bac à sable."),
+        "steps": [("Rejoindre DEMO", "Help → « Rejoindre DEMO » : vous devenez éditeur du bac à sable."),
                   ("Suivre le tour", "Help montre les étapes dans l'ordre d'un projet ; chaque étape a son ticket d'exercice."),
                   ("Lire la documentation", "Cette bibliothèque : une page par module, avec ses références."),
                   ("Planifier la formation", "Training : un plan par personne, les topics à couvrir et leur échéance."),
                   ("Se tester", "Les tests de Training sont corrigés par le serveur ; l'instructeur suit les résultats.")],
-        "mvps": ["Chacun fait le parcours HeadLamp et lit les pages Exploration, Goldmine et Dynamite.",
+        "mvps": ["Chacun fait le parcours guidé de DEMO et lit les pages Exploration, Goldmine et Dynamite.",
                  "Les pages Tools et Diamond (arbre fonctionnel) avant de choisir un concept.",
                  "Les pages Agile, Diamond (DFMEA) et Testing avant de concevoir les sous-systèmes.",
                  "Les pages Testing et Timesheet avant la validation et la réclamation de financement."]}, en={
         "role": "Learn the tool and the method without breaking anything.",
-        "why": "Engineering rigour is not learned from a document: it is learned by practising it. HeadLamp is a sandbox Space where "
-               "every tool has its exercise; Training follows what each team member must know.",
+        "why": "Engineering rigour is not learned from a document: it is learned by practising it. DEMO is a sandbox Space where "
+               "every tool has its exercise, with a complete example (the Rover); Training follows what each team member must know.",
         "need": "A new team must be productive within a week, without fear of damaging the real project, and the instructor or team "
                 "lead must see who can do what.",
-        "steps": [("Join HeadLamp", "Help → « Rejoindre HeadLamp [Sandbox] »: you become an editor of the sandbox."),
+        "steps": [("Join DEMO", "Help → « Rejoindre DEMO »: you become an editor of the sandbox."),
                   ("Follow the tour", "Help shows the steps in the order of a project; every step has its exercise ticket."),
                   ("Read the documentation", "This library: one page per module, with its references."),
                   ("Plan the training", "Training: one plan per person, the topics to cover and their due date."),
                   ("Test yourself", "Training tests are graded by the server; the instructor follows the results.")],
-        "mvps": ["Everyone does the HeadLamp path and reads the Exploration, Goldmine and Dynamite pages.",
+        "mvps": ["Everyone does the DEMO guided tour and reads the Exploration, Goldmine and Dynamite pages.",
                  "The Tools and Diamond (function tree) pages before choosing a concept.",
                  "The Agile, Diamond (DFMEA) and Testing pages before designing the subsystems.",
                  "The Testing and Timesheet pages before validation and the funding claim."]}),

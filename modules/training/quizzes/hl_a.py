@@ -33,7 +33,7 @@ pass: 80
 - [ ] Double-cliquer sur le titre de l'outil
 - [x] Bouton bleu « <<< » (« >>> » pour le rouvrir), ou glisser son bord pour le redimensionner
 - [ ] Il ne se masque pas ; seul un administrateur peut le retirer
-## Qu'est-ce que le Space HeadLamp [Sandbox] ?
+## Qu'est-ce que le Space DEMO ?
 - [ ] Le Space où l'on déclare les heures de formation
 - [x] Un bac à sable pour tout essayer : rien n'y touche aux vrais Spaces
 - [ ] Le Space des administrateurs pour tester les mises à jour
@@ -160,7 +160,7 @@ pass: 80
 - [ ] Exporter la branche en Word puis l'importer dans l'autre Space
 - [ ] « Copier / composer un Space », réservé aux administrateurs
 ## Où se trouve la Base de connaissances (BDC) ?
-- [x] Dans HEADLAMP → Dynamite
+- [x] Dans DEMO → Dynamite
 - [ ] Dans Testing → Listes
 - [ ] Dans Help → FAQ
 ## Vous réenregistrez une page qui contenait déjà « @ana ». Ana reçoit-elle un nouveau message ?

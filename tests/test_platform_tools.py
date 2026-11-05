@@ -91,7 +91,7 @@ class PlatformToolsTest(unittest.TestCase):
         self.assertEqual(mods["help"]["placement"], "end")
         self.assertEqual(mods["dynamite"]["placement"], "main")
         keys = [p["key"] for p in self.admin.get("/api/admin/projects")["projects"]]
-        self.assertEqual(keys.count("HEADLAMP"), 1)
+        self.assertEqual(keys.count("DEMO"), 1)
         theo = self.people["theo"]
         status = theo.get("/api/help/headlamp")
         self.assertFalse(status["member"])
@@ -102,13 +102,13 @@ class PlatformToolsTest(unittest.TestCase):
         theo.post("/api/help/headlamp/join")  # twice: no error, no duplicate
         pid = joined["project"]["id"]
         pages = [p["title"] for p in theo.get("/api/dynamite/p/{}/pages".format(pid))["pages"]]
-        self.assertIn("HeadLamp [Sandbox] — Bienvenue", pages)
+        self.assertIn("DEMO — Bienvenue", pages)
         self.assertEqual(len(theo.get("/api/exploration/p/{}/plan".format(pid))["tasks"]), 6)
-        self.assertEqual(len(theo.get("/api/codex/p/{}/refs".format(pid))["refs"]), 1)
+        self.assertEqual(len(theo.get("/api/codex/p/{}/refs".format(pid))["refs"]), 22)  # the guide + the Rover's 21 deliverables
         week = theo.get("/api/timesheet/week")  # HeadLamp is closed to time sheets
-        self.assertNotIn("HEADLAMP", [p["key"] for p in week["projects"]])
-        found = theo.get("/api/search?q=headlamp%20parcours")["results"]
-        self.assertTrue(any(r["project"] == "HEADLAMP" for r in found))
+        self.assertNotIn("DEMO", [p["key"] for p in week["projects"]])
+        found = theo.get("/api/search?q=parcours%20demo")["results"]
+        self.assertTrue(any(r["project"] == "DEMO" for r in found))
 
     # ---------------- search ----------------
     def test_02_search(self):

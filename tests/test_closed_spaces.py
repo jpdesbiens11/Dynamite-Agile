@@ -43,8 +43,8 @@ class ClosedSpacesTest(unittest.TestCase):
 
     def test_01_only_headlamp_with_the_reference_content(self):
         keys = self.keys()
-        self.assertEqual(set(keys), {"HEADLAMP"})
-        hl = keys["HEADLAMP"]
+        self.assertEqual(set(keys), {"DEMO"})
+        hl = keys["DEMO"]
         with db.connect() as conn:
             count = lambda sql: conn.execute(sql, (hl,)).fetchone()[0]  # noqa: E731
             self.assertGreater(count("SELECT COUNT(*) FROM testing_tests WHERE project_id = ?"), 20)
@@ -54,9 +54,9 @@ class ClosedSpacesTest(unittest.TestCase):
         for title in ("Testing — Test Procedures", "Tools — Boîte à outils", "Politique de l'équipe — vacances et congés"):
             self.assertIn(title, titles)
         roots = [p for p in self.admin.get("/api/dynamite/p/{}/pages".format(hl))["pages"] if not p.get("parent_id")]
-        self.assertEqual(len(roots), 1)
-        self.assertIn("HeadLamp", roots[0]["title"])  # the sandbox keeps its home; the hubs hang under it
-        self.assertEqual(self.admin.get("/api/testing/tests")["space"], "HEADLAMP")
+        self.assertIn("DEMO", roots[0]["title"])  # the sandbox keeps its home; the hubs hang under it
+        self.assertEqual([p["title"] for p in roots[1:]][:1], ["Rover — accueil du projet"])  # 0.60.49: the Rover beside it
+        self.assertEqual(self.admin.get("/api/testing/tests")["space"], "DEMO")
 
     def test_02_a_new_space_lives_on_its_own(self):
         pid = self.admin.post("/api/admin/projects", {"key": "SON", "name": "Sonnette"})["project"]["id"]

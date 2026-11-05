@@ -64,4 +64,25 @@ def visible_projects(conn, user):
             "JOIN memberships m ON m.project_id = p.id "
             "WHERE m.user_id = ? AND p.is_archived = 0 ORDER BY p.key",
             (user["id"],)).fetchall()
-    return db.rows(result)
+    rows = db.rows(result)
+    if demo_hidden(conn):  # 0.60.49 (D-O-058): hidden for everyone by an administrator once the real project starts
+        rows = [r for r in rows if r["key"] != DEMO_KEY]
+    return rows
+
+
+DEMO_KEY = "DEMO"
+
+
+def demo_hidden(conn):
+    """0.60.49 (D-O-058): the DEMO Space left out of every list (its pages stay reachable by link: Help, documentation)."""
+    import json
+    try:
+        row = conn.execute("SELECT value FROM app_settings WHERE key = 'demo'").fetchone()
+    except Exception:  # noqa: BLE001 -- database created before app_settings: nothing hidden
+        return False
+    if row is None:
+        return False
+    try:
+        return bool(json.loads(row["value"]).get("hidden"))
+    except (ValueError, AttributeError):
+        return False

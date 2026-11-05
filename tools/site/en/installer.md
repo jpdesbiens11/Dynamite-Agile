@@ -131,6 +131,6 @@ or http.sys) → `-Port 8443`; "not running as administrator" → Win + X → Te
 - The tool's interface is in French today; English is coming in the next versions (the module names and technical terms
   are already in English).
 
-## The Rover academic example (0.60.46)
+## The DEMO Space (0.60.49)
 
-At its end, the installation page offers a complete example to load if the person wants it: `spaces/rover.json`. It never installs by itself. To load it: ⚙ Admin → Spaces → Commencer → step 2, drop the file, read the preview, « Créer le Space ROVER ». It creates four example accounts (Nina, Léa, Hugo, Alexis) with a temporary password; the Space can be deleted afterwards like any other.
+A fresh installation opens on a single Space, DEMO: the guided tour, a sandbox, training, the reference library and the complete Rover example (every module filled). No example account is created. When the team starts its real project (⚙ Admin → Spaces → Commencer), an administrator hides DEMO for everyone: ⚙ Admin → Spaces → DEMO → « Cacher pour tous ».

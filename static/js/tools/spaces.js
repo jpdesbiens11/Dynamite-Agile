@@ -19,7 +19,7 @@
   const FOLLOW = /^#\/(dynamite|agile|goldmine|diamond|exploration|testing|codex)\/([A-Z][A-Z0-9]{1,9})(\/|$)/;
   const WORK = "da.workSpace";
   // the common Spaces (sandbox, catalogues, wikis reached from Help or Tools) are visited, not worked in: never followed
-  const SHARED = ["HEADLAMP", "TOOLS", "TESTING", "TRAINING"];
+  const SHARED = ["DEMO", "TOOLS", "TESTING", "TRAINING"];
   const work = () => { try { return sessionStorage.getItem(WORK) || ""; } catch (err) { return ""; } };
   function track() {
     const m = FOLLOW.exec(location.hash);

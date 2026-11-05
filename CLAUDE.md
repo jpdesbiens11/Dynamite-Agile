@@ -104,6 +104,8 @@
   à charger depuis la page d'installation (jamais par défaut) ; Project Starter `tools` (idéation, Pugh, Kepner-Tregoe, `core/starter_tools.py`).
 - **0.60.47** (2026-11-05) : **Partager sur le site** (D-O-056, `tools/site/site.js`, `site_text.SHARE`) : la page en cours, feuille du téléphone ou menu de liens.
 - **0.60.48** (2026-11-05) : **FR | EN dans la barre du haut** (D-O-057, `static/js/tools/langswitch.js`) ; thèmes seulement dans Paramètres.
+- **0.60.49** (2026-11-05) : **un seul Space, DEMO** (D-O-058, `modules/help/headlamp.py`, `demo_example.py`) : ancien HeadLamp + Rover, sans compte d'exemple ;
+  « Cacher pour tous » (`/api/admin/demo`) ; HEADLAMP renommé DEMO au démarrage.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

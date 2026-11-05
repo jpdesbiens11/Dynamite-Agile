@@ -177,7 +177,7 @@ def build():
                 values["LATEST"] = _latest(lang)
                 values.update(TROUBLE=(src / "trouble.html").read_text(encoding="utf-8").rstrip(),
                               INSTALL_JS=(SRC / "install.js").read_text(encoding="utf-8"))
-            if name == "modules.html":  # 0.60.45 (D-O-054): the same text as the HeadLamp library of the tool
+            if name == "modules.html":  # 0.60.45 (D-O-054): the same text as the DEMO library of the tool
                 from tools import site_modules
                 values.update(MODULE_TOC=site_modules.toc(lang), MODULE_DOCS=site_modules.sections(lang, BASE))
             if name == "versions.html":  # 0.60.12 (D-O-024): reads updates/versions.json, built by tools/build_release.py
@@ -210,12 +210,6 @@ def build():
     ps1 = re.sub(rb'else \{ "https://github\.com/[^"]*" \}', 'else {{ "{}.git" }}'.format(REPO).encode("utf-8"), ps1)
     (OUT / "install.ps1").write_bytes(ps1)
     written.append((OUT / "install.ps1", len(ps1)))
-    # 0.60.46 (D-O-055): the example Spaces a team loads if it wants (never part of a fresh installation)
-    (OUT / "spaces").mkdir(exist_ok=True)
-    for example in sorted((BASE / "deploy" / "spaces_exemples").glob("*.json")):
-        data = example.read_bytes()
-        (OUT / "spaces" / example.name).write_bytes(data)
-        written.append((OUT / "spaces" / example.name, len(data)))
     (OUT / ".nojekyll").write_text("", encoding="utf-8")  # GitHub Pages: serve the files as they are
     return written
 

@@ -68,7 +68,7 @@
       el("a", { class: "btn btn-small", href: pageHref(ctx, id, "/history") }, "Historique"),
       DY.canTransfer() ? el("button", { type: "button", class: "btn btn-small", onclick: () => DY.transferDialog(ctx, p) }, "Déplacer / Copier") : null,
       DY.exportMenu(ctx, p),
-      ctx.key === "HEADLAMP" ? el("a", { class: "btn btn-small dy-help-link", href: "#/help" }, "📘 Guide Help") : null,
+      ctx.key === "DEMO" ? el("a", { class: "btn btn-small dy-help-link", href: "#/help" }, "📘 Guide Help") : null,
       ctx.role === "admin" ? el("button", { type: "button", class: "btn btn-small btn-danger", onclick: async () => {
         if (!window.confirm("Supprimer « " + p.title + " » et tout son historique ?")) return;
         try { await api.del(base(ctx) + "/" + id); toast("Page supprimée.", "success"); location.hash = "#/dynamite/" + ctx.key; }

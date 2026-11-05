@@ -22,7 +22,7 @@ NOT_CLAIMABLE = {"INT-VAC", "INT-SAN"}  # vacation, health leave: never claimed 
 
 
 def _company_id(conn):
-    """The Space that holds the code tables: TOOLS on an installation made before 0.60.41, else HeadLamp (D-O-050)."""
+    """The Space that holds the code tables: TOOLS on an installation made before 0.60.41, else DEMO (D-O-050)."""
     from modules.help import reference
     return reference.space(conn, catalog.CODES_KEY)
 

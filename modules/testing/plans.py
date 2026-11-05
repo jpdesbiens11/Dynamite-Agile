@@ -29,7 +29,7 @@ MAX_TESTS = 80
 def _pid(ctx, minimum="reader"):
     """The Space of the plans (D-B-097: ?space=<KEY>, TESTING when absent): its own Test Base, its own plans."""
     if catalog.project_id(ctx.conn) is None:
-        raise ApiError(409, "La Test Base de référence n'existe pas encore (Space HeadLamp). Correctif : redémarrez le serveur.")
+        raise ApiError(409, "La Test Base de référence n'existe pas encore (Space DEMO). Correctif : redémarrez le serveur.")
     from .tests_api import space
     return space(ctx, minimum)[0]
 

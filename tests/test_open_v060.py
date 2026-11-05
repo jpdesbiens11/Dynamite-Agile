@@ -54,7 +54,7 @@ def scanned_files():
 
 class StaticContentTest(unittest.TestCase):
     def test_01_version(self):
-        self.assertEqual(APP_VERSION, "0.60.48")
+        self.assertEqual(APP_VERSION, "0.60.49")
 
     def test_02_nothing_of_the_original_use_left(self):
         hits = []
@@ -224,7 +224,7 @@ class ExampleSiteTest(unittest.TestCase):
     def test_03_example_spaces(self):
         keys = {p["key"] for p in self.admin.get("/api/admin/projects")["projects"]}
         # 0.60.41 (D-O-050): no TESTING, TOOLS, TRAINING nor INT Space; HeadLamp holds the reference content
-        self.assertEqual(keys, {"EQP", "HEADLAMP"})
+        self.assertEqual(keys, {"EQP", "DEMO"})
 
     def test_04_unknown_theme_falls_back(self):
         from core import prefs

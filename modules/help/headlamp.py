@@ -1,9 +1,9 @@
-"""HeadLamp: the learning project (D-B-024) -- a sandbox that walks a new user
+"""DEMO: the learning project (D-B-024) -- a sandbox that walks a new user
 through the platform in the same order as the Help path (#/help/<chapter>).
 
 Created once at start-up, through the same API handlers a user would call
 (local_api), so everything is validated and journalled:
-- Agile: epic « Parcours HeadLamp » + one ticket per step (Étape 1 … 14, modules/help/tour.py);
+- Agile: epic « Parcours DEMO » + one ticket per step (Étape 1 … 14, modules/help/tour.py);
 - Dynamite: the home page becomes the hub of the path; child pages hold the
   exercises (first page, AI import) and a syntax cheat sheet;
 - Goldmine: two example requirements traced to their step tickets;
@@ -11,19 +11,20 @@ Created once at start-up, through the same API handlers a user would call
 - Generator: an example reference (the user guide);
 - Timesheet: closed (the time sheet exercise uses the team Space and a time code of the PDP).
 Every active user becomes an editor at creation; later accounts join from
-the Help screen (« Rejoindre HeadLamp »).
+the Help screen (« Rejoindre DEMO »).
 """
 from core import audit, permissions
 from core.errors import ApiError
 
 from .local_api import LocalApi
 
-KEY = "HEADLAMP"
-NAME = "HeadLamp [Sandbox] — Prise en main"  # D-B-054: « [Sandbox] » everywhere
-HOME_TITLE = "HeadLamp [Sandbox] — Bienvenue"
-OLD_HOME_TITLE = "HeadLamp — Bienvenue"
-DESCRIPTION = ("Projet d'apprentissage : un bac à sable pour essayer chaque outil dans l'ordre du guide Help. "
-               "Rien ici ne touche aux vrais projets.")
+KEY = "DEMO"  # 0.60.49 (D-O-058): the former HEADLAMP Space, renamed on an existing installation (migrate below)
+LEGACY_KEY = "HEADLAMP"
+NAME = "DEMO — démo, bac à sable et formation"
+HOME_TITLE = "DEMO — Bienvenue"
+OLD_HOME_TITLES = ("HeadLamp [Sandbox] — Bienvenue", "HeadLamp — Bienvenue")
+DESCRIPTION = ("Le Space de démonstration : le parcours guidé de chaque outil, un exemple complet (le Rover), la bibliothèque "
+               "de référence et les documents de formation. Un bac à sable : rien ici ne touche aux vrais projets.")
 
 from .tour import STEPS, TOPIC_CODES, WEEKS, number, ticket_fields  # noqa: E402,F401 (0.47.0: order of the tour)
 
@@ -83,41 +84,54 @@ def project_id(conn):
     return row["id"] if row else None
 
 
-def label_sandbox(ctx):
-    """D-B-054: an existing HEADLAMP space (and its wiki home) gets the « [Sandbox] » mark. Journalled."""
+def migrate(ctx):
+    """0.60.49 (D-O-058): an installation made before gets its HEADLAMP Space renamed DEMO (key, name, wiki home, the
+    default Space of the people who had it). Ticket keys follow the Space key (DEMO-1…). Journalled."""
+    import json
     from core import audit
-    pid = project_id(ctx.conn)
+    conn = ctx.conn
+    legacy = conn.execute("SELECT id FROM projects WHERE key = ?", (LEGACY_KEY,)).fetchone()
+    if legacy is not None and project_id(conn) is None:
+        conn.execute("UPDATE projects SET key = ? WHERE id = ?", (KEY, legacy["id"]))
+        audit.log_action(conn, None, "project_key_changed", "project", legacy["id"], {"from": LEGACY_KEY, "to": KEY}, None)
+        for row in conn.execute("SELECT user_id, prefs FROM user_prefs").fetchall():
+            try:
+                prefs = json.loads(row["prefs"])
+            except ValueError:
+                continue
+            if prefs.get("default_space") == LEGACY_KEY:
+                prefs["default_space"] = KEY
+                conn.execute("UPDATE user_prefs SET prefs = ? WHERE user_id = ?", (json.dumps(prefs), row["user_id"]))
+    pid = project_id(conn)
     if pid is None:
         return False
-    changed = False
-    row = ctx.conn.execute("SELECT name FROM projects WHERE id = ?", (pid,)).fetchone()
-    if "[Sandbox]" not in row["name"]:
-        ctx.conn.execute("UPDATE projects SET name = ? WHERE id = ?", (NAME, pid))
-        audit.log_action(ctx.conn, None, "project_renamed", "project", pid, {"name": NAME}, None)
-        changed = True
-    home = ctx.conn.execute("SELECT id FROM dynamite_pages WHERE project_id = ? AND title = ?", (pid, OLD_HOME_TITLE)).fetchone()
+    row = conn.execute("SELECT name, description FROM projects WHERE id = ?", (pid,)).fetchone()
+    if row["name"] != NAME:
+        conn.execute("UPDATE projects SET name = ?, description = ? WHERE id = ?", (NAME, DESCRIPTION[:500], pid))
+        audit.log_action(conn, None, "project_renamed", "project", pid, {"name": NAME}, None)
+    home = conn.execute("SELECT p.id FROM dynamite_pages p JOIN dynamite_versions v ON v.page_id = p.id AND v.version = p.current_version "
+                        "WHERE p.project_id = ? AND v.title IN (?, ?)", (pid,) + OLD_HOME_TITLES).fetchone()
     if home is not None:
         api = LocalApi(ctx)
         url = "/api/dynamite/p/{}/pages/{}".format(pid, home["id"])
         page = api.get(url)["page"]
-        api.put(url, {"title": HOME_TITLE, "body": page["body"], "base_version": page["version"],
-                      "note": "Titre marqué [Sandbox]"})
-        changed = True
-    return changed
+        api.put(url, {"title": HOME_TITLE, "body": page["body"], "base_version": page["version"], "note": "Space renommé DEMO"})
+    return True
 
 
 def ensure(ctx):
+    migrate(ctx)  # 0.60.49 (D-O-058): HEADLAMP becomes DEMO
     pid = project_id(ctx.conn)
     if pid is not None:
         from . import tour
-        label_sandbox(ctx)
-        return tour.sync(ctx, pid, build_hub)  # 0.47.0: the tour of the site reaches an existing HeadLamp
+        return tour.sync(ctx, pid, build_hub)  # 0.47.0: the tour of the site reaches an existing DEMO
     return ensure_space(ctx)
 
 
 def ensure_space(ctx):
-    """0.60.41 (D-O-050): HeadLamp with its sandbox content, created by whichever start-up hook needs it first (it is
+    """0.60.41 (D-O-050): DEMO with its sandbox content, created by whichever start-up hook needs it first (it is
     also the library of reference content, see reference.py)."""
+    migrate(ctx)  # 0.60.49 (D-O-058): an older HEADLAMP is renamed, never created a second time
     pid = project_id(ctx.conn)
     if pid is not None:
         return pid
@@ -130,7 +144,7 @@ def ensure_space(ctx):
     _dynamite(api, pid, tickets)
     _exploration(api, pid)
     api.post("/api/codex/p/{}/refs".format(pid), {"doc_type": "MAN", "step": "03", "sub": "00",
-                                                  "system_code": "HEADLAMP", "revision": 1,
+                                                  "system_code": "DEMO", "revision": 1,
                                                   "title": "Guide de prise en main de la plateforme"})
     timesheet.save_settings(ctx.conn, pid, organism="Interne", enabled=False)
     for user in ctx.conn.execute("SELECT id FROM users WHERE is_active = 1 AND is_admin = 0").fetchall():
@@ -142,7 +156,7 @@ def ensure_space(ctx):
 def _agile(api, pid):
     base = "/api/agile/p/{}".format(pid)
     types = {t["icon_key"]: t for t in api.get(base + "/meta")["types"] if t["bucket"] == "agile"}
-    epic = api.post(base + "/issues", {"type_id": types["epic"]["id"], "title": "Parcours HeadLamp", "priority": "high",
+    epic = api.post(base + "/issues", {"type_id": types["epic"]["id"], "title": "Parcours DEMO", "priority": "high",
                                        "description": "Les {} étapes de la prise en main, dans l'ordre du guide Help.".format(len(STEPS))})
     tickets = []
     for n, (chapter, title, exercise) in enumerate(STEPS, start=1):
@@ -156,15 +170,15 @@ def _goldmine(api, pid, tickets):
     examples = [
         ("bienvenue", "Prise en main en une semaine", {
             "external_id": "HL-001", "category": "performance", "verification_method": "D", "test_ref": "TST-VER-03",
-            "statement": "Un nouveau membre de l'équipe doit pouvoir réaliser les étapes du parcours HeadLamp (hors Admin) en moins "
+            "statement": "Un nouveau membre de l'équipe doit pouvoir réaliser les étapes du parcours DEMO (hors Admin) en moins "
                          "de 5 jours ouvrables.",
             "acceptance_criteria": "Les tickets d'étape (hors Admin) sont faits par le nouveau membre en 5 jours ou moins.",
-            "source_doc": "Exemple HeadLamp", "allocation": "Training"}),
+            "source_doc": "Exemple DEMO", "allocation": "Training"}),
         ("timesheet", "Heures de formation déclarées", {
             "external_id": "HL-002", "category": "functional", "verification_method": "I", "test_ref": "TST-VER-01",
             "statement": "Chaque séance de travail doit être déclarée dans Timesheet, avec le code de l'étape du PDP travaillée.",
             "acceptance_criteria": "Une plage avec un code du PDP et une description existe dans la première semaine soumise.",
-            "source_doc": "Exemple HeadLamp", "allocation": "Timesheet"}),
+            "source_doc": "Exemple DEMO", "allocation": "Timesheet"}),
     ]
     for chapter, title, fields in examples:
         req = api.post(base + "/goldmine/requirements", dict(fields, title=title))
@@ -173,12 +187,15 @@ def _goldmine(api, pid, tickets):
 
 
 def build_hub(tickets):
-    """Wiki home of HeadLamp: the path table (one row per step, in the order of the tour) and the first tickets."""
+    """Wiki home of DEMO: the path table (one row per step, in the order of the tour) and the first tickets."""
     rows = [[str(n), title, _link("Chapitre {}".format(n), "#/help/" + chapter), tickets[n - 1]["key"]]
             for n, (chapter, title, _ex) in enumerate(STEPS, start=1)]
     return _doc(
-        _panel("info", _p(_t("Bienvenue dans HeadLamp.", "bold"), " Ce projet est un bac à sable : suivez les étapes dans "
+        _panel("info", _p(_t("Bienvenue dans DEMO.", "bold"), " Ce projet est un bac à sable : suivez les étapes dans "
                           "l'ordre, avec le guide ", _link("Help", "#/help"), " ouvert à côté. Rien ici ne touche aux vrais projets.")),
+        _panel("success", _p(_t("Un exemple complet :", "bold"), " le Rover, un petit véhicule autonome, avec tous les modules "
+                             "remplis de MVP 0 à MVP 3 : ouvrez la page « Rover — accueil du projet » dans la liste à gauche. "
+                             "Un administrateur cache DEMO pour tous (⚙ Admin → Spaces) quand le vrai projet commence.")),
         {"type": "toc"},
         _h(1, "Le parcours en {} étapes".format(len(STEPS))),
         _table(["Étape", "Ce que vous apprenez", "Aide", "Ticket"], *rows),
@@ -186,7 +203,7 @@ def build_hub(tickets):
                              "code de l'étape du PDP : ", _t("A-01 … D-21", "bold"), ".")),
         _h(1, "Vos tickets de parcours"),
         *[{"type": "ticket", "key": t["key"]} for t in tickets[:3]],
-        _p("… et les suivants dans ", _link("Agile → HEADLAMP", "#/agile/{}/backlog".format(KEY)), "."),
+        _p("… et les suivants dans ", _link("Agile → DEMO", "#/agile/{}/backlog".format(KEY)), "."),
         _h(1, "Pages d'exercice"),
         {"type": "children"})
 
@@ -197,7 +214,7 @@ def _dynamite(api, pid, tickets):
     page = api.get(base + "/{}".format(home["id"]))["page"]
     hub = build_hub(tickets)
     api.put(base + "/{}".format(home["id"]), {"title": HOME_TITLE, "body": hub,
-                                               "base_version": page["version"], "note": "Parcours HeadLamp"})
+                                               "base_version": page["version"], "note": "Parcours DEMO"})
     api.post(base, {"title": "Exercice — Ma première page", "parent_id": home["id"], "body": _doc(
         _panel("note", _p("Étape {} du parcours — ".format(number("dynamite")), _link("Aide : Dynamite", "#/help/dynamite"))),
         _h(1, "To Do"),
@@ -269,7 +286,7 @@ def api_status(ctx):
 def api_join(ctx):
     pid = project_id(ctx.conn)
     if pid is None:
-        raise ApiError(404, "Le projet HeadLamp n'existe pas encore. Correctif : redémarrez le serveur, il le crée au démarrage.")
+        raise ApiError(404, "Le projet DEMO n'existe pas encore. Correctif : redémarrez le serveur, il le crée au démarrage.")
     if permissions.project_role(ctx.conn, ctx.user, pid) is None:
         ctx.conn.execute("INSERT INTO memberships (user_id, project_id, role) VALUES (?, ?, 'editor')", (ctx.user["id"], pid))
         audit.log_action(ctx.conn, ctx.user["id"], "headlamp_joined", "project", pid, None, ctx.ip)

@@ -19,9 +19,9 @@
     showLogin("Votre session a expiré. Reconnectez-vous.");
   };
 
-  /* D-B-052: « hide the sandbox » setting -- the HeadLamp space disappears everywhere except in
+  /* D-B-052: « hide the sandbox » setting -- the DEMO space disappears everywhere except in
      Dynamite (its wiki is the users' help) and Help. */
-  const SANDBOX_KEY = "HEADLAMP";
+  const SANDBOX_KEY = "DEMO";
   const WIKI_ONLY_KEY = "TOOLS";  // D-B-068: the Tools wiki shows only in Dynamite (reached from the Tools tab)
   function visibleProjects(view) {
     const all = (session.allProjects || []).filter((p) => p.key !== WIKI_ONLY_KEY || view === "dynamite");
