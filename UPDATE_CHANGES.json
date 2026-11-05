@@ -2,43 +2,61 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Backlog par MVP et livrables (D-O-052)",
-      "why": "core/starter_more.py : backlog (epic, story, task, bug ; parent, MVP, responsable, priorité, points) et deliverables (codes du Generator) ; chaque MVP devient une Version d'Agile ; question 26 du prompt, format et exemple à jour.",
+      "title": "L'exemple Rover (D-O-055)",
+      "why": "Un fichier Project Starter complet écrit par tools/make_rover_example.py à partir de tools/rover/ : équipe de 4, 9 besoins et 24 requirements, 20 essais, 39 fonctions, structure, 23 pièces, 10 risques, DFMEA d'une ligne par fonction, backlog MVP 0 à MVP 3, 21 livrables, 28 pages de wiki qui expliquent chaque décision.",
       "files": [
-        "core/starter_more.py",
-        "core/starter.py",
-        "core/starter_apply.py",
-        "core/starter_prompt.py",
-        "tools/site/starter.md",
-        "tools/site/en/starter.md",
-        "deploy/starter_exemples/lampe_bureau.json",
-        "docs/STARTER_FORMAT.md"
+        "tools/make_rover_example.py",
+        "tools/rover/__init__.py",
+        "tools/rover/doc.py",
+        "tools/rover/base.py",
+        "tools/rover/diamond.py",
+        "tools/rover/dfmea_more.py",
+        "tools/rover/agile.py",
+        "tools/rover/methods.py",
+        "tools/rover/pages_ab.py",
+        "tools/rover/pages_cd.py",
+        "deploy/spaces_exemples/rover.json"
       ]
     },
     {
       "id": "C2",
-      "title": "Un Space éprouvé comme modèle",
-      "why": "core/starter_export.py et starter_export_more.py : GET /api/starter/export?space=KEY relit un Space au format exact (validé par core/starter.parse) ; ?source=KEY ajoute ce fichier au prompt ; boutons « Exporter comme modèle (IA) » (Spaces) et « Modèle » (Commencer).",
+      "title": "Méthodes de conception dans le Project Starter (D-O-055)",
+      "why": "« tools » : séance d'idéation, matrice de Pugh sur les requirements et analyse Kepner-Tregoe, créées par les handlers des modules, relues par l'export d'un Space éprouvé, décrites dans le prompt.",
       "files": [
+        "core/starter_tools.py",
+        "core/starter_export_tools.py",
+        "core/starter_more.py",
+        "core/starter.py",
+        "core/starter_apply.py",
         "core/starter_export.py",
-        "core/starter_export_more.py",
         "static/js/admin_starter.js",
-        "static/js/admin_spacecard.js"
+        "tools/site/starter.md",
+        "tools/site/en/starter.md",
+        "docs/STARTER_FORMAT.md"
       ]
     },
     {
       "id": "C3",
-      "title": "Version 0.60.43, tests et documentation",
-      "why": "tests/test_starter_more.py (création, refus, relecture, prompt, droits) ; décisions, état du projet, journal, fiche de version.",
+      "title": "Présenté sur le portail d'installation, jamais chargé par défaut",
+      "why": "Section « Un exemple académique complet, si vous le voulez » de la page d'installation (FR / EN) avec le téléchargement site/spaces/rover.json ; mentions dans installer.md, la page Modules et la documentation HeadLamp.",
       "files": [
-        "tests/test_starter_more.py",
-        "tests/test_starter_prompt.py",
-        "core/__init__.py",
-        "CLAUDE.md",
-        "UPDATE_LOG.md",
-        "docs/DECISIONS.md",
-        "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.43.json"
+        "tools/build_site.py",
+        "tools/site/installation.html",
+        "tools/site/en/installation.html",
+        "tools/site/site.css",
+        "tools/site/installer.md",
+        "tools/site/en/installer.md",
+        "tools/site/modules.html",
+        "tools/site/en/modules.html",
+        "modules/help/module_docs_pages.py"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Tests",
+      "why": "tests/test_rover_example.py : fichier à jour et valide, une ligne de DFMEA par fonction, numéros des fonctions gardés, méthodes vérifiées, installation neuve sans ROVER, chargement complet et relecture.",
+      "files": [
+        "tests/test_rover_example.py"
       ]
     }
   ]

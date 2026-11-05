@@ -219,7 +219,7 @@ def api_apply(ctx):
     made = starter_diamond.apply(ctx.conn, ctx.user["id"], pid, clean["diamond"],
                                  {ref: rows.get(code) for ref, code in test_ids.items()})  # ref -> row id of the test
     from . import starter_more  # 0.60.43 (D-O-052): the Agile backlog by MVP, the Generator deliverables
-    more = starter_more.apply(ctx, pid, key, clean["more"], lambda p, body, func: _as(ctx, p, body, func))
+    more = starter_more.apply(ctx, pid, key, clean["more"], lambda p, body, func: _as(ctx, p, body, func), req_keys)
     from modules.exploration import reference  # 0.60.22: the reference Gantt of the PDP, sized for the team
     owners = [r["id"] for m in clean["team"] for r in ctx.conn.execute("SELECT id FROM users WHERE username = ?", (m["username"],))]
     plan_tasks = reference.apply(ctx, pid, reference.parse_start(project["start_date"]), project["weeks"], owners or [ctx.user["id"]])

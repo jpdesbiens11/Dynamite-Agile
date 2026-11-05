@@ -14,7 +14,8 @@ LATEST = {
     "en": ("Latest version:", "See all versions →",
            "Already installed? ⚙ Admin → Update → « Mise à jour en ligne » (online update): check, read, approve, follow live."),
 }
-NAV = {"fr": ("Accueil", "Installation", "Guide", "Versions"), "en": ("Home", "Installation", "Guide", "Versions")}  # 0.60.12
+NAV = {"fr": ("Accueil", "Installation", "Guide", "Modules", "Versions"),
+       "en": ("Home", "Installation", "Guide", "Modules", "Versions")}  # 0.60.12; 0.60.45: Modules
 SWITCH = {"fr": ("EN", "English", "en"), "en": ("FR", "Français", "fr")}  # (label, title, hreflang) of the other language
 
 # (logo, depth in m, name, {lang: (in the mine, in the project)}) -- the descent of the landing page and the guide (D-O-014);

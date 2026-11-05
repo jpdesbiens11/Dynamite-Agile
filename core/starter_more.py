@@ -58,7 +58,7 @@ def default_step(code):
     return step if step in catalog.STEPS else {"A": "01", "B": "07", "C": "13", "D": "19"}[found.group(1)]
 
 
-def parse(raw, usernames=()):
+def parse(raw, usernames=(), req_refs=()):
     """{backlog, deliverables} cleaned; raises ApiError on the first fault, with the path and the fix."""
     from modules.codex import catalog
     backlog, epics, seen = [], set(), set()
@@ -113,16 +113,22 @@ def parse(raw, usernames=()):
             _bad(path + ".sub", "« {} » invalide.".format(sub[:5]), "1 ou 2 chiffres (00).")
         deliverables.append({"doc_type": code, "title": _text(item, "title", path, 150, required=True),
                              "step": step or default_step(code), "sub": sub})
-    return {"backlog": backlog, "deliverables": deliverables}
+    from . import starter_tools  # 0.60.46 (D-O-055): ideation, Pugh Matrix and Kepner-Tregoe
+    return {"backlog": backlog, "deliverables": deliverables, "tools": starter_tools.parse(raw, req_refs)}
 
 
 def counts(clean):
     more = clean.get("more") or {}
     return {"backlog": len(more.get("backlog", [])), "mvps": len({b["mvp"] for b in more.get("backlog", []) if b["mvp"]}),
-            "deliverables": len(more.get("deliverables", []))}
+            "deliverables": len(more.get("deliverables", [])), **_tool_counts(more)}
 
 
-def apply(ctx, project_id, key, more, call):
+def _tool_counts(more):
+    from . import starter_tools
+    return {"tools_" + k: n for k, n in starter_tools.counts(more.get("tools") or {}).items()}
+
+
+def apply(ctx, project_id, key, more, call, req_keys=None):
     """Create the MVP versions, the tickets (epics first) and the Generator references. `call(project_id, body, func)`
     runs a module handler for this Space (starter_apply._as). Returns the counts."""
     from modules.agile import issues, planning
@@ -156,4 +162,8 @@ def apply(ctx, project_id, key, more, call):
                 "step": d["step"]}
         call(project_id, body, registry.api_reserve)
         refs += 1
-    return {"backlog": len(numbers), "mvps": len(versions), "deliverables": refs}
+    made = {}
+    if more.get("tools") and req_keys is not None:  # 0.60.46 (D-O-055)
+        from . import starter_tools
+        made = {"tools_" + k: n for k, n in starter_tools.apply(ctx, project_id, more["tools"], req_keys).items()}
+    return {"backlog": len(numbers), "mvps": len(versions), "deliverables": refs, **made}

@@ -218,3 +218,27 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 #descente .surface { color: var(--ink); background: rgba(255, 255, 255, .9); border-radius: 14px; padding: .6rem 1rem; }
 @media (prefers-reduced-motion: reduce) { .level[data-depth="1000"].in img, .diamonds.in .gems { animation: none; } }
 #descente .shaft .depth { color: color-mix(in srgb, #ffffff calc(var(--deep) * 100%), var(--ink)); text-shadow: 0 1px 2px rgba(0, 0, 0, calc(var(--deep) * .5)); }
+/* 0.60.44 (D-O-053): « Votre ordinateur » -- the commands typed on it follow it */
+.pc-pick { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin: .4rem 0 .2rem; padding: .7rem .9rem;
+  background: #f7f9fc; border: 1.2px dashed rgba(38, 50, 63, .3); border-radius: 10px; }
+.seg { display: inline-flex; border: 1.6px solid var(--ink); border-radius: 999px; overflow: hidden; }
+.seg label { position: relative; padding: .35rem .9rem; cursor: pointer; font-weight: 650; border-left: 1.2px solid rgba(38, 50, 63, .3); }
+.seg label:first-child { border-left: 0; }
+.seg label.on { background: var(--blue); color: #fff; }
+.seg input { position: absolute; opacity: 0; }
+.seg label:focus-within { outline: 3px solid var(--blue); outline-offset: -3px; }
+[data-pc][hidden], [data-vps-cmd][hidden] { display: none !important; }
+/* 0.60.45 (D-O-054): the « Modules » page */
+.mod { margin: 2.5rem 0 3rem; padding-top: 1rem; border-top: 2px dashed rgba(38, 50, 63, .2); }
+.mod h2 { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.mod .mod-logo { width: 2.4rem; height: 2.4rem; }
+.mod .depth { font: 600 .85rem var(--mono, monospace); color: #5b6673; }
+.mod h4 { margin: 1.2rem 0 .2rem; }
+.mod .mvpx { font-style: italic; color: #5b6673; }
+.refs { padding-left: 1.4rem; }
+.refs li { margin: .45rem 0; line-height: 1.45; }
+.refs .why { display: block; color: #5b6673; font-size: .92rem; }
+/* 0.60.46 (D-O-055): the academic example a team loads if it wants */
+.example-space { margin: 3rem 0 2rem; padding: 1.2rem 1.4rem; border: 2px solid var(--g, #2f9e5b); border-radius: var(--r-card, 12px);
+  background: color-mix(in srgb, var(--g, #2f9e5b) 7%, #fff); }
+.example-space .stepper .btn { margin: .3rem .6rem .3rem 0; }

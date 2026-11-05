@@ -75,3 +75,17 @@ l'étape du PDP est celle du type. Les règles sont dans `core/starter_more.py`.
 Un **Space éprouvé** se relit au même format : `GET /api/starter/export?space=KEY` (administrateurs et Admin du Space ;
 ⚙ Admin → Spaces → « Exporter comme modèle (IA) »), et `GET /api/starter/prompt?source=KEY` ajoute ce fichier au prompt comme
 exemple à suivre (⚙ Admin → Spaces → Commencer → « Modèle »). Le fichier relu passe `core/starter.parse`.
+
+
+## Méthodes de conception et exemple Rover (0.60.46, D-O-055)
+
+`tools` (facultatif) remplit les méthodes avec lesquelles le concept a été choisi, dans les outils eux-mêmes :
+`ideation` (Tools → Idéation : une séance de brainstorming et ses idées), `pugh` (Goldmine → Pugh : les concepts, le premier
+étant la référence, les critères pris dans les requirements et besoins du fichier, notés `+`, `S` ou `-`, et la décision) et
+`kt` (Tools → Kepner-Tregoe : alternatives, critères MUST notés 0 ou 1 et WANT pondérés de 1 à 10 notés de 1 à 10, risques
+de 1 à 3, décision). Les règles sont dans `core/starter_tools.py` ; un Space éprouvé les relit (`core/starter_export_tools.py`).
+
+L'exemple académique complet **Rover** (véhicule autonome sur une auto téléguidée, Raspberry Pi, application web) est
+`deploy/spaces_exemples/rover.json`, écrit par `tools/make_rover_example.py` à partir de `tools/rover/`. Il ne fait **pas**
+partie de la plateforme (D-O-050) : le site le publie sur la page d'installation (`site/spaces/rover.json`), et une équipe le
+charge si elle le veut, par Commencer.

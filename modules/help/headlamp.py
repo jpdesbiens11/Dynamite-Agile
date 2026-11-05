@@ -261,8 +261,9 @@ def api_status(ctx):
         steps[n] = {"key": "{}-{}".format(KEY, r["number"]), "number": r["number"], "status": r["status"]}
     for chapter, t in by_chapter.items():  # 0.47.0: the Help screen finds the exercise by chapter, whatever its number
         t["status"] = next((s["status"] for s in steps.values() if s["number"] == t["number"]), "")
+    from . import module_docs_pages  # 0.60.45 (D-O-054): the module documentation pages, for the Help screen
     return {"project": {"id": pid, "key": KEY, "name": NAME}, "role": role, "member": role is not None, "steps": steps,
-            "by_chapter": by_chapter}
+            "by_chapter": by_chapter, "docs": module_docs_pages.ids(ctx.conn)}
 
 
 def api_join(ctx):

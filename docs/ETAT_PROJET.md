@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.43)
-**Version :** 0.60.43 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** 0.60.43 (demande de JP du 2026-11-05) : Project Starter complet et Space éprouvé comme modèle
+**Dernière mise à jour :** 2026-11-04 (v0.60.46)
+**Version :** 0.60.46 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** 0.60.46 (demande de JP du 2026-11-05) : exemple académique Rover, à charger depuis le portail d'installation
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -62,7 +62,16 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.43)
+## Relais (fin de 0.60.46)
+
+- Exemple Rover (D-O-055) : `tools/rover/` (contenu), `tools/make_rover_example.py` → `deploy/spaces_exemples/rover.json` (relancer après chaque changement ; le test compare). Format `tools` : `core/starter_tools.py`, relu par `core/starter_export_tools.py`.
+
+
+- Documentation des modules (D-O-054) : `modules/help/module_docs*.py` (texte, références), `module_docs_pages.py` (HeadLamp), `tools/site_modules.py` (site). Pour ajouter un module : une entrée dans MODULES, ses références dans REFS.
+
+
+- Installation (D-O-053) : `deploy/install.sh --local`, page `tools/site/installation.html` (dest online/local/windows, pc win/mac/linux), `install.js`. Suit : documentation par module avec références (0.60.45).
+
 
 - Project Starter complet (D-O-052) : `core/starter_more.py` (backlog, deliverables), `core/starter_export.py` + `starter_export_more.py` (Space → fichier), `starter_prompt.render(proven=)`. Suit : documentation par module (0.60.44).
 

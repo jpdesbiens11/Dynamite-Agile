@@ -1,11 +1,32 @@
-# Journal de mise à jour — 0.60.43
+# Journal de mise à jour — 0.60.46
+
+- **Version :** 0.60.45 → 0.60.46 (2026-11-04)
+- **Changements :**
+  1. **Exemple académique Rover** (D-O-055) : tous les modules remplis et documentés, à charger depuis la page d'installation ; idéation, Pugh et Kepner-Tregoe dans le Project Starter.
+- **Base de données :** []
+
+## Précédent
+
+### Journal de mise à jour — 0.60.45
+
+- **Version :** 0.60.44 → 0.60.45 (2026-11-04)
+- **Changements :**
+  1. **Documentation des modules** (D-O-054) : pourquoi, besoin, pas à pas, MVP 0 à MVP x et références, dans HeadLamp et sur le site.
+- **Base de données :** []
+
+### Journal de mise à jour — 0.60.44
+
+- **Version :** 0.60.43 → 0.60.44 (2026-11-04)
+- **Changements :**
+  1. **Installation selon l'endroit et l'ordinateur** (D-O-053) : VPS, serveur local sans Internet ou PC Windows ; commandes Windows, macOS ou Linux ; install.sh --local.
+- **Base de données :** []
+
+### Journal de mise à jour — 0.60.43
 
 - **Version :** 0.60.42 → 0.60.43 (2026-11-04)
 - **Changements :**
   1. **Project Starter complet** (D-O-052) : backlog Agile par MVP et livrables du Generator ; un Space éprouvé sert de modèle à l'IA.
 - **Base de données :** []
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.42
 

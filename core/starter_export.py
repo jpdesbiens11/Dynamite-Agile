@@ -146,6 +146,11 @@ def build(conn, row):
     data["diamond"] = more.diamond(conn, pid, {t["_code"]: t["ref"] for t in tests}, usernames, MAX)
     data["backlog"] = more.backlog(conn, pid, usernames, MAX["backlog"])
     data["deliverables"] = more.deliverables(conn, pid, MAX["deliverables"])
+    from . import starter_export_tools  # 0.60.46 (D-O-055): ideation, Pugh, Kepner-Tregoe
+    issues = {r["id"]: "R{}".format(r["number"]) for r in conn.execute(
+        "SELECT i.id, i.number FROM agile_issues i JOIN agile_requirements r ON r.issue_id = i.id WHERE i.project_id = ?", (pid,))}
+    exported = {r["ref"] for r in data["requirements"]}
+    data["tools"] = starter_export_tools.tools(conn, pid, {k: v for k, v in issues.items() if v in exported})
     return data
 
 
