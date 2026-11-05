@@ -1,0 +1,29 @@
+{
+  "version": "0.60.47",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Bouton « Partager » en haut de chaque page du site (FR et EN) : la page en cours, avec son onglet (par exemple l'installation sur serveur local) ; au téléphone, la feuille de partage du téléphone ; à l'ordinateur, copier le lien, courriel, texto, WhatsApp, LinkedIn, Facebook ou X.",
+    "en": "« Share » button at the top of every page of the website (FR and EN): the current page, with its tab (for example the local-server installation); on a phone, the phone's share sheet; on a computer, copy the link, email, text message, WhatsApp, LinkedIn, Facebook or X."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Partager une page du site (D-O-056)",
+      "why": "Les amis se passent le site ou une sous-page précise (la procédure d'installation) sans recopier l'adresse ; de simples liens, rien n'est chargé des réseaux sociaux avant le clic.",
+      "files": [
+        "tools/build_site.py",
+        "tools/site_text.py",
+        "tools/site/site.js",
+        "tools/site/site.css"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Tests",
+      "why": "tests/test_site_share.py : le bouton sur les 10 pages, la page en cours avec son ancre, aucun script ni image d'un réseau social.",
+      "files": [
+        "tests/test_site_share.py"
+      ]
+    }
+  ]
+}

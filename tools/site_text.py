@@ -16,6 +16,12 @@ LATEST = {
 }
 NAV = {"fr": ("Accueil", "Installation", "Guide", "Modules", "Versions"),
        "en": ("Home", "Installation", "Guide", "Modules", "Versions")}  # 0.60.12; 0.60.45: Modules
+# 0.60.47 (D-O-056): the share button of the top bar -- (button, title of the menu, copy, copied, email, text message,
+# the message that goes with the link)
+SHARE = {"fr": ("Partager", "Partager cette page", "Copier le lien", "Lien copié ✓", "Courriel", "Texto",
+                "DynamiteAgile : un outil libre pour développer un produit, du besoin au lancement. Regarde :"),
+         "en": ("Share", "Share this page", "Copy the link", "Link copied ✓", "Email", "Text message",
+                "DynamiteAgile: a free tool to develop a product, from need to launch. Have a look:")}
 SWITCH = {"fr": ("EN", "English", "en"), "en": ("FR", "Français", "fr")}  # (label, title, hreflang) of the other language
 
 # (logo, depth in m, name, {lang: (in the mine, in the project)}) -- the descent of the landing page and the guide (D-O-014);

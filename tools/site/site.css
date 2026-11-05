@@ -242,3 +242,16 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .example-space { margin: 3rem 0 2rem; padding: 1.2rem 1.4rem; border: 2px solid var(--g, #2f9e5b); border-radius: var(--r-card, 12px);
   background: color-mix(in srgb, var(--g, #2f9e5b) 7%, #fff); }
 .example-space .stepper .btn { margin: .3rem .6rem .3rem 0; }
+/* 0.60.47 (D-O-056): « Partager » in the top bar */
+.share-btn { display: inline-flex; align-items: center; gap: .35rem; margin-left: .2rem; padding: .3rem .6rem; border: 2px solid var(--ink);
+  border-radius: 6px; background: transparent; color: var(--ink); font: 600 .9rem var(--font, inherit); cursor: pointer; }
+.share-btn .ico { width: 1.05rem; height: 1.05rem; }
+.share-btn:hover, .share-btn:focus-visible, .share-btn[aria-expanded="true"] { background: var(--y, #ffd23f); }
+.share-menu { position: absolute; top: calc(100% - .3rem); right: clamp(1rem, 4vw, 3rem); z-index: 30; display: grid; min-width: 12rem;
+  padding: .35rem; background: #fff; border: 2px solid var(--ink); border-radius: 10px; box-shadow: 4px 4px 0 rgba(38, 50, 63, .25); }
+.share-menu[hidden] { display: none; }
+.share-item { display: block; padding: .5rem .7rem; border: 0; border-radius: 6px; background: none; color: var(--ink); font: inherit;
+  text-align: left; text-decoration: none; cursor: pointer; }
+.share-item:hover, .share-item:focus-visible { background: color-mix(in srgb, var(--y, #ffd23f) 55%, #fff); outline: none; }
+@media (max-width: 720px) { .share-btn span { display: none; } .share-menu { right: 1rem; } }
+@media (max-width: 480px) { .top .gh { display: none; } }  /* GitHub stays in the footer; the top bar keeps one line */

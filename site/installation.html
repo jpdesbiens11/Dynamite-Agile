@@ -440,6 +440,19 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .example-space { margin: 3rem 0 2rem; padding: 1.2rem 1.4rem; border: 2px solid var(--g, #2f9e5b); border-radius: var(--r-card, 12px);
   background: color-mix(in srgb, var(--g, #2f9e5b) 7%, #fff); }
 .example-space .stepper .btn { margin: .3rem .6rem .3rem 0; }
+/* 0.60.47 (D-O-056): « Partager » in the top bar */
+.share-btn { display: inline-flex; align-items: center; gap: .35rem; margin-left: .2rem; padding: .3rem .6rem; border: 2px solid var(--ink);
+  border-radius: 6px; background: transparent; color: var(--ink); font: 600 .9rem var(--font, inherit); cursor: pointer; }
+.share-btn .ico { width: 1.05rem; height: 1.05rem; }
+.share-btn:hover, .share-btn:focus-visible, .share-btn[aria-expanded="true"] { background: var(--y, #ffd23f); }
+.share-menu { position: absolute; top: calc(100% - .3rem); right: clamp(1rem, 4vw, 3rem); z-index: 30; display: grid; min-width: 12rem;
+  padding: .35rem; background: #fff; border: 2px solid var(--ink); border-radius: 10px; box-shadow: 4px 4px 0 rgba(38, 50, 63, .25); }
+.share-menu[hidden] { display: none; }
+.share-item { display: block; padding: .5rem .7rem; border: 0; border-radius: 6px; background: none; color: var(--ink); font: inherit;
+  text-align: left; text-decoration: none; cursor: pointer; }
+.share-item:hover, .share-item:focus-visible { background: color-mix(in srgb, var(--y, #ffd23f) 55%, #fff); outline: none; }
+@media (max-width: 720px) { .share-btn span { display: none; } .share-menu { right: 1rem; } }
+@media (max-width: 480px) { .top .gh { display: none; } }  /* GitHub stays in the footer; the top bar keeps one line */
 
 </style>
 </head>
@@ -475,6 +488,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   <a class="logo" href="index.html"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="4" fill="#ffd23f" stroke="#26323f" stroke-width="2"/><path d="M18 6 L11 17 H16 L14 26 L22 14 H17 Z" fill="none" stroke="#26323f" stroke-width="2" stroke-linejoin="round"/></svg><span class="logo-word" role="img" aria-label="Dynamite Agile"><span class="lw-d">Dynamite</span><span class="lw-a">Agile</span></span></a>
   <nav aria-label="Pages"><a href="index.html">Accueil</a><a href="installation.html" class="on" aria-current="page">Installation</a><a href="guide.html">Guide</a><a href="modules.html">Modules</a><a href="versions.html">Versions</a></nav>
   <a class="lang" href="en/installation.html" hreflang="en" lang="en" title="English">EN</a>
+  <button type="button" class="share-btn" data-new="0.60.47-site-share" data-t="[&quot;Partager&quot;, &quot;Partager cette page&quot;, &quot;Copier le lien&quot;, &quot;Lien copié ✓&quot;, &quot;Courriel&quot;, &quot;Texto&quot;, &quot;DynamiteAgile : un outil libre pour développer un produit, du besoin au lancement. Regarde :&quot;]" aria-haspopup="true" aria-expanded="false"><svg class="ico" aria-hidden="true"><use href="#i-share"/></svg><span>Partager</span></button>
   <a class="btn btn-primary gh" href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a>
 </header>
 <main class="page install wizard" data-new="0.60.39-install-5">
@@ -482,7 +496,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   <h1>Installer DynamiteAgile</h1>
   <p class="lead">Cinq étapes, de haut en bas. Chaque commande se copie d'un clic, et une étiquette dit <b>où</b> la coller :
     <span class="where pc">sur votre ordinateur</span> ou <span class="where srv">sur le serveur</span>.</p>
-  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Dernière version : 0.60.46</b> · 2026-11-04 — Exemple académique complet « Rover » : un petit véhicule autonome sur une auto téléguidée tout-terrain, piloté par un Raspberry Pi et une application web, qui contourne lentement les obstacles. Tous les modules sont remplis et documentés de MVP 0 à MVP 3. Il ne s&#x27;installe jamais tout seul : la page d&#x27;installation le propose en téléchargement, et une équipe le charge si elle le veut (Commencer). Le format Project Starter reçoit les méthodes de conception (idéation, Pugh, Kepner-Tregoe). <a href="versions.html">Voir toutes les versions →</a><br>Déjà installé ? ⚙ Admin → Update → « Mise à jour en ligne » : vérifier, lire, approuver, suivre en direct.</p>
+  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Dernière version : 0.60.47</b> · 2026-11-04 — Bouton « Partager » en haut de chaque page du site (FR et EN) : la page en cours, avec son onglet (par exemple l&#x27;installation sur serveur local) ; au téléphone, la feuille de partage du téléphone ; à l&#x27;ordinateur, copier le lien, courriel, texto, WhatsApp, LinkedIn, Facebook ou X. <a href="versions.html">Voir toutes les versions →</a><br>Déjà installé ? ⚙ Admin → Update → « Mise à jour en ligne » : vérifier, lire, approuver, suivre en direct.</p>
 
   <div class="progress-bar" aria-live="polite"><div class="track"><i></i></div><span id="progress-text">0 étape faite</span></div>
 
@@ -769,7 +783,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       <code>python C:\DynamiteAgile\app_dynamite_agile.py --reset-password admin</code></td></tr>
     <tr><td>Passer de l'essai à l'équipe</td><td>Refaites le parcours « Sur un serveur en ligne » : la même commande avec votre domaine</td></tr></table>
 </main>
-<footer>DynamiteAgile · logiciel libre sous licence MIT · version 0.60.46 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>DynamiteAgile · logiciel libre sous licence MIT · version 0.60.47 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */
@@ -852,6 +866,53 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     }), { threshold: .5 });
     to.observe(term);
   }
+})();
+
+/* 0.60.47 (D-O-056): « Partager » in the top bar -- the page being read, with its anchor (#local, #exemple…). On a phone,
+   the system share sheet; elsewhere a small menu: copy the link, email, text message, WhatsApp, LinkedIn, Facebook, X
+   (Messenger through the phone's sheet). Plain links: nothing is loaded from those sites until the person clicks. */
+(function () {
+  "use strict";
+  const button = document.querySelector(".share-btn");
+  if (!button) return;
+  const [label, title, copy, copied, email, sms, message] = JSON.parse(button.dataset.t);
+  const url = () => location.href;
+  const enc = encodeURIComponent;
+  const menu = document.createElement("div");
+  menu.className = "share-menu"; menu.hidden = true; menu.setAttribute("role", "menu"); menu.setAttribute("aria-label", title);
+  function item(text, href) {
+    const a = document.createElement(href ? "a" : "button");
+    a.className = "share-item"; a.textContent = text; a.setAttribute("role", "menuitem");
+    if (href) { a.target = "_blank"; a.rel = "noopener"; a.addEventListener("click", () => { a.href = href(); close(); }); }
+    else a.type = "button";
+    menu.append(a);
+    return a;
+  }
+  const copyItem = item(copy);
+  copyItem.addEventListener("click", () => {
+    const done = () => { copyItem.textContent = copied; setTimeout(() => { copyItem.textContent = copy; close(); }, 1200); };
+    if (navigator.clipboard) navigator.clipboard.writeText(url()).then(done, done); else done();
+  });
+  item(email, () => "mailto:?subject=" + enc(document.title) + "&body=" + enc(message + " " + url()));
+  item(sms, () => "sms:?&body=" + enc(message + " " + url()));
+  item("WhatsApp", () => "https://wa.me/?text=" + enc(message + " " + url()));
+  item("LinkedIn", () => "https://www.linkedin.com/sharing/share-offsite/?url=" + enc(url()));
+  item("Facebook", () => "https://www.facebook.com/sharer/sharer.php?u=" + enc(url()));
+  item("X", () => "https://x.com/intent/post?text=" + enc(message) + "&url=" + enc(url()));
+  button.after(menu);
+  function close() { menu.hidden = true; button.setAttribute("aria-expanded", "false"); }
+  function open() { menu.hidden = false; button.setAttribute("aria-expanded", "true"); menu.querySelector(".share-item").focus(); }
+  button.addEventListener("click", async (ev) => {
+    ev.stopPropagation();
+    const phone = window.matchMedia("(pointer: coarse)").matches;
+    if (phone && navigator.share) {
+      try { await navigator.share({ title: document.title, text: message, url: url() }); return; } catch (err) { if (err && err.name === "AbortError") return; }
+    }
+    if (menu.hidden) open(); else close();
+  });
+  document.addEventListener("click", (ev) => { if (!menu.hidden && !menu.contains(ev.target)) close(); });
+  document.addEventListener("keydown", (ev) => { if (ev.key === "Escape" && !menu.hidden) { close(); button.focus(); } });
+  button.title = title;
 })();
 
 </script>

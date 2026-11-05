@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.46)
-**Version :** 0.60.46 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** 0.60.46 (demande de JP du 2026-11-05) : exemple académique Rover, à charger depuis le portail d'installation
+**Dernière mise à jour :** 2026-11-04 (v0.60.47)
+**Version :** 0.60.47 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** 0.60.47 (demande de JP du 2026-11-05) : bouton Partager sur le site
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -62,7 +62,10 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.46)
+## Relais (fin de 0.60.47)
+
+- Partager sur le site (D-O-056) : `build_site._share`, textes `site_text.SHARE`, menu dans `tools/site/site.js`.
+
 
 - Exemple Rover (D-O-055) : `tools/rover/` (contenu), `tools/make_rover_example.py` → `deploy/spaces_exemples/rover.json` (relancer après chaque changement ; le test compare). Format `tools` : `core/starter_tools.py`, relu par `core/starter_export_tools.py`.
 
