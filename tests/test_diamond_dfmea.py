@@ -70,7 +70,7 @@ class DfmeaApiTest(unittest.TestCase):
         self.assertEqual((rows[0]["rpn"], rows[0]["ap"], rows[0]["function_text"], rows[0]["risk_number"]),
                          (140, "M", "Dissiper la chaleur des DEL", 1))
         self.assertTrue(all(r["function_id"] for r in rows))
-        self.assertTrue(any("pas encore analysée" in c for c in data["checks"]))
+        self.assertTrue(any("sans ligne" in c for c in data["checks"]))
         added = self.admin.post(self.base(self.lamp) + "/from-tree", {})
         self.assertGreater(added["added"], 0)
         self.assertFalse(any("pas encore analysée" in c for c in added["checks"]))

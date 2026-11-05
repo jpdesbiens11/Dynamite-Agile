@@ -1,0 +1,86 @@
+{
+  "version": "0.60.28",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "DFMEA complet dès « Commencer » : une ligne pour chaque fonction, l'essai clé le plus pertinent de la Test Base sur chaque ligne, les bonnes pratiques de l'industrie énumérées en prévention, « Rien à signaler » seulement justifié ; le Space étoilé ouvre chaque onglet ; About enrichi.",
+    "en": "A complete DFMEA from « Commencer »: a row for every function, the most relevant key test of the Test Base on every row, the industry good practices listed in prevention, « Rien à signaler » only when justified; the starred Space opens every tab; a richer About."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Aucune fonction oubliée dans le DFMEA (D-O-037)",
+      "why": "« Commencer » et le nouveau bouton « Compléter le DFMEA » ajoutent une ligne à chaque fonction sans ligne (primaire, secondaires, tertiaires, techniques et fonctions hors arbre) : perte, partielle, intermittente ou non voulue, à préciser ; une fonction mère renvoie aux lignes de ses enfants.",
+      "files": [
+        "modules/diamond/dfmea_complete.py",
+        "modules/diamond/dfmea.py",
+        "modules/diamond/__init__.py",
+        "static/js/diamond/dfmea.js"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "L'essai clé relié tout seul",
+      "why": "Chaque ligne sans essai reçoit l'essai le plus pertinent : le sujet d'essai appelé par la fonction (sécurité électrique, thermique, CEM, logiciel, mécanique…), puis les mots partagés ; la Test Base du Space d'abord, le catalogue ensuite. Les choix du fichier restent.",
+      "files": [
+        "modules/diamond/dfmea_complete.py",
+        "core/starter_diamond.py"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Les bonnes pratiques de l'industrie en prévention",
+      "why": "Prevention Controls énumère, par thème, les pratiques de conception reconnues (distances d'isolement et lignes de fuite, derating, facteur de sécurité, analyse de tolérances, watchdog, IEC 62366-1, DFM / DFA…) et quatre pratiques pour toute fonction, après le texte de l'équipe : pour former les jeunes ingénieurs et garder la mémoire des anciens.",
+      "files": [
+        "modules/diamond/dfmea_practices.py",
+        "static/js/diamond/dfmea_table.js",
+        "static/css/diamond_dfmea.css"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "« Rien à signaler » (RAS), seulement justifié",
+      "why": "RAS, « rien à signaler » ou N/A deviennent « Rien à signaler (RAS) » ; sans justification dans Failure Effect, le Project Starter refuse et le DFMEA le signale ; avec justification, un rappel : officiellement, toute fonction peut tomber en panne.",
+      "files": [
+        "modules/diamond/dfmea_practices.py",
+        "modules/diamond/dfmea.py",
+        "core/starter_diamond.py",
+        "tools/site/starter.md",
+        "tools/site/en/starter.md"
+      ]
+    },
+    {
+      "id": "C5",
+      "title": "Le Space étoilé ouvre chaque onglet",
+      "why": "Au changement d'onglet, le Space par défaut (★) gagne sur le dernier Space visité : un téléphone garde son onglet de navigateur des jours durant.",
+      "files": [
+        "static/js/tools/spaces.js",
+        "tests/test_space_follow.py"
+      ]
+    },
+    {
+      "id": "C6",
+      "title": "About : l'auteur, vanille puis personnalisable, merci",
+      "why": "25 ans de pratique et la formation en méthodologie de conception de l'Université de Sherbrooke ; outils vanille mis à jour par GitHub et Update, 100 % personnalisables avec Claude Opus ; merci aux collègues de carrière.",
+      "files": [
+        "static/js/about/about.js"
+      ]
+    },
+    {
+      "id": "C7",
+      "title": "Version 0.60.28, tests et documentation",
+      "why": "tests/test_dfmea_complete.py ; décision, état du projet, journal, fiche de version.",
+      "files": [
+        "tests/test_dfmea_complete.py",
+        "tests/test_starter_diamond.py",
+        "tests/test_diamond_dfmea.py",
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.28.json",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}

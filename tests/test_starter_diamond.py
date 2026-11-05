@@ -54,7 +54,7 @@ class StarterDiamondTest(unittest.TestCase):
     def test_01_created(self):
         c = self.result["counts"]
         self.assertEqual((c["diamond_functions"], c["diamond_ports"], c["diamond_flows"], c["diamond_parts"], c["diamond_risks"],
-                          c["diamond_dfmea"]), (21, 6, 32, 11, 9, 7))
+                          c["diamond_dfmea"]), (21, 6, 32, 11, 9, 22))  # 0.60.28: one row per function
         base = "/api/diamond/p/{}".format(self.pid)
         tree = self.admin.get(base + "/functions")
         self.assertEqual(tree["functions"][0]["text"] if tree["functions"][0]["is_primary"] else
@@ -64,10 +64,11 @@ class StarterDiamondTest(unittest.TestCase):
         self.assertEqual(s["part_stats"]["integrated"], 4)
         d = self.admin.get(base + "/dfmea")
         rows = d.get("rows") or d.get("items") or []
-        self.assertEqual(len(rows), 7)
+        self.assertEqual(len(rows), 22)  # 0.60.28 (D-O-037): the 7 rows of the file, then one per other function
         self.assertTrue(all(r["function_id"] for r in rows))
-        self.assertEqual(sum(1 for r in rows if r["test_id"]), 6)  # 0.60.24: the key tests of the file
-        self.assertTrue(all(r["test_space"] == "LAMPE" for r in rows if r["test_id"]))
+        self.assertEqual(len({r["function_id"] for r in rows}), 21)  # no function skipped, the esteem one included
+        self.assertTrue(all(r["test_id"] for r in rows))  # every row with its key test
+        self.assertTrue(all(r["test_space"] == "LAMPE" for r in rows[:7] if r["test_id"]))  # the file's choices kept
         with db.connect() as conn:
             note = conn.execute("SELECT notes FROM diamond_functions WHERE project_id = ? AND number = 2", (self.pid,)).fetchone()["notes"]
         self.assertIn("Brouillon IA", note)

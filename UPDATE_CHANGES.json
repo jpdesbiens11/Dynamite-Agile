@@ -2,44 +2,77 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Les grands écrans restent pour l'ordinateur (D-O-036)",
-      "why": "Sur un téléphone, Diamond, Exploration (Gantt) et Tools montrent une note « sur un ordinateur » et des liens vers ce qui se fait au téléphone ; le menu ☰ les marque « 💻 ordinateur ».",
+      "title": "Aucune fonction oubliée dans le DFMEA (D-O-037)",
+      "why": "« Commencer » et le nouveau bouton « Compléter le DFMEA » ajoutent une ligne à chaque fonction sans ligne (primaire, secondaires, tertiaires, techniques et fonctions hors arbre) : perte, partielle, intermittente ou non voulue, à préciser ; une fonction mère renvoie aux lignes de ses enfants.",
       "files": [
-        "static/js/tools/mobile_views.js",
-        "static/css/mobile.css"
+        "modules/diamond/dfmea_complete.py",
+        "modules/diamond/dfmea.py",
+        "modules/diamond/__init__.py",
+        "static/js/diamond/dfmea.js"
       ]
     },
     {
       "id": "C2",
-      "title": "Goldmine, Testing, feuille de temps : des cartes, une à la fois",
-      "why": "Chaque ligne de tableau devient une carte avec le nom de ses colonnes, l'une sous l'autre ; une carte de Goldmine ou de Testing s'ouvre d'un toucher ; seules les colonnes utiles en déplacement restent ; les filtres se replient derrière « Filtres (n) » ; les barres d'export et d'import sont cachées.",
+      "title": "L'essai clé relié tout seul",
+      "why": "Chaque ligne sans essai reçoit l'essai le plus pertinent : le sujet d'essai appelé par la fonction (sécurité électrique, thermique, CEM, logiciel, mécanique…), puis les mots partagés ; la Test Base du Space d'abord, le catalogue ensuite. Les choix du fichier restent.",
       "files": [
-        "static/js/tools/mobile_views.js",
-        "static/css/mobile.css"
+        "modules/diamond/dfmea_complete.py",
+        "core/starter_diamond.py"
       ]
     },
     {
       "id": "C3",
-      "title": "Dynamite au téléphone : créer, avec l'IA, partager",
-      "why": "Une barre en bas de l'écran : « + Page », « ✨ Avec l'IA » (ouvre une page neuve et l'import d'un agent IA), « Partager » (la feuille de partage du téléphone, ou le lien copié) ; page compacte (Modifier et + Sous-page), arbre des pages court.",
+      "title": "Les bonnes pratiques de l'industrie en prévention",
+      "why": "Prevention Controls énumère, par thème, les pratiques de conception reconnues (distances d'isolement et lignes de fuite, derating, facteur de sécurité, analyse de tolérances, watchdog, IEC 62366-1, DFM / DFA…) et quatre pratiques pour toute fonction, après le texte de l'équipe : pour former les jeunes ingénieurs et garder la mémoire des anciens.",
       "files": [
-        "static/js/tools/mobile_views.js",
-        "static/css/mobile.css",
-        "static/index.html",
-        "tests/test_mobile_views.py"
+        "modules/diamond/dfmea_practices.py",
+        "static/js/diamond/dfmea_table.js",
+        "static/css/diamond_dfmea.css"
       ]
     },
     {
       "id": "C4",
-      "title": "Version 0.60.27 et documentation",
-      "why": "Décision, état du projet, journal, fiche de version.",
+      "title": "« Rien à signaler » (RAS), seulement justifié",
+      "why": "RAS, « rien à signaler » ou N/A deviennent « Rien à signaler (RAS) » ; sans justification dans Failure Effect, le Project Starter refuse et le DFMEA le signale ; avec justification, un rappel : officiellement, toute fonction peut tomber en panne.",
       "files": [
+        "modules/diamond/dfmea_practices.py",
+        "modules/diamond/dfmea.py",
+        "core/starter_diamond.py",
+        "tools/site/starter.md",
+        "tools/site/en/starter.md"
+      ]
+    },
+    {
+      "id": "C5",
+      "title": "Le Space étoilé ouvre chaque onglet",
+      "why": "Au changement d'onglet, le Space par défaut (★) gagne sur le dernier Space visité : un téléphone garde son onglet de navigateur des jours durant.",
+      "files": [
+        "static/js/tools/spaces.js",
+        "tests/test_space_follow.py"
+      ]
+    },
+    {
+      "id": "C6",
+      "title": "About : l'auteur, vanille puis personnalisable, merci",
+      "why": "25 ans de pratique et la formation en méthodologie de conception de l'Université de Sherbrooke ; outils vanille mis à jour par GitHub et Update, 100 % personnalisables avec Claude Opus ; merci aux collègues de carrière.",
+      "files": [
+        "static/js/about/about.js"
+      ]
+    },
+    {
+      "id": "C7",
+      "title": "Version 0.60.28, tests et documentation",
+      "why": "tests/test_dfmea_complete.py ; décision, état du projet, journal, fiche de version.",
+      "files": [
+        "tests/test_dfmea_complete.py",
+        "tests/test_starter_diamond.py",
+        "tests/test_diamond_dfmea.py",
         "core/__init__.py",
         "CLAUDE.md",
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.27.json",
+        "docs/releases/0.60.28.json",
         "tests/test_open_v060.py"
       ]
     }

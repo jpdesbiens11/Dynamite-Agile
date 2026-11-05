@@ -32,6 +32,7 @@ table.dm-fm th.dm-fm-narrow { min-width: 3.4rem; text-align: center; }
   padding: .2rem .3rem; border: 1px solid transparent; border-radius: 4px; background: transparent; color: var(--ink); resize: vertical; }
 .dm-fm-c select { min-width: 3.4rem; }
 .dm-fm-k-function_id select { min-width: 12rem; }
+.dm-fm-k-prevention textarea { min-width: 24rem; font-size: .78rem; line-height: 1.35; }  /* 0.60.28: the good practices, one per line */
 .dm-fm-c :is(input, textarea, select):hover { border-color: var(--line); }
 .dm-fm-c :is(input, textarea, select):focus { border-color: var(--acc); background: var(--surface); outline: none; }
 .dm-fm-same :is(input, textarea) { color: var(--muted); }

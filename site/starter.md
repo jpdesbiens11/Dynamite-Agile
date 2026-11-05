@@ -154,7 +154,11 @@ marqué « Brouillon IA ». Montrez chaque proposition en tableau ou en liste in
     probabilité et impact de 1 à 5, stratégie, action), puis 4 à 8 premières lignes de **DFMEA** sur les fonctions les
     plus critiques (élément, fonction, mode de défaillance, effet et sévérité S, cause et occurrence O, contrôles et
     détection D, de 1 à 10) ; pour chaque ligne, proposez **un seul essai clé** de la liste des essais (question 18) qui détecte
-    la défaillance, même si plusieurs le pourraient.
+    la défaillance, même si plusieurs le pourraient. **Aucune fonction n'est oubliée** : officiellement, toute fonction peut
+    tomber en panne. « Rien à signaler » (`"failure_mode": "RAS"`) n'est permis que si l'équipe le choisit, avec la
+    justification dans `effect`. Dans `prevention`, nommez les bonnes pratiques de conception propres à ce produit ;
+    « Commencer » ajoute ensuite une ligne à chaque fonction sans ligne, relie l'essai clé le plus pertinent à chaque ligne
+    qui n'en a pas et énumère les bonnes pratiques de l'industrie en prévention.
 
 Récapitulez le bloc 5 : nombre de fonctions par niveau, d'entrées, de sorties, de flux par vue, de pièces, de risques et
 de lignes de DFMEA.

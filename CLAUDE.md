@@ -64,6 +64,8 @@
   Échap pour annuler (pièces d'une fonction, colonnes du DFMEA).
 - **0.60.27** (2026-11-04) : **téléphone, l'essentiel** (D-O-036, `static/js/tools/mobile_views.js`) : Goldmine / Testing / Timesheet en cartes,
   Dynamite « + Page / ✨ Avec l'IA / Partager », Diamond, Gantt et Tools pour l'ordinateur.
+- **0.60.28** (2026-11-04) : **DFMEA complet** (D-O-037, `modules/diamond/dfmea_complete.py`, `dfmea_practices.py`) : une ligne par fonction, essai clé relié,
+  bonnes pratiques de l'industrie en prévention, RAS justifié ; Space étoilé d'abord (`DA.spaces.workKey`) ; About enrichi.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

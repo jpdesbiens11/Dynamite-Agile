@@ -19,12 +19,13 @@ from core.errors import ApiError
 from core.files import RawFile
 
 from . import dfmea_ap as AP
+from . import dfmea_practices as GP
 from . import functions as F
 from . import structure as S
 
 TEXTS = {"higher": ("Higher-Level Element", 160), "focus": ("Focus Element", 160), "lower": ("Lower-Level Element", 160),
          "requirement": ("Requirement / Characteristic", 400), "failure_mode": ("Failure Mode", 400),
-         "effect": ("Failure Effect", 400), "cause": ("Failure Cause", 400), "prevention": ("Prevention Controls", 400),
+         "effect": ("Failure Effect", 400), "cause": ("Failure Cause", 400), "prevention": ("Prevention Controls", 4000),
          "detection_ctrl": ("Detection Controls", 400), "action": ("Actions", 600)}
 RATINGS = {"severity": "Severity (S)", "occurrence": "Occurrence (O)", "detection": "Detection (D)"}
 COLUMNS = ["higher", "focus", "lower", "function_id", "requirement", "failure_mode", "effect", "severity", "cause",
@@ -50,8 +51,9 @@ def _rows(conn, pid):
 def _tree_functions(conn, pid):
     items = F.rows(conn, pid)
     lv, tree = F.levels(items), F.in_tree(items)
-    return [{"id": f["id"], "number": f["number"], "text": f["text"], "level": lv[f["id"]], "ftype": f["ftype"], "parent_id": f["parent_id"]}
-            for f in sorted(items, key=lambda f: (lv[f["id"]], f["position"], f["number"])) if f["id"] in tree]
+    # 0.60.28 (D-O-037): the functions outside the tree (estime) too -- every function can fail, none is skipped
+    return [{"id": f["id"], "number": f["number"], "text": f["text"], "level": lv[f["id"]], "ftype": f["ftype"], "parent_id": f["parent_id"],
+             "in_tree": f["id"] in tree} for f in sorted(items, key=lambda f: (f["id"] not in tree, lv[f["id"]], f["position"], f["number"]))]
 
 
 CATALOGUE = "TESTING"
@@ -69,12 +71,13 @@ def tests(conn, pid):
 def checks(conn, pid, rows):
     out = []
     if not rows:
-        return ["DFMEA vide : « Depuis l'arbre » crée une ligne par fonction ; décrivez ensuite comment chacune peut faillir."]
+        return ["DFMEA vide : « Compléter le DFMEA » crée une ligne par fonction de l'arbre, avec son essai clé et les bonnes "
+                "pratiques de prévention ; décrivez ensuite comment chacune peut faillir."]
     nofn = [r for r in rows if not r["function_id"]]
     if nofn:
         out.append("Ligne(s) {} sans fonction de l'arbre : le DFMEA reprend les fonctions de l'arbre fonctionnel.".format(
             ", ".join(str(r["line"]) for r in nofn[:10])))
-    unrated = [r for r in rows if r["failure_mode"] and not r["ap"]]
+    unrated = [r for r in rows if r["failure_mode"] and r["failure_mode"] != GP.RAS and not r["ap"]]
     if unrated:
         out.append("Ligne(s) {} : mode de défaillance sans cotation S, O et D complète.".format(", ".join(str(r["line"]) for r in unrated[:10])))
     high = [r for r in rows if r["ap"] == "H" and not r["action"].strip()]
@@ -85,11 +88,21 @@ def checks(conn, pid, rows):
     if severe:
         out.append("Ligne(s) {} : sévérité 9-10 (sécurité ou norme) avec une occurrence de 4 ou plus — revoir la conception, "
                    "pas seulement la détection.".format(", ".join(str(r["line"]) for r in severe[:10])))
-    view_nodes, _items = S.nodes(conn, pid)
+    ras = [r for r in rows if r["failure_mode"] == GP.RAS]  # 0.60.28 (D-O-037): every function can fail, RAS is justified
+    if [r for r in ras if not r["effect"].strip()]:
+        out.append("Ligne(s) {} : « Rien à signaler » sans justification — écrivez dans Failure Effect pourquoi cette fonction "
+                   "ne peut pas faillir.".format(", ".join(str(r["line"]) for r in ras if not r["effect"].strip())))
+    elif ras:
+        out.append("Ligne(s) {} : « Rien à signaler » — officiellement, toute fonction peut tomber en panne ; relisez ce choix à "
+                   "chaque revue.".format(", ".join(str(r["line"]) for r in ras[:10])))
     covered = {r["function_id"] for r in rows}
-    missing = [f for f in view_nodes["detail"].values() if f["id"] not in covered]
+    missing = [f for f in _tree_functions(conn, pid) if f["id"] not in covered]
     if missing:
-        out.append("Fonction(s) de l'arbre pas encore analysée(s) : {}.".format(", ".join("F{}".format(f["number"]) for f in missing[:10])))
+        out.append("Fonction(s) de l'arbre sans ligne : {} — « Compléter le DFMEA » en crée une par fonction, avec l'essai clé et "
+                   "les bonnes pratiques.".format(", ".join("F{}".format(f["number"]) for f in missing[:10])))
+    untested = [r for r in rows if r["failure_mode"] != GP.RAS and not r["test_id"]]
+    if untested:
+        out.append("Ligne(s) {} sans essai clé de la Test Base.".format(", ".join(str(r["line"]) for r in untested[:10])))
     risks = conn.execute("SELECT number FROM diamond_risks WHERE project_id = ? AND archived = 0 AND to_dfmea = 1 AND id NOT IN "
                          "(SELECT risk_id FROM diamond_dfmea WHERE project_id = ? AND risk_id IS NOT NULL)", (pid, pid)).fetchall()
     if risks:
@@ -127,7 +140,7 @@ def _fields(conn, pid, body):
             value = str(body.get(name) or "").strip()
             if len(value) > limit:
                 raise ApiError(400, "{} : {} caractères au maximum (reçu {}).".format(label, limit, len(value)))
-            out[name] = value
+            out[name] = GP.ras(value) if name == "failure_mode" else value
     for name, label in RATINGS.items():
         if name in body:
             value = body.get(name)

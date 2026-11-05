@@ -39,7 +39,8 @@
         try {
           const res = await api.post(base + path, body || {});
           state.data = res;
-          if (res.added !== undefined) toast(res.added ? res.added + " ligne(s) ajoutée(s)." : "Rien à ajouter : tout est déjà dans le DFMEA.", "success");
+          if (res.completed) toast(D.completedText(res.completed), "success");
+          else if (res.added !== undefined) toast(res.added ? res.added + " ligne(s) ajoutée(s)." : "Rien à ajouter : tout est déjà dans le DFMEA.", "success");
         } catch (err) { toast(err.message, "error"); }
         redraw();
       },
@@ -84,7 +85,8 @@
     if (!data.rows.length) {
       holder.append(DA.spaces.startHere("DFMEA de " + ctx.meta.project.name, "Partez de l'arbre : une ligne par fonction, puis, pour "
         + "chacune, comment elle peut faillir, avec quel effet et pourquoi. Les risques projet cochés « À détailler dans le DFMEA » "
-        + "arrivent avec « Depuis les risques ».", editable ? [["Depuis l'arbre", () => act.act("/from-tree", {}), true],
+        + "arrivent avec « Depuis les risques ».", editable ? [["Compléter le DFMEA", () => act.act("/complete", {}), true],
+        ["Depuis l'arbre", () => act.act("/from-tree", {})],
         ["Nouvelle ligne", () => act.act("/rows", {})],
         data.functions.some((f) => f.text === LAMP) ? ["Charger le DFMEA de l'exemple", () => act.act("/example", {})] : null] : []));
       return;
@@ -140,7 +142,10 @@
     ap.addEventListener("change", () => { state.ap = ap.value; state.redraw(); });
     return el("div", { class: "dm-fm-toolbar" }, editable ? el("div", { class: "dm-actions" },
       el("button", { type: "button", class: "btn btn-small btn-primary", onclick: () => act.act("/rows", {}) }, "Nouvelle ligne"),
-      el("button", { type: "button", class: "btn btn-small", "data-tip": "Une ligne par fonction pas encore analysée", onclick: () => act.act("/from-tree", {}) }, "Depuis l'arbre"),
+      el("button", { type: "button", class: "btn btn-small", "data-new": "0.60.28-dfmea-complete", "data-tip": "Une ligne pour chaque fonction de l'arbre "
+        + "sans ligne, l'essai clé le plus pertinent de la Test Base et les bonnes pratiques de l'industrie en prévention",
+      onclick: () => act.act("/complete", {}) }, "Compléter le DFMEA"),
+      el("button", { type: "button", class: "btn btn-small", "data-tip": "Une ligne par fonction de la vue détaillée pas encore analysée", onclick: () => act.act("/from-tree", {}) }, "Depuis l'arbre"),
       el("button", { type: "button", class: "btn btn-small", "data-tip": "Les risques projet cochés « À détailler dans le DFMEA »",
         onclick: () => act.act("/from-risks", {}) }, "Depuis les risques")) : null, ap, chooser);
   }

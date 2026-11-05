@@ -39,8 +39,9 @@
   DA.spaces = {
     defaultKey() { const key = current(); return key && visible(key) ? key : ""; },
 
-    /* 0.60.21: the Space a tab opens on -- the one this browser tab last worked in, else the default Space */
-    workKey() { const key = work(); return key && visible(key) ? key : this.defaultKey(); },
+    /* 0.60.28: the Space a tab opens on -- the starred default Space whenever there is one (a phone keeps its browser
+       tab for days: the Space visited last week must not win over the star), else the one this tab last worked in */
+    workKey() { const key = work(); return this.defaultKey() || (key && visible(key) ? key : ""); },
 
     /* 0.60.21: ☆ / ★ beside the Space drop-down of every module: makes this Space the default (or no longer) */
     star(key) {
