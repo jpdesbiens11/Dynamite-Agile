@@ -90,6 +90,10 @@ ICONS = {
               (("poly", [(10.4, 12.6), (11.2, 9.2), (12, 11.6), (12.8, 9.2), (13.6, 12.6)], False), "s"),
               (("line", 2.8, 8.5, 4.6, 8.5), "s"), (("line", 21.2, 8.5, 19.4, 8.5), "s"), (("line", 5.2, 2.8, 6.4, 4), "s"),
               (("line", 18.8, 2.8, 17.6, 4), "s")],
+    # 0.60.29: « Partager » -- three nodes linked, the usual share sign
+    "share": [(("line", 8.4, 10.8, 15.6, 6.8), "s"), (("line", 8.4, 13.2, 15.6, 17.2), "s"),
+              (("ellipse", 17.6, 5.6, 2.6, 2.6), "f:cyan"), (("ellipse", 6.4, 12, 2.6, 2.6), "f:yellow"),
+              (("ellipse", 17.6, 18.4, 2.6, 2.6), "f:pink")],
 }
 
 # module marks: icon, accent, doodles

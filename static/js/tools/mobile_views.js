@@ -1,12 +1,12 @@
 /* 0.60.27 (D-O-036): what a phone is for. The big screens (Diamond, Exploration's Gantt, Tools) stay on the computer: on a
    phone they show a short note and a link back. Goldmine, Testing and the Timesheet become a list of cards, one item
    under the other (each table row a card, with its column names), the long filters folded behind « Filtres ». Dynamite
-   gets a bar at the bottom of the screen: « + Page », « ✨ Page avec l'IA » and « Partager » (the phone's share sheet,
+   gets a bar at the bottom of the screen: « + Page », « ✨ Page avec l'IA » and « Partager » (share.js: the phone's share sheet,
    or the link copied). Everything here runs only with html.da-phone (js/tools/mobile.js); the computer is unchanged. */
 (function () {
   "use strict";
 
-  const { el, toast } = DA;
+  const { el } = DA;
   const PC_ONLY = { diamond: "Diamond", exploration: "Exploration (Gantt)", tools: "Tools" };
   const CARDS = ["goldmine", "testing", "timesheet"];
   let wantAi = false;
@@ -71,15 +71,7 @@
     return m ? m[1] : "";
   }
 
-  async function share() {
-    const title = (document.querySelector(".dy-page-title") || {}).textContent || document.title;
-    const url = location.href;
-    try {
-      if (navigator.share) { await navigator.share({ title: title.trim(), url }); return; }
-      await navigator.clipboard.writeText(url);
-      toast("Lien copié : collez-le dans un message à l'équipe (il faut un compte pour l'ouvrir).", "success");
-    } catch (err) { /* share sheet closed: nothing to say */ }
-  }
+  const share = () => DA.share({ direct: true });  // 0.60.29: the shared « Partager » of the platform (share.js)
 
   function dynamiteBar() {
     const old = document.querySelector("body > .dy-fab");
