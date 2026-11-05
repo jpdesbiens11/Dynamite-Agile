@@ -22,6 +22,7 @@
         if (res.created) { state.selected = res.created; state.creating = false; }
         if (path.endsWith("/archive")) state.selected = null;
         if (method === "patch") toast("Risque enregistré.", "success");
+        if (res.tracked) toast("Ticket " + res.tracked + " créé dans Agile : son status devient celui du risque.", "success");
       } catch (err) { toast(err.message, "error"); }
       D.later(() => draw(holder, ctx, state, run));
     };
@@ -114,13 +115,15 @@
         const cells = {
           code: el("td", { class: "nowrap" }, el("span", { class: "dm-code" }, "R-" + r.number), r.to_dfmea ? el("span", { class: "badge badge-info dm-rk-dfmea" }, "DFMEA") : null),
           title: el("td", null, r.title, r.function_number ? el("span", { class: "muted dm-rk-fn" }, " · F" + r.function_number) : null),
-          score: el("td", null, D.riskScoreBadge(L, r.probability, r.impact)), status: el("td", null, L.statuses[r.status]),
+          score: el("td", null, D.riskScoreBadge(L, r.probability, r.impact)), status: el("td", { class: r.late ? "dm-fm-late" : null }, L.statuses[r.status],
+            r.ticket ? el("a", { class: "dm-fm-ticket dm-rk-tk", href: r.ticket.href, onclick: (ev) => ev.stopPropagation(),
+              "data-tip": "Suit le ticket " + r.ticket.key }, " 🎫 " + r.ticket.key) : null),
           residual: el("td", null, D.riskScoreBadge(L, r.residual_p, r.residual_i)) };
         const row = el("tr", { class: "dm-rk-row" + (r.id === state.selected ? " dm-rk-sel" : ""), tabindex: "0" }, compact
           ? [cells.code, cells.title, cells.score, cells.status, cells.residual]
           : [cells.code, cells.title, el("td", null, L.categories[r.category] || r.category), el("td", null, String(r.probability)),
             el("td", null, String(r.impact)), cells.score, el("td", null, L.responses[r.response] && r.response ? L.responses[r.response] : "—"),
-            el("td", null, r.owner_name || "—"), el("td", { class: "nowrap" }, r.due_date || "—"), cells.status, cells.residual]);
+            el("td", null, r.owner_name || "—"), el("td", { class: "nowrap" + (r.late ? " dm-fm-late" : "") }, r.due_date || "—"), cells.status, cells.residual]);
         const open = () => { state.selected = r.id; state.creating = false; state.redraw(); };
         row.addEventListener("click", open);
         row.addEventListener("keydown", (ev) => { if (ev.key === "Enter") open(); });

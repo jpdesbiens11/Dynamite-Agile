@@ -84,6 +84,8 @@
   approuver, barre en % et détail en direct ; dernière version et date sur la page d'installation.
 - **0.60.37** (2026-11-04) : **Bob plus sûr et plus rapide** (D-O-046) : commande `dynamite` (`deploy/bob/da.sh`), fiche directive sans curl,
   recherche de l'agent qui comprend une phrase et donne `best`.
+- **0.60.38** (2026-11-04) : **responsables des actions** (D-O-047, `modules/diamond/actions.py`, migration diamond 7) : DFMEA avec responsable, échéance,
+  status ; « Suivre dans Agile » (status lu sur le ticket) ; Mes actions Diamond ; actions dans la synthèse de Bob.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

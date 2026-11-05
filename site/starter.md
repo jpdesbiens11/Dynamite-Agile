@@ -533,7 +533,8 @@ Règles qui font refuser un fichier :
     "impact": 3,
     "response": "reduire",
     "action": "Matrice de Pugh bras aluminium / bras plastique renforcé",
-    "function": "F4"
+    "function": "F4",
+    "owner": "maya"
    }
   ],
   "dfmea": [

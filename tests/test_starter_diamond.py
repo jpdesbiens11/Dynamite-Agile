@@ -114,5 +114,26 @@ class StarterDiamondTest(unittest.TestCase):
         self.assertTrue(any("Aucun arbre fonctionnel" in w for w in warnings))
 
 
+    def test_05_owners_of_the_actions(self):
+        """0.60.38 (D-O-047): a risk or a DFMEA row names who carries the action (a username of the team) and by when."""
+        who = LAMPE["team"][0]["username"]
+        bad = copy.deepcopy(LAMPE)
+        bad["diamond"]["risks"][0]["owner"] = "inconnu"
+        self.assertIn("diamond.risks[0].owner", refused(bad))
+        bad = copy.deepcopy(LAMPE)
+        bad["diamond"]["dfmea"][0]["due"] = "demain"
+        self.assertIn("diamond.dfmea[0].due", refused(bad))
+        good = copy.deepcopy(LAMPE)
+        good["project"] = dict(good["project"], key="LAMPO", name="Lampe — responsables")
+        good["time_codes"] = []
+        good["diamond"]["risks"][0].update(owner=who, due="2030-05-01")
+        good["diamond"]["dfmea"][0].update(owner=who, due="2030-05-02")
+        pid = self.admin.post("/api/starter/apply", {"file": good})["project"]["id"]
+        risk = next(r for r in self.admin.get("/api/diamond/p/{}/risks".format(pid))["risks"] if r["number"] == 1)
+        row = self.admin.get("/api/diamond/p/{}/dfmea".format(pid))["rows"][0]
+        self.assertTrue(risk["owner_name"] and risk["due_date"] == "2030-05-01")
+        self.assertTrue(row["action_owner_name"] and row["action_due"] == "2030-05-02")
+
+
 if __name__ == "__main__":
     unittest.main()

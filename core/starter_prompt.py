@@ -83,6 +83,9 @@ def example():
             row.pop("test", None)
     for key in ("risks", "dfmea"):  # no empty field in the example (rule: remove the key)
         short["diamond"][key] = [{k: v for k, v in r.items() if v not in ("", None)} for r in short["diamond"][key]]
+        for r in short["diamond"][key]:  # 0.60.38 (D-O-047): the person of the team who carries the action
+            if r.get("action"):
+                r["owner"] = short["team"][0]["username"]
     return json.dumps(short, ensure_ascii=False, indent=1)
 
 

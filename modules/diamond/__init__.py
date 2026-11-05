@@ -14,7 +14,8 @@ Every table is tied to projects(id) (backup, restore, copy by the core); every w
 """
 from .search import search  # noqa: F401  (core search hook, 0.60.36)
 from .bot import bot_summary  # noqa: F401  (Bob le mineur, core/bot.py, 0.60.36)
-from . import dfmea, dfmea_complete, example, export_api, functions, parts, risks, structure
+from .actions import dashboard  # noqa: F401  (core dashboard hook, 0.60.38)
+from . import actions, dfmea, dfmea_complete, example, export_api, functions, parts, risks, structure
 
 SCHEMA = ""
 
@@ -168,6 +169,14 @@ MIGRATIONS = [
         -- 0.60.24 (D-O-033): the key test of the Test Base that detects the failure, in « Detection Controls »
         ALTER TABLE diamond_dfmea ADD COLUMN test_id INTEGER REFERENCES testing_tests(id) ON DELETE SET NULL;
     """),
+    (7, """
+        -- 0.60.38 (D-O-047): who carries the action, by when, where it stands, and the Agile ticket that follows it
+        ALTER TABLE diamond_dfmea ADD COLUMN action_owner_id INTEGER REFERENCES users(id) ON DELETE SET NULL;
+        ALTER TABLE diamond_dfmea ADD COLUMN action_due TEXT NOT NULL DEFAULT '';
+        ALTER TABLE diamond_dfmea ADD COLUMN action_status TEXT NOT NULL DEFAULT 'open';
+        ALTER TABLE diamond_dfmea ADD COLUMN issue_id INTEGER REFERENCES agile_issues(id) ON DELETE SET NULL;
+        ALTER TABLE diamond_risks ADD COLUMN issue_id INTEGER REFERENCES agile_issues(id) ON DELETE SET NULL;
+    """),
 ]
 
 P = r"/api/diamond/p/(?P<pid>\d+)"
@@ -202,6 +211,7 @@ ROUTES = [
     ("PATCH", P + r"/risks/(?P<rid>\d+)", risks.api_update, "user"),
     ("POST", P + r"/risks/(?P<rid>\d+)/duplicate", risks.api_duplicate, "user"),
     ("POST", P + r"/risks/(?P<rid>\d+)/archive", risks.api_archive, "user"),
+    ("POST", P + r"/actions/(?P<kind>risk|dfmea)/(?P<oid>\d+)/track", actions.api_track, "user"),  # 0.60.38 (D-O-047)
     ("GET", P + r"/dfmea", dfmea.api_list, "user"),
     ("POST", P + r"/dfmea/rows", dfmea.api_create, "user"),
     ("GET", P + r"/dfmea/export\.csv", dfmea.api_export, "user"),

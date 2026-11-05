@@ -124,7 +124,7 @@
     starter ? el("div", { "data-new": "0.60.07-starter-dashboard" }, DA.spaces.startHere("Démarrez votre projet avec un assistant IA",
       "Répondez aux questions d'un assistant IA sur votre produit, votre industrie et votre marché : il prépare un fichier "
       + "qui crée votre Space, avec l'équipe, les requirements, les essais, les codes de temps et les premières pages.",
-      [["Commencer", "#/admin/start", true]])) : null,
+      [["Commencer", "#/admin/start", true]])) : "",
     el("div", { class: "db-top" + (messages ? "" : " db-top-single") }, messages, el("div", { class: "db-kpis" }, data.kpis.map(kpi))),
     el("div", { class: "db-grid" }, data.sections.map((s) => section(s, reload))),
     data.projects.length ? el("div", null, el("h2", { class: "db-projects-title" }, DA.t("dash.projects")),

@@ -1,0 +1,72 @@
+{
+  "version": "0.60.38",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Responsables des actions : chaque ligne du DFMEA a, comme les risques, un responsable de l'équipe, une échéance et un status ; « Suivre dans Agile » crée un ticket du Space dont le status devient celui de la ligne ; « Mes actions Diamond » sur le Dashboard, les actions dans la synthèse de Bob, les exports et le Project Starter.",
+    "en": "Action owners: every DFMEA row has, like the risks, a team member as owner, a due date and a status; « Suivre dans Agile » creates a ticket of the Space whose status becomes the row's; « Mes actions Diamond » on the Dashboard, the actions in Bob's summary, the exports and the Project Starter."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Le DFMEA rattrape les risques (D-O-047)",
+      "why": "Colonnes Responsable (un membre du Space), Échéance, Status (À faire, En cours, Fait) et Ticket Agile ; préréglage « Actions et suivi » ; ligne en retard signalée ; conseils : action en retard, action sans responsable.",
+      "files": [
+        "modules/diamond/actions.py",
+        "modules/diamond/dfmea.py",
+        "modules/diamond/__init__.py",
+        "static/js/diamond/dfmea_table.js",
+        "static/js/diamond/dfmea.js",
+        "static/css/diamond_dfmea.css"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Suivre dans Agile",
+      "why": "Un bouton par risque et par ligne du DFMEA : un ticket du même Space avec le responsable, l'échéance, la priorité et le lien vers la ligne ; le status de la ligne est lu sur le ticket, jamais recopié.",
+      "files": [
+        "modules/diamond/actions.py",
+        "modules/diamond/risks.py",
+        "static/js/diamond/risks.js",
+        "static/js/diamond/risks_panel.js"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Mes actions Diamond et Bob",
+      "why": "Carte du Dashboard (en retard d'abord, status modifiable quand l'action n'est pas suivie dans Agile, lien pointeur vers la ligne) ; « actions » dans la synthèse de Bob (responsable, échéance, retard, ticket).",
+      "files": [
+        "modules/diamond/actions.py",
+        "modules/diamond/bot.py",
+        "deploy/bob/BOB_LE_MINEUR.md",
+        "static/js/tools/dashboard.js"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Exports et Project Starter",
+      "why": "Excel et CSV : Responsable, Échéance, Status, Ticket Agile ; Project Starter : owner (username de l'équipe) et due sur les risques et les lignes du DFMEA. Correctif : « null » ne s'affiche plus au-dessus des Messages du Dashboard.",
+      "files": [
+        "modules/diamond/export_xlsx.py",
+        "core/starter_diamond.py",
+        "core/starter.py",
+        "core/starter_prompt.py",
+        "docs/STARTER_FORMAT.md"
+      ]
+    },
+    {
+      "id": "C5",
+      "title": "Version 0.60.38, tests et documentation",
+      "why": "tests/test_diamond_actions.py, test_starter_diamond ; décisions, état du projet, journal, fiche de version.",
+      "files": [
+        "tests/test_diamond_actions.py",
+        "tests/test_starter_diamond.py",
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.38.json"
+      ]
+    }
+  ]
+}

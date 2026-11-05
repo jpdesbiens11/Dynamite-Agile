@@ -7,6 +7,7 @@ its revision sheet (core/stamp.py). Rows are sized to their text: Excel does not
 """
 import math
 
+from . import actions as ACT
 from . import export_data as X
 from .xlsx_book import Book, col
 
@@ -205,7 +206,7 @@ def parts_sheet(book, kit, data):
 
 def risks_sheet(book, kit, data):
     s = book.sheet("Risques projet")
-    widths = [7, 34, 30, 30, 15, 14, 5, 5, 7, 11, 12, 32, 16, 12, 12, 6, 6, 9, 11, 22]
+    widths = [7, 34, 30, 30, 15, 14, 5, 5, 7, 11, 12, 32, 16, 12, 12, 6, 6, 9, 11, 22, 12]
     _frame(s, data, "Risques projet — registre", widths, kit, "D64545")
     lab = data["labels"]
     rows = [["R-{}".format(r["number"]), r["title"], r["cause"], r["consequence"], lab["categories"].get(r["category"], r["category"]),
@@ -213,15 +214,16 @@ def risks_sheet(book, kit, data):
              lab["responses"].get(r["response"], "") if r["response"] else "", r["action"], r["owner_name"] or "", r["due_date"],
              lab["statuses"].get(r["status"], r["status"]), r["residual_p"] or "", r["residual_i"] or "", r["residual_score"] or "",
              r["residual_level"]["label"] if r["residual_score"] else "",
-             "F{} {}".format(r["function_number"], r["function_text"]) if r["function_number"] else ""] for r in data["risks"]]
+             "F{} {}".format(r["function_number"], r["function_text"]) if r["function_number"] else "",
+             r["ticket"]["key"] if r["ticket"] else ""] for r in data["risks"]]  # 0.60.38: the Agile ticket of the action
     keys = {"R-{}".format(r["number"]): r for r in data["risks"]}
 
     def styles(v):
         r = keys[v[0]]
         out = [kit.bold] + [kit.wrap] * 5 + [kit.center] * 3 + [kit.risk[r["level"]["key"]]] + [kit.wrap] * 5 + [kit.center] * 3
-        return out + [kit.risk[r["residual_level"]["key"]] if r["residual_score"] else kit.center, kit.wrap]
+        return out + [kit.risk[r["residual_level"]["key"]] if r["residual_score"] else kit.center, kit.wrap, kit.center]
     _table(s, kit, ["N°", "Risque", "Cause (si…)", "Conséquence (ce qui…)", "Catégorie", "Phase", "P", "I", "P × I", "Niveau",
-                    "Stratégie", "Action", "Responsable", "Échéance", "Status", "P rés.", "I rés.", "Rés.", "Niveau rés.", "Fonction"],
+                    "Stratégie", "Action", "Responsable", "Échéance", "Status", "P rés.", "I rés.", "Rés.", "Niveau rés.", "Fonction", "Ticket Agile"],
            rows, widths, styles)
     s.skip()
     s.line(["Carte P × I (maintenant)"], kit.section, height=22)
@@ -238,10 +240,10 @@ def risks_sheet(book, kit, data):
 
 def dfmea_sheet(book, kit, data):
     s = book.sheet("DFMEA")
-    widths = [6, 20, 24, 20, 30, 28, 32, 30, 5, 32, 62, 5, 30, 26, 5, 7, 8, 34, 9]
+    widths = [6, 20, 24, 20, 30, 28, 32, 30, 5, 32, 62, 5, 30, 26, 5, 7, 8, 34, 18, 11, 10, 11, 9]
     _frame(s, data, "DFMEA — Design FMEA (AIAG-VDA)", widths, kit, "7E57C2")
     groups = [("higher", 0, 1, "Structure : Higher-Level"), ("focus", 2, 7, "Focus Element : fonction, requirement, défaillance, effet"),
-              ("lower", 8, 14, "Lower-Level : cause, prévention, détection"), ("risk", 15, 18, "Risque et actions")]
+              ("lower", 8, 14, "Lower-Level : cause, prévention, détection"), ("risk", 15, 22, "Risque, actions et suivi")]
     r = s.line([""] * len(widths), kit.empty, height=22)
     for key, a, b, label in groups:
         s.put(r, a, label, kit.group[key])
@@ -250,16 +252,19 @@ def dfmea_sheet(book, kit, data):
         s.merge(r, a, r, b)
     header = ["Ligne", "Higher-Level Element", "Focus Element", "Lower-Level Element", "Function of Focus Element",
               "Requirement / Characteristic", "Failure Mode", "Failure Effect", "S", "Failure Cause", "Prevention Controls", "O",
-              "Detection Controls", "Essai clé (Test Base)", "D", "RPN", "AP", "Actions", "Risque projet"]
+              "Detection Controls", "Essai clé (Test Base)", "D", "RPN", "AP", "Actions", "Responsable", "Échéance", "Status",
+              "Ticket Agile", "Risque projet"]
     rows = [[d["line"], d["higher"], d["focus"], d["lower"], "F{} {}".format(d["function_number"], d["function_text"]) if d["function_number"] else "",
              d["requirement"], d["failure_mode"], d["effect"], d["severity"] or "", d["cause"], d["prevention"], d["occurrence"] or "",
              d["detection_ctrl"], "{} {}".format(d["test_code"], d["test_title"]) if d["test_code"] else "", d["detection"] or "",
-             d["rpn"] or "", d["ap"] or "", d["action"], "R-{}".format(d["risk_number"]) if d["risk_number"] else ""] for d in data["dfmea"]]
+             d["rpn"] or "", d["ap"] or "", d["action"], d["action_owner_name"] or "", d["action_due"],
+             ACT.DFMEA_STATUSES.get(d["action_status"], "") if d["action"].strip() else "", d["ticket"]["key"] if d["ticket"] else "",
+             "R-{}".format(d["risk_number"]) if d["risk_number"] else ""] for d in data["dfmea"]]
 
     def styles(v):
         ap = kit.ap.get(v[16], kit.center)
         return [kit.bold] + [kit.wrap] * 7 + [kit.center, kit.wrap, kit.wrap, kit.center, kit.wrap, kit.wrap, kit.center, kit.center, ap,
-                                               kit.wrap, kit.center]
+                                               kit.wrap, kit.wrap, kit.center, kit.center, kit.center, kit.center]
     top = _table(s, kit, header, rows, widths, styles)
     s.freeze = "E{}".format(top + 1)
     s.print_rows = (top - 1, top)

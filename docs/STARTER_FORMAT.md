@@ -52,7 +52,9 @@ fonction et de chaque risque) : `functions` (arbre : la première fonction sans 
 une fonction `technique` au niveau 4, une fonction sans parent de plus reste hors de l'arbre), `ports` (entrées `in` et
 sorties `out` du système), `flows` (`general` entre fonctions secondaires, `detail` entre fonctions tertiaires sans les
 techniques ; d'une entrée ou d'une fonction vers une fonction ou une sortie), `parts` (sur des fonctions secondaires
-ou tertiaires), `risks` (P et I de 1 à 5) et `dfmea` (S, O, D de 1 à 10, un Failure Mode par ligne). Les règles sont
+ou tertiaires), `risks` (P et I de 1 à 5) et `dfmea` (S, O, D de 1 à 10, un Failure Mode par ligne) ; un risque ou une
+ligne du DFMEA peut nommer `owner` (le `username` d'une personne de `team`, qui porte l'action) et `due` (AAAA-MM-JJ,
+0.60.38). Les règles sont
 celles des écrans de Diamond (`core/starter_diamond.py` les lit dans `modules/diamond/`). L'exemple
 `deploy/starter_exemples/lampe_bureau.json` reprend l'exemple de Diamond (`tools/make_starter_diamond_example.py`).
 

@@ -72,3 +72,18 @@ html[data-term] table.dm-fm { font-family: var(--mono); font-size: .78rem; }
 .dm-fm-test-pick { flex: 1 1 10rem; min-width: 0; max-width: 100%; font-size: .8rem; }
 .dm-fm-test-x { font-size: .8rem; }
 .dm-fm-test-link { font-size: .78rem; }
+
+/* 0.60.38 (D-O-047): the follow-up of the action -- owner, due date, status, Agile ticket */
+.dm-fm-h-act, table.dm-fm thead th.dm-fm-h-act { background: #d7f0e3; color: #0d3b26; }
+html[data-term] :is(.dm-fm-h-act, table.dm-fm thead th.dm-fm-h-act) { background: #12402b; color: #c9f2dc; }
+.dm-fm-k-action_owner_id select, .dm-fm-k-action_status select { min-width: 8.5rem; }
+.dm-fm-k-action_due input { min-width: 9rem; }
+.dm-fm-late { box-shadow: inset 3px 0 0 var(--danger); }
+.dm-fm-late input[type="date"] { color: var(--danger); font-weight: 600; }
+.dm-act-st { display: inline-block; padding: .1rem .45rem; border-radius: 999px; font-size: .85em; background: var(--surface-2); }
+.dm-act-in_progress, select.dm-act-in_progress { background: color-mix(in srgb, var(--warn) 22%, var(--surface)); }
+.dm-act-done, select.dm-act-done { background: color-mix(in srgb, var(--ok) 22%, var(--surface)); }
+.dm-fm-ticket { font-weight: 600; white-space: nowrap; }
+.dm-fm-ticket-st { display: block; font-size: .8em; }
+.dm-fm-track { white-space: nowrap; }
+.dm-risk-ticket { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; margin: .5rem 0; }

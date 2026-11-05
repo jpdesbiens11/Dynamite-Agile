@@ -58,6 +58,7 @@
     const owner = select(Object.fromEntries(state.data.members.map((m) => [m.id, m.display_name])), r.owner_id, "— personne —");
     const due = el("input", { type: "date", value: r.due_date || "" });
     const status = select(L.statuses, r.status);
+    if (r.status_from_ticket) { status.disabled = true; status.setAttribute("data-tip", "Suit le ticket " + r.ticket.key); }
     const fn = select(Object.fromEntries(state.data.functions.map((f) => [f.id, "F" + f.number + " " + f.text])), r.function_id, "— aucune —");
     const dfmea = el("input", { type: "checkbox", checked: !!r.to_dfmea });
     const notes = el("textarea", { rows: 2, maxlength: 2000 }, r.notes || "");
@@ -74,7 +75,7 @@
     el("div", { class: "dm-row" }, field("Catégorie", category), field("Phase du PDP", phase)),
     el("div", { class: "dm-row" }, field("Probabilité", p), field("Impact", i)), live,
     el("div", { class: "dm-row" }, field("Stratégie", response), field("Status", status)),
-    field("Action", action),
+    field("Action", action), followUp(risk, run),
     el("div", { class: "dm-row" }, field("Responsable", owner), field("Échéance", due)),
     el("div", { class: "dm-row" }, field("Probabilité résiduelle", rp), field("Impact résiduel", ri)), liveRes,
     field("Fonction de l'arbre concernée", fn),
@@ -91,6 +92,19 @@
     }
     title.focus();
     return box;
+  }
+
+  /* 0.60.38 (D-O-047): the action followed in Agile -- the ticket and its status, or the button that creates it */
+  function followUp(risk, run) {
+    if (!risk) return null;
+    if (risk.ticket) {
+      return el("p", { class: "dm-risk-ticket" }, "Suivi dans Agile : ", el("a", { class: "dm-fm-ticket", href: risk.ticket.href }, "🎫 " + risk.ticket.key),
+        el("span", { class: "muted" }, risk.ticket.status + (risk.ticket.assignee ? " · " + risk.ticket.assignee : "")));
+    }
+    return el("div", { class: "dm-risk-ticket" }, el("button", { type: "button", class: "btn btn-small", "data-new": "0.60.38-track",
+      disabled: !String(risk.action || "").trim(), onclick: () => run("/actions/risk/" + risk.id + "/track", {}) }, "Suivre dans Agile"),
+    el("span", { class: "muted" }, String(risk.action || "").trim() ? "Un ticket dans l'Agile du Space, avec le responsable et l'échéance ; "
+      + "son status devient celui du risque." : "Écrivez et enregistrez d'abord l'action."));
   }
 
   DA.diamond = Object.assign(DA.diamond || {}, { riskPanel: panel, riskScoreBadge: scoreBadge, P_WORDS, I_WORDS });

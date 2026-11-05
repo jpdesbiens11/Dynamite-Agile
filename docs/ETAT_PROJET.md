@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.37)
-**Version :** 0.60.37 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** 0.60.37 (essais de JP du 2026-11-04) : Bob plus sûr et plus rapide
+**Dernière mise à jour :** 2026-11-04 (v0.60.38)
+**Version :** 0.60.38 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** 0.60.38 (demande de JP du 2026-11-04) : responsables des actions de Diamond
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -62,7 +62,10 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.37)
+## Relais (fin de 0.60.38)
+
+- Actions de Diamond (D-O-047) : `modules/diamond/actions.py` (owner, due, enrich, api_track, mine, dashboard) ; le status d'une ligne suivie vient de `agile_statuses.category`.
+
 
 - Bob : `deploy/bob/da.sh` → `/opt/data/dynamite` sur le serveur de l'agent, fiche `deploy/bob/BOB_LE_MINEUR.md` → SOUL de l'agent ; recherche élargie dans `core/bot.py` (`_widen`, `STOP`).
 
