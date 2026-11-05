@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.36)
-**Version :** 0.60.36 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** 0.60.36 (choix de JP du 2026-11-04) : mise à jour en ligne
+**Dernière mise à jour :** 2026-11-04 (v0.60.37)
+**Version :** 0.60.37 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** 0.60.37 (essais de JP du 2026-11-04) : Bob plus sûr et plus rapide
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -62,7 +62,10 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.36)
+## Relais (fin de 0.60.37)
+
+- Bob : `deploy/bob/da.sh` → `/opt/data/dynamite` sur le serveur de l'agent, fiche `deploy/bob/BOB_LE_MINEUR.md` → SOUL de l'agent ; recherche élargie dans `core/bot.py` (`_widen`, `STOP`).
+
 
 - Mise à jour en ligne (D-O-045) : `core/update_online.py` (réglage dans data/updates/online.json, tâche `_run`, `/progress`), écran `static/js/admin_update_online.js` ; le site de test se règle par `release_site` dans la config.
 

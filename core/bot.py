@@ -12,6 +12,7 @@ Routes /api/bot/v1/…: spaces · search?q=&space= · summary?space= · pages?sp
 Every answer carries ready links (« url ») the agent pastes as they are.
 """
 import hashlib
+import re
 import secrets
 import threading
 import time
@@ -130,6 +131,31 @@ def api_spaces(ctx):
                                                  "url": link(ctx, "#/goldmine/{}".format(r["key"]))} for r in rows]}
 
 
+# 0.60.37: an agent types sentences (« la fonction qui émet le son »); when every word is not found together, the search
+# widens to each meaningful word, shortened (émettre -> emett, sonore -> sonor), and ranks by words found.
+STOP = set("""le la les un une des du de d l au aux et ou en dans sur sous pour par avec sans qui que quoi dont ce cet
+cette ces sa ses mon ma mes ton ta tes notre nos votre vos leur leurs est sont a ont fait faire montre montrer moi
+toi nous vous il elle ils elles on je tu y ne pas plus quel quelle quels quelles trouve trouver cherche chercher ou-est
+the a an of to in on for and or is are what which where show me find bob please stp svp""".split())
+
+
+def _stem(word):
+    return word[:max(4, len(word) - 2)] if len(word) > 5 else word
+
+
+def _widen(raw):
+    from .search import fold
+    words = [w for w in re.findall(r"[a-z0-9]+(?:-[0-9]+)?", fold(raw)) if len(w) >= 3 and w not in STOP]
+    return list(dict.fromkeys(_stem(w) for w in words))[:6]
+
+
+def _run(conn, projects, q):
+    hits = []
+    for _key, hook in modules.search_hooks():
+        hits += hook(conn, projects, q) or []
+    return hits
+
+
 def api_search(ctx):
     from .search import MAX_QUERY, Query
     raw = str(ctx.query.get("q", "")).strip()
@@ -139,11 +165,18 @@ def api_search(ctx):
     if ctx.query.get("space"):
         pid, key = _space(ctx)
         projects = {pid: key}
-    q, hits = Query(raw), []
-    if projects:
-        for _key, hook in modules.search_hooks():
-            hits += hook(ctx.conn, projects, q) or []
+    hits, widened = (_run(ctx.conn, projects, Query(raw)) if projects else []), []
     hits.sort(key=lambda h: (h["score"], h["updated_at"]), reverse=True)
+    if not hits and projects:
+        widened = _widen(raw)
+        found = {}
+        for word in widened:
+            for h in _run(ctx.conn, projects, Query(word)):
+                k = (h["href"], h["title"])
+                hit = found.setdefault(k, dict(h, words=0, score=0))
+                hit["words"] += 1
+                hit["score"] += h["score"]
+        hits = sorted(found.values(), key=lambda h: (h["words"], h["score"], h["updated_at"]), reverse=True)
     _log(ctx, "search")
     out = []
     for h in hits[:15]:
@@ -151,7 +184,12 @@ def api_search(ctx):
         focus = h.get("focus") or (first if "-" in first and first[:1].isalnum() else h["title"][:60])  # a key (EQP-12) or the title
         out.append({"type": h["kind"], "space": h["project"], "title": h["title"], "snippet": h["snippet"],
                     "url": link(ctx, h["href"], focus)})
-    return {"query": raw, "results": out, "total": len(hits)}
+    answer = {"query": raw, "results": out, "total": len(hits), "best": out[0] if out else None}
+    if widened:
+        answer["widened_to"] = widened
+    if not out:
+        answer["hint"] = "Rien trouvé. Essaie un autre mot, ou « summary » pour l'état du Space et ses liens."
+    return answer
 
 
 def api_pages(ctx):

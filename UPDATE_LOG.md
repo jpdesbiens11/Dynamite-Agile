@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.36
+# Journal de mise à jour — 0.60.37
+
+- **Version :** 0.60.36 → 0.60.37 (2026-11-04)
+- **Changements :**
+  1. **Bob le mineur, plus sûr et plus rapide** (D-O-044) : une commande `dynamite`, fiche directive, recherche qui comprend une phrase et donne le meilleur lien.
+- **Base de données :** []
+
+## Précédent
+
+### Journal de mise à jour — 0.60.36
 
 - **Version :** 0.60.35 → 0.60.36 (2026-11-04)
 - **Changements :**
   1. **Mise à jour en ligne** (D-O-045) : vérifier, lire, approuver, suivre la progression en direct ; dernière version et date sur la page d'installation.
 - **Base de données :** []
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.35
 

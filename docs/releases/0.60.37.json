@@ -1,0 +1,48 @@
+{
+  "version": "0.60.37",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Bob le mineur, plus sûr et plus rapide : une seule commande pour lire DynamiteAgile (deploy/bob/da.sh, installée sous /opt/data/dynamite), une fiche plus directive et sans commande qui ferait refuser la fiche par l'agent ; la recherche de l'agent comprend une phrase entière et donne d'emblée le meilleur résultat avec son lien.",
+    "en": "Bob le mineur, surer and faster: one command to read DynamiteAgile (deploy/bob/da.sh, installed as /opt/data/dynamite), a more directive persona with no command that would make the agent refuse it; the agent's search understands a whole sentence and gives the best result with its link right away."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Une seule commande pour l'agent",
+      "why": "deploy/bob/da.sh : spaces, search, pages, point, summary ; la clé vient de l'environnement ou du .env de l'agent, les mots sont encodés ; installée sous /opt/data/dynamite (Telegram transforme « da.sh » en lien web).",
+      "files": [
+        "deploy/bob/da.sh"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Fiche de Bob plus directive",
+      "why": "Son nom d'abord ; les Spaces sont dans DynamiteAgile, jamais dans ses dossiers ; une commande, « best », réponse en deux ou trois lignes ; aucune commande curl ni variable de clé dans la fiche (un agent peut refuser une fiche qui en contient).",
+      "files": [
+        "deploy/bob/BOB_LE_MINEUR.md"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Recherche de l'agent qui comprend une phrase",
+      "why": "Si tous les mots ne se trouvent pas ensemble, la recherche s'élargit aux mots utiles raccourcis (sans les mots vides FR / EN) et classe par mots trouvés ; « best » donne le premier résultat et son lien, « hint » dit quoi faire quand rien n'est trouvé.",
+      "files": [
+        "core/bot.py"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Version 0.60.37, tests et documentation",
+      "why": "tests/test_bot.py (phrase entière, da.sh contre un vrai serveur) ; décisions, état du projet, journal, fiche de version.",
+      "files": [
+        "tests/test_bot.py",
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.37.json"
+      ]
+    }
+  ]
+}
