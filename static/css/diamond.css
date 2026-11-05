@@ -234,3 +234,16 @@ html[data-sketch] .dm-nug { border-radius: var(--r-card); border-color: var(--gr
   .dm-panel { position: static; }
 }
 @media (prefers-reduced-motion: reduce) { .dm-node { transition: none; } .dm-node:hover { transform: none; } }
+
+/* 0.60.33 (D-O-041): « Exporter » -- three cards, one per file */
+.dm-ex-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr)); gap: 1rem; margin: 1rem 0; }
+.dm-ex-card { display: flex; flex-direction: column; gap: .45rem; padding: 1rem 1.1rem; background: var(--surface);
+  border: 1px solid var(--line); border-radius: var(--radius-lg); }
+.dm-ex-card h2 { margin: 0; font-size: 1.15rem; }
+.dm-ex-card p { margin: 0; line-height: 1.45; }
+.dm-ex-kind { font-size: .75rem; font-weight: 650; text-transform: uppercase; letter-spacing: .06em; color: var(--acc, var(--agile)); }
+.dm-ex-tips { margin: .2rem 0 .4rem; padding-left: 1.1rem; font-size: .88rem; color: var(--muted); }
+.dm-ex-card .btn { align-self: flex-start; margin-top: auto; }
+.dm-ex-note { font-size: .88rem; }
+html[data-sketch] .dm-ex-card { border-radius: var(--r-card); border-color: var(--graphite); box-shadow: var(--shadow-sketch); }
+html[data-term] .dm-ex-card { background: var(--surface); }

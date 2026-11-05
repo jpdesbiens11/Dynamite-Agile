@@ -12,7 +12,7 @@ Sub-modules, one per iteration:
   0.60.16  Golden Nuggets (static/js/diamond/nuggets*.js): first-principles thinking and design rules, with examples.
 Every table is tied to projects(id) (backup, restore, copy by the core); every write is journalled.
 """
-from . import dfmea, dfmea_complete, example, functions, parts, risks, structure
+from . import dfmea, dfmea_complete, example, export_api, functions, parts, risks, structure
 
 SCHEMA = ""
 
@@ -206,6 +206,9 @@ ROUTES = [
     ("POST", P + r"/dfmea/from-tree", dfmea.api_from_tree, "user"),
     ("POST", P + r"/dfmea/from-risks", dfmea.api_from_risks, "user"),
     ("POST", P + r"/dfmea/complete", dfmea_complete.api_complete, "user"),
+    ("GET", P + r"/export\.xlsx", export_api.api_xlsx, "user"),  # 0.60.33 (D-O-041): every table, every diagram, the report
+    ("GET", P + r"/export\.docx", export_api.api_docx, "user"),
+    ("GET", P + r"/export\.drawio", export_api.api_drawio, "user"),
     ("POST", P + r"/dfmea/example", example.api_dfmea_example, "user"),
     ("PATCH", P + r"/dfmea/rows/(?P<did>\d+)", dfmea.api_update, "user"),
     ("POST", P + r"/dfmea/rows/(?P<did>\d+)/duplicate", dfmea.api_duplicate, "user"),

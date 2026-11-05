@@ -352,6 +352,10 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .ver-list > li .tag { display: inline-block; margin: 0 0 .3rem; padding: .05rem .5rem; font-size: .8rem; font-weight: 700;
   background: var(--g); color: #fff; border-radius: 999px; }
 .ver-list > li > span { display: block; }
+/* 0.60.34: the Traefik question of the installation page */
+.fields label[hidden], pre.cmd[hidden] { display: none; }
+.fields label.check { flex-direction: row; align-items: flex-start; gap: .55rem; grid-column: 1 / -1; font-weight: 500; line-height: 1.4; }
+.fields label.check input { width: 1.15rem; height: 1.15rem; margin-top: .15rem; flex: none; }
 
 </style>
 </head>
@@ -472,7 +476,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       destinataire, avec l'attestation à signer : sans rien retaper.</li>
   </ol>
 </main>
-<footer>Dynamite | Agile · logiciel libre sous licence MIT · version 0.60.32 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>Dynamite | Agile · logiciel libre sous licence MIT · version 0.60.34 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */

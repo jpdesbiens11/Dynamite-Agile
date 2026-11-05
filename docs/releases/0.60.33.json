@@ -1,0 +1,64 @@
+{
+  "version": "0.60.33",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Exporter Diamond : chaque tableau dans Excel, chaque diagramme dans draw.io (modifiable), le rapport dans Word — mis en forme pour un enseignant ou un investisseur, avec la marque « DynamiteAgile · Co-Intelligence WorkFlow™ ».",
+    "en": "Export Diamond: every table in Excel, every diagram in draw.io (editable), the report in Word — laid out for a teacher or an investor, with the mark « DynamiteAgile · Co-Intelligence WorkFlow™ »."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Diamond → Exporter (D-O-041)",
+      "why": "Un écran, trois fichiers : Excel (tableaux), draw.io (diagrammes), Word (rapport) ; lecture du Space suffisante.",
+      "files": [
+        "static/js/diamond/export.js",
+        "static/js/diamond/diamond.js",
+        "static/css/diamond.css",
+        "core/modules.py",
+        "modules/diamond/__init__.py",
+        "modules/diamond/export_api.py",
+        "modules/diamond/export_data.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Excel : chaque tableau, mis en forme",
+      "why": "Synthèse (chiffres, ce qu'une revue demanderait, index), arbre fonctionnel aux couleurs des niveaux, structure (entrées, sorties, flux), matrice pièces × fonctions, risques projet et carte P × I, DFMEA AIAG-VDA (trois niveaux en couleur, AP en couleur, bonnes pratiques, essai clé). Marque en en-tête de chaque page imprimée, paysage ajusté à la largeur, titres répétés, filtres, volets figés ; nouveau petit écrivain .xlsx stylé (modules/diamond/xlsx_book.py).",
+      "files": [
+        "modules/diamond/export_xlsx.py",
+        "modules/diamond/xlsx_book.py"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "draw.io : chaque diagramme, modifiable",
+      "why": "Arbre fonctionnel (Comment / Pourquoi, niveaux, chemin critique, pièces), structure fonctionnelle vue générale et vue détaillée (frontière du système, sous-systèmes, flux énergie / matière / information), carte des risques maintenant et résiduelle ; cartouche DynamiteAgile, légende, Co-Intelligence WorkFlow™ au pied.",
+      "files": [
+        "modules/diamond/export_drawio.py"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Word : le rapport",
+      "why": "Gabarit de la plateforme (page de titre, table des matières, en-tête), marque dans le pied de page ; synthèse, arbre, structure, pièces, risques, DFMEA, revue, fichiers joints ; PDF par Enregistrer sous dans Word.",
+      "files": [
+        "modules/diamond/export_docx.py"
+      ]
+    },
+    {
+      "id": "C5",
+      "title": "Version 0.60.33, tests et documentation",
+      "why": "tests/test_diamond_export.py ; décision, état du projet, journal, fiche de version.",
+      "files": [
+        "tests/test_diamond_export.py",
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.33.json",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}

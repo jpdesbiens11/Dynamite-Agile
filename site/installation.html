@@ -352,6 +352,10 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .ver-list > li .tag { display: inline-block; margin: 0 0 .3rem; padding: .05rem .5rem; font-size: .8rem; font-weight: 700;
   background: var(--g); color: #fff; border-radius: 999px; }
 .ver-list > li > span { display: block; }
+/* 0.60.34: the Traefik question of the installation page */
+.fields label[hidden], pre.cmd[hidden] { display: none; }
+.fields label.check { flex-direction: row; align-items: flex-start; gap: .55rem; grid-column: 1 / -1; font-weight: 500; line-height: 1.4; }
+.fields label.check input { width: 1.15rem; height: 1.15rem; margin-top: .15rem; flex: none; }
 
 </style>
 </head>
@@ -429,9 +433,10 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     <div class="fields">
       <label data-for="serveur">Nom de domaine <input id="f-domain" data-v="domain" autocomplete="off" spellcheck="false"
         placeholder="atelier.mon-domaine.ca"></label>
-      <label data-for="serveur">Votre courriel <span class="muted">(avis d'expiration du certificat)</span>
+      <label data-for="serveur" data-proxy="direct">Votre courriel <span class="muted">(avis d'expiration du certificat)</span>
         <input id="f-email" data-v="email" type="email" autocomplete="email" placeholder="moi@exemple.ca"></label>
       <label>Adresse IP du serveur <input id="f-ip" data-v="ip" inputmode="decimal" autocomplete="off" placeholder="203.0.113.10"></label>
+      <label class="check" data-for="serveur" data-new="0.60.34-traefik"><input id="f-traefik" type="checkbox"> <span>Mon serveur a déjà des applications Docker avec <b>Traefik</b> (ex. un VPS Hostinger avec Docker) : Traefik garde le web et le certificat</span></label>
     </div>
   </section>
 
@@ -466,7 +471,9 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       <label class="done"><input type="checkbox"> C'est fait</label></li>
 
     <li data-step="srv-install"><b>Installez, en une commande</b>
-      <pre class="cmd" data-where="srv"><code>curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo bash -s -- <span data-v="domain">atelier.mon-domaine.ca</span> <span data-v="email">moi@exemple.ca</span></code></pre>
+      <pre class="cmd" data-proxy="direct" data-where="srv"><code>curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo bash -s -- <span data-v="domain">atelier.mon-domaine.ca</span> <span data-v="email">moi@exemple.ca</span></code></pre>
+      <pre class="cmd" data-proxy="traefik" data-where="srv"><code>curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo bash -s -- --traefik <span data-v="domain">atelier.mon-domaine.ca</span></code></pre>
+      <p class="muted" data-new="0.60.34-traefik">Pas sûr pour Traefik ? La commande le détecte d'elle-même et s'installe derrière lui. Pour <b>mettre à jour</b> plus tard : relancez la même commande, les données restent.</p>
       <p class="expect">Deux à cinq minutes. La fin affiche <code>== 7/7 C'est installé</code>, l'adresse à ouvrir et le
         <b>mot de passe temporaire</b> du compte <code>admin</code> : gardez cette fenêtre ouverte.</p>
       <details><summary>Ce que fait la commande</summary><p>Elle récupère le code dans <code>/opt/dynamite_agile</code>, installe
@@ -647,7 +654,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       <code>python C:\DynamiteAgile\app_dynamite_agile.py --reset-password admin</code></td></tr>
     <tr><td>Passer de l'essai à l'équipe</td><td>Refaites le parcours « Sur un serveur en ligne » : la même commande avec votre domaine</td></tr></table>
 </main>
-<footer>Dynamite | Agile · logiciel libre sous licence MIT · version 0.60.32 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>Dynamite | Agile · logiciel libre sous licence MIT · version 0.60.34 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */
@@ -744,7 +751,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     read() { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (err) { return {}; } },
     write(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (err) { /* private window: fine */ } },
   };
-  const state = Object.assign({ dest: "serveur", os: "", domain: "", email: "", ip: "", done: {} }, store.read());
+  const state = Object.assign({ dest: "serveur", os: "", domain: "", email: "", ip: "", traefik: false, done: {} }, store.read());
   const save = () => store.write(state);
   const $ = (s, root) => (root || document).querySelector(s);
   const $$ = (s, root) => Array.from((root || document).querySelectorAll(s));
@@ -782,7 +789,17 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     input.value = state[k] || "";
     input.addEventListener("input", () => { state[k] = input.value.replace(/^https?:\/\//, "").replace(/\/.*$/, "").trim(); save(); fill(); });
   });
+  /* 0.60.34: behind Traefik (Docker applications): the command takes --traefik and no email */
+  const traefik = $("#f-traefik");
+  if (traefik) {
+    traefik.checked = !!state.traefik;
+    traefik.addEventListener("change", () => { state.traefik = traefik.checked; save(); fill(); });
+  }
   function fill() {
+    $$("[data-proxy]").forEach((n) => {
+      const other = n.dataset.for && !n.dataset.for.split(" ").includes(state.dest);  // the destination decides first
+      n.hidden = other || (n.dataset.proxy === "traefik") !== !!state.traefik;
+    });
     $$("span[data-v], code[data-v]").forEach((n) => { n.textContent = value(n.dataset.v); n.classList.toggle("ph", !state[n.dataset.v]); });
     $$("a.live").forEach((a) => { a.href = a.dataset.href.replace("{domain}", value("domain")); });
     $("#agent-text").textContent = prompt();
@@ -793,7 +810,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     const os = { windows: "Windows", mac: "macOS", linux: "Linux" }[state.os || guess];
     if (EN) {
       const where = {
-        serveur: "on an online server (Linux VPS) with the domain name " + value("domain"),
+        serveur: "on an online server (Linux VPS) with the domain name " + value("domain") + (state.traefik ? ", behind the Traefik of my Docker applications (--traefik)" : ""),
         essai: "on a Linux server, as a private trial without a domain (SSH tunnel)",
         windows: "on a Windows PC that hosts it for my team on our local network (PowerShell)",
         local: "on my computer (" + os + "), to try it",
@@ -806,7 +823,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
         "simply and suggest the fix. Never ask me for a password or a private key."].join("\n");
     }
     const where = {
-      serveur: "sur un serveur en ligne (VPS Linux) avec le nom de domaine " + value("domain"),
+      serveur: "sur un serveur en ligne (VPS Linux) avec le nom de domaine " + value("domain") + (state.traefik ? ", derrière le Traefik de mes applications Docker (--traefik)" : ""),
       essai: "sur un serveur Linux, en essai privé sans domaine (tunnel SSH)",
       windows: "sur un PC Windows qui l'héberge pour mon équipe sur notre réseau local (PowerShell)",
       local: "sur mon ordinateur (" + os + "), pour l'essayer",

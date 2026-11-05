@@ -85,6 +85,15 @@ def _tools_en():
     return '  <section id="outils">\n{}\n    <div class="tools">\n{}\n    </div>\n  </section>'.format(T.TOOLS_HEAD_EN, cards)
 
 
+def _news(lang):
+    """0.60.34: the latest features under the tools grid (site_text.NEWS), same cards as the tools."""
+    head, sub = T.NEWS_HEAD[lang]
+    cards = "\n".join('      <article class="tool reveal" style="--a: var({})"><svg class="ico"><use href="#i-{}"/></svg><h3>{}</h3><p>{}</p></article>'
+                      .format(accent, icon, html.escape(text[lang][0]), html.escape(text[lang][1])) for icon, accent, text in T.NEWS)
+    return ('  <section id="nouveautes">\n    <h2 class="reveal">{}</h2>\n    <p class="sub reveal">{}</p>\n    <div class="tools">\n{}\n'
+            '    </div>\n  </section>').format(head, html.escape(sub), cards)
+
+
 def _landing(vitrine, lang, src):
     hero = _between(vitrine, '<div class="hero-art">', "</div>\n  </div>").strip()
     script = _between(vitrine, "<script>", "</script>").strip()
@@ -99,6 +108,7 @@ def _landing(vitrine, lang, src):
         "JOURNEY": _section(vitrine, "journee") if lang == "fr" else "  " + (src / "journee.html").read_text(encoding="utf-8").strip(),
         "CHAIN": _section(vitrine, "chaine") if lang == "fr" else "  " + (src / "chaine.html").read_text(encoding="utf-8").strip(),
         "TOOLS": _section(vitrine, "outils") if lang == "fr" else _tools_en(),
+        "NEWS": _news(lang),
         "TERM": html.escape(json.dumps(T.term(lang, SITE_URL), ensure_ascii=False), quote=True),
         "VITRINE_JS": script,
     }

@@ -31,8 +31,15 @@ installer Dynamite | Agile. La page humaine, illustrée, est https://jpdesbiens1
    `nslookup atelier.mon-domaine.ca` doit montrer l'IP du serveur.
 3. **Se connecter** (sur son ordinateur) : `ssh root@IP` ; répondre `yes` la première fois ; le mot de passe ne s'affiche pas
    pendant la frappe. Alternative : le bouton *Web console* du panneau.
-4. **Installer** (sur le serveur), en une commande :
-   `curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo bash -s -- atelier.mon-domaine.ca moi@exemple.ca`
+4. **Installer** (sur le serveur), en une commande. **Avant de la donner, confirme le cas de la personne** par une question à
+   choix : son serveur a-t-il déjà des applications Docker avec **Traefik** (souvent un VPS Hostinger avec Docker) ? Pour le
+   vérifier sur le serveur : `docker ps | grep -i traefik` (une ligne = oui ; rien ou
+   « command not found » = non).
+   - Non (cas habituel) : `curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo bash -s -- atelier.mon-domaine.ca moi@exemple.ca`
+   - Oui, Traefik : `curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo bash -s -- --traefik atelier.mon-domaine.ca` (pas de courriel :
+     Traefik obtient le certificat ; aucune règle de pare-feu n'est changée).
+   - Dans le doute, la commande habituelle suffit : elle détecte Traefik d'elle-même et s'installe derrière lui.
+   - **Mettre à jour** plus tard : relancer exactement la même commande ; les données (`data/`) restent.
    Le script affiche `== 1/7` à `== 7/7 C'est installé`, puis l'adresse et le mot de passe temporaire du compte `admin`.
    Sans curl : `sudo apt update && sudo apt install -y git`, `sudo git clone https://github.com/jpdesbiens11/Dynamite-Agile.git /opt/dynamite_agile`, puis
    `sudo bash /opt/dynamite_agile/deploy/install.sh atelier.mon-domaine.ca moi@exemple.ca`.

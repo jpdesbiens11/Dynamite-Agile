@@ -2,47 +2,52 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Logo « DynamiteAgile » (D-O-040)",
-      "why": "Dynamite en orange, Agile en turquoise, collés, sans le « | » ; police Baloo 2 ExtraBold, choisie par JP parmi six. Barre du haut, connexion, téléphone, About.",
+      "title": "Installation : le cas Traefik (D-O-042)",
+      "why": "Page d'installation : case « Mon serveur a déjà des applications Docker avec Traefik » ; la commande devient --traefik <domaine> (sans courriel) ; le message pour l'assistant IA le dit. Guide de l'assistant (FR / EN) : confirmer le cas par une question à choix et une commande de vérification ; relancer la même commande pour mettre à jour.",
       "files": [
-        "static/js/app.js",
-        "static/css/app.css"
+        "tools/site/installation.html",
+        "tools/site/en/installation.html",
+        "tools/site/install.js",
+        "tools/site/site.css",
+        "tools/site/installer.md",
+        "tools/site/en/installer.md"
       ]
     },
     {
       "id": "C2",
-      "title": "Police servie par le serveur de l'équipe",
-      "why": "Seulement les 13 lettres du logo (static/fonts/baloo2-logo.woff2, 2 Ko), licence SIL OFL à côté ; aucune police chargée du web ; police du système si elle manque.",
+      "title": "install.sh détecte Traefik",
+      "why": "Avec la commande habituelle (domaine et courriel), un serveur dont Traefik tient déjà le web est installé derrière lui, avant toute règle de pare-feu ou de certificat.",
       "files": [
-        "static/fonts/baloo2-logo.woff2",
-        "static/fonts/OFL-Baloo2.txt",
-        "core/router.py",
-        "tests/test_logo.py"
+        "deploy/install.sh"
       ]
     },
     {
       "id": "C3",
-      "title": "Vitrine et site web",
-      "why": "Le même logo, la police intégrée à la page (data:).",
+      "title": "Site web à jour",
+      "why": "Diamond dans la grille des outils (onze outils), une section « Les nouveautés » (Commencer avec un assistant IA, Diamond et ses exports, téléphone et Partager, mises à jour officielles), même logo que l'outil.",
       "files": [
-        "tools/vitrine/template.html",
         "tools/build_vitrine.py",
+        "tools/vitrine/template.html",
         "tools/build_site.py",
-        "static/apps/vitrine/index.html",
-        "site/"
+        "tools/site_text.py",
+        "tools/site/index.html",
+        "tools/site/en/index.html",
+        "site/",
+        "static/apps/vitrine/index.html"
       ]
     },
     {
       "id": "C4",
-      "title": "Version 0.60.32 et documentation",
-      "why": "Décision, état du projet, journal, fiche de version.",
+      "title": "Version 0.60.34, tests et documentation",
+      "why": "tests/test_install_traefik_choice.py ; décision, état du projet, journal, fiche de version.",
       "files": [
+        "tests/test_install_traefik_choice.py",
         "core/__init__.py",
         "CLAUDE.md",
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.32.json",
+        "docs/releases/0.60.34.json",
         "tests/test_open_v060.py"
       ]
     }

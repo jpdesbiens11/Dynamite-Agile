@@ -32,8 +32,15 @@ Dynamite | Agile. The illustrated page for people is {{SITE_URL}}/en/installatio
    `nslookup workshop.my-domain.com` must show the server's IP.
 3. **Log in** (on their computer): `ssh root@IP`; answer `yes` the first time; the password does not show while typing.
    Alternative: the *Web console* button of the control panel.
-4. **Install** (on the server), with one command:
-   `curl -fsSL {{SITE_URL}}/install.sh | sudo DA_LANG=en bash -s -- workshop.my-domain.com me@example.com`
+4. **Install** (on the server), with one command. **Before giving it, confirm the person's case** with a multiple-choice
+   question: does their server already run Docker applications with **Traefik** (often a Hostinger VPS with Docker)? To check
+   on the server: `docker ps | grep -i traefik` (a line = yes; nothing or « command not
+   found » = no).
+   - No (the usual case): `curl -fsSL {{SITE_URL}}/install.sh | sudo DA_LANG=en bash -s -- workshop.my-domain.com me@example.com`
+   - Yes, Traefik: `curl -fsSL {{SITE_URL}}/install.sh | sudo DA_LANG=en bash -s -- --traefik workshop.my-domain.com` (no email:
+     Traefik gets the certificate; no firewall rule is changed).
+   - When in doubt, the usual command is enough: it detects Traefik by itself and installs behind it.
+   - **Update** later: run exactly the same command again; the data (`data/`) stays.
    The script prints `== 1/7` to `== 7/7 Installed`, then the address and the temporary password of the `admin` account.
    Without curl: `sudo apt update && sudo apt install -y git`, `sudo git clone {{REPO}}.git /opt/dynamite_agile`, then
    `sudo DA_LANG=en bash /opt/dynamite_agile/deploy/install.sh workshop.my-domain.com me@example.com`.

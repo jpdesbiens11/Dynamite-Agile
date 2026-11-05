@@ -18,6 +18,7 @@ sys.path.insert(0, str(BASE))
 TOOLS = [  # (icon, accent, name, sentence)
     ("dashboard", "--b", "Dashboard", "Tout ce qui vous attend dans tous vos Spaces, avec vos @mentions et un statut changeable sur place."),
     ("goldmine", "--y", "Goldmine", "Needs et requirements : Need Status, fonctions F-XX, criticité, Test Procedure, Q&A client."),
+    ("diamond", "--c", "Diamond", "L'analyse fonctionnelle : arbre, structure, pièces × fonctions, risques et DFMEA ; export Excel, draw.io et Word."),
     ("exploration", "--v", "Exploration", "Le plan du projet sur plusieurs mois : phases, prédécesseurs, jalons, Gantt et aller-retour Excel."),
     ("agile", "--b", "Agile", "Backlog, Sprints et Board ; Change Management avec PR, bugs et ECN approuvés au CCB."),
     ("dynamite", "--o", "Dynamite", "Le wiki : éditeur visuel, blocs ticket vivants, procédures, BDC, export Word et PDF."),
