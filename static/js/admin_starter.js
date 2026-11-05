@@ -9,7 +9,8 @@
   const COUNTS = [["team", "Membres de l'équipe"], ["needs", "Besoins (Needs)"], ["requirements", "Requirements"],
     ["tests", "Essais (Test Base)"], ["time_codes", "Codes de temps"], ["pages", "Pages Dynamite"],
     ["plan_weeks", "Exploration : plan de référence du PDP (semaines)"], ["diamond_functions", "Diamond : fonctions de l'arbre"], ["diamond_flows", "Diamond : flux de la structure"],
-    ["diamond_parts", "Diamond : pièces"], ["diamond_risks", "Diamond : risques projet"], ["diamond_dfmea", "Diamond : lignes du DFMEA"]];
+    ["diamond_parts", "Diamond : pièces"], ["diamond_risks", "Diamond : risques projet"], ["diamond_dfmea", "Diamond : lignes du DFMEA"],
+    ["backlog", "Agile : tickets du backlog (0.60.43)"], ["mvps", "Agile : MVP (Versions)"], ["deliverables", "Generator : livrables réservés"]];
 
   async function render(body) {
     const examples = (await api.get("/api/starter/examples")).examples;
@@ -79,9 +80,18 @@
 
   /* 0.60.18: step 1 spelled out for a beginner -- the prompt is served by the tool itself, so it works offline too. */
   function promptBox() {
+    /* 0.60.43 (D-O-052): a proven Space of the team as the worked example of the prompt */
+    const spaces = (DA.session.projects || []).filter((p) => p.key !== "HEADLAMP" && ["manager", "admin"].includes(p.role)
+      || (DA.session.user && DA.session.user.is_admin && p.key !== "HEADLAMP"));
+    const source = el("select", { "aria-label": "Space éprouvé en exemple", "data-new": "0.60.43-proven" },
+      el("option", { value: "" }, "Sans Space éprouvé (exemple générique)"),
+      spaces.map((p) => el("option", { value: p.key }, "Partir de " + p.key + " · " + p.name)));
+    const query = (lang) => "/api/starter/prompt?lang=" + lang + (source.value ? "&source=" + encodeURIComponent(source.value) : "");
+    const download = el("a", { class: "btn", href: "/api/starter/prompt?lang=fr&download=1", download: "" }, "Télécharger (.md)");
+    source.addEventListener("change", () => { download.href = query("fr") + "&download=1"; });
     async function copy(lang) {
       try {
-        const data = await api.get("/api/starter/prompt?lang=" + lang);
+        const data = await api.get(query(lang));
         await navigator.clipboard.writeText(data.text);
         toast("Prompt copié : collez-le dans une nouvelle conversation avec l'assistant IA.", "success");
       } catch (err) {
@@ -93,13 +103,15 @@
       el("ol", null,
         el("li", null, "Copiez le prompt (bouton ci-dessous)."),
         el("li", null, "Ouvrez une nouvelle conversation avec Claude.ai, ChatGPT, Gemini ou Copilot, collez le prompt et envoyez-le."),
-        el("li", null, "Répondez aux questions, une à la fois, surtout en cliquant les choix proposés (environ 26, de 30 à 45 minutes) : "
+        el("li", null, "Répondez aux questions, une à la fois, surtout en cliquant les choix proposés (environ 27, de 30 à 45 minutes) : "
           + "vous n'écrivez que votre produit en une phrase et les noms de l'équipe. « Je ne sais pas » est toujours un choix. "
           + "Ne donnez jamais de mot de passe."),
         el("li", null, "Enregistrez le fichier .json qu'il vous donne, puis déposez-le à l'étape 2.")),
+      spaces.length ? DA.field("Modèle", source, "Un Space déjà mené à bien sert d'exemple à l'assistant : même niveau de détail, "
+        + "même style, pour le nouveau produit.") : null,
       el("div", { class: "actions" },
         el("button", { type: "button", class: "btn btn-primary", onclick: () => copy("fr") }, "Copier le prompt"),
-        el("a", { class: "btn", href: "/api/starter/prompt?lang=fr&download=1", download: "" }, "Télécharger (.md)"),
+        download,
         el("button", { type: "button", class: "btn", onclick: () => copy("en") }, "Copy the English prompt")),
       el("p", { class: "muted" }, "Le prompt contient les questions, les règles de l'entrevue et le format exact du fichier, "
         + "avec les valeurs que l'outil accepte."));

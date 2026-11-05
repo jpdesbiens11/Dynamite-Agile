@@ -157,16 +157,22 @@ Show each proposal as a table or an indented list, and have it corrected.
 
 Recap block 5: number of functions by level, of inputs, outputs, flows by view, parts, risks and DFMEA rows.
 
-## Block 6 — The wiki (question 25)
+## Block 6 — The wiki, the backlog and the deliverables (questions 25 and 26)
 
 25. **The first pages**: suggest 5 to 12 pages on two levels, each with a short starting content, for example: the home
     page of the project (goal, team, links) then, below it, Lean Canvas and hypotheses, Project plan and milestones,
     Functional specification as a table, Decision log, Meeting notes, Concept Review. Ask which to keep. Recap the list
     (title, parent page).
 
-## Block 7 — The file (question 26)
+26. **The Agile backlog by MVP and the deliverables**: suggest one **epic** per MVP (MVP0: check the need; MVP1: the
+    chosen concept; MVP2: the working prototype; MVP3: the validation) with 2 to 6 **stories** or **tasks** each (short
+    title, owner from the team, 1 to 13 points), then the Generator **deliverables** to reserve (Lean Canvas `LCV`,
+    Concept Review `CRV`, functional specification `CDCF`, Pugh `PUGH`, PDR, CDR, Validation Report `VVR`). Ask which
+    to keep. Recap: epics, tickets per MVP, deliverables.
 
-26. Show a **final recap** (number of people, needs, requirements, tests, codes, pages, functions, parts, risks;
+## Block 7 — The file (question 27)
+
+27. Show a **final recap** (number of people, needs, requirements, tests, codes, pages, functions, parts, risks;
     start and length of the plan) and ask: "Shall I generate the
     file?".
 
@@ -199,7 +205,8 @@ Then produce the file:
 
 Top-level keys, in this order: `format` (`"dynamite-project-starter"`), `format_version` (`1`), `language` (`fr` or
 `en`), `generated_by` (the name of the assistant), `generated_at` (date `YYYY-MM-DD`), `project`, `team`,
-`requirements`, `tests`, `time_codes` (optional), `pages`, `diamond` (object: `functions`, `ports`, `flows`, `parts`, `risks`, `dfmea`).
+`requirements`, `tests`, `time_codes` (optional), `pages`, `diamond` (object: `functions`, `ports`, `flows`, `parts`, `risks`, `dfmea`),
+`backlog`, `deliverables`.
 
 | Object | Fields (in **bold**: required; the others may be removed) |
 |---|---|
@@ -216,6 +223,8 @@ Top-level keys, in this order: `format` (`"dynamite-project-starter"`), `format_
 | `diamond.parts[]` (80 at most) | **`name`**, `kind` (default `designed`), `notes`, `functions` (refs of secondary or tertiary functions) |
 | `diamond.risks[]` (60 at most) | **`title`**, **`probability`** and **`impact`** (integers 1 to 5), `cause`, `consequence`, `category`, `phase`, `response`, `action`, `function` (ref) |
 | `diamond.dfmea[]` (120 at most) | `higher`, `focus`, `lower`, `function` (ref), `requirement`, **`failure_mode`**, `effect`, `severity`, `cause`, `prevention`, `occurrence`, `detection_ctrl`, `test` (the ref of the **key test** that detects the failure, one per row, taken from `tests`), `detection` (S, O, D: integers 1 to 10), `action` |
+| `backlog[]` (150 at most) | **`ref`** (unique, e.g. `E0`, `S1`), **`title`**, `type` (`epic`, `story`, `task`, `bug`; default `story`), `description`, `parent` (the ref of an **epic above**), `mvp` (`MVP0` to `MVP9`), `assignee` (a `username` of `team`), `priority` (`lowest`, `low`, `medium`, `high`, `highest`), `points` (0 to 100) |
+| `deliverables[]` (40 at most) | **`doc_type`** (Generator code: `LCV`, `CRV`, `CDCF`, `PUGH`, `PDR`, `CDR`, `VVR`, `MVP`, `BML`…), **`title`**, `step` (PDP step `01` to `21`; default: the type's), `sub` |
 
 Mind the similar names: a requirement has `clause` and `acceptance_criteria`; a test has `section` and `acceptance`.
 

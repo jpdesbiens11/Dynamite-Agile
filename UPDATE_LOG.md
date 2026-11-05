@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.42
+# Journal de mise à jour — 0.60.43
+
+- **Version :** 0.60.42 → 0.60.43 (2026-11-04)
+- **Changements :**
+  1. **Project Starter complet** (D-O-052) : backlog Agile par MVP et livrables du Generator ; un Space éprouvé sert de modèle à l'IA.
+- **Base de données :** []
+
+## Précédent
+
+### Journal de mise à jour — 0.60.42
 
 - **Version :** 0.60.41 → 0.60.42 (2026-11-04)
 - **Changements :**
   1. **Le Space par défaut, tout l'environnement** (D-O-051) : Dashboard, recherche et feuille de temps sur le produit ; « Commencer » le règle.
 - **Base de données :** []
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.41
 

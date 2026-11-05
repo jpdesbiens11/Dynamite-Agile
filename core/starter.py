@@ -335,6 +335,8 @@ def parse(data):
     from . import starter_diamond  # 0.60.22 (D-O-032): the functional tree and what derives from it
     clean["diamond"] = starter_diamond.parse(raw, language, {t["ref"] for t in clean["tests"]},
                                               {m["username"] for m in clean["team"]})
+    from . import starter_more  # 0.60.43 (D-O-052): the Agile backlog by MVP and the Generator deliverables
+    clean["more"] = starter_more.parse(raw, {m["username"] for m in clean["team"]})
     return clean, _warnings(clean)
 
 
@@ -344,6 +346,8 @@ def _warnings(clean):
         out.append("Aucun requis : Goldmine restera vide.")
     if not clean.get("diamond", {}).get("functions"):
         out.append("Aucun arbre fonctionnel : Diamond restera vide (arbre, structure, pièces, risques, DFMEA à faire dans l'outil).")
+    if not (clean.get("more") or {}).get("backlog"):
+        out.append("Aucun backlog : Agile restera vide (epics et stories par MVP à faire dans l'outil).")
     if not clean["time_codes"]:
         out.append("Aucun code de temps : le Space utilisera les codes du PDP (A-01 … D-21).")
     untested = [r["ref"] for r in clean["requirements"] if r["kind"] == "requirement"
@@ -363,6 +367,11 @@ def starter_diamond_counts(clean):
     return starter_diamond.counts(clean)
 
 
+def _more_counts(clean):
+    from . import starter_more
+    return starter_more.counts(clean)
+
+
 def summary(clean):
     """Counts shown before anything is created (the preview of « Commencer »)."""
     return {"project": clean["project"]["key"] + " · " + clean["project"]["name"], "team": len(clean["team"]),
@@ -370,4 +379,5 @@ def summary(clean):
             "needs": sum(r["kind"] == "need" for r in clean["requirements"]), "tests": len(clean["tests"]),
             "time_codes": len(codes_of(clean)), "pages": len(clean["pages"]), "plan_weeks": clean["project"]["weeks"],
             **{"diamond_" + k: n for k, n in starter_diamond_counts(clean).items()},
+            **_more_counts(clean),
             "standards": sorted({x["standard"] for x in clean["requirements"] + clean["tests"] if x["standard"]})}

@@ -63,3 +63,15 @@ PDP (mêmes codes que Timesheet), les revues Lean Canvas, Concept Review, PDR, C
 quatre phases sur `project.weeks` (20 / 25 / 30 / 25 %), et des étapes en parallèle selon la taille de l'équipe (1 piste
 jusqu'à 2 personnes, 2 pour 3 ou 4, 3 dès 5) ; les responsables prennent les pistes à tour de rôle.
 
+
+## Backlog, livrables et Space éprouvé (0.60.43, D-O-052)
+
+`backlog` (facultatif, 150 au plus) remplit Agile : `{ref, type: epic | story | task | bug, title, description, parent (la
+ref d'un epic plus haut), mvp (MVP0 à MVP9), assignee (username de team), priority, points}`. Chaque MVP devient une
+Version d'Agile ; chaque ticket du MVP la porte, avec le label du MVP. `deliverables` (facultatif, 40 au plus) réserve les
+références du Generator : `{doc_type (LCV, CRV, CDCF, PUGH, PDR, CDR, VVR, MVP, BML…), title, step, sub}` ; sans `step`,
+l'étape du PDP est celle du type. Les règles sont dans `core/starter_more.py`.
+
+Un **Space éprouvé** se relit au même format : `GET /api/starter/export?space=KEY` (administrateurs et Admin du Space ;
+⚙ Admin → Spaces → « Exporter comme modèle (IA) »), et `GET /api/starter/prompt?source=KEY` ajoute ce fichier au prompt comme
+exemple à suivre (⚙ Admin → Spaces → Commencer → « Modèle »). Le fichier relu passe `core/starter.parse`.

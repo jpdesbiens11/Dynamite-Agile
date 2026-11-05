@@ -218,12 +218,14 @@ def api_apply(ctx):
     rows = {r["test_id"]: r["id"] for r in ctx.conn.execute("SELECT id, test_id FROM testing_tests WHERE project_id = ?", (pid,))}
     made = starter_diamond.apply(ctx.conn, ctx.user["id"], pid, clean["diamond"],
                                  {ref: rows.get(code) for ref, code in test_ids.items()})  # ref -> row id of the test
+    from . import starter_more  # 0.60.43 (D-O-052): the Agile backlog by MVP, the Generator deliverables
+    more = starter_more.apply(ctx, pid, key, clean["more"], lambda p, body, func: _as(ctx, p, body, func))
     from modules.exploration import reference  # 0.60.22: the reference Gantt of the PDP, sized for the team
     owners = [r["id"] for m in clean["team"] for r in ctx.conn.execute("SELECT id FROM users WHERE username = ?", (m["username"],))]
     plan_tasks = reference.apply(ctx, pid, reference.parse_start(project["start_date"]), project["weeks"], owners or [ctx.user["id"]])
     counts = {"accounts_created": len(created), "accounts_reused": len(reused), "requirements": len(req_keys),
               "tests": len(test_ids), "time_codes": len(codes), "pages": len(page_ids),
-              **{"diamond_" + k: n for k, n in made.items()}, "plan_tasks": plan_tasks}
+              **{"diamond_" + k: n for k, n in made.items()}, "plan_tasks": plan_tasks, **{"agile_" + k: n for k, n in more.items()}}
     # 0.60.42 (D-O-051): the new product becomes the default Space of whoever has none yet -- the whole platform opens on it
     from core import prefs as P
     for uid in set(owners + [ctx.user["id"]]):
@@ -263,17 +265,27 @@ def api_prompt(ctx):
     from . import starter_prompt
     from .files import RawFile
     lang = "en" if str((ctx.query or {}).get("lang") or "fr")[:2] == "en" else "fr"
-    text = starter_prompt.render(lang)
+    proven = None
+    if (ctx.query or {}).get("source"):  # 0.60.43 (D-O-052): a proven Space of the team as the worked example
+        from . import starter_export
+        proven = starter_export.build(ctx.conn, starter_export._space(ctx, "source"))
+    text = starter_prompt.render(lang, proven=proven)
     if str((ctx.query or {}).get("download") or "") == "1":
         return RawFile(text.encode("utf-8"), "starter.md" if lang == "fr" else "starter_en.md", "text/markdown; charset=utf-8",
                        export=False)
     return {"lang": lang, "text": text}
 
 
+def _export(ctx):
+    from . import starter_export
+    return starter_export.api_export(ctx)
+
+
 ROUTES = [
     ("GET", r"/api/starter/status", api_status, "admin"),
     ("GET", r"/api/starter/examples", api_examples, "admin"),
     ("GET", r"/api/starter/prompt", api_prompt, "user"),
+    ("GET", r"/api/starter/export", _export, "user"),  # 0.60.43 (D-O-052): administrators or the Space's managers
     ("POST", r"/api/starter/check", api_check, "admin"),
     ("POST", r"/api/starter/apply", api_apply, "admin"),
 ]

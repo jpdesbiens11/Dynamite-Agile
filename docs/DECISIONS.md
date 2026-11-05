@@ -445,3 +445,7 @@ Le prompt `starter.md` passe en 0.60.18.
 ### D-O-051 — Le Space par défaut est tout l'environnement (2026-11-05, demande de JP)
 **Contexte :** JP veut qu'en mettant un Space par défaut, toute la plateforme tombe dans l'environnement de développement autonome du produit : pas de bruit multiprojet, sprints et suivi sur le projet actuel.
 **Décision :** les onglets suivaient déjà `DA.spaces.workKey` (0.60.21) ; s'y ajoutent le Dashboard (le Space seul, ?all=1 pour tout), la recherche (le Space par défaut, sauf « tous les Spaces » ou un choix), la nouvelle plage de la feuille de temps ; « Commencer » règle le nouveau produit comme Space par défaut de qui n'en a pas.
+
+### D-O-052 — Le prompt couvre tous les modules ; un Space éprouvé devient le modèle (2026-11-05, demande de JP)
+**Contexte :** JP veut que les utilisateurs peuplent la plateforme en créant le Space de leur produit avec l'IA, d'après un prompt qui couvre tous les modules, et qu'un Space éprouvé (archivé, copié, recréé) serve de source à l'IA pour le prochain projet complet.
+**Décision :** le format reçoit `backlog` (Agile : epics, stories, tasks, bugs par MVP ; une Version par MVP) et `deliverables` (références du Generator) — `core/starter_more.py` ; question 26 du prompt (27 questions). `GET /api/starter/export?space=KEY` (administrateurs, Admin du Space) relit un Space au même format, validé par `core/starter.parse` ; `GET /api/starter/prompt?source=KEY` ajoute ce fichier au prompt comme exemple à suivre pour un nouveau produit (nouvelle clé, nouveaux codes).

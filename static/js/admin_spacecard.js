@@ -71,6 +71,9 @@
       el("button", { type: "button", class: "btn", "data-tip": "Copie complète, clé " + card.suggested_key,
         onclick: () => copy(card, {}, goto) }, "Dupliquer"),
       el("button", { type: "button", class: "btn", onclick: () => saveAs(card, goto) }, "Enregistrer sous…"),
+      p.key === "HEADLAMP" ? null : el("a", { class: "btn", href: "/api/starter/export?space=" + encodeURIComponent(p.key) + "&download=1",
+        download: "", "data-new": "0.60.43-export-starter", "data-tip": "Ce Space comme fichier Project Starter : le modèle qu'un assistant IA "
+          + "suit pour préparer le prochain produit (⚙ Admin → Spaces → Commencer → Modèle)" }, "Exporter comme modèle (IA)"),
       el("a", { class: "btn", href: "/api/admin/projects/" + p.id + "/backup.zip", download: "",
         "data-tip": "Sauvegarde complète du Space (une copie reste sur le serveur) ; se restaure dans Update et sauvegardes" }, "Sauvegarder (.zip)"),
       el("button", { type: "button", class: "btn", onclick: async () => {
