@@ -426,6 +426,16 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .seg input { position: absolute; opacity: 0; }
 .seg label:focus-within { outline: 3px solid var(--blue); outline-offset: -3px; }
 [data-pc][hidden], [data-vps-cmd][hidden] { display: none !important; }
+/* 0.60.45 (D-O-054): the « Modules » page */
+.mod { margin: 2.5rem 0 3rem; padding-top: 1rem; border-top: 2px dashed rgba(38, 50, 63, .2); }
+.mod h2 { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.mod .mod-logo { width: 2.4rem; height: 2.4rem; }
+.mod .depth { font: 600 .85rem var(--mono, monospace); color: #5b6673; }
+.mod h4 { margin: 1.2rem 0 .2rem; }
+.mod .mvpx { font-style: italic; color: #5b6673; }
+.refs { padding-left: 1.4rem; }
+.refs li { margin: .45rem 0; line-height: 1.45; }
+.refs .why { display: block; color: #5b6673; font-size: .92rem; }
 
 </style>
 </head>
@@ -459,7 +469,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 </svg>
 <header class="top">
   <a class="logo" href="index.html"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="4" fill="#ffd23f" stroke="#26323f" stroke-width="2"/><path d="M18 6 L11 17 H16 L14 26 L22 14 H17 Z" fill="none" stroke="#26323f" stroke-width="2" stroke-linejoin="round"/></svg><span class="logo-word" role="img" aria-label="Dynamite Agile"><span class="lw-d">Dynamite</span><span class="lw-a">Agile</span></span></a>
-  <nav aria-label="Pages"><a href="index.html">Home</a><a href="installation.html">Installation</a><a href="guide.html">Guide</a><a href="versions.html" class="on" aria-current="page">Versions</a></nav>
+  <nav aria-label="Pages"><a href="index.html">Home</a><a href="installation.html">Installation</a><a href="guide.html">Guide</a><a href="modules.html">Modules</a><a href="versions.html" class="on" aria-current="page">Versions</a></nav>
   <a class="lang" href="../versions.html" hreflang="fr" lang="fr" title="Français">FR</a>
   <a class="btn btn-primary gh" href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a>
 </header>
@@ -495,7 +505,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   <h2>All versions</h2>
   <ol id="ver-list" class="stepper ver-list"></ol>
 </main>
-<footer>DynamiteAgile · free software under the MIT licence · version 0.60.44 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>DynamiteAgile · free software under the MIT licence · version 0.60.45 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */

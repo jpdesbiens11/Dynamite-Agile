@@ -2,33 +2,44 @@
   "changes": [
     {
       "id": "C1",
-      "title": "install.sh --local (D-O-053)",
-      "why": "Serveur Linux du réseau de l'équipe, qui peut rester sans Internet : autorité de certification de l'équipe (tools/make_team_ca.py), HTTPS sur le nom de la machine, pare-feu ouvert aux seuls réseaux privés.",
+      "title": "Le texte des modules et leurs références (D-O-054)",
+      "why": "Une seule source pour l'outil et le site : neuf modules (Diamond avec ses cinq facettes), en français et en anglais ; 80 références vérifiées le 2026-11-05, gratuites d'abord, normes et livres par leur page publique.",
       "files": [
-        "deploy/install.sh"
+        "modules/help/module_docs.py",
+        "modules/help/module_docs_more.py",
+        "modules/help/module_docs_refs.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Page d'installation : où et sur quel ordinateur (D-O-053)",
-      "why": "Trois destinations en 5 étapes chacune, choix « Votre ordinateur » : clé Oracle protégée par icacls (Windows) ou chmod 600, confiance au certificat par Windows, macOS ou Linux ; note sur l'adresse srvNNNN.hstgr.cloud de Hostinger ; prompt de l'assistant IA avec l'ordinateur.",
+      "title": "Bibliothèque HeadLamp et écran Help (D-O-054)",
+      "why": "Une page « Documentation des modules » et une page par module dans HeadLamp, régénérées tant que personne ne les modifie ; Help → Vue d'ensemble montre une carte par module.",
       "files": [
-        "tools/site/installation.html",
-        "tools/site/en/installation.html",
-        "tools/site/install.js",
-        "tools/site/site.css",
-        "tools/site/installer.md",
-        "tools/site/en/installer.md"
+        "modules/help/module_docs_pages.py",
+        "modules/help/__init__.py",
+        "modules/help/headlamp.py",
+        "static/js/help/help.js"
       ]
     },
     {
       "id": "C3",
-      "title": "Tests",
-      "why": "tests/test_install_local.py ; test_open_v060 et test_windows_install suivent les trois destinations.",
+      "title": "Page Modules du site (D-O-054)",
+      "why": "site/modules.html et site/en/modules.html, construites du même texte ; onglet « Modules » dans la barre du site.",
       "files": [
-        "tests/test_install_local.py",
-        "tests/test_open_v060.py",
-        "tests/test_windows_install.py"
+        "tools/site_modules.py",
+        "tools/build_site.py",
+        "tools/site_text.py",
+        "tools/site/modules.html",
+        "tools/site/en/modules.html",
+        "tools/site/site.css"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Tests",
+      "why": "tests/test_module_docs.py : contenu complet dans les deux langues, références propres, pages HeadLamp gardées si quelqu'un les modifie, page du site.",
+      "files": [
+        "tests/test_module_docs.py"
       ]
     }
   ]

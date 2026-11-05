@@ -228,3 +228,13 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .seg input { position: absolute; opacity: 0; }
 .seg label:focus-within { outline: 3px solid var(--blue); outline-offset: -3px; }
 [data-pc][hidden], [data-vps-cmd][hidden] { display: none !important; }
+/* 0.60.45 (D-O-054): the « Modules » page */
+.mod { margin: 2.5rem 0 3rem; padding-top: 1rem; border-top: 2px dashed rgba(38, 50, 63, .2); }
+.mod h2 { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.mod .mod-logo { width: 2.4rem; height: 2.4rem; }
+.mod .depth { font: 600 .85rem var(--mono, monospace); color: #5b6673; }
+.mod h4 { margin: 1.2rem 0 .2rem; }
+.mod .mvpx { font-style: italic; color: #5b6673; }
+.refs { padding-left: 1.4rem; }
+.refs li { margin: .45rem 0; line-height: 1.45; }
+.refs .why { display: block; color: #5b6673; font-size: .92rem; }

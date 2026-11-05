@@ -23,6 +23,8 @@ def on_startup(ctx):
     update_guide.ensure(ctx)
     from . import agile_guide  # D-A-050: the Agile method, step by step with screenshots
     agile_guide.ensure(ctx)
+    from . import module_docs_pages  # 0.60.45 (D-O-054): one page per module, with its references, for learning students
+    module_docs_pages.ensure(ctx)
 
 
 ROUTES = [

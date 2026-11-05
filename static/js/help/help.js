@@ -116,9 +116,25 @@
       "data-new": c.isNew ? "0.47.0-help-" + c.id : null },  // D-A-049: chapters added by the tour of the site
       el("span", { class: "hp-card-step" }, "Étape " + c.step + " · " + c.tool), el("strong", null, c.title),
       el("span", { class: "muted" }, c.summary)))),
+    docsSection(),
     el("h2", null, "Questions fréquentes"),
     el("ul", { class: "hp-faq-teaser" }, HELP.faq.slice(0, 4).map((f, i) => el("li", null, el("a", { href: "#/help/faq" }, f.q)))),
     el("a", { href: "#/help/faq" }, "Toute la FAQ →"));
+  }
+
+  /* 0.60.45 (D-O-054): the documentation of every module, pages of the HeadLamp library */
+  function docsSection() {
+    const docs = headlamp && headlamp.docs;
+    if (!docs) return null;
+    const href = (id) => "#/dynamite/" + HL + "/page/" + id;
+    return el("section", { class: "hp-docs", "data-new": "0.60.45-module-docs" },
+      el("h2", null, "Documentation des modules"),
+      el("p", { class: "muted" }, "Pour chaque module : pourquoi il existe, le besoin couvert, le pas à pas, ce qu'on y fait de MVP 0 à "
+        + "MVP x, et ses références de la plus à la moins pertinente. "
+        + (headlamp.member ? "" : "Rejoignez HeadLamp [Sandbox] (panneau de gauche) pour lire ces pages.")),
+      el("div", { class: "hp-cards" }, docs.modules.filter((m) => m.page).map((m) => el("a", { class: "hp-card", href: href(m.page) },
+        el("span", { class: "hp-card-step" }, "Module"), el("strong", null, m.name), el("span", { class: "muted" }, m.role)))),
+      el("a", { href: href(docs.hub) }, "Toute la documentation →"));
   }
 
   function chapterView(page, c, main, parts) {

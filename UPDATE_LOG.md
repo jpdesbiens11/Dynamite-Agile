@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.44
+# Journal de mise à jour — 0.60.45
+
+- **Version :** 0.60.44 → 0.60.45 (2026-11-04)
+- **Changements :**
+  1. **Documentation des modules** (D-O-054) : pourquoi, besoin, pas à pas, MVP 0 à MVP x et références, dans HeadLamp et sur le site.
+- **Base de données :** []
+
+## Précédent
+
+### Journal de mise à jour — 0.60.44
 
 - **Version :** 0.60.43 → 0.60.44 (2026-11-04)
 - **Changements :**
   1. **Installation selon l'endroit et l'ordinateur** (D-O-053) : VPS, serveur local sans Internet ou PC Windows ; commandes Windows, macOS ou Linux ; install.sh --local.
 - **Base de données :** []
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.43
 

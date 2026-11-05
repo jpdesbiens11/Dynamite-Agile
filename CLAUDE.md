@@ -98,6 +98,8 @@
   Generator ; un Space éprouvé relu en fichier Project Starter sert de modèle au prompt (`/api/starter/export`, `?source=`).
 - **0.60.44** (2026-11-05) : **installation selon l'endroit et l'ordinateur** (D-O-053) : VPS, serveur local sans Internet (`install.sh --local`) ou PC Windows ;
   « Votre ordinateur » (Windows, macOS, Linux) choisit chaque commande ; adresse Hostinger expliquée.
+- **0.60.45** (2026-11-05) : **documentation des modules** (D-O-054, `modules/help/module_docs*.py`) : pourquoi, besoin, pas à pas, MVP 0 à MVP x, références classées ;
+  HeadLamp (Help → Documentation des modules) et page Modules du site.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

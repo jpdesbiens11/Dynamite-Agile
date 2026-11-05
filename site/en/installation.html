@@ -426,6 +426,16 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .seg input { position: absolute; opacity: 0; }
 .seg label:focus-within { outline: 3px solid var(--blue); outline-offset: -3px; }
 [data-pc][hidden], [data-vps-cmd][hidden] { display: none !important; }
+/* 0.60.45 (D-O-054): the « Modules » page */
+.mod { margin: 2.5rem 0 3rem; padding-top: 1rem; border-top: 2px dashed rgba(38, 50, 63, .2); }
+.mod h2 { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.mod .mod-logo { width: 2.4rem; height: 2.4rem; }
+.mod .depth { font: 600 .85rem var(--mono, monospace); color: #5b6673; }
+.mod h4 { margin: 1.2rem 0 .2rem; }
+.mod .mvpx { font-style: italic; color: #5b6673; }
+.refs { padding-left: 1.4rem; }
+.refs li { margin: .45rem 0; line-height: 1.45; }
+.refs .why { display: block; color: #5b6673; font-size: .92rem; }
 
 </style>
 </head>
@@ -459,7 +469,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 </svg>
 <header class="top">
   <a class="logo" href="index.html"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="4" fill="#ffd23f" stroke="#26323f" stroke-width="2"/><path d="M18 6 L11 17 H16 L14 26 L22 14 H17 Z" fill="none" stroke="#26323f" stroke-width="2" stroke-linejoin="round"/></svg><span class="logo-word" role="img" aria-label="Dynamite Agile"><span class="lw-d">Dynamite</span><span class="lw-a">Agile</span></span></a>
-  <nav aria-label="Pages"><a href="index.html">Home</a><a href="installation.html" class="on" aria-current="page">Installation</a><a href="guide.html">Guide</a><a href="versions.html">Versions</a></nav>
+  <nav aria-label="Pages"><a href="index.html">Home</a><a href="installation.html" class="on" aria-current="page">Installation</a><a href="guide.html">Guide</a><a href="modules.html">Modules</a><a href="versions.html">Versions</a></nav>
   <a class="lang" href="../installation.html" hreflang="fr" lang="fr" title="Français">FR</a>
   <a class="btn btn-primary gh" href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a>
 </header>
@@ -468,7 +478,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   <h1>Install DynamiteAgile</h1>
   <p class="lead">Five steps, top to bottom. Each command copies in one click, and a label says <b>where</b> to paste it:
     <span class="where pc">on your computer</span> or <span class="where srv">on the server</span>.</p>
-  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Latest version: 0.60.44</b> · 2026-11-04 — « Crystal Clear » installation: step 1 asks where the tool runs (online VPS, local Linux server without Internet, the team&#x27;s Windows PC) and which computer you type on (Windows, macOS, Linux); every « on your computer » command follows that choice (PowerShell or Terminal). install.sh --local serves the team&#x27;s network with its own certificate. <a href="versions.html">See all versions →</a><br>Already installed? ⚙ Admin → Update → « Mise à jour en ligne » (online update): check, read, approve, follow live.</p>
+  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Latest version: 0.60.45</b> · 2026-11-04 — Documentation of every module to learn by doing: why it exists, the need it covers, step by step, what you do there from MVP 0 to MVP x and its references from the most to the least relevant. In the tool (Help → « Documentation des modules », HeadLamp pages) and on the website (Modules page, FR and EN). <a href="versions.html">See all versions →</a><br>Already installed? ⚙ Admin → Update → « Mise à jour en ligne » (online update): check, read, approve, follow live.</p>
 
   <div class="progress-bar" aria-live="polite"><div class="track"><i></i></div><span id="progress-text">0 steps done</span></div>
 
@@ -734,7 +744,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       <code>python C:\DynamiteAgile\app_dynamite_agile.py --reset-password admin</code></td></tr>
     <tr><td>Move from trial to team</td><td>Follow the “On an online server” path: the same command with your domain</td></tr></table>
 </main>
-<footer>DynamiteAgile · free software under the MIT licence · version 0.60.44 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>DynamiteAgile · free software under the MIT licence · version 0.60.45 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */
