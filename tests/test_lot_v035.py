@@ -46,9 +46,8 @@ class LotV035Test(unittest.TestCase):
         self.assertIn('"0.45.0-palette"', palette)  # D-A-049: a new function carries its [new] tag
         app = (STATIC / "js" / "app.js").read_text(encoding="utf-8")
         self.assertIn("DA.bootSequence", app)
-        # 0.45.1 (D-B-089): both themes one click away in the account menu
-        self.assertIn('themeItem("carnet"', app)
-        self.assertIn('themeItem("terminal"', app)
+        # 0.45.1 (D-B-089) both themes in the account menu; 0.60.48 (D-O-057): in Paramètres only
+        self.assertNotIn("themeItem(", app)
         mentions = (STATIC / "js" / "tools" / "mentions.js").read_text(encoding="utf-8")
         self.assertIn('"/api/mentions" + (sent ? "?box=sent" : done ? "?box=done" : "")', mentions)
 

@@ -41,7 +41,7 @@ MIGRATIONS = [
 ]
 
 CHOICES = {
-    "language": ("fr",),  # D-B-042: French only; other languages through the browser's translation
+    "language": ("fr", "en"),  # D-B-042 French only; 0.60.48 (D-O-057): FR | EN switch in the top bar
     "theme": ("carnet", "terminal", "system", "light", "dark", "atlassian", "contrast"),  # D-B-087 default (« Thème par défaut »); D-B-088
     "font": ("system", "atlassian", "readable"),
     "font_size": ("90", "100", "112", "125"),
@@ -71,7 +71,8 @@ def get(conn, user_id):
             prefs.update({k: v for k, v in stored.items() if k in DEFAULTS})
         except ValueError:
             pass
-    prefs["language"] = "fr"
+    if prefs.get("language") not in CHOICES["language"]:  # 0.60.48 (D-O-057)
+        prefs["language"] = "fr"
     if prefs.get("theme") not in CHOICES["theme"]:  # a theme that no longer exists (restored backup)
         prefs["theme"] = DEFAULTS["theme"]
     return prefs

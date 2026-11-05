@@ -239,20 +239,6 @@
       manages ? link(t("menu.members"), "#/members", "members") : null, link("Révisions", "#/revisions", "revisions"));
   }
 
-  function themeItem(theme, label) {
-    const current = (session.prefs && session.prefs.theme) || "carnet";
-    const item = menuItem(label, async () => {
-      try {
-        session.prefs = await DA.savePrefs({ theme });
-        route();  // re-render: icons, marks and colours of the chosen theme
-      } catch (err) { toast(err.message, "error"); }
-    });
-    item.classList.add("menu-check");
-    item.setAttribute("role", "menuitemradio");
-    item.setAttribute("aria-checked", current === theme ? "true" : "false");
-    return item;
-  }
-
   function menuItem(label, action) {
     return el("button", { type: "button", class: "menu-item", role: "menuitem", onclick: () => { closeMenus(); action(); } }, label);
   }
@@ -269,10 +255,7 @@
       session.team && session.team.size ? menuItem(DA.teamLabel(session.team), () => { location.hash = "#/team"; }) : null,  // D-B-112
       manages ? menuItem(t("menu.members"), () => { location.hash = "#/members"; }) : null,
       el("hr"),
-      /* D-B-089: the two themes of the platform, one click away (also in Paramètres → Thème) */
-      el("span", { class: "menu-label", "data-new": "0.45.1-theme-menu" }, "Thème"),
-      themeItem("carnet", "Thème par défaut (croquis)"), themeItem("terminal", "Terminal R&D (labo geek)"),  // D-B-088
-      el("hr"),
+      el("hr"),  // 0.60.48 (D-O-057): the themes are in Paramètres only
       menuItem(t("menu.password"), openPasswordDialog),
       menuItem(t("menu.about"), showAbout),
       menuItem("Découvrir la plateforme (vitrine)", () => { window.open("/apps/vitrine/index.html", "_blank", "noopener"); }),  // D-B-087

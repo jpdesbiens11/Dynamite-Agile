@@ -1,0 +1,39 @@
+{
+  "version": "0.60.48",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "FR | EN dans la barre du haut de la plateforme, comme sur le site : un clic change la langue de l'interface, sans passer par Paramètres (le cadre de l'outil est traduit ; les écrans des modules suivent). Les thèmes ne sont plus dans le menu du compte, seulement dans Paramètres.",
+    "en": "FR | EN in the platform's top bar, like the website: one click switches the interface language, without going through Settings (the tool's frame is translated; module screens follow). Themes are no longer in the account menu, only in Settings."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "FR | EN dans la barre du haut (D-O-057)",
+      "why": "Les anglophones changent de langue d'un clic ; le choix est gardé dans les paramètres du compte, sur tous les postes, et la page se redessine sur place.",
+      "files": [
+        "static/js/tools/langswitch.js",
+        "static/index.html",
+        "static/css/app.css",
+        "core/prefs.py",
+        "static/js/tools/prefs.js"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Thèmes seulement dans Paramètres (D-O-057)",
+      "why": "Le menu du compte reste court ; Paramètres → Thème garde tous les thèmes.",
+      "files": [
+        "static/js/app.js"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Tests",
+      "why": "tests/test_lang_switch.py ; test_lot_v010 accepte maintenant « en ».",
+      "files": [
+        "tests/test_lang_switch.py",
+        "tests/test_lot_v010.py"
+      ]
+    }
+  ]
+}

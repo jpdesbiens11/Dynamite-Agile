@@ -105,8 +105,10 @@ class LotV010Test(unittest.TestCase):
         self.assertEqual(self.people["theo"].get("/api/me")["prefs"]["theme"], "carnet")  # D-B-087: default (was atlassian, D-B-035)
         prefs = nora.put("/api/me/prefs", {"theme": "atlassian", "font_size": "112", "my_items": True})["prefs"]
         self.assertEqual((prefs["theme"], prefs["language"], prefs["font_size"], prefs["my_items"]), ("atlassian", "fr", "112", True))
-        with self.assertRaises(ApiFailure):  # D-B-042: French only
-            nora.put("/api/me/prefs", {"language": "en"})
+        self.assertEqual(nora.put("/api/me/prefs", {"language": "en"})["prefs"]["language"], "en")  # 0.60.48 (D-O-057)
+        nora.put("/api/me/prefs", {"language": "fr"})
+        with self.assertRaises(ApiFailure):
+            nora.put("/api/me/prefs", {"language": "de"})
         self.assertEqual(nora.get("/api/me")["prefs"]["theme"], "atlassian")
         for bad in ({"theme": "neon"}, {"manager_id": self.ids["nora"]}, {"vacation_bank_hours": "beaucoup"}):
             with self.assertRaises(ApiFailure) as err:
