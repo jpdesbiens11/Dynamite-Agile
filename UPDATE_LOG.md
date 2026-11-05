@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.29
+# Journal de mise à jour — 0.60.30
+
+- **Version :** 0.60.29 → 0.60.30 (2026-11-04)
+- **Changements :**
+  1. **Partager, 2e passe** (D-O-038) : lien copié à chaque choix, versions web (Gmail, Outlook, Messenger, WhatsApp, Telegram, Teams), code QR vers le téléphone.
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.29
 
 - **Version :** 0.60.28 → 0.60.29 (2026-11-04)
 - **Changements :**
   1. **Partager** (D-O-038) : feuille de partage du téléphone, ou lien, courriel, texto, Messenger, WhatsApp et Teams, depuis la barre du haut.
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.28
 

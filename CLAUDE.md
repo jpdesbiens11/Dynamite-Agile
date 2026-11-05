@@ -68,6 +68,8 @@
   bonnes pratiques de l'industrie en prévention, RAS justifié ; Space étoilé d'abord (`DA.spaces.workKey`) ; About enrichi.
 - **0.60.29** (2026-11-04) : **Partager** (D-O-038, `static/js/tools/share.js`) : feuille de partage du téléphone, ou lien, courriel, texto, Messenger,
   WhatsApp, Teams ; bouton de la barre du haut et, au téléphone, à côté du ☰.
+- **0.60.30** (2026-11-04) : **Partager, 2e passe** (D-O-038, `static/js/tools/qr.js`) : lien copié à chaque choix, Gmail / Outlook / Messenger / WhatsApp /
+  Telegram / Teams sur le web, code QR vers le téléphone.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,
