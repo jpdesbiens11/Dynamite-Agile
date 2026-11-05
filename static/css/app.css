@@ -576,3 +576,37 @@ html.da-phone .sh-way { flex: 1 1 40%; justify-content: center; min-height: 44px
 @keyframes sh-flash { 0%, 60% { box-shadow: 0 0 0 4px var(--acc, var(--agile)); } 100% { box-shadow: none; } }
 @media (prefers-reduced-motion: reduce) { .sh-qr-flash { animation: none; outline: 3px solid var(--acc, var(--agile)); } }
 html.da-phone .sh-cols { grid-template-columns: 1fr; }
+
+/* 0.60.35 (D-O-043): the pointer -- a translucent red box that flashes around the point of interest, an arrow at 45°
+   from the upper right, a note; position: fixed, placed by pointer.js (CSSOM) */
+.da-point-box { position: fixed; z-index: 10000; pointer-events: none; border: 3px solid #D64545; border-radius: 8px;
+  background: rgba(214, 69, 69, .12); box-shadow: 0 0 0 4px rgba(214, 69, 69, .18); animation: da-point-flash 1s ease-in-out 4; }
+@keyframes da-point-flash { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+.da-point-arrow { position: fixed; z-index: 10001; width: 0; height: 0; pointer-events: none; }
+.da-point-shaft { position: absolute; left: 4px; top: -3px; width: 72px; height: 5px; border-radius: 3px; background: #D64545;
+  transform-origin: 0 50%; transform: rotate(-45deg); }
+.da-point-head { position: absolute; left: 0; top: -20px; width: 20px; height: 20px; border-left: 5px solid #D64545;
+  border-bottom: 5px solid #D64545; border-radius: 0 0 0 3px; }
+.da-point-arrow { animation: da-point-nudge 1s ease-in-out 4; }
+@keyframes da-point-nudge { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(6px, -6px); } }
+.da-point-note { position: fixed; z-index: 10002; display: flex; align-items: flex-start; gap: .5rem; max-width: 250px; padding: .45rem .6rem;
+  border-radius: 8px; background: #D64545; color: #fff; font: 600 .88rem/1.35 var(--font); box-shadow: 0 6px 18px rgba(0, 0, 0, .25); }
+.da-point-close { border: 0; background: transparent; color: #fff; font: inherit; font-size: 1.1rem; line-height: 1; cursor: pointer; padding: 0 .1rem; }
+@media (prefers-reduced-motion: reduce) { .da-point-box, .da-point-arrow { animation: none; } }
+/* 0.60.36 (D-O-044): ⚙ Admin → Bob */
+.bob-spaces { display: flex; flex-wrap: wrap; gap: .4rem 1rem; margin: .6rem 0; padding: .6rem .8rem; border: 1px solid var(--line); border-radius: var(--radius-sm); }
+.bob-token { width: 100%; font: 600 .9rem var(--mono); }
+.bob-guide { max-height: 24rem; overflow: auto; white-space: pre-wrap; font: .8rem/1.45 var(--mono); background: var(--surface-2); padding: .8rem; border-radius: var(--radius-sm); }
+.bob-new, .bob-once { display: grid; gap: .5rem; }
+.bob-create { justify-self: start; }
+/* 0.60.36 (D-O-045): online update -- the bar, the step, the live lines */
+.uo-bar { position: relative; height: 1.4rem; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); overflow: hidden; margin: .4rem 0; }
+.uo-bar i { position: absolute; inset: 0 auto 0 0; background: linear-gradient(90deg, var(--agile), var(--ok, #2e9e5b)); transition: width .4s ease; }
+.uo-bar span { position: relative; display: block; text-align: center; font: 700 .8rem/1.4rem var(--font); color: var(--ink); }
+.uo-lines { max-height: 12rem; overflow: auto; margin: .4rem 0; padding: .6rem .8rem; background: var(--surface-2); border-radius: var(--radius-sm);
+  font: .78rem/1.5 var(--mono); white-space: pre-wrap; }
+.uo-versions { display: grid; gap: .6rem; padding-left: 1.2rem; }
+.uo-version p { margin: 0 0 .2rem; }
+.uo-version ul { margin: .1rem 0 .3rem; color: var(--muted); font-size: .9rem; }
+.uo-toggle { font-weight: 600; }
+@media (prefers-reduced-motion: reduce) { .uo-bar i { transition: none; } }

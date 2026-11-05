@@ -151,11 +151,11 @@ def registered_schema():
 
 def registered_migrations():
     """(module_key, version, sql) for the core (key "core") and every built module."""
-    from . import access_rules, backup, members, mentions, objectives, platform_config, prefs, profile, reviews, tls, ui_audit, uploads  # core tables added after 0.1 live in versioned lots too
+    from . import access_rules, backup, bot, members, mentions, objectives, platform_config, prefs, profile, reviews, tls, ui_audit, uploads  # core tables added after 0.1 live in versioned lots too
     result = [("core", version, sql) for version, sql
               in uploads.MIGRATIONS + access_rules.MIGRATIONS + ui_audit.MIGRATIONS + prefs.MIGRATIONS + members.MIGRATIONS + platform_config.MIGRATIONS
               + objectives.MIGRATIONS + backup.MIGRATIONS + mentions.MIGRATIONS + tls.MIGRATIONS
-              + profile.MIGRATIONS + reviews.MIGRATIONS]
+              + profile.MIGRATIONS + reviews.MIGRATIONS + bot.MIGRATIONS]
     for entry in MODULE_MANIFEST:
         if entry["module"] is not None:
             for version, sql in getattr(entry["module"], "MIGRATIONS", ()):

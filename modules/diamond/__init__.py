@@ -12,6 +12,8 @@ Sub-modules, one per iteration:
   0.60.16  Golden Nuggets (static/js/diamond/nuggets*.js): first-principles thinking and design rules, with examples.
 Every table is tied to projects(id) (backup, restore, copy by the core); every write is journalled.
 """
+from .search import search  # noqa: F401  (core search hook, 0.60.36)
+from .bot import bot_summary  # noqa: F401  (Bob le mineur, core/bot.py, 0.60.36)
 from . import dfmea, dfmea_complete, example, export_api, functions, parts, risks, structure
 
 SCHEMA = ""

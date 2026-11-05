@@ -78,6 +78,10 @@
   marque « DynamiteAgile · Co-Intelligence WorkFlow™ ».
 - **0.60.34** (2026-11-04) : **installation selon le serveur** (D-O-042) : question Traefik sur la page, l'assistant IA confirme, `install.sh` détecte Traefik ;
   site web avec Diamond et « Les nouveautés ».
+- **0.60.35** (2026-11-04) : **le pointeur et Bob le mineur** (D-O-043 `static/js/tools/pointer.js`, D-O-044 `core/bot.py`, ⚙ Admin → Bob) : liens qui encadrent
+  le point d'intérêt ; clé d'agent en lecture seule par Space, migration core 18.
+- **0.60.36** (2026-11-04) : **mise à jour en ligne** (D-O-045, `core/update_online.py`, `static/js/admin_update_online.js`) : coupée par défaut, vérifier, cocher « Lu »,
+  approuver, barre en % et détail en direct ; dernière version et date sur la page d'installation.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

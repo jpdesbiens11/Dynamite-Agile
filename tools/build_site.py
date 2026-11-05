@@ -94,6 +94,22 @@ def _news(lang):
             '    </div>\n  </section>').format(head, html.escape(sub), cards)
 
 
+def _latest(lang):
+    """0.60.36 (D-O-045): the latest version and its date on the installation page, so a team decides whether to update."""
+    found = []
+    for path in (BASE / "docs" / "releases").glob("*.json"):
+        data = json.loads(path.read_text(encoding="utf-8"))
+        found.append((tuple(int(x) for x in str(data["version"]).split(".")), data))
+    if not found:
+        return ""
+    data = max(found, key=lambda item: item[0])[1]
+    head, more, already = T.LATEST[lang]
+    return ('  <p class="note ok latest" data-new="0.60.36-site-latest"><b>{} {}</b> · {} — {} '
+            '<a href="versions.html">{}</a><br>{}</p>').format(
+        head, html.escape(data["version"]), html.escape(data.get("date", "")),
+        html.escape(data["summary"][lang] if isinstance(data.get("summary"), dict) else ""), more, already)
+
+
 def _landing(vitrine, lang, src):
     hero = _between(vitrine, '<div class="hero-art">', "</div>\n  </div>").strip()
     script = _between(vitrine, "<script>", "</script>").strip()
@@ -138,6 +154,7 @@ def build():
             if name == "index.html":
                 values.update(_landing(vitrine, lang, src))
             if name == "installation.html":
+                values["LATEST"] = _latest(lang)
                 values.update(TROUBLE=(src / "trouble.html").read_text(encoding="utf-8").rstrip(),
                               INSTALL_JS=(SRC / "install.js").read_text(encoding="utf-8"))
             if name == "versions.html":  # 0.60.12 (D-O-024): reads updates/versions.json, built by tools/build_release.py

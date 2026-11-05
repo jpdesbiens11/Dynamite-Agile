@@ -22,6 +22,11 @@ DEFAULTS = {
     "http_redirect_port": 0,      # e.g. 80: plain-HTTP listener that only redirects to https:// (0 = off)
     "public_name": "",            # DNS name of the server for that redirect ("" = the Host header)
     "trusted_proxies": [],        # 0.60.17 (D-O-029): addresses / CIDR of an HTTPS reverse proxy (Traefik); [] = off
+    # 0.60.36 (D-O-045): online update -- where the listing is read ("" = the project's website), the code to update
+    # ("" = this installation) and the restart after an update (false: restart the service yourself)
+    "release_site": "",
+    "code_root": "",
+    "update_restart": True,
     # D-B-091: development sharing on the local network (lancer_dev.py reseau / --lan), never in production
     "lan_share": False,
     "lan_allow": [],              # IPs or CIDR allowed to connect ([] = private networks only)

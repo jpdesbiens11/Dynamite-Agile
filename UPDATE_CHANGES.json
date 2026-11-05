@@ -2,53 +2,42 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Installation : le cas Traefik (D-O-042)",
-      "why": "Page d'installation : case « Mon serveur a déjà des applications Docker avec Traefik » ; la commande devient --traefik <domaine> (sans courriel) ; le message pour l'assistant IA le dit. Guide de l'assistant (FR / EN) : confirmer le cas par une question à choix et une commande de vérification ; relancer la même commande pour mettre à jour.",
+      "title": "Mise à jour en ligne (D-O-045)",
+      "why": "Coupée par défaut (réseau fermé) ; activée par un administrateur pour un serveur sur Internet. « Vérifier maintenant » lit versions.json du site, liste les versions plus récentes avec leur résumé et leurs changements, chacune à cocher « Lu ». « Approuver et installer » : téléchargement (%), empreinte SHA-256, contrôles du paquet officiel, sauvegarde du code et des données, nouveau code, redémarrage ; l'écran suit en direct puis recharge à la nouvelle version.",
       "files": [
-        "tools/site/installation.html",
-        "tools/site/en/installation.html",
-        "tools/site/install.js",
-        "tools/site/site.css",
-        "tools/site/installer.md",
-        "tools/site/en/installer.md"
+        "core/update_online.py",
+        "core/router.py",
+        "core/config.py",
+        "static/js/admin_update_online.js",
+        "static/js/admin_update.js",
+        "static/index.html",
+        "static/css/app.css",
+        "docs/FONDATIONS.md"
       ]
     },
     {
       "id": "C2",
-      "title": "install.sh détecte Traefik",
-      "why": "Avec la commande habituelle (domaine et courriel), un serveur dont Traefik tient déjà le web est installé derrière lui, avant toute règle de pare-feu ou de certificat.",
+      "title": "Dernière version sur la page d'installation",
+      "why": "Bandeau « Dernière version : X · date — résumé » avec le lien vers toutes les versions et le chemin ⚙ Admin → Update → Mise à jour en ligne, en français et en anglais, tiré de docs/releases.",
       "files": [
-        "deploy/install.sh"
+        "tools/build_site.py",
+        "tools/site_text.py",
+        "tools/site/installation.html",
+        "tools/site/en/installation.html"
       ]
     },
     {
       "id": "C3",
-      "title": "Site web à jour",
-      "why": "Diamond dans la grille des outils (onze outils), une section « Les nouveautés » (Commencer avec un assistant IA, Diamond et ses exports, téléphone et Partager, mises à jour officielles), même logo que l'outil.",
+      "title": "Version 0.60.36, tests et documentation",
+      "why": "tests/test_update_online.py (un faux site local sert un paquet) ; décisions, état du projet, journal, fiche de version.",
       "files": [
-        "tools/build_vitrine.py",
-        "tools/vitrine/template.html",
-        "tools/build_site.py",
-        "tools/site_text.py",
-        "tools/site/index.html",
-        "tools/site/en/index.html",
-        "site/",
-        "static/apps/vitrine/index.html"
-      ]
-    },
-    {
-      "id": "C4",
-      "title": "Version 0.60.34, tests et documentation",
-      "why": "tests/test_install_traefik_choice.py ; décision, état du projet, journal, fiche de version.",
-      "files": [
-        "tests/test_install_traefik_choice.py",
+        "tests/test_update_online.py",
         "core/__init__.py",
         "CLAUDE.md",
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.34.json",
-        "tests/test_open_v060.py"
+        "docs/releases/0.60.36.json"
       ]
     }
   ]

@@ -1,0 +1,62 @@
+{
+  "version": "0.60.35",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Le pointeur (un lien ouvre la page et encadre le point d'intérêt d'une boîte rouge qui clignote, avec une flèche et une note) et Bob le mineur, l'agent IA de l'équipe : une clé en lecture seule par Space pour l'agent / Telegram, des réponses en liens pointeurs.",
+    "en": "The pointer (a link opens the page and frames the point of interest with a flashing red box, an arrow and a note) and Bob le mineur, the team's AI agent: a read-only key per Space for the agent / Telegram, answers as pointer links."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Le pointeur (D-O-043)",
+      "why": "Un lien /?focus=<texte>&note=<note>#/<page> ouvre la page, fait défiler jusqu'au point d'intérêt, l'encadre d'une boîte rouge translucide qui clignote, avec une flèche à 45° et la note ; Échap ou un clic le ferme. Partager s'en sert : le texte sélectionné devient le point montré.",
+      "files": [
+        "static/js/tools/pointer.js",
+        "static/css/app.css",
+        "static/index.html",
+        "static/js/tools/share.js"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Bob le mineur : la porte en lecture seule (D-O-044)",
+      "why": "⚙ Admin → Bob : une clé par agent pour des Spaces choisis, montrée une fois, gardée hachée, révocable ; API /api/bot/v1 (spaces, search, pages, point, summary), GET seulement, 60 appels par minute, chaque appel au journal. La plateforme n'appelle jamais l'agent. Fiche de Bob pour son agent (DynamiteAgile seulement, une étape à la fois, liens pointeurs) avec l'adresse du serveur.",
+      "files": [
+        "core/bot.py",
+        "core/bot_admin.py",
+        "core/router.py",
+        "core/modules.py",
+        "static/js/admin_bob.js",
+        "static/js/admin.js",
+        "deploy/bob/BOB_LE_MINEUR.md",
+        "docs/FONDATIONS.md"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Diamond dans la recherche",
+      "why": "Fonctions F-n, risques R-n et lignes du DFMEA dans la recherche de la barre du haut et pour Bob ; Diamond donne sa synthèse à Bob (chiffres, revue, risques à traiter, AP High, fonctions), chaque point avec son lien pointeur.",
+      "files": [
+        "modules/diamond/search.py",
+        "modules/diamond/bot.py",
+        "modules/diamond/__init__.py",
+        "core/search.py"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Version 0.60.35, tests et documentation",
+      "why": "tests/test_bot.py ; décisions, état du projet, journal, fiche de version.",
+      "files": [
+        "tests/test_bot.py",
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.35.json",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}

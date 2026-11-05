@@ -1,0 +1,50 @@
+{
+  "version": "0.60.36",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Mise à jour en ligne : ⚙ Admin → Update vérifie le site du projet (sur demande, coupé par défaut), montre ce qu'apporte chaque version, s'installe après approbation avec une barre de progression en % et le détail en direct ; la page d'installation affiche la dernière version et sa date.",
+    "en": "Online update: ⚙ Admin → Update checks the project's website (on request, off by default), shows what each version brings, installs after approval with a progress bar in % and live details; the installation page shows the latest version and its date."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Mise à jour en ligne (D-O-045)",
+      "why": "Coupée par défaut (réseau fermé) ; activée par un administrateur pour un serveur sur Internet. « Vérifier maintenant » lit versions.json du site, liste les versions plus récentes avec leur résumé et leurs changements, chacune à cocher « Lu ». « Approuver et installer » : téléchargement (%), empreinte SHA-256, contrôles du paquet officiel, sauvegarde du code et des données, nouveau code, redémarrage ; l'écran suit en direct puis recharge à la nouvelle version.",
+      "files": [
+        "core/update_online.py",
+        "core/router.py",
+        "core/config.py",
+        "static/js/admin_update_online.js",
+        "static/js/admin_update.js",
+        "static/index.html",
+        "static/css/app.css",
+        "docs/FONDATIONS.md"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Dernière version sur la page d'installation",
+      "why": "Bandeau « Dernière version : X · date — résumé » avec le lien vers toutes les versions et le chemin ⚙ Admin → Update → Mise à jour en ligne, en français et en anglais, tiré de docs/releases.",
+      "files": [
+        "tools/build_site.py",
+        "tools/site_text.py",
+        "tools/site/installation.html",
+        "tools/site/en/installation.html"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Version 0.60.36, tests et documentation",
+      "why": "tests/test_update_online.py (un faux site local sert un paquet) ; décisions, état du projet, journal, fiche de version.",
+      "files": [
+        "tests/test_update_online.py",
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.36.json"
+      ]
+    }
+  ]
+}

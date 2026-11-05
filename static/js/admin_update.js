@@ -55,7 +55,7 @@
       catch (err) { clear(report); report.append(el("p", { class: "form-error" }, err.message)); }
       file.value = "";
     });
-    box.append(DA.adminUpdateOfficial.block(s), el("div", { class: "up-steps" },
+    box.append(DA.adminUpdateOnline ? DA.adminUpdateOnline.block() : null, DA.adminUpdateOfficial.block(s), el("div", { class: "up-steps" },
       el("section", { class: "up-step" }, el("h2", null, "1. Exporter le code pour Claude"),
         el("p", null, "Un seul fichier zip : le code, le prompt de départ (UPDATE_PROMPT.md), le contexte de la mise en service et la "
           + "structure de la base, sans aucune donnée. À donner à " + s.min_claude + " ou plus récent, avec les instructions du projet."),

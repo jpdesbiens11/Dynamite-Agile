@@ -23,7 +23,9 @@
       || clean(document.querySelector(".tab.active")) || "Dynamite | Agile";
     const picked = String(window.getSelection ? window.getSelection() : "").trim().slice(0, 400);
     const text = (picked ? "« " + picked + " »\n" : "") + title + " — Dynamite | Agile";
-    return { title, text, url: location.href, subject: title + " — Dynamite | Agile" };
+    // 0.60.35 (D-O-043): a selected passage becomes the point of interest -- the link opens the page and shows it
+    const url = picked && DA.pointLink ? DA.pointLink(picked.slice(0, 120)) : location.href;
+    return { title, text, url, subject: title + " — Dynamite | Agile" };
   }
 
   const enc = encodeURIComponent;
