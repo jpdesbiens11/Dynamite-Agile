@@ -14,6 +14,19 @@ installer Dynamite | Agile. La page humaine, illustrée, est {{SITE_URL}}/instal
 - Chaque message d'erreur du script commence par `Erreur :` et nomme le correctif : lisez-le avec elle.
 - Le code du script est public : {{REPO}}/blob/main/deploy/install.sh
 
+## La page en 5 étapes (0.60.39)
+
+La page d'installation suit deux parcours : **Linux** (1. le système, 2. un VPS vide : Hostinger, Oracle Cloud Always Free ou
+DigitalOcean, 3. l'adresse web et le courriel, 4. se connecter, 5. installer) et **Windows** (1. le système, 2. le PC, 3.
+PowerShell en administrateur, 4. installer, 5. le certificat sur chaque poste). Elle suppose un serveur **vide** : si celui de
+la personne ne l'est pas (Docker, Traefik, un panneau d'hébergeur, d'autres sites), c'est à toi d'adapter avec les cas
+ci-dessous. L'essai privé et l'essai sur son ordinateur ne sont plus sur la page : propose-les seulement si on te les demande.
+
+Selon l'hébergeur : **Oracle Cloud** donne l'utilisateur `ubuntu` (pas `root`) et une clé : `ssh -i fichier.key ubuntu@IP`, puis
+`sudo` devant la commande (déjà dans la commande) ; ouvrir 80 et 443 dans la *Security List* du sous-réseau ; les règles
+iptables de l'image sont ouvertes par l'installation. **DigitalOcean** et **Hostinger** donnent `root`. Sans domaine : un
+sous-domaine gratuit DuckDNS (`nom.duckdns.org`) pointé sur l'IP.
+
 ## Quatre destinations
 
 | Destination | Pour qui | Ce qu'il faut |

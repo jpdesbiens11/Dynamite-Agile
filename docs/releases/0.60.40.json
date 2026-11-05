@@ -1,0 +1,56 @@
+{
+  "version": "0.60.40",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Page d'accueil en storyline : le besoin d'abord (le premier projet, ce que l'industrie exige, ce qui manque, un Space par produit), puis la descente dans la mine dans l'ordre d'un projet, de plus en plus profond et sombre, jusqu'aux diamants à 1 000 m ; HeadLamp garde son nom.",
+    "en": "Landing page as a storyline: the need first (the first project, what the industry expects, what is missing, one Space per product), then the descent into the mine in the order of a project, deeper and darker, down to the diamonds at 1,000 m; HeadLamp keeps its name."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Le besoin, scène par scène (D-O-049)",
+      "why": "Quatre scènes qui apparaissent au défilement, avant la mine : pourquoi l'outil existe pour les jeunes ingénieurs et l'industrie.",
+      "files": [
+        "tools/site_text.py",
+        "tools/build_site.py",
+        "tools/site/index.html",
+        "tools/site/en/index.html",
+        "tools/site/site.css"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "La descente jusqu'aux diamants",
+      "why": "Les niveaux suivent le projet (HeadLamp à la surface, Exploration, Dynamite, Goldmine, Tools, Agile, Testing, Timesheet, Diamond à 1 000 m) ; la roche s'assombrit avec la profondeur, Diamond brille, puis « Vous êtes au fond : les diamants ».",
+      "files": [
+        "tools/site_text.py",
+        "tools/site/site.js",
+        "tools/site/site.css"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "HeadLamp ne se traduit pas ; DynamiteAgile en un mot",
+      "why": "« la lanterne » retirée (site, FAQ, noms des modules) ; titres et pied de page du site en « DynamiteAgile ».",
+      "files": [
+        "static/js/help/content_faq.js",
+        "docs/NOMS_DES_MODULES.md",
+        "tools/site_text.py"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Version 0.60.40, tests et documentation",
+      "why": "tests/test_landing_story.py ; décisions, état du projet, journal, fiche de version.",
+      "files": [
+        "tests/test_landing_story.py",
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.40.json"
+      ]
+    }
+  ]
+}

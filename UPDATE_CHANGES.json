@@ -2,64 +2,48 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Le DFMEA rattrape les risques (D-O-047)",
-      "why": "Colonnes Responsable (un membre du Space), Échéance, Status (À faire, En cours, Fait) et Ticket Agile ; préréglage « Actions et suivi » ; ligne en retard signalée ; conseils : action en retard, action sans responsable.",
+      "title": "Le besoin, scène par scène (D-O-049)",
+      "why": "Quatre scènes qui apparaissent au défilement, avant la mine : pourquoi l'outil existe pour les jeunes ingénieurs et l'industrie.",
       "files": [
-        "modules/diamond/actions.py",
-        "modules/diamond/dfmea.py",
-        "modules/diamond/__init__.py",
-        "static/js/diamond/dfmea_table.js",
-        "static/js/diamond/dfmea.js",
-        "static/css/diamond_dfmea.css"
+        "tools/site_text.py",
+        "tools/build_site.py",
+        "tools/site/index.html",
+        "tools/site/en/index.html",
+        "tools/site/site.css"
       ]
     },
     {
       "id": "C2",
-      "title": "Suivre dans Agile",
-      "why": "Un bouton par risque et par ligne du DFMEA : un ticket du même Space avec le responsable, l'échéance, la priorité et le lien vers la ligne ; le status de la ligne est lu sur le ticket, jamais recopié.",
+      "title": "La descente jusqu'aux diamants",
+      "why": "Les niveaux suivent le projet (HeadLamp à la surface, Exploration, Dynamite, Goldmine, Tools, Agile, Testing, Timesheet, Diamond à 1 000 m) ; la roche s'assombrit avec la profondeur, Diamond brille, puis « Vous êtes au fond : les diamants ».",
       "files": [
-        "modules/diamond/actions.py",
-        "modules/diamond/risks.py",
-        "static/js/diamond/risks.js",
-        "static/js/diamond/risks_panel.js"
+        "tools/site_text.py",
+        "tools/site/site.js",
+        "tools/site/site.css"
       ]
     },
     {
       "id": "C3",
-      "title": "Mes actions Diamond et Bob",
-      "why": "Carte du Dashboard (en retard d'abord, status modifiable quand l'action n'est pas suivie dans Agile, lien pointeur vers la ligne) ; « actions » dans la synthèse de Bob (responsable, échéance, retard, ticket).",
+      "title": "HeadLamp ne se traduit pas ; DynamiteAgile en un mot",
+      "why": "« la lanterne » retirée (site, FAQ, noms des modules) ; titres et pied de page du site en « DynamiteAgile ».",
       "files": [
-        "modules/diamond/actions.py",
-        "modules/diamond/bot.py",
-        "deploy/bob/BOB_LE_MINEUR.md",
-        "static/js/tools/dashboard.js"
+        "static/js/help/content_faq.js",
+        "docs/NOMS_DES_MODULES.md",
+        "tools/site_text.py"
       ]
     },
     {
       "id": "C4",
-      "title": "Exports et Project Starter",
-      "why": "Excel et CSV : Responsable, Échéance, Status, Ticket Agile ; Project Starter : owner (username de l'équipe) et due sur les risques et les lignes du DFMEA. Correctif : « null » ne s'affiche plus au-dessus des Messages du Dashboard.",
+      "title": "Version 0.60.40, tests et documentation",
+      "why": "tests/test_landing_story.py ; décisions, état du projet, journal, fiche de version.",
       "files": [
-        "modules/diamond/export_xlsx.py",
-        "core/starter_diamond.py",
-        "core/starter.py",
-        "core/starter_prompt.py",
-        "docs/STARTER_FORMAT.md"
-      ]
-    },
-    {
-      "id": "C5",
-      "title": "Version 0.60.38, tests et documentation",
-      "why": "tests/test_diamond_actions.py, test_starter_diamond ; décisions, état du projet, journal, fiche de version.",
-      "files": [
-        "tests/test_diamond_actions.py",
-        "tests/test_starter_diamond.py",
+        "tests/test_landing_story.py",
         "core/__init__.py",
         "CLAUDE.md",
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.38.json"
+        "docs/releases/0.60.40.json"
       ]
     }
   ]

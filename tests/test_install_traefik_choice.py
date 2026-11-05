@@ -18,15 +18,15 @@ class TraefikChoiceTest(unittest.TestCase):
         self.assertLess(detect, sh.index("ufw allow OpenSSH"))
         self.assertIn("MODE=traefik", sh[detect:detect + 600])
 
-    def test_02_pages_offer_both_commands(self):
+    def test_02_pages_assume_an_empty_server(self):
+        """0.60.39 (D-O-048): the 5-step page assumes an empty server; install.sh detects Traefik itself and the AI
+        assistant adapts the other cases (the message says so)."""
         for rel in ("tools/site/installation.html", "tools/site/en/installation.html"):
             page = (BASE_DIR / rel).read_text("utf-8")
-            self.assertIn('id="f-traefik"', page)
-            self.assertRegex(page, r'data-proxy="traefik"[^\n]*--traefik <span data-v="domain">')
-            self.assertRegex(page, r'data-proxy="direct"[^\n]*<span data-v="email">')
+            self.assertNotIn('id="f-traefik"', page)
+            self.assertRegex(page, r'install\.sh \| sudo (DA_LANG=en )?bash -s -- <span data-v="domain">[^\n]*<span data-v="email">')
         js = (BASE_DIR / "tools" / "site" / "install.js").read_text("utf-8")
-        self.assertIn("state.traefik", js)
-        self.assertIn("--traefik", js)  # the message for the AI assistant says it
+        self.assertIn("Docker", js)
 
     def test_03_ai_guide_confirms_the_case(self):
         for rel in ("tools/site/installer.md", "tools/site/en/installer.md"):

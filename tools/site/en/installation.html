@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Install Dynamite | Agile</title>
-<meta name="description" content="Install Dynamite | Agile step by step: on an online server with one command, as a private trial, or on your computer.">
+<title>Install DynamiteAgile</title>
+<meta name="description" content="Install DynamiteAgile in 5 steps, no technical knowledge needed: Linux (an online server) or Windows (a team PC).">
 {{FAVICON}}
 <style>
 {{CSS}}
@@ -13,212 +13,154 @@
 <body data-site="{{SITE_URL}}">
 {{SPRITE}}
 {{TOP}}
-<main class="page install">
-  <span class="kicker">Installation · 15 minutes · no Linux knowledge needed</span>
-  <h1>Install Dynamite | Agile</h1>
-  <p class="lead">Choose where to install it, fill in two fields, then copy each command in one click. Each block says
-    <b>where</b> to paste it: <span class="where pc">on your computer</span> or <span class="where srv">on the server</span>.</p>
+<main class="page install wizard" data-new="0.60.39-install-5">
+  <span class="kicker">Installation · 5 steps · no technical knowledge needed</span>
+  <h1>Install DynamiteAgile</h1>
+  <p class="lead">Five steps, top to bottom. Each command copies in one click, and a label says <b>where</b> to paste it:
+    <span class="where pc">on your computer</span> or <span class="where srv">on the server</span>.</p>
 {{LATEST}}
 
-  <!-- 1. Where -->
-  <h2 id="ou">1. Where do you want to install it?</h2>
-  <div class="dest" role="radiogroup" aria-label="Where to install">
-    <label class="dest-card"><input type="radio" name="dest" value="serveur" checked>
-      <b>On an online server</b><span class="tag">Recommended for a team</span>
-      <span>The whole team connects from anywhere, over HTTPS. You need a Linux VPS and a domain name.</span></label>
-    <label class="dest-card"><input type="radio" name="dest" value="essai">
-      <b>On a server, as a private trial</b><span class="tag">No domain</span>
-      <span>Nothing exposed to the Internet: only you open it, through an SSH tunnel. Go online later.</span></label>
-    <label class="dest-card"><input type="radio" name="dest" value="windows">
-      <b>On a Windows PC of the team</b><span class="tag">Local network, no Linux</span>
-      <span>A Windows PC that stays on hosts the tool; the team connects to it from the school or office network, over HTTPS.</span></label>
-    <label class="dest-card"><input type="radio" name="dest" value="local">
-      <b>On my computer</b><span class="tag">Solo trial, 5 minutes</span>
-      <span>Windows, macOS or Linux, with the example team. Nobody else connects to it.</span></label>
-  </div>
+  <div class="progress-bar" aria-live="polite"><div class="track"><i></i></div><span id="progress-text">0 steps done</span></div>
 
-  <!-- 2. The AI assistant -->
-  <section class="agent" aria-labelledby="agent-h">
-    <h2 id="agent-h">2. Keep an AI assistant by your side <span class="opt">(recommended)</span></h2>
-    <p>Open Claude (or your usual assistant) in another window and paste this message <b>before you start</b>:
-      it reads this guide and walks you through one command at a time. Then paste what the terminal shows, especially
-      if there is a message in red.</p>
-    <pre class="cmd prompt" id="agent-prompt"><code id="agent-text"></code></pre>
-    <p class="muted">Never give it a password or a private key: those are only typed in the terminal.</p>
-  </section>
+  <ol class="wiz">
+    <!-- ================= 1. System ================= -->
+    <li class="wiz-step" data-step="os">
+      <h2><span class="n">1</span> Linux or Windows?</h2>
+      <p>Where will the tool run for your team?</p>
+      <div class="os-pick" role="radiogroup" aria-label="System">
+        <label class="os-card"><input type="radio" name="os" value="linux" checked>
+          <svg class="os-ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="10" width="52" height="44" rx="8" fill="#14202b"/>
+            <path d="M16 26l8 6-8 6" fill="none" stroke="#7ee2a8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M29 40h14" stroke="#7ee2a8" stroke-width="4" stroke-linecap="round"/></svg>
+          <b>Linux</b><span class="tag">Recommended</span>
+          <span>An <b>online server</b> (VPS): the whole team connects from anywhere, over HTTPS. Free or a few dollars a month.</span></label>
+        <label class="os-card"><input type="radio" name="os" value="windows">
+          <svg class="os-ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="10" width="52" height="44" rx="6" fill="#fff" stroke="#14202b" stroke-width="3"/>
+            <path d="M6 20h52" stroke="#14202b" stroke-width="3"/><circle cx="13" cy="15" r="2" fill="#e8554e"/><circle cx="19" cy="15" r="2" fill="#f2b632"/>
+            <circle cx="25" cy="15" r="2" fill="#3cba6b"/><rect x="14" y="27" width="36" height="19" rx="3" fill="#cfe3ff"/></svg>
+          <b>Windows</b><span class="tag">Local network</span>
+          <span>A <b>team PC</b> that stays on, at school or at the office: the team connects over the local network.</span></label>
+      </div>
+      <details class="ai-help"><summary>Need help? An AI assistant guides you step by step</summary>
+        <p>Open Claude (or your usual assistant) and paste this message: it reads this page and guides you one command at a time.
+          Then paste what the screen shows, especially a red message. For a server that is not empty (other applications,
+          Docker…), it adapts the procedure.</p>
+        <pre class="cmd prompt"><code id="agent-text"></code></pre>
+        <p class="muted">Never give it a password or a private key: those are typed only in the terminal.</p>
+      </details>
+      <label class="done"><input type="checkbox"> Chosen</label>
+    </li>
 
-  <!-- 3. Personalisation (server paths) -->
-  <section class="fill" data-for="serveur essai">
-    <h2>3. Your details</h2>
-    <p>They fill in the commands below. Nothing is sent anywhere: everything stays in this page.</p>
-    <div class="fields">
-      <label data-for="serveur">Domain name <input id="f-domain" data-v="domain" autocomplete="off" spellcheck="false"
-        placeholder="workshop.my-domain.com"></label>
-      <label data-for="serveur" data-proxy="direct">Your email <span class="muted">(certificate expiry notices)</span>
-        <input id="f-email" data-v="email" type="email" autocomplete="email" placeholder="me@example.com"></label>
-      <label>Server IP address <input id="f-ip" data-v="ip" inputmode="decimal" autocomplete="off" placeholder="203.0.113.10"></label>
-      <label class="check" data-for="serveur" data-new="0.60.34-traefik"><input id="f-traefik" type="checkbox"> <span>My server already runs Docker applications with <b>Traefik</b> (e.g. a Hostinger VPS with Docker): Traefik keeps the web and the certificate</span></label>
-    </div>
-  </section>
+    <!-- ================= LINUX ================= -->
+    <li class="wiz-step" data-step="lx-vps" data-os="linux">
+      <h2><span class="n">2</span> Get a server (VPS)</h2>
+      <p>An <b>empty</b> server running <b>Ubuntu 24.04</b>: 1 CPU and 1 GB of memory are enough. Choose a host:</p>
+      <div class="vps-pick" role="radiogroup" aria-label="Host">
+        <label class="vps-card"><input type="radio" name="vps" value="hostinger" checked><b>Hostinger</b><span class="tag">Simplest</span>
+          <span>Friendly panel, chat support; a domain included with some yearly plans.</span></label>
+        <label class="vps-card"><input type="radio" name="vps" value="oracle"><b>Oracle Cloud</b><span class="tag g">Free</span>
+          <span>« Always Free » offer at no cost; a slightly longer sign-up (a card is asked to verify your identity).</span></label>
+        <label class="vps-card"><input type="radio" name="vps" value="digitalocean"><b>DigitalOcean</b><span class="tag">Students</span>
+          <span>Very common; free credit for students with the GitHub Student Developer Pack.</span></label>
+      </div>
+      <div class="vps-how" data-vps="hostinger"><ol>
+        <li>On <a href="https://www.hostinger.com/vps-hosting" rel="noopener">hostinger.com</a>, take a VPS plan (the smallest is enough).</li>
+        <li>hPanel → <i>VPS</i> → <i>OS &amp; Panel</i>: <b>Ubuntu 24.04</b>, the plain system (no panel, no application).</li>
+        <li><i>Overview</i> page: note the <b>IP address</b>; <i>Root password → Change</i> to choose the password.</li>
+        <li><i>Security → Firewall</i>: if there are rules, allow ports <b>22, 80 and 443</b>.</li></ol></div>
+      <div class="vps-how" data-vps="oracle" hidden><ol>
+        <li>On <a href="https://www.oracle.com/cloud/free/" rel="noopener">oracle.com/cloud/free</a>, create a « Free Tier » account.</li>
+        <li><i>Compute → Instances → Create instance</i>: image <b>Canonical Ubuntu 24.04</b>, shape <b>VM.Standard.A1.Flex</b>
+          (or <b>VM.Standard.E2.1.Micro</b> if the other is unavailable), both « Always Free ».</li>
+        <li>While creating it, <b>Save private key</b>: keep this <code>.key</code> file, it replaces the password.</li>
+        <li>Instance page → <i>Subnet → Security List → Add Ingress Rules</i>: source <code>0.0.0.0/0</code>, TCP, port
+          <b>80</b> then <b>443</b>. Note the <b>public IP address</b>.</li></ol></div>
+      <div class="vps-how" data-vps="digitalocean" hidden><ol>
+        <li>On <a href="https://www.digitalocean.com" rel="noopener">digitalocean.com</a> (students: first activate the
+          <a href="https://education.github.com/pack" rel="noopener">GitHub Student Developer Pack</a>), <i>Create → Droplets</i>.</li>
+        <li>Image <b>Ubuntu 24.04</b>, the smallest plan, <b>password</b> authentication (choose it).</li>
+        <li>Note the Droplet's <b>IP address</b>. No firewall to set: the installation takes care of it.</li></ol></div>
+      <div class="fields"><label>Server IP address <input id="f-ip" data-v="ip" inputmode="decimal" autocomplete="off" placeholder="203.0.113.10"></label></div>
+      <label class="done"><input type="checkbox"> Done</label>
+    </li>
 
-  <div class="progress-bar" aria-live="polite"><div class="track"><i></i></div><span id="progress-text">Steps done: 0</span></div>
+    <li class="wiz-step" data-step="lx-dns" data-os="linux">
+      <h2><span class="n">3</span> Give it a web address</h2>
+      <p>The team will open the tool at an address like <code>workshop.my-domain.com</code>, over HTTPS. In the domain's DNS
+        manager, create an <b>A</b> record: name <code>workshop</code>, value <code data-v="ip">203.0.113.10</code>.</p>
+      <details><summary>No domain name?</summary><ul>
+        <li>Buy one (about ten dollars a year), or use the one included with your Hostinger plan.</li>
+        <li>Free: a <a href="https://www.duckdns.org" rel="noopener">DuckDNS</a> subdomain (<code>my-team.duckdns.org</code>): sign in,
+          choose the name, paste the IP address, <i>update ip</i>.</li></ul></details>
+      <div class="fields">
+        <label>Tool address <input id="f-domain" data-v="domain" autocomplete="off" spellcheck="false" placeholder="workshop.my-domain.com"></label>
+        <label>Your email <span class="muted">(HTTPS certificate notices)</span>
+          <input id="f-email" data-v="email" type="email" autocomplete="email" placeholder="me@example.com"></label></div>
+      <p class="expect">Check a few minutes later: <code>nslookup <span data-v="domain">workshop.my-domain.com</span></code> in a
+        terminal should answer <code data-v="ip">203.0.113.10</code>.</p>
+      <label class="done"><input type="checkbox"> Done</label>
+    </li>
 
-  <!-- ===================== A. online server ===================== -->
-  <ol class="stepper path" data-path="serveur">
-    <li data-step="srv-vps"><b>Prepare the server</b>
-      A Linux VPS running <b>Ubuntu 24.04</b> (1 vCPU and 1 GB of memory are enough). In your host's control-panel firewall,
-      open ports <b>22, 80 and 443</b>.
-      <details><summary>Where to find this at Hostinger</summary><ul>
-        <li>hPanel → <i>VPS</i> → <i>OS &amp; Panel</i>: system <b>Ubuntu 24.04</b> (with no application using ports 80 or 443).</li>
-        <li><i>Overview</i> page: the server <b>IP</b>, the SSH user <b>root</b>, and <i>Root password → Change</i> to set the password.</li>
-        <li><i>Security → Firewall</i>: allow 22, 80 and 443.</li></ul></details>
-      <label class="done"><input type="checkbox"> Done</label></li>
+    <li class="wiz-step" data-step="lx-ssh" data-os="linux">
+      <h2><span class="n">4</span> Connect to the server</h2>
+      <p>Open a terminal (Windows: <i>Terminal</i>; macOS: <i>Terminal</i>) and type:</p>
+      <pre class="cmd" data-where="pc" data-vps-cmd="password"><code>ssh root@<span data-v="ip">203.0.113.10</span></code></pre>
+      <pre class="cmd" data-where="pc" data-vps-cmd="key" hidden><code>ssh -i ~/Downloads/ssh-key.key ubuntu@<span data-v="ip">203.0.113.10</span></code></pre>
+      <p class="expect">Answer <code>yes</code> the first time, then type the password (nothing shows, that's normal). The line
+        now starts with <code>root@…</code> or <code>ubuntu@…</code>: you are on the server. No terminal? The host's <i>Console</i>
+        button does the same.</p>
+      <label class="done"><input type="checkbox"> Done</label>
+    </li>
 
-    <li data-step="srv-dns"><b>Point the domain to the server</b>
-      In the domain's DNS manager, create an <b>A</b> record: name <code>workshop</code> (or <code>@</code>),
-      value <code data-v="ip">203.0.113.10</code>. Check a few minutes later:
-      <pre class="cmd" data-where="pc"><code>nslookup <span data-v="domain">workshop.my-domain.com</span></code></pre>
-      <p class="expect">You should see <code data-v="ip">203.0.113.10</code> in the answer. If not, wait a little longer.</p>
-      <details><summary>At Hostinger</summary><p>hPanel → <i>Domains</i> → your domain → <i>DNS / Nameservers</i>, or
-        <i>Claim your free domain</i> on the VPS page.</p></details>
-      <label class="done"><input type="checkbox"> Done</label></li>
+    <li class="wiz-step" data-step="lx-install" data-os="linux">
+      <h2><span class="n">5</span> Install, in one command</h2>
+      <pre class="cmd" data-where="srv"><code>curl -fsSL {{SITE_URL}}/install.sh | sudo DA_LANG=en bash -s -- <span data-v="domain">workshop.my-domain.com</span> <span data-v="email">me@example.com</span></code></pre>
+      <p class="expect">Two to five minutes. The end shows <code>== 7/7 Installed</code>, the address and the <b>temporary
+        password</b> of the <code>admin</code> account. Open <a class="live" data-href="https://{domain}" href="#">https://<span data-v="domain">workshop.my-domain.com</span></a>,
+        sign in, choose your password, then <b>⚙ Admin → Spaces → Commencer</b> to create your product's Space with AI.</p>
+      <details><summary>What the command does</summary><p>It installs Python, git, certbot and the firewall, fetches the code into
+        <code>/opt/dynamite_agile</code>, gets the HTTPS certificate (renewed automatically) and starts the service. To <b>update</b>
+        later: ⚙ Admin → Update, or run the same command again; the data stays. The script is readable here:
+        <a href="{{REPO}}/blob/main/deploy/install.sh">deploy/install.sh</a>.</p></details>
+      <label class="done"><input type="checkbox"> Installed</label>
+    </li>
 
-    <li data-step="srv-ssh"><b>Log in to the server</b>
-      Open a terminal (Windows: <i>Terminal</i> or <i>PowerShell</i>; macOS: <i>Terminal</i>) and type the root password
-      when asked (nothing shows while you type, that's normal):
-      <pre class="cmd" data-where="pc"><code>ssh root@<span data-v="ip">203.0.113.10</span></code></pre>
-      <p class="expect">The line now starts with <code>root@…</code>: you are on the server. On the first connection,
-        answer <code>yes</code>. No terminal? The <i>Web console</i> button of the control panel does the same.</p>
-      <label class="done"><input type="checkbox"> Done</label></li>
-
-    <li data-step="srv-install"><b>Install, with one command</b>
-      <pre class="cmd" data-proxy="direct" data-where="srv"><code>curl -fsSL {{SITE_URL}}/install.sh | sudo DA_LANG=en bash -s -- <span data-v="domain">workshop.my-domain.com</span> <span data-v="email">me@example.com</span></code></pre>
-      <pre class="cmd" data-proxy="traefik" data-where="srv"><code>curl -fsSL {{SITE_URL}}/install.sh | sudo DA_LANG=en bash -s -- --traefik <span data-v="domain">workshop.my-domain.com</span></code></pre>
-      <p class="muted" data-new="0.60.34-traefik">Not sure about Traefik? The command detects it by itself and installs behind it. To <b>update</b> later: run the same command again, the data stays.</p>
-      <p class="expect">Two to five minutes. The end shows <code>== 7/7 Installed</code>, the address to open and the
-        <b>temporary password</b> of the <code>admin</code> account: keep this window open.</p>
-      <details><summary>What the command does</summary><p>It fetches the code into <code>/opt/dynamite_agile</code>, installs
-        Python, git, certbot and the firewall, creates the <code>dynamite</code> system user, obtains the HTTPS certificate (renewed
-        automatically), sets the production configuration and starts the service. You can run it again without losing anything.
-        You can read the script here: <a href="{{REPO}}/blob/main/deploy/install.sh">deploy/install.sh</a>.</p></details>
-      <details><summary>I prefer three commands, without curl</summary>
-        <pre class="cmd" data-where="srv"><code>sudo apt update &amp;&amp; sudo apt install -y git</code>
-<code>sudo git clone {{REPO}}.git /opt/dynamite_agile</code>
-<code>sudo DA_LANG=en bash /opt/dynamite_agile/deploy/install.sh <span data-v="domain">workshop.my-domain.com</span> <span data-v="email">me@example.com</span></code></pre></details>
-      <label class="done"><input type="checkbox"> Done</label></li>
-
-    <li data-step="srv-open"><b>Open the tool and create your team</b>
-      Open <a class="live" data-href="https://{domain}" href="#">https://<span data-v="domain">workshop.my-domain.com</span></a>,
-      account <code>admin</code> with the password shown; choose your own. Then ⚙ Admin → Comptes → <i>Règles d'accès</i>,
-      one line per person, and ⚙ Admin → Spaces for the project's Space. The <a href="guide.html">guide</a> walks you through it.
-      <label class="done"><input type="checkbox"> Done</label></li>
-  </ol>
-
-  <!-- ===================== B. private trial ===================== -->
-  <ol class="stepper path" data-path="essai" hidden>
-    <li data-step="try-vps"><b>Have a Linux server</b>
-      An <b>Ubuntu 24.04</b> VPS and its root access are enough: no domain, no port to open except SSH (22).
-      <details><summary>At Hostinger</summary><p>The VPS <i>Overview</i> page: the IP, the <b>root</b> user and the password
-        (<i>Root password → Change</i>).</p></details>
-      <label class="done"><input type="checkbox"> Done</label></li>
-    <li data-step="try-ssh"><b>Log in to the server</b>
-      <pre class="cmd" data-where="pc"><code>ssh root@<span data-v="ip">203.0.113.10</span></code></pre>
-      <p class="expect">The line starts with <code>root@…</code>. Answer <code>yes</code> on the first connection.</p>
-      <label class="done"><input type="checkbox"> Done</label></li>
-    <li data-step="try-install"><b>Install the trial, with one command</b>
-      <pre class="cmd" data-where="srv"><code>curl -fsSL {{SITE_URL}}/install.sh | sudo DA_LANG=en bash -s -- --essai</code></pre>
-      <p class="expect">The end shows <code>== 7/7 Installed</code> and the tunnel command.</p>
-      <label class="done"><input type="checkbox"> Done</label></li>
-    <li data-step="try-tunnel"><b>Open the tunnel, from your computer</b>
-      In a <b>new</b> terminal on your computer (leave it open during the trial):
-      <pre class="cmd" data-where="pc"><code>ssh -N -L 8080:127.0.0.1:8080 root@<span data-v="ip">203.0.113.10</span></code></pre>
-      <p class="expect">The terminal seems frozen: that's normal, the tunnel is open. Open
-        <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>, account <code>admin</code> / <code>admin</code>, with the example
-        team. To go online later, follow the “On an online server” path.</p>
-      <label class="done"><input type="checkbox"> Done</label></li>
-  </ol>
-
-  <!-- ===================== C. my computer ===================== -->
-  <div class="path" data-path="local" hidden>
-    <div class="os-tabs" role="tablist" aria-label="Operating system">
-      <button type="button" role="tab" data-os="windows" aria-selected="true">Windows</button>
-      <button type="button" role="tab" data-os="mac" aria-selected="false">macOS</button>
-      <button type="button" role="tab" data-os="linux" aria-selected="false">Linux</button></div>
-    <ol class="stepper" data-os-panel="windows">
-      <li data-step="win-py"><b>Install Python</b> In <i>Terminal</i> or <i>PowerShell</i>:
-        <pre class="cmd" data-where="pc"><code>winget install -e --id Python.Python.3.12</code></pre>
-        <p class="expect">Or from python.org, ticking “Add python.exe to PATH”. Close and reopen the terminal.</p>
-        <label class="done"><input type="checkbox"> Done</label></li>
-      <li data-step="win-get"><b>Download the tool</b> <a class="btn" href="{{REPO}}/archive/refs/heads/main.zip">Download the .zip</a>,
-        then right-click → <i>Extract All</i> into your Documents folder.
-        <label class="done"><input type="checkbox"> Done</label></li>
-      <li data-step="win-run"><b>Start it</b> Double-click <code>Lancer_dev_local.bat</code> in the extracted folder, or:
-        <pre class="cmd" data-where="pc"><code>cd $HOME\Documents\dynamite-agile-main</code>
-<code>python app_dynamite_agile.py --dev-admin</code></pre>
-        <p class="expect">Open <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>, account <code>admin</code> / <code>admin</code>.
-          Closing the window stops the tool.</p>
-        <label class="done"><input type="checkbox"> Done</label></li>
-    </ol>
-    <ol class="stepper" data-os-panel="mac" hidden>
-      <li data-step="mac-tools"><b>Install the basic tools</b> In <i>Terminal</i> (once):
-        <pre class="cmd" data-where="pc"><code>xcode-select --install</code></pre>
-        <label class="done"><input type="checkbox"> Done</label></li>
-      <li data-step="mac-run"><b>Download and start</b>
-        <pre class="cmd" data-where="pc"><code>git clone {{REPO}}.git ~/dynamite-agile</code>
-<code>cd ~/dynamite-agile &amp;&amp; python3 app_dynamite_agile.py --dev-admin</code></pre>
-        <p class="expect">Open <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>, account <code>admin</code> / <code>admin</code>.
-          Ctrl+C stops the tool.</p>
-        <label class="done"><input type="checkbox"> Done</label></li>
-    </ol>
-    <ol class="stepper" data-os-panel="linux" hidden>
-      <li data-step="lin-run"><b>Install, download and start</b>
-        <pre class="cmd" data-where="pc"><code>sudo apt update &amp;&amp; sudo apt install -y python3 git</code>
-<code>git clone {{REPO}}.git ~/dynamite-agile</code>
-<code>cd ~/dynamite-agile &amp;&amp; python3 app_dynamite_agile.py --dev-admin</code></pre>
-        <p class="expect">Open <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>, account <code>admin</code> / <code>admin</code>.</p>
-        <label class="done"><input type="checkbox"> Done</label></li>
-    </ol>
-  </div>
-
-  <!-- ===================== D. Windows team server (0.60.10, D-O-022) ===================== -->
-  <ol class="stepper path" data-path="windows" hidden>
-    <li data-step="win-srv-pc"><b>Choose the PC that hosts the tool</b>
-      Windows 10, 11 or Server 2019 and later, plugged into the team's network and <b>always on</b> (Settings → System → Power:
-      sleep <i>Never</i>). The network must be marked <b>Private</b> (Settings → Network &amp; internet → Properties), otherwise
-      the firewall blocks the team.
-      <label class="done"><input type="checkbox"> Done</label></li>
-    <li data-step="win-srv-admin"><b>Open PowerShell as administrator</b>
-      On that PC: <b>Win + X</b> → <i>Terminal (Admin)</i> (or <i>Windows PowerShell (Admin)</i>), then <b>Yes</b>.
-      <p class="expect">The line starts with <code>PS C:\WINDOWS\system32&gt;</code>: you are administrator.</p>
-      <label class="done"><input type="checkbox"> Done</label></li>
-    <li data-step="win-srv-install"><b>Install, in one command</b>
+    <!-- ================= WINDOWS ================= -->
+    <li class="wiz-step" data-step="win-pc" data-os="windows" hidden>
+      <h2><span class="n">2</span> Choose the team PC</h2>
+      <p>Windows 10, 11 or Server, on the team's network and <b>always on</b> (Settings → System → Power: sleep <i>Never</i>). The
+        network must be <b>Private</b> (Settings → Network &amp; Internet → Properties).</p>
+      <label class="done"><input type="checkbox"> Done</label>
+    </li>
+    <li class="wiz-step" data-step="win-admin" data-os="windows" hidden>
+      <h2><span class="n">3</span> Open PowerShell as administrator</h2>
+      <p>On this PC: <b>Win + X</b> → <i>Terminal (Admin)</i>, then <b>Yes</b>.</p>
+      <p class="expect">The line starts with <code>PS C:\WINDOWS\system32&gt;</code>.</p>
+      <label class="done"><input type="checkbox"> Done</label>
+    </li>
+    <li class="wiz-step" data-step="win-install" data-os="windows" hidden>
+      <h2><span class="n">4</span> Install, in one command</h2>
       <pre class="cmd" data-where="srv"><code>irm {{SITE_URL}}/install.ps1 -OutFile $env:TEMP\install-dynamite.ps1; $env:DA_LANG = "en"; powershell -ExecutionPolicy Bypass -File $env:TEMP\install-dynamite.ps1</code></pre>
-      <p class="expect">Five to ten minutes. The end shows <code>== Installed</code>, the address to open
-        (<code>https://pc-name</code> and its IP address) and the <b>temporary password</b> of the <code>admin</code> account:
-        keep this window open.</p>
-      <details><summary>What the command does</summary><p>It installs Python 3.12 and Git (winget), fetches the code into
-        <code>C:\DynamiteAgile</code>, creates the team's certificate authority and the HTTPS certificate of this PC, sets the
-        production configuration, opens port 443 for private networks only, and creates the « Dynamite Agile » task that starts
-        with Windows and restarts the tool if it stops. Run it again to update, nothing is lost. The script is readable here:
-        <a href="{{REPO}}/blob/main/deploy/install.ps1">deploy/install.ps1</a>.</p></details>
-      <details><summary>Port 443 already used, or another folder</summary>
-        <pre class="cmd" data-where="srv"><code>powershell -ExecutionPolicy Bypass -File $env:TEMP\install-dynamite.ps1 -Port 8443 -Dossier D:\DynamiteAgile</code></pre>
-        <p>The address then becomes <code>https://pc-name:8443</code>.</p></details>
-      <label class="done"><input type="checkbox"> Done</label></li>
-    <li data-step="win-srv-trust"><b>Trust the certificate, on each computer</b>
-      The script created <code>C:\DynamiteAgile\data\tls\partage\ca-dynamite.crt</code>. Copy this file to each computer of the
-      team (USB key, shared folder, email). On a Windows computer, in PowerShell (no administrator needed), in the folder of the file:
+      <p class="expect">Five to ten minutes. The end shows <code>== Installed</code>, the address (<code>https://pc-name</code>) and the
+        <b>temporary password</b> of the <code>admin</code> account.</p>
+      <details><summary>What the command does</summary><p>It installs Python and Git, fetches the code into
+        <code>C:\DynamiteAgile</code>, creates the team's HTTPS certificate, opens port 443 for the private network only and creates
+        the task that starts the tool with Windows. The script: <a href="{{REPO}}/blob/main/deploy/install.ps1">deploy/install.ps1</a>.</p></details>
+      <label class="done"><input type="checkbox"> Done</label>
+    </li>
+    <li class="wiz-step" data-step="win-trust" data-os="windows" hidden>
+      <h2><span class="n">5</span> Open the tool on each computer</h2>
+      <p>Copy <code>C:\DynamiteAgile\data\tls\partage\ca-dynamite.crt</code> to each computer (USB key, shared folder), then on each
+        Windows computer, in PowerShell, in the file's folder:</p>
       <pre class="cmd" data-where="pc"><code>Import-Certificate -FilePath .\ca-dynamite.crt -CertStoreLocation Cert:\CurrentUser\Root</code></pre>
-      <p class="expect">Windows asks to confirm the « Dynamite Equipe Root CA » authority: <b>Yes</b>. On macOS: double-click the
-        file, then Keychain → <i>Always Trust</i>. On Linux: Firefox or Chrome → Settings → Certificates → Authorities → Import.</p>
-      <label class="done"><input type="checkbox"> Done</label></li>
-    <li data-step="win-srv-open"><b>Open the tool and create your team</b>
-      From any computer, open <code>https://pc-name</code> (or <code>https://</code> + the IP address shown), account
-      <code>admin</code> and the temporary password; choose yours. Then ⚙ Admin → Spaces → <i>Commencer</i>, or ⚙ Admin →
-      Comptes → <i>Règles d'accès</i>. The <a href="guide.html">guide</a> walks you through.
-      <label class="done"><input type="checkbox"> Done</label></li>
+      <p class="expect">Answer <b>Yes</b>. Open <code>https://pc-name</code>, account <code>admin</code> and the temporary password,
+        then <b>⚙ Admin → Spaces → Commencer</b>. On macOS: double-click the file → Keychain → <i>Always Trust</i>.</p>
+      <label class="done"><input type="checkbox"> Installed</label>
+    </li>
   </ol>
 
+  <p class="next muted">What next? The <a href="guide.html">guide</a> explains each module, from MVP0 to launch.
+    An error message? See <a href="#depannage">If something gets stuck</a>, or paste it to your AI assistant.</p>
 {{TROUBLE}}
 </main>
 {{FOOTER}}
