@@ -128,6 +128,18 @@ class BotTest(unittest.TestCase):
         self.assertNotIn("{{URL}}", text)
         self.assertIn("sh /opt/data/dynamite search", text)
 
+    def test_06b_search_forgives_a_sentence(self):
+        """0.60.37: a whole sentence still finds the function; « best » is the first link."""
+        code, body = self.call("/api/bot/v1/search?q=" + urllib.request.quote("Bob, montre-moi la fonction qui dissipe la chaleur des DEL") + "&space=LAMPE")
+        self.assertEqual(code, 200)
+        self.assertIn("dissi", body["widened_to"])
+        self.assertNotIn("bob", body["widened_to"])
+        self.assertIn("chaleur", body["best"]["title"].lower())
+        self.assertIn("focus=", body["best"]["url"])
+        code, body = self.call("/api/bot/v1/search?q=zzzqqq&space=LAMPE")
+        self.assertIsNone(body["best"])
+        self.assertIn("summary", body["hint"])
+
     def test_07_da_sh_the_one_command_of_the_agent(self):
         """0.60.37: deploy/bob/da.sh -- the key from the environment or from the agent's .env file, the words encoded."""
         import os
