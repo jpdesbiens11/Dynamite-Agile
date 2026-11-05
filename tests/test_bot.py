@@ -126,7 +126,7 @@ class BotTest(unittest.TestCase):
         for needed in ("Bob le mineur", "DynamiteAgile", "/api/bot/v1/search", "DA_BOT_TOKEN", "Ne demande jamais un mot de passe"):
             self.assertIn(needed, text)
         self.assertNotIn("{{URL}}", text)
-        self.assertIn("sh /opt/data/da.sh search", text)
+        self.assertIn("sh /opt/data/dynamite search", text)
 
     def test_07_da_sh_the_one_command_of_the_agent(self):
         """0.60.37: deploy/bob/da.sh -- the key from the environment or from the agent's .env file, the words encoded."""
