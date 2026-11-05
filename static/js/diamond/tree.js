@@ -33,8 +33,8 @@
     const editable = A.canEdit(ctx);
     if (!items.some((f) => f.id === state.selected)) state.selected = null;
     holder.append(A.pageHead(ctx, [el("span", null, "Diamond"), el("span", null, "Arbre fonctionnel")],
-      items.length ? el("button", { type: "button", class: "btn btn-small", "aria-pressed": state.list ? "true" : "false",
-        onclick: () => { state.list = !state.list; D.later(() => draw(holder, ctx, state, run)); } }, state.list ? "Vue arbre" : "Vue liste") : null));
+      items.length ? [D.exportMenu(ctx, "tree"), el("button", { type: "button", class: "btn btn-small", "aria-pressed": state.list ? "true" : "false",
+        onclick: () => { state.list = !state.list; D.later(() => draw(holder, ctx, state, run)); } }, state.list ? "Vue arbre" : "Vue liste")] : null));
     holder.append(el("div", { class: "page-head dm-intro" }, el("h1", { "data-new": "0.60.11-ftree" }, "Arbre fonctionnel"),
       el("p", { class: "muted" }, "Les fonctions du produit, de la fonction primaire (à gauche) à ses « comment » (à droite). De haut "
         + "en bas : l'ordre de la première utilisation, de la sortie de la boîte au service rendu ; la dernière branche protège.")));

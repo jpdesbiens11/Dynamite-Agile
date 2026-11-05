@@ -39,6 +39,7 @@ class Page:
         Page.COUNT += 1
         self.name, self.cells, self.n, self.tag = name, [], 0, "p{}".format(Page.COUNT)  # ids unique in the whole file
         self.width = self.height = 0
+        self.items = []  # the same boxes and arrows, kept structured for PowerPoint (export_pptx.py, 0.60.50)
 
     def _id(self, prefix):
         self.n += 1
@@ -50,6 +51,7 @@ class Page:
                           'height="{}" as="geometry"/></mxCell>'.format(cid, _a(value), "html=1;whiteSpace=wrap;" if html_label else "",
                                                                          FONT, style, self.tag, round(x), round(y), round(w), round(h)))
         self.width, self.height = max(self.width, x + w), max(self.height, y + h)
+        self.items.append({"kind": "box", "id": cid, "x": x, "y": y, "w": w, "h": h, "value": value, "style": style})
         return cid
 
     def edge(self, src, dst, style, value="", at=0):
@@ -58,7 +60,13 @@ class Page:
         self.cells.append('<mxCell id="{}" value="{}" style="html=1;{}{}" edge="1" parent="{}L" source="{}" target="{}">'
                           '<mxGeometry{} relative="1" as="geometry"/></mxCell>'.format(cid, _a(value), FONT, style, self.tag, src, dst,
                                                                                      ' x="{}"'.format(at) if at else ""))
+        self.items.append({"kind": "edge", "id": cid, "src": src, "dst": dst, "style": style, "value": value, "at": at})
         return cid
+
+    def to_back(self):
+        """The last box goes behind everything (the frame of the system)."""
+        self.cells.insert(0, self.cells.pop())
+        self.items.insert(0, self.items.pop())
 
     def xml(self, index):
         w, h = int(self.width + 60), int(self.height + 60)
@@ -107,9 +115,9 @@ def _fn_style(f):
     return "rounded=1;arcSize=12;fillColor={};{}fontSize=12;fontColor=#1F2933;{}".format(LEVEL_FILL[lv], stroke, "fontStyle=1;" if lv == 1 else "")
 
 
-def tree_page(data):
-    page = Page("Arbre fonctionnel")
-    title_block(page, data, "Arbre fonctionnel", "Comment ? → vers la droite · ← Pourquoi ? vers la gauche · Quand ? de haut en bas")
+def tree_page(data, title="Arbre fonctionnel"):
+    page = Page(title)
+    title_block(page, data, title, "Comment ? → vers la droite · ← Pourquoi ? vers la gauche · Quand ? de haut en bas")
     kids, ids, ypos = data["kids"], {}, {}
     nxt = [HEAD + 20]
 
@@ -232,7 +240,7 @@ def structure_page(data, view):
                          "<b>Système</b>{}".format(" — " + _h(primary["text"]) if primary else ""),
                          "rounded=1;arcSize=3;dashed=1;dashPattern=8 4;fillColor=none;strokeColor=#0B1B33;strokeWidth=2;"
                          "verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;fontSize=12;fontColor=#0B1B33;")
-        page.cells.insert(0, page.cells.pop())  # the frame behind everything
+        page.to_back()  # the frame behind everything
     ids = {}
     for key, b in boxes.items():
         item = b["item"]
@@ -297,7 +305,22 @@ def risk_page(data):
     return page
 
 
-def build(data):
-    pages = [tree_page(data), structure_page(data, "general"), structure_page(data, "detail"), risk_page(data)]
+PARTS = ("tree", "structure", "risks")
+
+
+def pages(data, only=None):
+    """only: "tree" or "structure" -- the diagram of one screen (0.60.50, D-O-059); None: every diagram."""
+    out = []
+    if only in (None, "tree"):
+        out.append(tree_page(data))
+    if only in (None, "structure"):
+        out += [structure_page(data, "general"), structure_page(data, "detail")]
+    if only is None:
+        out.append(risk_page(data))
+    return out
+
+
+def build(data, only=None):
+    pages_ = pages(data, only)
     return ('<?xml version="1.0" encoding="UTF-8"?>\n<mxfile host="DynamiteAgile" agent="DynamiteAgile v{}" version="24.0.0">{}</mxfile>\n'
-            .format(_a(data["version"]), "".join(p.xml(i + 1) for i, p in enumerate(pages))))
+            .format(_a(data["version"]), "".join(p.xml(i + 1) for i, p in enumerate(pages_))))

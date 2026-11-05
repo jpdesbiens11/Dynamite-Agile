@@ -48,7 +48,8 @@
     clear(holder);
     const data = state.data;
     const editable = A.canEdit(ctx);
-    holder.append(A.pageHead(ctx, [el("span", null, "Diamond"), el("span", null, "Structure fonctionnelle")]),
+    holder.append(A.pageHead(ctx, [el("span", null, "Diamond"), el("span", null, "Structure fonctionnelle")],
+      data.secondaries.length ? D.exportMenu(ctx, "structure") : null),
       el("div", { class: "page-head dm-intro" }, el("h1", { "data-new": "0.60.13-fstructure" }, "Structure fonctionnelle"),
         el("p", { class: "muted" }, "Le boundary diagram du produit, tiré de l'arbre fonctionnel : les entrées du système à gauche, "
           + "les sorties à droite, et entre les deux les flux d'énergie, de matière et d'information. D'abord la vue générale "

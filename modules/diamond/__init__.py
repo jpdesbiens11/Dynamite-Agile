@@ -221,6 +221,7 @@ ROUTES = [
     ("GET", P + r"/export\.xlsx", export_api.api_xlsx, "user"),  # 0.60.33 (D-O-041): every table, every diagram, the report
     ("GET", P + r"/export\.docx", export_api.api_docx, "user"),
     ("GET", P + r"/export\.drawio", export_api.api_drawio, "user"),
+    ("GET", P + r"/export\.pptx", export_api.api_pptx, "user"),  # 0.60.50 (D-O-059): the diagrams as PowerPoint shapes
     ("POST", P + r"/dfmea/example", example.api_dfmea_example, "user"),
     ("PATCH", P + r"/dfmea/rows/(?P<did>\d+)", dfmea.api_update, "user"),
     ("POST", P + r"/dfmea/rows/(?P<did>\d+)/duplicate", dfmea.api_duplicate, "user"),

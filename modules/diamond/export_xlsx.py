@@ -274,13 +274,21 @@ def dfmea_sheet(book, kit, data):
     s.merge(r, 0, r, 10)
 
 
-def build(data):
+def build(data, only=None):
+    """only: "tree" or "structure" -- the table of one screen (0.60.50, D-O-059); None: the whole workbook."""
     book = Book()
     kit = Kit(book)
-    synthese(book, kit, data)
-    tree_sheet(book, kit, data)
-    structure_sheet(book, kit, data)
-    parts_sheet(book, kit, data)
-    risks_sheet(book, kit, data)
-    dfmea_sheet(book, kit, data)
+    if only == "tree":
+        tree_sheet(book, kit, data)
+    elif only == "structure":
+        structure_sheet(book, kit, data)
+        if data["parts"]:
+            parts_sheet(book, kit, data)
+    else:
+        synthese(book, kit, data)
+        tree_sheet(book, kit, data)
+        structure_sheet(book, kit, data)
+        parts_sheet(book, kit, data)
+        risks_sheet(book, kit, data)
+        dfmea_sheet(book, kit, data)
     return book.bytes(title="Diamond — {} ({})".format(data["project"]["name"], data["project"]["key"]))
