@@ -1,6 +1,6 @@
 {
   "version": "0.60.44",
-  "date": "2026-11-04",
+  "date": "2026-11-05",
   "summary": {
     "fr": "Installation « Crystal Clear » : l'étape 1 demande où l'outil tourne (VPS en ligne, serveur Linux local sans Internet, PC Windows de l'équipe) et sur quel ordinateur on tape (Windows, macOS, Linux) ; chaque commande « sur votre ordinateur » suit ce choix (PowerShell ou Terminal). install.sh --local sert le réseau de l'équipe avec son propre certificat.",
     "en": "« Crystal Clear » installation: step 1 asks where the tool runs (online VPS, local Linux server without Internet, the team's Windows PC) and which computer you type on (Windows, macOS, Linux); every « on your computer » command follows that choice (PowerShell or Terminal). install.sh --local serves the team's network with its own certificate."

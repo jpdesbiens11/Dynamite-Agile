@@ -1,6 +1,6 @@
 {
   "version": "0.60.42",
-  "date": "2026-11-04",
+  "date": "2026-11-05",
   "summary": {
     "fr": "Le Space par défaut devient tout l'environnement : le Dashboard ne montre que ce produit (« Voir tous mes Spaces » d'un clic), la recherche y cherche d'abord (« Chercher dans tous les Spaces »), la feuille de temps y saisit d'abord ; « Commencer » rend le nouveau produit Space par défaut de l'équipe.",
     "en": "The default Space becomes the whole environment: the Dashboard shows this product alone (« Voir tous mes Spaces » in one click), the search looks there first, the timesheet logs there first; « Commencer » makes the new product the team's default Space."

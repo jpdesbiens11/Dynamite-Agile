@@ -20,6 +20,16 @@
     <span class="where pc">sur votre ordinateur</span> ou <span class="where srv">sur le serveur</span>.</p>
 {{LATEST}}
 
+  <section class="pc-pick pc-first" data-new="0.60.49-from-where" aria-labelledby="from-where">
+    <h2 id="from-where">Avant de commencer : d'où faites-vous l'installation ?</h2>
+    <p>L'ordinateur <b>sur lequel vous tapez les commandes</b> (celui où vous lisez cette page). Ce n'est pas forcément celui où
+      l'outil va tourner : ça, c'est l'étape 1. Toutes les commandes « sur votre ordinateur » s'adaptent à ce choix.</p>
+    <div class="seg" role="radiogroup" aria-label="Votre ordinateur">
+      <label><input type="radio" name="pc" value="win"> Windows</label>
+      <label><input type="radio" name="pc" value="mac"> macOS</label>
+      <label><input type="radio" name="pc" value="linux"> Linux</label></div>
+  </section>
+
   <div class="progress-bar" aria-live="polite"><div class="track"><i></i></div><span id="progress-text">0 étape faite</span></div>
 
   <ol class="wiz">
@@ -44,13 +54,6 @@
             <circle cx="25" cy="15" r="2" fill="#3cba6b"/><rect x="14" y="27" width="36" height="19" rx="3" fill="#cfe3ff"/></svg>
           <b>PC Windows de l'équipe</b><span class="tag">Réseau de l'équipe</span>
           <span>Un PC <b>Windows</b> toujours allumé héberge l'outil ; l'équipe s'y connecte par le réseau local.</span></label>
-      </div>
-      <div class="pc-pick" data-new="0.60.44-my-computer">
-        <span><b>Votre ordinateur</b> (celui où vous lisez cette page) : les commandes s'y adaptent.</span>
-        <div class="seg" role="radiogroup" aria-label="Votre ordinateur">
-          <label><input type="radio" name="pc" value="win"> Windows</label>
-          <label><input type="radio" name="pc" value="mac"> macOS</label>
-          <label><input type="radio" name="pc" value="linux"> Linux</label></div>
       </div>
       <details class="ai-help"><summary>Besoin d'aide ? Un assistant IA vous guide pas à pas</summary>
         <p>Ouvrez Claude (ou votre assistant habituel) et collez-lui ce message : il lit cette page et vous guide une commande à

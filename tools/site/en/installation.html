@@ -20,6 +20,16 @@
     <span class="where pc">on your computer</span> or <span class="where srv">on the server</span>.</p>
 {{LATEST}}
 
+  <section class="pc-pick pc-first" data-new="0.60.49-from-where" aria-labelledby="from-where">
+    <h2 id="from-where">Before you start: where are you installing from?</h2>
+    <p>The computer <b>on which you type the commands</b> (the one showing this page). It is not necessarily where the tool
+      will run: that is step 1. Every « on your computer » command follows this choice.</p>
+    <div class="seg" role="radiogroup" aria-label="Your computer">
+      <label><input type="radio" name="pc" value="win"> Windows</label>
+      <label><input type="radio" name="pc" value="mac"> macOS</label>
+      <label><input type="radio" name="pc" value="linux"> Linux</label></div>
+  </section>
+
   <div class="progress-bar" aria-live="polite"><div class="track"><i></i></div><span id="progress-text">0 steps done</span></div>
 
   <ol class="wiz">
@@ -44,13 +54,6 @@
             <circle cx="25" cy="15" r="2" fill="#3cba6b"/><rect x="14" y="27" width="36" height="19" rx="3" fill="#cfe3ff"/></svg>
           <b>Team Windows PC</b><span class="tag">Team's network</span>
           <span>A <b>Windows</b> PC that stays on hosts the tool; the team connects over the local network.</span></label>
-      </div>
-      <div class="pc-pick" data-new="0.60.44-my-computer">
-        <span><b>Your computer</b> (the one showing this page): the commands follow it.</span>
-        <div class="seg" role="radiogroup" aria-label="Your computer">
-          <label><input type="radio" name="pc" value="win"> Windows</label>
-          <label><input type="radio" name="pc" value="mac"> macOS</label>
-          <label><input type="radio" name="pc" value="linux"> Linux</label></div>
       </div>
       <details class="ai-help"><summary>Need help? An AI assistant guides you step by step</summary>
         <p>Open Claude (or your usual assistant) and paste this message: it reads this page and guides you one command at a time.

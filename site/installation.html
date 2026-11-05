@@ -453,6 +453,11 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .share-item:hover, .share-item:focus-visible { background: color-mix(in srgb, var(--y, #ffd23f) 55%, #fff); outline: none; }
 @media (max-width: 720px) { .share-btn span { display: none; } .share-menu { right: 1rem; } }
 @media (max-width: 480px) { .top .gh { display: none; } }  /* GitHub stays in the footer; the top bar keeps one line */
+/* 0.60.49: « d'où faites-vous l'installation ? » asked once, before the 5 steps, whatever the destination */
+.pc-first { display: block; margin: 1.4rem 0 1.2rem; padding: 1rem 1.2rem; border: 2px solid var(--ink); border-radius: var(--r-card, 12px);
+  border-style: solid; background: color-mix(in srgb, var(--y, #ffd23f) 22%, #fff); }
+.pc-first h2 { margin: 0 0 .3rem; font-size: 1.25rem; }
+.pc-first p { margin: 0 0 .7rem; }
 
 </style>
 </head>
@@ -496,7 +501,17 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   <h1>Installer DynamiteAgile</h1>
   <p class="lead">Cinq étapes, de haut en bas. Chaque commande se copie d'un clic, et une étiquette dit <b>où</b> la coller :
     <span class="where pc">sur votre ordinateur</span> ou <span class="where srv">sur le serveur</span>.</p>
-  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Dernière version : 0.60.49</b> · 2026-11-04 — Un seul Space à l&#x27;installation : DEMO. Il réunit l&#x27;ancien HeadLamp (tour guidé, bac à sable, formation, bibliothèque de référence) et l&#x27;exemple complet du Rover (tous les modules remplis de MVP 0 à MVP 3), sans compte d&#x27;exemple. Un administrateur le cache pour tous quand le vrai projet commence (⚙ Admin → Spaces → « Cacher pour tous ») ; la documentation de Help reste accessible. Une installation existante voit son Space HEADLAMP renommé DEMO et reçoit le Rover une fois. <a href="versions.html">Voir toutes les versions →</a><br>Déjà installé ? ⚙ Admin → Update → « Mise à jour en ligne » : vérifier, lire, approuver, suivre en direct.</p>
+  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Dernière version : 0.60.49</b> · 2026-11-05 — Un seul Space à l&#x27;installation : DEMO. Il réunit l&#x27;ancien HeadLamp (tour guidé, bac à sable, formation, bibliothèque de référence) et l&#x27;exemple complet du Rover (tous les modules remplis de MVP 0 à MVP 3), sans compte d&#x27;exemple. Un administrateur le cache pour tous quand le vrai projet commence (⚙ Admin → Spaces → « Cacher pour tous ») ; la documentation de Help reste accessible. Une installation existante voit son Space HEADLAMP renommé DEMO et reçoit le Rover une fois. <a href="versions.html">Voir toutes les versions →</a><br>Déjà installé ? ⚙ Admin → Update → « Mise à jour en ligne » : vérifier, lire, approuver, suivre en direct.</p>
+
+  <section class="pc-pick pc-first" data-new="0.60.49-from-where" aria-labelledby="from-where">
+    <h2 id="from-where">Avant de commencer : d'où faites-vous l'installation ?</h2>
+    <p>L'ordinateur <b>sur lequel vous tapez les commandes</b> (celui où vous lisez cette page). Ce n'est pas forcément celui où
+      l'outil va tourner : ça, c'est l'étape 1. Toutes les commandes « sur votre ordinateur » s'adaptent à ce choix.</p>
+    <div class="seg" role="radiogroup" aria-label="Votre ordinateur">
+      <label><input type="radio" name="pc" value="win"> Windows</label>
+      <label><input type="radio" name="pc" value="mac"> macOS</label>
+      <label><input type="radio" name="pc" value="linux"> Linux</label></div>
+  </section>
 
   <div class="progress-bar" aria-live="polite"><div class="track"><i></i></div><span id="progress-text">0 étape faite</span></div>
 
@@ -522,13 +537,6 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
             <circle cx="25" cy="15" r="2" fill="#3cba6b"/><rect x="14" y="27" width="36" height="19" rx="3" fill="#cfe3ff"/></svg>
           <b>PC Windows de l'équipe</b><span class="tag">Réseau de l'équipe</span>
           <span>Un PC <b>Windows</b> toujours allumé héberge l'outil ; l'équipe s'y connecte par le réseau local.</span></label>
-      </div>
-      <div class="pc-pick" data-new="0.60.44-my-computer">
-        <span><b>Votre ordinateur</b> (celui où vous lisez cette page) : les commandes s'y adaptent.</span>
-        <div class="seg" role="radiogroup" aria-label="Votre ordinateur">
-          <label><input type="radio" name="pc" value="win"> Windows</label>
-          <label><input type="radio" name="pc" value="mac"> macOS</label>
-          <label><input type="radio" name="pc" value="linux"> Linux</label></div>
       </div>
       <details class="ai-help"><summary>Besoin d'aide ? Un assistant IA vous guide pas à pas</summary>
         <p>Ouvrez Claude (ou votre assistant habituel) et collez-lui ce message : il lit cette page et vous guide une commande à

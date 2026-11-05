@@ -1,6 +1,6 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.49)
+**Dernière mise à jour :** 2026-11-05 (v0.60.49)
 **Version :** 0.60.49 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
 **Chantier actif :** 0.60.49 (demande de JP du 2026-11-05) : un seul Space DEMO à l'installation
 

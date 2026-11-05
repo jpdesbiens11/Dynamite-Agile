@@ -1,6 +1,6 @@
 {
   "version": "0.60.39",
-  "date": "2026-11-04",
+  "date": "2026-11-05",
   "summary": {
     "fr": "Installation en 5 étapes, pour un étudiant ou un entrepreneur non technique : 1. Linux ou Windows (nom et icône), puis quatre étapes de haut en bas ; pour Linux, un VPS vide chez Hostinger, Oracle Cloud (gratuit) ou DigitalOcean (étudiants), l'adresse web (ou un sous-domaine gratuit DuckDNS), la connexion et une seule commande.",
     "en": "Installation in 5 steps, for a non-technical student or entrepreneur: 1. Linux or Windows (name and icon), then four steps top to bottom; for Linux, an empty VPS at Hostinger, Oracle Cloud (free) or DigitalOcean (students), the web address (or a free DuckDNS subdomain), connecting and one single command."

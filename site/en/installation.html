@@ -453,6 +453,11 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .share-item:hover, .share-item:focus-visible { background: color-mix(in srgb, var(--y, #ffd23f) 55%, #fff); outline: none; }
 @media (max-width: 720px) { .share-btn span { display: none; } .share-menu { right: 1rem; } }
 @media (max-width: 480px) { .top .gh { display: none; } }  /* GitHub stays in the footer; the top bar keeps one line */
+/* 0.60.49: « d'où faites-vous l'installation ? » asked once, before the 5 steps, whatever the destination */
+.pc-first { display: block; margin: 1.4rem 0 1.2rem; padding: 1rem 1.2rem; border: 2px solid var(--ink); border-radius: var(--r-card, 12px);
+  border-style: solid; background: color-mix(in srgb, var(--y, #ffd23f) 22%, #fff); }
+.pc-first h2 { margin: 0 0 .3rem; font-size: 1.25rem; }
+.pc-first p { margin: 0 0 .7rem; }
 
 </style>
 </head>
@@ -496,7 +501,17 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   <h1>Install DynamiteAgile</h1>
   <p class="lead">Five steps, top to bottom. Each command copies in one click, and a label says <b>where</b> to paste it:
     <span class="where pc">on your computer</span> or <span class="where srv">on the server</span>.</p>
-  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Latest version: 0.60.49</b> · 2026-11-04 — One Space at installation: DEMO. It brings together the former HeadLamp (guided tour, sandbox, training, reference library) and the complete Rover example (every module filled from MVP 0 to MVP 3), without example accounts. An administrator hides it for everyone when the real project starts (⚙ Admin → Spaces → « Cacher pour tous »); the Help documentation stays available. An existing installation gets its HEADLAMP Space renamed DEMO and receives the Rover once. <a href="versions.html">See all versions →</a><br>Already installed? ⚙ Admin → Update → « Mise à jour en ligne » (online update): check, read, approve, follow live.</p>
+  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Latest version: 0.60.49</b> · 2026-11-05 — One Space at installation: DEMO. It brings together the former HeadLamp (guided tour, sandbox, training, reference library) and the complete Rover example (every module filled from MVP 0 to MVP 3), without example accounts. An administrator hides it for everyone when the real project starts (⚙ Admin → Spaces → « Cacher pour tous »); the Help documentation stays available. An existing installation gets its HEADLAMP Space renamed DEMO and receives the Rover once. <a href="versions.html">See all versions →</a><br>Already installed? ⚙ Admin → Update → « Mise à jour en ligne » (online update): check, read, approve, follow live.</p>
+
+  <section class="pc-pick pc-first" data-new="0.60.49-from-where" aria-labelledby="from-where">
+    <h2 id="from-where">Before you start: where are you installing from?</h2>
+    <p>The computer <b>on which you type the commands</b> (the one showing this page). It is not necessarily where the tool
+      will run: that is step 1. Every « on your computer » command follows this choice.</p>
+    <div class="seg" role="radiogroup" aria-label="Your computer">
+      <label><input type="radio" name="pc" value="win"> Windows</label>
+      <label><input type="radio" name="pc" value="mac"> macOS</label>
+      <label><input type="radio" name="pc" value="linux"> Linux</label></div>
+  </section>
 
   <div class="progress-bar" aria-live="polite"><div class="track"><i></i></div><span id="progress-text">0 steps done</span></div>
 
@@ -522,13 +537,6 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
             <circle cx="25" cy="15" r="2" fill="#3cba6b"/><rect x="14" y="27" width="36" height="19" rx="3" fill="#cfe3ff"/></svg>
           <b>Team Windows PC</b><span class="tag">Team's network</span>
           <span>A <b>Windows</b> PC that stays on hosts the tool; the team connects over the local network.</span></label>
-      </div>
-      <div class="pc-pick" data-new="0.60.44-my-computer">
-        <span><b>Your computer</b> (the one showing this page): the commands follow it.</span>
-        <div class="seg" role="radiogroup" aria-label="Your computer">
-          <label><input type="radio" name="pc" value="win"> Windows</label>
-          <label><input type="radio" name="pc" value="mac"> macOS</label>
-          <label><input type="radio" name="pc" value="linux"> Linux</label></div>
       </div>
       <details class="ai-help"><summary>Need help? An AI assistant guides you step by step</summary>
         <p>Open Claude (or your usual assistant) and paste this message: it reads this page and guides you one command at a time.

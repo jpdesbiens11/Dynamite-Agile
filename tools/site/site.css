@@ -255,3 +255,8 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .share-item:hover, .share-item:focus-visible { background: color-mix(in srgb, var(--y, #ffd23f) 55%, #fff); outline: none; }
 @media (max-width: 720px) { .share-btn span { display: none; } .share-menu { right: 1rem; } }
 @media (max-width: 480px) { .top .gh { display: none; } }  /* GitHub stays in the footer; the top bar keeps one line */
+/* 0.60.49: « d'où faites-vous l'installation ? » asked once, before the 5 steps, whatever the destination */
+.pc-first { display: block; margin: 1.4rem 0 1.2rem; padding: 1rem 1.2rem; border: 2px solid var(--ink); border-radius: var(--r-card, 12px);
+  border-style: solid; background: color-mix(in srgb, var(--y, #ffd23f) 22%, #fff); }
+.pc-first h2 { margin: 0 0 .3rem; font-size: 1.25rem; }
+.pc-first p { margin: 0 0 .7rem; }

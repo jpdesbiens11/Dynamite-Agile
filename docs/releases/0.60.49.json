@@ -1,6 +1,6 @@
 {
  "version": "0.60.49",
- "date": "2026-11-04",
+ "date": "2026-11-05",
  "summary": {
   "fr": "Un seul Space à l'installation : DEMO. Il réunit l'ancien HeadLamp (tour guidé, bac à sable, formation, bibliothèque de référence) et l'exemple complet du Rover (tous les modules remplis de MVP 0 à MVP 3), sans compte d'exemple. Un administrateur le cache pour tous quand le vrai projet commence (⚙ Admin → Spaces → « Cacher pour tous ») ; la documentation de Help reste accessible. Une installation existante voit son Space HEADLAMP renommé DEMO et reçoit le Rover une fois.",
   "en": "One Space at installation: DEMO. It brings together the former HeadLamp (guided tour, sandbox, training, reference library) and the complete Rover example (every module filled from MVP 0 to MVP 3), without example accounts. An administrator hides it for everyone when the real project starts (⚙ Admin → Spaces → « Cacher pour tous »); the Help documentation stays available. An existing installation gets its HEADLAMP Space renamed DEMO and receives the Rover once."
@@ -58,6 +58,16 @@
     "tools/build_site.py",
     "tools/vitrine/template.html",
     "tests/test_landing_story.py"
+   ]
+  },
+  {
+   "id": "C6",
+   "title": "Installation : « d'où faites-vous l'installation ? » avant les 5 étapes",
+   "why": "L'ordinateur sur lequel on tape les commandes se choisit une fois, en tête de page, peu importe la destination ; l'étape 1 ne parle plus que de l'endroit où l'outil tourne.",
+   "files": [
+    "tools/site/installation.html",
+    "tools/site/en/installation.html",
+    "tools/site/site.css"
    ]
   }
  ]

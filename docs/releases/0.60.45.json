@@ -1,6 +1,6 @@
 {
   "version": "0.60.45",
-  "date": "2026-11-04",
+  "date": "2026-11-05",
   "summary": {
     "fr": "Documentation de chaque module pour apprendre en faisant : pourquoi il existe, le besoin couvert, le pas à pas, ce qu'on y fait de MVP 0 à MVP x et ses références classées de la plus à la moins pertinente. Dans l'outil (Help → « Documentation des modules », pages de HeadLamp) et sur le site (page Modules, FR et EN).",
     "en": "Documentation of every module to learn by doing: why it exists, the need it covers, step by step, what you do there from MVP 0 to MVP x and its references from the most to the least relevant. In the tool (Help → « Documentation des modules », HeadLamp pages) and on the website (Modules page, FR and EN)."
