@@ -1,0 +1,69 @@
+{
+  "version": "0.60.46",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Exemple académique complet « Rover » : un petit véhicule autonome sur une auto téléguidée tout-terrain, piloté par un Raspberry Pi et une application web, qui contourne lentement les obstacles. Tous les modules sont remplis et documentés de MVP 0 à MVP 3. Il ne s'installe jamais tout seul : la page d'installation le propose en téléchargement, et une équipe le charge si elle le veut (Commencer). Le format Project Starter reçoit les méthodes de conception (idéation, Pugh, Kepner-Tregoe).",
+    "en": "Complete academic example « Rover »: a small autonomous robot on an all-terrain RC car, driven by a Raspberry Pi and a web app, that goes slowly around obstacles. Every module is filled and documented from MVP 0 to MVP 3. It never installs by itself: the installation page offers it for download, and a team loads it if it wants (Commencer). The Project Starter format gets the design methods (ideation, Pugh, Kepner-Tregoe)."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "L'exemple Rover (D-O-055)",
+      "why": "Un fichier Project Starter complet écrit par tools/make_rover_example.py à partir de tools/rover/ : équipe de 4, 9 besoins et 24 requirements, 20 essais, 39 fonctions, structure, 23 pièces, 10 risques, DFMEA d'une ligne par fonction, backlog MVP 0 à MVP 3, 21 livrables, 28 pages de wiki qui expliquent chaque décision.",
+      "files": [
+        "tools/make_rover_example.py",
+        "tools/rover/__init__.py",
+        "tools/rover/doc.py",
+        "tools/rover/base.py",
+        "tools/rover/diamond.py",
+        "tools/rover/dfmea_more.py",
+        "tools/rover/agile.py",
+        "tools/rover/methods.py",
+        "tools/rover/pages_ab.py",
+        "tools/rover/pages_cd.py",
+        "deploy/spaces_exemples/rover.json"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Méthodes de conception dans le Project Starter (D-O-055)",
+      "why": "« tools » : séance d'idéation, matrice de Pugh sur les requirements et analyse Kepner-Tregoe, créées par les handlers des modules, relues par l'export d'un Space éprouvé, décrites dans le prompt.",
+      "files": [
+        "core/starter_tools.py",
+        "core/starter_export_tools.py",
+        "core/starter_more.py",
+        "core/starter.py",
+        "core/starter_apply.py",
+        "core/starter_export.py",
+        "static/js/admin_starter.js",
+        "tools/site/starter.md",
+        "tools/site/en/starter.md",
+        "docs/STARTER_FORMAT.md"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Présenté sur le portail d'installation, jamais chargé par défaut",
+      "why": "Section « Un exemple académique complet, si vous le voulez » de la page d'installation (FR / EN) avec le téléchargement site/spaces/rover.json ; mentions dans installer.md, la page Modules et la documentation HeadLamp.",
+      "files": [
+        "tools/build_site.py",
+        "tools/site/installation.html",
+        "tools/site/en/installation.html",
+        "tools/site/site.css",
+        "tools/site/installer.md",
+        "tools/site/en/installer.md",
+        "tools/site/modules.html",
+        "tools/site/en/modules.html",
+        "modules/help/module_docs_pages.py"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Tests",
+      "why": "tests/test_rover_example.py : fichier à jour et valide, une ligne de DFMEA par fonction, numéros des fonctions gardés, méthodes vérifiées, installation neuve sans ROVER, chargement complet et relecture.",
+      "files": [
+        "tests/test_rover_example.py"
+      ]
+    }
+  ]
+}

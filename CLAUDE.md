@@ -100,6 +100,8 @@
   « Votre ordinateur » (Windows, macOS, Linux) choisit chaque commande ; adresse Hostinger expliquée.
 - **0.60.45** (2026-11-05) : **documentation des modules** (D-O-054, `modules/help/module_docs*.py`) : pourquoi, besoin, pas à pas, MVP 0 à MVP x, références classées ;
   HeadLamp (Help → Documentation des modules) et page Modules du site.
+- **0.60.46** (2026-11-05) : **exemple académique Rover** (D-O-055, `tools/rover/`, `deploy/spaces_exemples/rover.json`) : tous les modules remplis de MVP 0 à MVP 3,
+  à charger depuis la page d'installation (jamais par défaut) ; Project Starter `tools` (idéation, Pugh, Kepner-Tregoe, `core/starter_tools.py`).
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

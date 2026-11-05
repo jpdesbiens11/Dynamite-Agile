@@ -336,7 +336,7 @@ def parse(data):
     clean["diamond"] = starter_diamond.parse(raw, language, {t["ref"] for t in clean["tests"]},
                                               {m["username"] for m in clean["team"]})
     from . import starter_more  # 0.60.43 (D-O-052): the Agile backlog by MVP and the Generator deliverables
-    clean["more"] = starter_more.parse(raw, {m["username"] for m in clean["team"]})
+    clean["more"] = starter_more.parse(raw, {m["username"] for m in clean["team"]}, {r["ref"] for r in clean["requirements"]})
     return clean, _warnings(clean)
 
 

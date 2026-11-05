@@ -10,7 +10,8 @@
     ["tests", "Essais (Test Base)"], ["time_codes", "Codes de temps"], ["pages", "Pages Dynamite"],
     ["plan_weeks", "Exploration : plan de référence du PDP (semaines)"], ["diamond_functions", "Diamond : fonctions de l'arbre"], ["diamond_flows", "Diamond : flux de la structure"],
     ["diamond_parts", "Diamond : pièces"], ["diamond_risks", "Diamond : risques projet"], ["diamond_dfmea", "Diamond : lignes du DFMEA"],
-    ["backlog", "Agile : tickets du backlog (0.60.43)"], ["mvps", "Agile : MVP (Versions)"], ["deliverables", "Generator : livrables réservés"]];
+    ["backlog", "Agile : tickets du backlog (0.60.43)"], ["mvps", "Agile : MVP (Versions)"], ["deliverables", "Generator : livrables réservés"],
+    ["tools_ideation", "Tools : séances d'idéation (0.60.46)"], ["tools_pugh", "Goldmine : matrices de Pugh"], ["tools_kt", "Tools : analyses Kepner-Tregoe"]];
 
   async function render(body) {
     const examples = (await api.get("/api/starter/examples")).examples;

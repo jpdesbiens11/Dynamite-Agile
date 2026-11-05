@@ -213,7 +213,7 @@ Puis produisez le fichier :
 Clés de premier niveau, dans cet ordre : `format` (`"dynamite-project-starter"`), `format_version` (`1`), `language`
 (`fr` ou `en`), `generated_by` (le nom de l'assistant), `generated_at` (date `AAAA-MM-JJ`), `project`, `team`,
 `requirements`, `tests`, `time_codes` (facultatif), `pages`, `diamond` (objet : `functions`, `ports`, `flows`, `parts`, `risks`, `dfmea`),
-`backlog`, `deliverables`.
+`backlog`, `deliverables`, `tools` (facultatif : `ideation`, `pugh`, `kt`).
 
 | Objet | Champs (en **gras** : obligatoires ; les autres peuvent être retirés) |
 |---|---|
@@ -233,6 +233,7 @@ Clés de premier niveau, dans cet ordre : `format` (`"dynamite-project-starter"`
 
 | `backlog[]` (150 au plus) | **`ref`** (unique, ex. `E0`, `S1`), **`title`**, `type` (`epic`, `story`, `task`, `bug` ; défaut `story`), `description`, `parent` (la ref d'un **epic plus haut**), `mvp` (`MVP0` à `MVP9`), `assignee` (un `username` de `team`), `priority` (`lowest`, `low`, `medium`, `high`, `highest`), `points` (0 à 100) |
 | `deliverables[]` (40 au plus) | **`doc_type`** (code du Generator : `LCV`, `CRV`, `CDCF`, `PUGH`, `PDR`, `CDR`, `VVR`, `MVP`, `BML`…), **`title`**, `step` (étape du PDP `01` à `21` ; défaut : celle du type), `sub` |
+| `tools` (facultatif) | `ideation[]` : **`title`**, `prompt`, `ideas` (textes) ; `pugh[]` : **`title`**, `description`, **`concepts`** (`{name, description}`, le premier est la référence), `criteria` (`{requirement: ref d'un requis ou besoin, scores: {nom d'un concept: "+", "S" ou "-"}}`), `decision` (nom d'un concept), `note` ; `kt[]` : **`title`**, `statement`, **`alternatives`** (`{name, description}`), `criteria` (`{kind: must ou want, text, weight 1 à 10 pour un want, requirement, scores: {nom d'une alternative: 0 ou 1 pour un must, 1 à 10 pour un want}}`), `risks` (`{alternative, text, probability, seriousness}` de 1 à 3), `decision`, `note` |
 
 Attention aux noms voisins : un requis a `clause` et `acceptance_criteria` ; un essai a `section` et `acceptance`.
 

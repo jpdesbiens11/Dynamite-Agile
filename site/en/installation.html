@@ -436,6 +436,10 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .refs { padding-left: 1.4rem; }
 .refs li { margin: .45rem 0; line-height: 1.45; }
 .refs .why { display: block; color: #5b6673; font-size: .92rem; }
+/* 0.60.46 (D-O-055): the academic example a team loads if it wants */
+.example-space { margin: 3rem 0 2rem; padding: 1.2rem 1.4rem; border: 2px solid var(--g, #2f9e5b); border-radius: var(--r-card, 12px);
+  background: color-mix(in srgb, var(--g, #2f9e5b) 7%, #fff); }
+.example-space .stepper .btn { margin: .3rem .6rem .3rem 0; }
 
 </style>
 </head>
@@ -478,7 +482,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   <h1>Install DynamiteAgile</h1>
   <p class="lead">Five steps, top to bottom. Each command copies in one click, and a label says <b>where</b> to paste it:
     <span class="where pc">on your computer</span> or <span class="where srv">on the server</span>.</p>
-  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Latest version: 0.60.45</b> · 2026-11-04 — Documentation of every module to learn by doing: why it exists, the need it covers, step by step, what you do there from MVP 0 to MVP x and its references from the most to the least relevant. In the tool (Help → « Documentation des modules », HeadLamp pages) and on the website (Modules page, FR and EN). <a href="versions.html">See all versions →</a><br>Already installed? ⚙ Admin → Update → « Mise à jour en ligne » (online update): check, read, approve, follow live.</p>
+  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Latest version: 0.60.46</b> · 2026-11-04 — Complete academic example « Rover »: a small autonomous robot on an all-terrain RC car, driven by a Raspberry Pi and a web app, that goes slowly around obstacles. Every module is filled and documented from MVP 0 to MVP 3. It never installs by itself: the installation page offers it for download, and a team loads it if it wants (Commencer). The Project Starter format gets the design methods (ideation, Pugh, Kepner-Tregoe). <a href="versions.html">See all versions →</a><br>Already installed? ⚙ Admin → Update → « Mise à jour en ligne » (online update): check, read, approve, follow live.</p>
 
   <div class="progress-bar" aria-live="polite"><div class="track"><i></i></div><span id="progress-text">0 steps done</span></div>
 
@@ -689,6 +693,22 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     </li>
   </ol>
 
+  <section id="exemple" class="example-space reveal" data-new="0.60.46-rover">
+    <h2>A complete academic example, if you want it: the Rover</h2>
+    <p>Your installation stays empty. To see the method applied end to end, load the <b>Rover</b> example: a small autonomous
+      robot built on an all-terrain RC car, driven by a Raspberry Pi and a web app on the phone, that slows down near an obstacle
+      and goes around it slowly. Every module is filled and documented, from MVP 0 to MVP 3: needs and requirements, Test Base,
+      function tree, structure, parts, risks and DFMEA, backlog by MVP, ideation, Pugh, Kepner-Tregoe, Generator deliverables,
+      PDP plan and 28 wiki pages that explain every decision.</p>
+    <ol class="stepper">
+      <li><b>Download the file</b><a class="btn btn-primary" href="../spaces/rover.json" download="rover.json">Download rover.json</a>
+        (about 190 KB, in French; a Project Starter file, like the ones an AI assistant prepares).</li>
+      <li><b>Load it in the tool</b>⚙ Admin → Spaces → <b>Commencer</b> → step 2, drop <code>rover.json</code>, read the preview, then « Créer le Space ROVER ».</li>
+      <li><b>Explore</b>Open the page « Rover — accueil du projet » in Dynamite: the reading guide says where to look, module by module.
+        The accounts Nina, Léa, Hugo and Alexis get a temporary password; delete the Space when you no longer need it.</li>
+    </ol>
+  </section>
+
   <p class="next muted">What next? The <a href="guide.html">guide</a> explains each module, from MVP0 to launch.
     An error message? See <a href="#depannage">If something gets stuck</a>, or paste it to your AI assistant.</p>
   <h2 id="depannage">If something gets stuck</h2>
@@ -744,7 +764,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       <code>python C:\DynamiteAgile\app_dynamite_agile.py --reset-password admin</code></td></tr>
     <tr><td>Move from trial to team</td><td>Follow the “On an online server” path: the same command with your domain</td></tr></table>
 </main>
-<footer>DynamiteAgile · free software under the MIT licence · version 0.60.45 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>DynamiteAgile · free software under the MIT licence · version 0.60.46 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */

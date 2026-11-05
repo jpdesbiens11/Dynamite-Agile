@@ -206,7 +206,7 @@ Then produce the file:
 Top-level keys, in this order: `format` (`"dynamite-project-starter"`), `format_version` (`1`), `language` (`fr` or
 `en`), `generated_by` (the name of the assistant), `generated_at` (date `YYYY-MM-DD`), `project`, `team`,
 `requirements`, `tests`, `time_codes` (optional), `pages`, `diamond` (object: `functions`, `ports`, `flows`, `parts`, `risks`, `dfmea`),
-`backlog`, `deliverables`.
+`backlog`, `deliverables`, `tools` (optional: `ideation`, `pugh`, `kt`).
 
 | Object | Fields (in **bold**: required; the others may be removed) |
 |---|---|
@@ -225,6 +225,7 @@ Top-level keys, in this order: `format` (`"dynamite-project-starter"`), `format_
 | `diamond.dfmea[]` (120 at most) | `higher`, `focus`, `lower`, `function` (ref), `requirement`, **`failure_mode`**, `effect`, `severity`, `cause`, `prevention`, `occurrence`, `detection_ctrl`, `test` (the ref of the **key test** that detects the failure, one per row, taken from `tests`), `detection` (S, O, D: integers 1 to 10), `action` |
 | `backlog[]` (150 at most) | **`ref`** (unique, e.g. `E0`, `S1`), **`title`**, `type` (`epic`, `story`, `task`, `bug`; default `story`), `description`, `parent` (the ref of an **epic above**), `mvp` (`MVP0` to `MVP9`), `assignee` (a `username` of `team`), `priority` (`lowest`, `low`, `medium`, `high`, `highest`), `points` (0 to 100) |
 | `deliverables[]` (40 at most) | **`doc_type`** (Generator code: `LCV`, `CRV`, `CDCF`, `PUGH`, `PDR`, `CDR`, `VVR`, `MVP`, `BML`…), **`title`**, `step` (PDP step `01` to `21`; default: the type's), `sub` |
+| `tools` (optional) | `ideation[]`: **`title`**, `prompt`, `ideas` (texts); `pugh[]`: **`title`**, `description`, **`concepts`** (`{name, description}`, the first is the reference), `criteria` (`{requirement: ref of a requirement or need, scores: {concept name: "+", "S" or "-"}}`), `decision` (a concept name), `note`; `kt[]`: **`title`**, `statement`, **`alternatives`** (`{name, description}`), `criteria` (`{kind: must or want, text, weight 1 to 10 for a want, requirement, scores: {alternative name: 0 or 1 for a must, 1 to 10 for a want}}`), `risks` (`{alternative, text, probability, seriousness}` from 1 to 3), `decision`, `note` |
 
 Mind the similar names: a requirement has `clause` and `acceptance_criteria`; a test has `section` and `acceptance`.
 

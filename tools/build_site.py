@@ -202,6 +202,12 @@ def build():
     ps1 = re.sub(rb'else \{ "https://github\.com/[^"]*" \}', 'else {{ "{}.git" }}'.format(REPO).encode("utf-8"), ps1)
     (OUT / "install.ps1").write_bytes(ps1)
     written.append((OUT / "install.ps1", len(ps1)))
+    # 0.60.46 (D-O-055): the example Spaces a team loads if it wants (never part of a fresh installation)
+    (OUT / "spaces").mkdir(exist_ok=True)
+    for example in sorted((BASE / "deploy" / "spaces_exemples").glob("*.json")):
+        data = example.read_bytes()
+        (OUT / "spaces" / example.name).write_bytes(data)
+        written.append((OUT / "spaces" / example.name, len(data)))
     (OUT / ".nojekyll").write_text("", encoding="utf-8")  # GitHub Pages: serve the files as they are
     return written
 

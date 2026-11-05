@@ -65,6 +65,9 @@ def hub_body():
                           "pourquoi le module existe, le besoin qu'il couvre, le pas à pas, ce qu'on y fait de MVP 0 à MVP x, et ses "
                           "références de la plus à la moins pertinente.")),
         _table(["Module", "Profondeur", "À quoi il sert"], *rows),
+        _panel("success", _p(_t("Un exemple complet, si vous le voulez :", "bold"), " le Rover, un petit véhicule autonome sur une auto "
+                             "téléguidée, avec tous les modules remplis de MVP 0 à MVP 3. Il ne s'installe pas tout seul : "
+                             "téléchargez rover.json depuis la page d'installation du site, puis ⚙ Admin → Spaces → Commencer.")),
         _h(2, "Les pages"), {"type": "children"})
 
 

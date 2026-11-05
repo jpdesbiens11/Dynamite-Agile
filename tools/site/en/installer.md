@@ -130,3 +130,7 @@ or http.sys) → `-Port 8443`; "not running as administrator" → Win + X → Te
 - Getting started: {{SITE_URL}}/en/guide.html; inside the tool, Help → the tour of the site.
 - The tool's interface is in French today; English is coming in the next versions (the module names and technical terms
   are already in English).
+
+## The Rover academic example (0.60.46)
+
+At its end, the installation page offers a complete example to load if the person wants it: `spaces/rover.json`. It never installs by itself. To load it: ⚙ Admin → Spaces → Commencer → step 2, drop the file, read the preview, « Créer le Space ROVER ». It creates four example accounts (Nina, Léa, Hugo, Alexis) with a temporary password; the Space can be deleted afterwards like any other.
