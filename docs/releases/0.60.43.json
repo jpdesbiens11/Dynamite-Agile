@@ -1,0 +1,51 @@
+{
+  "version": "0.60.43",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Le Project Starter remplit tous les modules : le backlog Agile par MVP (une Version par MVP, epics puis stories) et les livrables du Generator s'ajoutent ; un Space éprouvé se relit comme fichier Project Starter (« Exporter comme modèle (IA) ») et sert d'exemple au prompt du prochain produit (« Modèle » dans Commencer).",
+    "en": "The Project Starter fills every module: the Agile backlog by MVP (one Version per MVP, epics then stories) and the Generator deliverables are added; a proven Space reads back as a Project Starter file (« Exporter comme modèle (IA) ») and becomes the example of the prompt for the next product (« Modèle » in Commencer)."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Backlog par MVP et livrables (D-O-052)",
+      "why": "core/starter_more.py : backlog (epic, story, task, bug ; parent, MVP, responsable, priorité, points) et deliverables (codes du Generator) ; chaque MVP devient une Version d'Agile ; question 26 du prompt, format et exemple à jour.",
+      "files": [
+        "core/starter_more.py",
+        "core/starter.py",
+        "core/starter_apply.py",
+        "core/starter_prompt.py",
+        "tools/site/starter.md",
+        "tools/site/en/starter.md",
+        "deploy/starter_exemples/lampe_bureau.json",
+        "docs/STARTER_FORMAT.md"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Un Space éprouvé comme modèle",
+      "why": "core/starter_export.py et starter_export_more.py : GET /api/starter/export?space=KEY relit un Space au format exact (validé par core/starter.parse) ; ?source=KEY ajoute ce fichier au prompt ; boutons « Exporter comme modèle (IA) » (Spaces) et « Modèle » (Commencer).",
+      "files": [
+        "core/starter_export.py",
+        "core/starter_export_more.py",
+        "static/js/admin_starter.js",
+        "static/js/admin_spacecard.js"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Version 0.60.43, tests et documentation",
+      "why": "tests/test_starter_more.py (création, refus, relecture, prompt, droits) ; décisions, état du projet, journal, fiche de version.",
+      "files": [
+        "tests/test_starter_more.py",
+        "tests/test_starter_prompt.py",
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.43.json"
+      ]
+    }
+  ]
+}

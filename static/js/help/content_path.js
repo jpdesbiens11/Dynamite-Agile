@@ -80,7 +80,7 @@
         ["list", [
           "Un ticket se modifie seulement par **son responsable** (l'assigné) ou un administrateur ; les autres le lisent et le commentent.",
           "Un ticket sans responsable se prend avec « Prendre le ticket ».",
-          "Spaces communs : **TESTING** (Test Base), **TOOLS** (méthodes et codes de temps), **TRAINING** (formation), **HEADLAMP** (bac à sable).",
+          "Un Space par produit, autonome de Goldmine à Timesheet. Un seul Space commun : **HEADLAMP**, le bac à sable et la bibliothèque de référence (catalogue d'essais, méthodes de Tools, formation, codes de temps).",
           "Un Space qui vous manque ? Demandez l'accès à un administrateur."]]] },
 
     { id: "goldmine", title: "Goldmine : capter les needs et les requirements", tool: "Goldmine",

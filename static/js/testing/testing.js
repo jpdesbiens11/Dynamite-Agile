@@ -19,8 +19,10 @@
 
   T.catBadge = (code, labels) => el("span", { class: "badge tg-cat " + (CAT_CLASS[code] || "") }, labels.categories[code] || code);
   T.statusBadge = (status) => el("span", { class: "badge badge-" + (STATUS_CLASS[status] || "neutral") }, status);
-  T.pageHref = (page) => (page ? "#/dynamite/TESTING/page/" + page.id : null);
-  T.space = "TESTING";  // D-B-097: the Space whose Test Base is shown
+  /* 0.60.41 (D-O-050): the reference catalogue lives in HeadLamp; TESTING only on an installation made before */
+  T.ref = () => ((DA.session.projects || []).some((p) => p.key === "TESTING") ? "TESTING" : "HEADLAMP");
+  T.pageHref = (page) => (page ? "#/dynamite/" + T.ref() + "/page/" + page.id : null);
+  T.space = "";  // D-B-097: the Space whose Test Base is shown (set by the route)
   T.api = (url) => url + (url.indexOf("?") < 0 ? "?" : "&") + "space=" + encodeURIComponent(T.space);
   T.href = (rest) => "#/testing/" + T.space + (rest ? "/" + rest : "");
   T.reqHref = (key) => "#/goldmine/" + key.split("-")[0] + "/issue/" + key.split("-").slice(1).join("-");
@@ -155,7 +157,7 @@
         + "Spaces déjà copiés. " : "Base propre au Space " + data.space + " (copie du catalogue, modifiable sans toucher les "
         + "autres Spaces). ") + "Base des tests possibles d'un produit grand public mécatronique : standards (sécurité électrique, "
       + "CEM, IP, chute, durée de vie…), pratiques de l'industrie et custom tests de l'équipe. Chaque requirement Goldmine choisit ses tests "
-      + "dans « Test Procedure » ; chaque sujet a sa procédure (wiki TESTING).", [
+      + "dans « Test Procedure » ; chaque sujet a sa procédure (wiki de référence, HeadLamp).", [
       hub ? el("a", { class: "btn btn-small", href: T.pageHref(hub) }, "Procedures (wiki)") : null,
       data.can_edit ? el("button", { type: "button", class: "btn btn-small btn-primary", onclick: () => openCreate(data, subject) }, "Nouveau Test") : null,
       exportBtn, wordBtn, planBtn, data.can_edit ? importButton(reload) : null,
@@ -243,12 +245,13 @@
 
   /* D-B-098: #/testing alone -> the default Space, else the list of Spaces (the catalogue first) */
   function landing(main) {
-    main.append(T.head("Testing", "Une Test Base par Space (D-B-097) : choisissez un Space. TESTING est le catalogue de "
+    main.append(T.head("Testing", "Une Test Base par Space (D-B-097) : choisissez un Space. " + T.ref() + " porte le catalogue de "
       + "référence, copié dans un Space à sa première ouverture."));
-    const spaces = DA.session.projects.slice().sort((a, b) => (b.key === "TESTING") - (a.key === "TESTING"));
+    const ref = T.ref();
+    const spaces = DA.session.projects.slice().sort((a, b) => (a.key === ref) - (b.key === ref));  // 0.60.41: own Spaces first
     main.append(el("div", { class: "project-list" }, spaces.map((p) =>
       el("a", { class: "project ag-project-card", href: "#/testing/" + p.key },
-        el("div", { class: "project-top" }, el("span", { class: "key" }, p.key), p.key === "TESTING" ? DA.badge("Catalogue", "info") : DA.roleBadge(p.role)),
+        el("div", { class: "project-top" }, el("span", { class: "key" }, p.key), p.key === ref ? DA.badge("Catalogue", "info") : DA.roleBadge(p.role)),
         el("h2", null, p.name), el("p", { class: "muted" }, p.description || "")))));
   }
 
@@ -257,7 +260,7 @@
     const keyed = parts[0] && /^[A-Z][A-Z0-9]{1,9}$/.test(parts[0]);
     const listing = !parts.length || parts[0] === "spaces";
     if (!parts.length && DA.spaces.enter("testing", parts, (k) => "#/testing/" + k)) return;
-    T.space = keyed ? parts[0] : "TESTING";  // the old addresses (#/testing/test/…) open the catalogue
+    T.space = keyed ? parts[0] : T.ref();  // the old addresses (#/testing/test/…) open the catalogue
     if (keyed) parts = parts.slice(1);
     /* D-A-044: left panel like the other modules, with the Testing logo */
     const view = parts[0] === "lists" ? "lists" : parts[0] === "plans" ? "plans" : parts[0] === "test" ? "test" : "base";
@@ -265,7 +268,7 @@
       /* D-B-103: the Space drop-down, as in Goldmine and Dynamite; a change keeps the same view (base, plans, lists) */
       picker: listing ? null : DA.spaces.picker(T.space, (k) => "#/testing/" + k + (view === "plans" || view === "lists" ? "/" + view : "")),
       /* D-B-087: order of use -- choose tests, read their procedure, send a plan; the central lists (set-up) last */
-      nav: listing ? [] : [[T.href(""), "Test Base · " + T.space, view === "base"], ["#/dynamite/TESTING", "Test Procedures (wiki)", false],
+      nav: listing ? [] : [[T.href(""), "Test Base · " + T.space, view === "base"], ["#/dynamite/" + T.ref(), "Test Procedures (wiki)", false],
         [T.href("plans"), "Test Plans (fournisseurs)", view === "plans"], [T.href("lists"), "Listes centrales", view === "lists"]],
       footer: listing ? DA.spaces.sidebar("testing", (k) => "#/testing/" + k, "") : DA.spaces.allLink("testing") });
     main.classList.add("tg-main");

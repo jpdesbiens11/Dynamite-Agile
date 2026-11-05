@@ -85,11 +85,11 @@ def clean(body, current=None, conn=None):
 
 def space(ctx, minimum="reader"):
     """(project id, key) of the Test Base asked for (D-B-097), its base copied from the catalogue if it has none."""
-    key = str(ctx.query.get("space") or (ctx.body or {}).get("space") or catalog.KEY).strip().upper()
+    key = str(ctx.query.get("space") or (ctx.body or {}).get("space") or catalog.ref_key(ctx.conn)).strip().upper()
     row = ctx.conn.execute("SELECT id, key FROM projects WHERE key = ?", (key,)).fetchone()
     if row is None:
         raise ApiError(404, "Space « {} » introuvable. Correctif : choisissez un Space de la liste de Testing.".format(key[:20]))
-    if row["key"] == catalog.KEY:
+    if row["id"] == catalog.project_id(ctx.conn):  # the reference Space (HeadLamp; TESTING before 0.60.41)
         _join(ctx, row["id"])
     elif permissions.project_role(ctx.conn, ctx.user, row["id"]) is None:
         raise ApiError(404, "Space « {} » introuvable ou non accessible.".format(key[:20]))
@@ -161,7 +161,7 @@ def api_list(ctx):
     tests = [_public(r, pages, linked) for r in conn.execute("SELECT * FROM testing_tests WHERE project_id = ? ORDER BY test_id",
                                                              (pid,))]
     hub = conn.execute("SELECT id FROM dynamite_pages WHERE project_id = ? AND title = ?", (ref, catalog.HUB)).fetchone()
-    return {"space": key, "reference": key == catalog.KEY, "hub_page": hub["id"] if hub else None,
+    return {"space": key, "reference": pid == ref, "reference_key": catalog.ref_key(conn), "hub_page": hub["id"] if hub else None,
             "can_edit": _can_edit(conn, ctx.user, pid), "tests": tests,
             "can_manage_lists": lists.can_manage(conn, ctx.user),
             "labels": {"subjects": SUBJECTS, "categories": CATEGORIES, "statuses": list(STATUSES), "levels": list(LEVELS),

@@ -65,6 +65,11 @@ def parse_args(argv=None):
         help="Force development mode for this run (same as dev_mode: true).",
     )
     parser.add_argument(
+        "--exemple", action="store_true",
+        help="0.60.41 (D-O-050): also create the example Space EQP and its four students (development only; a fresh "
+             "installation is otherwise empty but for the HeadLamp sandbox).",
+    )
+    parser.add_argument(
         "--prod", action="store_true",
         help="Force production mode for this run: random temporary admin "
              "password, no pre-filled login, no example data.",
@@ -270,7 +275,7 @@ def main(argv=None):
             log.warning("HTTP redirect listener not started (%s).", exc)
         log.info("TLS: minimum %s, mTLS %s.", "1.2" if str(cfg.get("tls_min_version")) == "1.2" else "1.3", server.tls_mode)
 
-    if dev:
+    if dev and (args.exemple or cfg.get("example_space")):  # 0.60.41 (D-O-050): no example Space unless asked
         ca = data_dir / "tls" / "ca.crt"
         cafile = str(ca) if server.use_tls and ca.exists() else None
         if not server.use_tls or cafile:

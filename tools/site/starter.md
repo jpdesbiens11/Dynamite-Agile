@@ -163,16 +163,22 @@ marqué « Brouillon IA ». Montrez chaque proposition en tableau ou en liste in
 Récapitulez le bloc 5 : nombre de fonctions par niveau, d'entrées, de sorties, de flux par vue, de pièces, de risques et
 de lignes de DFMEA.
 
-## Bloc 6 — Le wiki (question 25)
+## Bloc 6 — Le wiki, le backlog et les livrables (questions 25 et 26)
 
 25. **Les premières pages** : proposez 5 à 12 pages sur deux niveaux, avec un court contenu de départ chacune, par
     exemple : la page d'accueil du projet (objectif, équipe, liens) puis, dessous, Lean Canvas et hypothèses, Plan de
     projet et jalons, Cahier des charges fonctionnel (CdCF) en tableau, Journal des décisions, Notes de réunion,
     Concept Review. Demandez lesquelles garder. Récapitulez la liste (titre, page parente).
 
-## Bloc 7 — Le fichier (question 26)
+26. **Le backlog Agile par MVP et les livrables** : proposez un **epic** par MVP (MVP0 : vérifier le besoin ; MVP1 :
+    le concept choisi ; MVP2 : le prototype fonctionnel ; MVP3 : la validation) avec 2 à 6 **stories** ou **tasks**
+    chacun (titre court, responsable pris dans l'équipe, points de 1 à 13), puis les **livrables** du Generator à
+    réserver (Lean Canvas `LCV`, Concept Review `CRV`, CdCF `CDCF`, Pugh `PUGH`, PDR, CDR, Validation Report `VVR`).
+    Demandez lesquels garder. Récapitulez : epics, tickets par MVP, livrables.
 
-26. Montrez un **récapitulatif final** (nombre de personnes, de besoins, de requis, d'essais, de codes, de pages, de
+## Bloc 7 — Le fichier (question 27)
+
+27. Montrez un **récapitulatif final** (nombre de personnes, de besoins, de requis, d'essais, de codes, de pages, de
     fonctions, de pièces, de risques ; début et durée du plan) et
     demandez : « Je génère le fichier ? ».
 
@@ -206,7 +212,8 @@ Puis produisez le fichier :
 
 Clés de premier niveau, dans cet ordre : `format` (`"dynamite-project-starter"`), `format_version` (`1`), `language`
 (`fr` ou `en`), `generated_by` (le nom de l'assistant), `generated_at` (date `AAAA-MM-JJ`), `project`, `team`,
-`requirements`, `tests`, `time_codes` (facultatif), `pages`, `diamond` (objet : `functions`, `ports`, `flows`, `parts`, `risks`, `dfmea`).
+`requirements`, `tests`, `time_codes` (facultatif), `pages`, `diamond` (objet : `functions`, `ports`, `flows`, `parts`, `risks`, `dfmea`),
+`backlog`, `deliverables`.
 
 | Objet | Champs (en **gras** : obligatoires ; les autres peuvent être retirés) |
 |---|---|
@@ -223,6 +230,9 @@ Clés de premier niveau, dans cet ordre : `format` (`"dynamite-project-starter"`
 | `diamond.parts[]` (80 au plus) | **`name`**, `kind` (défaut `designed`), `notes`, `functions` (refs de fonctions secondaires ou tertiaires) |
 | `diamond.risks[]` (60 au plus) | **`title`**, **`probability`** et **`impact`** (entiers 1 à 5), `cause`, `consequence`, `category`, `phase`, `response`, `action`, `function` (ref) |
 | `diamond.dfmea[]` (120 au plus) | `higher`, `focus`, `lower`, `function` (ref), `requirement`, **`failure_mode`**, `effect`, `severity`, `cause`, `prevention`, `occurrence`, `detection_ctrl`, `test` (la ref de l'**essai clé** qui détecte la défaillance, un seul par ligne, pris dans `tests`), `detection` (S, O, D : entiers 1 à 10), `action` |
+
+| `backlog[]` (150 au plus) | **`ref`** (unique, ex. `E0`, `S1`), **`title`**, `type` (`epic`, `story`, `task`, `bug` ; défaut `story`), `description`, `parent` (la ref d'un **epic plus haut**), `mvp` (`MVP0` à `MVP9`), `assignee` (un `username` de `team`), `priority` (`lowest`, `low`, `medium`, `high`, `highest`), `points` (0 à 100) |
+| `deliverables[]` (40 au plus) | **`doc_type`** (code du Generator : `LCV`, `CRV`, `CDCF`, `PUGH`, `PDR`, `CDR`, `VVR`, `MVP`, `BML`…), **`title`**, `step` (étape du PDP `01` à `21` ; défaut : celle du type), `sub` |
 
 Attention aux noms voisins : un requis a `clause` et `acceptance_criteria` ; un essai a `section` et `acceptance`.
 

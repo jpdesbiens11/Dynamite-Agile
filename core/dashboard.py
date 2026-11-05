@@ -46,6 +46,12 @@ def api_dashboard(ctx):
     if prefs.get(ctx.conn, target["id"]).get("hide_sandbox"):  # D-B-052: sandbox hidden by the person
         visible = [p for p in visible if p["key"] != "HEADLAMP"]
     visible = [p for p in visible if p["key"] != "TOOLS"]  # D-B-068: the Tools wiki is not a work space
+    # 0.60.42 (D-O-051): the default Space is the whole environment -- the dashboard shows it alone, unless ?all=1
+    default = prefs.get(ctx.conn, target["id"]).get("default_space") or ""
+    scope = {"space": "", "all": str(ctx.query.get("all", "")) in ("1", "true")}
+    if default and not scope["all"] and any(p["key"] == default for p in visible):
+        visible = [p for p in visible if p["key"] == default]
+        scope["space"] = default
     projects = {p["id"]: p["key"] for p in visible}
     sections = []
     for key, hook in modules.dashboard_hooks():
@@ -64,7 +70,7 @@ def api_dashboard(ctx):
     if ctx.user["is_admin"]:
         people = db.rows(ctx.conn.execute("SELECT id, display_name FROM users WHERE is_active = 1 ORDER BY display_name").fetchall())
     return {"user": target["display_name"], "projects": visible, "sections": sections, "kpis": kpis,
-            "viewing": viewing, "people": people, "me": ctx.user["id"]}
+            "viewing": viewing, "people": people, "me": ctx.user["id"], "scope": scope, "default_space": default}
 
 
 ROUTES = [

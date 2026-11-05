@@ -257,9 +257,11 @@ def leave_page():
 def ensure_policy(ctx):
     """The leave principles live in the internal Space INT, under « Politiques de l'équipe » (once; never rewritten)."""
     from modules.timesheet import catalog
-    row = ctx.conn.execute("SELECT id FROM projects WHERE key = ?", (catalog.INTERNAL_KEY,)).fetchone()
-    if row is None:
+    from . import reference
+    pid = reference.space(ctx.conn, catalog.INTERNAL_KEY)  # 0.60.41 (D-O-050): INT on an older installation, else HeadLamp
+    if pid is None:
         return False
+    row = {"id": pid}
     api = LocalApi(ctx)
     base = "/api/dynamite/p/{}/pages".format(row["id"])
     pages = api.get(base)["pages"]

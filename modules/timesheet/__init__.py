@@ -101,8 +101,10 @@ def ensure_space(ctx, project_id):
 
 
 def on_startup(ctx):
-    """Core hook (lot v0.7): the INT Space, then the codes of the static catalogue on first launch (D-B-084)."""
-    manage.ensure_internal_project(ctx)
+    """Core hook (lot v0.7): the codes of the static catalogue on first launch (D-B-084). 0.60.41 (D-O-050): no INT Space
+    any more -- every Space offers the leave codes (INT-VAC, INT-SAN); an older installation keeps its INT."""
+    from modules.help import reference
+    reference.ensure(ctx)
     budget.seed(ctx.conn)
 
 

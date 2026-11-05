@@ -57,9 +57,9 @@ def _context(conn, pid):
 
 
 def _candidates(conn, pid):
-    rows = conn.execute("SELECT t.id, t.test_id AS code, t.title, t.subject, t.objective, t.standard, t.project_id = ? AS own "
-                        "FROM testing_tests t JOIN projects p ON p.id = t.project_id WHERE t.project_id = ? OR p.key = ?",
-                        (pid, pid, DF.CATALOGUE)).fetchall()
+    DF.tests(conn, pid)  # 0.60.41 (D-O-050): the Space's own base, copied once from the catalogue when it has none
+    rows = conn.execute("SELECT t.id, t.test_id AS code, t.title, t.subject, t.objective, t.standard, 1 AS own "
+                        "FROM testing_tests t WHERE t.project_id = ?", (pid,)).fetchall()
     return [dict(r, words=GP.words(r["title"] + " " + r["objective"])) for r in rows]
 
 

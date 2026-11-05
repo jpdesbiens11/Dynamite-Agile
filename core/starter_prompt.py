@@ -86,12 +86,37 @@ def example():
         for r in short["diamond"][key]:  # 0.60.38 (D-O-047): the person of the team who carries the action
             if r.get("action"):
                 r["owner"] = short["team"][0]["username"]
+    # 0.60.43 (D-O-052): an epic of the backlog with one of its stories, and one deliverable
+    epic = next(b for b in full["backlog"] if b["type"] == "epic")
+    story = next(b for b in full["backlog"] if b.get("parent") == epic["ref"])
+    short["backlog"] = [epic, dict(story, assignee=short["team"][0]["username"])]
+    short["deliverables"] = full["deliverables"][:1]
     return json.dumps(short, ensure_ascii=False, indent=1)
 
 
-def render(lang="fr", site_url=SITE_URL, repo=REPO):
+PROVEN = {"fr": ("## Un Space éprouvé de l'équipe, en exemple",
+                 "L'équipe a choisi ce Space, déjà mené à bien dans l'outil, comme modèle : suivez sa façon de faire (niveau de "
+                 "détail, style des requis, essais, arbre fonctionnel, backlog par MVP), mais pour le **nouveau** produit, avec "
+                 "une **nouvelle** `project.key`, de nouveaux codes de temps et le contenu tiré de l'entrevue. Ne recopiez rien "
+                 "qui ne s'applique pas."),
+          "en": ("## A proven Space of the team, as an example",
+                 "The team chose this Space, already carried out in the tool, as a model: follow its way of working (level of "
+                 "detail, style of the requirements, tests, functional tree, backlog by MVP), but for the **new** product, with "
+                 "a **new** `project.key`, new time codes and the content drawn from the interview. Copy nothing that does not apply.")}
+MAX_PROVEN = 120_000  # characters of the proven Space kept in the prompt (an assistant reads up to a few hundred thousand)
+
+
+def render(lang="fr", site_url=SITE_URL, repo=REPO, proven=None):
+    """`proven`: a Project Starter file read back from a Space (core/starter_export.py), added as the worked example."""
     src = SRC if lang == "fr" else SRC / "en"
     text = (src / "starter.md").read_text(encoding="utf-8")
     for key, value in (("VALUES", values_table(lang)), ("EXAMPLE", example()), ("SITE_URL", site_url), ("REPO", repo)):
         text = text.replace("{{" + key + "}}", value)
+    if proven:
+        body = json.dumps(proven, ensure_ascii=False, indent=1)
+        if len(body) > MAX_PROVEN:  # keep the file valid: drop the page bodies first, then cut the longest lists
+            proven = dict(proven, pages=[dict(p, body={"type": "doc", "content": []}) for p in proven.get("pages", [])])
+            body = json.dumps(proven, ensure_ascii=False, indent=1)
+        head, note = PROVEN[lang]
+        text += "\n\n---\n\n{}\n\n{}\n\n```json\n{}\n```\n".format(head, note, body[:MAX_PROVEN])
     return text

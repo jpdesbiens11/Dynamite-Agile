@@ -11,7 +11,9 @@
   const MAX_RECENT = 8;
   const SUGGEST = 8;
   const recentKey = () => "da.search.recent." + ((DA.session && DA.session.user && DA.session.user.id) || "");
-  const ADV = ["spaces", "types", "in", "since", "until", "open", "sort"];
+  const ADV = ["spaces", "types", "in", "since", "until", "open", "sort", "all"];
+  /* 0.60.42 (D-O-051): the default Space is the whole environment -- search looks there unless « all » or Spaces are chosen */
+  const scope = (opts) => (opts && (opts.spaces || opts.all) ? "" : (DA.spaces && DA.spaces.defaultKey ? DA.spaces.defaultKey() : ""));
 
   function recent() {
     try { const v = JSON.parse(localStorage.getItem(recentKey()) || "[]"); return Array.isArray(v) ? v : []; }
@@ -37,7 +39,8 @@
   }
   function apiUrl(query, opts) {
     const params = new URLSearchParams({ q: query });
-    ADV.forEach((k) => { if (opts && opts[k]) params.set(k, opts[k]); });
+    ADV.forEach((k) => { if (k !== "all" && opts && opts[k]) params.set(k, opts[k]); });
+    if (scope(opts)) params.set("spaces", scope(opts));
     return "/api/search?" + params.toString();
   }
 
@@ -162,7 +165,7 @@
     return svg;
   }
 
-  DA.search = { searchBox, magnifier, highlight, queryWords, hashFor, go, apiUrl, remember };
+  DA.search = { searchBox, magnifier, highlight, queryWords, hashFor, go, apiUrl, remember, scope };
   DA.topbarTools = DA.topbarTools || [];
   searchBox.order = 10;  // D-B-087: first tool of the top bar
   DA.topbarTools.push(searchBox);

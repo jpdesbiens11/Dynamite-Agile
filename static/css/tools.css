@@ -230,3 +230,4 @@ tr.bl-current td { background: color-mix(in srgb, var(--ok) 8%, transparent); }
 .bl-toolbar { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; margin: .4rem 0; }
 .bl-search { min-width: 18rem; max-width: 100%; padding: .4rem .6rem; font: inherit; color: var(--ink); background: var(--surface);
   border: 1px solid var(--line); border-radius: var(--radius-sm, 6px); }
+.ts-scope { margin: .5rem 0 0; font-weight: 600; }

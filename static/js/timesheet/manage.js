@@ -27,7 +27,7 @@
     const tone = leave.overdrawn ? " tt-banner-warn" : leave.health_week ? " tt-banner-health" : "";
     return el("div", { class: "tt-banner tt-leave" + tone }, parts,
       leave.overdrawn ? el("div", null, el("strong", null, "Banque dépassée de " + fmtH(-leave.remaining) + ".")) : null,
-      forApprover ? null : el("div", { class: "muted tt-small" }, "Space INT : INT-VAC · Vacances (déduites de la banque), "
+      forApprover ? null : el("div", { class: "muted tt-small" }, "Dans chaque Space : INT-VAC · Vacances (déduites de la banque), "
         + "INT-SAN · Congé santé (sous approbation, jamais déduit) — ni l'un ni l'autre n'est réclamé à un organisme."),
       forApprover ? null : el("a", { href: "#/settings", class: "tt-small" }, "Modifier ma banque ou mon approbateur"));
   };
@@ -265,7 +265,7 @@
     page.append(el("div", { class: "page-head" }, el("h1", null, "Spaces et organismes"),
       el("p", { class: "muted" }, "Chaque Space est rattaché à un organisme financeur, à un numéro de contrat et à un espace "
         + "financier (Funding Space : ses Budget Lines), repris dans l'export Excel et le rapport Word. « Ouvert à tous » : tout "
-        + "le monde y saisit des heures sans être membre (ex. INT). Enregistrement automatique à chaque modification.")),
+        + "le monde y saisit des heures sans être membre. Enregistrement automatique à chaque modification.")),
     list, DA.table(["Space", "Organisme", "No de contrat", "Funding Space", "Ouvert à tous", "Actif", "Heures saisies"], rows));
     if (TS.budgetAdmin) await TS.budgetAdmin(page, reload);
   };

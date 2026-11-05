@@ -351,3 +351,4 @@ a.btn { display: inline-block; text-decoration: none; }
 .tm-todo-mine { color: var(--ink); font-weight: 600; }
 .tm-actions { flex-wrap: wrap; justify-content: flex-start; }
 @media (max-width: 560px) { .tm-steps { grid-template-columns: 1fr; } }
+.db-scope { margin: .3rem 0 0; font-weight: 600; }

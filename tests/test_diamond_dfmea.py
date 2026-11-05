@@ -134,7 +134,7 @@ class DfmeaApiTest(unittest.TestCase):
         offered = [t["id"] for t in data["tests"]]
         self.assertEqual(offered[0], own)  # the Space first
         self.assertNotIn(other, offered)
-        self.assertTrue(any(t["space"] == "TESTING" for t in data["tests"]))
+        self.assertEqual({t["space"] for t in data["tests"]}, {"LAMPF"})  # 0.60.41 (D-O-050): the Space's own base only
         row = data["rows"][0]
         data = self.admin.patch(self.base(self.lamp) + "/rows/{}".format(row["id"]), {"test_id": own})
         got = next(r for r in data["rows"] if r["id"] == row["id"])

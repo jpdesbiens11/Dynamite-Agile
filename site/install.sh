@@ -11,7 +11,7 @@
 # firewall; system packages, firewall, « dynamite » system user, Let's Encrypt certificate (renewed automatically),
 # data/config.json for production (dev_mode false, HTTPS on 443, redirect from 80), systemd service, first admin
 # password. Trial (--essai): no domain, nothing exposed; the service listens on 127.0.0.1:8080 in development mode
-# (example team, admin / admin), reached through an SSH tunnel. Idempotent: run it again, data/ is kept.
+# (admin / admin, an empty platform with the HeadLamp sandbox), reached through an SSH tunnel. Idempotent: run it again, data/ is kept.
 # Messages in French by default, in English with DA_LANG=en (sudo DA_LANG=en bash -s -- …).
 set -euo pipefail
 
@@ -133,8 +133,8 @@ if mode == "online":
 else:
     cfg.update({"host": "127.0.0.1", "port": 8080, "tls_cert": "", "tls_key": "", "http_redirect_port": 0,
                 "public_name": "", "dev_mode": True})
-    print("  private trial: http://127.0.0.1:8080 on the server only, example team, admin / admin" if en else
-          "  essai privé : http://127.0.0.1:8080 sur le serveur seulement, équipe d'exemple, admin / admin")
+    print("  private trial: http://127.0.0.1:8080 on the server only, admin / admin" if en else
+          "  essai privé : http://127.0.0.1:8080 sur le serveur seulement, admin / admin")
 path.write_text(json.dumps(cfg, indent=2), encoding="utf-8")
 EOF
 chown -R dynamite:dynamite "$APP_DIR"
@@ -160,7 +160,7 @@ else
   IP="$(hostname -I | awk '{print $1}')"
   echo "  $(t "Sur VOTRE ordinateur, dans un nouveau terminal, laissez tourner :" "On YOUR computer, in a new terminal, leave this running:")"
   echo "    ssh -N -L 8080:127.0.0.1:8080 root@$IP"
-  echo "  $(t "puis ouvrez" "then open")  http://127.0.0.1:8080  (admin / admin; $(t "équipe d'exemple" "example team"): nina, lea, hugo, alexis / admin)."
+  echo "  $(t "puis ouvrez" "then open")  http://127.0.0.1:8080  (admin / admin), $(t "puis ⚙ Admin → Spaces → Commencer" "then ⚙ Admin → Spaces → Commencer")."
   echo "  $(t "Passer en ligne plus tard : relancez la commande avec votre domaine et votre courriel." "Going online later: run the command again with your domain and your email.")"
 fi
 echo

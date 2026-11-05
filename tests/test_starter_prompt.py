@@ -17,7 +17,7 @@ class StarterPromptTest(unittest.TestCase):
         for lang in ("fr", "en"):
             text = starter_prompt.render(lang)
             self.assertEqual(re.findall(r"\{\{[A-Z_]+\}\}", text), [], lang)
-            for question in range(1, 27):  # 26 questions, numbered, one per message
+            for question in range(1, 28):  # 27 questions (0.60.43), numbered, one per message
                 self.assertRegex(text, r"\n{}\. \*\*".format(question) if question < 10 else r"\n{}\. ".format(question))
             for value in ("personnel_safety", "Product in Use", "ingress", "verification_method", "dynamite-project-starter"):
                 self.assertIn(value, text, (lang, value))

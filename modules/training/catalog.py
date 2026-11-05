@@ -59,8 +59,9 @@ pass: 80
 """
 
 def project_id(conn):
-    row = conn.execute("SELECT id FROM projects WHERE key = ?", (KEY,)).fetchone()
-    return row["id"] if row else None
+    """The Space of the training topics: TRAINING on an installation made before 0.60.41, else HeadLamp (D-O-050)."""
+    from modules.help import reference
+    return reference.space(conn, KEY)
 
 
 def workflow(conn):
@@ -133,11 +134,8 @@ def _topics():
 def ensure(ctx):
     """Create the TRAINING Space and the default topics once (a topic edited by an administrator is left alone)."""
     conn = ctx.conn
-    pid = project_id(conn)
-    if pid is None:
-        pid = admin.create_project_record(ctx, KEY, NAME, DESCRIPTION)["id"]
-        from modules.timesheet import manage as timesheet
-        timesheet.save_settings(conn, pid, organism="Interne", enabled=False)
+    from modules.help import reference
+    pid = reference.ensure(ctx, KEY)  # 0.60.41 (D-O-050): HeadLamp, or TRAINING on an older installation
     have = {r["code"]: r["id"] for r in conn.execute("SELECT id, code FROM training_topics WHERE project_id = ?", (pid,))}
     now = db.utc_now()
     for pos, (code, parent, title, content, ref, ref_label) in enumerate(_topics()):

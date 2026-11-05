@@ -14,9 +14,10 @@
     const description = el("input", { type: "text", maxlength: 500, autocomplete: "off" });
     const selects = {};
     data.parts.forEach(({ part }) => {
-      const first = part === "testing" ? [["TESTING", "Catalogue de référence (TESTING)"]]
+      const cat = data.catalogue || "HEADLAMP";  // 0.60.41 (D-O-050): HeadLamp, or TESTING on an older installation
+      const first = part === "testing" ? [[cat, "Catalogue de référence (" + cat + ")"]]
         : [["", part === "members" ? "Aucun (vous seul, Admin du Space)" : "Vide (comme un Space neuf)"]];
-      const spaces = data.spaces.filter((s) => !(part === "testing" && s.key === "TESTING")).map((s) => [s.key, s.key + " · " + s.name]);
+      const spaces = data.spaces.filter((s) => !(part === "testing" && s.key === cat)).map((s) => [s.key, s.key + " · " + s.name]);
       selects[part] = el("select", { "aria-label": part }, first.concat(spaces).map(([v, l]) => el("option", { value: v }, l)));
     });
     const summary = el("div", { class: "sc-summary", "aria-live": "polite" });

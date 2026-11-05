@@ -2,48 +2,43 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Le besoin, scène par scène (D-O-049)",
-      "why": "Quatre scènes qui apparaissent au défilement, avant la mine : pourquoi l'outil existe pour les jeunes ingénieurs et l'industrie.",
+      "title": "Backlog par MVP et livrables (D-O-052)",
+      "why": "core/starter_more.py : backlog (epic, story, task, bug ; parent, MVP, responsable, priorité, points) et deliverables (codes du Generator) ; chaque MVP devient une Version d'Agile ; question 26 du prompt, format et exemple à jour.",
       "files": [
-        "tools/site_text.py",
-        "tools/build_site.py",
-        "tools/site/index.html",
-        "tools/site/en/index.html",
-        "tools/site/site.css"
+        "core/starter_more.py",
+        "core/starter.py",
+        "core/starter_apply.py",
+        "core/starter_prompt.py",
+        "tools/site/starter.md",
+        "tools/site/en/starter.md",
+        "deploy/starter_exemples/lampe_bureau.json",
+        "docs/STARTER_FORMAT.md"
       ]
     },
     {
       "id": "C2",
-      "title": "La descente jusqu'aux diamants",
-      "why": "Les niveaux suivent le projet (HeadLamp à la surface, Exploration, Dynamite, Goldmine, Tools, Agile, Testing, Timesheet, Diamond à 1 000 m) ; la roche s'assombrit avec la profondeur, Diamond brille, puis « Vous êtes au fond : les diamants ».",
+      "title": "Un Space éprouvé comme modèle",
+      "why": "core/starter_export.py et starter_export_more.py : GET /api/starter/export?space=KEY relit un Space au format exact (validé par core/starter.parse) ; ?source=KEY ajoute ce fichier au prompt ; boutons « Exporter comme modèle (IA) » (Spaces) et « Modèle » (Commencer).",
       "files": [
-        "tools/site_text.py",
-        "tools/site/site.js",
-        "tools/site/site.css"
+        "core/starter_export.py",
+        "core/starter_export_more.py",
+        "static/js/admin_starter.js",
+        "static/js/admin_spacecard.js"
       ]
     },
     {
       "id": "C3",
-      "title": "HeadLamp ne se traduit pas ; DynamiteAgile en un mot",
-      "why": "« la lanterne » retirée (site, FAQ, noms des modules) ; titres et pied de page du site en « DynamiteAgile ».",
+      "title": "Version 0.60.43, tests et documentation",
+      "why": "tests/test_starter_more.py (création, refus, relecture, prompt, droits) ; décisions, état du projet, journal, fiche de version.",
       "files": [
-        "static/js/help/content_faq.js",
-        "docs/NOMS_DES_MODULES.md",
-        "tools/site_text.py"
-      ]
-    },
-    {
-      "id": "C4",
-      "title": "Version 0.60.40, tests et documentation",
-      "why": "tests/test_landing_story.py ; décisions, état du projet, journal, fiche de version.",
-      "files": [
-        "tests/test_landing_story.py",
+        "tests/test_starter_more.py",
+        "tests/test_starter_prompt.py",
         "core/__init__.py",
         "CLAUDE.md",
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.40.json"
+        "docs/releases/0.60.43.json"
       ]
     }
   ]

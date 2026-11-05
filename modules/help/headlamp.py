@@ -112,6 +112,15 @@ def ensure(ctx):
         from . import tour
         label_sandbox(ctx)
         return tour.sync(ctx, pid, build_hub)  # 0.47.0: the tour of the site reaches an existing HeadLamp
+    return ensure_space(ctx)
+
+
+def ensure_space(ctx):
+    """0.60.41 (D-O-050): HeadLamp with its sandbox content, created by whichever start-up hook needs it first (it is
+    also the library of reference content, see reference.py)."""
+    pid = project_id(ctx.conn)
+    if pid is not None:
+        return pid
     from core import admin
     from modules.timesheet import manage as timesheet
     pid = admin.create_project_record(ctx, KEY, NAME, DESCRIPTION)["id"]

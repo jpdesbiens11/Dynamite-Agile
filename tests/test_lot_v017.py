@@ -93,7 +93,7 @@ class LotV017Test(unittest.TestCase):
         self.assertEqual(list(methods), ["brainstorming", "brainwriting", "storytelling", "mindmap"])
         self.assertEqual(self.fail(lambda: self.p["ana"].post(self.url_i, {"title": "x", "method": "scamper"})).status, 400)
         startup.run(self.data_dir, self.cfg)  # refresh is idempotent: no new version when nothing changed
-        tools = {p["key"]: p["id"] for p in self.admin.get("/api/admin/projects")["projects"]}["TOOLS"]
+        tools = {p["key"]: p["id"] for p in self.admin.get("/api/admin/projects")["projects"]}["HEADLAMP"]
         vers = self.admin.get("/api/dynamite/p/{}/pages/{}/versions".format(tools, gen["page_id"]))["versions"]
         startup.run(self.data_dir, self.cfg)
         self.assertEqual(len(self.admin.get("/api/dynamite/p/{}/pages/{}/versions".format(tools, gen["page_id"]))["versions"]), len(vers))

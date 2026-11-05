@@ -139,8 +139,9 @@ class LotV010Test(unittest.TestCase):
     def test_04_vacation(self):
         theo, nora = self.people["theo"], self.people["nora"]
         week = theo.get("/api/timesheet/week")
-        self.assertIn("INT", [p["key"] for p in week["projects"]])  # open to everyone
-        int_id = next(p["id"] for p in week["projects"] if p["key"] == "INT")
+        self.assertNotIn("INT", [p["key"] for p in week["projects"]])  # 0.60.41 (D-O-050): no INT Space any more
+        int_id = week["projects"][0]["id"]  # leave is logged in the Space one works in
+        self.assertEqual([t["key"] for t in week["meta"]["leave"]], ["INT-VAC", "INT-SAN"])
         tasks = [t["key"] for t in week["meta"]["task_sets"]["interne"]["tasks"]]
         self.assertEqual(tasks[-2:], ["INT-VAC", "INT-SAN"])
         pdp = [t["key"] for t in week["meta"]["task_sets"]["pdp"]["tasks"]]
@@ -259,11 +260,9 @@ class LotV010Test(unittest.TestCase):
         for title in ("Base de connaissances (BDC)", "Getting Things Done — les principes",  # D-B-040
                       "GTD appliqué au développement mécatronique", "Revue hebdomadaire GTD — gabarit"):
             self.assertEqual(titles.count(title), 1, title)
-        self.assertNotIn("Politique de l'équipe — vacances et congés", titles)  # in the INT Space (0.60.01)
-        pid = {p["key"]: p["id"] for p in self.admin.get("/api/admin/projects")["projects"]}["INT"]
-        internal = [p["title"] for p in self.admin.get("/api/dynamite/p/{}/pages".format(pid))["pages"]]
-        self.assertEqual(internal.count("Politique de l'équipe — vacances et congés"), 1)
-        self.assertIn("Politiques de l'équipe", internal)
+        # 0.60.41 (D-O-050): the leave policy lives in HeadLamp (INT only on an installation made before)
+        self.assertEqual(titles.count("Politique de l'équipe — vacances et congés"), 1)
+        self.assertIn("Politiques de l'équipe", titles)
         self.assertNotIn("Connaissances", titles)
         main = next(p for p in self.admin.get("/api/dynamite/p/{}/pages".format(hl))["pages"] if p["title"].startswith("Getting"))
         body = self.admin.get("/api/dynamite/p/{}/pages/{}".format(hl, main["id"]))["page"]["body"]

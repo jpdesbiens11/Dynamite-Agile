@@ -90,6 +90,12 @@
   Cloud gratuit, DigitalOcean), adresse (ou DuckDNS), connexion, une commande ; install.sh ouvre les iptables des images Oracle.
 - **0.60.40** (2026-11-05) : **accueil en storyline** (D-O-049, `tools/site_text.py` MINE / STORY) : le besoin en 4 scènes, puis la descente dans l'ordre du projet,
   plus profonde et plus sombre, jusqu'aux diamants ; HeadLamp ne se traduit pas.
+- **0.60.41** (2026-11-05) : **un Space, un produit** (D-O-050, `modules/help/reference.py`) : installation neuve vide sauf HeadLamp (bac à sable et bibliothèque de
+  référence) ; TESTING / TOOLS / TRAINING / INT plus créés ; Test Base par Space, DFMEA sur ses essais, congés dans chaque Space ; `--exemple`.
+- **0.60.42** (2026-11-05) : **le Space par défaut, tout l'environnement** (D-O-051) : Dashboard du produit (?all=1), recherche dans le Space par défaut,
+  feuille de temps sur lui ; « Commencer » le règle pour l'équipe.
+- **0.60.43** (2026-11-05) : **Project Starter complet** (D-O-052, `core/starter_more.py`, `core/starter_export.py`) : backlog Agile par MVP et livrables du
+  Generator ; un Space éprouvé relu en fichier Project Starter sert de modèle au prompt (`/api/starter/export`, `?source=`).
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,
