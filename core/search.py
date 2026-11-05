@@ -36,6 +36,7 @@ TYPES = {
     "requirement": ("Requirements", "Goldmine"), "need": ("Needs", "Goldmine"), "qa": ("Q&A", "Goldmine"),
     "test": ("Tests (Testing base)", "Testing"),
     "task": ("Plan Tasks", "Exploration"),
+    "function": ("Fonctions, risques et DFMEA", "Diamond"),  # 0.60.36 (D-O-044)
     "idea": ("Idées et séances", "Tools"), "analysis": ("Pugh et Kepner-Tregoe", "Tools"),
     "reference": ("Références documentaires", "Generator"),
     "person": ("Personnes (annuaire)", "Plateforme"), "audit": ("Observations Audit", "Plateforme"),

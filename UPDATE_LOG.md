@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.34
+# Journal de mise à jour — 0.60.35
+
+- **Version :** 0.60.34 → 0.60.35 (2026-11-04)
+- **Changements :**
+  1. **Le pointeur et Bob le mineur** (D-O-043, D-O-044) : liens qui montrent le point d'intérêt ; clé en lecture seule par Space pour l'agent IA de l'équipe.
+- **Base de données :** ["core 18 : table bot_tokens (clés d'agent hachées, Spaces, usages, révocation)"]
+
+## Précédent
+
+### Journal de mise à jour — 0.60.34
 
 - **Version :** 0.60.33 → 0.60.34 (2026-11-04)
 - **Changements :**
   1. **Installation selon le serveur** (D-O-042) : question Traefik sur la page, l'assistant IA confirme, install.sh détecte ; site web avec Diamond et les nouveautés.
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.33
 

@@ -2,52 +2,53 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Installation : le cas Traefik (D-O-042)",
-      "why": "Page d'installation : case « Mon serveur a déjà des applications Docker avec Traefik » ; la commande devient --traefik <domaine> (sans courriel) ; le message pour l'assistant IA le dit. Guide de l'assistant (FR / EN) : confirmer le cas par une question à choix et une commande de vérification ; relancer la même commande pour mettre à jour.",
+      "title": "Le pointeur (D-O-043)",
+      "why": "Un lien /?focus=<texte>&note=<note>#/<page> ouvre la page, fait défiler jusqu'au point d'intérêt, l'encadre d'une boîte rouge translucide qui clignote, avec une flèche à 45° et la note ; Échap ou un clic le ferme. Partager s'en sert : le texte sélectionné devient le point montré.",
       "files": [
-        "tools/site/installation.html",
-        "tools/site/en/installation.html",
-        "tools/site/install.js",
-        "tools/site/site.css",
-        "tools/site/installer.md",
-        "tools/site/en/installer.md"
+        "static/js/tools/pointer.js",
+        "static/css/app.css",
+        "static/index.html",
+        "static/js/tools/share.js"
       ]
     },
     {
       "id": "C2",
-      "title": "install.sh détecte Traefik",
-      "why": "Avec la commande habituelle (domaine et courriel), un serveur dont Traefik tient déjà le web est installé derrière lui, avant toute règle de pare-feu ou de certificat.",
+      "title": "Bob le mineur : la porte en lecture seule (D-O-044)",
+      "why": "⚙ Admin → Bob : une clé par agent pour des Spaces choisis, montrée une fois, gardée hachée, révocable ; API /api/bot/v1 (spaces, search, pages, point, summary), GET seulement, 60 appels par minute, chaque appel au journal. La plateforme n'appelle jamais l'agent. Fiche de Bob pour son agent (DynamiteAgile seulement, une étape à la fois, liens pointeurs) avec l'adresse du serveur.",
       "files": [
-        "deploy/install.sh"
+        "core/bot.py",
+        "core/bot_admin.py",
+        "core/router.py",
+        "core/modules.py",
+        "static/js/admin_bob.js",
+        "static/js/admin.js",
+        "deploy/bob/BOB_LE_MINEUR.md",
+        "docs/FONDATIONS.md"
       ]
     },
     {
       "id": "C3",
-      "title": "Site web à jour",
-      "why": "Diamond dans la grille des outils (onze outils), une section « Les nouveautés » (Commencer avec un assistant IA, Diamond et ses exports, téléphone et Partager, mises à jour officielles), même logo que l'outil.",
+      "title": "Diamond dans la recherche",
+      "why": "Fonctions F-n, risques R-n et lignes du DFMEA dans la recherche de la barre du haut et pour Bob ; Diamond donne sa synthèse à Bob (chiffres, revue, risques à traiter, AP High, fonctions), chaque point avec son lien pointeur.",
       "files": [
-        "tools/build_vitrine.py",
-        "tools/vitrine/template.html",
-        "tools/build_site.py",
-        "tools/site_text.py",
-        "tools/site/index.html",
-        "tools/site/en/index.html",
-        "site/",
-        "static/apps/vitrine/index.html"
+        "modules/diamond/search.py",
+        "modules/diamond/bot.py",
+        "modules/diamond/__init__.py",
+        "core/search.py"
       ]
     },
     {
       "id": "C4",
-      "title": "Version 0.60.34, tests et documentation",
-      "why": "tests/test_install_traefik_choice.py ; décision, état du projet, journal, fiche de version.",
+      "title": "Version 0.60.35, tests et documentation",
+      "why": "tests/test_bot.py ; décisions, état du projet, journal, fiche de version.",
       "files": [
-        "tests/test_install_traefik_choice.py",
+        "tests/test_bot.py",
         "core/__init__.py",
         "CLAUDE.md",
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.34.json",
+        "docs/releases/0.60.35.json",
         "tests/test_open_v060.py"
       ]
     }
