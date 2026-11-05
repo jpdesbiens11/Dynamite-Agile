@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.35)
-**Version :** 0.60.35 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** 0.60.35 (choix de JP du 2026-11-04) : le pointeur et Bob le mineur (palier 2)
+**Dernière mise à jour :** 2026-11-04 (v0.60.36)
+**Version :** 0.60.36 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** 0.60.36 (choix de JP du 2026-11-04) : mise à jour en ligne
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -47,7 +47,7 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.33 | Exporter Diamond : Excel, draw.io, Word, marque Co-Intelligence WorkFlow™ (D-O-041) | Livré |
 | 0.60.34 | Installation : question Traefik, détection par install.sh ; site web avec Diamond et les nouveautés (D-O-042) | Livré |
 | 0.60.35 | Le pointeur et Bob le mineur en lecture seule (D-O-043, D-O-044) | Livré |
-| 0.60.36 | Mise à jour en ligne : vérifier, approuver, progression (à venir) | Prévu |
+| 0.60.36 | Mise à jour en ligne : vérifier, approuver, progression (D-O-045) | Livré |
 | 0.60.37 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
 
 ## Table 2 : Questions du brief §5 (toutes tranchées)
@@ -62,7 +62,10 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.35)
+## Relais (fin de 0.60.36)
+
+- Mise à jour en ligne (D-O-045) : `core/update_online.py` (réglage dans data/updates/online.json, tâche `_run`, `/progress`), écran `static/js/admin_update_online.js` ; le site de test se règle par `release_site` dans la config.
+
 
 - Bob (D-O-044) : `core/bot.py` (routes, clés, liens), `core/bot_admin.py`, `static/js/admin_bob.js`, fiche `deploy/bob/BOB_LE_MINEUR.md` ; un module se branche par `bot_summary` et `search`. Pointeur : `static/js/tools/pointer.js` (`DA.pointTo`, `DA.pointLink`).
 

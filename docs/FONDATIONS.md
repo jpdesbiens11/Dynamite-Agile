@@ -549,3 +549,13 @@ actions)` (`static/js/tools/spaces.js`) pour l'état vide guidé « Commencer ic
 - La plateforme n'appelle jamais l'agent : c'est lui qui appelle (la règle « aucun appel sortant » tient). Un module peut
   offrir à l'agent sa synthèse par un crochet `bot_summary(conn, pid, key, link)` et ses résultats de recherche par `search`.
 - Les réponses portent des liens pointeurs (`/?focus=…&note=…#/…`, `static/js/tools/pointer.js`, D-O-043).
+
+## 14. Mise à jour en ligne (0.60.36, D-O-045)
+
+- Seule exception à la règle « aucun appel sortant », **coupée par défaut** : un administrateur l'active (journalisé) pour un
+  serveur qui a accès à Internet. Le serveur ne va alors que sur le site du projet (`release.SITE`, ou `release_site` de la
+  config) et seulement quand un administrateur clique « Vérifier maintenant » ou approuve une installation.
+- `core/update_online.py` : `versions.json` du site, chaque version plus récente cochée « Lu » (D-B-094), téléchargement,
+  SHA-256 publiée, contrôles du paquet officiel (`core/update.check`), sauvegarde du code et point de restauration, puis
+  redémarrage. L'écran suit `/progress` (%, étape, lignes) puis `/api/about` jusqu'à la nouvelle version.
+- Un module n'appelle jamais le réseau lui-même ; il n'y a pas de vérification automatique en arrière-plan.

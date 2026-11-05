@@ -6,6 +6,14 @@ grid, the terminal, the top bar and the footer) is built from the tables below.
 """
 
 LANGS = ("fr", "en")
+
+# 0.60.36 (D-O-045): banner of the installation page (latest version + date, how to update an installed portal)
+LATEST = {
+    "fr": ("Dernière version :", "Voir toutes les versions →",
+           "Déjà installé ? ⚙ Admin → Update → « Mise à jour en ligne » : vérifier, lire, approuver, suivre en direct."),
+    "en": ("Latest version:", "See all versions →",
+           "Already installed? ⚙ Admin → Update → « Mise à jour en ligne » (online update): check, read, approve, follow live."),
+}
 NAV = {"fr": ("Accueil", "Installation", "Guide", "Versions"), "en": ("Home", "Installation", "Guide", "Versions")}  # 0.60.12
 SWITCH = {"fr": ("EN", "English", "en"), "en": ("FR", "Français", "fr")}  # (label, title, hreflang) of the other language
 

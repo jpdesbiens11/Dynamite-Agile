@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.35
+# Journal de mise à jour — 0.60.36
+
+- **Version :** 0.60.35 → 0.60.36 (2026-11-04)
+- **Changements :**
+  1. **Mise à jour en ligne** (D-O-045) : vérifier, lire, approuver, suivre la progression en direct ; dernière version et date sur la page d'installation.
+- **Base de données :** []
+
+## Précédent
+
+### Journal de mise à jour — 0.60.35
 
 - **Version :** 0.60.34 → 0.60.35 (2026-11-04)
 - **Changements :**
   1. **Le pointeur et Bob le mineur** (D-O-043, D-O-044) : liens qui montrent le point d'intérêt ; clé en lecture seule par Space pour l'agent IA de l'équipe.
 - **Base de données :** ["core 18 : table bot_tokens (clés d'agent hachées, Spaces, usages, révocation)"]
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.34
 
