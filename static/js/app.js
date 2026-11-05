@@ -54,10 +54,8 @@
 
   /* Software name, kept for the About dialog. */
   function brand() {
-    return el("span", { class: "brand" },
-      el("span", { class: "brand-dynamite" }, "Dynamite"),
-      el("span", { class: "brand-sep" }, "|"),
-      el("span", { class: "brand-agile" }, "Agile"));
+    return el("span", { class: "brand", role: "img", "aria-label": "Dynamite Agile" },  // 0.60.32: one word, two colours
+      el("span", { class: "brand-dynamite" }, "Dynamite"), el("span", { class: "brand-agile" }, "Agile"));
   }
 
   function closeMenus() {

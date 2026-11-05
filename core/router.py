@@ -44,6 +44,7 @@ STATIC_TYPES = {
     ".wasm": "application/wasm",  # core lot v0.32 (D-B-114): the STEP reader (OpenCascade compiled to WebAssembly)
     ".stp": "model/step",  # core lot v0.32: STEP models (no sample left in the platform since 0.50.14)
     ".txt": "text/plain; charset=utf-8",  # core lot v0.32: licence texts of static/vendor/
+    ".woff2": "font/woff2",  # 0.60.32 (D-O-040): the letters of the logo, served from static/fonts/
 }
 
 # Core lot v0.32 (D-B-114): a background worker (static/**/<name>_worker.js) gets its OWN policy, stricter than the

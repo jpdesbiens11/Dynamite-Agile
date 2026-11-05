@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.31)
-**Version :** 0.60.31 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** 0.60.31 (demande de JP du 2026-11-04) : performances réseau
+**Dernière mise à jour :** 2026-11-04 (v0.60.32)
+**Version :** 0.60.32 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** 0.60.31 et 0.60.32 (demandes de JP du 2026-11-04) : performances réseau, logo
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -43,7 +43,8 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.29 | « Partager » : feuille du téléphone, lien, courriel, texto, Messenger, WhatsApp, Teams (D-O-038) | Livré |
 | 0.60.30 | Partager : lien copié d'abord, versions web, code QR vers le téléphone (D-O-038) | Livré |
 | 0.60.31 | Performances : ETag / 304 et gzip des fichiers de l'interface (D-O-039) | Livré |
-| 0.60.32 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
+| 0.60.32 | Logo « DynamiteAgile » : un mot, deux couleurs, Baloo 2 (D-O-040) | Livré |
+| 0.60.33 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
 
 ## Table 2 : Questions du brief §5 (toutes tranchées)
 
@@ -57,7 +58,10 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.31)
+## Relais (fin de 0.60.32)
+
+- Logo (D-O-040) : `.brand` dans `static/css/app.css` (`@font-face "DA Logo"`), `brand()` dans `static/js/app.js` ; pour d'autres lettres, refaire le sous-ensemble de Baloo 2 avec fontTools (`instancer` wght=800 puis `subset` en woff2).
+
 
 - Performances (D-O-039) : `core/static_cache.py` (`get`, `not_modified`, `accepts_gzip`). Prochaine piste si besoin : chargement des scripts d'un module à l'ouverture de son onglet (`DA.loadModuleAssets`).
 
