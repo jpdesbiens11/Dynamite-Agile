@@ -2,45 +2,36 @@
   "changes": [
     {
       "id": "C1",
-      "title": "HEADLAMP devient DEMO (D-O-058)",
-      "why": "Clé, nom, page d'accueil et Space par défaut des personnes renommés au démarrage, journalisés ; le nom HeadLamp quitte la plateforme.",
+      "title": "PowerPoint des diagrammes (D-O-059)",
+      "why": "Paquet .pptx en bibliothèque standard (16:9, thème de la plateforme) ; les formes et flèches viennent des mêmes pages que draw.io (Page.items) ; connecteurs collés aux blocs ; arbre découpé au-delà de 10 feuilles.",
       "files": [
-        "modules/help/headlamp.py",
-        "modules/help/tour.py",
-        "modules/help/reference.py",
-        "static/js/help/help.js",
-        "static/js/app.js"
+        "modules/diamond/pptx_book.py",
+        "modules/diamond/export_pptx.py",
+        "modules/diamond/export_drawio.py",
+        "modules/diamond/export_api.py",
+        "modules/diamond/__init__.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Le Rover dans DEMO (D-O-058)",
-      "why": "Chargé une fois au démarrage par le même code que Commencer, sans les comptes d'exemple ni le bandeau Brouillon IA ; ses pages à côté de l'accueil DEMO.",
+      "title": "Exporter ▾ sur l'arbre et la structure (D-O-059)",
+      "why": "?only=tree | structure : le diagramme et le tableau de l'écran seulement, en draw.io, PowerPoint ou Excel ; lien vers tout Diamond.",
       "files": [
-        "modules/help/demo_example.py",
-        "modules/help/__init__.py"
+        "static/js/diamond/export_menu.js",
+        "static/js/diamond/tree.js",
+        "static/js/diamond/structure.js",
+        "static/css/diamond.css",
+        "core/modules.py",
+        "modules/diamond/export_xlsx.py"
       ]
     },
     {
       "id": "C3",
-      "title": "Cacher DEMO pour tous (D-O-058)",
-      "why": "Réglage de la plateforme (app_settings « demo ») : DEMO quitte toutes les listes ; ses pages restent ouvertes par lien (Help, documentation).",
+      "title": "Page Exporter et tests",
+      "why": "4e carte PowerPoint ; tests/test_diamond_export_pptx.py (parties bien formées, connecteurs collés, filtres only).",
       "files": [
-        "core/permissions.py",
-        "core/prefs.py",
-        "static/js/admin.js"
-      ]
-    },
-    {
-      "id": "C4",
-      "title": "Textes, site et tests",
-      "why": "DEMO partout dans l'outil, le site (installation, guide, modules, descente de la mine) et la vitrine ; tests/test_demo_space.py.",
-      "files": [
-        "tools/site_text.py",
-        "tools/site/installation.html",
-        "tools/site/en/installation.html",
-        "modules/help/module_docs.py",
-        "tests/test_demo_space.py"
+        "static/js/diamond/export.js",
+        "tests/test_diamond_export_pptx.py"
       ]
     }
   ]

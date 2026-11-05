@@ -106,6 +106,8 @@
 - **0.60.48** (2026-11-05) : **FR | EN dans la barre du haut** (D-O-057, `static/js/tools/langswitch.js`) ; thèmes seulement dans Paramètres.
 - **0.60.49** (2026-11-05) : **un seul Space, DEMO** (D-O-058, `modules/help/headlamp.py`, `demo_example.py`) : ancien HeadLamp + Rover, sans compte d'exemple ;
   « Cacher pour tous » (`/api/admin/demo`) ; HEADLAMP renommé DEMO au démarrage.
+- **0.60.50** (2026-11-05) : **exporter l'arbre et la structure** (D-O-059, `modules/diamond/export_pptx.py`, `pptx_book.py`, `static/js/diamond/export_menu.js`) :
+  « Exporter ▾ » sur chaque écran (draw.io, PowerPoint à formes natives, Excel) ; `?only=tree | structure`.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

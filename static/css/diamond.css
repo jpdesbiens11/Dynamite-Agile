@@ -247,3 +247,16 @@ html[data-sketch] .dm-nug { border-radius: var(--r-card); border-color: var(--gr
 .dm-ex-note { font-size: .88rem; }
 html[data-sketch] .dm-ex-card { border-radius: var(--r-card); border-color: var(--graphite); box-shadow: var(--shadow-sketch); }
 html[data-term] .dm-ex-card { background: var(--surface); }
+
+/* 0.60.50 (D-O-059): « Exporter ▾ » on the tree and structure screens */
+.dm-export { position: relative; display: inline-block; }
+.dm-export > summary { list-style: none; cursor: pointer; }
+.dm-export > summary::-webkit-details-marker { display: none; }
+.dm-export-menu { position: absolute; right: 0; top: calc(100% + .3rem); z-index: 30; min-width: 19rem; padding: .35rem;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); }
+.dm-export-item { display: flex; flex-direction: column; align-items: flex-start; gap: .1rem; padding: .5rem .65rem; border-radius: var(--radius-sm);
+  color: var(--ink); text-decoration: none; }
+.dm-export-item:hover, .dm-export-item:focus-visible { background: color-mix(in srgb, var(--acc) 14%, transparent); }
+.dm-export-item .muted { font-size: .85rem; }
+.dm-export-all { border-top: 1px solid var(--line); margin-top: .25rem; padding-top: .6rem; }
+html[data-sketch] .dm-export-menu { border-color: var(--graphite); border-radius: var(--r-card); box-shadow: var(--shadow-sketch); }

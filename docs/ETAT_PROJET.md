@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-05 (v0.60.49)
-**Version :** 0.60.49 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** 0.60.49 (demande de JP du 2026-11-05) : un seul Space DEMO à l'installation
+**Dernière mise à jour :** 2026-11-05 (v0.60.50)
+**Version :** 0.60.50 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** 0.60.50 (demande de JP du 2026-11-05) : exporter l'arbre et la structure (draw.io, PowerPoint, Excel)
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -62,7 +62,10 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.49)
+## Relais (fin de 0.60.50)
+
+- Exports Diamond (D-O-059) : `export_pptx.py` lit `Page.items` de `export_drawio.py` ; `?only=` dans `export_api.py` ; menu `static/js/diamond/export_menu.js`.
+
 
 - DEMO (D-O-058) : `modules/help/headlamp.py` (KEY, migrate), `modules/help/demo_example.py` (Rover, une fois), `permissions.demo_hidden`, `/api/admin/demo`.
 

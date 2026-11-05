@@ -1,0 +1,44 @@
+{
+  "version": "0.60.50",
+  "date": "2026-11-05",
+  "summary": {
+    "fr": "Exporter directement depuis l'arbre fonctionnel et la structure fonctionnelle : un bouton « Exporter ▾ » sur chaque écran donne son diagramme dans draw.io ou PowerPoint, et son tableau dans Excel. Nouveau : PowerPoint, avec des formes et des flèches natives qu'on déplace, recolore et retape (les flèches suivent les blocs) ; un grand arbre est découpé en une vue d'ensemble puis une diapositive par branche. La page Exporter offre aussi tout Diamond en PowerPoint.",
+    "en": "Export straight from the functional tree and the functional structure: an « Exporter ▾ » button on each screen gives its diagram in draw.io or PowerPoint, and its table in Excel. New: PowerPoint, with native shapes and arrows you move, recolour and retype (arrows follow the boxes); a large tree is cut into an overview then one slide per branch. The Exporter page also offers all of Diamond in PowerPoint."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "PowerPoint des diagrammes (D-O-059)",
+      "why": "Paquet .pptx en bibliothèque standard (16:9, thème de la plateforme) ; les formes et flèches viennent des mêmes pages que draw.io (Page.items) ; connecteurs collés aux blocs ; arbre découpé au-delà de 10 feuilles.",
+      "files": [
+        "modules/diamond/pptx_book.py",
+        "modules/diamond/export_pptx.py",
+        "modules/diamond/export_drawio.py",
+        "modules/diamond/export_api.py",
+        "modules/diamond/__init__.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Exporter ▾ sur l'arbre et la structure (D-O-059)",
+      "why": "?only=tree | structure : le diagramme et le tableau de l'écran seulement, en draw.io, PowerPoint ou Excel ; lien vers tout Diamond.",
+      "files": [
+        "static/js/diamond/export_menu.js",
+        "static/js/diamond/tree.js",
+        "static/js/diamond/structure.js",
+        "static/css/diamond.css",
+        "core/modules.py",
+        "modules/diamond/export_xlsx.py"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Page Exporter et tests",
+      "why": "4e carte PowerPoint ; tests/test_diamond_export_pptx.py (parties bien formées, connecteurs collés, filtres only).",
+      "files": [
+        "static/js/diamond/export.js",
+        "tests/test_diamond_export_pptx.py"
+      ]
+    }
+  ]
+}

@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.49
+# Journal de mise à jour — 0.60.50
+
+- **Version :** 0.60.49 → 0.60.50 (2026-11-05)
+- **Changements :**
+  1. **Exporter l'arbre et la structure** (D-O-059) : bouton « Exporter ▾ » sur chaque écran (draw.io, PowerPoint, Excel) ; PowerPoint à formes natives.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.49
 
 - **Version :** 0.60.48 → 0.60.49 (2026-11-04)
 - **Changements :**
   1. **Un seul Space, DEMO** (D-O-058) : HeadLamp + Rover, sans compte d'exemple ; « Cacher pour tous » ; HEADLAMP renommé DEMO.
 - **Base de données :** ['app_settings « demo » {hidden} ; projects.key HEADLAMP → DEMO au démarrage (pas de migration de schéma).']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.48
 
