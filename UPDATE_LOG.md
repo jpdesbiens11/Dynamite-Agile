@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.30
+# Journal de mise à jour — 0.60.31
+
+- **Version :** 0.60.30 → 0.60.31 (2026-11-04)
+- **Changements :**
+  1. **Plus léger sur le réseau** (D-O-039) : ETag et 304, gzip ; rechargement ~120 Ko au lieu de 1,5 Mo, première visite ~520 Ko.
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.30
 
 - **Version :** 0.60.29 → 0.60.30 (2026-11-04)
 - **Changements :**
   1. **Partager, 2e passe** (D-O-038) : lien copié à chaque choix, versions web (Gmail, Outlook, Messenger, WhatsApp, Telegram, Teams), code QR vers le téléphone.
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.29
 

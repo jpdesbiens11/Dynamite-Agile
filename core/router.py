@@ -15,7 +15,7 @@ from http import cookies
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, unquote, urlsplit
 
-from . import access_rules, admin, auth, backup, proxy, baseline_view, baselines, dashboard, datapack, db, devshare, members, mentions, modules, objectives, platform_config, prefs, profile, restorepoints, reviews, team, search, session_api, sitemove, spacecard, spacecopy, stamp, starter_apply, tls, ui_audit, update
+from . import access_rules, admin, auth, backup, proxy, static_cache, baseline_view, baselines, dashboard, datapack, db, devshare, members, mentions, modules, objectives, platform_config, prefs, profile, restorepoints, reviews, team, search, session_api, sitemove, spacecard, spacecopy, stamp, starter_apply, tls, ui_audit, update
 from .errors import ApiError
 
 # D-B-058: no write without the person's 3-letter traceability key, except to set it (and privacy events).
@@ -338,10 +338,20 @@ class AppHandler(BaseHTTPRequestHandler):
         content_type = STATIC_TYPES.get(target.suffix.lower())
         if content_type is None or not target.is_file():
             raise ApiError(404, "Fichier introuvable.")
-        data = target.read_bytes()
-        self.send_response(200)
+        # 0.60.31 (D-O-039): ETag -> 304 when the browser already has the file; gzip for the text types
+        entry = static_cache.get(target)
+        fresh = static_cache.not_modified(entry, self.headers.get("If-None-Match"))
+        packed = entry.gz is not None and static_cache.accepts_gzip(self.headers.get("Accept-Encoding"))
+        data = b"" if fresh else (entry.gz if packed else entry.raw)
+        self.send_response(304 if fresh else 200)
         self.send_header("Content-Type", content_type)
-        self.send_header("Content-Length", str(len(data)))
+        if not fresh:
+            self.send_header("Content-Length", str(len(data)))
+        if packed and not fresh:
+            self.send_header("Content-Encoding", "gzip")
+        if entry.gz is not None:
+            self.send_header("Vary", "Accept-Encoding")
+        self.send_header("ETag", static_cache.gzip_etag(entry.etag) if packed else entry.etag)
         vendor = relative.startswith(VENDOR_PREFIX)
         self.send_header("Cache-Control", "public, max-age=31536000, immutable" if vendor else "no-cache")
         if relative.startswith(APP_PREFIX) and target.suffix.lower() == ".html":
@@ -357,7 +367,7 @@ class AppHandler(BaseHTTPRequestHandler):
         else:
             self._send_security_headers()
         self.end_headers()
-        if not self.head_only:
+        if not self.head_only and data:
             self.wfile.write(data)
 
     def _send_raw(self, raw, cookies_out=()):

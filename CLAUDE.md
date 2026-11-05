@@ -70,6 +70,8 @@
   WhatsApp, Teams ; bouton de la barre du haut et, au téléphone, à côté du ☰.
 - **0.60.30** (2026-11-04) : **Partager, 2e passe** (D-O-038, `static/js/tools/qr.js`) : lien copié à chaque choix, Gmail / Outlook / Messenger / WhatsApp /
   Telegram / Teams sur le web, code QR vers le téléphone.
+- **0.60.31** (2026-11-04) : **plus léger sur le réseau** (D-O-039, `core/static_cache.py`) : ETag / 304 et gzip des fichiers de l'interface ;
+  rechargement ~120 Ko au lieu de 1,5 Mo, première visite ~520 Ko.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

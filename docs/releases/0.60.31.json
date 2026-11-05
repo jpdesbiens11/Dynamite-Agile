@@ -1,0 +1,43 @@
+{
+  "version": "0.60.31",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Plus léger sur le réseau : un rechargement transfère environ 120 Ko au lieu de 1,5 Mo (ETag et 304), une première visite environ 520 Ko au lieu de 1,5 Mo (gzip).",
+    "en": "Lighter on the network: a reload transfers about 120 KB instead of 1.5 MB (ETag and 304), a first visit about 520 KB instead of 1.5 MB (gzip)."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Fichiers de l'interface : 304 quand le navigateur les a déjà (D-O-039)",
+      "why": "Chaque fichier sous static/ porte un ETag ; le navigateur demande « If-None-Match » et reçoit « 304 Not Modified ». Avant, chaque chargement reprenait les ~140 fichiers (1,5 Mo).",
+      "files": [
+        "core/static_cache.py",
+        "core/router.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Compression gzip",
+      "why": "JS, CSS, SVG, HTML et JSON partent compressés (environ 3 fois plus petits) à tout navigateur qui l'accepte ; copie compressée gardée en mémoire, reprise dès qu'un fichier change (une mise à jour se voit sans redémarrer). Bibliothèque standard, pour toutes les installations (VPS, Traefik, PC Windows).",
+      "files": [
+        "core/static_cache.py",
+        "core/router.py",
+        "tests/test_static_cache.py"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Version 0.60.31 et documentation",
+      "why": "Décision, état du projet, journal, fiche de version.",
+      "files": [
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.31.json",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}
