@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.33
+# Journal de mise à jour — 0.60.34
+
+- **Version :** 0.60.33 → 0.60.34 (2026-11-04)
+- **Changements :**
+  1. **Installation selon le serveur** (D-O-042) : question Traefik sur la page, l'assistant IA confirme, install.sh détecte ; site web avec Diamond et les nouveautés.
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.33
 
 - **Version :** 0.60.32 → 0.60.33 (2026-11-04)
 - **Changements :**
   1. **Exporter Diamond** (D-O-041) : tableaux dans Excel, diagrammes dans draw.io, rapport dans Word, marque « DynamiteAgile · Co-Intelligence WorkFlow™ ».
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.32
 

@@ -59,6 +59,13 @@ if [ ! -f "$HERE/app_dynamite_agile.py" ]; then
 fi
 APP_DIR="$HERE"
 DATA_DIR="$APP_DIR/data"
+# 0.60.34: a server whose web is already held by Traefik (Hostinger VPS with Docker applications) gets the installation
+# behind it even with the usual command -- before any firewall or certificate change (the email is not needed there).
+if [ "$MODE" = online ] && command -v docker >/dev/null 2>&1 \
+   && docker ps 2>/dev/null | grep -qi traefik; then
+  say "$(t "Traefik détecté : il garde les ports 80 / 443 et le certificat ; installation derrière lui (comme --traefik)" "Traefik detected: it keeps ports 80 / 443 and the certificate; installing behind it (as --traefik)")"
+  MODE=traefik
+fi
 if [ "$MODE" = traefik ]; then exec bash "$APP_DIR/deploy/install_traefik.sh" "$DOMAIN"; fi
 [ "$APP_DIR" = "$TARGET" ] || fail "$(t "le code doit être dans $TARGET (ici : $APP_DIR). Correctif : sudo git clone $REPO $TARGET" "the code must be in $TARGET (here: $APP_DIR). Fix: sudo git clone $REPO $TARGET")"
 

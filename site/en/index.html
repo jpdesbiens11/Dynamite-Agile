@@ -352,6 +352,10 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .ver-list > li .tag { display: inline-block; margin: 0 0 .3rem; padding: .05rem .5rem; font-size: .8rem; font-weight: 700;
   background: var(--g); color: #fff; border-radius: 999px; }
 .ver-list > li > span { display: block; }
+/* 0.60.34: the Traefik question of the installation page */
+.fields label[hidden], pre.cmd[hidden] { display: none; }
+.fields label.check { flex-direction: row; align-items: flex-start; gap: .55rem; grid-column: 1 / -1; font-weight: 500; line-height: 1.4; }
+.fields label.check input { width: 1.15rem; height: 1.15rem; margin-top: .15rem; flex: none; }
 
 </style>
 </head>
@@ -551,11 +555,12 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 
   <!-- 5. The tools -->
   <section id="outils">
-    <h2 class="reveal">Ten tools, <span class="hl" style="--hlc: var(--b)">one sign-in</span></h2>
+    <h2 class="reveal">Eleven tools, <span class="hl" style="--hlc: var(--b)">one sign-in</span></h2>
     <p class="sub reveal">One account, the same rights per Space, the same search everywhere and the same audit log.</p>
     <div class="tools">
       <article class="tool reveal" style="--a: var(--b)"><svg class="ico"><use href="#i-dashboard"/></svg><h3>Dashboard</h3><p>Everything waiting for you in all your Spaces, with your @mentions and a status you change in place.</p></article>
       <article class="tool reveal" style="--a: var(--y)"><svg class="ico"><use href="#i-goldmine"/></svg><h3>Goldmine</h3><p>Needs and requirements: Need Status, F-XX functions, criticality, Test Procedure, customer Q&amp;A.</p></article>
+      <article class="tool reveal" style="--a: var(--c)"><svg class="ico"><use href="#i-diamond"/></svg><h3>Diamond</h3><p>The functional analysis: tree, structure, parts x functions, risks and DFMEA; Excel, draw.io and Word export.</p></article>
       <article class="tool reveal" style="--a: var(--v)"><svg class="ico"><use href="#i-exploration"/></svg><h3>Exploration</h3><p>The project plan over several months: phases, predecessors, milestones, Gantt and Excel round trip.</p></article>
       <article class="tool reveal" style="--a: var(--b)"><svg class="ico"><use href="#i-agile"/></svg><h3>Agile</h3><p>Backlog, Sprints and Board; Change Management with PRs, bugs and ECNs approved by the CCB.</p></article>
       <article class="tool reveal" style="--a: var(--o)"><svg class="ico"><use href="#i-dynamite"/></svg><h3>Dynamite</h3><p>The wiki: visual editor, live ticket blocks, procedures, BDC, Word and PDF export.</p></article>
@@ -564,6 +569,18 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       <article class="tool reveal" style="--a: var(--p)"><svg class="ico"><use href="#i-training"/></svg><h3>Training</h3><p>Topics, training plans, tests graded on the server, follow-up by the instructor.</p></article>
       <article class="tool reveal" style="--a: var(--t)"><svg class="ico"><use href="#i-timesheet"/></svg><h3>Timesheet</h3><p>My week per PDP step, approval, Excel export and Word report.</p></article>
       <article class="tool reveal" style="--a: var(--y)"><svg class="ico"><use href="#i-help"/></svg><h3>Help &amp; HeadLamp</h3><p>The step-by-step guide, the FAQ and a sandbox Space to learn risk-free.</p></article>
+    </div>
+  </section>
+
+  <!-- 5b. What is new (0.60.34) -->
+  <section id="nouveautes">
+    <h2 class="reveal">What is <span class="hl" style="--hlc: var(--y)">new</span></h2>
+    <p class="sub reveal">What arrived in the latest versions of the 0.60 branch.</p>
+    <div class="tools">
+      <article class="tool reveal" style="--a: var(--y)"><svg class="ico"><use href="#i-bolt"/></svg><h3>Start with an AI assistant</h3><p>A multiple-choice interview with Claude prepares the project file; « Commencer » creates the team, requirements, tests, functional tree, DFMEA and PDP plan.</p></article>
+      <article class="tool reveal" style="--a: var(--c)"><svg class="ico"><use href="#i-diamond"/></svg><h3>Diamond, from first look to report</h3><p>One DFMEA row per function, the key test linked, industry good practices; everything exports to Excel, draw.io and Word for a jury or an investor.</p></article>
+      <article class="tool reveal" style="--a: var(--p)"><svg class="ico"><use href="#i-share"/></svg><h3>On the phone, and shared</h3><p>Goldmine, Testing and the timesheet as cards, Dynamite pages with AI; Share by text, Messenger, WhatsApp, email or QR code.</p></article>
+      <article class="tool reveal" style="--a: var(--g)"><svg class="ico"><use href="#i-spaces"/></svg><h3>Official updates</h3><p>⚙ Admin → Update: one version at a time or several at once, data intact; a lighter interface on the network.</p></article>
     </div>
   </section>
 
@@ -595,7 +612,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       <a class="btn" href="https://github.com/jpdesbiens11/Dynamite-Agile">The code on GitHub</a></div>
   </section>
 </main>
-<footer>Dynamite | Agile · free software under the MIT licence · version 0.60.33 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>Dynamite | Agile · free software under the MIT licence · version 0.60.34 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 (function () {
   "use strict";

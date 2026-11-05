@@ -62,6 +62,7 @@ MINE = [
 TOOLS_EN = {
     "Dashboard": "Everything waiting for you in all your Spaces, with your @mentions and a status you change in place.",
     "Goldmine": "Needs and requirements: Need Status, F-XX functions, criticality, Test Procedure, customer Q&A.",
+    "Diamond": "The functional analysis: tree, structure, parts x functions, risks and DFMEA; Excel, draw.io and Word export.",
     "Exploration": "The project plan over several months: phases, predecessors, milestones, Gantt and Excel round trip.",
     "Agile": "Backlog, Sprints and Board; Change Management with PRs, bugs and ECNs approved by the CCB.",
     "Dynamite": "The wiki: visual editor, live ticket blocks, procedures, BDC, Word and PDF export.",
@@ -71,8 +72,30 @@ TOOLS_EN = {
     "Timesheet": "My week per PDP step, approval, Excel export and Word report.",
     "Help & HeadLamp": "The step-by-step guide, the FAQ and a sandbox Space to learn risk-free.",
 }
-TOOLS_HEAD_EN = ('    <h2 class="reveal">Ten tools, <span class="hl" style="--hlc: var(--b)">one sign-in</span></h2>\n'
+TOOLS_HEAD_EN = ('    <h2 class="reveal">Eleven tools, <span class="hl" style="--hlc: var(--b)">one sign-in</span></h2>\n'
                  '    <p class="sub reveal">One account, the same rights per Space, the same search everywhere and the same audit log.</p>')
+
+# 0.60.34: what arrived lately, under the tools grid of the landing page -- (icon, accent, {lang: (title, text)})
+NEWS = [
+    ("bolt", "--y", {"fr": ("Commencer avec un assistant IA", "Une entrevue à choix de réponses avec Claude prépare le fichier du projet ; "
+                            "« Commencer » crée l'équipe, les requirements, les essais, l'arbre fonctionnel, le DFMEA et le plan du PDP."),
+                     "en": ("Start with an AI assistant", "A multiple-choice interview with Claude prepares the project file; « Commencer » "
+                            "creates the team, requirements, tests, functional tree, DFMEA and PDP plan.")}),
+    ("diamond", "--c", {"fr": ("Diamond, du premier coup d'œil au rapport", "Une ligne de DFMEA par fonction, l'essai clé relié, les bonnes "
+                               "pratiques de l'industrie ; tout s'exporte en Excel, draw.io et Word pour un jury ou un investisseur."),
+                        "en": ("Diamond, from first look to report", "One DFMEA row per function, the key test linked, industry good "
+                               "practices; everything exports to Excel, draw.io and Word for a jury or an investor.")}),
+    ("share", "--p", {"fr": ("Au téléphone, et partagé", "Goldmine, Testing et la feuille de temps en cartes, des pages Dynamite avec l'IA ; "
+                             "Partager par texto, Messenger, WhatsApp, courriel ou code QR."),
+                      "en": ("On the phone, and shared", "Goldmine, Testing and the timesheet as cards, Dynamite pages with AI; Share by "
+                             "text, Messenger, WhatsApp, email or QR code.")}),
+    ("spaces", "--g", {"fr": ("Mises à jour officielles", "⚙ Admin → Update : une version à la fois ou plusieurs d'un coup, les données "
+                              "intactes ; l'interface plus légère sur le réseau."),
+                       "en": ("Official updates", "⚙ Admin → Update: one version at a time or several at once, data intact; a lighter "
+                              "interface on the network.")}),
+]
+NEWS_HEAD = {"fr": ('Les <span class="hl" style="--hlc: var(--y)">nouveautés</span>', "Ce qui est arrivé dans les dernières versions de la branche 0.60."),
+             "en": ('What is <span class="hl" style="--hlc: var(--y)">new</span>', "What arrived in the latest versions of the 0.60 branch.")}
 
 # what the vitrine script types in the Test Plan of the « day with the team » and the label of the hero sketch
 TYPED = {"fr": "Objectif : vérifier que le pistolet chaud tombé d'un mètre reste sûr et fonctionnel.",

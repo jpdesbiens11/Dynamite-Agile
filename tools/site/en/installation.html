@@ -53,9 +53,10 @@
     <div class="fields">
       <label data-for="serveur">Domain name <input id="f-domain" data-v="domain" autocomplete="off" spellcheck="false"
         placeholder="workshop.my-domain.com"></label>
-      <label data-for="serveur">Your email <span class="muted">(certificate expiry notices)</span>
+      <label data-for="serveur" data-proxy="direct">Your email <span class="muted">(certificate expiry notices)</span>
         <input id="f-email" data-v="email" type="email" autocomplete="email" placeholder="me@example.com"></label>
       <label>Server IP address <input id="f-ip" data-v="ip" inputmode="decimal" autocomplete="off" placeholder="203.0.113.10"></label>
+      <label class="check" data-for="serveur" data-new="0.60.34-traefik"><input id="f-traefik" type="checkbox"> <span>My server already runs Docker applications with <b>Traefik</b> (e.g. a Hostinger VPS with Docker): Traefik keeps the web and the certificate</span></label>
     </div>
   </section>
 
@@ -90,7 +91,9 @@
       <label class="done"><input type="checkbox"> Done</label></li>
 
     <li data-step="srv-install"><b>Install, with one command</b>
-      <pre class="cmd" data-where="srv"><code>curl -fsSL {{SITE_URL}}/install.sh | sudo DA_LANG=en bash -s -- <span data-v="domain">workshop.my-domain.com</span> <span data-v="email">me@example.com</span></code></pre>
+      <pre class="cmd" data-proxy="direct" data-where="srv"><code>curl -fsSL {{SITE_URL}}/install.sh | sudo DA_LANG=en bash -s -- <span data-v="domain">workshop.my-domain.com</span> <span data-v="email">me@example.com</span></code></pre>
+      <pre class="cmd" data-proxy="traefik" data-where="srv"><code>curl -fsSL {{SITE_URL}}/install.sh | sudo DA_LANG=en bash -s -- --traefik <span data-v="domain">workshop.my-domain.com</span></code></pre>
+      <p class="muted" data-new="0.60.34-traefik">Not sure about Traefik? The command detects it by itself and installs behind it. To <b>update</b> later: run the same command again, the data stays.</p>
       <p class="expect">Two to five minutes. The end shows <code>== 7/7 Installed</code>, the address to open and the
         <b>temporary password</b> of the <code>admin</code> account: keep this window open.</p>
       <details><summary>What the command does</summary><p>It fetches the code into <code>/opt/dynamite_agile</code>, installs

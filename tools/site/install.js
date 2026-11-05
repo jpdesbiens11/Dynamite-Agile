@@ -10,7 +10,7 @@
     read() { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (err) { return {}; } },
     write(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (err) { /* private window: fine */ } },
   };
-  const state = Object.assign({ dest: "serveur", os: "", domain: "", email: "", ip: "", done: {} }, store.read());
+  const state = Object.assign({ dest: "serveur", os: "", domain: "", email: "", ip: "", traefik: false, done: {} }, store.read());
   const save = () => store.write(state);
   const $ = (s, root) => (root || document).querySelector(s);
   const $$ = (s, root) => Array.from((root || document).querySelectorAll(s));
@@ -48,7 +48,17 @@
     input.value = state[k] || "";
     input.addEventListener("input", () => { state[k] = input.value.replace(/^https?:\/\//, "").replace(/\/.*$/, "").trim(); save(); fill(); });
   });
+  /* 0.60.34: behind Traefik (Docker applications): the command takes --traefik and no email */
+  const traefik = $("#f-traefik");
+  if (traefik) {
+    traefik.checked = !!state.traefik;
+    traefik.addEventListener("change", () => { state.traefik = traefik.checked; save(); fill(); });
+  }
   function fill() {
+    $$("[data-proxy]").forEach((n) => {
+      const other = n.dataset.for && !n.dataset.for.split(" ").includes(state.dest);  // the destination decides first
+      n.hidden = other || (n.dataset.proxy === "traefik") !== !!state.traefik;
+    });
     $$("span[data-v], code[data-v]").forEach((n) => { n.textContent = value(n.dataset.v); n.classList.toggle("ph", !state[n.dataset.v]); });
     $$("a.live").forEach((a) => { a.href = a.dataset.href.replace("{domain}", value("domain")); });
     $("#agent-text").textContent = prompt();
@@ -59,7 +69,7 @@
     const os = { windows: "Windows", mac: "macOS", linux: "Linux" }[state.os || guess];
     if (EN) {
       const where = {
-        serveur: "on an online server (Linux VPS) with the domain name " + value("domain"),
+        serveur: "on an online server (Linux VPS) with the domain name " + value("domain") + (state.traefik ? ", behind the Traefik of my Docker applications (--traefik)" : ""),
         essai: "on a Linux server, as a private trial without a domain (SSH tunnel)",
         windows: "on a Windows PC that hosts it for my team on our local network (PowerShell)",
         local: "on my computer (" + os + "), to try it",
@@ -72,7 +82,7 @@
         "simply and suggest the fix. Never ask me for a password or a private key."].join("\n");
     }
     const where = {
-      serveur: "sur un serveur en ligne (VPS Linux) avec le nom de domaine " + value("domain"),
+      serveur: "sur un serveur en ligne (VPS Linux) avec le nom de domaine " + value("domain") + (state.traefik ? ", derrière le Traefik de mes applications Docker (--traefik)" : ""),
       essai: "sur un serveur Linux, en essai privé sans domaine (tunnel SSH)",
       windows: "sur un PC Windows qui l'héberge pour mon équipe sur notre réseau local (PowerShell)",
       local: "sur mon ordinateur (" + os + "), pour l'essayer",

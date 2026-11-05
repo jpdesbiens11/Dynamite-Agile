@@ -2,55 +2,52 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Diamond → Exporter (D-O-041)",
-      "why": "Un écran, trois fichiers : Excel (tableaux), draw.io (diagrammes), Word (rapport) ; lecture du Space suffisante.",
+      "title": "Installation : le cas Traefik (D-O-042)",
+      "why": "Page d'installation : case « Mon serveur a déjà des applications Docker avec Traefik » ; la commande devient --traefik <domaine> (sans courriel) ; le message pour l'assistant IA le dit. Guide de l'assistant (FR / EN) : confirmer le cas par une question à choix et une commande de vérification ; relancer la même commande pour mettre à jour.",
       "files": [
-        "static/js/diamond/export.js",
-        "static/js/diamond/diamond.js",
-        "static/css/diamond.css",
-        "core/modules.py",
-        "modules/diamond/__init__.py",
-        "modules/diamond/export_api.py",
-        "modules/diamond/export_data.py"
+        "tools/site/installation.html",
+        "tools/site/en/installation.html",
+        "tools/site/install.js",
+        "tools/site/site.css",
+        "tools/site/installer.md",
+        "tools/site/en/installer.md"
       ]
     },
     {
       "id": "C2",
-      "title": "Excel : chaque tableau, mis en forme",
-      "why": "Synthèse (chiffres, ce qu'une revue demanderait, index), arbre fonctionnel aux couleurs des niveaux, structure (entrées, sorties, flux), matrice pièces × fonctions, risques projet et carte P × I, DFMEA AIAG-VDA (trois niveaux en couleur, AP en couleur, bonnes pratiques, essai clé). Marque en en-tête de chaque page imprimée, paysage ajusté à la largeur, titres répétés, filtres, volets figés ; nouveau petit écrivain .xlsx stylé (modules/diamond/xlsx_book.py).",
+      "title": "install.sh détecte Traefik",
+      "why": "Avec la commande habituelle (domaine et courriel), un serveur dont Traefik tient déjà le web est installé derrière lui, avant toute règle de pare-feu ou de certificat.",
       "files": [
-        "modules/diamond/export_xlsx.py",
-        "modules/diamond/xlsx_book.py"
+        "deploy/install.sh"
       ]
     },
     {
       "id": "C3",
-      "title": "draw.io : chaque diagramme, modifiable",
-      "why": "Arbre fonctionnel (Comment / Pourquoi, niveaux, chemin critique, pièces), structure fonctionnelle vue générale et vue détaillée (frontière du système, sous-systèmes, flux énergie / matière / information), carte des risques maintenant et résiduelle ; cartouche DynamiteAgile, légende, Co-Intelligence WorkFlow™ au pied.",
+      "title": "Site web à jour",
+      "why": "Diamond dans la grille des outils (onze outils), une section « Les nouveautés » (Commencer avec un assistant IA, Diamond et ses exports, téléphone et Partager, mises à jour officielles), même logo que l'outil.",
       "files": [
-        "modules/diamond/export_drawio.py"
+        "tools/build_vitrine.py",
+        "tools/vitrine/template.html",
+        "tools/build_site.py",
+        "tools/site_text.py",
+        "tools/site/index.html",
+        "tools/site/en/index.html",
+        "site/",
+        "static/apps/vitrine/index.html"
       ]
     },
     {
       "id": "C4",
-      "title": "Word : le rapport",
-      "why": "Gabarit de la plateforme (page de titre, table des matières, en-tête), marque dans le pied de page ; synthèse, arbre, structure, pièces, risques, DFMEA, revue, fichiers joints ; PDF par Enregistrer sous dans Word.",
+      "title": "Version 0.60.34, tests et documentation",
+      "why": "tests/test_install_traefik_choice.py ; décision, état du projet, journal, fiche de version.",
       "files": [
-        "modules/diamond/export_docx.py"
-      ]
-    },
-    {
-      "id": "C5",
-      "title": "Version 0.60.33, tests et documentation",
-      "why": "tests/test_diamond_export.py ; décision, état du projet, journal, fiche de version.",
-      "files": [
-        "tests/test_diamond_export.py",
+        "tests/test_install_traefik_choice.py",
         "core/__init__.py",
         "CLAUDE.md",
         "UPDATE_LOG.md",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.33.json",
+        "docs/releases/0.60.34.json",
         "tests/test_open_v060.py"
       ]
     }

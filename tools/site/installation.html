@@ -53,9 +53,10 @@
     <div class="fields">
       <label data-for="serveur">Nom de domaine <input id="f-domain" data-v="domain" autocomplete="off" spellcheck="false"
         placeholder="atelier.mon-domaine.ca"></label>
-      <label data-for="serveur">Votre courriel <span class="muted">(avis d'expiration du certificat)</span>
+      <label data-for="serveur" data-proxy="direct">Votre courriel <span class="muted">(avis d'expiration du certificat)</span>
         <input id="f-email" data-v="email" type="email" autocomplete="email" placeholder="moi@exemple.ca"></label>
       <label>Adresse IP du serveur <input id="f-ip" data-v="ip" inputmode="decimal" autocomplete="off" placeholder="203.0.113.10"></label>
+      <label class="check" data-for="serveur" data-new="0.60.34-traefik"><input id="f-traefik" type="checkbox"> <span>Mon serveur a déjà des applications Docker avec <b>Traefik</b> (ex. un VPS Hostinger avec Docker) : Traefik garde le web et le certificat</span></label>
     </div>
   </section>
 
@@ -90,7 +91,9 @@
       <label class="done"><input type="checkbox"> C'est fait</label></li>
 
     <li data-step="srv-install"><b>Installez, en une commande</b>
-      <pre class="cmd" data-where="srv"><code>curl -fsSL {{SITE_URL}}/install.sh | sudo bash -s -- <span data-v="domain">atelier.mon-domaine.ca</span> <span data-v="email">moi@exemple.ca</span></code></pre>
+      <pre class="cmd" data-proxy="direct" data-where="srv"><code>curl -fsSL {{SITE_URL}}/install.sh | sudo bash -s -- <span data-v="domain">atelier.mon-domaine.ca</span> <span data-v="email">moi@exemple.ca</span></code></pre>
+      <pre class="cmd" data-proxy="traefik" data-where="srv"><code>curl -fsSL {{SITE_URL}}/install.sh | sudo bash -s -- --traefik <span data-v="domain">atelier.mon-domaine.ca</span></code></pre>
+      <p class="muted" data-new="0.60.34-traefik">Pas sûr pour Traefik ? La commande le détecte d'elle-même et s'installe derrière lui. Pour <b>mettre à jour</b> plus tard : relancez la même commande, les données restent.</p>
       <p class="expect">Deux à cinq minutes. La fin affiche <code>== 7/7 C'est installé</code>, l'adresse à ouvrir et le
         <b>mot de passe temporaire</b> du compte <code>admin</code> : gardez cette fenêtre ouverte.</p>
       <details><summary>Ce que fait la commande</summary><p>Elle récupère le code dans <code>/opt/dynamite_agile</code>, installe

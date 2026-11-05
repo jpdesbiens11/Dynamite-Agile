@@ -76,6 +76,8 @@
   outil, vitrine, site.
 - **0.60.33** (2026-11-04) : **Exporter Diamond** (D-O-041, `modules/diamond/export_*.py`, `xlsx_book.py`) : tableaux → Excel, diagrammes → draw.io, rapport → Word ;
   marque « DynamiteAgile · Co-Intelligence WorkFlow™ ».
+- **0.60.34** (2026-11-04) : **installation selon le serveur** (D-O-042) : question Traefik sur la page, l'assistant IA confirme, `install.sh` détecte Traefik ;
+  site web avec Diamond et « Les nouveautés ».
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,
