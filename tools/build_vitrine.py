@@ -6,6 +6,7 @@ Built from tools/vitrine/template.html with the same hand-drawn assets as the pl
 sketch, tools/make_sketch_assets.py), so the page and the application always look alike. No external resource: it
 opens from the platform (/apps/vitrine/) or by double-click, on the team server or offline.
 """
+import base64
 import html
 import re
 import sys
@@ -38,7 +39,9 @@ def build():
         '      <article class="tool reveal" style="--a: var({})"><svg class="ico"><use href="#i-{}"/></svg><h3>{}</h3><p>{}</p></article>'
         .format(accent, icon, html.escape(name), html.escape(text)) for icon, accent, name, text in TOOLS)
     page = (template.replace("<!--SPRITE-->", sprite.strip()).replace("<!--HERO-->", hero.strip())
-            .replace("<!--TOOLS-->", cards.strip()).replace("<!--VERSION-->", "version " + APP_VERSION))
+            .replace("<!--TOOLS-->", cards.strip()).replace("<!--VERSION-->", "version " + APP_VERSION)
+            .replace("LOGO_FONT_DATA", "data:font/woff2;base64," + base64.b64encode(
+                (BASE / "static" / "fonts" / "baloo2-logo.woff2").read_bytes()).decode("ascii")))  # 0.60.32 (D-O-040)
     out = BASE / "static" / "apps" / "vitrine" / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(page, encoding="utf-8")

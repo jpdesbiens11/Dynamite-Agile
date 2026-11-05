@@ -1,0 +1,56 @@
+{
+  "version": "0.60.32",
+  "date": "2026-11-04",
+  "summary": {
+    "fr": "Nouveau logo « DynamiteAgile » : un seul mot en deux couleurs (orange et turquoise), en Baloo 2, dans l'outil, la vitrine et le site web.",
+    "en": "New logo « DynamiteAgile »: one word in two colours (orange and turquoise), in Baloo 2, in the tool, the showcase page and the website."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Logo « DynamiteAgile » (D-O-040)",
+      "why": "Dynamite en orange, Agile en turquoise, collés, sans le « | » ; police Baloo 2 ExtraBold, choisie par JP parmi six. Barre du haut, connexion, téléphone, About.",
+      "files": [
+        "static/js/app.js",
+        "static/css/app.css"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Police servie par le serveur de l'équipe",
+      "why": "Seulement les 13 lettres du logo (static/fonts/baloo2-logo.woff2, 2 Ko), licence SIL OFL à côté ; aucune police chargée du web ; police du système si elle manque.",
+      "files": [
+        "static/fonts/baloo2-logo.woff2",
+        "static/fonts/OFL-Baloo2.txt",
+        "core/router.py",
+        "tests/test_logo.py"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Vitrine et site web",
+      "why": "Le même logo, la police intégrée à la page (data:).",
+      "files": [
+        "tools/vitrine/template.html",
+        "tools/build_vitrine.py",
+        "tools/build_site.py",
+        "static/apps/vitrine/index.html",
+        "site/"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Version 0.60.32 et documentation",
+      "why": "Décision, état du projet, journal, fiche de version.",
+      "files": [
+        "core/__init__.py",
+        "CLAUDE.md",
+        "UPDATE_LOG.md",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.32.json",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}

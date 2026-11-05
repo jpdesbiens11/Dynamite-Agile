@@ -6,6 +6,10 @@
 <title>Dynamite | Agile — atelier de conception de produit</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='3' width='26' height='26' rx='3' fill='%23ffd23f' stroke='%2326323f' stroke-width='2'/%3E%3Cpath d='M18 6 L11 17 H16 L14 26 L22 14 H17 Z' fill='none' stroke='%2326323f' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
+@font-face { font-family: "DA Logo"; src: url("LOGO_FONT_DATA") format("woff2"); font-weight: 800; font-display: swap; }
+.logo-word { font: 800 1.35rem/1 "DA Logo", var(--font, system-ui); letter-spacing: -.005em; }
+.lw-d { color: #e0602f; }
+.lw-a { color: #0e8a8a; }
 :root {
   --paper: #fcfbf7; --grid: rgba(12, 102, 228, .06); --ink: #26323f; --ink-2: #44546f; --blue: #0c66e4;
   --y: #ffd23f; --o: #ff8a3d; --c: #3ec6e0; --g: #5fd08a; --p: #ff6f91; --v: #9b7bff; --b: #4d8dff; --t: #2ec4b6; --r: #ff5a4f;
@@ -196,7 +200,7 @@ footer { text-align: center; padding: 2rem 1rem 3rem; color: var(--ink-2); font-
 <canvas id="energy" aria-hidden="true"></canvas>
 
 <header class="top">
-  <a class="logo" href="#top"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="4" fill="#ffd23f" stroke="#26323f" stroke-width="2"/><path d="M18 6 L11 17 H16 L14 26 L22 14 H17 Z" fill="none" stroke="#26323f" stroke-width="2" stroke-linejoin="round"/></svg>Dynamite | Agile</a>
+  <a class="logo" href="#top"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="4" fill="#ffd23f" stroke="#26323f" stroke-width="2"/><path d="M18 6 L11 17 H16 L14 26 L22 14 H17 Z" fill="none" stroke="#26323f" stroke-width="2" stroke-linejoin="round"/></svg><span class="logo-word" role="img" aria-label="Dynamite Agile"><span class="lw-d">Dynamite</span><span class="lw-a">Agile</span></span></a>
   <nav aria-label="Sections">
     <a href="#journee">Votre journée</a><a href="#chaine">La chaîne</a><a href="#outils">Les outils</a><a href="#confiance">Sur votre serveur</a>
   </nav>

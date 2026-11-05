@@ -69,11 +69,15 @@ a { color: var(--agile); }
 .loading { padding: 2rem; color: var(--muted); }
 
 /* ---------- Brand ---------- */
-.brand { display: inline-flex; align-items: center; gap: .35rem; font-weight: 700; font-size: 1.15rem; }
+/* 0.60.32 (D-O-040): the logo « DynamiteAgile », one word in two colours, Baloo 2 ExtraBold (SIL OFL, static/fonts/:
+   only its 13 letters, 2 KB, served by the team's server -- never from the web); the system font if it is missing */
+@font-face { font-family: "DA Logo"; src: url("/fonts/baloo2-logo.woff2") format("woff2"); font-weight: 800; font-display: swap; }
+.brand { display: inline-flex; align-items: baseline; gap: 0; font-family: "DA Logo", var(--font); font-weight: 800;
+  font-size: 1.25rem; line-height: 1; letter-spacing: -.005em; }
 .brand-mark { width: 1.5em; height: 1.5em; object-fit: contain; flex: none; }
 .brand-dynamite { color: var(--dynamite); }
-.brand-agile { color: var(--agile); }
-.brand-sep { color: var(--muted); font-weight: 300; }
+.brand-agile { color: #0e9a9a; }  /* 0.60.32: the turquoise of the logo in every theme (the action colour may be blue) */
+.brand-sep { display: none; }  /* 0.60.32: the « | » is gone */
 
 /* ---------- Top bar ---------- */
 .topbar {
@@ -93,7 +97,7 @@ a { color: var(--agile); }
 .topbar .da-logo .brand { font-size: 1.15rem; }
 .topbar .da-logo .brand-mark { width: 1.6rem; height: 1.6rem; }
 .auth-card .da-logo { margin-bottom: 1.2rem; }
-.auth-card .da-logo .brand { font-size: 1.6rem; }
+.auth-card .da-logo .brand { font-size: 1.75rem; margin: 0; }  /* 0.60.32: centred on its mark */
 .auth-card .da-logo .brand-mark { width: 2.2rem; height: 2.2rem; }
 .tabs { display: flex; gap: .15rem; flex: 1; overflow-x: auto; }
 .tab {
