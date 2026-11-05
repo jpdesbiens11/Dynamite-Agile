@@ -547,7 +547,7 @@ input.starter-code { min-width: 6.5rem; max-width: 8rem; font-family: var(--mono
 .tb-share .tb-share-label { display: none; }
 .tb-share-phone { padding: .45rem; min-width: 44px; min-height: 44px; justify-content: center; }
 .nav-drawer .tb-share .tb-share-label { display: inline; }
-.modal.sh-modal { max-width: 620px; }
+.modal.sh-modal { max-width: 760px; }
 .sh-box { display: grid; gap: .8rem; }
 .sh-title { margin: 0; font-weight: 600; }
 .sh-row { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
@@ -559,3 +559,16 @@ input.starter-code { min-width: 6.5rem; max-width: 8rem; font-family: var(--mono
 .sh-note { margin: 0; font-size: .82rem; }
 html.da-phone .sh-row { flex-direction: column; align-items: stretch; }
 html.da-phone .sh-way { flex: 1 1 40%; justify-content: center; min-height: 44px; }
+/* 0.60.30: choices by group, the QR code beside them on a computer */
+.sh-hidden { position: fixed; left: -9999px; top: 0; opacity: 0; }
+.sh-cols { display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: start; }
+.sh-groups { display: grid; gap: .6rem; margin-bottom: .6rem; }
+.sh-group-name { margin: 0 0 .3rem; font-size: .78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.sh-qr { display: grid; justify-items: center; gap: .4rem; width: 200px; padding: .5rem; border: 1px solid var(--line);
+  border-radius: var(--radius-sm); background: var(--surface-2); }
+.sh-qr canvas { width: 180px; height: 180px; image-rendering: pixelated; background: #fff; }
+.sh-qr-note { margin: 0; font-size: .78rem; text-align: center; }
+.sh-qr-flash { animation: sh-flash 1.2s ease; }
+@keyframes sh-flash { 0%, 60% { box-shadow: 0 0 0 4px var(--acc, var(--agile)); } 100% { box-shadow: none; } }
+@media (prefers-reduced-motion: reduce) { .sh-qr-flash { animation: none; outline: 3px solid var(--acc, var(--agile)); } }
+html.da-phone .sh-cols { grid-template-columns: 1fr; }

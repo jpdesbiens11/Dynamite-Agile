@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-04 (v0.60.29)
-**Version :** 0.60.29 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** 0.60.28 et 0.60.29 (demandes de JP du 2026-11-04) : DFMEA complet, Space étoilé, About ; Partager
+**Dernière mise à jour :** 2026-11-04 (v0.60.30)
+**Version :** 0.60.30 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** 0.60.30 (demande de JP du 2026-11-04) : Partager, 2e passe
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -41,7 +41,8 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.27 | Téléphone : cartes pour Goldmine / Testing / Timesheet, Dynamite + Page / IA / Partager, grands écrans pour l'ordinateur (D-O-036) | Livré |
 | 0.60.28 | DFMEA : une ligne par fonction, essai clé relié, bonnes pratiques en prévention, RAS justifié ; Space étoilé ; About (D-O-037) | Livré |
 | 0.60.29 | « Partager » : feuille du téléphone, lien, courriel, texto, Messenger, WhatsApp, Teams (D-O-038) | Livré |
-| 0.60.30 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
+| 0.60.30 | Partager : lien copié d'abord, versions web, code QR vers le téléphone (D-O-038) | Livré |
+| 0.60.31 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
 
 ## Table 2 : Questions du brief §5 (toutes tranchées)
 
@@ -55,7 +56,10 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.29)
+## Relais (fin de 0.60.30)
+
+- Partager (D-O-038) : `static/js/tools/share.js` (`WAYS` : [groupe, nom, adresse(w, téléphone)] ; `null` = montrer le code QR) et `static/js/tools/qr.js` (`DA.qr`, `DA.qrCanvas`).
+
 
 - Partager (D-O-038) : `static/js/tools/share.js` (`WAYS` pour ajouter un mode, `what()` pour le titre et la citation) ; icône `share` dans `tools/make_sketch_assets.py`.
 
