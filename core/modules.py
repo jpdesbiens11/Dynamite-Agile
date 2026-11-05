@@ -56,7 +56,7 @@ MODULE_MANIFEST = [
                  "/js/diamond/structure.js",
                  "/js/diamond/risks_panel.js", "/js/diamond/risks.js",
                  "/js/diamond/dfmea_table.js", "/js/diamond/dfmea.js", "/js/diamond/dfmea_legend.js",
-                 "/js/diamond/nuggets_content.js", "/js/diamond/nuggets.js"],
+                 "/js/diamond/nuggets_content.js", "/js/diamond/nuggets.js", "/js/diamond/export.js"],
      "styles": ["/css/diamond.css", "/css/diamond_dfmea.css"]},
     # D-B-079: the test team's portal, right after Goldmine (test base + procedures in the space TESTING)
     {"key": "testing", "label": "Testing", "phase": "3.9", "module": testing,

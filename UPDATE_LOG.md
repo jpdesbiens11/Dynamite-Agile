@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.32
+# Journal de mise à jour — 0.60.33
+
+- **Version :** 0.60.32 → 0.60.33 (2026-11-04)
+- **Changements :**
+  1. **Exporter Diamond** (D-O-041) : tableaux dans Excel, diagrammes dans draw.io, rapport dans Word, marque « DynamiteAgile · Co-Intelligence WorkFlow™ ».
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.32
 
 - **Version :** 0.60.31 → 0.60.32 (2026-11-04)
 - **Changements :**
   1. **Logo « DynamiteAgile »** (D-O-040) : un mot, deux couleurs, Baloo 2 servie par le serveur (2 Ko).
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.31
 
