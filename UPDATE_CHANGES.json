@@ -2,8 +2,8 @@
   "changes": [
     {
       "id": "C1",
-      "title": "install.ps1 : continuation des lignes (D-O-066)",
-      "why": "Dans ( … ), une fin de ligne termine la commande PowerShell : les cinq appels Fail (T \"fr\" / \"en\") coupés reçoivent un accent grave en fin de ligne.",
+      "title": "winget --source winget (D-O-067)",
+      "why": "msstore expire (WinHttpSendRequest 12002) : winget s'arrête en demandant --source ; second essai sans --scope machine ; Git retrouvé dans Program Files.",
       "files": [
         "deploy/install.ps1"
       ]
@@ -11,7 +11,7 @@
     {
       "id": "C2",
       "title": "Test",
-      "why": "Aucune commande coupée entre parenthèses sans continuation.",
+      "why": "Chaque appel winget install précise --source winget.",
       "files": [
         "tests/test_windows_install.py"
       ]

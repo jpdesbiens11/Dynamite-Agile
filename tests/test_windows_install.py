@@ -66,6 +66,14 @@ class InstallScriptTest(unittest.TestCase):
                 broken.append((n, line.strip()[:80]))
         self.assertEqual(broken, [])
 
+    def test_01c_winget_uses_its_own_source(self):
+        """0.60.58 (D-O-067): the Microsoft Store source times out on many networks; winget then asks for --source."""
+        text = PS1.read_text("utf-8-sig")
+        calls = [line for line in text.splitlines() if line.strip().startswith("winget install")]
+        self.assertTrue(calls)
+        self.assertTrue(all("--source winget" in line for line in calls), calls)
+        self.assertIn("Find-Git", text)
+
     def test_02_every_message_in_both_languages(self):
         """Each T "fr" "en" call carries two strings (D-O-017)."""
         import re
