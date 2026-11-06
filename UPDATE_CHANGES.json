@@ -2,23 +2,17 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Plus de serveur Linux local sur la page d'installation (D-O-065)",
-      "why": "Le public visé ne le monte jamais ; install.sh --local reste pour un assistant.",
+      "title": "install.ps1 : continuation des lignes (D-O-066)",
+      "why": "Dans ( … ), une fin de ligne termine la commande PowerShell : les cinq appels Fail (T \"fr\" / \"en\") coupés reçoivent un accent grave en fin de ligne.",
       "files": [
-        "tools/site/installation.html",
-        "tools/site/en/installation.html",
-        "tools/site/install.js",
-        "tools/site/installer.md",
-        "tools/site/en/installer.md"
+        "deploy/install.ps1"
       ]
     },
     {
       "id": "C2",
-      "title": "Tests",
-      "why": "Page à deux lieux.",
+      "title": "Test",
+      "why": "Aucune commande coupée entre parenthèses sans continuation.",
       "files": [
-        "tests/test_install_local.py",
-        "tests/test_open_v060.py",
         "tests/test_windows_install.py"
       ]
     }

@@ -62,7 +62,9 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.56)
+## Relais (fin de 0.60.57)
+
+- install.ps1 réparé (D-O-066) ; test d'analyse simple dans `tests/test_windows_install.py` (pas de pwsh pour les tests).
 
 - Page d'installation à deux lieux (D-O-065) : `tools/site/installation.html`, `en/installation.html`, `install.js` (DESTS).
 

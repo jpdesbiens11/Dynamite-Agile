@@ -1,0 +1,26 @@
+{
+  "version": "0.60.57",
+  "date": "2026-11-06",
+  "summary": {
+    "fr": "Installation Windows : install.ps1 s'arrêtait avant de commencer (« Parenthèse fermante manquante ») parce que cinq messages bilingues étaient coupés sur deux lignes sans caractère de continuation. Corrigé, avec un test qui empêche le retour du problème.",
+    "en": "Windows installation: install.ps1 stopped before starting (« Missing closing ')' ») because five bilingual messages were split over two lines without a continuation character. Fixed, with a test that keeps it from coming back."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "install.ps1 : continuation des lignes (D-O-066)",
+      "why": "Dans ( … ), une fin de ligne termine la commande PowerShell : les cinq appels Fail (T \"fr\" / \"en\") coupés reçoivent un accent grave en fin de ligne.",
+      "files": [
+        "deploy/install.ps1"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Test",
+      "why": "Aucune commande coupée entre parenthèses sans continuation.",
+      "files": [
+        "tests/test_windows_install.py"
+      ]
+    }
+  ]
+}

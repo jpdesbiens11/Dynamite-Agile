@@ -1,11 +1,19 @@
-# Journal de mise à jour — 0.60.56
+# Journal de mise à jour — 0.60.57
+
+- **Version :** 0.60.56 → 0.60.57 (2026-11-06)
+- **Changements :**
+  1. **Installation Windows réparée** (D-O-066) : install.ps1 ne s'arrête plus sur « Parenthèse fermante manquante ».
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.56
 
 - **Version :** 0.60.55 → 0.60.56 (2026-11-06)
 - **Changements :**
   1. **Page d'installation sans serveur Linux local** (D-O-065) : serveur en ligne ou PC Windows de l'équipe.
 - **Base de données :** ['Aucun changement de schéma.']
 
-## Précédent
 
 ### Journal de mise à jour — 0.60.55
 

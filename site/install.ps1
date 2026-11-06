@@ -63,7 +63,7 @@ function Winget-Install([string]$id, [string]$label) {
 # ---------- 0. administrator, Windows, winget ----------
 $principal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 if (-not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Fail (T "PowerShell n'est pas ouvert en administrateur. Correctif : Win + X → « Terminal (admin) », puis relancez la commande."
+    Fail (T "PowerShell n'est pas ouvert en administrateur. Correctif : Win + X → « Terminal (admin) », puis relancez la commande." `
             "PowerShell is not running as administrator. Fix: Win + X → « Terminal (Admin) », then run the command again.")
 }
 
@@ -79,12 +79,12 @@ if ($Desinstaller) {
 Say ("1/7 " + (T "Vérifications" "Checks"))
 if ([Environment]::OSVersion.Version.Major -lt 10) { Fail (T "Windows 10, 11 ou Server 2019 et plus est requis." "Windows 10, 11 or Server 2019 and later is required.") }
 if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
-    Fail (T "winget est introuvable. Correctif : installez « App Installer » depuis le Microsoft Store (ou installez Python 3.12 et Git pour Windows à la main), puis relancez."
+    Fail (T "winget est introuvable. Correctif : installez « App Installer » depuis le Microsoft Store (ou installez Python 3.12 et Git pour Windows à la main), puis relancez." `
             "winget not found. Fix: install « App Installer » from the Microsoft Store (or install Python 3.12 and Git for Windows by hand), then run again.")
 }
 $owner = Port-Owner $Port
 if ($owner -and $owner -notlike "python*") {
-    Fail (T "le port $Port est déjà pris par « $owner ». Correctif : arrêtez ce programme, ou relancez avec -Port 8443."
+    Fail (T "le port $Port est déjà pris par « $owner ». Correctif : arrêtez ce programme, ou relancez avec -Port 8443." `
             "port $Port is already used by « $owner ». Fix: stop that program, or run again with -Port 8443.")
 }
 Write-Host ("  " + (T "Administrateur, Windows et winget : OK." "Administrator, Windows and winget: OK."))
@@ -116,7 +116,7 @@ if (Test-Path (Join-Path $Dossier ".git")) {
     if ($LASTEXITCODE -eq 0) { git -C $Dossier reset --hard "@{u}" | Out-Host }
     if ($LASTEXITCODE -ne 0) { Fail (T "la mise à jour du code a échoué. Correctif : vérifiez la connexion Internet de ce PC, puis relancez." "updating the code failed. Fix: check the Internet connection of this PC, then run again.") }
 } elseif ((Test-Path $Dossier) -and (Get-ChildItem $Dossier -Force | Where-Object { $_.Name -ne "data" })) {
-    Fail ((T "le dossier $Dossier existe déjà et n'est pas un clone de Dynamite | Agile. Correctif : choisissez un autre dossier avec -Dossier D:\DynamiteAgile."
+    Fail ((T "le dossier $Dossier existe déjà et n'est pas un clone de Dynamite | Agile. Correctif : choisissez un autre dossier avec -Dossier D:\DynamiteAgile." `
              "the folder $Dossier already exists and is not a clone of Dynamite | Agile. Fix: choose another folder with -Dossier D:\DynamiteAgile."))
 } else {
     # A folder holding only data\ (an earlier attempt): set it aside, clone, put it back.
@@ -147,7 +147,7 @@ Say "5/7 Configuration (data\config.json)"
 $Redirect = if ($Port -eq 443) { 80 } else { 0 }
 $owner80 = if ($Redirect) { Port-Owner 80 } else { "" }
 if ($owner80 -and $owner80 -notlike "python*") {
-    Write-Host ("  " + (T "Le port 80 est pris par « $owner80 » : pas de redirection http:// → https://, ouvrez directement https://."
+    Write-Host ("  " + (T "Le port 80 est pris par « $owner80 » : pas de redirection http:// → https://, ouvrez directement https://." `
                          "Port 80 is used by « $owner80 »: no http:// → https:// redirect, open https:// directly.")) -ForegroundColor Yellow
     $Redirect = 0
 }
