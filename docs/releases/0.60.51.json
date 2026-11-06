@@ -1,0 +1,54 @@
+{
+  "version": "0.60.51",
+  "date": "2026-11-06",
+  "summary": {
+    "fr": "Diamond s'ouvre sur la Storyline : l'usage du produit raconté scène par scène, avant l'arbre fonctionnel. On place des pictogrammes (personnes, lieux, objets, environnement, idées et ressentis) sur chaque scène, on les glisse, on leur donne une étiquette, on écrit ce qui se passe et ses idées en vrac. Un exercice de divergence en équipe, sans lien imposé avec les fonctions ; l'assistant IA s'en servira pour proposer l'arbre (prochaine version).",
+    "en": "Diamond now opens on the Storyline: the use of the product told scene by scene, before the functional tree. Place pictograms (people, places, objects, surroundings, ideas and feelings) on each scene, drag them, label them, write what happens and loose ideas. A divergent team exercise with no forced link to the functions; the AI assistant will use it to propose the tree (next version)."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Pictogrammes (D-O-060)",
+      "why": "39 pictogrammes générés par tools/story_pictos.py, sprites story.svg et story-term.svg (mêmes clés, sans texte).",
+      "files": [
+        "tools/story_pictos.py",
+        "tools/make_sketch_assets.py",
+        "static/img/story.svg",
+        "static/img/story-term.svg"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Storyline côté serveur (D-O-060)",
+      "why": "Table diamond_story_scenes (migration diamond 8), scènes ordonnées, pictogrammes en JSON vérifiés, journal ; copie de Space.",
+      "files": [
+        "modules/diamond/story.py",
+        "modules/diamond/__init__.py",
+        "core/spacecopy.py"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Écran Storyline (D-O-060)",
+      "why": "#/diamond/KEY/story avant l'arbre : tableau des scènes, scène 16:9, glisser, étiquette, taille, miroir, palette ; Thème par défaut et Terminal.",
+      "files": [
+        "static/js/diamond/story.js",
+        "static/js/diamond/story_stage.js",
+        "static/js/diamond/story_pictos.js",
+        "static/js/diamond/diamond.js",
+        "static/css/diamond.css",
+        "core/modules.py"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Documentation et tests",
+      "why": "Storyline dans la documentation de Diamond (références NN/g, IxDF) ; tests/test_story.py.",
+      "files": [
+        "modules/help/module_docs_more.py",
+        "modules/help/module_docs_refs.py",
+        "tests/test_story.py"
+      ]
+    }
+  ]
+}

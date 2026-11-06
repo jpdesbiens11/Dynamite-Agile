@@ -34,7 +34,7 @@ class ModuleDocsDataTest(unittest.TestCase):
             for rid in m["refs"] + [r for p in m["parts"] for r in p["refs"]]:
                 self.assertIn(rid, REFS, (m["key"], rid))
         self.assertEqual([p["name"] for p in MODULES[-1]["parts"]],
-                         ["Arbre fonctionnel", "Structure fonctionnelle", "Risques projet", "DFMEA", "Golden Nuggets"])
+                         ["Storyline", "Arbre fonctionnel", "Structure fonctionnelle", "Risques projet", "DFMEA", "Golden Nuggets"])
 
     def test_02_references_are_clean(self):
         for rid, (name, source, year, url, lang, access, why) in REFS.items():

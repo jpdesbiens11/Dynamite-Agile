@@ -12,7 +12,8 @@ Parts and their tables:
   goldmine     requirements and needs (requirement tickets), agile_requirements, Q&A, Pugh matrices
   testing      the Test Base (testing_tests + history) of a Space, or the reference catalogue (copied lazily, D-B-097)
   exploration  the plan (Gantt)
-  diamond      the functional tree, structure (inputs, outputs, flows, positions), parts, project risks, DFMEA (0.60.21)
+  diamond      the functional tree, structure (inputs, outputs, flows, positions), parts, project risks, DFMEA (0.60.21),
+               the Storyline (0.60.51)
   tools        ideation sessions and Kepner-Tregoe (not Generator: its numbers are unique on the whole platform)
   members      the members of a Space and their rights
 When Agile and Goldmine come from two Spaces, Agile's settings are kept and the requirements are matched to them by
@@ -47,7 +48,7 @@ def _cat(conn):
     row = conn.execute("SELECT key FROM projects WHERE id = ?", (pid,)).fetchone() if pid else None
     return row["key"] if row else CATALOGUE
 DIAMOND = ("diamond_functions", "diamond_ports", "diamond_flows", "diamond_positions", "diamond_parts", "diamond_part_functions",
-           "diamond_risks", "diamond_dfmea")
+           "diamond_risks", "diamond_dfmea", "diamond_story_scenes")
 
 
 def _tables_of(part, infra):

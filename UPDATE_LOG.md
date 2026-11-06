@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.50
+# Journal de mise à jour — 0.60.51
+
+- **Version :** 0.60.50 → 0.60.51 (2026-11-06)
+- **Changements :**
+  1. **Storyline** (D-O-060) : Diamond → Storyline, l'usage du produit scène par scène avec 39 pictogrammes, avant l'arbre.
+- **Base de données :** ['Migration diamond 8 : table `diamond_story_scenes` (additive).']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.50
 
 - **Version :** 0.60.49 → 0.60.50 (2026-11-05)
 - **Changements :**
   1. **Exporter l'arbre et la structure** (D-O-059) : bouton « Exporter ▾ » sur chaque écran (draw.io, PowerPoint, Excel) ; PowerPoint à formes natives.
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.49
 

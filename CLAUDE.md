@@ -108,6 +108,8 @@
   « Cacher pour tous » (`/api/admin/demo`) ; HEADLAMP renommé DEMO au démarrage.
 - **0.60.50** (2026-11-05) : **exporter l'arbre et la structure** (D-O-059, `modules/diamond/export_pptx.py`, `pptx_book.py`, `static/js/diamond/export_menu.js`) :
   « Exporter ▾ » sur chaque écran (draw.io, PowerPoint à formes natives, Excel) ; `?only=tree | structure`.
+- **0.60.51** (2026-11-06) : **Storyline** (D-O-060, `modules/diamond/story.py`, `static/js/diamond/story*.js`, `tools/story_pictos.py`) : l'usage du produit
+  scène par scène avec 39 pictogrammes, avant l'arbre ; migration diamond 8. Suit : « Copier pour l'IA » (0.60.52).
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,
