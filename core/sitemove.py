@@ -27,7 +27,8 @@ CODE = "code/"
 
 
 def _empty(conn):
-    users = conn.execute("SELECT COUNT(*) FROM users").fetchone()[0]
+    # 0.60.54 (D-O-063): the inactive example accounts of DEMO (demo.nina…) come with every installation
+    users = conn.execute("SELECT COUNT(*) FROM users WHERE NOT (username LIKE 'demo.%' AND is_active = 0)").fetchone()[0]
     if users > 1:
         raise ApiError(409, "Ce site n'est pas vide ({} comptes) : « Site complet » ne s'importe que dans une nouvelle installation, "
                             "pour ne jamais écraser un site en service. Correctif : installez la plateforme sur le nouveau serveur, "

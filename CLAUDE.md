@@ -114,6 +114,8 @@
   de l'IA » (arbre vide) ; `diamond.story` au format Project Starter ; Storyline du Rover ; Storytelling retiré de Tools.
 - **0.60.53** (2026-11-06) : **import Compléter / Tout remplacer** (D-O-062, `modules/diamond/import_merge.py`) : une partie manquante à la fois
   (accrochée à l'arbre existant) ou, pour un admin du Space, sauvegarde complète puis Diamond refait à partir du fichier.
+- **0.60.54** (2026-11-06) : **le Rover, projet vivant** (D-O-063, `modules/help/demo_life*.py`) : dans DEMO, à la semaine 15 sur 15, équipe en comptes
+  inactifs `demo.nina` … (personne ne s'y connecte), sprints, tickets, Change Management, Q&R, Test Plans, plan du PDP, heures, responsables.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,
