@@ -1,0 +1,31 @@
+{
+  "version": "0.60.59",
+  "date": "2026-11-06",
+  "summary": {
+    "fr": "Installation Windows, étape 5 : on dit où mettre le certificat (le dossier Documents du poste) et comment ouvrir le terminal ; la commande trouve le fichier dans Documents depuis n'importe quel dossier, même sous OneDrive. Le PC de l'équipe lui-même n'a rien à faire.",
+    "en": "Windows installation, step 5: where to put the certificate (the computer's Documents folder) and how to open the terminal; the command finds the file in Documents from any folder, even under OneDrive. The team's PC itself has nothing to do."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Certificat depuis Documents (D-O-068)",
+      "why": "Demande d'un utilisateur : préciser où coller le fichier et d'où lancer le terminal.",
+      "files": [
+        "tools/site/installation.html",
+        "tools/site/en/installation.html",
+        "tools/site/site.css",
+        "tools/site/installer.md",
+        "tools/site/en/installer.md",
+        "deploy/install.ps1"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Test",
+      "why": "Commande avec Documents dans les pages et dans install.ps1.",
+      "files": [
+        "tests/test_windows_install.py"
+      ]
+    }
+  ]
+}

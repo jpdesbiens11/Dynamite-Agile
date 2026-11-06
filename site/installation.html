@@ -459,6 +459,10 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .pc-first h2 { margin: 0 0 .3rem; font-size: 1.25rem; }
 .pc-first p { margin: 0 0 .7rem; }
 
+/* 0.60.59: numbered sub-steps inside a step of the installation page (where to put the certificate, then the terminal) */
+.wiz-step ol.sub-steps { margin: .4rem 0 .6rem 1.2rem; padding: 0; display: grid; gap: .3rem; }
+.wiz-step ol.sub-steps li { padding-left: .2rem; }
+
 </style>
 </head>
 <body data-site="https://jpdesbiens11.github.io/Dynamite-Agile">
@@ -501,7 +505,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   <h1>Installer DynamiteAgile</h1>
   <p class="lead">Cinq étapes, de haut en bas. Chaque commande se copie d'un clic, et une étiquette dit <b>où</b> la coller :
     <span class="where pc">sur votre ordinateur</span> ou <span class="where srv">sur le serveur</span>.</p>
-  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Dernière version : 0.60.58</b> · 2026-11-06 — Installation Windows : winget installe Python et Git depuis sa propre source (--source winget). La source du Microsoft Store, injoignable sur bien des réseaux d&#x27;école ou de bureau, faisait échouer l&#x27;installation de Git. Git est aussi retrouvé dans son dossier d&#x27;installation si le PATH de PowerShell ne le voit pas encore. <a href="versions.html">Voir toutes les versions →</a><br>Déjà installé ? ⚙ Admin → Update → « Mise à jour en ligne » : vérifier, lire, approuver, suivre en direct.</p>
+  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Dernière version : 0.60.59</b> · 2026-11-06 — Installation Windows, étape 5 : on dit où mettre le certificat (le dossier Documents du poste) et comment ouvrir le terminal ; la commande trouve le fichier dans Documents depuis n&#x27;importe quel dossier, même sous OneDrive. Le PC de l&#x27;équipe lui-même n&#x27;a rien à faire. <a href="versions.html">Voir toutes les versions →</a><br>Déjà installé ? ⚙ Admin → Update → « Mise à jour en ligne » : vérifier, lire, approuver, suivre en direct.</p>
 
   <section class="pc-pick pc-first" data-new="0.60.49-from-where" aria-labelledby="from-where">
     <h2 id="from-where">Avant de commencer : d'où faites-vous l'installation ?</h2>
@@ -656,11 +660,19 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     </li>
     <li class="wiz-step" data-step="win-trust" data-dest="windows" hidden>
       <h2><span class="n">5</span> Ouvrez l'outil sur chaque poste</h2>
-      <p>Copiez <code>C:\DynamiteAgile\data\tls\partage\ca-dynamite.crt</code> sur chaque poste (clé USB, dossier partagé), puis,
-        dans le dossier du fichier, faites-lui confiance :</p>
-      <pre class="cmd" data-where="pc" data-pc="win"><code>Import-Certificate -FilePath .\ca-dynamite.crt -CertStoreLocation Cert:\CurrentUser\Root</code></pre>
-      <pre class="cmd" data-where="pc" data-pc="mac"><code>sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ca-dynamite.crt</code></pre>
-      <pre class="cmd" data-where="pc" data-pc="linux"><code>sudo cp ca-dynamite.crt /usr/local/share/ca-certificates/ &amp;&amp; sudo update-ca-certificates</code></pre>
+      <p>Une fois sur chaque autre poste de l'équipe (le PC de l'équipe fait déjà confiance : l'installation s'en est chargée) :</p>
+      <ol class="sub-steps" data-new="0.60.59-cert">
+        <li>Copiez le fichier <code>C:\DynamiteAgile\data\tls\partage\ca-dynamite.crt</code> du PC de l'équipe (clé USB, dossier
+          partagé) dans le dossier <b>Documents</b> du poste (« Mes documents »).</li>
+        <li>Ouvrez un terminal sur ce poste (<span data-pc-text="open"></span>). Inutile de vous déplacer dans un dossier : la
+          commande va chercher le fichier dans Documents.</li>
+        <li>Collez cette commande, puis Entrée :</li>
+      </ol>
+      <pre class="cmd" data-where="pc" data-pc="win"><code>Import-Certificate -FilePath (Join-Path ([Environment]::GetFolderPath("MyDocuments")) "ca-dynamite.crt") -CertStoreLocation Cert:\CurrentUser\Root</code></pre>
+      <pre class="cmd" data-where="pc" data-pc="mac"><code>sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ~/Documents/ca-dynamite.crt</code></pre>
+      <pre class="cmd" data-where="pc" data-pc="linux"><code>sudo cp ~/Documents/ca-dynamite.crt /usr/local/share/ca-certificates/ &amp;&amp; sudo update-ca-certificates</code></pre>
+      <p class="muted">Sur Windows, la commande trouve Documents même s'il est synchronisé avec OneDrive. Firefox a ses propres
+        certificats : Paramètres → Certificats → Autorités → Importer, puis choisissez le fichier dans Documents.</p>
       <p class="expect">Ouvrez <code>https://nom-du-pc</code>, compte <code>admin</code> et le mot de passe temporaire, puis
         <b>⚙ Admin → Spaces → Commencer</b>.</p>
       <label class="done"><input type="checkbox"> C'est installé</label>
@@ -738,7 +750,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       <code>python C:\DynamiteAgile\app_dynamite_agile.py --reset-password admin</code></td></tr>
     <tr><td>Passer de l'essai à l'équipe</td><td>Refaites le parcours « Sur un serveur en ligne » : la même commande avec votre domaine</td></tr></table>
 </main>
-<footer>DynamiteAgile · logiciel libre sous licence MIT · version 0.60.58 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>DynamiteAgile · logiciel libre sous licence MIT · version 0.60.59 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */

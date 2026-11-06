@@ -74,6 +74,15 @@ class InstallScriptTest(unittest.TestCase):
         self.assertTrue(all("--source winget" in line for line in calls), calls)
         self.assertIn("Find-Git", text)
 
+    def test_01d_certificate_from_documents(self):
+        """0.60.59 (D-O-068): the certificate goes in Documents; the command finds it from any folder (OneDrive included)."""
+        self.assertIn('GetFolderPath("MyDocuments")', PS1.read_text("utf-8-sig"))
+        for rel in ("tools/site/installation.html", "tools/site/en/installation.html"):
+            html = (BASE_DIR / rel).read_text("utf-8")
+            self.assertIn('GetFolderPath("MyDocuments")', html, rel)
+            self.assertIn("~/Documents/ca-dynamite.crt", html, rel)
+            self.assertNotIn("-FilePath .\\ca-dynamite.crt", html, rel)
+
     def test_02_every_message_in_both_languages(self):
         """Each T "fr" "en" call carries two strings (D-O-017)."""
         import re

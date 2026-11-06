@@ -173,11 +173,19 @@
     </li>
     <li class="wiz-step" data-step="win-trust" data-dest="windows" hidden>
       <h2><span class="n">5</span> Ouvrez l'outil sur chaque poste</h2>
-      <p>Copiez <code>C:\DynamiteAgile\data\tls\partage\ca-dynamite.crt</code> sur chaque poste (clé USB, dossier partagé), puis,
-        dans le dossier du fichier, faites-lui confiance :</p>
-      <pre class="cmd" data-where="pc" data-pc="win"><code>Import-Certificate -FilePath .\ca-dynamite.crt -CertStoreLocation Cert:\CurrentUser\Root</code></pre>
-      <pre class="cmd" data-where="pc" data-pc="mac"><code>sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ca-dynamite.crt</code></pre>
-      <pre class="cmd" data-where="pc" data-pc="linux"><code>sudo cp ca-dynamite.crt /usr/local/share/ca-certificates/ &amp;&amp; sudo update-ca-certificates</code></pre>
+      <p>Une fois sur chaque autre poste de l'équipe (le PC de l'équipe fait déjà confiance : l'installation s'en est chargée) :</p>
+      <ol class="sub-steps" data-new="0.60.59-cert">
+        <li>Copiez le fichier <code>C:\DynamiteAgile\data\tls\partage\ca-dynamite.crt</code> du PC de l'équipe (clé USB, dossier
+          partagé) dans le dossier <b>Documents</b> du poste (« Mes documents »).</li>
+        <li>Ouvrez un terminal sur ce poste (<span data-pc-text="open"></span>). Inutile de vous déplacer dans un dossier : la
+          commande va chercher le fichier dans Documents.</li>
+        <li>Collez cette commande, puis Entrée :</li>
+      </ol>
+      <pre class="cmd" data-where="pc" data-pc="win"><code>Import-Certificate -FilePath (Join-Path ([Environment]::GetFolderPath("MyDocuments")) "ca-dynamite.crt") -CertStoreLocation Cert:\CurrentUser\Root</code></pre>
+      <pre class="cmd" data-where="pc" data-pc="mac"><code>sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ~/Documents/ca-dynamite.crt</code></pre>
+      <pre class="cmd" data-where="pc" data-pc="linux"><code>sudo cp ~/Documents/ca-dynamite.crt /usr/local/share/ca-certificates/ &amp;&amp; sudo update-ca-certificates</code></pre>
+      <p class="muted">Sur Windows, la commande trouve Documents même s'il est synchronisé avec OneDrive. Firefox a ses propres
+        certificats : Paramètres → Certificats → Autorités → Importer, puis choisissez le fichier dans Documents.</p>
       <p class="expect">Ouvrez <code>https://nom-du-pc</code>, compte <code>admin</code> et le mot de passe temporaire, puis
         <b>⚙ Admin → Spaces → Commencer</b>.</p>
       <label class="done"><input type="checkbox"> C'est installé</label>

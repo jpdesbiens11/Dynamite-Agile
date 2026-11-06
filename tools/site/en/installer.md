@@ -91,8 +91,9 @@ the school or office network. The terminal is **PowerShell as administrator** (t
    password of the `admin` account. Options: `-Port 8443` when 443 is used, `-Dossier D:\DynamiteAgile`, `-Desinstaller`.
    Running it again updates without touching the data.
 4. **Trust the certificate**, on each computer (once): copy `C:\DynamiteAgile\data\tls\partage\ca-dynamite.crt`, then in
-   PowerShell (no administrator), in the folder of the file:
-   `Import-Certificate -FilePath .\ca-dynamite.crt -CertStoreLocation Cert:\CurrentUser\Root` (answer Yes). macOS:
+   into the computer's **Documents** folder (0.60.59), then open PowerShell (no administrator), from any folder:
+   `Import-Certificate -FilePath (Join-Path ([Environment]::GetFolderPath("MyDocuments")) "ca-dynamite.crt") -CertStoreLocation Cert:\CurrentUser\Root`
+   (answer Yes; Documents is found even under OneDrive). The team's PC itself is already done by the installation. macOS:
    double-click → Keychain → *Always Trust*. Never have the person bypass the browser's warning.
 5. **Open** `https://pc-name` (or the IP), account `admin`, password shown; then ⚙ Admin → Spaces → Commencer.
 
