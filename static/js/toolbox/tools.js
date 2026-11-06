@@ -3,7 +3,7 @@
                                 « La méthode » and « FAQ » (wiki pages of the TOOLS space)
    #/tools/generator          -> Generator: document references (#/codex/KEY, its own screen)
    #/tools/KEY/<tool>[/id]    -> a Design tool for a Space, in the Agile shell (Space picker, sidebar):
-                                ideation (brainstorming, brainwriting, storytelling, mind map), pugh, kt. */
+                                ideation (brainstorming, brainwriting, mind map), pugh, kt. */
 (function () {
   "use strict";
 

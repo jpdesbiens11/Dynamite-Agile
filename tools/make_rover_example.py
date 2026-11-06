@@ -13,7 +13,7 @@ from pathlib import Path
 BASE = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(BASE))
 
-from tools.rover import agile, base, diamond, dfmea_more, methods, pages_ab, pages_cd  # noqa: E402
+from tools.rover import agile, base, diamond, dfmea_more, methods, pages_ab, pages_cd, story  # noqa: E402
 
 TARGET = BASE / "deploy" / "spaces_exemples" / "rover.json"
 
@@ -26,7 +26,7 @@ def build():
         "project": base.PROJECT, "team": base.TEAM, "requirements": base.NEEDS + base.REQUIREMENTS, "tests": base.TESTS,
         "pages": pages_ab.PAGES_AB + pages_cd.PAGES_CD,
         "diamond": {"functions": diamond.FUNCTIONS, "ports": diamond.PORTS, "flows": diamond.FLOWS, "parts": diamond.PARTS,
-                    "risks": diamond.RISKS, "dfmea": diamond.DFMEA + dfmea_more.MORE},
+                    "risks": diamond.RISKS, "dfmea": diamond.DFMEA + dfmea_more.MORE, "story": story.STORY},
         "backlog": agile.BACKLOG, "deliverables": agile.DELIVERABLES, "tools": methods.TOOLS,
     }
 

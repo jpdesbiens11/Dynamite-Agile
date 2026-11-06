@@ -11,12 +11,13 @@ Sub-modules, one per iteration:
            functions and what it says about the architecture (integrated parts, functions shared by several parts).
   0.60.16  Golden Nuggets (static/js/diamond/nuggets*.js): first-principles thinking and design rules, with examples.
   0.60.51  Storyline (story.py): the use of the product told scene by scene with pictograms, before the tree.
+  0.60.52  Storyline → IA (story_ai.py): the prompt built from the scenes, and the AI's answer imported into the Space.
 Every table is tied to projects(id) (backup, restore, copy by the core); every write is journalled.
 """
 from .search import search  # noqa: F401  (core search hook, 0.60.36)
 from .bot import bot_summary  # noqa: F401  (Bob le mineur, core/bot.py, 0.60.36)
 from .actions import dashboard  # noqa: F401  (core dashboard hook, 0.60.38)
-from . import actions, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, structure
+from . import actions, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
 
 SCHEMA = ""
 
@@ -209,6 +210,8 @@ ROUTES = [
     ("POST", SC + r"/move", story.api_move, "user"),
     ("POST", SC + r"/duplicate", story.api_duplicate, "user"),
     ("POST", SC + r"/delete", story.api_delete, "user"),
+    ("GET", P + r"/story/prompt", story_ai.api_prompt, "user"),  # 0.60.52 (D-O-061): « Copier pour l'IA »
+    ("POST", P + r"/import", story_ai.api_import, "user"),  # 0.60.52: the AI's answer applied to this Space
     ("GET", P + r"/functions", functions.api_list, "user"),
     ("POST", P + r"/functions", functions.api_create, "user"),
     ("PATCH", FN, functions.api_update, "user"),

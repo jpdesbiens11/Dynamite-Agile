@@ -21,8 +21,8 @@
       A.canEdit(ctx) ? el("button", { type: "button", class: "btn btn-primary", onclick: () => openCreate(ctx, data.methods) },
         "Nouvelle séance") : null));
     page.append(el("p", { class: "muted tl-intro" }, "Phase divergente : beaucoup d'idées, sans juger. Brainstorming, brainwriting "
-      + "6-3-5 (paires tournantes, en direct), storytelling, mind map. Les meilleures idées (★) partent ensuite vers une "
-      + "Pugh matrix."));
+      + "6-3-5 (paires tournantes, en direct), mind map. Les meilleures idées (★) partent ensuite vers une "
+      + "Pugh matrix. Pour raconter l'usage du produit scène par scène : Diamond → Storyline."));
     if (preset && A.canEdit(ctx)) openCreate(ctx, data.methods, preset);  // from a card of Tools · Design (#/tools/KEY/ideation/new-<method>)
     if (!data.sessions.length) { page.append(el("div", { class: "empty" }, el("p", null, "Aucune séance dans ce Space."))); return; }
     page.append(DA.table(["Séance", "Method", "Idées", "Status", "Modifiée"], data.sessions.map((s) => el("tr", null,

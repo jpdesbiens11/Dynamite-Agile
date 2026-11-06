@@ -58,6 +58,13 @@ ligne du DFMEA peut nommer `owner` (le `username` d'une personne de `team`, qui 
 celles des écrans de Diamond (`core/starter_diamond.py` les lit dans `modules/diamond/`). L'exemple
 `deploy/starter_exemples/lampe_bureau.json` reprend l'exemple de Diamond (`tools/make_starter_diamond_example.py`).
 
+`diamond.story` (0.60.52, D-O-061) porte la **Storyline**, scène par scène : `title`, `caption` (ce qui se passe), `notes`
+(idées, irritants, questions) et `items`, les pictogrammes de la scène : `p` (une clé de `modules/diamond/story.PICTOS`),
+`x` et `y` (position en % de la scène, de 0 à 100), `s` (taille 1 à 3), `f` (miroir 0 ou 1), `t` (étiquette, 40
+caractères). 40 scènes et 30 pictogrammes par scène au plus. Elle peut venir seule, sans fonction. Dans Diamond →
+Storyline, « Copier pour l'IA » donne le prompt qui demande à un assistant IA l'arbre et le reste de Diamond à partir
+des scènes ; « Importer la réponse de l'IA » applique le fichier rendu à un Space dont l'arbre est vide.
+
 Le Space reçoit aussi un **plan de référence** dans Exploration (`modules/exploration/reference.py`) : les 19 étapes du
 PDP (mêmes codes que Timesheet), les revues Lean Canvas, Concept Review, PDR, CDR et Validation Report en jalons, les
 quatre phases sur `project.weeks` (20 / 25 / 30 / 25 %), et des étapes en parallèle selon la taille de l'équipe (1 piste

@@ -14,6 +14,7 @@ from .headlamp import KEY, project_id
 
 FILE = Path(__file__).resolve().parent.parent.parent / "deploy" / "spaces_exemples" / "rover.json"
 DONE = "demo_example_loaded"
+STORY_DONE = "demo_story_loaded"  # 0.60.52 (D-O-061): the Rover's Storyline, also for a DEMO loaded before it existed
 AI_NOTE = set(starter.AI_DRAFT_NOTE.values())
 
 
@@ -61,7 +62,27 @@ def ensure(ctx):
     counts = {"requirements": len(req_keys), "tests": len(test_ids), "pages": len(pages), "plan_tasks": plan,
               **{"diamond_" + k: n for k, n in made.items()}, **more}
     audit.log_action(ctx.conn, ctx.user["id"], DONE, "project", pid, counts, None)
+    audit.log_action(ctx.conn, ctx.user["id"], STORY_DONE, "project", pid, {"scenes": made.get("story", 0)}, None)
     return counts
+
+
+def ensure_story(ctx):
+    """The Rover's Storyline in a DEMO loaded before 0.60.52: added once, only if DEMO has no scene. Returns the count or None."""
+    pid = project_id(ctx.conn)
+    if pid is None or not FILE.exists():
+        return None
+    logged = lambda action: ctx.conn.execute("SELECT 1 FROM audit_log WHERE action = ? AND object_id = ?", (action, str(pid))).fetchone()  # noqa: E731
+    if not logged(DONE) or logged(STORY_DONE):
+        return None
+    from core import starter_diamond
+    from modules.diamond import story
+    scenes = starter_diamond.parse({"diamond": {"story": json.loads(FILE.read_text("utf-8"))["diamond"].get("story", [])}})["story"]
+    if story.rows(ctx.conn, pid):
+        scenes = []
+    for scene in scenes:
+        story.create(ctx.conn, ctx.user["id"], pid, scene)
+    audit.log_action(ctx.conn, ctx.user["id"], STORY_DONE, "project", pid, {"scenes": len(scenes)}, None)
+    return len(scenes)
 
 
 def _pages_beside(ctx, pid, clean):

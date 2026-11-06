@@ -30,7 +30,8 @@ METHODS = {
     "scamper": ("SCAMPER", []), "crazy8s": ("Crazy 8s", []), "hmw": ("Comment pourrions-nous…", []),
     "empathy": ("Carte d'empathie", []), "morphological": ("Analyse morphologique", []),
 }
-CREATABLE = ("brainstorming", "brainwriting", "storytelling", "mindmap")
+# 0.60.52 (D-O-061): storytelling left the catalogue -- the use of the product is told in Diamond → Storyline
+CREATABLE = ("brainstorming", "brainwriting", "mindmap")
 LEVELS = {"": "—", "low": "Faible", "medium": "Moyen", "high": "Fort"}  # impact / feasibility (review)
 
 

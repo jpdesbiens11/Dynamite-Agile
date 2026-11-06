@@ -9,7 +9,11 @@ the functions, the project risks and the first DFMEA rows.
                 "risks": [{title, cause, consequence, category, phase, probability, impact, response, action, function,
                            owner, due}],
                 "dfmea": [{higher, focus, lower, function, requirement, failure_mode, effect, severity, cause, prevention,
-                           occurrence, detection_ctrl, detection, action, owner, due}]}
+                           occurrence, detection_ctrl, detection, action, owner, due}],
+                "story": [{title, caption, notes, items: [{p, x, y, s, f, t}]}]}
+story (0.60.52, D-O-061): the Storyline, scene by scene; p = a pictogram key of modules/diamond/story.PICTOS, x / y in % of
+the scene, s = size 1 to 3, f = mirror 0 / 1, t = a short label. It may come without any function (a team that only told
+the story so far).
 owner (0.60.38, D-O-047): the username of a person of the "team" list who carries the action; due: AAAA-MM-JJ.
 
 The first function without a parent is the primary function; its descendants are the tree (secondary, tertiary,
@@ -20,7 +24,7 @@ output. Every item arrives as an AI draft (« Brouillon IA » in its notes). par
 """
 from .errors import ApiError
 
-LIMITS = {"functions": 120, "ports": 40, "flows": 200, "parts": 80, "risks": 60, "dfmea": 120}
+LIMITS = {"functions": 120, "ports": 40, "flows": 200, "parts": 80, "risks": 60, "dfmea": 120, "story": 40}
 NOTE = {"fr": "Brouillon IA (Project Starter) : à relire par l'équipe.", "en": "AI draft (Project Starter): to be reviewed by the team."}
 
 
@@ -230,7 +234,23 @@ def parse(raw, language="fr", test_refs=(), usernames=()):
         row.update(_owner(d, path, usernames))
         dfmea.append(row)
     return {"functions": functions, "ports": ports, "flows": flows, "parts": parts, "risks": risks, "dfmea": dfmea,
-            "note": NOTE[language]}
+            "story": _story(raw), "note": NOTE[language]}
+
+
+def _story(raw):
+    from modules.diamond import story
+    out = []
+    for i, scene in enumerate(_list(raw, "story")):
+        path = "story[{}]".format(i)
+        try:
+            items = story.clean_items(scene.get("items") or [])
+        except ApiError as err:
+            _bad(path + ".items", err.message.split(" Correctif")[0], "des clés de pictogrammes de la liste, x et y de 0 à 100, "
+                 "30 pictogrammes au plus par scène.")
+        out.append({"title": _text(scene, "title", path, story.LIMITS["title"]) or "Scène {}".format(i + 1),
+                    "caption": _text(scene, "caption", path, story.LIMITS["caption"]),
+                    "notes": _text(scene, "notes", path, story.LIMITS["notes"]), "items": items})
+    return out
 
 
 def counts(clean):
@@ -271,6 +291,9 @@ def apply(conn, user_id, pid, d, test_ids=None):
         fields["function_id"] = ids.get(row["function"])
         fields["test_id"] = (test_ids or {}).get(row.get("test"))
         dfmea.insert(conn, user_id, pid, fields)
+    from modules.diamond import story as ST  # 0.60.52 (D-O-061): the Storyline
+    for scene in d.get("story") or []:
+        ST.create(conn, user_id, pid, scene)
     from modules.diamond import dfmea_complete  # 0.60.28 (D-O-037): every function, its key test, the good practices
     done = dfmea_complete.complete(conn, user_id, pid)
     return dict({k: len(d[k]) for k in LIMITS}, dfmea=len(d["dfmea"]) + done["added"], dfmea_tests=done["tested"])
