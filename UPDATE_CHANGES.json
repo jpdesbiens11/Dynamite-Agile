@@ -2,33 +2,34 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Schémas Mermaid dans les exports (D-O-071)",
-      "why": "Le navigateur demande les sources Mermaid de la page (et des sous-pages), les dessine en PNG sur fond blanc (thème clair, quel que soit l'écran) et les envoie avec l'export (POST) ; le serveur met l'image à la place du code et garde le code dessous, en petit. Le lien GET reste inchangé.",
+      "title": "Compte invité, lecture seule (D-O-072)",
+      "why": "Compte `invite` lecteur des seuls Spaces choisis ; session sans mot de passe (8 h au plus), 30 visites par heure et par IP ; le routeur refuse toute écriture d'un invité sauf la déconnexion et l'export d'une page ; fermer l'accès termine les sessions invité.",
       "files": [
-        "static/js/dynamite/mermaid_png.js",
-        "static/js/dynamite/page_tools.js",
-        "static/js/api.js",
-        "modules/dynamite/export_mermaid.py",
-        "modules/dynamite/export.py",
-        "modules/dynamite/__init__.py",
-        "core/modules.py"
+        "core/guest.py",
+        "core/router.py",
+        "core/session_api.py",
+        "core/auth.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Rédacteurs PDF et Word",
-      "why": "Image dessinée en 2x, affichée à sa taille ; code en petit et en gris ; dans le PDF, la bande grise d'une ligne ne recouvre plus le bas de la ligne précédente.",
+      "title": "Écrans",
+      "why": "Bouton « Entrer en invité » sous la connexion, bandeau « Mode invité — lecture seule » avec le lien d'installation, menu du compte réduit ; Admin → Comptes → Accès invité.",
       "files": [
-        "modules/dynamite/export_pdf.py",
-        "modules/dynamite/export_docx.py"
+        "static/js/guest.js",
+        "static/css/guest.css",
+        "static/js/admin_guest.js",
+        "static/js/admin.js",
+        "static/js/app.js",
+        "static/index.html"
       ]
     },
     {
       "id": "C3",
       "title": "Tests",
-      "why": "tests/test_mermaid_export.py : sources, Word et PDF avec schémas, lien GET inchangé, images refusées.",
+      "why": "tests/test_guest.py : fermé par défaut, ouverture, lecture, écritures refusées, export, fermeture, limite par IP, journal.",
       "files": [
-        "tests/test_mermaid_export.py",
+        "tests/test_guest.py",
         "tests/test_open_v060.py"
       ]
     }
