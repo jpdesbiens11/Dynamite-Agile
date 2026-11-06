@@ -65,7 +65,7 @@ class LotV015Test(unittest.TestCase):
     def test_01_catalogue_and_wiki(self):
         cat = self.people["remi"].get("/api/tools/catalog")  # joins TOOLS as editor
         keys = {m["key"]: m for m in cat["methods"]}
-        for k in ("brainstorming", "brainwriting", "storytelling", "mindmap", "pugh", "kepner_tregoe", "generator"):  # D-B-073
+        for k in ("brainstorming", "brainwriting", "mindmap", "pugh", "kepner_tregoe", "generator"):  # D-B-073
 
             self.assertIn(k, keys)
             self.assertTrue(keys[k]["page_id"] and keys[k]["faq_id"], k)

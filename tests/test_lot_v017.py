@@ -85,12 +85,12 @@ class LotV017Test(unittest.TestCase):
         cat = self.p["ana"].get("/api/tools/catalog")
         self.assertEqual(list(cat["sections"]), ["design", "generator"])
         keys = [m["key"] for m in cat["methods"]]
-        self.assertEqual(keys, ["brainstorming", "brainwriting", "storytelling", "mindmap", "pugh", "kepner_tregoe", "generator"])
+        self.assertEqual(keys, ["brainstorming", "brainwriting", "mindmap", "pugh", "kepner_tregoe", "generator"])
         gen = next(m for m in cat["methods"] if m["key"] == "generator")
         self.assertEqual(gen["name"], "Reference Generator")
         self.assertTrue(gen["page_id"] and gen["faq_id"])
         methods = self.p["ana"].get(self.url_i)["methods"]
-        self.assertEqual(list(methods), ["brainstorming", "brainwriting", "storytelling", "mindmap"])
+        self.assertEqual(list(methods), ["brainstorming", "brainwriting", "mindmap"])
         self.assertEqual(self.fail(lambda: self.p["ana"].post(self.url_i, {"title": "x", "method": "scamper"})).status, 400)
         startup.run(self.data_dir, self.cfg)  # refresh is idempotent: no new version when nothing changed
         tools = {p["key"]: p["id"] for p in self.admin.get("/api/admin/projects")["projects"]}["DEMO"]

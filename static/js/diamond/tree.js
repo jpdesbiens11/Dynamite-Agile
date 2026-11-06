@@ -140,9 +140,10 @@
   function empty(ctx, run, editable) {
     return DA.spaces.startHere("Arbre fonctionnel de " + ctx.meta.project.name,
       "Commencez par la fonction primaire : ce que le produit réalise (verbe + complément). Ajoutez ensuite à sa droite les "
-      + "fonctions secondaires, dans l'ordre de la première utilisation, puis leurs tertiaires. L'exemple montre la méthode "
-      + "sur une lampe de bureau connectée.",
+      + "fonctions secondaires, dans l'ordre de la première utilisation, puis leurs tertiaires. Ou racontez d'abord l'usage dans la "
+      + "Storyline et demandez l'arbre à un assistant IA. L'exemple montre la méthode sur une lampe de bureau connectée.",
       editable ? [["Créer la fonction primaire", () => ask("Fonction primaire", (text) => run("/functions", { text, primary: true }, "post")), true],
+        ["Depuis la Storyline, avec l'IA", () => { location.hash = A.href(ctx, "story"); }],  // 0.60.52 (D-O-061)
         ["Charger l'exemple : lampe de bureau", () => run("/example", { name: "lampe" })]] : []);
   }
 

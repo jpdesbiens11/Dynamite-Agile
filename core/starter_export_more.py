@@ -81,6 +81,8 @@ def diamond(conn, pid, test_refs, usernames, MAX):
         if item.get("failure_mode"):
             rows_d.append(item)
     out["dfmea"] = rows_d
+    from modules.diamond import story  # 0.60.52 (D-O-061): the Storyline travels with the rest of Diamond
+    out["story"] = [{k: s[k] for k in ("title", "caption", "notes", "items")} for s in story.rows(conn, pid)][:story.MAX_SCENES]
     return out
 
 

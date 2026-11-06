@@ -16,6 +16,7 @@ def on_startup(ctx):
     headlamp.ensure(ctx)
     from . import demo_example  # 0.60.49 (D-O-058): the Rover, the complete example, inside DEMO (once)
     demo_example.ensure(ctx)
+    demo_example.ensure_story(ctx)  # 0.60.52 (D-O-061): the Rover's Storyline in a DEMO loaded before it
     gtd.ensure(ctx)  # D-B-033 / D-B-040: « Base de connaissances (BDC) », also for an existing DEMO
     from modules.testing import lists  # D-B-082: the product functions (central list of Testing) as a BDC page
     lists.ensure_bdc_page(ctx)

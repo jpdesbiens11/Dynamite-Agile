@@ -1,5 +1,5 @@
 """Explanation pages and FAQ of the divergent methods of « Tools » (D-B-065,
-catalogue réduit en D-B-073 : brainstorming, brainwriting 6-3-5, storytelling,
+catalogue réduit en D-B-073 : brainstorming, brainwriting 6-3-5 (storytelling retiré en 0.60.52 : Diamond → Storyline),
 mind map).
 
 Each entry becomes, in the TOOLS space (Dynamite, editable as a wiki), a
@@ -59,25 +59,6 @@ DIVERGENT = [
               "participants, chacun rencontre chacun en n − 1 tours ; au-delà, la rotation recommence."),
              ("Pourquoi 3 idées et 5 minutes ?", "C'est l'équilibre classique ; adaptez (2 idées, 7 minutes) si le "
               "sujet est technique.")]},
-    {"key": "storytelling", "name": "Storytelling", "family": "divergent", "tool": "ideation",
-     "tagline": "Raconter l'usage comme une histoire pour révéler Needs, irritants et idées.",
-     "goal": "Faire vivre le produit à travers un personnage (utilisateur, réparateur, assembleur) pour découvrir ce "
-             "qui compte vraiment et partager une vision commune.",
-     "when": "En phase Découvrir ou pour présenter un concept ; aussi pour préparer un prototype ou un test.",
-     "steps": ["Choisir le personnage et son objectif.", "Écrire l'histoire en 6 temps (colonne vertébrale de "
-               "récit) : Il était une fois… / Chaque jour… / Jusqu'au jour où… / À cause de cela… / Jusqu'à ce que "
-               "finalement… / Depuis ce jour…", "Relever dans l'histoire les moments de douleur et les idées : "
-               "chacun devient une carte d'idée ou un need Goldmine.", "Illustrer en storyboard (6 cases) si "
-               "utile."],
-     "roles": "Petit groupe ou individuel ; 30 à 60 minutes.",
-     "pitfalls": ["Un héros générique : donnez-lui un métier, un contexte, une contrainte.",
-                  "Une histoire sans problème : sans « jusqu'au jour où », pas d'idée."],
-     "example": "« Il était une fois Marie, qui répare la poignée de sa cafetière… Jusqu'au jour où il ne lui reste "
-                "qu'une retaille de bâtonnet et dix minutes avant de partir… »",
-     "faq": [("Est-ce sérieux pour de l'ingénierie ?", "Oui : c'est un outil de découverte de Needs et de "
-              "communication ; les décisions restent tracées dans Goldmine."),
-             ("Comment passer de l'histoire aux Requirements ?", "Chaque douleur devient un need (Nature : Need), "
-              "puis une ou plusieurs Requirements vérifiables en dérivent.")]},
     {"key": "mindmap", "name": "Mind Map", "family": "divergent", "tool": "ideation",
      "tagline": "Explorer un sujet en branches autour d'un centre.",
      "goal": "Structurer la réflexion en réseau : le sujet au centre, des branches principales, des sous-branches, "
@@ -100,4 +81,4 @@ DIVERGENT = [
 ]
 
 # D-B-073: methods taken out of the catalogue; their generated wiki pages are removed at start-up.
-RETIRED = ['Analyse morphologique', "Carte d'empathie", 'Comment pourrions-nous… (How Might We)', 'Crazy 8s', 'Design thinking et double diamant', 'Prototypage rapide', 'SCAMPER']
+RETIRED = ['Analyse morphologique', 'Storytelling', "Carte d'empathie", 'Comment pourrions-nous… (How Might We)', 'Crazy 8s', 'Design thinking et double diamant', 'Prototypage rapide', 'SCAMPER']

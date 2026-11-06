@@ -51,7 +51,7 @@ MODULE_MANIFEST = [
      "scripts": ["/js/goldmine/shell.js"], "styles": []},
     # 0.60.11 (D-O-023): functional analysis and design risk, right after the needs and requirements
     {"key": "diamond", "label": "Diamond", "phase": "0.60.11", "module": diamond,
-     "scripts": ["/js/diamond/diamond.js", "/js/diamond/export_menu.js", "/js/diamond/story_pictos.js", "/js/diamond/story_stage.js", "/js/diamond/story.js", "/js/diamond/tree_layout.js", "/js/diamond/tree_panel.js", "/js/diamond/tree.js",
+     "scripts": ["/js/diamond/diamond.js", "/js/diamond/export_menu.js", "/js/diamond/story_pictos.js", "/js/diamond/story_stage.js", "/js/diamond/story_ai.js", "/js/diamond/story.js", "/js/diamond/tree_layout.js", "/js/diamond/tree_panel.js", "/js/diamond/tree.js",
                  "/js/diamond/structure_draw.js", "/js/diamond/structure_parts.js", "/js/diamond/structure_panel.js",
                  "/js/diamond/structure.js",
                  "/js/diamond/risks_panel.js", "/js/diamond/risks.js",
