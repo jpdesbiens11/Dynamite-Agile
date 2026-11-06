@@ -5,9 +5,10 @@
   const { api, el } = DA;
   const SITE = "https://jpdesbiens11.github.io/Dynamite-Agile/";
 
-  /** The guest entry of the sign-in card, or null when the administrator has not opened guest access. */
+  /** The guest entry of the sign-in card: empty until the server says guest access is open (asked each time the
+      sign-in page is drawn, so it follows Admin → Accès invité without reloading the page). */
   DA.guestEntry = function (about, onSignedIn) {
-    if (!about || !about.guest) return null;
+    const box = el("div", { class: "guest-entry", "data-new": "0.60.63-guest", hidden: true });
     const error = el("p", { class: "form-error", role: "alert" });
     const button = el("button", { type: "button", class: "btn btn-block guest-enter" }, "Entrer en invité (lecture seule)");
     button.addEventListener("click", async () => {
@@ -21,11 +22,12 @@
         button.disabled = false;
       }
     });
-    return el("div", { class: "guest-entry", "data-new": "0.60.63-guest" },
-      el("p", { class: "guest-or" }, el("span", null, "ou")),
-      button,
-      el("p", { class: "auth-note" }, "Sans compte ni mot de passe : visitez la démo complète, sans rien pouvoir modifier."),
-      error);
+    box.append(el("p", { class: "guest-or" }, el("span", null, "ou")), button,
+      el("p", { class: "auth-note" }, "Sans compte ni mot de passe : visitez la démo complète, sans rien pouvoir modifier."), error);
+    const show = (open) => { box.hidden = !open; if (about) about.guest = !!open; };
+    show(about && about.guest);
+    api.get("/api/about").then((fresh) => show(fresh && fresh.guest)).catch(() => { /* keep what we had */ });
+    return box;
   };
 
   /** The band under the top bar while a guest is signed in. */

@@ -18,6 +18,8 @@ def project_role(conn, user, project_id):
     """Return 'admin', 'editor', 'reader' or None for this user and project."""
     if user["is_admin"]:
         return "admin"
+    if is_guest(user):  # 0.60.64 (D-O-072): the guest reads the Spaces chosen in Admin → Accès invité, nothing else
+        return "reader" if project_id in guest_projects(conn) else None
     row = conn.execute(
         "SELECT m.role FROM memberships m JOIN projects p ON p.id = m.project_id "
         "WHERE m.user_id = ? AND m.project_id = ? AND p.is_archived = 0",
@@ -56,6 +58,10 @@ def visible_projects(conn, user):
         result = conn.execute(
             "SELECT id, key, name, description, 'admin' AS role FROM projects "
             "WHERE is_archived = 0 ORDER BY key").fetchall()
+    elif is_guest(user):  # 0.60.64 (D-O-072)
+        chosen = guest_projects(conn)
+        result = [r for r in conn.execute("SELECT id, key, name, description, 'reader' AS role, 0 AS is_manager FROM projects "
+                                          "WHERE is_archived = 0 ORDER BY key").fetchall() if r["id"] in chosen]
     else:
         result = conn.execute(
             "SELECT p.id, p.key, p.name, p.description, "
@@ -71,6 +77,29 @@ def visible_projects(conn, user):
 
 
 DEMO_KEY = "DEMO"
+GUEST_USERNAME = "invite"
+
+
+def is_guest(user):
+    """0.60.63 (D-O-072): the shared read-only visitor account of core/guest.py."""
+    try:
+        return str(user["username"]).lower() == GUEST_USERNAME
+    except (KeyError, IndexError, TypeError):
+        return False
+
+
+def guest_projects(conn):
+    """Spaces open to guests (Admin → Comptes → Accès invité); none while guest access is off. No membership rows:
+    the guest's visibility lives in this setting only (0.60.64: an update never deletes memberships)."""
+    import json
+    row = conn.execute("SELECT value FROM app_settings WHERE key = 'guest'").fetchone()
+    try:
+        value = json.loads(row["value"]) if row else {}
+    except ValueError:
+        return set()
+    if not value.get("enabled"):
+        return set()
+    return {p for p in value.get("projects", []) if isinstance(p, int)}
 
 
 def demo_hidden(conn):

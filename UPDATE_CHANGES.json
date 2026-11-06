@@ -2,32 +2,25 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Compte invité, lecture seule (D-O-072)",
-      "why": "Compte `invite` lecteur des seuls Spaces choisis ; session sans mot de passe (8 h au plus), 30 visites par heure et par IP ; le routeur refuse toute écriture d'un invité sauf la déconnexion et l'export d'une page ; fermer l'accès termine les sessions invité.",
+      "title": "Accès invité sans écriture dans les membres (D-O-072)",
+      "why": "permissions.project_role et visible_projects lisent le réglage « guest » pour le compte invite ; aucune ligne memberships créée ni supprimée, d'anciennes lignes éventuelles sont ignorées.",
       "files": [
-        "core/guest.py",
-        "core/router.py",
-        "core/session_api.py",
-        "core/auth.py"
+        "core/permissions.py",
+        "core/guest.py"
+      ]
+    },
+    {
+      "id": "C1b",
+      "title": "Bouton invité toujours à jour",
+      "why": "La page de connexion redemande au serveur si l'accès invité est ouvert, au lieu de garder l'état du premier chargement.",
+      "files": [
+        "static/js/guest.js"
       ]
     },
     {
       "id": "C2",
-      "title": "Écrans",
-      "why": "Bouton « Entrer en invité » sous la connexion, bandeau « Mode invité — lecture seule » avec le lien d'installation, menu du compte réduit ; Admin → Comptes → Accès invité.",
-      "files": [
-        "static/js/guest.js",
-        "static/css/guest.css",
-        "static/js/admin_guest.js",
-        "static/js/admin.js",
-        "static/js/app.js",
-        "static/index.html"
-      ]
-    },
-    {
-      "id": "C3",
-      "title": "Tests",
-      "why": "tests/test_guest.py : fermé par défaut, ouverture, lecture, écritures refusées, export, fermeture, limite par IP, journal.",
+      "title": "Test du contrôle de mise à jour",
+      "why": "Un test passe chaque fichier du code au contrôle DESTRUCTIVE de la mise à jour : seules les lignes déjà présentes avant 0.60.63 sont admises.",
       "files": [
         "tests/test_guest.py",
         "tests/test_open_v060.py"

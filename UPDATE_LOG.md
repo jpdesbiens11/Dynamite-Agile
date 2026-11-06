@@ -1,11 +1,19 @@
-# Journal de mise à jour — 0.60.63
+# Journal de mise à jour — 0.60.64
+
+- **Version :** 0.60.63 → 0.60.64 (2026-11-06)
+- **Changements :**
+  1. **Correctif de l'accès invité** (D-O-072) : le paquet 0.60.63 était refusé par la mise à jour en ligne (« DELETE FROM memberships ») ; les Spaces de l'invité viennent maintenant du réglage, sans toucher aux membres.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.63
 
 - **Version :** 0.60.62 → 0.60.63 (2026-11-06)
 - **Changements :**
   1. **Accès invité en lecture seule** (D-O-072) : « Entrer en invité » sans mot de passe, Spaces choisis par l'administrateur, aucune modification possible ; désactivé par défaut.
 - **Base de données :** ['Aucun changement de schéma (réglage « guest » dans app_settings, compte « invite » créé à la première ouverture).']
 
-## Précédent
 
 ### Journal de mise à jour — 0.60.62
 

@@ -1,0 +1,36 @@
+{
+  "version": "0.60.64",
+  "date": "2026-11-06",
+  "summary": {
+    "fr": "Correctif de l'accès invité : la mise à jour 0.60.63 était refusée par le contrôle de sécurité (« DELETE FROM memberships »). Les Spaces de l'invité viennent maintenant directement du réglage Admin → Accès invité, sans toucher aux membres des Spaces ; l'invité n'apparaît plus dans les listes de membres. Même fonction que 0.60.63. Le bouton « Entrer en invité » apparaît aussi juste après une déconnexion, sans recharger la page.",
+    "en": "Guest access fix: the 0.60.63 update was refused by the safety check (« DELETE FROM memberships »). The guest's Spaces now come straight from the Admin → Accès invité setting, without touching the Space members; the guest no longer shows in member lists. Same feature as 0.60.63. The « Entrer en invité » button also shows right after signing out, without reloading the page."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Accès invité sans écriture dans les membres (D-O-072)",
+      "why": "permissions.project_role et visible_projects lisent le réglage « guest » pour le compte invite ; aucune ligne memberships créée ni supprimée, d'anciennes lignes éventuelles sont ignorées.",
+      "files": [
+        "core/permissions.py",
+        "core/guest.py"
+      ]
+    },
+    {
+      "id": "C1b",
+      "title": "Bouton invité toujours à jour",
+      "why": "La page de connexion redemande au serveur si l'accès invité est ouvert, au lieu de garder l'état du premier chargement.",
+      "files": [
+        "static/js/guest.js"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Test du contrôle de mise à jour",
+      "why": "Un test passe chaque fichier du code au contrôle DESTRUCTIVE de la mise à jour : seules les lignes déjà présentes avant 0.60.63 sont admises.",
+      "files": [
+        "tests/test_guest.py",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}
