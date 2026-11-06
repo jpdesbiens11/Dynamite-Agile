@@ -5,8 +5,9 @@ GET  …/story/prompt  the text a person pastes into an AI assistant: the scenes
                      tool, a short valid example) -- the assistant answers with a {"diamond": {…}} file.
 POST …/import        that file, checked by core/starter_diamond.py (the same rules as « Commencer »), then applied to this
                      Space: the tree, the structure, the parts, the risks, the DFMEA, each item an AI draft to review.
-                     {"dry": true} only checks and counts. The tree must be empty (no second primary function); the
-                     Storyline of the file is used only when the Space has none. Editors; journalled.
+                     {"dry": true} only checks and counts. mode « add » (Compléter, editors) brings only what the Space
+                     is missing and hangs it on the existing tree; « replace » (Tout remplacer, admins of the Space) backs the Space
+                     up, empties Diamond and rebuilds it from the file (0.60.53, D-O-062, import_merge.py). Journalled.
 """
 import json
 import re
@@ -40,7 +41,8 @@ du module Diamond, que l'équipe relira et corrigera.
 5. Chaque irritant, question ou idée des scènes doit se retrouver quelque part : une fonction, un risque ou une ligne du
    DFMEA.
 6. Ensuite : les entrées et sorties du système (`ports`), les flux (`flows` ; vue `general` entre fonctions secondaires,
-   `detail` entre fonctions tertiaires sans les techniques), les pièces probables (`parts`), les risques projet (`risks`,
+   `detail` entre fonctions tertiaires sans les techniques), les pièces probables (`parts`, reliées seulement à des fonctions
+   secondaires ou tertiaires, jamais à une technique ni à une fonction hors arbre), les risques projet (`risks`,
    P et I de 1 à 5) et une première ligne de DFMEA par fonction importante (`dfmea`, S, O, D de 1 à 10).
 
 ## Le format exact
@@ -131,19 +133,38 @@ def _read(body):
 
 
 def api_import(ctx):
+    """mode « add » (Compléter, default): only what the Space is missing; « replace » (Tout remplacer, admins of the Space): a backup
+    of the Space, then Diamond emptied and rebuilt from the file (0.60.53, D-O-062, import_merge.py)."""
     from core import starter_diamond
+    from . import import_merge as M
     pid = F.access(ctx, "editor")
+    mode = ctx.body.get("mode") or "add"
+    if mode not in ("add", "replace"):
+        raise ApiError(400, "Mode « {} » inconnu. Correctif : add (Compléter) ou replace (Tout remplacer).".format(str(mode)[:20]))
+    if mode == "replace":
+        M.require_space_admin(ctx, pid)
     raw = _read(ctx.body)
-    clean = starter_diamond.parse(raw, "fr", (), set(_members(ctx.conn, pid)))
-    if story.rows(ctx.conn, pid):
-        clean["story"] = []  # the Space keeps its own Storyline
-    existing = ctx.conn.execute("SELECT COUNT(*) FROM diamond_functions WHERE project_id = ? AND archived = 0", (pid,)).fetchone()[0]
-    if existing and clean["functions"]:
-        raise ApiError(409, "L'arbre fonctionnel de ce Space contient déjà {} fonction(s). Correctif : importez dans un Space dont "
-                            "l'arbre est vide (Copier ou Dupliquer le Space, sans Diamond), ou complétez l'arbre à la main.".format(existing))
+    removed = M.present(ctx.conn, pid) if mode == "replace" else {}
+    plan = M.plan(ctx.conn, pid, raw, set(_members(ctx.conn, pid)), mode)
+    clean = plan["clean"]
     counts = starter_diamond.counts({"diamond": clean})
+    if mode == "replace" and not clean["story"]:
+        removed["story"] = 0
+    out = {"mode": mode, "counts": counts, "kept": plan["kept"], "dropped": plan["dropped"],
+           "removed": {k: v for k, v in removed.items() if v}}
+    if not any(counts.values()):
+        raise ApiError(409, "Rien à importer : ce Space a déjà tout ce que contient le fichier. Correctif : choisissez « Tout "
+                            "remplacer » pour repartir du fichier, ou importez un fichier avec les parties qui manquent.")
     if ctx.body.get("dry"):
-        return {"counts": counts}
-    made = starter_diamond.apply(ctx.conn, ctx.user["id"], pid, clean)
-    audit.log_action(ctx.conn, ctx.user["id"], "diamond_import", "project", pid, made, ctx.ip)
-    return {"counts": made, "imported": True}
+        return out
+    if mode == "replace":
+        out["backup"] = M.backup(ctx, pid)
+        M.wipe(ctx.conn, pid, keep_story=not clean["story"])
+    for rid in plan["replace_dfmea"]:
+        ctx.conn.execute("DELETE FROM diamond_dfmea WHERE id = ? AND project_id = ?", (rid, pid))
+    out["counts"] = starter_diamond.apply(ctx.conn, ctx.user["id"], pid, clean, known=plan["known"])
+    out["imported"] = True
+    audit.log_action(ctx.conn, ctx.user["id"], "diamond_import", "project", pid,
+                     {"mode": mode, "counts": out["counts"], "kept": plan["kept"], "dropped": plan["dropped"],
+                      "removed": out["removed"], "backup": out.get("backup", "")}, ctx.ip)
+    return out

@@ -112,6 +112,8 @@
   scène par scène avec 39 pictogrammes, avant l'arbre ; migration diamond 8. Suit : « Copier pour l'IA » (0.60.52).
 - **0.60.52** (2026-11-06) : **Storyline → IA** (D-O-061, `modules/diamond/story_ai.py`, `static/js/diamond/story_ai.js`) : « Copier pour l'IA », « Importer la réponse
   de l'IA » (arbre vide) ; `diamond.story` au format Project Starter ; Storyline du Rover ; Storytelling retiré de Tools.
+- **0.60.53** (2026-11-06) : **import Compléter / Tout remplacer** (D-O-062, `modules/diamond/import_merge.py`) : une partie manquante à la fois
+  (accrochée à l'arbre existant) ou, pour un admin du Space, sauvegarde complète puis Diamond refait à partir du fichier.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

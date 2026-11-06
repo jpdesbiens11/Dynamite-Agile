@@ -1,11 +1,20 @@
-# Journal de mise à jour — 0.60.52
+# Journal de mise à jour — 0.60.53
+
+- **Version :** 0.60.52 → 0.60.53 (2026-11-06)
+- **Changements :**
+  1. **Importer la réponse de l'IA : Compléter ou Tout remplacer** (D-O-062) : une partie manquante à la fois, ou une sauvegarde puis tout en une fois.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.52
 
 - **Version :** 0.60.51 → 0.60.52 (2026-11-06)
 - **Changements :**
   1. **Storyline → IA** (D-O-061) : « Copier pour l'IA » et « Importer la réponse de l'IA » ; Storyline du Rover ; Storytelling retiré de Tools.
 - **Base de données :** ['Aucun changement de schéma.']
 
-## Précédent
+
 
 ### Journal de mise à jour — 0.60.51
 

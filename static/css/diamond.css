@@ -317,3 +317,8 @@ html[data-sketch] .dm-story-card, html[data-sketch] .dm-story-palette { border-r
 .modal:has(.dm-story-ai) { max-width: 760px; }  /* wide rather than tall (D-B-118) */
 .dm-story-ai-text { width: 100%; font: .82rem/1.4 var(--mono); }
 .dm-story-ai-file { font-size: .9rem; }
+.dm-import-modes { border: 1px solid var(--line); border-radius: 6px; padding: .4rem .7rem .55rem; margin: 0; display: grid; gap: .35rem; }
+.dm-import-modes legend { font-size: .85rem; padding: 0 .3rem; }
+.dm-import-mode { display: flex; gap: .5rem; align-items: flex-start; font-size: .9rem; line-height: 1.35; cursor: pointer; }
+.dm-import-mode input { margin-top: .2rem; }
+.dm-story-ai [role="status"] p { margin: .15rem 0; }

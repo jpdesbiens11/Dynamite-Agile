@@ -1,0 +1,45 @@
+{
+  "version": "0.60.53",
+  "date": "2026-11-06",
+  "summary": {
+    "fr": "« Importer la réponse de l'IA » ne tombe plus en erreur sur un Space déjà commencé. « Compléter » (par défaut) ajoute seulement ce qui manque : une partie à la fois (la Storyline, puis l'arbre, puis les risques…) ou tout d'un coup ; ce qui existe déjà reste tel quel, les ajouts s'accrochent à l'arbre existant. « Tout remplacer » (admins du Space) écrit d'abord une sauvegarde complète du Space, puis refait Diamond à partir du fichier, en une fois.",
+    "en": "« Importer la réponse de l'IA » no longer fails on a Space already started. « Compléter » (default) adds only what is missing: one part at a time (the Storyline, then the tree, then the risks…) or all at once; what exists stays as it is and the additions hang on the existing tree. « Tout remplacer » (Space admins) first writes a full backup of the Space, then rebuilds Diamond from the file in one go."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Compléter ou Tout remplacer (D-O-062)",
+      "why": "POST …/import accepte mode add | replace ; section par section, ce que le Space a déjà est gardé ; fonctions du fichier reliées à l'arbre existant par leur texte (ou leur numéro F) ; lignes DFMEA écrites par l'outil remplacées, jamais celles de l'équipe ; replace : sauvegarde data/backups puis Diamond vidé et refait.",
+      "files": [
+        "modules/diamond/import_merge.py",
+        "modules/diamond/story_ai.py",
+        "core/starter_diamond.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Écran d'import",
+      "why": "Choix Compléter / Tout remplacer ; Vérifier dit ce qui sera créé, gardé, laissé de côté et effacé ; nom de la sauvegarde après l'import.",
+      "files": [
+        "static/js/diamond/story_ai.js",
+        "static/css/diamond.css"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Prompt : pièces sur les secondaires et tertiaires",
+      "why": "Le prompt dit que parts[].functions ne cite ni une technique ni une fonction hors arbre (cause d'un refus fréquent).",
+      "files": [
+        "modules/diamond/story_ai.py"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Tests",
+      "why": "tests/test_import_merge.py : partie par partie, numéro F sur l'arbre existant, remplacer avec sauvegarde.",
+      "files": [
+        "tests/test_import_merge.py"
+      ]
+    }
+  ]
+}
