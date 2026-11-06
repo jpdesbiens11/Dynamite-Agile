@@ -2,37 +2,33 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Compléter ou Tout remplacer (D-O-062)",
-      "why": "POST …/import accepte mode add | replace ; section par section, ce que le Space a déjà est gardé ; fonctions du fichier reliées à l'arbre existant par leur texte (ou leur numéro F) ; lignes DFMEA écrites par l'outil remplacées, jamais celles de l'équipe ; replace : sauvegarde data/backups puis Diamond vidé et refait.",
+      "title": "Le Rover, projet vivant (D-O-063)",
+      "why": "Une fois par installation (journal demo_life_loaded), sur un DEMO neuf ou déjà chargé : équipe en comptes inactifs demo.*, Agile, Change Management, Goldmine, Testing, Exploration, Timesheet, Diamond ; toujours à la semaine 15 sur 15.",
       "files": [
-        "modules/diamond/import_merge.py",
-        "modules/diamond/story_ai.py",
-        "core/starter_diamond.py"
+        "modules/help/demo_life.py",
+        "modules/help/demo_life_more.py",
+        "modules/help/demo_life_data.py",
+        "modules/help/__init__.py",
+        "modules/help/demo_example.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Écran d'import",
-      "why": "Choix Compléter / Tout remplacer ; Vérifier dit ce qui sera créé, gardé, laissé de côté et effacé ; nom de la sauvegarde après l'import.",
+      "title": "Site complet : les comptes d'exemple ne comptent pas",
+      "why": "Une installation neuve reste « vide » pour l'import d'un site complet malgré les comptes inactifs demo.*.",
       "files": [
-        "static/js/diamond/story_ai.js",
-        "static/css/diamond.css"
+        "core/sitemove.py"
       ]
     },
     {
       "id": "C3",
-      "title": "Prompt : pièces sur les secondaires et tertiaires",
-      "why": "Le prompt dit que parts[].functions ne cite ni une technique ni une fonction hors arbre (cause d'un refus fréquent).",
-      "files": [
-        "modules/diamond/story_ai.py"
-      ]
-    },
-    {
-      "id": "C4",
       "title": "Tests",
-      "why": "tests/test_import_merge.py : partie par partie, numéro F sur l'arbre existant, remplacer avec sauvegarde.",
+      "why": "tests/test_demo_life.py ; DEMO avec ses comptes inactifs, plan du parcours + Rover.",
       "files": [
-        "tests/test_import_merge.py"
+        "tests/test_demo_life.py",
+        "tests/test_demo_space.py",
+        "tests/test_platform_tools.py",
+        "tests/test_open_v060.py"
       ]
     }
   ]

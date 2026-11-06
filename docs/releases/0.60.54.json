@@ -1,0 +1,41 @@
+{
+  "version": "0.60.54",
+  "date": "2026-11-06",
+  "summary": {
+    "fr": "Le Rover de DEMO est maintenant un projet vivant dans tous les modules, à la semaine 15 sur 15 : son équipe (Nina, Léa, Hugo, Alexis, en comptes inactifs « exemple » avec lesquels personne ne se connecte), 7 sprints dont un actif, des tickets assignés et commentés, reliés aux requirements, des MVP livrés ; deux problèmes et leurs ECN dans Change Management ; les requirements vérifiés et des Q&R avec l'enseignante ; trois Test Plans (fermé avec son PDF de résultats, résultats reçus, envoyé) ; le plan du PDP dans Exploration ; 15 semaines d'heures dans Timesheet ; les responsables des risques et du DFMEA.",
+    "en": "The Rover in DEMO is now a living project in every module, at week 15 of 15: its team (Nina, Léa, Hugo, Alexis, as inactive « example » accounts nobody signs in with), 7 sprints with one active, assigned and commented tickets linked to the requirements, released MVPs; two problem reports and their ECNs in Change Management; verified requirements and Q&R with the teacher; three Test Plans (closed with its results PDF, results received, sent); the PDP plan in Exploration; 15 weeks of hours in Timesheet; the owners of the risks and DFMEA actions."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Le Rover, projet vivant (D-O-063)",
+      "why": "Une fois par installation (journal demo_life_loaded), sur un DEMO neuf ou déjà chargé : équipe en comptes inactifs demo.*, Agile, Change Management, Goldmine, Testing, Exploration, Timesheet, Diamond ; toujours à la semaine 15 sur 15.",
+      "files": [
+        "modules/help/demo_life.py",
+        "modules/help/demo_life_more.py",
+        "modules/help/demo_life_data.py",
+        "modules/help/__init__.py",
+        "modules/help/demo_example.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Site complet : les comptes d'exemple ne comptent pas",
+      "why": "Une installation neuve reste « vide » pour l'import d'un site complet malgré les comptes inactifs demo.*.",
+      "files": [
+        "core/sitemove.py"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Tests",
+      "why": "tests/test_demo_life.py ; DEMO avec ses comptes inactifs, plan du parcours + Rover.",
+      "files": [
+        "tests/test_demo_life.py",
+        "tests/test_demo_space.py",
+        "tests/test_platform_tools.py",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}
