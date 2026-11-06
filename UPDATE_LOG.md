@@ -1,11 +1,19 @@
-# Journal de mise à jour — 0.60.57
+# Journal de mise à jour — 0.60.58
+
+- **Version :** 0.60.57 → 0.60.58 (2026-11-06)
+- **Changements :**
+  1. **Installation Windows : winget sans le Microsoft Store** (D-O-067) : Python et Git depuis la source winget.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.57
 
 - **Version :** 0.60.56 → 0.60.57 (2026-11-06)
 - **Changements :**
   1. **Installation Windows réparée** (D-O-066) : install.ps1 ne s'arrête plus sur « Parenthèse fermante manquante ».
 - **Base de données :** ['Aucun changement de schéma.']
 
-## Précédent
 
 ### Journal de mise à jour — 0.60.56
 

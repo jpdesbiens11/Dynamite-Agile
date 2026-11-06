@@ -482,6 +482,10 @@ Le prompt `starter.md` passe en 0.60.18.
 **Contexte :** la Storyline était au brief (§4) : illustrer l'usage d'un produit, scène par scène.
 **Décision (choix de JP, un à la fois) :** pictogrammes intégrés (pas d'images déposées) ; dans Diamond, avant l'arbre fonctionnel ; aucun lien imposé avec les fonctions, c'est un exercice de divergence en équipe ; un assistant IA la lit pour proposer l'arbre et le reste de Diamond par un bouton « Copier pour l'IA » (0.60.52). Les 39 pictogrammes sont générés comme les icônes (`tools/story_pictos.py`, deux sprites, mêmes clés), sans texte ; l'étiquette est du HTML. Une scène : titre, ce qui se passe, notes en vrac, pictogrammes (clé, x / y en %, taille, miroir, étiquette) ; 40 scènes et 30 pictogrammes par scène au plus.
 
+### D-O-067 — winget installe depuis sa propre source (2026-11-06, signalé par JP)
+**Contexte :** sur un PC d'essai, `winget install Git.Git` a échoué : la source du Microsoft Store (`msstore`) a expiré (WinHttpSendRequest 12002) et winget s'est arrêté en demandant de préciser `--source`.
+**Décision :** chaque `winget install` précise `--source winget` ; un second essai sans `--scope machine` si le premier échoue ; Git est cherché aussi dans ses dossiers d'installation (Program Files) quand le PATH de cette session ne le voit pas encore. Le message d'erreur donne la commande winget exacte à taper.
+
 ### D-O-066 — install.ps1 : jamais de commande coupée entre parenthèses (2026-11-06, signalé par JP)
 **Contexte :** sur Windows PowerShell, `install.ps1` s'arrêtait à l'analyse (« Parenthèse fermante « ) » manquante ») : cinq appels `Fail (T "français"` / `"English")` étaient coupés sur deux lignes ; dans `( … )`, une fin de ligne termine la commande.
 **Décision :** ces lignes finissent par un accent grave (continuation PowerShell) ; un test (`tests/test_windows_install.py`) refuse toute ligne laissée ouverte dans des parenthèses sans continuation, puisque PowerShell n'est pas disponible pour les tests.

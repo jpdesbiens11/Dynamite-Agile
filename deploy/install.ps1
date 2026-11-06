@@ -56,8 +56,22 @@ function Port-Owner([int]$number) {
 function Winget-Install([string]$id, [string]$label) {
     Write-Host ("  " + (T "Installation de " "Installing ") + $label + " (winget)…")
     # winget's exit codes differ between versions: the caller checks that the program is there afterwards.
-    winget install -e --id $id --scope machine --silent --accept-package-agreements --accept-source-agreements | Out-Host
+    # 0.60.58 (D-O-067): --source winget -- the Microsoft Store source (msstore) times out on many school and office
+    # networks, and winget then stops on « found among the working sources, please specify --source ».
+    winget install -e --id $id --source winget --scope machine --silent --accept-package-agreements --accept-source-agreements | Out-Host
+    if ($LASTEXITCODE -ne 0) {
+        # some winget versions refuse --scope machine for a package: once more, with the package's own default
+        winget install -e --id $id --source winget --silent --accept-package-agreements --accept-source-agreements | Out-Host
+    }
     Refresh-Path
+}
+function Find-Git {
+    # Git for Windows may be installed while this PowerShell's PATH predates it: look where its installer puts it.
+    if (Get-Command git -ErrorAction SilentlyContinue) { return $true }
+    foreach ($dir in @("$env:ProgramFiles\Git\cmd", "${env:ProgramFiles(x86)}\Git\cmd", "$env:LOCALAPPDATA\Programs\Git\cmd")) {
+        if ($dir -and (Test-Path (Join-Path $dir "git.exe"))) { $env:Path = "$dir;$env:Path"; return $true }
+    }
+    return $false
 }
 
 # ---------- 0. administrator, Windows, winget ----------
@@ -94,8 +108,8 @@ Say ("2/7 Python 3.12 " + (T "et" "and") + " Git")
 $py = Find-Python
 if (-not $py) { Winget-Install "Python.Python.3.12" "Python 3.12"; $py = Find-Python }
 if (-not $py) { Fail (T "Python 3.10 ou plus récent reste introuvable (winget a peut-être échoué, message ci-dessus). Correctif : installez Python 3.12 depuis python.org en cochant « Add python.exe to PATH », fermez et rouvrez PowerShell en administrateur, puis relancez la commande." "Python 3.10 or newer still not found (winget may have failed, message above). Fix: install Python 3.12 from python.org ticking « Add python.exe to PATH », close and reopen PowerShell as administrator, then run the command again.") }
-if (-not (Get-Command git -ErrorAction SilentlyContinue)) { Winget-Install "Git.Git" "Git" }
-if (-not (Get-Command git -ErrorAction SilentlyContinue)) { Fail (T "Git reste introuvable (winget a peut-être échoué, message ci-dessus). Correctif : installez Git pour Windows depuis git-scm.com, fermez et rouvrez PowerShell en administrateur, puis relancez." "Git still not found (winget may have failed, message above). Fix: install Git for Windows from git-scm.com, close and reopen PowerShell as administrator, then run again.") }
+if (-not (Find-Git)) { Winget-Install "Git.Git" "Git" }
+if (-not (Find-Git)) { Fail (T "Git reste introuvable (winget a peut-être échoué, message ci-dessus). Correctif : dans ce PowerShell, tapez winget install -e --id Git.Git --source winget (ou installez Git pour Windows depuis git-scm.com), fermez et rouvrez PowerShell en administrateur, puis relancez." "Git still not found (winget may have failed, message above). Fix: in this PowerShell, type winget install -e --id Git.Git --source winget (or install Git for Windows from git-scm.com), close and reopen PowerShell as administrator, then run again.") }
 Write-Host ("  Python : " + $py)
 
 # ---------- 3. the code ----------

@@ -1,0 +1,26 @@
+{
+  "version": "0.60.58",
+  "date": "2026-11-06",
+  "summary": {
+    "fr": "Installation Windows : winget installe Python et Git depuis sa propre source (--source winget). La source du Microsoft Store, injoignable sur bien des réseaux d'école ou de bureau, faisait échouer l'installation de Git. Git est aussi retrouvé dans son dossier d'installation si le PATH de PowerShell ne le voit pas encore.",
+    "en": "Windows installation: winget installs Python and Git from its own source (--source winget). The Microsoft Store source, unreachable on many school or office networks, made the Git installation fail. Git is also found in its installation folder when PowerShell's PATH does not see it yet."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "winget --source winget (D-O-067)",
+      "why": "msstore expire (WinHttpSendRequest 12002) : winget s'arrête en demandant --source ; second essai sans --scope machine ; Git retrouvé dans Program Files.",
+      "files": [
+        "deploy/install.ps1"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Test",
+      "why": "Chaque appel winget install précise --source winget.",
+      "files": [
+        "tests/test_windows_install.py"
+      ]
+    }
+  ]
+}
