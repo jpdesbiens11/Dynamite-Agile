@@ -154,6 +154,21 @@
     return foreign ? Math.min(3, n) : Math.max(1, Math.min(3, n - 1));
   }
 
+  /** Language of a code block: data-lang (our editor), else class="language-x" / "lang-x" of a chat window (pre or code),
+      else « mermaid » when the text is plainly a Mermaid diagram (0.60.60, D-O-069). */
+  function codeLang(elm, text) {
+    let lang = elm.getAttribute("data-lang") || "";
+    if (!lang) {
+      const code = elm.querySelector("code");
+      const classes = (elm.getAttribute("class") || "") + " " + ((code && code.getAttribute("class")) || "");
+      const m = classes.match(/(?:^|\s)(?:language|lang)-([\w+#.-]{1,20})/);
+      if (m) lang = m[1];
+    }
+    const M = DY.mermaid;
+    if (!lang && M && M.looks && M.looks(text)) lang = "mermaid";
+    return lang.slice(0, 20);
+  }
+
   function blockFrom(elm, opts) {
     const tag = elm.tagName;
     if (/^H[1-6]$/.test(tag)) {
@@ -176,7 +191,7 @@
       case "PRE": {
         const source = elm.isConnected ? elm.innerText : elm.textContent;
         const text = source.replace(/\n$/, "").slice(0, 100000);
-        return text.trim() ? [{ type: "code", lang: (elm.getAttribute("data-lang") || "").slice(0, 20), text }] : [];
+        return text.trim() ? [{ type: "code", lang: codeLang(elm, text), text }] : [];
       }
       case "HR": return [{ type: "rule" }];
       case "TABLE": { const t = tableFrom(elm); return t ? [t] : []; }
@@ -205,6 +220,7 @@
       run = [];
     };
     parent.childNodes.forEach((child) => {
+      if (child.nodeType === 1 && child.hasAttribute("data-skip")) return;  // a live preview (Mermaid drawing, 0.60.60)
       if (child.nodeType === 1 && child.hasAttribute("data-block")) {
         flush();
         const atom = atomFrom(child);

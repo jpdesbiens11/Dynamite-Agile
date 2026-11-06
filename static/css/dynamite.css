@@ -214,3 +214,36 @@
 .dy-ai-note { font-size: .82rem; }
 .dy-ai-options { display: flex; flex-direction: column; gap: .35rem; margin: .6rem 0; }
 .dy-ai-btn { border-color: var(--dynamite); color: var(--dynamite); }
+
+/* 0.60.60 (D-O-069): Mermaid diagrams drawn by the platform (mermaid_*.js); colours from the theme */
+.dy-mm { margin: 1rem 0; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); }
+.dy-mm-bar { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .3rem .6rem; border-bottom: 1px solid var(--line); }
+.dy-mm-bar .dy-code-lang { position: static; }
+.dy-mm-view, .dy-mm-preview { overflow-x: auto; padding: .8rem; text-align: center; }
+.dy-mm-preview { margin: -.4rem 0 1rem; border: 1px dashed var(--line); border-top: 0; border-radius: 0 0 var(--radius-sm) var(--radius-sm); user-select: none; }
+.dy-mm .dy-mm-code { margin: 0; border: 0; border-radius: 0 0 var(--radius-sm) var(--radius-sm); }
+.dy-mm-svg { max-width: 100%; height: auto; font-size: 13px; }
+.dy-mm-problem { padding: .6rem .8rem; color: var(--ink); background: color-mix(in srgb, var(--warn) 14%, transparent); border-left: 4px solid var(--warn); }
+.dy-mm-failed .dy-mm-code { border-top: 1px solid var(--line); }
+.dy-mm-node { fill: var(--surface-2); stroke: var(--dynamite); stroke-width: 1.4; }
+.dy-mm-node-line { fill: none; stroke: var(--dynamite); stroke-width: 1.4; }
+.dy-mm-dot { fill: var(--ink); }
+.dy-mm-text { fill: var(--ink); font-size: 13px; }
+.dy-mm-num { fill: var(--surface); font-size: 10px; font-weight: 700; text-anchor: middle; }
+.dy-mm-label { fill: var(--ink); font-size: 12px; }
+.dy-mm-label-bg { fill: var(--surface); opacity: .92; }
+.dy-mm-edge { fill: none; stroke: var(--muted); stroke-width: 1.5; }
+.dy-mm-dotted { stroke-dasharray: 4 3; }
+.dy-mm-thick { stroke-width: 3; }
+.dy-mm-head { fill: var(--muted); }
+.dy-mm-cross { stroke: var(--muted); stroke-width: 2; fill: none; }
+.dy-mm-group { fill: color-mix(in srgb, var(--dynamite) 6%, transparent); stroke: var(--line); stroke-dasharray: 5 3; }
+.dy-mm-group-title { fill: var(--muted); font-size: 12px; font-weight: 600; }
+.dy-mm-life { stroke: var(--line); stroke-width: 1.2; stroke-dasharray: 3 3; }
+.dy-mm-note { fill: color-mix(in srgb, var(--warn) 18%, var(--surface)); stroke: var(--line); }
+.dy-mm-frame { fill: none; stroke: var(--muted); stroke-width: 1; }
+.dy-mm-band { fill: color-mix(in srgb, var(--dynamite) 7%, transparent); stroke: none; }
+.dy-mm-frame-tag { fill: var(--surface-2); stroke: var(--muted); stroke-width: 1; }
+.dy-mm-frame-text { fill: var(--ink); font-size: 11px; font-weight: 700; }
+.dy-mm-frame-split { stroke: var(--muted); stroke-dasharray: 4 3; }
+.dy-mm-stick { fill: var(--surface); stroke: var(--ink); stroke-width: 1.4; }

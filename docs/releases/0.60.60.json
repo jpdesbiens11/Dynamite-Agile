@@ -1,0 +1,44 @@
+{
+  "version": "0.60.60",
+  "date": "2026-11-06",
+  "summary": {
+    "fr": "Dynamite dessine les diagrammes Mermaid des réponses d'IA : un bloc ```mermaid (flowchart / graph, sequenceDiagram, stateDiagram) devient un schéma à la lecture, avec « Voir le code » pour l'auditer ; dans l'éditeur visuel, le code reste modifiable et le schéma suit en direct ; une ligne fautive est nommée. Moteur maison, sans bibliothèque externe ; les autres types de diagrammes restent en code, avec une mention.",
+    "en": "Dynamite draws the Mermaid diagrams of AI answers: a ```mermaid block (flowchart / graph, sequenceDiagram, stateDiagram) becomes a drawing when reading, with « Voir le code » to audit it; in the visual editor the code stays editable and the drawing follows live; a wrong line is named. Own engine, no external library; other diagram types stay as code, with a notice."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Moteur Mermaid de la plateforme (D-O-069)",
+      "why": "Analyse, placement en couches et dessin SVG sans innerHTML ; flowchart, séquence, états ; erreurs avec numéro de ligne.",
+      "files": [
+        "static/js/dynamite/mermaid_parse.js",
+        "static/js/dynamite/mermaid_layout.js",
+        "static/js/dynamite/mermaid_svg.js",
+        "static/js/dynamite/mermaid_seq.js",
+        "static/css/dynamite.css",
+        "core/modules.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Pages Dynamite",
+      "why": "Lecture : schéma + « Voir le code » ; éditeur visuel : code + aperçu en direct jamais enregistré ; langage repris d'un collage de chat (language-mermaid) ou reconnu.",
+      "files": [
+        "static/js/dynamite/render.js",
+        "static/js/dynamite/visual_dom.js",
+        "static/js/dynamite/editor.js",
+        "modules/help/headlamp.py"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Tests",
+      "why": "tests/js/mermaid.js (moteur) et tests/test_mermaid.py.",
+      "files": [
+        "tests/js/mermaid.js",
+        "tests/test_mermaid.py",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}
