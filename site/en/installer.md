@@ -17,11 +17,12 @@ Dynamite | Agile. The illustrated page for people is https://jpdesbiens11.github
 
 ## The page in 5 steps (0.60.39, 0.60.44)
 
-At step 1, the person chooses **where the tool runs** (online server, local Linux server, team Windows PC) and **their own
-computer** (Windows, macOS, Linux): the commands typed on their computer follow it (opening a terminal, protecting the Oracle
-key with `icacls` or `chmod 600`, trusting the team's certificate). The **local Linux server** installs with
-`install.sh --local`: HTTPS from the team's certificate authority, ports 80 and 443 open to the local network only; Internet
-is needed during the installation only. At **Hostinger**, the VPS's free name (`srvNNNNNN.hstgr.cloud`, or
+At step 1, the person chooses **where the tool runs** (online server or team Windows PC; 0.60.56: the page no longer offers
+a local Linux server, which the intended audience never sets up) and **their own computer** (Windows, macOS, Linux): the
+commands typed on their computer follow it (opening a terminal, protecting the Oracle key with `icacls` or `chmod 600`,
+trusting the team's certificate). If someone still has an Ubuntu server on the team's network, `install.sh --local` still
+exists: HTTPS from the team's certificate authority, ports 80 and 443 open to the local network only; Internet is needed
+during the installation only. At **Hostinger**, the VPS's free name (`srvNNNNNN.hstgr.cloud`, or
 `workshop.srvNNNNNN.hstgr.cloud`) already points to its IP: no DNS to set.
 
 

@@ -16,11 +16,12 @@ installer Dynamite | Agile. La page humaine, illustrée, est {{SITE_URL}}/instal
 
 ## La page en 5 étapes (0.60.39, 0.60.44)
 
-À l'étape 1, la personne choisit **où l'outil tourne** (serveur en ligne, serveur Linux local, PC Windows de l'équipe) et
-**son propre ordinateur** (Windows, macOS, Linux) : les commandes à taper sur son ordinateur s'y adaptent (ouvrir un
-terminal, protéger la clé Oracle avec `icacls` ou `chmod 600`, faire confiance au certificat de l'équipe). Le **serveur
-Linux local** s'installe avec `install.sh --local` : HTTPS par l'autorité de certification de l'équipe, ports 80 et 443
-ouverts au réseau local seulement ; Internet sert pendant l'installation seulement. Chez **Hostinger**, le nom gratuit du
+À l'étape 1, la personne choisit **où l'outil tourne** (serveur en ligne ou PC Windows de l'équipe ; 0.60.56 : la page
+ne propose plus de serveur Linux local, que le public visé ne monte jamais) et **son propre ordinateur** (Windows, macOS,
+Linux) : les commandes à taper sur son ordinateur s'y adaptent (ouvrir un terminal, protéger la clé Oracle avec `icacls` ou
+`chmod 600`, faire confiance au certificat de l'équipe). Si quelqu'un a malgré tout un serveur Ubuntu sur le réseau de
+l'équipe, `install.sh --local` existe toujours : HTTPS par l'autorité de certification de l'équipe, ports 80 et 443 ouverts
+au réseau local seulement ; Internet sert pendant l'installation seulement. Chez **Hostinger**, le nom gratuit du
 VPS (`srvNNNNNN.hstgr.cloud`, ou `atelier.srvNNNNNN.hstgr.cloud`) pointe déjà vers son IP : aucun DNS à régler.
 
 

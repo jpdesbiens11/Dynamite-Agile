@@ -1,0 +1,32 @@
+{
+  "version": "0.60.56",
+  "date": "2026-11-06",
+  "summary": {
+    "fr": "Page d'installation : l'étape 1 ne propose plus de serveur Linux local ; il reste le serveur en ligne (recommandé) et le PC Windows de l'équipe.",
+    "en": "Installation page: step 1 no longer offers a local Linux server; the online server (recommended) and the team Windows PC remain."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Plus de serveur Linux local sur la page d'installation (D-O-065)",
+      "why": "Le public visé ne le monte jamais ; install.sh --local reste pour un assistant.",
+      "files": [
+        "tools/site/installation.html",
+        "tools/site/en/installation.html",
+        "tools/site/install.js",
+        "tools/site/installer.md",
+        "tools/site/en/installer.md"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Tests",
+      "why": "Page à deux lieux.",
+      "files": [
+        "tests/test_install_local.py",
+        "tests/test_open_v060.py",
+        "tests/test_windows_install.py"
+      ]
+    }
+  ]
+}

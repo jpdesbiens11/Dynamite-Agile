@@ -36,6 +36,36 @@ class InstallScriptTest(unittest.TestCase):
         self.assertEqual(published[:3], b"\xef\xbb\xbf")
         self.assertIn(b"https://github.com/jpdesbiens11/Dynamite-Agile.git", published)
 
+    def test_01b_no_command_broken_across_lines(self):
+        """0.60.57 (D-O-066): inside ( … ), a new line ends a PowerShell command -- `Fail (T "fr"` then "en") on the next line
+        stopped the script before it started (« Parenthèse fermante manquante »). Such a line must end with a backtick."""
+        broken, stack = [], []
+        for n, line in enumerate(PS1.read_text("utf-8-sig").split("\n"), 1):
+            quote, i = None, 0
+            while i < len(line):
+                c = line[i]
+                if quote == '"':
+                    if c == "`":
+                        i += 2
+                        continue
+                    if c == '"':
+                        quote = None
+                elif quote == "'":
+                    if c == "'":
+                        quote = None
+                elif c == "#":
+                    break
+                elif c in "\"'":
+                    quote = c
+                elif c in "({":
+                    stack.append(c)
+                elif c in ")}" and stack:
+                    stack.pop()
+                i += 1
+            if stack and stack[-1] == "(" and not line.rstrip().endswith(("`", "|", ",", "+", "(", "-and", "-or")):
+                broken.append((n, line.strip()[:80]))
+        self.assertEqual(broken, [])
+
     def test_02_every_message_in_both_languages(self):
         """Each T "fr" "en" call carries two strings (D-O-017)."""
         import re
@@ -100,7 +130,7 @@ class SiteTest(unittest.TestCase):
             self.assertIn("/install.ps1 -OutFile", html, page)
             self.assertIn("Cert:\\CurrentUser\\Root", html, page)
         js = (BASE_DIR / "site" / "installation.html").read_text("utf-8")
-        self.assertIn('["online", "local", "windows"]', js)
+        self.assertIn('["online", "windows"]', js)
         for guide in ("site/installer.md", "site/en/installer.md"):
             self.assertIn("install.ps1", (BASE_DIR / guide).read_text("utf-8"), guide)
 

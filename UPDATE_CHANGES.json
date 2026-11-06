@@ -2,32 +2,18 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Le Rover est la démo (D-O-064)",
-      "why": "Nom, description et accueil du Space DEMO ; accueil rafraîchi une fois s'il n'a pas été modifié par une personne.",
+      "title": "install.ps1 : continuation des lignes (D-O-066)",
+      "why": "Dans ( … ), une fin de ligne termine la commande PowerShell : les cinq appels Fail (T \"fr\" / \"en\") coupés reçoivent un accent grave en fin de ligne.",
       "files": [
-        "modules/help/headlamp.py",
-        "modules/help/tour.py"
+        "deploy/install.ps1"
       ]
     },
     {
       "id": "C2",
-      "title": "Plan du Rover en premier",
-      "why": "Début du plan = début du Rover ; le parcours guidé garde sa date ; une fois sur un DEMO rempli par 0.60.54 (journal demo_plan_arranged).",
+      "title": "Test",
+      "why": "Aucune commande coupée entre parenthèses sans continuation.",
       "files": [
-        "modules/help/demo_life.py",
-        "modules/help/demo_life_more.py",
-        "modules/help/__init__.py"
-      ]
-    },
-    {
-      "id": "C3",
-      "title": "Tests",
-      "why": "Titre de l'accueil et version.",
-      "files": [
-        "tests/test_demo_space.py",
-        "tests/test_lot_v012.py",
-        "tests/test_platform_tools.py",
-        "tests/test_open_v060.py"
+        "tests/test_windows_install.py"
       ]
     }
   ]

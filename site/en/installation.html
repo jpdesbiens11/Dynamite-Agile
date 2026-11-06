@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Install DynamiteAgile</title>
-<meta name="description" content="Install DynamiteAgile in 5 steps, no technical knowledge needed: an online server, a local Linux server or a team Windows PC, from Windows, macOS or Linux.">
+<meta name="description" content="Install DynamiteAgile in 5 steps, no technical knowledge needed: an online server or a team Windows PC, from Windows, macOS or Linux.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='3' width='26' height='26' rx='3' fill='%23ffd23f' stroke='%2326323f' stroke-width='2'/%3E%3Cpath d='M18 6 L11 17 H16 L14 26 L22 14 H17 Z' fill='none' stroke='%2326323f' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="alternate" hreflang="fr" href="https://jpdesbiens11.github.io/Dynamite-Agile/installation.html">
 <link rel="alternate" hreflang="en" href="https://jpdesbiens11.github.io/Dynamite-Agile/en/installation.html">
@@ -501,7 +501,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   <h1>Install DynamiteAgile</h1>
   <p class="lead">Five steps, top to bottom. Each command copies in one click, and a label says <b>where</b> to paste it:
     <span class="where pc">on your computer</span> or <span class="where srv">on the server</span>.</p>
-  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Latest version: 0.60.55</b> · 2026-11-06 — The demo is the Rover: the demonstration Space is now named « ROVER — la démo : un projet complet, bac à sable et formation » (key DEMO unchanged), its home page presents the Rover and where to see it in each module, and the Exploration plan starts with the Rover (the guided tour keeps its dates). <a href="versions.html">See all versions →</a><br>Already installed? ⚙ Admin → Update → « Mise à jour en ligne » (online update): check, read, approve, follow live.</p>
+  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Latest version: 0.60.57</b> · 2026-11-06 — Windows installation: install.ps1 stopped before starting (« Missing closing &#x27;)&#x27; ») because five bilingual messages were split over two lines without a continuation character. Fixed, with a test that keeps it from coming back. <a href="versions.html">See all versions →</a><br>Already installed? ⚙ Admin → Update → « Mise à jour en ligne » (online update): check, read, approve, follow live.</p>
 
   <section class="pc-pick pc-first" data-new="0.60.49-from-where" aria-labelledby="from-where">
     <h2 id="from-where">Before you start: where are you installing from?</h2>
@@ -525,12 +525,6 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
             <path d="M8 32h48M32 8c-9 8-9 40 0 48M32 8c9 8 9 40 0 48" fill="none" stroke="#14202b" stroke-width="2.5"/></svg>
           <b>Online server</b><span class="tag">Recommended · Linux</span>
           <span>A rented <b>Linux VPS</b> (a free one exists): the team connects from anywhere, over HTTPS.</span></label>
-        <label class="os-card"><input type="radio" name="dest" value="local">
-          <svg class="os-ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="10" width="52" height="34" rx="6" fill="#14202b"/>
-            <path d="M16 22l7 5-7 5" fill="none" stroke="#7ee2a8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M27 33h12" stroke="#7ee2a8" stroke-width="3.5" stroke-linecap="round"/><path d="M22 52h20M32 44v8" stroke="#14202b" stroke-width="3"/></svg>
-          <b>Local Linux server</b><span class="tag">Team's network</span>
-          <span>A PC or mini-PC running <b>Ubuntu</b>, at school or at the office; it may then stay <b>without Internet</b>.</span></label>
         <label class="os-card"><input type="radio" name="dest" value="windows">
           <svg class="os-ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="10" width="52" height="44" rx="6" fill="#fff" stroke="#14202b" stroke-width="3"/>
             <path d="M6 20h52" stroke="#14202b" stroke-width="3"/><circle cx="13" cy="15" r="2" fill="#e8554e"/><circle cx="19" cy="15" r="2" fill="#f2b632"/>
@@ -632,50 +626,6 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
         <code>/opt/dynamite_agile</code>, gets the HTTPS certificate (renewed automatically) and starts the service. To <b>update</b>
         later: ⚙ Admin → Update, or run the same command again; the data stays. The script is readable here:
         <a href="https://github.com/jpdesbiens11/Dynamite-Agile/blob/main/deploy/install.sh">deploy/install.sh</a>.</p></details>
-      <label class="done"><input type="checkbox"> Installed</label>
-    </li>
-
-    <!-- ================= LOCAL LINUX SERVER (team's network) ================= -->
-    <li class="wiz-step" data-step="lo-pc" data-dest="local" hidden>
-      <h2><span class="n">2</span> Prepare the local server</h2>
-      <p>A PC or mini-PC <b>always on</b>, on the team's network, with <b>Ubuntu 24.04</b> installed (installation USB key from
-        <a href="https://ubuntu.com/download/server" rel="noopener">ubuntu.com</a>). It needs Internet <b>during the installation only</b>
-        (five minutes, to download Python and the tool); afterwards it may stay without Internet, the tool does not need it.</p>
-      <p>On this server, note its <b>IP address</b> on the network:</p>
-      <pre class="cmd" data-where="srv"><code>hostname -I</code></pre>
-      <div class="fields"><label>Local server IP address <input id="f-lip" data-v="lip" inputmode="decimal" autocomplete="off" placeholder="192.168.1.20"></label></div>
-      <p class="muted">No Internet at all, even to install? Ask the AI assistant (step 1) for the USB-key procedure.</p>
-      <label class="done"><input type="checkbox"> Done</label>
-    </li>
-    <li class="wiz-step" data-step="lo-ssh" data-dest="local" hidden>
-      <h2><span class="n">3</span> Connect to the server</h2>
-      <p>At the server's keyboard, or from your computer, in a terminal (<span data-pc-text="open"></span>):</p>
-      <pre class="cmd" data-where="pc"><code>ssh <span data-v="luser">your-name</span>@<span data-v="lip">192.168.1.20</span></code></pre>
-      <div class="fields"><label>Your user name on this server <input id="f-luser" data-v="luser" autocomplete="off" spellcheck="false" placeholder="your-name"></label></div>
-      <p class="expect">Answer <code>yes</code> the first time, type your password (nothing shows, that's normal).</p>
-      <label class="done"><input type="checkbox"> Done</label>
-    </li>
-    <li class="wiz-step" data-step="lo-install" data-dest="local" hidden>
-      <h2><span class="n">4</span> Install, in one command</h2>
-      <pre class="cmd" data-where="srv"><code>curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo DA_LANG=en bash -s -- --local</code></pre>
-      <p class="expect">Two to five minutes. The end shows <code>== 7/7 Installed</code>, the address (<code>https://server-name</code>),
-        the <b>temporary password</b> of the <code>admin</code> account and the file of the team's certificate,
-        <code>/opt/dynamite_agile/data/tls/partage/ca-dynamite.crt</code>.</p>
-      <details><summary>What the command does</summary><p>As for an online server, but without a domain: it creates the team's
-        certificate authority and this server's HTTPS certificate, and opens ports 80 and 443 to the local network's addresses only.
-        The script: <a href="https://github.com/jpdesbiens11/Dynamite-Agile/blob/main/deploy/install.sh">deploy/install.sh</a>.</p></details>
-      <label class="done"><input type="checkbox"> Done</label>
-    </li>
-    <li class="wiz-step" data-step="lo-trust" data-dest="local" hidden>
-      <h2><span class="n">5</span> Open the tool on each computer</h2>
-      <p>Once per computer, get the team's certificate, from your computer:</p>
-      <pre class="cmd" data-where="pc"><code>scp <span data-v="luser">your-name</span>@<span data-v="lip">192.168.1.20</span>:/opt/dynamite_agile/data/tls/partage/ca-dynamite.crt .</code></pre>
-      <p>then trust it:</p>
-      <pre class="cmd" data-where="pc" data-pc="win"><code>Import-Certificate -FilePath .\ca-dynamite.crt -CertStoreLocation Cert:\CurrentUser\Root</code></pre>
-      <pre class="cmd" data-where="pc" data-pc="mac"><code>sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ca-dynamite.crt</code></pre>
-      <pre class="cmd" data-where="pc" data-pc="linux"><code>sudo cp ca-dynamite.crt /usr/local/share/ca-certificates/ &amp;&amp; sudo update-ca-certificates</code></pre>
-      <p class="expect">Open <code>https://<span data-v="lip">192.168.1.20</span></code>, account <code>admin</code> and the temporary
-        password, then <b>⚙ Admin → Spaces → Commencer</b>. Firefox has its own certificates: Settings → Certificates → Authorities → Import.</p>
       <label class="done"><input type="checkbox"> Installed</label>
     </li>
 
@@ -785,7 +735,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       <code>python C:\DynamiteAgile\app_dynamite_agile.py --reset-password admin</code></td></tr>
     <tr><td>Move from trial to team</td><td>Follow the “On an online server” path: the same command with your domain</td></tr></table>
 </main>
-<footer>DynamiteAgile · free software under the MIT licence · version 0.60.55 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>DynamiteAgile · free software under the MIT licence · version 0.60.57 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */
@@ -920,7 +870,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 </script>
 <script>
 /* Installation page (D-O-048, 0.60.44 D-O-053): 5 steps from top to bottom. Step 1 says where the tool runs (an online
-   Linux VPS, a local Linux server, a Windows PC of the team) and which computer the person types on (Windows, macOS,
+   Linux VPS or a Windows PC of the team) and which computer the person types on (Windows, macOS,
    Linux): every command « on your computer » follows it. For a VPS, the host (Hostinger, Oracle Cloud Always Free,
    DigitalOcean) adapts the hints and the SSH command. The fields fill the commands and the message for an AI assistant;
    everything stays in the page (localStorage for this visitor only, wrapped in try/catch). */
@@ -935,15 +885,15 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     write(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (err) { /* private window: fine */ } },
   };
   const guessPc = /Win/i.test(navigator.platform) ? "win" : /Mac/i.test(navigator.platform) ? "mac" : "linux";
-  const state = Object.assign({ dest: "online", pc: guessPc, vps: "hostinger", domain: "", email: "", ip: "", lip: "", luser: "", done: {} },
+  const state = Object.assign({ dest: "online", pc: guessPc, vps: "hostinger", domain: "", email: "", ip: "", done: {} },
     store.read());
   const save = () => store.write(state);
   const $ = (s, root) => (root || document).querySelector(s);
   const $$ = (s, root) => Array.from((root || document).querySelectorAll(s));
-  const DEFAULTS = EN ? { domain: "workshop.my-domain.com", email: "me@example.com", ip: "203.0.113.10", lip: "192.168.1.20", luser: "your-name" }
-    : { domain: "atelier.mon-domaine.ca", email: "moi@exemple.ca", ip: "203.0.113.10", lip: "192.168.1.20", luser: "votre-nom" };
+  const DEFAULTS = EN ? { domain: "workshop.my-domain.com", email: "me@example.com", ip: "203.0.113.10" }
+    : { domain: "atelier.mon-domaine.ca", email: "moi@exemple.ca", ip: "203.0.113.10" };
   const value = (k) => (state[k] || "").trim() || DEFAULTS[k];
-  const DESTS = ["online", "local", "windows"];
+  const DESTS = ["online", "windows"];  // 0.60.56: no local Linux server (never done by the students)
   const VPS_NAMES = { hostinger: "Hostinger", oracle: "Oracle Cloud (Always Free)", digitalocean: "DigitalOcean" };
   const OPEN = EN
     ? { win: "Windows: Win + X → Terminal", mac: "macOS: Cmd + Space, type « Terminal »", linux: "Linux: Ctrl + Alt + T" }
@@ -982,7 +932,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   $$('input[name="pc"]').forEach((r) => r.addEventListener("change", () => setPc(r.value)));
   $$('input[name="vps"]').forEach((r) => r.addEventListener("change", () => setVps(r.value)));
 
-  ["domain", "email", "ip", "lip", "luser"].forEach((k) => {
+  ["domain", "email", "ip"].forEach((k) => {
     const input = $("#f-" + k);
     if (!input) return;
     input.value = state[k] || "";
@@ -1000,7 +950,6 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     const pc = PC_NAMES[state.pc];
     if (EN) {
       const where = { online: "on an empty Ubuntu 24.04 VPS at " + VPS_NAMES[state.vps] + ", with the web address " + value("domain"),
-        local: "on a local Linux server (Ubuntu 24.04) on my team's network, which may stay without Internet afterwards (--local)",
         windows: "on a Windows PC that hosts it for my team on our local network (PowerShell)" }[state.dest];
       return ["Hello! I'm not a technical person. I want to install DynamiteAgile " + where + ". My own computer runs " + pc + ".",
         "First read the procedure: " + page, "and the guide written for assistants: " + guide,
@@ -1009,7 +958,6 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
         "If my server is not empty (other applications, Docker…), adapt the procedure. Never ask me for a password or a private key."].join("\n");
     }
     const where = { online: "sur un VPS Ubuntu 24.04 vide chez " + VPS_NAMES[state.vps] + ", avec l'adresse web " + value("domain"),
-      local: "sur un serveur Linux local (Ubuntu 24.04) du réseau de mon équipe, qui pourra ensuite rester sans Internet (--local)",
       windows: "sur un PC Windows qui l'héberge pour mon équipe sur notre réseau local (PowerShell)" }[state.dest];
     return ["Bonjour ! Je ne suis pas technicien. Je veux installer DynamiteAgile " + where + ". Mon ordinateur est sous " + pc + ".",
       "Lis d'abord la procédure : " + page, "et le guide écrit pour les assistants : " + guide,

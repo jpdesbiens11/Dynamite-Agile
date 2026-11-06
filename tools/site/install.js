@@ -1,5 +1,5 @@
 /* Installation page (D-O-048, 0.60.44 D-O-053): 5 steps from top to bottom. Step 1 says where the tool runs (an online
-   Linux VPS, a local Linux server, a Windows PC of the team) and which computer the person types on (Windows, macOS,
+   Linux VPS or a Windows PC of the team) and which computer the person types on (Windows, macOS,
    Linux): every command « on your computer » follows it. For a VPS, the host (Hostinger, Oracle Cloud Always Free,
    DigitalOcean) adapts the hints and the SSH command. The fields fill the commands and the message for an AI assistant;
    everything stays in the page (localStorage for this visitor only, wrapped in try/catch). */
@@ -14,15 +14,15 @@
     write(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (err) { /* private window: fine */ } },
   };
   const guessPc = /Win/i.test(navigator.platform) ? "win" : /Mac/i.test(navigator.platform) ? "mac" : "linux";
-  const state = Object.assign({ dest: "online", pc: guessPc, vps: "hostinger", domain: "", email: "", ip: "", lip: "", luser: "", done: {} },
+  const state = Object.assign({ dest: "online", pc: guessPc, vps: "hostinger", domain: "", email: "", ip: "", done: {} },
     store.read());
   const save = () => store.write(state);
   const $ = (s, root) => (root || document).querySelector(s);
   const $$ = (s, root) => Array.from((root || document).querySelectorAll(s));
-  const DEFAULTS = EN ? { domain: "workshop.my-domain.com", email: "me@example.com", ip: "203.0.113.10", lip: "192.168.1.20", luser: "your-name" }
-    : { domain: "atelier.mon-domaine.ca", email: "moi@exemple.ca", ip: "203.0.113.10", lip: "192.168.1.20", luser: "votre-nom" };
+  const DEFAULTS = EN ? { domain: "workshop.my-domain.com", email: "me@example.com", ip: "203.0.113.10" }
+    : { domain: "atelier.mon-domaine.ca", email: "moi@exemple.ca", ip: "203.0.113.10" };
   const value = (k) => (state[k] || "").trim() || DEFAULTS[k];
-  const DESTS = ["online", "local", "windows"];
+  const DESTS = ["online", "windows"];  // 0.60.56: no local Linux server (never done by the students)
   const VPS_NAMES = { hostinger: "Hostinger", oracle: "Oracle Cloud (Always Free)", digitalocean: "DigitalOcean" };
   const OPEN = EN
     ? { win: "Windows: Win + X → Terminal", mac: "macOS: Cmd + Space, type « Terminal »", linux: "Linux: Ctrl + Alt + T" }
@@ -61,7 +61,7 @@
   $$('input[name="pc"]').forEach((r) => r.addEventListener("change", () => setPc(r.value)));
   $$('input[name="vps"]').forEach((r) => r.addEventListener("change", () => setVps(r.value)));
 
-  ["domain", "email", "ip", "lip", "luser"].forEach((k) => {
+  ["domain", "email", "ip"].forEach((k) => {
     const input = $("#f-" + k);
     if (!input) return;
     input.value = state[k] || "";
@@ -79,7 +79,6 @@
     const pc = PC_NAMES[state.pc];
     if (EN) {
       const where = { online: "on an empty Ubuntu 24.04 VPS at " + VPS_NAMES[state.vps] + ", with the web address " + value("domain"),
-        local: "on a local Linux server (Ubuntu 24.04) on my team's network, which may stay without Internet afterwards (--local)",
         windows: "on a Windows PC that hosts it for my team on our local network (PowerShell)" }[state.dest];
       return ["Hello! I'm not a technical person. I want to install DynamiteAgile " + where + ". My own computer runs " + pc + ".",
         "First read the procedure: " + page, "and the guide written for assistants: " + guide,
@@ -88,7 +87,6 @@
         "If my server is not empty (other applications, Docker…), adapt the procedure. Never ask me for a password or a private key."].join("\n");
     }
     const where = { online: "sur un VPS Ubuntu 24.04 vide chez " + VPS_NAMES[state.vps] + ", avec l'adresse web " + value("domain"),
-      local: "sur un serveur Linux local (Ubuntu 24.04) du réseau de mon équipe, qui pourra ensuite rester sans Internet (--local)",
       windows: "sur un PC Windows qui l'héberge pour mon équipe sur notre réseau local (PowerShell)" }[state.dest];
     return ["Bonjour ! Je ne suis pas technicien. Je veux installer DynamiteAgile " + where + ". Mon ordinateur est sous " + pc + ".",
       "Lis d'abord la procédure : " + page, "et le guide écrit pour les assistants : " + guide,

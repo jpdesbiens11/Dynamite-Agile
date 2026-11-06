@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Install DynamiteAgile</title>
-<meta name="description" content="Install DynamiteAgile in 5 steps, no technical knowledge needed: an online server, a local Linux server or a team Windows PC, from Windows, macOS or Linux.">
+<meta name="description" content="Install DynamiteAgile in 5 steps, no technical knowledge needed: an online server or a team Windows PC, from Windows, macOS or Linux.">
 {{FAVICON}}
 <style>
 {{CSS}}
@@ -42,12 +42,6 @@
             <path d="M8 32h48M32 8c-9 8-9 40 0 48M32 8c9 8 9 40 0 48" fill="none" stroke="#14202b" stroke-width="2.5"/></svg>
           <b>Online server</b><span class="tag">Recommended · Linux</span>
           <span>A rented <b>Linux VPS</b> (a free one exists): the team connects from anywhere, over HTTPS.</span></label>
-        <label class="os-card"><input type="radio" name="dest" value="local">
-          <svg class="os-ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="10" width="52" height="34" rx="6" fill="#14202b"/>
-            <path d="M16 22l7 5-7 5" fill="none" stroke="#7ee2a8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M27 33h12" stroke="#7ee2a8" stroke-width="3.5" stroke-linecap="round"/><path d="M22 52h20M32 44v8" stroke="#14202b" stroke-width="3"/></svg>
-          <b>Local Linux server</b><span class="tag">Team's network</span>
-          <span>A PC or mini-PC running <b>Ubuntu</b>, at school or at the office; it may then stay <b>without Internet</b>.</span></label>
         <label class="os-card"><input type="radio" name="dest" value="windows">
           <svg class="os-ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="10" width="52" height="44" rx="6" fill="#fff" stroke="#14202b" stroke-width="3"/>
             <path d="M6 20h52" stroke="#14202b" stroke-width="3"/><circle cx="13" cy="15" r="2" fill="#e8554e"/><circle cx="19" cy="15" r="2" fill="#f2b632"/>
@@ -149,50 +143,6 @@
         <code>/opt/dynamite_agile</code>, gets the HTTPS certificate (renewed automatically) and starts the service. To <b>update</b>
         later: ⚙ Admin → Update, or run the same command again; the data stays. The script is readable here:
         <a href="{{REPO}}/blob/main/deploy/install.sh">deploy/install.sh</a>.</p></details>
-      <label class="done"><input type="checkbox"> Installed</label>
-    </li>
-
-    <!-- ================= LOCAL LINUX SERVER (team's network) ================= -->
-    <li class="wiz-step" data-step="lo-pc" data-dest="local" hidden>
-      <h2><span class="n">2</span> Prepare the local server</h2>
-      <p>A PC or mini-PC <b>always on</b>, on the team's network, with <b>Ubuntu 24.04</b> installed (installation USB key from
-        <a href="https://ubuntu.com/download/server" rel="noopener">ubuntu.com</a>). It needs Internet <b>during the installation only</b>
-        (five minutes, to download Python and the tool); afterwards it may stay without Internet, the tool does not need it.</p>
-      <p>On this server, note its <b>IP address</b> on the network:</p>
-      <pre class="cmd" data-where="srv"><code>hostname -I</code></pre>
-      <div class="fields"><label>Local server IP address <input id="f-lip" data-v="lip" inputmode="decimal" autocomplete="off" placeholder="192.168.1.20"></label></div>
-      <p class="muted">No Internet at all, even to install? Ask the AI assistant (step 1) for the USB-key procedure.</p>
-      <label class="done"><input type="checkbox"> Done</label>
-    </li>
-    <li class="wiz-step" data-step="lo-ssh" data-dest="local" hidden>
-      <h2><span class="n">3</span> Connect to the server</h2>
-      <p>At the server's keyboard, or from your computer, in a terminal (<span data-pc-text="open"></span>):</p>
-      <pre class="cmd" data-where="pc"><code>ssh <span data-v="luser">your-name</span>@<span data-v="lip">192.168.1.20</span></code></pre>
-      <div class="fields"><label>Your user name on this server <input id="f-luser" data-v="luser" autocomplete="off" spellcheck="false" placeholder="your-name"></label></div>
-      <p class="expect">Answer <code>yes</code> the first time, type your password (nothing shows, that's normal).</p>
-      <label class="done"><input type="checkbox"> Done</label>
-    </li>
-    <li class="wiz-step" data-step="lo-install" data-dest="local" hidden>
-      <h2><span class="n">4</span> Install, in one command</h2>
-      <pre class="cmd" data-where="srv"><code>curl -fsSL {{SITE_URL}}/install.sh | sudo DA_LANG=en bash -s -- --local</code></pre>
-      <p class="expect">Two to five minutes. The end shows <code>== 7/7 Installed</code>, the address (<code>https://server-name</code>),
-        the <b>temporary password</b> of the <code>admin</code> account and the file of the team's certificate,
-        <code>/opt/dynamite_agile/data/tls/partage/ca-dynamite.crt</code>.</p>
-      <details><summary>What the command does</summary><p>As for an online server, but without a domain: it creates the team's
-        certificate authority and this server's HTTPS certificate, and opens ports 80 and 443 to the local network's addresses only.
-        The script: <a href="{{REPO}}/blob/main/deploy/install.sh">deploy/install.sh</a>.</p></details>
-      <label class="done"><input type="checkbox"> Done</label>
-    </li>
-    <li class="wiz-step" data-step="lo-trust" data-dest="local" hidden>
-      <h2><span class="n">5</span> Open the tool on each computer</h2>
-      <p>Once per computer, get the team's certificate, from your computer:</p>
-      <pre class="cmd" data-where="pc"><code>scp <span data-v="luser">your-name</span>@<span data-v="lip">192.168.1.20</span>:/opt/dynamite_agile/data/tls/partage/ca-dynamite.crt .</code></pre>
-      <p>then trust it:</p>
-      <pre class="cmd" data-where="pc" data-pc="win"><code>Import-Certificate -FilePath .\ca-dynamite.crt -CertStoreLocation Cert:\CurrentUser\Root</code></pre>
-      <pre class="cmd" data-where="pc" data-pc="mac"><code>sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ca-dynamite.crt</code></pre>
-      <pre class="cmd" data-where="pc" data-pc="linux"><code>sudo cp ca-dynamite.crt /usr/local/share/ca-certificates/ &amp;&amp; sudo update-ca-certificates</code></pre>
-      <p class="expect">Open <code>https://<span data-v="lip">192.168.1.20</span></code>, account <code>admin</code> and the temporary
-        password, then <b>⚙ Admin → Spaces → Commencer</b>. Firefox has its own certificates: Settings → Certificates → Authorities → Import.</p>
       <label class="done"><input type="checkbox"> Installed</label>
     </li>
 
