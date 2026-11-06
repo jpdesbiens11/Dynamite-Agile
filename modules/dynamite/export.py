@@ -1,6 +1,7 @@
 """Export a Dynamite page (and optionally its sub-pages) as Word or PDF (D-B-050).
 
 GET .../pages/<id>/export.docx | export.pdf [?children=1]
+POST the same with {children, diagrams}: Mermaid drawings as PNG from the browser (0.60.62, export_mermaid.py)
 Right: reader of the space AND the export right given by an administrator
 to that person (Administration → Droits, column « Export »; administrators
 always have it). Every export is journalled -- and refused while the
@@ -19,6 +20,7 @@ from core import audit, permissions, prefs, uploads, validate
 from core.errors import ApiError
 from core.files import RawFile
 
+from . import export_mermaid
 from .pages import _page
 
 PANEL_LABEL = {"info": "Info", "note": "Note", "warning": "Attention", "success": "Réussite"}
@@ -47,9 +49,10 @@ def _runs(nodes):
     return runs
 
 
-def flatten(ctx, project_id, page, body, depth_offset=0):
+def flatten(ctx, project_id, page, body, depth_offset=0, diagrams=None):
     conn = ctx.conn
     items = []
+    diagrams = diagrams or {}
 
     def blocks(nodes, depth, prefix_style=None):
         for node in nodes or []:
@@ -73,7 +76,13 @@ def flatten(ctx, project_id, page, body, depth_offset=0):
                     items.append(("p", [(label + " — ", {"bold": True})], kind))
                 blocks(node.get("content"), depth, kind)
             elif kind == "code":
-                items.append(("code", node.get("text", "")))
+                text = node.get("text", "")
+                png = diagrams.get(text) if export_mermaid.is_mermaid(node) else None
+                if png:  # 0.60.62 (D-O-071): the drawing, then its code in small type for the audit
+                    items.append(("image", png, "image/png", "Diagramme Mermaid", export_mermaid.SCALE))
+                    items.append(("code", text, "small"))
+                else:
+                    items.append(("code", text))
             elif kind == "rule":
                 items.append(("rule",))
             elif kind == "table":
@@ -121,8 +130,8 @@ def _collect(ctx, project_id, page, with_children):
     return out
 
 
-def api_export(ctx):
-    fmt = ctx.params.get("fmt")
+def check(ctx):
+    """The Space and the page, once the person may export them (reader + export right, no print block)."""
     project_id = validate.int_param(ctx.params, "pid")
     permissions.require_project_role(ctx.conn, ctx.user, project_id, "reader")
     if not can_export(ctx.conn, ctx.user):
@@ -130,13 +139,19 @@ def api_export(ctx):
                             "« Export PDF / Word » pour vous (Admin → Droits).")
     if not ctx.user["is_admin"] and prefs.policy(ctx.conn).get("block_print"):
         raise ApiError(403, "Export suspendu : l'administrateur a activé le blocage de l'impression.")
-    page = _page(ctx.conn, project_id, validate.int_param(ctx.params, "page"))
-    with_children = str(ctx.query.get("children", "0")) in ("1", "true", "oui")
+    return project_id, _page(ctx.conn, project_id, validate.int_param(ctx.params, "page"))
+
+
+def api_export(ctx, with_children=None, diagrams=None):
+    fmt = ctx.params.get("fmt")
+    project_id, page = check(ctx)
+    if with_children is None:
+        with_children = str(ctx.query.get("children", "0")) in ("1", "true", "oui")
     project = ctx.conn.execute("SELECT key, name FROM projects WHERE id = ?", (project_id,)).fetchone()
     docs = []
     for p, body, level in _collect(ctx, project_id, page, with_children):
         docs.append({"title": p["title"], "level": level, "version": p["current_version"], "updated": p["updated_at"],
-                     "items": flatten(ctx, project_id, p, body)})
+                     "items": flatten(ctx, project_id, p, body, diagrams=diagrams)})
     meta = {"space": "{} — {}".format(project["key"], project["name"]), "by": ctx.user["display_name"],
             "at": dt.datetime.now().strftime("%Y-%m-%d %H:%M"), "title": page["title"]}
     if fmt == "docx":
@@ -145,6 +160,6 @@ def api_export(ctx):
         from .export_pdf import build
     data = build(docs, meta)
     audit.log_action(ctx.conn, ctx.user["id"], "dynamite_page_export", "dynamite_page", page["id"],
-                     {"format": fmt, "pages": len(docs)}, ctx.ip)
+                     {"format": fmt, "pages": len(docs), "diagrams": len(diagrams or {})}, ctx.ip)
     name = re.sub(r"[^\w\-]+", "_", "{}_{}".format(project["key"], page["title"]), flags=re.UNICODE).strip("_")[:80]
     return RawFile(data, "{}.{}".format(name, fmt), MIME[fmt])

@@ -197,7 +197,7 @@ class Pdf:
         for i, segs in enumerate(lines):
             self.need(lead)
             if fill is not None:
-                self.rect(MARGIN + indent - 4, self.y - lead + 3, WIDTH - indent + 8, lead, fill)
+                self.rect(MARGIN + indent - 4, self.y - lead, WIDTH - indent + 8, lead, fill)  # 0.60.62: never over the line above
             if bar:
                 self.line(MARGIN + indent - 2, self.y + 2, MARGIN + indent - 2, self.y - lead + 3, 0.8, 2)
             x = MARGIN + indent + (8 if bar or fill else 0)
@@ -237,7 +237,7 @@ class Pdf:
             self.y = top - height
         self.y -= 8
 
-    def image(self, data, mime, alt):
+    def image(self, data, mime, alt, scale=1):
         info = None
         if data and mime == "image/jpeg":
             j = jpeg_info(data)
@@ -251,7 +251,7 @@ class Pdf:
             self.paragraph([("[image : {} — voir l'export Word]".format(alt or "format non pris en charge"), {"italic": True, "color": "gray"})], 9)
             return
         w, h = info[0], info[1]
-        dw = min(WIDTH, w * 0.75)
+        dw = min(WIDTH, w * 0.75 / scale)  # scale: a Mermaid drawing made at 2x (0.60.62)
         dh = h * dw / w
         if dh > PAGE_H - 2 * MARGIN - 40:
             dh = PAGE_H - 2 * MARGIN - 40
@@ -330,8 +330,10 @@ def build(docs, meta):
             elif kind == "li":
                 pdf.paragraph([(item[2] + "  ", {})] + item[3], 10, indent=14 * (item[1] + 1), before=0, after=2)
             elif kind == "code":
+                small = len(item) > 2 and item[2] == "small"  # the code under a Mermaid drawing (0.60.62)
                 for line in (item[1] or "").split("\n"):
-                    pdf.paragraph([(line or " ", {"code": True})], 8.5, before=0, after=0, fill=0.95)
+                    pdf.paragraph([(line or " ", {"code": True, "color": "gray"} if small else {"code": True})], 6.5 if small else 8.5,
+                                  before=0, after=0, fill=0.95)
                 pdf.y -= 6
             elif kind == "rule":
                 pdf.need(10)
@@ -340,5 +342,5 @@ def build(docs, meta):
             elif kind == "table":
                 pdf.table(item[1], item[2])
             elif kind == "image":
-                pdf.image(item[1], item[2], item[3])
+                pdf.image(item[1], item[2], item[3], item[4] if len(item) > 4 else 1)
     return pdf.output()

@@ -1,11 +1,20 @@
-# Journal de mise à jour — 0.60.61
+# Journal de mise à jour — 0.60.62
+
+- **Version :** 0.60.61 → 0.60.62 (2026-11-06)
+- **Changements :**
+  1. **Schémas Mermaid dans les exports PDF et Word** (D-O-071) : le schéma à la place du code, le code dessous en petit pour l'audit.
+  2. **Correctif PDF** : les lignes d'un bloc de code ne se chevauchent plus.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.61
 
 - **Version :** 0.60.60 → 0.60.61 (2026-11-06)
 - **Changements :**
   1. **Coûts et budget dans Diamond** (D-O-070) : NRE, coût des pièces en prototype et en production, budget global du projet, version investisseurs.
 - **Base de données :** ['Migration Diamond 9 (additive) : diamond_cost_settings, diamond_cost_nre, diamond_cost_parts.']
 
-## Précédent
 
 ### Journal de mise à jour — 0.60.60
 

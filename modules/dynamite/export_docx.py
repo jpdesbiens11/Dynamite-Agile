@@ -75,6 +75,8 @@ class Writer:
             props.append('<w:u w:val="single"/>')
         if style.get("strike"):
             props.append("<w:strike/>")
+        if style.get("small"):
+            props.append('<w:sz w:val="14"/>')
         if style.get("code"):
             props.append('<w:rFonts w:ascii="Consolas" w:hAnsi="Consolas"/><w:shd w:val="clear" w:color="auto" w:fill="F1F2F4"/>')
         color = COLORS.get(style.get("color")) or ("0C66E4" if style.get("link") else None)
@@ -120,12 +122,12 @@ class Writer:
         self.body.append("".join(out))
         self.body.append("<w:p/>")
 
-    def image(self, data, mime, alt):
+    def image(self, data, mime, alt, scale=1):
         size = image_size(data, mime) if data else None
         if not size:
             self.para([("[image : {}]".format(alt or "non incluse"), {"italic": True, "color": "gray"})], "Meta")
             return
-        w, h = size
+        w, h = size[0] // scale, size[1] // scale  # scale: a Mermaid drawing made at 2x (0.60.62)
         if w > MAX_WIDTH_PX:
             w, h = MAX_WIDTH_PX, int(h * MAX_WIDTH_PX / w)
         n = len(self.media) + 1
@@ -164,15 +166,16 @@ def build(docs, meta):
             elif kind == "li":
                 w.para([(item[2] + "\t", {})] + item[3], None, indent=item[1] + 1)
             elif kind == "code":
+                small = len(item) > 2 and item[2] == "small"  # the code under a Mermaid drawing (0.60.62)
                 for line in (item[1] or " ").split("\n"):
-                    w.para([(line or " ", {})], "Code")
+                    w.para([(line or " ", {"small": True, "color": "gray"} if small else {})], "Code")
                 w.para([], None)
             elif kind == "rule":
                 w.body.append('<w:p><w:pPr><w:pBdr><w:bottom w:val="single" w:sz="6" w:space="1" w:color="DCDFE4"/></w:pBdr></w:pPr></w:p>')
             elif kind == "table":
                 w.table(item[1], item[2])
             elif kind == "image":
-                w.image(item[1], item[2], item[3])
+                w.image(item[1], item[2], item[3], item[4] if len(item) > 4 else 1)
     document = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document {}><w:body>{}'
                 '<w:sectPr><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="1080" w:right="1080" w:bottom="1080" w:left="1080" '
                 'w:header="560" w:footer="560" w:gutter="0"/></w:sectPr></w:body></w:document>').format(W, "".join(w.body))

@@ -63,18 +63,23 @@
 
   DY.exportMenu = function (ctx, p) {
     if (!DY.canExport()) return null;
-    const url = (fmt, kids) => "/api/dynamite/p/" + ctx.pid + "/pages/" + p.id + "/export." + fmt + (kids ? "?children=1" : "");
+    /* 0.60.62 (D-O-071): the export goes through DY.exportPage, which adds the Mermaid drawings (mermaid_png.js) */
     const sel = el("select", { class: "btn btn-small dy-export", "aria-label": "Exporter la page" },
       el("option", { value: "" }, "⇩ Exporter…"),
-      el("option", { value: url("pdf") }, "PDF — cette page"), el("option", { value: url("pdf", true) }, "PDF — avec les sous-pages"),
-      el("option", { value: url("docx") }, "Word — cette page"), el("option", { value: url("docx", true) }, "Word — avec les sous-pages"));
-    sel.addEventListener("change", () => {
+      el("option", { value: "pdf" }, "PDF — cette page"), el("option", { value: "pdf+" }, "PDF — avec les sous-pages"),
+      el("option", { value: "docx" }, "Word — cette page"), el("option", { value: "docx+" }, "Word — avec les sous-pages"));
+    sel.addEventListener("change", async () => {
       if (!sel.value) return;
-      const a = el("a", { href: sel.value, download: "" });
-      document.body.append(a);
-      a.click();
-      a.remove();
+      const fmt = sel.value.replace("+", ""), kids = sel.value.endsWith("+");
       sel.value = "";
+      sel.disabled = true;
+      try {
+        await DY.exportPage(ctx.pid, p.id, fmt, kids);
+      } catch (err) {
+        DA.toast(err.message, "error");
+      } finally {
+        sel.disabled = false;
+      }
     });
     return sel;
   };

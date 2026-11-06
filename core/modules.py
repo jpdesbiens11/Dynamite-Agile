@@ -39,7 +39,7 @@ from modules import diamond  # noqa: E402  0.60.11, D-O-023
 MODULE_MANIFEST = [
     {"key": "dynamite", "label": "Dynamite", "phase": "3.2", "module": dynamite,
      "scripts": ["/js/dynamite/render.js", "/js/dynamite/mermaid_parse.js", "/js/dynamite/mermaid_layout.js",
-                 "/js/dynamite/mermaid_svg.js", "/js/dynamite/mermaid_seq.js", "/js/dynamite/visual_dom.js", "/js/dynamite/visual_cmds.js",
+                 "/js/dynamite/mermaid_svg.js", "/js/dynamite/mermaid_seq.js", "/js/dynamite/mermaid_png.js", "/js/dynamite/visual_dom.js", "/js/dynamite/visual_cmds.js",
                  "/js/dynamite/visual.js", "/js/dynamite/ai_import.js", "/js/dynamite/ai_modal.js",
                  "/js/dynamite/editor.js", "/js/dynamite/comments.js", "/js/dynamite/page_tools.js",
                  "/js/dynamite/dynamite.js"], "styles": ["/css/dynamite.css"]},

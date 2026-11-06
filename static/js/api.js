@@ -59,6 +59,32 @@
     return data;
   }
 
+  /* 0.60.62 (D-O-071): POST a JSON body and save the file the server sends back (exports built from browser data). */
+  async function download(url, body) {
+    const headers = { "Content-Type": "application/json" };
+    if (state.csrf) headers["X-CSRF-Token"] = state.csrf;
+    let response;
+    try {
+      response = await fetch(url, { method: "POST", credentials: "same-origin", headers, body: JSON.stringify(body || {}) });
+    } catch (err) {
+      throw new ApiError(0, "Serveur injoignable. Vérifiez votre connexion VPN.");
+    }
+    if (!response.ok) {
+      let message = "Erreur " + response.status + ".";
+      try { message = (await response.json()).error || message; } catch (err) { /* not JSON */ }
+      throw new ApiError(response.status, message);
+    }
+    const disposition = response.headers.get("Content-Disposition") || "";
+    const match = /filename="([^"]+)"/.exec(disposition);
+    const blob = await response.blob();
+    const link = URL.createObjectURL(blob);
+    const a = el("a", { href: link, download: match ? match[1] : "export" });
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(link), 30000);
+  }
+
   /* el("button", {class: "btn", onclick: fn}, "Label", childNode, ...) */
   function el(tag, attrs, ...children) {
     const node = document.createElement(tag);
@@ -197,6 +223,7 @@
       patch: (url, body) => request("PATCH", url, body || {}),
       del: (url) => request("DELETE", url),
       upload: (url, file) => request("POST", url, undefined, file),
+      download,
     },
     setCsrf(token) { state.csrf = token; },
     onUnauthorized: null,
