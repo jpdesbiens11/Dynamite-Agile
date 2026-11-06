@@ -123,6 +123,44 @@
         : el("p", { class: "muted" }, "Aucune sous-page."));
   }
 
+  /* 0.60.60 (D-O-069): a ```mermaid block (or a code block without language that is plainly a diagram) is drawn by the
+     platform's own engine (mermaid_*.js). Reading: the drawing, with « Voir le code ». Visual editor: the code stays
+     editable and the drawing follows below it (contenteditable=false, data-skip: visual_dom.js never reads it back). */
+  function isMermaid(b) {
+    const M = DA.dynamite.mermaid;
+    if (!M || !M.figure) return false;
+    const lang = String(b.lang || "").toLowerCase();
+    return lang === "mermaid" || (!lang && M.looks(b.text));
+  }
+
+  function mermaidBlock(b, ed) {
+    const M = DA.dynamite.mermaid;
+    if (!ed) return M.figure(b.text, "mermaid");
+    const pre = el("pre", { class: "dy-code", "data-lang": "mermaid" }, el("code", null, b.text));
+    const preview = el("div", { class: "dy-mm-preview", contenteditable: "false", "data-skip": "1", "aria-live": "polite" });
+    paintPreview(preview, b.text);
+    return [pre, preview];
+  }
+
+  function paintPreview(preview, source) {
+    while (preview.firstChild) preview.removeChild(preview.firstChild);
+    const fig = DA.dynamite.mermaid.figure(source, "mermaid");
+    preview.append(fig.querySelector(".dy-mm-view, .dy-mm-problem") || fig);
+  }
+
+  // typing in the editor fires « input » on the editing surface, not on the block: find the Mermaid block at the caret
+  let mermaidTimer = null;
+  document.addEventListener("input", () => {
+    const sel = window.getSelection && window.getSelection();
+    let n = sel && sel.anchorNode;
+    while (n && !(n.nodeType === 1 && n.tagName === "PRE")) n = n.parentNode;
+    if (!n || (n.getAttribute("data-lang") || "").toLowerCase() !== "mermaid") return;
+    const preview = n.nextElementSibling;
+    if (!preview || !preview.classList.contains("dy-mm-preview")) return;
+    clearTimeout(mermaidTimer);
+    mermaidTimer = setTimeout(() => paintPreview(preview, n.innerText.replace(/\n$/, "")), 400);
+  });
+
   function atom(kind, label) {
     return el("div", { class: "dy-atom dy-atom-" + kind, "data-block": kind, contenteditable: "false" }, label);
   }
@@ -141,6 +179,7 @@
         case "ordered_list": return el("ol", null, b.items.map((item) => el("li", null, blocks(item, opts))));
         case "quote": return el("blockquote", null, blocks(b.content, opts));
         case "code":
+          if (isMermaid(b)) return mermaidBlock(b, ed);
           if (ed) return el("pre", { class: "dy-code", "data-lang": b.lang || "" }, el("code", null, b.text));
           return el("pre", { class: "dy-code" }, b.lang ? el("span", { class: "dy-code-lang" }, b.lang) : null,
             el("code", null, b.text));
@@ -167,7 +206,7 @@
         case "children": return ed ? atom("children", "↳ Liste des sous-pages (générée à la lecture)") : childrenBlock(opts);
         default: return el("p", { class: "muted" }, "[bloc inconnu : " + b.type + "]");
       }
-    });
+    }).flat();  // a Mermaid block in the editor is two nodes: its code and its drawing
   }
 
   function collectHeadings(nodes, out) {

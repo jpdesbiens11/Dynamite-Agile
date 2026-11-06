@@ -249,6 +249,7 @@ def _dynamite(api, pid, tickets):
                ["- élément   /   1. élément", "Listes"],
                ["> citation", "Citation"],
                ["```langage … ```", "Bloc de code"],
+               ["```mermaid … ```  (flowchart, sequenceDiagram, stateDiagram)", "Diagramme dessiné ; « Voir le code » pour l'auditer"],
                [":::info … :::  (info, note, warning, success)", "Panneau"],
                ["[[CLE-12]] seul sur sa ligne", "Bloc Ticket vivant"],
                ["{{red:texte}}  /  {{status:green:DONE}}", "Couleur / status"],

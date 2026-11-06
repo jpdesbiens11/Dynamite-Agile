@@ -15,6 +15,7 @@
     ["- élément   ou   1. élément", "Listes"],
     ["> citation", "Citation"],
     ["```langage … ```", "Bloc de code"],
+    ["```mermaid … ```", "Diagramme Mermaid dessiné (flowchart, sequenceDiagram, stateDiagram)"],
     [":::info … :::   (info, note, warning, success)", "Panneau"],
     ["[[EQP-4]]   seul sur sa ligne", "Bloc Ticket Agile (vivant)"],
     ["![légende](image:12)   seul sur sa ligne", "Image : collez (Ctrl+V), glissez un fichier ou bouton 🖼 Image"],

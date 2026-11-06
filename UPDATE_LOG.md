@@ -1,11 +1,19 @@
-# Journal de mise à jour — 0.60.59
+# Journal de mise à jour — 0.60.60
+
+- **Version :** 0.60.59 → 0.60.60 (2026-11-06)
+- **Changements :**
+  1. **Diagrammes Mermaid dans Dynamite** (D-O-069) : flowchart, séquence et états dessinés par le moteur de la plateforme ; « Voir le code » pour auditer.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.59
 
 - **Version :** 0.60.58 → 0.60.59 (2026-11-06)
 - **Changements :**
   1. **Certificat : le dossier Documents** (D-O-068) : où copier le fichier, comment ouvrir le terminal, une commande qui marche de partout.
 - **Base de données :** ['Aucun changement de schéma.']
 
-## Précédent
 
 ### Journal de mise à jour — 0.60.58
 

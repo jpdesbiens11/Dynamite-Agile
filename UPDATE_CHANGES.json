@@ -2,23 +2,36 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Certificat depuis Documents (D-O-068)",
-      "why": "Demande d'un utilisateur : préciser où coller le fichier et d'où lancer le terminal.",
+      "title": "Moteur Mermaid de la plateforme (D-O-069)",
+      "why": "Analyse, placement en couches et dessin SVG sans innerHTML ; flowchart, séquence, états ; erreurs avec numéro de ligne.",
       "files": [
-        "tools/site/installation.html",
-        "tools/site/en/installation.html",
-        "tools/site/site.css",
-        "tools/site/installer.md",
-        "tools/site/en/installer.md",
-        "deploy/install.ps1"
+        "static/js/dynamite/mermaid_parse.js",
+        "static/js/dynamite/mermaid_layout.js",
+        "static/js/dynamite/mermaid_svg.js",
+        "static/js/dynamite/mermaid_seq.js",
+        "static/css/dynamite.css",
+        "core/modules.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Test",
-      "why": "Commande avec Documents dans les pages et dans install.ps1.",
+      "title": "Pages Dynamite",
+      "why": "Lecture : schéma + « Voir le code » ; éditeur visuel : code + aperçu en direct jamais enregistré ; langage repris d'un collage de chat (language-mermaid) ou reconnu.",
       "files": [
-        "tests/test_windows_install.py"
+        "static/js/dynamite/render.js",
+        "static/js/dynamite/visual_dom.js",
+        "static/js/dynamite/editor.js",
+        "modules/help/headlamp.py"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Tests",
+      "why": "tests/js/mermaid.js (moteur) et tests/test_mermaid.py.",
+      "files": [
+        "tests/js/mermaid.js",
+        "tests/test_mermaid.py",
+        "tests/test_open_v060.py"
       ]
     }
   ]
