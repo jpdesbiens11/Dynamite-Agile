@@ -12,12 +12,14 @@ Sub-modules, one per iteration:
   0.60.16  Golden Nuggets (static/js/diamond/nuggets*.js): first-principles thinking and design rules, with examples.
   0.60.51  Storyline (story.py): the use of the product told scene by scene with pictograms, before the tree.
   0.60.52  Storyline → IA (story_ai.py): the prompt built from the scenes, and the AI's answer imported into the Space.
+  0.60.61  Coûts et budget (costs.py, costs_budget.py): NRE, unit cost of each part in prototype and at three volumes,
+           the project budget for investors and the department.
 Every table is tied to projects(id) (backup, restore, copy by the core); every write is journalled.
 """
 from .search import search  # noqa: F401  (core search hook, 0.60.36)
 from .bot import bot_summary  # noqa: F401  (Bob le mineur, core/bot.py, 0.60.36)
 from .actions import dashboard  # noqa: F401  (core dashboard hook, 0.60.38)
-from . import actions, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
+from . import actions, costs, costs_budget, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
 
 SCHEMA = ""
 
@@ -196,6 +198,59 @@ MIGRATIONS = [
         );
         CREATE INDEX idx_diamond_story_project ON diamond_story_scenes(project_id, position);
     """),
+    (9, """
+        -- 0.60.61 (D-O-070): « Coûts et budget »
+        CREATE TABLE diamond_cost_settings (
+            project_id  INTEGER PRIMARY KEY REFERENCES projects(id) ON DELETE CASCADE,
+            currency    TEXT NOT NULL DEFAULT 'CAD',
+            proto_qty   INTEGER NOT NULL DEFAULT 3,
+            volumes     TEXT NOT NULL DEFAULT '[100, 1000, 10000]',
+            contingency REAL NOT NULL DEFAULT 15,
+            labour_rate REAL NOT NULL DEFAULT 0,
+            notes       TEXT NOT NULL DEFAULT '',
+            updated_by  INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            updated_at  TEXT NOT NULL
+        );
+        CREATE TABLE diamond_cost_nre (
+            id         INTEGER PRIMARY KEY,
+            project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            number     INTEGER NOT NULL,
+            position   INTEGER NOT NULL DEFAULT 0,
+            title      TEXT NOT NULL,
+            category   TEXT NOT NULL DEFAULT 'ingenierie',
+            phase      TEXT NOT NULL DEFAULT '',
+            amount     REAL NOT NULL DEFAULT 0,
+            basis      TEXT NOT NULL DEFAULT 'estimation',
+            supplier   TEXT NOT NULL DEFAULT '',
+            notes      TEXT NOT NULL DEFAULT '',
+            created_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            created_at TEXT NOT NULL,
+            updated_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            updated_at TEXT NOT NULL,
+            UNIQUE (project_id, number)
+        );
+        CREATE TABLE diamond_cost_parts (
+            id         INTEGER PRIMARY KEY,
+            project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            part_id    INTEGER UNIQUE REFERENCES diamond_parts(id) ON DELETE CASCADE,
+            position   INTEGER NOT NULL DEFAULT 0,
+            name       TEXT NOT NULL DEFAULT '',
+            qty        REAL NOT NULL DEFAULT 1,
+            proto_unit REAL,
+            prod_1     REAL,
+            prod_2     REAL,
+            prod_3     REAL,
+            supplier   TEXT NOT NULL DEFAULT '',
+            basis      TEXT NOT NULL DEFAULT 'estimation',
+            notes      TEXT NOT NULL DEFAULT '',
+            created_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            created_at TEXT NOT NULL,
+            updated_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            updated_at TEXT NOT NULL
+        );
+        CREATE INDEX idx_diamond_cost_nre_project ON diamond_cost_nre(project_id, position);
+        CREATE INDEX idx_diamond_cost_parts_project ON diamond_cost_parts(project_id, position);
+    """),
 ]
 
 P = r"/api/diamond/p/(?P<pid>\d+)"
@@ -204,6 +259,15 @@ FN = P + r"/functions/(?P<fid>\d+)"
 SC = P + r"/story/scenes/(?P<sid>\d+)"
 
 ROUTES = [
+    ("GET", P + r"/costs", costs.api_get, "user"),  # 0.60.61 (D-O-070): « Coûts et budget »
+    ("GET", P + r"/costs/export\.csv", costs_budget.api_export, "user"),
+    ("PATCH", P + r"/costs/settings", costs.api_settings, "user"),
+    ("POST", P + r"/costs/nre", costs.api_nre_create, "user"),
+    ("PATCH", P + r"/costs/nre/(?P<oid>\d+)", costs.api_nre_update, "user"),
+    ("POST", P + r"/costs/nre/(?P<oid>\d+)/delete", costs.api_nre_delete, "user"),
+    ("POST", P + r"/costs/lines", costs.api_line_create, "user"),
+    ("PATCH", P + r"/costs/lines/(?P<oid>\d+)", costs.api_line_update, "user"),
+    ("POST", P + r"/costs/lines/(?P<oid>\d+)/delete", costs.api_line_delete, "user"),
     ("GET", P + r"/story", story.api_list, "user"),  # 0.60.51 (D-O-060): the Storyline
     ("POST", P + r"/story/scenes", story.api_create, "user"),
     ("PATCH", SC, story.api_update, "user"),

@@ -1,0 +1,56 @@
+/* Diamond · « Coûts et budget » (0.60.61, D-O-070) */
+.dm-cost-summary { display: grid; gap: 1rem; margin: 0 0 1.5rem; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface); }
+.dm-cost-print-title h2 { margin: 0; font-size: 1.15rem; }
+.dm-cost-print-title p { margin: .2rem 0 0; }
+.dm-cost-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: .7rem; }
+.dm-cost-card { display: grid; gap: .15rem; padding: .7rem .85rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-2); }
+.dm-cost-card strong { font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+.dm-cost-card-main { border-color: var(--acc); box-shadow: inset 4px 0 0 var(--acc); }
+.dm-cost-card-main strong { font-size: 1.6rem; }
+.dm-cost-card-label { font-size: .8rem; text-transform: uppercase; letter-spacing: .03em; color: var(--muted); }
+.dm-cost-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.2rem; }
+.dm-cost-grid h3 { margin: 0 0 .4rem; font-size: .98rem; }
+.dm-cost-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.dm-cost-table th, .dm-cost-table td { padding: .3rem .45rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
+.dm-cost-table .num, .dm-cost-table input.num { text-align: right; font-variant-numeric: tabular-nums; }
+.dm-cost-table thead th { font-size: .8rem; color: var(--muted); font-weight: 600; white-space: nowrap; }
+.dm-cost-table tfoot th { border-top: 2px solid var(--line); }
+.dm-cost-sub th, .dm-cost-sub td { border-top: 1px solid var(--line); color: var(--muted); }
+.dm-cost-total th, .dm-cost-total td { font-weight: 700; font-size: 1rem; border-top: 2px solid var(--ink); }
+.dm-cost-hint { font-size: .82rem; margin: .35rem 0 0; }
+.dm-cost-bars { display: grid; gap: .35rem; }
+.dm-cost-bar { display: grid; grid-template-columns: minmax(130px, 38%) 1fr auto; gap: .5rem; align-items: center; font-size: .88rem; }
+.dm-cost-bar-track { height: .7rem; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+.dm-cost-bar-fill { display: block; height: 100%; width: 0; background: var(--acc); border-radius: 99px; }
+.dm-cost-checks { margin: 0; }
+.dm-cost-section { margin: 0 0 1.6rem; }
+.dm-cost-section h2 { font-size: 1.1rem; margin: 0 0 .3rem; }
+.dm-cost-fields { display: flex; flex-wrap: wrap; gap: .8rem 1.4rem; margin: .5rem 0; }
+.dm-cost-field { display: grid; gap: .2rem; font-size: .88rem; }
+.dm-cost-field > span:first-child { font-weight: 600; }
+.dm-cost-field textarea { width: min(100%, 720px); }
+.dm-cost-vols { display: flex; gap: .3rem; }
+.dm-cost-scroll { overflow-x: auto; }
+.dm-cost-edit input, .dm-cost-edit select { font-size: .86rem; padding: .2rem .35rem; }
+.dm-cost-code { color: var(--muted); font-size: .8rem; white-space: nowrap; }
+.dm-cost-free td { background: color-mix(in srgb, var(--surface-2) 60%, transparent); }
+.dm-cost-add { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .5rem; align-items: center; }
+
+/* « Version investisseurs » : only a copy of the summary goes to paper (or to PDF from the print window) */
+.dm-print-host { display: none; }
+@media print {
+  body.dm-print-costs > *:not(.dm-print-host) { display: none !important; }
+  body.dm-print-costs .dm-print-host { display: block; }
+  body.dm-print-costs .dm-cost-summary { border: 0; padding: 0; }
+  body.dm-print-costs .dm-cost-grid { grid-template-columns: 1fr; }
+  body.dm-print-costs .dm-cost-checks { display: none; }
+  body.dm-print-costs .dm-cost-bar-fill, body.dm-print-costs .dm-cost-card { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+.dm-cost-fields input, .dm-cost-fields select, .dm-cost-edit input, .dm-cost-edit select { width: auto; }
+.dm-cost-add input, .dm-cost-add select { width: auto; flex: 1 1 220px; max-width: 420px; }
+.dm-cost-add input.num { flex: 0 0 120px; }
+.dm-cost-table tbody th[scope="row"] { white-space: nowrap; }
+@media print {
+  body.dm-print-costs .dm-cost-cards { grid-template-columns: repeat(4, 1fr); }
+  body.dm-print-costs .dm-cost-grid > div { break-inside: avoid; }
+}

@@ -1,11 +1,19 @@
-# Journal de mise à jour — 0.60.60
+# Journal de mise à jour — 0.60.61
+
+- **Version :** 0.60.60 → 0.60.61 (2026-11-06)
+- **Changements :**
+  1. **Coûts et budget dans Diamond** (D-O-070) : NRE, coût des pièces en prototype et en production, budget global du projet, version investisseurs.
+- **Base de données :** ['Migration Diamond 9 (additive) : diamond_cost_settings, diamond_cost_nre, diamond_cost_parts.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.60
 
 - **Version :** 0.60.59 → 0.60.60 (2026-11-06)
 - **Changements :**
   1. **Diagrammes Mermaid dans Dynamite** (D-O-069) : flowchart, séquence et états dessinés par le moteur de la plateforme ; « Voir le code » pour auditer.
 - **Base de données :** ['Aucun changement de schéma.']
 
-## Précédent
 
 ### Journal de mise à jour — 0.60.59
 

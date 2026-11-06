@@ -20,6 +20,8 @@ def on_startup(ctx):
     from . import demo_life  # 0.60.54 (D-O-063): the Rover as a project in motion in every module (once)
     demo_life.ensure_life(ctx)
     demo_life.ensure_arranged(ctx)  # 0.60.55 (D-O-064): the Rover is the demo -- its plan first in a DEMO filled before
+    from . import demo_costs  # 0.60.61 (D-O-070): the Rover's costs and budget in Diamond (once)
+    demo_costs.ensure_costs(ctx)
     gtd.ensure(ctx)  # D-B-033 / D-B-040: « Base de connaissances (BDC) », also for an existing DEMO
     from modules.testing import lists  # D-B-082: the product functions (central list of Testing) as a BDC page
     lists.ensure_bdc_page(ctx)
