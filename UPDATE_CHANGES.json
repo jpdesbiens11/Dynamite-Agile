@@ -2,36 +2,46 @@
   "changes": [
     {
       "id": "C1",
-      "title": "PowerPoint des diagrammes (D-O-059)",
-      "why": "Paquet .pptx en bibliothèque standard (16:9, thème de la plateforme) ; les formes et flèches viennent des mêmes pages que draw.io (Page.items) ; connecteurs collés aux blocs ; arbre découpé au-delà de 10 feuilles.",
+      "title": "Pictogrammes (D-O-060)",
+      "why": "39 pictogrammes générés par tools/story_pictos.py, sprites story.svg et story-term.svg (mêmes clés, sans texte).",
       "files": [
-        "modules/diamond/pptx_book.py",
-        "modules/diamond/export_pptx.py",
-        "modules/diamond/export_drawio.py",
-        "modules/diamond/export_api.py",
-        "modules/diamond/__init__.py"
+        "tools/story_pictos.py",
+        "tools/make_sketch_assets.py",
+        "static/img/story.svg",
+        "static/img/story-term.svg"
       ]
     },
     {
       "id": "C2",
-      "title": "Exporter ▾ sur l'arbre et la structure (D-O-059)",
-      "why": "?only=tree | structure : le diagramme et le tableau de l'écran seulement, en draw.io, PowerPoint ou Excel ; lien vers tout Diamond.",
+      "title": "Storyline côté serveur (D-O-060)",
+      "why": "Table diamond_story_scenes (migration diamond 8), scènes ordonnées, pictogrammes en JSON vérifiés, journal ; copie de Space.",
       "files": [
-        "static/js/diamond/export_menu.js",
-        "static/js/diamond/tree.js",
-        "static/js/diamond/structure.js",
-        "static/css/diamond.css",
-        "core/modules.py",
-        "modules/diamond/export_xlsx.py"
+        "modules/diamond/story.py",
+        "modules/diamond/__init__.py",
+        "core/spacecopy.py"
       ]
     },
     {
       "id": "C3",
-      "title": "Page Exporter et tests",
-      "why": "4e carte PowerPoint ; tests/test_diamond_export_pptx.py (parties bien formées, connecteurs collés, filtres only).",
+      "title": "Écran Storyline (D-O-060)",
+      "why": "#/diamond/KEY/story avant l'arbre : tableau des scènes, scène 16:9, glisser, étiquette, taille, miroir, palette ; Thème par défaut et Terminal.",
       "files": [
-        "static/js/diamond/export.js",
-        "tests/test_diamond_export_pptx.py"
+        "static/js/diamond/story.js",
+        "static/js/diamond/story_stage.js",
+        "static/js/diamond/story_pictos.js",
+        "static/js/diamond/diamond.js",
+        "static/css/diamond.css",
+        "core/modules.py"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Documentation et tests",
+      "why": "Storyline dans la documentation de Diamond (références NN/g, IxDF) ; tests/test_story.py.",
+      "files": [
+        "modules/help/module_docs_more.py",
+        "modules/help/module_docs_refs.py",
+        "tests/test_story.py"
       ]
     }
   ]

@@ -10,12 +10,13 @@ Sub-modules, one per iteration:
   0.60.20  Pièces (parts.py, example_parts.py): the parts tagged on the functions of the structure, the matrix parts x
            functions and what it says about the architecture (integrated parts, functions shared by several parts).
   0.60.16  Golden Nuggets (static/js/diamond/nuggets*.js): first-principles thinking and design rules, with examples.
+  0.60.51  Storyline (story.py): the use of the product told scene by scene with pictograms, before the tree.
 Every table is tied to projects(id) (backup, restore, copy by the core); every write is journalled.
 """
 from .search import search  # noqa: F401  (core search hook, 0.60.36)
 from .bot import bot_summary  # noqa: F401  (Bob le mineur, core/bot.py, 0.60.36)
 from .actions import dashboard  # noqa: F401  (core dashboard hook, 0.60.38)
-from . import actions, dfmea, dfmea_complete, example, export_api, functions, parts, risks, structure
+from . import actions, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, structure
 
 SCHEMA = ""
 
@@ -177,12 +178,37 @@ MIGRATIONS = [
         ALTER TABLE diamond_dfmea ADD COLUMN issue_id INTEGER REFERENCES agile_issues(id) ON DELETE SET NULL;
         ALTER TABLE diamond_risks ADD COLUMN issue_id INTEGER REFERENCES agile_issues(id) ON DELETE SET NULL;
     """),
+    (8, """
+        -- 0.60.51 (D-O-060): the Storyline, scene by scene, pictograms as JSON (key, x, y in %, size, mirror, label)
+        CREATE TABLE diamond_story_scenes (
+            id         INTEGER PRIMARY KEY,
+            project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            position   REAL NOT NULL DEFAULT 0,
+            title      TEXT NOT NULL DEFAULT '',
+            caption    TEXT NOT NULL DEFAULT '',
+            notes      TEXT NOT NULL DEFAULT '',
+            items      TEXT NOT NULL DEFAULT '[]',
+            created_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            created_at TEXT NOT NULL,
+            updated_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            updated_at TEXT NOT NULL
+        );
+        CREATE INDEX idx_diamond_story_project ON diamond_story_scenes(project_id, position);
+    """),
 ]
 
 P = r"/api/diamond/p/(?P<pid>\d+)"
 FN = P + r"/functions/(?P<fid>\d+)"
 
+SC = P + r"/story/scenes/(?P<sid>\d+)"
+
 ROUTES = [
+    ("GET", P + r"/story", story.api_list, "user"),  # 0.60.51 (D-O-060): the Storyline
+    ("POST", P + r"/story/scenes", story.api_create, "user"),
+    ("PATCH", SC, story.api_update, "user"),
+    ("POST", SC + r"/move", story.api_move, "user"),
+    ("POST", SC + r"/duplicate", story.api_duplicate, "user"),
+    ("POST", SC + r"/delete", story.api_delete, "user"),
     ("GET", P + r"/functions", functions.api_list, "user"),
     ("POST", P + r"/functions", functions.api_create, "user"),
     ("PATCH", FN, functions.api_update, "user"),

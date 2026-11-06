@@ -106,7 +106,8 @@ MORE = [
                "essai le détectera. C'est la partie la plus profonde de la mine : là où sont les diamants.",
         "need": "Ne rien oublier : chaque fonction a sa solution, chaque pièce sert une fonction, chaque risque a son action et son "
                 "responsable, chaque mode de défaillance grave a son essai.",
-        "steps": [("Arbre fonctionnel", "La fonction primaire, puis les secondaires et tertiaires (comment ↓, pourquoi ↑)."),
+        "steps": [("Storyline", "L'usage du produit raconté scène par scène, avec des pictogrammes : on diverge en équipe."),
+                  ("Arbre fonctionnel", "La fonction primaire, puis les secondaires et tertiaires (comment ↓, pourquoi ↑)."),
                   ("Structure fonctionnelle", "Le boundary diagram : entrées, fonctions et sorties reliées par des flux."),
                   ("Pièces", "La matrice pièces × fonctions : une pièce qui ne sert aucune fonction est à retirer."),
                   ("Risques projet", "Le registre R-n, probabilité × impact, stratégie, responsable, échéance."),
@@ -121,7 +122,8 @@ MORE = [
                "deepest part of the mine: where the diamonds are.",
         "need": "Forgetting nothing: every function has its solution, every part serves a function, every risk has its action and "
                 "owner, every severe failure mode has its test.",
-        "steps": [("Function tree", "The primary function, then secondary and tertiary ones (how ↓, why ↑)."),
+        "steps": [("Storyline", "The use of the product told scene by scene with pictograms: the team diverges."),
+                  ("Function tree", "The primary function, then secondary and tertiary ones (how ↓, why ↑)."),
                   ("Functional structure", "The boundary diagram: inputs, functions and outputs linked by flows."),
                   ("Parts", "The parts × functions matrix: a part that serves no function should go."),
                   ("Project risks", "The R-n register, probability × impact, strategy, owner, due date."),
@@ -130,6 +132,9 @@ MORE = [
                  "The full tree and the general structure; it drives the morphological chart and the CdCF.",
                  "The detailed structure, parts on functions, the DFMEA with its actions followed in Agile.",
                  "The DFMEA updated with test results; residual risks for the launch decision."]}, parts=[
+        _part("Storyline", ["nng_storyboard", "ixdf_storyboard", "ideo"],
+              fr="Qui, où, avec quoi, ce qui se passe et ce qu'on ressent, scène par scène ; un assistant IA s'en sert pour proposer l'arbre.",
+              en="Who, where, with what, what happens and how it feels, scene by scene; an AI assistant uses it to propose the tree."),
         _part("Arbre fonctionnel", ["bordeaux", "eduscol", "save_fast", "toulouse", "nf16271", "fips183", "en17952", "en12973", "en1325"],
               fr="Primaire, secondaires, tertiaires et techniques ; comment · pourquoi · quand ; chemin critique ; numéros F gardés pour toujours.",
               en="Primary, secondary, tertiary and technical functions; how · why · when; critical path; F numbers kept for ever."),

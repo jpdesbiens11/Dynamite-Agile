@@ -253,4 +253,10 @@ REFS = {
     "running_lean": ("Running Lean (3e éd.)", "A. Maurya, O'Reilly", "2022",
                      "https://www.oreilly.com/library/view/running-lean-3rd/9781098108762/ch01.html", "EN", PAID,
                      "Remplir et tester un Lean Canvas, puis le relier aux expériences Build-Measure-Learn."),
+    "nng_storyboard": ("Storyboards Help Visualize UX Ideas", "Nielsen Norman Group", "2018",
+                       "https://www.nngroup.com/articles/storyboards-visualize-ideas/", "EN", FREE,
+                       "Pourquoi et comment raconter l'usage d'un produit en scènes : personnage, contexte, moment, émotion."),
+    "ixdf_storyboard": ("Storyboards in UX/UI Design", "Interaction Design Foundation", "",
+                        "https://ixdf.org/literature/topics/storyboards", "EN", FREE,
+                        "Les éléments d'une scène et des exemples de storyboards faits en équipe, sans talent de dessin."),
 }

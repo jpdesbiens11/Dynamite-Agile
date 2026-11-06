@@ -15,6 +15,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from sketch_rough import Pen, gear_points  # noqa: E402
+import story_pictos  # noqa: E402  (0.60.51, D-O-060: pictograms of the Diamond Storyline)
 
 ROOT = Path(__file__).resolve().parent.parent / "static" / "img"
 INK = "#26323f"
@@ -276,7 +277,10 @@ def main():
     (ROOT / "marks-term").mkdir(exist_ok=True)
     for key, (icon, _accent) in MARKS.items():
         (ROOT / "marks-term" / (key + ".svg")).write_text(term_mark(key, icon, TERM[key]) + "\n", encoding="utf-8")
-    print("{} icons, {} marks, 2 illustrations, favicon; Terminal: {} icons, {} marks".format(len(ICONS), len(MARKS), len(ICONS), len(MARKS)))
+    (ROOT / "story.svg").write_text(story_pictos.sprite(Pen, HL), encoding="utf-8")
+    (ROOT / "story-term.svg").write_text(story_pictos.sprite(Pen, HL, term=True), encoding="utf-8")
+    print("{} icons, {} marks, 2 illustrations, favicon; Terminal: {} icons, {} marks; Storyline: {} pictograms x 2".format(
+        len(ICONS), len(MARKS), len(ICONS), len(MARKS), len(story_pictos.PICTOS)))
 
 
 if __name__ == "__main__":
