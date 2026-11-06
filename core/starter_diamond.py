@@ -262,10 +262,11 @@ def counts(clean):
     return out
 
 
-def apply(conn, user_id, pid, d, test_ids=None):
-    """Creates the Diamond items of one Space (inside the transaction of « Commencer »); returns their counts."""
+def apply(conn, user_id, pid, d, test_ids=None, known=None):
+    """Creates the Diamond items of one Space (inside the transaction of « Commencer »); returns their counts.
+    known (0.60.53, D-O-062): {ref: id} of functions already in the Space, for a file that completes an existing tree."""
     from modules.diamond import dfmea, functions as F, parts as P, risks as R, structure as S
-    ids, ports = {}, {}
+    ids, ports = dict(known or {}), {}
     user_of = lambda name: (conn.execute("SELECT id FROM users WHERE username = ?", (name,)).fetchone() or [None])[0] if name else None  # noqa: E731
     for f in d["functions"]:
         notes = (f["notes"] + " — " if f["notes"] else "") + d["note"]

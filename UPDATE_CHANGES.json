@@ -2,59 +2,37 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Copier pour l'IA et importer (D-O-061)",
-      "why": "GET …/story/prompt (scènes en mots, méthode, valeurs et exemple du format diamond) ; POST …/import (vérifier, appliquer, arbre vide exigé, journal).",
+      "title": "Compléter ou Tout remplacer (D-O-062)",
+      "why": "POST …/import accepte mode add | replace ; section par section, ce que le Space a déjà est gardé ; fonctions du fichier reliées à l'arbre existant par leur texte (ou leur numéro F) ; lignes DFMEA écrites par l'outil remplacées, jamais celles de l'équipe ; replace : sauvegarde data/backups puis Diamond vidé et refait.",
       "files": [
+        "modules/diamond/import_merge.py",
         "modules/diamond/story_ai.py",
-        "modules/diamond/__init__.py",
-        "static/js/diamond/story_ai.js",
-        "static/js/diamond/story.js",
-        "static/js/diamond/tree.js",
-        "static/css/diamond.css",
-        "core/modules.py"
+        "core/starter_diamond.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Storyline dans le Project Starter (D-O-061)",
-      "why": "diamond.story lue, appliquée et relue d'un Space éprouvé ; format documenté.",
+      "title": "Écran d'import",
+      "why": "Choix Compléter / Tout remplacer ; Vérifier dit ce qui sera créé, gardé, laissé de côté et effacé ; nom de la sauvegarde après l'import.",
       "files": [
-        "core/starter_diamond.py",
-        "core/starter_export_more.py",
-        "docs/STARTER_FORMAT.md"
+        "static/js/diamond/story_ai.js",
+        "static/css/diamond.css"
       ]
     },
     {
       "id": "C3",
-      "title": "Storyline du Rover (D-O-061)",
-      "why": "7 scènes de la boîte au rangement ; ajoutée une fois à un DEMO déjà chargé.",
+      "title": "Prompt : pièces sur les secondaires et tertiaires",
+      "why": "Le prompt dit que parts[].functions ne cite ni une technique ni une fonction hors arbre (cause d'un refus fréquent).",
       "files": [
-        "tools/rover/story.py",
-        "tools/make_rover_example.py",
-        "deploy/spaces_exemples/rover.json",
-        "modules/help/demo_example.py",
-        "modules/help/__init__.py"
+        "modules/diamond/story_ai.py"
       ]
     },
     {
       "id": "C4",
-      "title": "Storytelling retiré de Tools (demande de JP)",
-      "why": "Plus de nouvelle séance Storytelling ni de fiche de méthode ; les anciennes séances restent lisibles ; renvoi vers Diamond → Storyline.",
-      "files": [
-        "modules/toolbox/ideation.py",
-        "modules/toolbox/methods_divergent.py",
-        "static/js/toolbox/ideation.js",
-        "static/js/toolbox/tools.js"
-      ]
-    },
-    {
-      "id": "C5",
       "title": "Tests",
-      "why": "tests/test_story_ai.py ; tests de Tools ajustés.",
+      "why": "tests/test_import_merge.py : partie par partie, numéro F sur l'arbre existant, remplacer avec sauvegarde.",
       "files": [
-        "tests/test_story_ai.py",
-        "tests/test_lot_v015.py",
-        "tests/test_lot_v017.py"
+        "tests/test_import_merge.py"
       ]
     }
   ]

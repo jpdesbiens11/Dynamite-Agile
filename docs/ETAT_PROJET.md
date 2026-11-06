@@ -62,7 +62,10 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.52)
+## Relais (fin de 0.60.53)
+
+- Import Compléter / Tout remplacer (D-O-062) : `modules/diamond/import_merge.py` (plan, wipe, sauvegarde), `story_ai.api_import` (mode add | replace), `starter_diamond.apply(known=)` ; écran `static/js/diamond/story_ai.js`.
+
 
 - Storyline → IA (D-O-061) : `modules/diamond/story_ai.py` (prompt, import), `static/js/diamond/story_ai.js` ; format `diamond.story` dans `core/starter_diamond.py` ; Rover `tools/rover/story.py` ; `demo_example.ensure_story`.
 
