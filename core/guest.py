@@ -15,10 +15,10 @@ import secrets
 import threading
 import time
 
-from . import audit, auth, db, prefs, validate
+from . import audit, auth, db, permissions, prefs, validate
 from .errors import ApiError
 
-USERNAME = "invite"
+USERNAME = permissions.GUEST_USERNAME
 DISPLAY_NAME = "Invité (lecture seule)"
 SESSION_HOURS = 8
 MAX_PER_HOUR = 30  # guest sign-ins per IP address and per hour
@@ -49,7 +49,7 @@ def enabled(conn):
 
 
 def is_guest(user):
-    return bool(user) and str(user["username"]).lower() == USERNAME
+    return bool(user) and permissions.is_guest(user)
 
 
 def guard(session, method, path):
@@ -70,16 +70,13 @@ def _account(conn):
 
 
 def _sync(conn, value):
-    """The account is active and a reader of exactly the chosen Spaces while guest access is on; inactive otherwise."""
+    """The account is active while guest access is on, inactive otherwise (its sessions end). Which Spaces it reads
+    comes from the setting itself (permissions.guest_projects), never from membership rows."""
     user = _account(conn)
     conn.execute("UPDATE users SET is_admin = 0, must_change_password = 0, is_active = ? WHERE id = ?",
                  (1 if value["enabled"] else 0, user["id"]))
-    conn.execute("DELETE FROM memberships WHERE user_id = ?", (user["id"],))
     prefs._put(conn, user["id"], {"can_export": True})  # exporting is allowed on purpose (the tool is shown off)
-    if value["enabled"]:
-        for pid in value["projects"]:
-            conn.execute("INSERT INTO memberships (user_id, project_id, role) VALUES (?, ?, 'reader')", (user["id"], pid))
-    else:
+    if not value["enabled"]:
         conn.execute("DELETE FROM sessions WHERE user_id = ?", (user["id"],))
     return user
 

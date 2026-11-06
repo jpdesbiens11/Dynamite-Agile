@@ -121,6 +121,39 @@ class GuestTest(unittest.TestCase):
         self.assertIn("guest_login", actions)
         self.assertIn("guest_access_changed", actions)
 
+    def test_07_unchecked_space_hidden_even_with_an_old_membership(self):
+        """0.60.64: visibility comes from the setting only -- a membership row left by 0.60.63 changes nothing."""
+        self.admin.put("/api/admin/guest", {"enabled": True, "projects": [self.demo]})
+        with db.connect() as conn:
+            uid = conn.execute("SELECT id FROM users WHERE username = 'invite'").fetchone()["id"]
+            conn.execute("INSERT OR IGNORE INTO memberships (user_id, project_id, role) VALUES (?, ?, 'reader')", (uid, self.other))
+        c, me = self.visitor()
+        self.assertEqual([p["id"] for p in me["projects"]], [self.demo])
+        self.assertIn(self.status(lambda: c.get("/api/dynamite/p/{}/pages".format(self.other)))[0], (403, 404))
+
+
+class UpdateSafetyTest(unittest.TestCase):
+    """0.60.64: the 0.60.63 package was refused online (« DELETE FROM memberships » added in core/guest.py). Every file
+    of the code goes through the same DESTRUCTIVE check as an update: only the lines already there are allowed."""
+    KNOWN = {("core/access_rules.py", "DELETE FROM MEMBERSHIPS"): 1, ("core/admin.py", "DELETE FROM MEMBERSHIPS"): 1,
+             ("core/backup.py", "DELETE FROM PROJECTS"): 1, ("core/members.py", "DROP TABLE"): 1,
+             ("core/members.py", "DELETE FROM MEMBERSHIPS"): 1, ("core/update.py", "DROP TABLE"): 1,
+             ("core/update.py", "DROP COLUMN"): 1, ("modules/agile/schema.py", "DROP TABLE"): 1,
+             ("modules/testing/__init__.py", "DROP TABLE"): 3}
+
+    def test_no_new_destructive_sql(self):
+        from core.update import DESTRUCTIVE
+        found = {}
+        for f in sorted(BASE_DIR.rglob("*.py")):
+            rel = f.relative_to(BASE_DIR).as_posix()
+            if rel.startswith(("tests/", ".git")) or "__pycache__" in rel:
+                continue
+            for m in DESTRUCTIVE.finditer(f.read_text("utf-8", "replace")):
+                key = (rel, m.group(0).upper())
+                found[key] = found.get(key, 0) + 1
+        extra = {k: v for k, v in found.items() if v > self.KNOWN.get(k, 0)}
+        self.assertEqual(extra, {}, "Une mise à jour serait refusée : SQL destructif ajouté.")
+
 
 if __name__ == "__main__":
     unittest.main()

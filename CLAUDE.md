@@ -122,6 +122,8 @@
 - **0.60.57** (2026-11-06) : **install.ps1 réparé** (D-O-066) : dans `( … )`, une commande PowerShell coupée sur deux lignes finit par un accent grave.
 - **0.60.58** (2026-11-06) : **winget `--source winget`** (D-O-067) : la source du Microsoft Store expirait et bloquait Git.
 - **0.60.59** (2026-11-06) : **certificat depuis Documents** (D-O-068) : étape 5 Windows en trois sous-étapes, commande indépendante du dossier.
+- **0.60.64** (2026-11-06) : **correctif de l'accès invité** : paquet 0.60.63 refusé en ligne (« DELETE FROM memberships ») ; visibilité de
+  l'invité lue dans le réglage (`permissions.guest_projects`) ; test UpdateSafetyTest sur tout le code. Jamais de SQL destructif ajouté.
 - **0.60.63** (2026-11-06) : **accès invité en lecture seule** (D-O-072, `core/guest.py`) : « Entrer en invité » sans mot de passe,
   Spaces choisis dans Admin, toute écriture refusée par le routeur sauf l'export ; désactivé par défaut.
 - **0.60.62** (2026-11-06) : **schémas Mermaid dans les exports PDF / Word** (D-O-071, `mermaid_png.js`, `export_mermaid.py`) : le navigateur

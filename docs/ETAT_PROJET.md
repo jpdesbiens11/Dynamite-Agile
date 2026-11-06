@@ -62,7 +62,9 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.63)
+## Relais (fin de 0.60.64)
+
+- Correctif invité (D-O-072) : visibilité dans `core/permissions.py` (`is_guest`, `guest_projects`), plus aucune écriture dans `memberships`. Règle à retenir : une mise à jour refuse tout `DELETE FROM users|projects|memberships` ou `DROP TABLE|COLUMN` ajouté (`core/update.py` DESTRUCTIVE) ; `tests/test_guest.py` UpdateSafetyTest le vérifie.
 
 - Accès invité (D-O-072) : `core/guest.py` (réglage, compte `invite`, `guard` appelé par `router.py`, `POST /api/login/guest`), écrans `static/js/guest.js`, `admin_guest.js`. À venir (demande de JP) : un tour guidé pour l'invité, à partir de la storyline de l'équipe et des vrais artefacts de la démo.
 
