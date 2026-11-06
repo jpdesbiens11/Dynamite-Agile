@@ -118,6 +118,7 @@
   inactifs `demo.nina` … (personne ne s'y connecte), sprints, tickets, Change Management, Q&R, Test Plans, plan du PDP, heures, responsables.
 - **0.60.55** (2026-11-06) : **la démo, c'est le Rover** (D-O-064) : le Space DEMO s'appelle « ROVER — la démo… » (clé DEMO gardée), accueil
   centré sur le Rover, plan du Rover en premier.
+- **0.60.56** (2026-11-06) : **page d'installation sans serveur Linux local** (D-O-065) : serveur en ligne ou PC Windows de l'équipe.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,

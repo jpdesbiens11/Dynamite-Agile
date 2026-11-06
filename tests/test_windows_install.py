@@ -100,7 +100,7 @@ class SiteTest(unittest.TestCase):
             self.assertIn("/install.ps1 -OutFile", html, page)
             self.assertIn("Cert:\\CurrentUser\\Root", html, page)
         js = (BASE_DIR / "site" / "installation.html").read_text("utf-8")
-        self.assertIn('["online", "local", "windows"]', js)
+        self.assertIn('["online", "windows"]', js)
         for guide in ("site/installer.md", "site/en/installer.md"):
             self.assertIn("install.ps1", (BASE_DIR / guide).read_text("utf-8"), guide)
 

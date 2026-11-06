@@ -23,11 +23,11 @@ class InstallLocalTest(unittest.TestCase):
         subprocess.run([sys.executable, str(BASE_DIR / "tools" / "build_site.py")], check=True, capture_output=True)
         for rel in ("site/installation.html", "site/en/installation.html"):
             page = (BASE_DIR / rel).read_text("utf-8")
-            for part in ('data-dest="local"', 'data-pc="win"', 'data-pc="mac"', 'data-pc="linux"', 'data-pc="unix"',
-                         "--local", "icacls", "chmod 600", "hstgr.cloud", "security add-trusted-cert", "update-ca-certificates"):
+            self.assertNotIn('data-dest="local"', page)  # 0.60.56: no local Linux server on the page (install.sh --local stays)
+            for part in ('data-pc="win"', 'data-pc="mac"', 'data-pc="linux"', 'data-pc="unix"', "icacls", "chmod 600", "hstgr.cloud", "security add-trusted-cert", "update-ca-certificates"):
                 self.assertIn(part, page, (rel, part))
-            steps = {d: page.count('data-dest="{}"'.format(d)) for d in ("online", "local", "windows")}
-            self.assertEqual(steps, {"online": 4, "local": 4, "windows": 4})  # step 1 + four steps = 5 for each place
+            steps = {d: page.count('data-dest="{}"'.format(d)) for d in ("online", "windows")}
+            self.assertEqual(steps, {"online": 4, "windows": 4})  # step 1 + four steps = 5 for each place
 
 
 if __name__ == "__main__":

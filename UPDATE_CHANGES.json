@@ -2,32 +2,24 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Le Rover est la démo (D-O-064)",
-      "why": "Nom, description et accueil du Space DEMO ; accueil rafraîchi une fois s'il n'a pas été modifié par une personne.",
+      "title": "Plus de serveur Linux local sur la page d'installation (D-O-065)",
+      "why": "Le public visé ne le monte jamais ; install.sh --local reste pour un assistant.",
       "files": [
-        "modules/help/headlamp.py",
-        "modules/help/tour.py"
+        "tools/site/installation.html",
+        "tools/site/en/installation.html",
+        "tools/site/install.js",
+        "tools/site/installer.md",
+        "tools/site/en/installer.md"
       ]
     },
     {
       "id": "C2",
-      "title": "Plan du Rover en premier",
-      "why": "Début du plan = début du Rover ; le parcours guidé garde sa date ; une fois sur un DEMO rempli par 0.60.54 (journal demo_plan_arranged).",
-      "files": [
-        "modules/help/demo_life.py",
-        "modules/help/demo_life_more.py",
-        "modules/help/__init__.py"
-      ]
-    },
-    {
-      "id": "C3",
       "title": "Tests",
-      "why": "Titre de l'accueil et version.",
+      "why": "Page à deux lieux.",
       "files": [
-        "tests/test_demo_space.py",
-        "tests/test_lot_v012.py",
-        "tests/test_platform_tools.py",
-        "tests/test_open_v060.py"
+        "tests/test_install_local.py",
+        "tests/test_open_v060.py",
+        "tests/test_windows_install.py"
       ]
     }
   ]
