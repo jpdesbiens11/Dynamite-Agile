@@ -3,7 +3,8 @@ the training documents, and also the complete academic example of a product -- t
 all-terrain RC car (deploy/spaces_exemples/rover.json, tools/make_rover_example.py), every module filled from MVP 0 to
 MVP 3. Loaded once, at start-up, through the same code as « Commencer » (same checks, same journal), but into the DEMO
 Space and without the example accounts: no account is created on an installation that did not ask for one; the
-assignees, owners and team of the file stay as text in its pages.
+assignees, owners and team of the file stay as text in its pages. 0.60.54 (D-O-063): demo_life.py then gives the Rover its
+team as inactive accounts (demo.nina…) and fills every module as a project at week 15 of 15.
 """
 import json
 from pathlib import Path

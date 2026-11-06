@@ -43,7 +43,7 @@ class DemoSpaceTest(unittest.TestCase):
         cls.server.server_close()
         cls.tmp.cleanup()
 
-    def test_01_one_space_with_the_rover_and_no_example_account(self):
+    def test_01_one_space_with_the_rover_and_inactive_example_accounts(self):
         projects = self.admin.get("/api/admin/projects")["projects"]
         self.assertEqual([p["key"] for p in projects], ["DEMO"])
         pid = projects[0]["id"]
@@ -51,7 +51,9 @@ class DemoSpaceTest(unittest.TestCase):
         self.assertEqual(titles.count("Rover — accueil du projet"), 1)
         self.assertIn("DEMO — Bienvenue", titles)
         with db.connect() as conn:
-            self.assertEqual([r["username"] for r in conn.execute("SELECT username FROM users")], ["admin"])
+            users = {r["username"]: r["is_active"] for r in conn.execute("SELECT username, is_active FROM users")}
+            # 0.60.54 (D-O-063): the Rover's team, inactive -- nobody signs in with them
+            self.assertEqual(users, {"admin": 1, "demo.nina": 0, "demo.lea": 0, "demo.hugo": 0, "demo.alexis": 0})
             self.assertEqual(conn.execute("SELECT COUNT(*) FROM diamond_functions WHERE project_id = ?", (pid,)).fetchone()[0], 39)
             self.assertEqual(conn.execute("SELECT COUNT(*) FROM tools_kt WHERE project_id = ?", (pid,)).fetchone()[0], 1)
             loaded = conn.execute("SELECT COUNT(*) FROM audit_log WHERE action = 'demo_example_loaded'").fetchone()[0]

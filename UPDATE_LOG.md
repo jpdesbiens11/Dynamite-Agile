@@ -1,11 +1,19 @@
-# Journal de mise à jour — 0.60.53
+# Journal de mise à jour — 0.60.54
+
+- **Version :** 0.60.53 → 0.60.54 (2026-11-06)
+- **Changements :**
+  1. **Le Rover, projet vivant** (D-O-063) : équipe en comptes inactifs, sprints, tickets, Change Management, Q&R, Test Plans, plan, heures, responsables.
+- **Base de données :** ['Aucun changement de schéma ; données d'exemple ajoutées une fois dans DEMO (journal demo_life_loaded).']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.53
 
 - **Version :** 0.60.52 → 0.60.53 (2026-11-06)
 - **Changements :**
   1. **Importer la réponse de l'IA : Compléter ou Tout remplacer** (D-O-062) : une partie manquante à la fois, ou une sauvegarde puis tout en une fois.
 - **Base de données :** ['Aucun changement de schéma.']
 
-## Précédent
 
 ### Journal de mise à jour — 0.60.52
 
