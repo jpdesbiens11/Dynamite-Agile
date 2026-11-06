@@ -5,7 +5,7 @@ Increment 1: page tree, versions with restore, edit lock, JSON page bodies
 declared "user"; each handler checks the project role itself.
 """
 from .search import search  # noqa: F401  (core lot v0.7 hook)
-from . import comments, export, images, pages, templates, transfer
+from . import comments, export, export_mermaid, images, pages, templates, transfer
 from .restore import on_restore  # noqa: F401  (core lot v0.10 hook)
 
 SCHEMA = ""  # frozen since the placeholder release: tables come from MIGRATIONS (D-A-020)
@@ -79,6 +79,8 @@ ROUTES = [
     ("PATCH", PG + r"/move", pages.api_move, "user"),
     ("POST", PG + r"/transfer", transfer.api_transfer, "user"),
     ("GET", PG + r"/export\.(?P<fmt>docx|pdf)", export.api_export, "user"),
+    ("POST", PG + r"/export\.(?P<fmt>docx|pdf)", export_mermaid.api_export, "user"),  # 0.60.62 (D-O-071): with the Mermaid drawings
+    ("GET", PG + r"/export/mermaid", export_mermaid.api_sources, "user"),
     ("POST", PG + r"/lock", pages.api_lock, "user"),
     ("DELETE", PG + r"/lock", pages.api_unlock, "user"),
     ("GET", PG + r"/versions", pages.api_versions, "user"),

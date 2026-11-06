@@ -2,42 +2,33 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Coûts et budget dans Diamond (D-O-070)",
-      "why": "Hypothèses (devise, prototypes, trois volumes, contingence, taux horaire), NRE, coûts par pièce liés aux pièces de Diamond, budget calculé ; migration additive 9 ; journal d'audit sur chaque écriture.",
+      "title": "Schémas Mermaid dans les exports (D-O-071)",
+      "why": "Le navigateur demande les sources Mermaid de la page (et des sous-pages), les dessine en PNG sur fond blanc (thème clair, quel que soit l'écran) et les envoie avec l'export (POST) ; le serveur met l'image à la place du code et garde le code dessous, en petit. Le lien GET reste inchangé.",
       "files": [
-        "modules/diamond/costs.py",
-        "modules/diamond/costs_budget.py",
-        "modules/diamond/__init__.py",
-        "core/spacecopy.py"
-      ]
-    },
-    {
-      "id": "C2",
-      "title": "Écran",
-      "why": "Synthèse, budget, volumes, NRE par catégorie et par phase, vérifications ; tableaux modifiables ; « Exporter (.csv) » et « Version investisseurs (imprimer) ».",
-      "files": [
-        "static/js/diamond/costs.js",
-        "static/js/diamond/costs_tables.js",
-        "static/css/diamond_costs.css",
-        "static/js/diamond/diamond.js",
+        "static/js/dynamite/mermaid_png.js",
+        "static/js/dynamite/page_tools.js",
+        "static/js/api.js",
+        "modules/dynamite/export_mermaid.py",
+        "modules/dynamite/export.py",
+        "modules/dynamite/__init__.py",
         "core/modules.py"
       ]
     },
     {
-      "id": "C3",
-      "title": "Le Rover chiffré",
-      "why": "9 NRE, 23 pièces et 2 lignes libres ; 212,30 $ par Rover à 100 unités, comme le Validation Report.",
+      "id": "C2",
+      "title": "Rédacteurs PDF et Word",
+      "why": "Image dessinée en 2x, affichée à sa taille ; code en petit et en gris ; dans le PDF, la bande grise d'une ligne ne recouvre plus le bas de la ligne précédente.",
       "files": [
-        "modules/help/demo_costs.py",
-        "modules/help/__init__.py"
+        "modules/dynamite/export_pdf.py",
+        "modules/dynamite/export_docx.py"
       ]
     },
     {
-      "id": "C4",
+      "id": "C3",
       "title": "Tests",
-      "why": "tests/test_costs.py : calcul, droits, CSV, démo, copie d'un Space.",
+      "why": "tests/test_mermaid_export.py : sources, Word et PDF avec schémas, lien GET inchangé, images refusées.",
       "files": [
-        "tests/test_costs.py",
+        "tests/test_mermaid_export.py",
         "tests/test_open_v060.py"
       ]
     }

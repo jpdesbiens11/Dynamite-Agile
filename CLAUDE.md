@@ -122,6 +122,8 @@
 - **0.60.57** (2026-11-06) : **install.ps1 réparé** (D-O-066) : dans `( … )`, une commande PowerShell coupée sur deux lignes finit par un accent grave.
 - **0.60.58** (2026-11-06) : **winget `--source winget`** (D-O-067) : la source du Microsoft Store expirait et bloquait Git.
 - **0.60.59** (2026-11-06) : **certificat depuis Documents** (D-O-068) : étape 5 Windows en trois sous-étapes, commande indépendante du dossier.
+- **0.60.62** (2026-11-06) : **schémas Mermaid dans les exports PDF / Word** (D-O-071, `mermaid_png.js`, `export_mermaid.py`) : le navigateur
+  dessine en PNG, le serveur met l'image et garde le code dessous en petit ; correctif des lignes de code qui se chevauchaient dans le PDF.
 - **0.60.61** (2026-11-06) : **coûts et budget dans Diamond** (D-O-070, `modules/diamond/costs*.py`) : NRE, pièces en prototype et à trois
   volumes, budget global (NRE, prototypes, temps, contingence), CSV et version investisseurs ; le Rover est chiffré.
 - **0.60.60** (2026-11-06) : **diagrammes Mermaid dans Dynamite** (D-O-069, `static/js/dynamite/mermaid_*.js`) : moteur maison (flowchart,
