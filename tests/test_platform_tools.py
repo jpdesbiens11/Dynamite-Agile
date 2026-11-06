@@ -102,7 +102,7 @@ class PlatformToolsTest(unittest.TestCase):
         theo.post("/api/help/headlamp/join")  # twice: no error, no duplicate
         pid = joined["project"]["id"]
         pages = [p["title"] for p in theo.get("/api/dynamite/p/{}/pages".format(pid))["pages"]]
-        self.assertIn("DEMO — Bienvenue", pages)
+        self.assertIn("ROVER — Bienvenue dans la démo", pages)
         tasks = theo.get("/api/exploration/p/{}/plan".format(pid))["tasks"]
         self.assertEqual(len([t for t in tasks if not t["phase"].startswith("Rover")]), 6)  # the tour; then the Rover (0.60.54)
         self.assertEqual(len(theo.get("/api/codex/p/{}/refs".format(pid))["refs"]), 22)  # the guide + the Rover's 21 deliverables

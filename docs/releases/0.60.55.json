@@ -1,0 +1,40 @@
+{
+  "version": "0.60.55",
+  "date": "2026-11-06",
+  "summary": {
+    "fr": "La démo, c'est le Rover : le Space de démonstration s'appelle maintenant « ROVER — la démo : un projet complet, bac à sable et formation » (clé DEMO inchangée), sa page d'accueil présente le Rover et où le voir dans chaque module, et le plan d'Exploration commence par le Rover (le parcours guidé garde ses dates).",
+    "en": "The demo is the Rover: the demonstration Space is now named « ROVER — la démo : un projet complet, bac à sable et formation » (key DEMO unchanged), its home page presents the Rover and where to see it in each module, and the Exploration plan starts with the Rover (the guided tour keeps its dates)."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Le Rover est la démo (D-O-064)",
+      "why": "Nom, description et accueil du Space DEMO ; accueil rafraîchi une fois s'il n'a pas été modifié par une personne.",
+      "files": [
+        "modules/help/headlamp.py",
+        "modules/help/tour.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Plan du Rover en premier",
+      "why": "Début du plan = début du Rover ; le parcours guidé garde sa date ; une fois sur un DEMO rempli par 0.60.54 (journal demo_plan_arranged).",
+      "files": [
+        "modules/help/demo_life.py",
+        "modules/help/demo_life_more.py",
+        "modules/help/__init__.py"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Tests",
+      "why": "Titre de l'accueil et version.",
+      "files": [
+        "tests/test_demo_space.py",
+        "tests/test_lot_v012.py",
+        "tests/test_platform_tools.py",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}

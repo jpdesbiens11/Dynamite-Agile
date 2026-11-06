@@ -49,7 +49,7 @@ class DemoSpaceTest(unittest.TestCase):
         pid = projects[0]["id"]
         titles = [p["title"] for p in self.admin.get("/api/dynamite/p/{}/pages".format(pid))["pages"]]
         self.assertEqual(titles.count("Rover — accueil du projet"), 1)
-        self.assertIn("DEMO — Bienvenue", titles)
+        self.assertIn("ROVER — Bienvenue dans la démo", titles)
         with db.connect() as conn:
             users = {r["username"]: r["is_active"] for r in conn.execute("SELECT username, is_active FROM users")}
             # 0.60.54 (D-O-063): the Rover's team, inactive -- nobody signs in with them

@@ -76,10 +76,30 @@ def ensure_life(ctx, today=None):
     counts.update(M.goldmine(conn, pid, people, clock))
     counts.update(M.testing(ctx, pid, people, clock))
     counts.update(M.plan(ctx, pid, people, clock))
+    M.arrange(conn, pid)
     counts.update(M.hours(conn, pid, people, clock, ctx.user["id"]))
     counts.update(M.diamond(conn, pid, raw, people, clock))
     audit.log_action(conn, ctx.user["id"], LIFE_DONE, "project", pid, dict(counts, start=clock.start.isoformat()), None)
+    audit.log_action(conn, ctx.user["id"], ARRANGED, "project", pid, {"moved": True}, None)
     return counts
+
+
+ARRANGED = "demo_plan_arranged"
+
+
+def ensure_arranged(ctx):
+    """0.60.55 (D-O-064): a DEMO filled by 0.60.54 gets the Rover's plan first, once."""
+    conn = ctx.conn
+    pid = project_id(conn)
+    if pid is None:
+        return None
+    logged = lambda action: conn.execute("SELECT 1 FROM audit_log WHERE action = ? AND object_id = ?", (action, str(pid))).fetchone()  # noqa: E731
+    if not logged(LIFE_DONE) or logged(ARRANGED):
+        return None
+    from . import demo_life_more as M
+    moved = M.arrange(conn, pid)
+    audit.log_action(conn, ctx.user["id"], ARRANGED, "project", pid, {"moved": moved}, None)
+    return moved
 
 
 def accounts(conn, pid, team, clock):

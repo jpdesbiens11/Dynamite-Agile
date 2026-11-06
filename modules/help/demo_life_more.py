@@ -195,6 +195,24 @@ def plan(ctx, pid, people, clock):
     return {"plan_tasks": len(tasks) + 1}
 
 
+def arrange(conn, pid):
+    """0.60.55 (D-O-064): the Rover is the demo -- its plan first and the plan starts with it; the guided tour keeps its own
+    dates (its first milestone gets the old start as « not before »). Returns True when something moved."""
+    from modules.exploration import plan as P
+    rover = conn.execute("SELECT start_date FROM exploration_tasks WHERE project_id = ? AND code = 'ROV0'", (pid,)).fetchone()
+    if rover is None or not rover["start_date"]:
+        return False
+    start = P.plan_start(conn, pid)
+    if start is not None:
+        conn.execute("UPDATE exploration_tasks SET start_date = ? WHERE project_id = ? AND code = 'J0' AND start_date IS NULL",
+                     (start.isoformat(), pid))
+    P.set_start(conn, pid, dt.date.fromisoformat(rover["start_date"][:10]))
+    rows = conn.execute("SELECT id, phase FROM exploration_tasks WHERE project_id = ? ORDER BY position, id", (pid,)).fetchall()
+    ordered = [r for r in rows if r["phase"].startswith("Rover")] + [r for r in rows if not r["phase"].startswith("Rover")]
+    conn.executemany("UPDATE exploration_tasks SET position = ? WHERE id = ?", [(i, r["id"]) for i, r in enumerate(ordered)])
+    return True
+
+
 # --------------------------------------------------------------------------
 # Timesheet
 # --------------------------------------------------------------------------

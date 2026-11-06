@@ -54,7 +54,7 @@ class ClosedSpacesTest(unittest.TestCase):
         for title in ("Testing — Test Procedures", "Tools — Boîte à outils", "Politique de l'équipe — vacances et congés"):
             self.assertIn(title, titles)
         roots = [p for p in self.admin.get("/api/dynamite/p/{}/pages".format(hl))["pages"] if not p.get("parent_id")]
-        self.assertIn("DEMO", roots[0]["title"])  # the sandbox keeps its home; the hubs hang under it
+        self.assertIn("ROVER", roots[0]["title"])  # the sandbox keeps its home (0.60.55: the Rover is the demo); the hubs hang under it
         self.assertEqual([p["title"] for p in roots[1:]][:1], ["Rover — accueil du projet"])  # 0.60.49: the Rover beside it
         self.assertEqual(self.admin.get("/api/testing/tests")["space"], "DEMO")
 

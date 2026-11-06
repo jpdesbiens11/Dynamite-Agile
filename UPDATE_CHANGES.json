@@ -2,31 +2,30 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Le Rover, projet vivant (D-O-063)",
-      "why": "Une fois par installation (journal demo_life_loaded), sur un DEMO neuf ou déjà chargé : équipe en comptes inactifs demo.*, Agile, Change Management, Goldmine, Testing, Exploration, Timesheet, Diamond ; toujours à la semaine 15 sur 15.",
+      "title": "Le Rover est la démo (D-O-064)",
+      "why": "Nom, description et accueil du Space DEMO ; accueil rafraîchi une fois s'il n'a pas été modifié par une personne.",
       "files": [
-        "modules/help/demo_life.py",
-        "modules/help/demo_life_more.py",
-        "modules/help/demo_life_data.py",
-        "modules/help/__init__.py",
-        "modules/help/demo_example.py"
+        "modules/help/headlamp.py",
+        "modules/help/tour.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Site complet : les comptes d'exemple ne comptent pas",
-      "why": "Une installation neuve reste « vide » pour l'import d'un site complet malgré les comptes inactifs demo.*.",
+      "title": "Plan du Rover en premier",
+      "why": "Début du plan = début du Rover ; le parcours guidé garde sa date ; une fois sur un DEMO rempli par 0.60.54 (journal demo_plan_arranged).",
       "files": [
-        "core/sitemove.py"
+        "modules/help/demo_life.py",
+        "modules/help/demo_life_more.py",
+        "modules/help/__init__.py"
       ]
     },
     {
       "id": "C3",
       "title": "Tests",
-      "why": "tests/test_demo_life.py ; DEMO avec ses comptes inactifs, plan du parcours + Rover.",
+      "why": "Titre de l'accueil et version.",
       "files": [
-        "tests/test_demo_life.py",
         "tests/test_demo_space.py",
+        "tests/test_lot_v012.py",
         "tests/test_platform_tools.py",
         "tests/test_open_v060.py"
       ]
