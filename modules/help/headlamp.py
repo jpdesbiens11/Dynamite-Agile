@@ -20,11 +20,15 @@ from .local_api import LocalApi
 
 KEY = "DEMO"  # 0.60.49 (D-O-058): the former HEADLAMP Space, renamed on an existing installation (migrate below)
 LEGACY_KEY = "HEADLAMP"
-NAME = "DEMO — démo, bac à sable et formation"
-HOME_TITLE = "DEMO — Bienvenue"
-OLD_HOME_TITLES = ("HeadLamp [Sandbox] — Bienvenue", "HeadLamp — Bienvenue")
-DESCRIPTION = ("Le Space de démonstration : le parcours guidé de chaque outil, un exemple complet (le Rover), la bibliothèque "
-               "de référence et les documents de formation. Un bac à sable : rien ici ne touche aux vrais projets.")
+# 0.60.55 (D-O-064): the Rover IS the demo -- one Space, named after it; the key stays DEMO (tickets DEMO-1…, links)
+NAME = "ROVER — la démo : un projet complet, bac à sable et formation"
+HOME_TITLE = "ROVER — Bienvenue dans la démo"
+OLD_HOME_TITLES = ("HeadLamp [Sandbox] — Bienvenue", "HeadLamp — Bienvenue", "DEMO — Bienvenue")
+DESCRIPTION = ("La démo, c'est le Rover : un projet étudiant complet (15 semaines, 4 étudiants) rempli dans chaque module -- "
+               "wiki, Storyline et Diamond, requirements et Q&R, sprints et tickets, changements, essais et Test Plans, plan "
+               "du PDP, heures. Avec le parcours guidé de chaque outil, la bibliothèque de référence et les documents de "
+               "formation. Un bac à sable : rien ici ne touche aux vrais projets.")
+HUB_MARK = "La démo, c'est le Rover."
 
 from .tour import STEPS, TOPIC_CODES, WEEKS, number, ticket_fields  # noqa: E402,F401 (0.47.0: order of the tour)
 
@@ -110,12 +114,13 @@ def migrate(ctx):
         conn.execute("UPDATE projects SET name = ?, description = ? WHERE id = ?", (NAME, DESCRIPTION[:500], pid))
         audit.log_action(conn, None, "project_renamed", "project", pid, {"name": NAME}, None)
     home = conn.execute("SELECT p.id FROM dynamite_pages p JOIN dynamite_versions v ON v.page_id = p.id AND v.version = p.current_version "
-                        "WHERE p.project_id = ? AND v.title IN (?, ?)", (pid,) + OLD_HOME_TITLES).fetchone()
+                        "WHERE p.project_id = ? AND v.title IN ({})".format(", ".join("?" * len(OLD_HOME_TITLES))),
+                        (pid,) + OLD_HOME_TITLES).fetchone()
     if home is not None:
         api = LocalApi(ctx)
         url = "/api/dynamite/p/{}/pages/{}".format(pid, home["id"])
         page = api.get(url)["page"]
-        api.put(url, {"title": HOME_TITLE, "body": page["body"], "base_version": page["version"], "note": "Space renommé DEMO"})
+        api.put(url, {"title": HOME_TITLE, "body": page["body"], "base_version": page["version"], "note": "Space renommé ROVER"})
     return True
 
 
@@ -191,11 +196,16 @@ def build_hub(tickets):
     rows = [[str(n), title, _link("Chapitre {}".format(n), "#/help/" + chapter), tickets[n - 1]["key"]]
             for n, (chapter, title, _ex) in enumerate(STEPS, start=1)]
     return _doc(
-        _panel("info", _p(_t("Bienvenue dans DEMO.", "bold"), " Ce projet est un bac à sable : suivez les étapes dans "
-                          "l'ordre, avec le guide ", _link("Help", "#/help"), " ouvert à côté. Rien ici ne touche aux vrais projets.")),
-        _panel("success", _p(_t("Un exemple complet :", "bold"), " le Rover, un petit véhicule autonome, avec tous les modules "
-                             "remplis de MVP 0 à MVP 3 : ouvrez la page « Rover — accueil du projet » dans la liste à gauche. "
-                             "Un administrateur cache DEMO pour tous (⚙ Admin → Spaces) quand le vrai projet commence.")),
+        _panel("success", _p(_t(HUB_MARK, "bold"), " Un petit véhicule autonome bâti par 4 étudiants en 15 semaines, de MVP 0 à "
+                             "MVP 3, et chaque module rempli comme dans un vrai projet : la page « Rover — accueil du projet » "
+                             "(à gauche), la Storyline et l'arbre dans ", _link("Diamond", "#/diamond"), ", les requirements et "
+                             "les Q&R dans Goldmine, le sprint en cours sur le ", _link("Board", "#/agile/{}/board".format(KEY)),
+                             ", les ECN dans Change Management, les Test Plans dans Testing, le Gantt dans Exploration et les "
+                             "heures de l'équipe dans Timesheet. L'équipe (Nina, Léa, Hugo, Alexis) existe en comptes d'exemple "
+                             "inactifs : personne ne s'y connecte.")),
+        _panel("info", _p(_t("Un bac à sable.", "bold"), " Suivez aussi le parcours guidé, étape par étape, avec le guide ",
+                          _link("Help", "#/help"), " ouvert à côté : rien ici ne touche aux vrais projets. Un administrateur "
+                          "cache la démo pour tous (⚙ Admin → Spaces) quand le vrai projet commence.")),
         {"type": "toc"},
         _h(1, "Le parcours en {} étapes".format(len(STEPS))),
         _table(["Étape", "Ce que vous apprenez", "Aide", "Ticket"], *rows),

@@ -62,7 +62,9 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.54)
+## Relais (fin de 0.60.55)
+
+- La démo, c'est le Rover (D-O-064) : `headlamp.NAME`, `HOME_TITLE`, `HUB_MARK` ; `tour._refresh_hub` ; `demo_life_more.arrange`.
 
 - Rover vivant (D-O-063) : `modules/help/demo_life.py` (équipe, horloge, Agile), `demo_life_more.py` (Change, Goldmine, Testing, Exploration, Timesheet, Diamond), contenu `demo_life_data.py` ; appel au démarrage dans `modules/help/__init__.py`.
 

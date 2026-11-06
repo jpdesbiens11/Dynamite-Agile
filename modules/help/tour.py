@@ -63,7 +63,7 @@ WEEKS = [("S1", "Semaine 1", "Découvrir : Help, réglages, Dashboard, Spaces", 
          ("S2", "Semaine 2", "Requirements et plan : Goldmine, Exploration", "Étapes 4 et 5.", "S1"),
          ("S3", "Semaine 3", "Exécuter et documenter : Agile, Change Management, Dynamite, Testing", "Étapes 6 à 9.", "S2"),
          ("S4", "Semaine 4", "Outils et suivi : Tools, Training, Timesheet, Recherche, Admin", "Étapes 10 à 14.", "S3")]
-SYSTEM_NOTES = ("Parcours DEMO", "Titre marqué [Sandbox]", "Parcours DEMO — tour du site 0.47.0", "Space renommé DEMO",
+SYSTEM_NOTES = ("Parcours DEMO", "Titre marqué [Sandbox]", "Parcours DEMO — tour du site 0.47.0", "Space renommé DEMO", "Space renommé ROVER",
                 "Parcours HeadLamp", "Parcours HeadLamp — tour du site 0.47.0")  # 0.60.49: notes written before DEMO
 CHAPTER = re.compile(r"#/help/([a-z-]+)\)")
 
@@ -124,7 +124,9 @@ def _refresh_hub(ctx, api, pid, tickets, hub_builder):
     if home is None or home["note"] not in SYSTEM_NOTES:
         return False  # edited by a person: left alone
     ordered = [tickets[chapter] for chapter, _t, _e in STEPS if chapter in tickets]
-    if len(ordered) != len(STEPS) or "Le parcours en {} étapes".format(len(STEPS)) in (home["body"] or ""):
+    from .headlamp import HUB_MARK  # 0.60.55 (D-O-064): a hub written before « the Rover is the demo » is refreshed once
+    body = home["body"] or ""
+    if len(ordered) != len(STEPS) or ("Le parcours en {} étapes".format(len(STEPS)) in body and HUB_MARK in body):
         return False
     page = api.get(base + "/{}".format(home["id"]))["page"]
     api.put(base + "/{}".format(home["id"]), {"title": page["title"], "body": hub_builder(ordered),

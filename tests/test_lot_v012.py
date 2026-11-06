@@ -82,7 +82,7 @@ class LotV012Test(unittest.TestCase):
     def test_01_policy_in_gen_and_sandbox_mark(self):
         names = {p["key"]: p["name"] for p in self.admin.get("/api/admin/projects")["projects"]}
         self.assertIn("bac à sable", names["DEMO"])  # 0.60.49 (D-O-058): DEMO, sandbox and training
-        self.assertIn("DEMO — Bienvenue", self.pages(self.projects["DEMO"]))
+        self.assertIn("ROVER — Bienvenue dans la démo", self.pages(self.projects["DEMO"]))
         self.assertNotIn("Principes de la compagnie — vacances et congés", self.pages(self.projects["DEMO"]))
         startup.run(self.data_dir, self.cfg)  # idempotent
 

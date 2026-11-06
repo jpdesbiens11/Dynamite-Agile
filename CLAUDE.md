@@ -116,6 +116,8 @@
   (accrochée à l'arbre existant) ou, pour un admin du Space, sauvegarde complète puis Diamond refait à partir du fichier.
 - **0.60.54** (2026-11-06) : **le Rover, projet vivant** (D-O-063, `modules/help/demo_life*.py`) : dans DEMO, à la semaine 15 sur 15, équipe en comptes
   inactifs `demo.nina` … (personne ne s'y connecte), sprints, tickets, Change Management, Q&R, Test Plans, plan du PDP, heures, responsables.
+- **0.60.55** (2026-11-06) : **la démo, c'est le Rover** (D-O-064) : le Space DEMO s'appelle « ROVER — la démo… » (clé DEMO gardée), accueil
+  centré sur le Rover, plan du Rover en premier.
 - **Modules** : Dynamite (wiki), Diamond (analyse fonctionnelle), Agile (tickets, Change Management), Goldmine (requirements, needs, Q&R, Pugh),
   Testing (Test Base, procédures, plans), Exploration (planification), Tools (Design : idéation, Pugh, Kepner-Tregoe ;
   Generator), Training, Timesheet, Help (HEADLAMP), About ; noyau `core/` (comptes, sessions + CSRF, droits par Space,
