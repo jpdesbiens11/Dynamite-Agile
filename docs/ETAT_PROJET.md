@@ -62,7 +62,9 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.62)
+## Relais (fin de 0.60.63)
+
+- Accès invité (D-O-072) : `core/guest.py` (réglage, compte `invite`, `guard` appelé par `router.py`, `POST /api/login/guest`), écrans `static/js/guest.js`, `admin_guest.js`. À venir (demande de JP) : un tour guidé pour l'invité, à partir de la storyline de l'équipe et des vrais artefacts de la démo.
 
 - Mermaid dans les exports (D-O-071) : `static/js/dynamite/mermaid_png.js` (dessin → PNG, `DY.exportPage`), `DA.api.download` (POST → fichier), serveur `modules/dynamite/export_mermaid.py` (sources, POST), `export.py` (`check`, `flatten(diagrams=…)`). À venir possible : la même chose pour les autres exports qui contiennent des pages.
 

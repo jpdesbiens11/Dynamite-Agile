@@ -6,11 +6,11 @@
 
   /* Core lot v0.18 (D-A-039): the Admin tab (far right, administrators only), sections grouped by what they manage. */
   /* D-B-105: Configuration and Sauvegardes joined Update in one tab « Update et sauvegardes » (five parts) */
-  const GROUPS = [["Comptes", [["users", "Utilisateurs"], ["rights", "Droits"], ["rules", "Règles d'accès"]]],
+  const GROUPS = [["Comptes", [["users", "Utilisateurs"], ["rights", "Droits"], ["rules", "Règles d'accès"], ["guest", "Accès invité"]]],
     ["Spaces", [["start", "Commencer"], ["projects", "Spaces"], ["setup", "Setup des Spaces"]]],
     ["Plateforme", [["update", "Update et sauvegardes"], ["revisions", "Révisions"], ["transport", "Sécurité réseau"],
       ["privacy", "Confidentialité"], ["audit", "Journal d'audit"], ["bob", "Bob (agent IA)"]]]];
-  const NEW = { start: "0.60.07-starter", update: "0.50.1-admin-maintenance", transport: "0.46.0-admin-transport", revisions: "0.50.11-admin-revisions", bob: "0.60.36-bob" };  // D-A-049 badges
+  const NEW = { start: "0.60.07-starter", update: "0.50.1-admin-maintenance", transport: "0.46.0-admin-transport", revisions: "0.50.11-admin-revisions", bob: "0.60.36-bob", guest: "0.60.63-guest" };  // D-A-049 badges
   const MOVED = { config: "config", backups: "data" };  // old addresses -> part of « Update et sauvegardes »
   const SECTIONS = GROUPS.flatMap(([, items]) => items);
 
@@ -18,6 +18,8 @@
     initial_admin_created: "Compte admin initial créé",
     login: "Connexion",
     login_failed: "Échec de connexion",
+    guest_login: "Visite invité",
+    guest_access_changed: "Accès invité modifié",
     logout: "Déconnexion",
     password_changed: "Mot de passe changé",
     password_reset: "Mot de passe réinitialisé",

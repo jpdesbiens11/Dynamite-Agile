@@ -1,7 +1,7 @@
 """API endpoints for the current user: login, logout, profile, password."""
 import datetime as dt
 
-from . import APP_DESCRIPTION, APP_NAME, APP_VERSION, audit, auth, devshare, modules, permissions, prefs, team
+from . import APP_DESCRIPTION, APP_NAME, APP_VERSION, audit, auth, devshare, guest, modules, permissions, prefs, team
 from .errors import ApiError
 
 
@@ -28,7 +28,8 @@ def api_about(ctx):
     return {"name": APP_NAME, "version": APP_VERSION, "description": APP_DESCRIPTION,
             "dev_mode": bool(ctx.config.get("dev_mode")),
             "prefill": devshare.prefill(ctx.config, ctx.ip),  # D-B-091: admin / admin only on this computer
-            "lan_share": bool(ctx.config.get("lan_share"))}
+            "lan_share": bool(ctx.config.get("lan_share")),
+            "guest": guest.enabled(ctx.conn)}  # 0.60.63 (D-O-072): « Entrer en invité » on the sign-in page
 
 
 def api_login(ctx):

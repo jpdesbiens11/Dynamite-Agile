@@ -1,4 +1,13 @@
-# Journal de mise à jour — 0.60.62
+# Journal de mise à jour — 0.60.63
+
+- **Version :** 0.60.62 → 0.60.63 (2026-11-06)
+- **Changements :**
+  1. **Accès invité en lecture seule** (D-O-072) : « Entrer en invité » sans mot de passe, Spaces choisis par l'administrateur, aucune modification possible ; désactivé par défaut.
+- **Base de données :** ['Aucun changement de schéma (réglage « guest » dans app_settings, compte « invite » créé à la première ouverture).']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.62
 
 - **Version :** 0.60.61 → 0.60.62 (2026-11-06)
 - **Changements :**
@@ -6,7 +15,6 @@
   2. **Correctif PDF** : les lignes d'un bloc de code ne se chevauchent plus.
 - **Base de données :** ['Aucun changement de schéma.']
 
-## Précédent
 
 ### Journal de mise à jour — 0.60.61
 

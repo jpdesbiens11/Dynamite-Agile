@@ -262,4 +262,5 @@ def public_user(row):
         "display_name": row["display_name"],
         "is_admin": bool(row["is_admin"]),
         "must_change_password": bool(row["must_change_password"]),
+        "is_guest": str(row["username"]).lower() == "invite",  # 0.60.63 (D-O-072): read-only visitor
     }

@@ -99,6 +99,8 @@
       el("p", { class: "auth-note" }, "Atelier de conception de produit : besoins, fonctions, requirements, essais."),
       el("p", { class: "auth-note" }, el("a", { href: "/apps/vitrine/index.html", target: "_blank", rel: "noopener" },
         "Nouveau ? Découvrez la plateforme en 3 minutes")));  // D-B-087: the showcase page
+    const guestEntry = DA.guestEntry(session.about, async (me) => { applyMe(me); route(); });  // 0.60.63 (D-O-072)
+    if (guestEntry) submit.after(guestEntry);
 
     /* D-B-087: the sign-in page shows the notebook sketch being drawn (default theme) */
     const hero = el("section", { class: "sk-hero", "aria-hidden": "true" },
@@ -248,15 +250,16 @@
     const t = DA.t;
     const manages = user.is_admin || session.projects.some((p) => p.is_manager);
     /* D-A-040: no « User » tab any more -- the blue menu of the signed-in account holds the personal pages. */
+    const guest = !!user.is_guest;  // 0.60.63 (D-O-072): a guest has no personal pages and no password
     const menu = el("div", { class: "menu", role: "menu", hidden: true },
-      menuItem(t("menu.settings"), () => { location.hash = "#/settings"; }),
-      menuItem(t("menu.objectives"), () => { location.hash = "#/objectives"; }),
+      guest ? null : menuItem(t("menu.settings"), () => { location.hash = "#/settings"; }),
+      guest ? null : menuItem(t("menu.objectives"), () => { location.hash = "#/objectives"; }),
       menuItem("Training", () => { location.hash = "#/training"; }),  // D-A-045
       session.team && session.team.size ? menuItem(DA.teamLabel(session.team), () => { location.hash = "#/team"; }) : null,  // D-B-112
       manages ? menuItem(t("menu.members"), () => { location.hash = "#/members"; }) : null,
       el("hr"),
       el("hr"),  // 0.60.48 (D-O-057): the themes are in Paramètres only
-      menuItem(t("menu.password"), openPasswordDialog),
+      guest ? null : menuItem(t("menu.password"), openPasswordDialog),
       menuItem(t("menu.about"), showAbout),
       menuItem("Découvrir la plateforme (vitrine)", () => { window.open("/apps/vitrine/index.html", "_blank", "noopener"); }),  // D-B-087
       el("hr"),
@@ -359,6 +362,7 @@
     const bar = topbar(active);
     root.append(bar);
     fitTabs(bar);
+    const guestBand = DA.guestBanner && DA.guestBanner(); if (guestBand) root.append(guestBand);  // 0.60.63 (D-O-072)
     if (USER_VIEWS.includes(active)) root.append(userNav(active));  // D-B-078
     const frozen = DA.baselineBanner && DA.baselineBanner(); if (frozen) root.append(frozen);  // D-B-129 revision view
     root.append(main);

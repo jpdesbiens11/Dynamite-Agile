@@ -1,0 +1,43 @@
+{
+  "version": "0.60.63",
+  "date": "2026-11-06",
+  "summary": {
+    "fr": "Accès invité : un serveur public peut s'ouvrir aux visiteurs, sans compte ni mot de passe. L'administrateur l'active (Admin → Comptes → Accès invité) et choisit les Spaces visibles ; le visiteur clique « Entrer en invité (lecture seule) », consulte tout et exporte en PDF / Word, mais le serveur refuse toute modification. Désactivé par défaut, limité par adresse IP, journalisé.",
+    "en": "Guest access: a public server can open to visitors, with no account or password. The administrator turns it on (Admin → Comptes → Accès invité) and picks the visible Spaces; the visitor clicks « Entrer en invité (lecture seule) », reads everything and exports to PDF / Word, but the server refuses every change. Off by default, limited per IP address, journalled."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Compte invité, lecture seule (D-O-072)",
+      "why": "Compte `invite` lecteur des seuls Spaces choisis ; session sans mot de passe (8 h au plus), 30 visites par heure et par IP ; le routeur refuse toute écriture d'un invité sauf la déconnexion et l'export d'une page ; fermer l'accès termine les sessions invité.",
+      "files": [
+        "core/guest.py",
+        "core/router.py",
+        "core/session_api.py",
+        "core/auth.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Écrans",
+      "why": "Bouton « Entrer en invité » sous la connexion, bandeau « Mode invité — lecture seule » avec le lien d'installation, menu du compte réduit ; Admin → Comptes → Accès invité.",
+      "files": [
+        "static/js/guest.js",
+        "static/css/guest.css",
+        "static/js/admin_guest.js",
+        "static/js/admin.js",
+        "static/js/app.js",
+        "static/index.html"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Tests",
+      "why": "tests/test_guest.py : fermé par défaut, ouverture, lecture, écritures refusées, export, fermeture, limite par IP, journal.",
+      "files": [
+        "tests/test_guest.py",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}

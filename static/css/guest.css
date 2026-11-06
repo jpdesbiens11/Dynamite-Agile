@@ -1,0 +1,7 @@
+/* 0.60.63 (D-O-072): guest access */
+.guest-or { display: flex; align-items: center; gap: .6rem; margin: .9rem 0 .6rem; color: var(--muted); font-size: .85rem; }
+.guest-or::before, .guest-or::after { content: ""; flex: 1; border-top: 1px solid var(--line); }
+.guest-enter { font-weight: 600; }
+.guest-band { padding: .45rem 1rem; font-size: .9rem; color: var(--ink); background: color-mix(in srgb, var(--warn) 14%, var(--surface));
+  border-bottom: 1px solid var(--line); }
+.guest-band a { margin-left: .3rem; }
