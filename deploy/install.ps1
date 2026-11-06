@@ -218,9 +218,10 @@ if (Test-Path $Initial) {
                 " & '$py' '$Dossier\app_dynamite_agile.py' --reset-password admin")
 }
 Write-Host ""
-Write-Host ("  " + (T "Sur CHAQUE poste de l'équipe, une seule fois : copiez " "On EACH computer of the team, once: copy ") + $Ca +
-            (T " (clé USB, partage, courriel), puis dans PowerShell (sans être administrateur) :" " (USB key, share, email), then in PowerShell (no administrator needed):"))
-Write-Host "    Import-Certificate -FilePath .\ca-dynamite.crt -CertStoreLocation Cert:\CurrentUser\Root"
+Write-Host ("  " + (T "Sur CHAQUE autre poste de l'équipe, une seule fois : copiez " "On EACH other computer of the team, once: copy ") + $Ca +
+            (T " dans le dossier Documents du poste (clé USB, partage, courriel), puis ouvrez PowerShell (sans être administrateur) et collez :" `
+               " into the computer's Documents folder (USB key, share, email), then open PowerShell (no administrator needed) and paste:"))
+Write-Host '    Import-Certificate -FilePath (Join-Path ([Environment]::GetFolderPath("MyDocuments")) "ca-dynamite.crt") -CertStoreLocation Cert:\CurrentUser\Root'
 Write-Host ("  " + (T "macOS : double-cliquez le fichier, puis Trousseau → « Toujours approuver »." "macOS: double-click the file, then Keychain → « Always Trust »."))
 Write-Host ""
 Write-Host ("  " + (T "Mettre à jour plus tard : relancez la même commande (les données sont gardées)." "Updating later: run the same command again (the data are kept)."))

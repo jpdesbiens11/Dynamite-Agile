@@ -62,7 +62,9 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.58)
+## Relais (fin de 0.60.59)
+
+- Certificat depuis Documents (D-O-068) : étape `win-trust` des pages d'installation, fin de `install.ps1`, `installer.md`.
 
 - install.ps1 (D-O-067) : `Winget-Install` avec `--source winget`, `Find-Git`.
 

@@ -171,11 +171,19 @@
     </li>
     <li class="wiz-step" data-step="win-trust" data-dest="windows" hidden>
       <h2><span class="n">5</span> Open the tool on each computer</h2>
-      <p>Copy <code>C:\DynamiteAgile\data\tls\partage\ca-dynamite.crt</code> to each computer (USB key, shared folder), then, in the
-        file's folder, trust it:</p>
-      <pre class="cmd" data-where="pc" data-pc="win"><code>Import-Certificate -FilePath .\ca-dynamite.crt -CertStoreLocation Cert:\CurrentUser\Root</code></pre>
-      <pre class="cmd" data-where="pc" data-pc="mac"><code>sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ca-dynamite.crt</code></pre>
-      <pre class="cmd" data-where="pc" data-pc="linux"><code>sudo cp ca-dynamite.crt /usr/local/share/ca-certificates/ &amp;&amp; sudo update-ca-certificates</code></pre>
+      <p>Once on each other computer of the team (the team's PC already trusts it: the installation took care of it):</p>
+      <ol class="sub-steps" data-new="0.60.59-cert">
+        <li>Copy the file <code>C:\DynamiteAgile\data\tls\partage\ca-dynamite.crt</code> from the team's PC (USB key, shared
+          folder) into the computer's <b>Documents</b> folder.</li>
+        <li>Open a terminal on this computer (<span data-pc-text="open"></span>). No need to move to a folder: the command
+          looks for the file in Documents.</li>
+        <li>Paste this command, then Enter:</li>
+      </ol>
+      <pre class="cmd" data-where="pc" data-pc="win"><code>Import-Certificate -FilePath (Join-Path ([Environment]::GetFolderPath("MyDocuments")) "ca-dynamite.crt") -CertStoreLocation Cert:\CurrentUser\Root</code></pre>
+      <pre class="cmd" data-where="pc" data-pc="mac"><code>sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ~/Documents/ca-dynamite.crt</code></pre>
+      <pre class="cmd" data-where="pc" data-pc="linux"><code>sudo cp ~/Documents/ca-dynamite.crt /usr/local/share/ca-certificates/ &amp;&amp; sudo update-ca-certificates</code></pre>
+      <p class="muted">On Windows, the command finds Documents even when it is synced with OneDrive. Firefox has its own
+        certificates: Settings → Certificates → Authorities → Import, then pick the file in Documents.</p>
       <p class="expect">Open <code>https://pc-name</code>, account <code>admin</code> and the temporary password, then
         <b>⚙ Admin → Spaces → Commencer</b>.</p>
       <label class="done"><input type="checkbox"> Installed</label>

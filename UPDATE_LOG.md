@@ -1,11 +1,19 @@
-# Journal de mise à jour — 0.60.58
+# Journal de mise à jour — 0.60.59
+
+- **Version :** 0.60.58 → 0.60.59 (2026-11-06)
+- **Changements :**
+  1. **Certificat : le dossier Documents** (D-O-068) : où copier le fichier, comment ouvrir le terminal, une commande qui marche de partout.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.58
 
 - **Version :** 0.60.57 → 0.60.58 (2026-11-06)
 - **Changements :**
   1. **Installation Windows : winget sans le Microsoft Store** (D-O-067) : Python et Git depuis la source winget.
 - **Base de données :** ['Aucun changement de schéma.']
 
-## Précédent
 
 ### Journal de mise à jour — 0.60.57
 

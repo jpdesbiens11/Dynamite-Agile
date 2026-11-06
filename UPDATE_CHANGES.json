@@ -2,16 +2,21 @@
   "changes": [
     {
       "id": "C1",
-      "title": "winget --source winget (D-O-067)",
-      "why": "msstore expire (WinHttpSendRequest 12002) : winget s'arrête en demandant --source ; second essai sans --scope machine ; Git retrouvé dans Program Files.",
+      "title": "Certificat depuis Documents (D-O-068)",
+      "why": "Demande d'un utilisateur : préciser où coller le fichier et d'où lancer le terminal.",
       "files": [
+        "tools/site/installation.html",
+        "tools/site/en/installation.html",
+        "tools/site/site.css",
+        "tools/site/installer.md",
+        "tools/site/en/installer.md",
         "deploy/install.ps1"
       ]
     },
     {
       "id": "C2",
       "title": "Test",
-      "why": "Chaque appel winget install précise --source winget.",
+      "why": "Commande avec Documents dans les pages et dans install.ps1.",
       "files": [
         "tests/test_windows_install.py"
       ]
