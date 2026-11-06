@@ -62,7 +62,9 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.60)
+## Relais (fin de 0.60.61)
+
+- Coûts et budget (D-O-070) : `modules/diamond/costs.py` (hypothèses, NRE, lignes), `costs_budget.py` (calcul, vérifications, CSV), écran `static/js/diamond/costs.js` + `costs_tables.js`, démo `modules/help/demo_costs.py`. À venir possible : prix par fournisseur, devises converties, graphique des flux par phase.
 
 - Mermaid (D-O-069) : `static/js/dynamite/mermaid_*.js`, `render.js` (isMermaid, mermaidBlock, aperçu en direct), `visual_dom.js` (data-skip, codeLang) ; test node `tests/js/mermaid.js`. À venir possible : classDiagram, ER, rendu dans les exports PDF / Word.
 

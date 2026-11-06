@@ -1,0 +1,51 @@
+{
+  "version": "0.60.61",
+  "date": "2026-11-06",
+  "summary": {
+    "fr": "Diamond gagne « Coûts et budget » : les NRE (ingénierie, moules, certification…), le coût de chaque pièce en prototype puis à trois volumes de production, et le budget global du projet (NRE, prototypes, temps de l'équipe, contingence) avec coût complet par unité ; vérifications, export CSV et version investisseurs à imprimer. Le Rover de la démo est chiffré.",
+    "en": "Diamond gains « Coûts et budget »: NRE (engineering, moulds, certification…), each part's cost as a prototype and at three production volumes, and the overall project budget (NRE, prototypes, team time, contingency) with full cost per unit; checks, CSV export and a printable investor version. The demo Rover is costed."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Coûts et budget dans Diamond (D-O-070)",
+      "why": "Hypothèses (devise, prototypes, trois volumes, contingence, taux horaire), NRE, coûts par pièce liés aux pièces de Diamond, budget calculé ; migration additive 9 ; journal d'audit sur chaque écriture.",
+      "files": [
+        "modules/diamond/costs.py",
+        "modules/diamond/costs_budget.py",
+        "modules/diamond/__init__.py",
+        "core/spacecopy.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Écran",
+      "why": "Synthèse, budget, volumes, NRE par catégorie et par phase, vérifications ; tableaux modifiables ; « Exporter (.csv) » et « Version investisseurs (imprimer) ».",
+      "files": [
+        "static/js/diamond/costs.js",
+        "static/js/diamond/costs_tables.js",
+        "static/css/diamond_costs.css",
+        "static/js/diamond/diamond.js",
+        "core/modules.py"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Le Rover chiffré",
+      "why": "9 NRE, 23 pièces et 2 lignes libres ; 212,30 $ par Rover à 100 unités, comme le Validation Report.",
+      "files": [
+        "modules/help/demo_costs.py",
+        "modules/help/__init__.py"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Tests",
+      "why": "tests/test_costs.py : calcul, droits, CSV, démo, copie d'un Space.",
+      "files": [
+        "tests/test_costs.py",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}
