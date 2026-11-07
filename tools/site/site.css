@@ -323,3 +323,16 @@ body.tour-folded .tour-spot { display: none; }
 }
 body.touring header.top, body.touring .progress-bar { z-index: 80; }  /* dimmed with the rest of the page */
 @media (prefers-reduced-motion: reduce) { .tour-spot { transition: none; } }
+
+/* 0.60.74 (D-O-080): the contact form, at the bottom of the installation page */
+.contact { margin: 3rem 0 2rem; padding: 1.4rem 1.6rem; background: #fff; border: 2px solid var(--ink); border-radius: 14px; box-shadow: var(--shadow); }
+.contact h2 { margin-top: 0; }
+.contact-form .fields { margin-bottom: .9rem; }
+.contact-form select, .contact-form textarea { padding: .6rem .7rem; font: 500 1rem var(--sans); border: 1.6px solid var(--ink); border-radius: 8px; background: #fff; }
+.contact-form .fields input { font-family: var(--sans); }
+.contact-form label.contact-msg { display: flex; flex-direction: column; gap: .3rem; font-weight: 650; }
+.contact-form textarea { width: 100%; resize: vertical; }
+.contact-form .opt { font-weight: 400; color: var(--ink-2); font-size: .85rem; }
+.contact-form .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.contact-form .btn { margin-top: .4rem; }
+.contact-status[hidden] { display: none; }

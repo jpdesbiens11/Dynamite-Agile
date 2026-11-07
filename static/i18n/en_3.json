@@ -295,6 +295,7 @@
 "Formation, tour du site, bac à sable": "Training, site tour, sandbox",
 "Formats acceptés : aaaa-mm-jj (recommandé), aaaa/mm/jj ou jj/mm/aaaa.": "Accepted formats: yyyy-mm-dd (recommended), yyyy/mm/dd or dd/mm/yyyy.",
 "Forme du nœud « ": "Shape of node “ ",
+"Formulaire de contact du site": "Contact form of the website",
 "Fournisseur": "Supplier",
 "Fournisseur (Test Location)": "Supplier (Test Location)",
 "Fournisseur de courriel": "E-mail provider",
@@ -579,6 +580,7 @@
 "J'ai compris : ne plus l'ouvrir à l'arrivée": "Got it: do not open it on arrival anymore",
 "J'ai terminé cette étape": "I have finished this step",
 "J'aime": "I like",
+"Jamais affiché sur le site.": "Never shown on the website.",
 "Jaune": "Yellow",
 "Je certifie que les heures ci-dessus proviennent des feuilles de temps des employés, telles qu'approuvées par leur gestionnaire.": "I certify that the hours above come from the employees' timesheets, as approved by their manager.",
 "Je ne trouve pas mes @mentions.": "I can't find my @mentions.",
@@ -877,6 +879,7 @@
 "Le site fait d'abord deux copies de sécurité : l'ancien code (les 3 dernières versions sont gardées) et un point de restauration des données (les 3 derniers sont gardés).": "The site first makes two safety copies: the old code (the last 3 versions are kept) and a data restore point (the last 3 are kept).",
 "Le site garde une copie de l'état d'avant, remplace la base et les fichiers, puis redémarre. Reconnectez-vous avec un compte du site déménagé (même identifiant, même mot de passe).": "The site keeps a copy of the previous state, replaces the database and files, then restarts. Log in again with an account from the moved site (same username, same password).",
 "Le site lit la boîte sans rien changer : il montre la nouvelle version, les fichiers ajoutés, modifiés ou retirés, et le journal de Claude.": "The site reads the package without changing anything: it shows the new version, the files added, modified or removed, and Claude's log.",
+"Le site web du projet (pages statiques) ne sait pas envoyer de courriel : son formulaire « Nous joindre » passe par ce serveur, qui transmet la demande au destinataire. Réponse à la personne par « Répondre » (Reply-To).": "The project's website (static pages) cannot send e-mail: its « Contact » form goes through this server, which forwards the request to the recipient. Answer the person with « Reply » (Reply-To).",
 "Le source document va dans Generator (référence), les notes de lecture dans Dynamite.": "The source document goes in Generator (reference), the reading notes in Dynamite.",
 "Le status d'arrivée n'appartient pas à ce workflow.": "The target status does not belong to this workflow.",
 "Le status de départ n'appartient pas à ce workflow.": "The starting status does not belong to this workflow.",
@@ -1068,6 +1071,5 @@
 "Lignes du DFMEA": "DFMEA lines",
 "Limite de température en conception ; essai d'échauffement selon IEC 62368-1": "Temperature limit in design; heat-rise test according to IEC 62368-1",
 "Limiter la commande du variateur à 30 % sous 1,2 m": "Limit the drive command to 30% below 1.2 m",
-"Limiter la vitesse à 0,6 m/s sur le gazon": "Limit the speed to 0.6 m/s on grass",
-"Limiter le MVP 0 aux trois hypothèses les plus risquées du Lean Canvas": "Limit MVP 0 to the three riskiest hypotheses of the Lean Canvas"
+"Limiter la vitesse à 0,6 m/s sur le gazon": "Limit the speed to 0.6 m/s on grass"
 }

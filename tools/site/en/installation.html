@@ -225,6 +225,28 @@
     <figure class="demo-qr"><div id="demo-qr"></div><figcaption>On a phone: scan with the camera.</figcaption></figure>
   </section>
 
+  <section id="contact" class="contact reveal" data-new="0.60.74-contact">
+    <h2>A question? Write to me</h2>
+    <p>A specific question about the tool, the installation, a course or a collaboration? Fill in this form:
+      <b>you will get an answer at your e-mail within 7 business days.</b></p>
+    <form id="contact-form" class="contact-form" novalidate>
+      <div class="fields">
+        <label>Name <input name="name" required maxlength="120" autocomplete="name"></label>
+        <label>E-mail <input name="email" type="email" required maxlength="254" autocomplete="email"></label>
+        <label>Organization <span class="opt">(optional)</span> <input name="organization" maxlength="160" autocomplete="organization"></label>
+        <label>Topic <select name="topic">
+          <option value="question">Question about the tool</option><option value="install">Installation</option>
+          <option value="partner">Collaboration or partnership</option><option value="course">Course or training</option>
+          <option value="other">Other</option></select></label>
+      </div>
+      <label class="contact-msg">Message <textarea name="message" required maxlength="5000" rows="6"></textarea></label>
+      <label class="hp" aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off"></label>
+      <p class="muted">Your details are only used to answer you; they are never published or shared.</p>
+      <button type="submit" class="btn btn-primary">Send the request</button>
+      <p class="contact-status note" role="status" hidden></p>
+    </form>
+  </section>
+
   <p class="next muted">What next? The <a href="guide.html">guide</a> explains each module, from MVP0 to launch.
     An error message? See <a href="#depannage">If something gets stuck</a>, or paste it to your AI assistant.</p>
 {{TROUBLE}}
@@ -238,6 +260,9 @@
 </script>
 <script>
 {{TOUR_JS}}
+</script>
+<script>
+{{CONTACT_JS}}
 </script>
 </body>
 </html>

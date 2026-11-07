@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.73
+# Journal de mise à jour — 0.60.74
+
+- **Version :** 0.60.73 → 0.60.74 (2026-11-07)
+- **Changements :**
+  1. **Formulaire de contact du site** (D-O-080) : passe par la démo, transmis par courriel au destinataire réglé dans Admin → Courriel.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.73
 
 - **Version :** 0.60.72 → 0.60.73 (2026-11-07)
 - **Changements :**
   1. **Mot de passe oublié par courriel** (D-O-079) : lien à usage unique de 30 minutes, courriel par compte, Admin → Courriel (SMTP, coupé par défaut).
 - **Base de données :** ['Migration core 19 : users.email (unique si rempli), table password_resets (additive).']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.72
 

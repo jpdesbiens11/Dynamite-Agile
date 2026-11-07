@@ -1,0 +1,27 @@
+{
+  "version": "0.60.74",
+  "date": "2026-11-07",
+  "summary": {
+    "fr": "Formulaire de contact sur le site du projet : une question, une réponse par courriel sous 7 jours ouvrables.",
+    "en": "Contact form on the project's website: a question, an answer by e-mail within 7 business days."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Formulaire de contact du site",
+      "why": "Le site du projet a un formulaire « Une question ? Écrivez-moi » (réponse sous 7 jours ouvrables), sans adresse courriel affichée ; il passe par l'instance de démo, qui transmet la demande au destinataire réglé dans Admin → Courriel (Reply-To : la personne). Coupé par défaut, CORS pour l'adresse du site seulement.",
+      "files": [
+        "core/contact.py",
+        "core/mail.py",
+        "core/router.py",
+        "static/js/admin_mail.js",
+        "tools/site/contact.js",
+        "tools/site/installation.html",
+        "tools/site/en/installation.html",
+        "tools/site/site.css",
+        "tools/site_text.py",
+        "tools/build_site.py"
+      ]
+    }
+  ]
+}

@@ -181,7 +181,8 @@ def build():
                               # 0.60.70 (D-O-076): the page's guided tour and the QR code of the demo, drawn in the page
                               TOUR_JS="window.DA = window.DA || {};\n" + (BASE / "static" / "js" / "tools" / "qr.js").read_text(encoding="utf-8")
                               + "\n" + (SRC / "tour.js").read_text(encoding="utf-8"),
-                              DEMO_URL=DEMO_URL)
+                              DEMO_URL=DEMO_URL,
+                              CONTACT_JS=(SRC / "contact.js").read_text(encoding="utf-8"))  # 0.60.74 (D-O-080)
             if name == "modules.html":  # 0.60.45 (D-O-054): the same text as the DEMO library of the tool
                 from tools import site_modules
                 values.update(MODULE_TOC=site_modules.toc(lang), MODULE_DOCS=site_modules.sections(lang, BASE))

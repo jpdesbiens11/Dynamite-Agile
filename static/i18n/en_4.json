@@ -1,4 +1,5 @@
 {
+"Limiter le MVP 0 aux trois hypothèses les plus risquées du Lean Canvas": "Limit MVP 0 to the three riskiest hypotheses of the Lean Canvas",
 "Limites à connaître. ": "Limits to know. ",
 "Links : « implémente » un requirement Goldmine (traçabilité) ; Sous-tickets : les étapes.": "Links: “implements” a Goldmine requirement (traceability); Sub-tickets: the steps.",
 "Linux, quelques commandes": "Linux, a few commands",
@@ -559,6 +560,7 @@
 "Ouvrir le Dashboard": "Open the Dashboard",
 "Ouvrir le Dashboard : ce qui est en retard, ce qui m'attend": "Open the Dashboard: what is late, what is waiting for me",
 "Ouvrir le PDF": "Open the PDF",
+"Ouvrir le formulaire de contact du site": "Open the website's contact form",
 "Ouvrir le plan DEMO": "Open the DEMO plan",
 "Ouvrir le tableau DEMO": "Open the DEMO board",
 "Ouvrir le wiki DEMO": "Open the DEMO wiki",
@@ -820,6 +822,7 @@
 "Pour la page de traduction": "For the translation page",
 "Pour la vraie documentation, travaillez dans le Space Dynamite de votre projet.": "For real documentation, work in your project's Dynamite Space.",
 "Pour les meilleures alternatives : ce qui pourrait mal tourner si on la choisit. Probabilité × gravité ": "For the best alternatives: what could go wrong if it is chosen. Probability × severity ",
+"Pour ouvrir le formulaire du site : serveur SMTP, expéditeur, destinataire et adresse du site sont requis.": "To open the website's form: SMTP server, sender, recipient and website address are required.",
 "Pour soumettre au CCB : classe, raison, description du changement et au moins un article.": "To submit to the CCB: class, reason, change description and at least one item.",
 "Pour trancher entre des options finalistes (souvent issues de Pugh), quand le choix doit être défendu (revue de conception, CCB, client).": "To decide between finalist options (often from Pugh), when the choice must be defended (design review, CCB, customer).",
 "Pour une page : demandez un texte en Markdown, copiez-le avec le bouton « Copier » de l'agent, puis Dynamite → « ✨ Importer d'une IA ».": "For a page: ask for a Markdown text, copy it with the agent's “Copy” button, then Dynamite → “✨ Import from AI”.",
@@ -1068,6 +1071,5 @@
 "Registre des extractions": "Extraction register",
 "Registre des questions et réponses — requirements": "Question and answer register — requirements",
 "Registre des risques : si / alors / ce qui, probabilité × impact, stratégie, action, responsable, risque résiduel, lien vers le DFMEA.": "Risk register: if / then / which, probability × impact, strategy, action, owner, residual risk, link to the DFMEA.",
-"Registre des risques, analyse qualitative et quantitative, réponses aux risques.": "Risk register, qualitative and quantitative analysis, risk responses.",
-"Registre — ": "Register — "
+"Registre des risques, analyse qualitative et quantitative, réponses aux risques.": "Risk register, qualitative and quantitative analysis, risk responses."
 }
