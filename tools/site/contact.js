@@ -32,9 +32,11 @@
       form.reset();
       show(body.message, true);
     } catch (err) {
-      show((err && err.message && err.message !== "Failed to fetch" ? err.message
-        : say("Le serveur ne répond pas.", "The server does not answer.")) + " " +
-        say("Réessayez plus tard.", "Try again later."), false);
+      /* 0.60.75 (D-O-081): a refused CORS request or an unreachable server is a TypeError whose text depends on the
+         browser (« Failed to fetch », « NetworkError when attempting to fetch resource », « Load failed »…) */
+      const network = !err || err instanceof TypeError || !err.message;
+      show((network ? say("Le formulaire est indisponible pour l'instant.", "The form is unavailable for now.")
+        : err.message) + " " + say("Réessayez plus tard.", "Try again later."), false);
     } finally {
       button.disabled = false;
       button.textContent = say("Envoyer la demande", "Send the request");

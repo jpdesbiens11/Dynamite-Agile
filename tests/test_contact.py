@@ -118,6 +118,56 @@ class ContactTest(unittest.TestCase):
         # the three refused requests above count: the fourth of the hour is refused
         self.assertEqual(self.call("POST", self.form())[0], 429)
 
+    # 0.60.75 (D-O-081) -------------------------------------------------------------------------------------------
+    def test_05_line_break_in_a_one_line_field_is_a_400(self):
+        self.open_form()
+        for extra in ({"name": "Bob\r\nBcc: x@exemple.ca"}, {"organization": "UdeS\nX-Spam: 1"}):
+            contact._hits.clear()
+            status, headers, body = self.call("POST", self.form(**extra))
+            self.assertEqual(status, 400, body)
+            self.assertEqual(headers["Access-Control-Allow-Origin"], SITE)
+        contact._hits.clear()
+        self.assertEqual(self.call("POST", self.form(message="Ligne 1\nLigne 2"))[0], 200)  # the message may
+
+    def test_06_smtp_refusal_stays_in_the_log(self):
+        self.open_form()
+        self.admin.put("/api/admin/mail", {"port": 1})  # nothing listens there
+        try:
+            with self.assertLogs("dynamite_agile.contact", "WARNING"):
+                status, _, body = self.call("POST", self.form())
+            self.assertEqual(status, 502)
+            self.assertNotIn("Errno", body["error"])
+            self.assertNotIn("Gmail", body["error"])
+            self.assertEqual(contact._day, [])  # a request that did not leave takes no place of the day
+        finally:
+            self.open_form()
+
+    def test_07_only_forwarded_requests_fill_the_day(self):
+        self.open_form()
+        for i in range(contact.PER_DAY + 5):  # refused requests from many addresses: the day stays open
+            contact._hits.clear()
+            self.assertEqual(self.call("POST", self.form(email="x"))[0], 400)
+        self.assertEqual(contact._day, [])
+        contact._day.extend([__import__("time").time()] * contact.PER_DAY)
+        contact._hits.clear()
+        with self.assertLogs("dynamite_agile.contact", "WARNING"):
+            contact._warned[0] = 0.0
+            self.assertEqual(self.call("POST", self.form())[0], 429)
+
+    def test_08_options_behind_the_same_gates(self):
+        self.open_form()
+        cfg = self.server.app_config
+        saved = {k: cfg.get(k) for k in ("trusted_proxies", "dev_mode")}
+        cfg.update(trusted_proxies=["10.9.9.9/32"], dev_mode=False)  # only a proxy we are not may talk to the server
+        try:
+            self.assertEqual(self.call("POST", self.form())[0], 403)
+            status, headers, _ = self.call("OPTIONS")
+            self.assertEqual(status, 403)
+            self.assertNotIn("Access-Control-Allow-Origin", headers)
+        finally:
+            cfg.update(saved)
+        self.assertEqual(self.call("OPTIONS")[0], 204)
+
 
 if __name__ == "__main__":
     unittest.main()

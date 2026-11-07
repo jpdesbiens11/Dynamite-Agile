@@ -134,6 +134,9 @@
   `data/mail.json` 0600, coupé par défaut) ; migration core 19. Seule sortie réseau du serveur.
 - **0.60.74** (2026-11-07) : **formulaire de contact du site** (D-O-080, `core/contact.py`, `tools/site/contact.js`) : seulement
   sur le site ; il poste à la démo (`POST /api/contact`, CORS pour l'adresse du site seulement), qui transmet au destinataire d'Admin → Courriel.
+- **0.60.75** (2026-11-07) : **formulaire de contact consolidé** (D-O-081, `core/contact.py`, `core/router.py`, `tools/site/contact.js`) :
+  seuls les envois réussis comptent dans les 30 par jour, saut de ligne refusé (400), erreur SMTP au journal seulement, OPTIONS derrière
+  les mêmes barrières (proxy, partage de dev), message clair dans tous les navigateurs quand le formulaire est fermé.
 - **0.60.68** (2026-11-06) : **le reste de l'interface en anglais** (D-O-073) : balayage de 280 écrans (`tools/i18n_crawl.py`,
   `DA.i18nScan`), ~700 traductions, gabarits « # » pour les nombres.
 - **0.60.67** (2026-11-06) : **le Rover en anglais** (D-O-073) : le contenu affiché en lecture se traduit aussi (dictionnaire de la démo

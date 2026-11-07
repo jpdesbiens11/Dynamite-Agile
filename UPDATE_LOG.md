@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.74
+# Journal de mise à jour — 0.60.75
+
+- **Version :** 0.60.74 → 0.60.75 (2026-11-07)
+- **Changements :**
+  1. **Formulaire de contact consolidé** (D-O-081) : plafond quotidien compté aux envois réussis, saut de ligne refusé, erreur SMTP au journal, OPTIONS derrière les mêmes barrières, message clair dans tous les navigateurs.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.74
 
 - **Version :** 0.60.73 → 0.60.74 (2026-11-07)
 - **Changements :**
   1. **Formulaire de contact du site** (D-O-080) : passe par la démo, transmis par courriel au destinataire réglé dans Admin → Courriel.
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.73
 
