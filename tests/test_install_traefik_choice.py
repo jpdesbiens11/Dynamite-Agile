@@ -36,7 +36,7 @@ class TraefikChoiceTest(unittest.TestCase):
             self.assertTrue(re.search(r"(Mettre à jour|Update)\*\* later|\*\*Mettre à jour\*\*|\*\*Update\*\*", guide))
 
     def test_04_website_presents_diamond_and_news(self):
-        for rel in ("site/index.html", "site/en/index.html"):
+        for rel in ("site/home.html", "site/en/home.html"):
             page = (BASE_DIR / rel).read_text("utf-8")
             self.assertIn("<h3>Diamond</h3>", page)
             self.assertIn('id="nouveautes"', page)

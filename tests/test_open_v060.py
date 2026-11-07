@@ -126,7 +126,7 @@ class StaticContentTest(unittest.TestCase):
     def test_08b_website(self):
         """D-O-015: the website is its own deliverable in site/, built from tools/site/, self-contained."""
         import subprocess
-        names = ("index.html", "installation.html", "guide.html", "installer.md")
+        names = ("home.html", "index.html", "installation.html", "guide.html", "installer.md")
         before = {n: (BASE_DIR / "site" / n).read_text("utf-8") for n in names + ("install.sh",)}
         before.update({"en/" + n: (BASE_DIR / "site" / "en" / n).read_text("utf-8") for n in names})  # D-O-017
         subprocess.run([sys.executable, str(BASE_DIR / "tools" / "build_site.py")], check=True, capture_output=True)
@@ -135,7 +135,8 @@ class StaticContentTest(unittest.TestCase):
             self.assertEqual(page, old, "site/{} is not up to date: python3 tools/build_site.py".format(name))
             self.assertNotRegex(page, r'<script[^>]+src=|<link(?![^>]*rel="alternate")[^>]+href="http|url\((?:\'|")?http')  # nothing loaded from outside
             self.assertNotIn("{{", page)
-        index = before["index.html"]
+        index = before["home.html"]  # 0.60.71 (D-O-077): the landing page; index.html is the installation page
+        self.assertEqual(before["index.html"], before["installation.html"])
         for part in ('id="descente"', 'class="level"', 'id="journee"', 'id="chaine"', 'id="outils"', 'id="term"'):
             self.assertIn(part, index)
         page = before["installation.html"]
@@ -152,12 +153,12 @@ class StaticContentTest(unittest.TestCase):
         self.assertIn("Ne demandez jamais un mot de passe", agent)
         self.assertTrue((BASE_DIR / ".github" / "workflows" / "pages.yml").exists())
         # D-O-017: the English pages, the FR | EN switch both ways, the English messages of the script
-        self.assertIn('<html lang="en">', before["en/index.html"])
-        self.assertIn('class="lang" href="en/index.html"', index)
+        self.assertIn('<html lang="en">', before["en/home.html"])
+        self.assertIn('class="lang" href="en/home.html"', index)
         self.assertIn('class="lang" href="../installation.html"', before["en/installation.html"])
         self.assertIn('hreflang="en" href="{}/en/guide.html"'.format(build_site.SITE_URL), before["guide.html"])
         for part in ('id="descente"', 'id="journee"', 'id="chaine"', 'id="outils"', "Eleven tools", "hot glue gun dropped"):
-            self.assertIn(part, before["en/index.html"])
+            self.assertIn(part, before["en/home.html"])
         self.assertIn("sudo DA_LANG=en bash -s --", before["en/installation.html"])
         self.assertIn("Never ask for a password", before["en/installer.md"])
         self.assertIn(build_site.SITE_URL + "/en/installation.html", before["en/installer.md"])

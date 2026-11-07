@@ -55,7 +55,7 @@ class ModuleDocsDataTest(unittest.TestCase):
             self.assertIn(REFS["scrum_fr"][3], page)
             self.assertNotIn("{{", page)
             self.assertIn('href="modules.html"', page)
-        self.assertIn('href="modules.html"', (BASE_DIR / "site" / "index.html").read_text("utf-8"))
+        self.assertIn('href="modules.html"', (BASE_DIR / "site" / "home.html").read_text("utf-8"))
 
 
 class ModuleDocsHeadLampTest(unittest.TestCase):

@@ -1,4 +1,4 @@
-"""Website of Dynamite | Agile (D-O-015): site/index.html, site/installation.html, site/guide.html, in French, and the
+"""Website of Dynamite | Agile (D-O-015): site/home.html (landing), site/installation.html (also site/index.html, 0.60.71), site/guide.html, in French, and the
 same pages in English in site/en/ (D-O-017).
 
     python3 tools/build_site.py
@@ -27,7 +27,7 @@ OWNER, NAME = "jpdesbiens11", "Dynamite-Agile"  # D-O-011: the public repository
 REPO = "https://github.com/{}/{}".format(OWNER, NAME)
 SITE_URL = "https://dynamiteagile.ca"  # 0.60.71 (D-O-077): GitHub Pages on the project's own domain (was jpdesbiens11.github.io/Dynamite-Agile)
 DEMO_URL = "https://demo.dynamiteagile.ca/"  # 0.60.70 (D-O-076): the live demo, guest access, end of the page tour
-PAGES = ("index.html", "installation.html", "guide.html", "modules.html", "versions.html")  # 0.60.12: versions; 0.60.45: modules
+PAGES = ("home.html", "installation.html", "guide.html", "modules.html", "versions.html")  # 0.60.12: versions; 0.60.45: modules
 
 
 def _between(text, start, end):
@@ -48,7 +48,7 @@ def _top(current, lang):
     label, title, other = T.SWITCH[lang]
     switch = ('<a class="lang" href="{}" hreflang="{}" lang="{}" title="{}">{}</a>'
               .format(("en/" if lang == "fr" else "../") + current, other, other, title, label))
-    return ('<header class="top">\n  <a class="logo" href="index.html"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">'
+    return ('<header class="top">\n  <a class="logo" href="home.html"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">'
             '<rect x="3" y="3" width="26" height="26" rx="4" fill="#ffd23f" stroke="#26323f" stroke-width="2"/>'
             '<path d="M18 6 L11 17 H16 L14 26 L22 14 H17 Z" fill="none" stroke="#26323f" stroke-width="2" stroke-linejoin="round"/>'
             '</svg><span class="logo-word" role="img" aria-label="Dynamite Agile"><span class="lw-d">Dynamite</span><span class="lw-a">Agile</span></span></a>\n  <nav aria-label="Pages">{}</nav>\n  {}\n'
@@ -172,7 +172,7 @@ def build():
         for name in PAGES:
             page = (src / name).read_text(encoding="utf-8")
             values = dict(common, TOP=_top(name, lang), MINE_ROWS=_mine_rows(lang), FOOTER=T.footer(lang, APP_VERSION, REPO))
-            if name == "index.html":
+            if name == "home.html":  # 0.60.71 (D-O-077): the landing page, the address itself opens the installation
                 values.update(_landing(vitrine, lang, src))
             if name == "installation.html":
                 values["LATEST"] = _latest(lang)
@@ -193,6 +193,9 @@ def build():
             left = re.findall(r"\{\{[A-Z_]+\}\}", page)
             if left:
                 raise SystemExit("{}/{} : marqueurs non remplacés {}".format(lang, name, left))
+            if name == "installation.html":  # 0.60.71 (D-O-077): the address alone (dynamiteagile.ca) opens the installation page
+                (out / "index.html").write_text(page, encoding="utf-8")
+                written.append((out / "index.html", len(page)))
             (out / name).write_text(page, encoding="utf-8")
             written.append((out / name, len(page)))
         # the guide an AI assistant reads next to the person, in the language of the page

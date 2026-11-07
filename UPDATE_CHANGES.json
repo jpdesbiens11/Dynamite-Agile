@@ -14,7 +14,10 @@
         "static/js/tools/guest_tour.js",
         "tools/site/installer.md",
         "tools/site/en/installer.md",
-        "README.md"
+        "README.md",
+        "tools/site/home.html",
+        "tools/site/en/home.html",
+        "tools/site/tour.js"
       ]
     }
   ]

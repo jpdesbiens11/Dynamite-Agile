@@ -2,8 +2,8 @@
   "version": "0.60.71",
   "date": "2026-11-07",
   "summary": {
-    "fr": "Le projet sur son propre domaine : le site sur dynamiteagile.ca, la démo sur demo.dynamiteagile.ca ; l'ancienne adresse peut rester servie.",
-    "en": "The project on its own domain: the site on dynamiteagile.ca, the demo on demo.dynamiteagile.ca; the old address can stay served."
+    "fr": "Le projet sur son propre domaine : dynamiteagile.ca ouvre la page d'installation et son tour, la démo est sur demo.dynamiteagile.ca ; les anciens liens fonctionnent encore.",
+    "en": "The project on its own domain: dynamiteagile.ca opens the installation page and its tour, the demo is on demo.dynamiteagile.ca; the old links still work."
   },
   "changes": [
     {
@@ -20,7 +20,10 @@
         "static/js/tools/guest_tour.js",
         "tools/site/installer.md",
         "tools/site/en/installer.md",
-        "README.md"
+        "README.md",
+        "tools/site/home.html",
+        "tools/site/en/home.html",
+        "tools/site/tour.js"
       ]
     }
   ]
