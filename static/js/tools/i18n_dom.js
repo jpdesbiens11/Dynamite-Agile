@@ -51,6 +51,19 @@
       const core = dict.get(norm(parts[2])) || dict.get(norm(parts[2] + parts[3]));
       if (core) return lead + parts[1] + norm(core) + (dict.get(norm(parts[2])) ? parts[3] : "") + trail;
     }
+    /* « F10 Mesurer les distances », « 🧪 TST-FUN-07 · Contournement… », « DEMO · ROVER — la démo… »: a code, then a known text;
+       or pieces joined by « · » / « — » of which at least one is known */
+    const coded = key.match(/^(\S*?(?:[A-Z]{1,5}-?\d+[A-Z]?|DEMO)(?:\s*[·:—-])?\s+)(.+)$/);
+    if (coded && dict.get(norm(coded[2]))) return lead + coded[1] + norm(dict.get(norm(coded[2]))) + trail;
+    if (/ [·—] /.test(key)) {
+      let any = false;
+      const joined = key.split(/( [·—] )/).map((piece) => {
+        const known = dict.get(norm(piece));
+        if (known) { any = true; return norm(known); }
+        return piece;
+      }).join("");
+      if (any) return lead + joined + trail;
+    }
     for (const head of heads) {
       if (key.startsWith(head + " ") || (key.startsWith(head) && key.length > head.length && /\s/.test(key[head.length]))) {
         return lead + norm(dict.get(head)) + key.slice(head.length) + trail;

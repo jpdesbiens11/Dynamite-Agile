@@ -9,11 +9,12 @@
     {
       "id": "C1",
       "title": "Le Rover en anglais (D-O-073)",
-      "why": "En anglais, le contenu de la démo (pages du wiki, tickets, requirements, Diamond, essais, coûts, formation) se traduit à l'affichage avec un second dictionnaire ; rien ne change en base.",
+      "why": "En anglais, le contenu de la démo (pages, tickets, requirements, Diamond, essais, coûts, formation) et les libellés envoyés par le serveur (catégories, conseils, messages) se traduisent à l'affichage ; ~5 660 entrées d'interface et ~2 570 de la démo ; rien ne change en base.",
       "files": [
         "static/i18n/demo_en_1.json",
         "static/js/tools/i18n_dom.js",
-        "tools/i18n_demo.py"
+        "tools/i18n_demo.py",
+        "tools/i18n_missing.py"
       ]
     },
     {
