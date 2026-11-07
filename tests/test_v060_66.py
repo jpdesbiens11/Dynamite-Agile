@@ -115,6 +115,12 @@ class StaticTest(unittest.TestCase):
             total += len(part)
             self.assertTrue(all(isinstance(v, str) and v.strip() for v in part.values()))
         self.assertGreater(total, 2500)
+        demo = 0
+        for n in range(1, 7):  # 0.60.67: the Rover's content in English
+            demo += len(json.loads((STATIC / "i18n" / "demo_en_{}.json".format(n)).read_text("utf-8")))
+        self.assertGreater(demo, 1500)
+        tour = (STATIC / "js" / "tools" / "guest_tour.js").read_text("utf-8")
+        self.assertIn("da:language", tour)  # the top bar FR | EN redraws the card
         steps = (STATIC / "js" / "tools" / "guest_tour_steps.js").read_text("utf-8")
         self.assertGreaterEqual(len(re.findall(r'id: "', steps)), 12)
         self.assertEqual(len(re.findall(r"\bfr: \[", steps)), len(re.findall(r"\ben: \[", steps)))

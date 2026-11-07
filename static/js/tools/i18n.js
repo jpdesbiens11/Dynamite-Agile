@@ -65,7 +65,9 @@
 
   let lang = "fr";
   DA.setLanguage = function (value) {
+    const before = lang;
     lang = TEXT[value] ? value : "fr";
+    if (before !== lang) window.dispatchEvent(new CustomEvent("da:language", { detail: lang }));  // 0.60.67: cards that carry their own text
     document.documentElement.lang = lang;
     if (DA.domLanguage) DA.domLanguage(lang);  // 0.60.66 (D-O-073): the display dictionary for the module screens
   };

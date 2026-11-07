@@ -9,7 +9,12 @@
   "use strict";
   const FILES = 6;
   const ATTRS = ["placeholder", "title", "aria-label", "alt", "data-tip"];
-  const SKIP = "script, style, textarea, code, pre, input, select option[data-raw], [contenteditable], [data-no-i18n], .dy-content, .ProseMirror";
+  /* 0.60.67: the content shown in reading (wiki pages, tickets, Diamond…) is translated too when the dictionary knows it
+     exactly -- the demo Rover is in static/i18n/demo_en_*.json; what is being edited (contenteditable) never is. */
+  const SKIP = "script, style, textarea, code, pre, input, select option[data-raw], [contenteditable], [data-no-i18n]";
+  const SKIP_ATTR = "[contenteditable], [data-no-i18n]";  // a field's placeholder is a label
+  const DEMO_FILES = 6;
+  const guest = () => !!(DA.session && DA.session.user && DA.session.user.is_guest);
   const norm = (s) => s.replace(/\s+/g, " ").trim();
   let dict = null, heads = [], loading = null, observer = null, on = false;
   const done = new Map();  // text node -> [French original, English shown]
@@ -19,9 +24,9 @@
     if (dict) return Promise.resolve(dict);
     if (!loading) {
       const parts = [];
-      for (let n = 1; n <= FILES; n += 1) {
-        parts.push(fetch("/i18n/en_" + n + ".json", { credentials: "same-origin" }).then((r) => (r.ok ? r.json() : {})).catch(() => ({})));
-      }
+      const get = (name) => fetch("/i18n/" + name, { credentials: "same-origin" }).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
+      for (let n = 1; n <= FILES; n += 1) parts.push(get("en_" + n + ".json"));
+      for (let n = 1; n <= DEMO_FILES; n += 1) parts.push(get("demo_en_" + n + ".json"));
       loading = Promise.all(parts).then((list) => {
         dict = new Map();
         list.forEach((part) => Object.keys(part).forEach((fr) => { if (part[fr] && norm(fr)) dict.set(norm(fr), part[fr]); }));
@@ -40,10 +45,25 @@
     const lead = text.match(/^\s*/)[0], trail = text.match(/\s*$/)[0];
     const hit = dict.get(key);
     if (hit) return lead + norm(hit) + trail;
-    const sym = key.match(/^([^A-Za-zÀ-ÿ0-9«“]+)(.+?)([\s▾›»]*)$/);  // « ▤ Tous les Spaces », « Exporter ▾ »
-    if (sym && dict.get(norm(sym[2]))) return lead + sym[1] + norm(dict.get(norm(sym[2]))) + sym[3] + trail;
-    const tail = key.match(/^(.+?)(\s*[▾›»:…]+)$/);
-    if (tail && dict.get(tail[1])) return lead + norm(dict.get(tail[1])) + tail[2] + trail;
+    /* « ▤ Tous les Spaces », « Exporter ▾ », « ⇩ Exporter… »: a symbol before, an ellipsis or arrow after */
+    const parts = key.match(/^([^A-Za-zÀ-ÿ0-9«“]*)(.+?)(\s*[▾›»:…]*)$/);
+    if (parts && (parts[1] || parts[3])) {
+      const core = dict.get(norm(parts[2])) || dict.get(norm(parts[2] + parts[3]));
+      if (core) return lead + parts[1] + norm(core) + (dict.get(norm(parts[2])) ? parts[3] : "") + trail;
+    }
+    /* « F10 Mesurer les distances », « 🧪 TST-FUN-07 · Contournement… », « DEMO · ROVER — la démo… »: a code, then a known text;
+       or pieces joined by « · » / « — » of which at least one is known */
+    const coded = key.match(/^(\S*?(?:[A-Z]{1,5}-?\d+[A-Z]?|DEMO)(?:\s*[·:—-])?\s+)(.+)$/);
+    if (coded && dict.get(norm(coded[2]))) return lead + coded[1] + norm(dict.get(norm(coded[2]))) + trail;
+    if (/ [·—] /.test(key)) {
+      let any = false;
+      const joined = key.split(/( [·—] )/).map((piece) => {
+        const known = dict.get(norm(piece));
+        if (known) { any = true; return norm(known); }
+        return piece;
+      }).join("");
+      if (any) return lead + joined + trail;
+    }
     for (const head of heads) {
       if (key.startsWith(head + " ") || (key.startsWith(head) && key.length > head.length && /\s/.test(key[head.length]))) {
         return lead + norm(dict.get(head)) + key.slice(head.length) + trail;
@@ -64,7 +84,18 @@
   }
 
   function element(node) {
-    if (skipped(node)) return;
+    if (node.closest(SKIP_ATTR)) return;
+    /* a guest only reads: the demo's fields show their English text too (nothing he sees can be saved) */
+    if ((node.tagName === "INPUT" && /^(text|search|)$/.test(node.type || "")) || node.tagName === "TEXTAREA") {
+      if (guest() && node.value && !node.hasAttribute("data-i18n-value")) {
+        const english = translate(node.value);
+        if (english !== null && english !== node.value) {
+          doneAttr.push([node, "value", node.value]);
+          node.setAttribute("data-i18n-value", "");
+          node.value = english;
+        }
+      }
+    }
     ATTRS.forEach((name) => {
       const value = node.getAttribute(name);
       if (!value || node.hasAttribute("data-i18n-" + name)) return;
@@ -106,7 +137,10 @@
     if (observer) { observer.disconnect(); observer = null; }
     done.forEach(([fr, en], node) => { if (node.nodeValue === en) node.nodeValue = fr; });
     done.clear();
-    doneAttr.splice(0).forEach(([node, name, fr]) => { node.setAttribute(name, fr); node.removeAttribute("data-i18n-" + name); });
+    doneAttr.splice(0).forEach(([node, name, fr]) => {
+      if (name === "value") node.value = fr; else node.setAttribute(name, fr);
+      node.removeAttribute("data-i18n-" + name);
+    });
   }
 
   /** Called by DA.setLanguage (i18n.js) every time the language is applied. */

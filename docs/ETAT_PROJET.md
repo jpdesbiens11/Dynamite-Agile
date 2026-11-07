@@ -62,7 +62,9 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.66)
+## Relais (fin de 0.60.67)
+
+- Contenu de la démo en anglais (D-O-073, 0.60.67) : quand le Rover ou la bibliothèque de référence change, démarrer un serveur neuf (`--dev-admin --data-dir DIR`), puis `python tools/i18n_demo.py DIR` liste les textes à traduire et `--merge` les ajoute. Un texte modifié par une équipe reste dans sa langue (correspondance exacte seulement).
 
 - FR | EN (D-O-073) : à chaque version, `python tools/i18n_missing.py` liste les libellés pas encore au dictionnaire (240 à la sortie de 0.60.66, surtout de longs textes d'aide) ; `--merge fichier.json` les ajoute. Les messages d'erreur du serveur et le contenu des Spaces restent en français.
 - Tour de l'invité (D-O-074) : une étape = `hash` + `focus` (texte cherché par le pointeur) + `fr` / `en` dans `guest_tour_steps.js` ; si le contenu du Rover change, vérifier que chaque `focus` existe encore (test Playwright de la session 0.60.66).
