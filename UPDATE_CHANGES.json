@@ -2,28 +2,11 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Accès invité sans écriture dans les membres (D-O-072)",
-      "why": "permissions.project_role et visible_projects lisent le réglage « guest » pour le compte invite ; aucune ligne memberships créée ni supprimée, d'anciennes lignes éventuelles sont ignorées.",
+      "title": "Diamond dans la vitrine",
+      "why": "La page de présentation parlait de tous les modules sauf Diamond hors de la grille : l'accroche nomme l'analyse fonctionnelle et le DFMEA, le bouton dit 11 outils, et la journée de l'équipe s'arrête à 09:00 dans Diamond (arbre fonctionnel qui pousse, ligne de DFMEA et essai clé).",
       "files": [
-        "core/permissions.py",
-        "core/guest.py"
-      ]
-    },
-    {
-      "id": "C1b",
-      "title": "Bouton invité toujours à jour",
-      "why": "La page de connexion redemande au serveur si l'accès invité est ouvert, au lieu de garder l'état du premier chargement.",
-      "files": [
-        "static/js/guest.js"
-      ]
-    },
-    {
-      "id": "C2",
-      "title": "Test du contrôle de mise à jour",
-      "why": "Un test passe chaque fichier du code au contrôle DESTRUCTIVE de la mise à jour : seules les lignes déjà présentes avant 0.60.63 sont admises.",
-      "files": [
-        "tests/test_guest.py",
-        "tests/test_open_v060.py"
+        "tools/vitrine/template.html",
+        "static/apps/vitrine/index.html"
       ]
     }
   ]

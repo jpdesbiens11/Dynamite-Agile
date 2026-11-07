@@ -86,6 +86,19 @@ h2 { font: 700 clamp(1.7rem, 3.2vw, 2.5rem)/1.2 var(--hand); margin: 0 0 .6rem; 
 .pain .now { margin: .6rem 0 0; font-weight: 650; }
 .pain .now span { --hlc: var(--g); }
 
+/* Diamond scene (0.60.65): function tree that grows branch by branch, then the DFMEA line */
+.ftree { display: grid; grid-template-columns: 36% 1fr; align-items: center; gap: 1.4rem; position: relative; }
+.fkids { display: flex; flex-direction: column; gap: .4rem; border-left: 2px solid var(--ink); padding-left: .9rem; }
+.fnode { border: 2px solid var(--ink); border-radius: var(--r-hand); padding: .3rem .5rem; background: #fff; font-size: .82rem; line-height: 1.2; }
+.fnode code { margin-right: .35rem; font-weight: 700; }
+.fnode.f0 { position: relative; background: color-mix(in srgb, var(--y) 55%, #fff); }
+.fnode.f0::after { content: ""; position: absolute; right: calc(-1.4rem - 2px); top: 50%; width: 1.4rem; border-top: 2px solid var(--ink); }
+.fkids .fnode { position: relative; background: color-mix(in srgb, var(--c) 22%, #fff); opacity: 0; transform: translateX(-12px); transition: opacity .4s ease, transform .4s ease; transition-delay: calc(var(--k) * .35s); }
+.fkids .fnode::before { content: ""; position: absolute; left: calc(-.9rem - 2px); top: 50%; width: .9rem; border-top: 2px solid var(--ink); }
+.fkids .fnode.crit { border-width: 3px; }
+.scene.on .fkids .fnode { opacity: 1; transform: none; }
+.dfm { opacity: 0; transition: opacity .4s ease; transition-delay: calc(1.8s + var(--k, 0) * .4s); }
+.scene.on .dfm { opacity: 1; }
 /* ---------- journey: sticky screen + steps ---------- */
 .journey { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 2.5rem; align-items: start; }
 .steps { display: flex; flex-direction: column; gap: 38vh; padding: 10vh 0 30vh; }
@@ -574,27 +587,31 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
           <h3><svg class="ico"><use href="#i-goldmine"/></svg>Goldmine</h3>
           <p>Le client confirme qu'il veut coller d'une seule main. Léa passe le need en « Customer Confirmed » : les requirements qui en dérivent sont justifiés d'un clic.</p>
           <span class="gain hl">Chaque requirement répond à un besoin réel.</span></article>
-        <article class="step" data-scene="2" data-acc="var(--v)"><span class="time">10:00</span>
+        <article class="step" data-scene="2" data-acc="var(--c)" data-new="0.60.65-vitrine-diamond"><span class="time">09:00</span>
+          <h3><svg class="ico"><use href="#i-diamond"/></svg>Diamond</h3>
+          <p>Au fond de la mine, l'analyse fonctionnelle : l'équipe bâtit l'arbre du pistolet (la fonction principale, puis le « comment » de chaque branche), y accroche les pièces, les risques du projet et une ligne de DFMEA par fonction, reliée à l'essai clé qui la prouvera.</p>
+          <span class="gain hl">On conçoit des fonctions, pas des pièces au hasard.</span></article>
+        <article class="step" data-scene="3" data-acc="var(--v)"><span class="time">10:00</span>
           <h3><svg class="ico"><use href="#i-exploration"/></svg>Exploration</h3>
           <p>Le plan sur plusieurs mois se recalcule : durées, prédécesseurs, jalons. Le Gantt suit, l'Excel aller-retour reste possible.</p>
           <span class="gain hl">Le plan et la réalité ne divergent plus.</span></article>
-        <article class="step" data-scene="3" data-acc="var(--b)"><span class="time">11:00</span>
+        <article class="step" data-scene="4" data-acc="var(--b)"><span class="time">11:00</span>
           <h3><svg class="ico"><use href="#i-agile"/></svg>Agile</h3>
           <p>Sprint Planning : Backlog → Sprint → Board. Chaque ticket « implements » un requirement ; les ECN passent en revue.</p>
           <span class="gain hl">Le travail du jour est relié au besoin client.</span></article>
-        <article class="step" data-scene="4" data-acc="var(--o)"><span class="time">13:30</span>
+        <article class="step" data-scene="5" data-acc="var(--o)"><span class="time">13:30</span>
           <h3><svg class="ico"><use href="#i-dynamite"/></svg>Dynamite</h3>
           <p>La procédure de test s'écrit dans le wiki, avec un bloc ticket vivant et l'export Word au gabarit de l'équipe.</p>
           <span class="gain hl">La doc est à jour parce qu'elle vit avec le projet.</span></article>
-        <article class="step" data-scene="5" data-acc="var(--g)"><span class="time">15:00</span>
+        <article class="step" data-scene="6" data-acc="var(--g)"><span class="time">15:00</span>
           <h3><svg class="ico"><use href="#i-testing"/></svg>Testing</h3>
           <p>Elle choisit les essais de sécurité électrique et de chute dans la Test Base, génère le Test Plan pour le laboratoire, et le résultat PDF ferme la boucle.</p>
           <span class="gain hl">Du requirement au test « Verified », sans ressaisie.</span></article>
-        <article class="step" data-scene="6" data-acc="var(--t)"><span class="time">16:45</span>
+        <article class="step" data-scene="7" data-acc="var(--t)"><span class="time">16:45</span>
           <h3><svg class="ico"><use href="#i-timesheet"/></svg>Timesheet</h3>
           <p>Ses heures de la semaine sur les étapes du PDP, copiées d'une journée à l'autre, soumises à l'enseignant.</p>
           <span class="gain hl">On voit où le temps de l'équipe est passé, phase par phase.</span></article>
-        <article class="step" data-scene="7" data-acc="var(--p)"><span class="time">17:00</span>
+        <article class="step" data-scene="8" data-acc="var(--p)"><span class="time">17:00</span>
           <h3><svg class="ico"><use href="#i-training"/></svg>Training &amp; Help</h3>
           <p>Un topic sur la matrice de Pugh de son plan de formation, puis DEMO pour essayer le nouvel outil sans risque.</p>
           <span class="gain hl">On apprend là où on travaille.</span></article>
@@ -604,12 +621,13 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
           <div class="bar">
             <span class="tab" data-t="0"><svg class="ico"><use href="#i-dashboard"/></svg>Dashboard</span>
             <span class="tab" data-t="1"><svg class="ico"><use href="#i-goldmine"/></svg>Goldmine</span>
-            <span class="tab" data-t="2"><svg class="ico"><use href="#i-exploration"/></svg></span>
-            <span class="tab" data-t="3"><svg class="ico"><use href="#i-agile"/></svg></span>
-            <span class="tab" data-t="4"><svg class="ico"><use href="#i-dynamite"/></svg></span>
-            <span class="tab" data-t="5"><svg class="ico"><use href="#i-testing"/></svg></span>
-            <span class="tab" data-t="6"><svg class="ico"><use href="#i-timesheet"/></svg></span>
-            <span class="tab" data-t="7"><svg class="ico"><use href="#i-training"/></svg></span>
+            <span class="tab" data-t="2" data-new="0.60.65-vitrine-diamond"><svg class="ico"><use href="#i-diamond"/></svg></span>
+            <span class="tab" data-t="3"><svg class="ico"><use href="#i-exploration"/></svg></span>
+            <span class="tab" data-t="4"><svg class="ico"><use href="#i-agile"/></svg></span>
+            <span class="tab" data-t="5"><svg class="ico"><use href="#i-dynamite"/></svg></span>
+            <span class="tab" data-t="6"><svg class="ico"><use href="#i-testing"/></svg></span>
+            <span class="tab" data-t="7"><svg class="ico"><use href="#i-timesheet"/></svg></span>
+            <span class="tab" data-t="8"><svg class="ico"><use href="#i-training"/></svg></span>
           </div>
           <div class="scene" data-s="0"><div class="mini-h">Mon Dashboard</div>
             <div class="kpis"><div class="kpi"><b data-count="7">0</b><small>Tickets</small></div><div class="kpi"><b data-count="12">0</b><small>Requirements</small></div>
@@ -624,29 +642,35 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
             <div class="trace"><svg viewBox="0 0 460 120"><path class="flow" d="M40 60 C120 20 160 100 230 60 S360 20 420 60" fill="none" stroke="#ffd23f" stroke-width="5" stroke-linecap="round"/>
               <g font-family="Segoe Print, Ink Free, Segoe UI, sans-serif" font-size="13" fill="#26323f"><text x="8" y="100">Need</text><text x="185" y="100">Fonction</text><text x="360" y="100">Requirement</text></g>
               <circle cx="40" cy="60" r="9" fill="#fff" stroke="#26323f" stroke-width="2"/><circle cx="230" cy="60" r="9" fill="#fff" stroke="#26323f" stroke-width="2"/><circle cx="420" cy="60" r="9" fill="#fff" stroke="#26323f" stroke-width="2"/></svg></div></div>
-          <div class="scene" data-s="2" style="--acc: var(--v)"><div class="mini-h">Plan du projet</div>
+          <div class="scene" data-s="2" style="--acc: var(--c)" data-new="0.60.65-vitrine-diamond"><div class="mini-h">Arbre fonctionnel · pistolet à colle</div>
+            <div class="ftree"><div class="fnode f0"><code>F1</code>Appliquer de la colle chaude</div>
+              <div class="fkids"><div class="fnode" style="--k:1"><code>F2</code>Stocker les bâtonnets</div><div class="fnode crit" style="--k:2"><code>F3</code>Fondre la colle</div>
+                <div class="fnode" style="--k:3"><code>F4</code>Étendre la colle</div><div class="fnode" style="--k:4"><code>F5</code>Protéger l'utilisateur</div></div></div>
+            <div class="rows" style="margin-top:.7rem"><div class="row dfm" style="grid-template-columns:auto 1fr auto"><code>F3</code><span>Surchauffe de la buse · S 8 · O 3 · D 4</span><span class="chip y">AP M</span></div>
+              <div class="row dfm" style="grid-template-columns:auto 1fr auto; --k:1"><code>TST</code><span>Essai clé : échauffement de la buse</span><span class="chip b">Test Base</span></div></div></div>
+          <div class="scene" data-s="3" style="--acc: var(--v)"><div class="mini-h">Plan du projet</div>
             <div class="gantt"><div class="g-row"><span>Discovery</span><i class="g-bar" style="--w: 38%"></i></div><div class="g-row"><span>Concept</span><i class="g-bar" style="--w: 55%; margin-left: 30%"></i></div>
               <div class="g-row"><span>Design</span><i class="g-bar" style="--w: 45%; margin-left: 48%; background: var(--p)"></i></div><div class="g-row"><span>Validation</span><i class="g-bar" style="--w: 30%; margin-left: 66%"></i></div>
               <div class="g-row"><span>Lancement ◆</span><i class="g-bar" style="--w: 4%; margin-left: 80%; background: var(--o)"></i></div></div></div>
-          <div class="scene" data-s="3"><div class="mini-h">Sprint 7 · Board</div>
+          <div class="scene" data-s="4"><div class="mini-h">Sprint 7 · Board</div>
             <div class="board"><div class="col"><h4>To Do</h4></div><div class="col"><h4>In Progress</h4></div><div class="col"><h4>Done</h4></div></div>
             <div class="card" id="c1" style="top:92px">EQP-31 · Gâchette</div><div class="card" id="c2" style="top:150px">EQP-32 · Buse et clapet</div><div class="card" id="c3" style="top:208px">EQP-33 · AMDEC chauffe</div></div>
-          <div class="scene wiki" data-s="4" style="--acc: var(--o)"><div class="mini-h">PRC-CHUTE — Procédure d'essai de chute</div>
+          <div class="scene wiki" data-s="5" style="--acc: var(--o)"><div class="mini-h">PRC-CHUTE — Procédure d'essai de chute</div>
             <div><span class="typed" id="typed"></span></div>
             <div class="block">▣ Ticket vivant : <b>EQP-32</b> · Buse et clapet · <span class="chip b">In Progress</span></div>
             <div class="block" style="border-color: var(--b); background:#f2f7ff">⇩ Export Word au gabarit de l'équipe · Codebeamer-style</div></div>
-          <div class="scene" data-s="5" style="--acc: var(--g)"><div class="mini-h">Test Plan TP-014 · Laboratoire</div>
+          <div class="scene" data-s="6" style="--acc: var(--g)"><div class="mini-h">Test Plan TP-014 · Laboratoire</div>
             <div class="scope"><svg viewBox="0 0 300 150"><g stroke="#1f3b33" stroke-width="1">
               <path d="M0 37H300M0 75H300M0 112H300M60 0V150M120 0V150M180 0V150M240 0V150"/></g>
               <path class="wave" d="M0 75 C20 20 40 20 60 75 S100 130 120 75 S160 20 180 75 S220 130 240 75 S280 20 300 75" fill="none" stroke="#5fd08a" stroke-width="3"/></svg>
               <div class="rows"><div class="row" style="grid-template-columns:1fr auto"><span>TST-ELE-02</span><span class="chip g">Pass</span></div>
                 <div class="row" style="grid-template-columns:1fr auto"><span>TST-MEC-01</span><span class="chip g">Pass</span></div>
                 <div class="row" style="grid-template-columns:1fr auto"><span>REQ-012</span><span class="chip b" id="verified">In Verification</span></div></div></div></div>
-          <div class="scene" data-s="6" style="--acc: var(--t)"><div class="mini-h">Ma semaine · 40 h</div>
+          <div class="scene" data-s="7" style="--acc: var(--t)"><div class="mini-h">Ma semaine · 40 h</div>
             <div class="hours"><div style="--h: 78%"></div><div style="--h: 84%"></div><div style="--h: 70%"></div><div style="--h: 88%"></div><div style="--h: 62%"></div></div>
             <div class="rows" style="margin-top:.8rem"><div class="row" style="grid-template-columns:1fr auto"><span>B-09 · Recherche des fonctions</span><b>14 h</b></div>
               <div class="row" style="grid-template-columns:1fr auto"><span>B-11 · Spécifications d'ingénierie (CdCF)</span><b>9 h</b></div></div></div>
-          <div class="scene" data-s="7" style="--acc: var(--p)"><div class="mini-h">Mon plan de formation 2026</div>
+          <div class="scene" data-s="8" style="--acc: var(--p)"><div class="mini-h">Mon plan de formation 2026</div>
             <div>TL-02 — Matrice de Pugh</div><div class="progress"><i></i></div>
             <div class="rows"><div class="row" style="grid-template-columns:1fr auto"><span>Test Markdown · 20 questions</span><span class="chip g">18 / 20</span></div>
               <div class="row" style="grid-template-columns:1fr auto"><span>DEMO · étape 6 Agile</span><span class="chip y">En cours</span></div></div></div>
@@ -732,7 +756,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       <a class="btn" href="https://github.com/jpdesbiens11/Dynamite-Agile">Le code sur GitHub</a></div>
   </section>
 </main>
-<footer>DynamiteAgile · logiciel libre sous licence MIT · version 0.60.64 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>DynamiteAgile · logiciel libre sous licence MIT · version 0.60.65 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 (function () {
   "use strict";
@@ -778,7 +802,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       chip.textContent = "Assumption"; chip.className = "chip y";
       later(() => { chip.textContent = "Customer Confirmed"; chip.className = "chip g"; }, 1300);
     }
-    if (i === 3) {  // cards travel To Do → In Progress → Done
+    if (i === 4) {  // cards travel To Do → In Progress → Done
       const cols = document.querySelectorAll(".board .col");
       const x = (c) => cols[c].offsetLeft - cols[0].offsetLeft;
       ["c1", "c2", "c3"].forEach((id) => {
@@ -791,13 +815,13 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       later(() => { document.getElementById("c2").style.transform = "translate(" + x(1) + "px, -58px)"; }, 2100);
       later(() => { document.getElementById("c3").style.transform = "translateY(-116px)"; }, 2700);
     }
-    if (i === 4) {  // typing
+    if (i === 5) {  // typing
       const text = "Objectif : vérifier que le pistolet chaud tombé d'un mètre reste sûr et fonctionnel.";
       const node = document.getElementById("typed"); node.textContent = "";
       let k = 0;
       (function type() { node.textContent = text.slice(0, ++k); if (k < text.length) later(type, 28); })();
     }
-    if (i === 5) {
+    if (i === 6) {
       const v = document.getElementById("verified");
       v.textContent = "In Verification"; v.className = "chip b";
       later(() => { v.textContent = "Verified ✓"; v.className = "chip g"; }, 2500);

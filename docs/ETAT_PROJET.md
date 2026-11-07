@@ -62,7 +62,9 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
 
-## Relais (fin de 0.60.64)
+## Relais (fin de 0.60.65)
+
+- Vitrine : Diamond ajouté à la journée (scène 2) ; une nouvelle étape de la journée décale `data-scene`, `data-t`, `data-s` et les `if (i === n)` du script.
 
 - Correctif invité (D-O-072) : visibilité dans `core/permissions.py` (`is_guest`, `guest_projects`), plus aucune écriture dans `memberships`. Règle à retenir : une mise à jour refuse tout `DELETE FROM users|projects|memberships` ou `DROP TABLE|COLUMN` ajouté (`core/update.py` DESTRUCTIVE) ; `tests/test_guest.py` UpdateSafetyTest le vérifie.
 
