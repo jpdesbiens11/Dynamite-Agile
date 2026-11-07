@@ -78,6 +78,8 @@ APP_HEADERS = {
     ),
 }
 
+LOG_SECRET = re.compile(r"(?i)\b(token|key|password|secret|code)=[^&\s\"]*")  # 0.60.76 (D-O-082)
+
 SECURITY_HEADERS = {
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY",
@@ -178,7 +180,8 @@ class AppHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def log_message(self, fmt, *args):
-        log.info("%s %s", self._peer()[0], fmt % args)
+        # 0.60.76 (D-O-082): a secret in an address (token=, key=, password=) never reaches the log
+        log.info("%s %s", self._peer()[0], LOG_SECRET.sub(r"\1=…", fmt % args))
 
     def _peer(self):
         """(visitor ip, secure): the socket's, or what a trusted reverse proxy says (0.60.17, core/proxy.py)."""

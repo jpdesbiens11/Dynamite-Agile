@@ -7,6 +7,8 @@
 2. The link https://<tool>/#reset=<token> (the token stays in the browser: a fragment is never sent to a server
    nor in a Referer) opens the « Nouveau mot de passe » card. The token is random (32 bytes), stored hashed,
    good for 30 minutes and once.
+   0.60.76 (D-O-082): the page checks the token by POST /api/password/reset/check {token} -- never in an address,
+   which the server log and every reverse proxy write down in clear.
 3. POST /api/password/reset {token, new_password}: same rules as any password (12 characters, not the identifier);
    every session of the account is closed, the other links of the account die, and it is journalled.
 """
@@ -37,11 +39,19 @@ def _hash(token):
 def _rate(ip):
     now = time.time()
     with _lock:
+        prune(_hits, now, 3600)
         recent = [t for t in _hits.get(ip, []) if now - t < 3600]
         if len(recent) >= PER_IP_HOUR:
             raise ApiError(429, "Trop de demandes depuis cette adresse. Correctif : réessayez dans une heure.")
         recent.append(now)
         _hits[ip] = recent
+
+
+def prune(hits, now, window, keep=256):
+    """0.60.76 (D-O-082): forget the addresses whose requests are all older than the window (called under the lock)."""
+    if len(hits) > keep:
+        for ip in [ip for ip, times in hits.items() if not times or now - times[-1] >= window]:
+            del hits[ip]
 
 
 def _account(conn, login):
@@ -108,7 +118,7 @@ def _valid(conn, token):
 
 
 def api_check(ctx):
-    row = _valid(ctx.conn, ctx.query.get("token"))
+    row = _valid(ctx.conn, ctx.body.get("token"))
     if row is None:
         raise ApiError(410, EXPIRED)
     return {"ok": True, "username": row["username"]}
@@ -133,6 +143,6 @@ def api_reset(ctx):
 
 ROUTES = [
     ("POST", r"/api/password/forgot", api_forgot, "public"),
-    ("GET", r"/api/password/reset", api_check, "public"),
+    ("POST", r"/api/password/reset/check", api_check, "public"),  # 0.60.76 (D-O-082): was a GET with ?token=
     ("POST", r"/api/password/reset", api_reset, "public"),
 ]

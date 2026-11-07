@@ -17,7 +17,7 @@ import logging
 import threading
 import time
 
-from . import audit, mail
+from . import audit, mail, password_reset
 from .errors import ApiError
 
 log = logging.getLogger("dynamite_agile.contact")
@@ -63,6 +63,7 @@ def _rate(ip, lang):
     """Every request counts for its IP address (3 per hour); the day's ceiling is checked here and counted at the send."""
     now = time.time()
     with _lock:
+        password_reset.prune(_hits, now, 3600)  # 0.60.76 (D-O-082)
         recent = [t for t in _hits.get(ip, []) if now - t < 3600]
         if len(recent) >= PER_IP_HOUR:
             raise _too_many(lang)

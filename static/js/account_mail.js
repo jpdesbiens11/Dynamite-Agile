@@ -52,7 +52,7 @@
     root.replaceChildren();
     let username = "";
     try {
-      username = (await api.get("/api/password/reset?token=" + encodeURIComponent(token))).username;
+      username = (await api.post("/api/password/reset/check", { token })).username;  // 0.60.76: never in an address
     } catch (err) {
       forget();
       root.append(el("main", { class: "auth-page" }, el("div", { class: "auth-card", "data-new": "0.60.73-reset" }, brand(),

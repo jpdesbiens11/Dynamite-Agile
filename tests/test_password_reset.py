@@ -11,6 +11,8 @@ import tempfile
 import threading
 import time
 import unittest
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -156,7 +158,7 @@ class PasswordResetTest(unittest.TestCase):
         self.assertEqual(msgs[-1]["to"], ["jp@exemple.ca"])
         body = email.message_from_string(msgs[-1]["data"], policy=email.policy.default).get_content()  # quoted-printable
         token = re.search(r"https://demo\.exemple\.ca/#reset=([A-Za-z0-9_-]+)", body).group(1)
-        self.assertEqual(visitor.get("/api/password/reset?token=" + token)["username"], "jp")
+        self.assertEqual(visitor.post("/api/password/reset/check", {"token": token})["username"], "jp")
         self.assertEqual(self.fails(lambda: visitor.post("/api/password/reset", {"token": token, "new_password": "court"})), 400)
         session = Client(self.url)
         session.login("jp", self.jp_temp, new_password="Ancien-mot-de-passe-1")
@@ -177,7 +179,7 @@ class PasswordResetTest(unittest.TestCase):
         with db.connect() as conn:
             conn.execute("INSERT INTO password_resets (token_hash, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)",
                          (password_reset._hash("x" * 43), self.jp_id, "2020-01-01T00:00:00+00:00", "2020-01-01T00:30:00+00:00"))
-        self.assertEqual(self.fails(lambda: visitor.get("/api/password/reset?token=" + "x" * 43)), 410)
+        self.assertEqual(self.fails(lambda: visitor.post("/api/password/reset/check", {"token": "x" * 43})), 410)
         for _ in range(password_reset.PER_IP_HOUR):
             visitor.post("/api/password/forgot", {"login": "personne"})
         self.assertEqual(self.fails(lambda: visitor.post("/api/password/forgot", {"login": "personne"})), 429)
@@ -196,6 +198,41 @@ class PasswordResetTest(unittest.TestCase):
         before = len(self.sink.messages)
         self.assertTrue(self.admin.post("/api/admin/mail/test", {"to": "admin@exemple.ca"})["ok"])
         self.assertEqual(len(self.sink.wait(before + 1)), before + 1)
+
+    # 0.60.76 (D-O-082) -------------------------------------------------------------------------------------------
+    def test_07_token_never_in_an_address_nor_in_the_log(self):
+        self.assertIn(self.fails(lambda: Client(self.url).get("/api/password/reset?token=" + "y" * 43)), (404, 405))
+        with self.assertLogs("dynamite_agile.http", "INFO") as logs:
+            try:
+                urllib.request.urlopen(self.url + "/api/about?token=SECRET-in-the-address&x=1", timeout=10).read()
+            except urllib.error.HTTPError:
+                pass
+        text = "\n".join(logs.output)
+        self.assertNotIn("SECRET-in-the-address", text)
+        self.assertIn("token=…&x=1", text)
+
+    def test_08_new_smtp_host_forgets_the_saved_password(self):
+        self.admin.put("/api/admin/mail", {"host": "smtp.exemple.ca", "username": "u@exemple.ca", "password": "secret-smtp",
+                                           "security": "starttls"})
+        self.admin.put("/api/admin/mail", {"host": "smtp.exemple.ca", "username": "u@exemple.ca"})  # same server: kept
+        self.assertTrue(self.admin.get("/api/admin/mail")["has_password"])
+        self.admin.put("/api/admin/mail", {"host": "smtp.ailleurs.example", "username": "u@exemple.ca"})
+        self.assertFalse(self.admin.get("/api/admin/mail")["has_password"])
+        self.admin.put("/api/admin/mail", {"host": "smtp.exemple.ca", "password": "secret-smtp"})
+        self.admin.put("/api/admin/mail", {"username": "autre@exemple.ca"})  # another account: forgotten too
+        self.assertFalse(self.admin.get("/api/admin/mail")["has_password"])
+        self.admin.put("/api/admin/mail", {"host": "smtp.ailleurs.example", "password": "nouveau"})  # typed again: kept
+        self.assertTrue(self.admin.get("/api/admin/mail")["has_password"])
+        self.admin.put("/api/admin/mail", {"clear_password": True, "username": "", "host": "127.0.0.1", "security": "none"})
+
+    def test_09_old_addresses_are_forgotten(self):
+        hits = {"10.0.0.{}".format(i): [0.0] for i in range(300)}  # all older than an hour at 5000
+        hits["10.0.1.1"] = [4000.0]
+        password_reset.prune(hits, 5000.0, 3600)
+        self.assertEqual(list(hits), ["10.0.1.1"])
+        small = {"a": [0.0]}
+        password_reset.prune(small, 99999.0, 3600)  # under the threshold: nothing to do
+        self.assertEqual(list(small), ["a"])
 
 
 if __name__ == "__main__":

@@ -137,6 +137,9 @@
 - **0.60.75** (2026-11-07) : **formulaire de contact consolidé** (D-O-081, `core/contact.py`, `core/router.py`, `tools/site/contact.js`) :
   seuls les envois réussis comptent dans les 30 par jour, saut de ligne refusé (400), erreur SMTP au journal seulement, OPTIONS derrière
   les mêmes barrières (proxy, partage de dev), message clair dans tous les navigateurs quand le formulaire est fermé.
+- **0.60.76** (2026-11-07) : **mot de passe oublié consolidé** (D-O-082, `core/password_reset.py`, `core/router.py`, `core/mail.py`,
+  `static/js/account_mail.js`) : jeton vérifié par `POST /api/password/reset/check` (jamais dans une adresse), secrets des adresses
+  masqués au journal (`LOG_SECRET`), mot de passe SMTP oublié quand l'hôte ou le compte change, compteurs par IP purgés (`prune`).
 - **0.60.68** (2026-11-06) : **le reste de l'interface en anglais** (D-O-073) : balayage de 280 écrans (`tools/i18n_crawl.py`,
   `DA.i18nScan`), ~700 traductions, gabarits « # » pour les nombres.
 - **0.60.67** (2026-11-06) : **le Rover en anglais** (D-O-073) : le contenu affiché en lecture se traduit aussi (dictionnaire de la démo

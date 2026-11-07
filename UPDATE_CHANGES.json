@@ -2,13 +2,15 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Formulaire de contact consolidé",
-      "why": "Revue du formulaire de contact (0.60.74) : seules les demandes réellement transmises comptent dans le plafond de 30 par jour (une demande refusée compte seulement pour son adresse IP) et le journal du serveur le signale une fois par jour ; un saut de ligne dans le nom ou l'organisation donne 400 au lieu de 500 ; un refus du serveur SMTP reste au journal et le visiteur reçoit un message simple ; la requête OPTIONS passe par les mêmes barrières que les autres (proxy de confiance, partage de dev) ; le site affiche « Le formulaire est indisponible pour l'instant » dans tous les navigateurs (Firefox affichait « NetworkError… »).",
+      "title": "Mot de passe oublié consolidé",
+      "why": "Revue de « Mot de passe oublié » (0.60.73) : la page vérifiait le jeton par GET /api/password/reset?token=…, écrit en clair dans data/logs/server.log et dans les journaux du reverse proxy ; quiconque les lisait dans les 30 minutes pouvait choisir le mot de passe du compte. Le jeton passe maintenant dans le corps d'un POST (/api/password/reset/check) et le journal masque token=, key=, password=, secret= et code= de toute adresse. Le mot de passe SMTP enregistré est oublié quand l'hôte ou le compte change sans nouveau mot de passe (il ne part que vers le serveur pour lequel il a été tapé). Les compteurs par adresse IP oublient les adresses anciennes.",
       "files": [
-        "core/contact.py",
+        "core/password_reset.py",
         "core/router.py",
-        "tools/site/contact.js",
-        "tests/test_contact.py"
+        "core/mail.py",
+        "core/contact.py",
+        "static/js/account_mail.js",
+        "tests/test_password_reset.py"
       ]
     }
   ]
