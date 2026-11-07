@@ -1,0 +1,22 @@
+{
+  "version": "0.60.70",
+  "date": "2026-11-07",
+  "summary": {
+    "fr": "Page d'installation : un tour guidé de tout le site, puis la démo en ligne avec son code QR pour le téléphone.",
+    "en": "Installation page: a guided tour of the whole site, then the live demo with its QR code for a phone."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Page d'installation : tour guidé, démo en ligne et code QR",
+      "why": "Le lien partagé (installation.html#online) montre tout depuis une seule page : un tour guidé en 6 étapes (pages d'aperçu, où installer, les 5 étapes, le Rover), puis la démo en ligne avec son code QR pour le téléphone ; la section « Essayez-la tout de suite » reste en bas de la page.",
+      "files": [
+        "tools/site/tour.js",
+        "tools/site/installation.html",
+        "tools/site/en/installation.html",
+        "tools/site/site.css",
+        "tools/build_site.py"
+      ]
+    }
+  ]
+}

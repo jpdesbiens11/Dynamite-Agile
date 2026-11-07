@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.69
+# Journal de mise à jour — 0.60.70
+
+- **Version :** 0.60.69 → 0.60.70 (2026-11-07)
+- **Changements :**
+  1. **Page d'installation : tour guidé** (D-O-076) : 6 étapes sur la page partagée, puis la démo en ligne et son code QR.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.69
 
 - **Version :** 0.60.68 → 0.60.69 (2026-11-07)
 - **Changements :**
   1. **Tour guidé : le pointeur en anglais** : il cherche le texte traduit de l'artefact.
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.68
 

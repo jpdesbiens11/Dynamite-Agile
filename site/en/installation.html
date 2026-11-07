@@ -476,9 +476,49 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .wiz-step ol.sub-steps { margin: .4rem 0 .6rem 1.2rem; padding: 0; display: grid; gap: .3rem; }
 .wiz-step ol.sub-steps li { padding-left: .2rem; }
 
+/* 0.60.70 (D-O-076): the guided tour of the installation page and the live demo with its QR code */
+.tour-banner { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.2rem; margin: 1.2rem 0 1.6rem; padding: 1rem 1.2rem;
+  background: #fff; border: 2px solid var(--ink); border-radius: 12px; box-shadow: var(--shadow); }
+.tour-banner > div:first-child { flex: 1 1 22rem; }
+.tour-banner-btns { display: flex; flex-wrap: wrap; gap: .5rem; }
+.demo-live { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem 2.5rem; margin: 3rem 0 2rem; padding: 1.6rem 1.8rem;
+  background: linear-gradient(135deg, #fff 0%, #fff8dd 100%); border: 3px solid var(--ink); border-radius: 16px; box-shadow: var(--shadow); }
+.demo-live .demo-text { flex: 1 1 24rem; }
+.demo-live h2 { margin-top: .3rem; }
+.demo-live .demo-go { font-size: 1.1rem; padding: .7rem 1.3rem; }
+.demo-live .demo-url { word-break: break-all; font-size: .9rem; }
+.demo-qr { margin: 0 auto; text-align: center; }
+.demo-qr figcaption { font-size: .85rem; color: var(--ink-2); max-width: 13rem; margin: .4rem auto 0; }
+.tour-qr-img { display: block; width: 100%; max-width: 200px; height: auto; margin: 0 auto; border: 2px solid var(--ink); border-radius: 8px;
+  image-rendering: pixelated; }
+.tour-spot { position: absolute; z-index: 90; border-radius: 12px; pointer-events: none; outline: 3px solid var(--y);
+  box-shadow: 0 0 0 9999px rgba(20, 32, 43, .55); transition: top .3s, left .3s, width .3s, height .3s; }
+.tour-card { position: fixed; z-index: 91; right: 1.2rem; bottom: 1.2rem; width: min(26rem, calc(100vw - 2rem)); max-height: calc(100vh - 2.4rem);
+  overflow: auto; padding: 1.1rem 1.2rem 1rem; background: #fff; border: 3px solid var(--ink); border-radius: 14px; box-shadow: 6px 6px 0 rgba(38, 50, 63, .25); }
+.tour-card.centered { right: 50%; bottom: 50%; transform: translate(50%, 50%); }
+.tour-card h3 { margin: .2rem 2rem .5rem 0; font: 700 1.25rem var(--hand); }
+.tour-card p { margin: .4rem 0; }
+.tour-n { font-size: .8rem; font-weight: 650; color: var(--ink-2); text-transform: uppercase; letter-spacing: .04em; }
+.tour-x { position: absolute; top: .4rem; right: .6rem; border: 0; background: none; font-size: 1.6rem; line-height: 1; cursor: pointer; color: var(--ink-2); }
+.tour-list { margin: .3rem 0 .4rem 1.2rem; padding: 0; }
+.tour-list li { margin: .2rem 0; }
+.tour-nav { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-top: .9rem; }
+.tour-dots { display: flex; gap: .3rem; }
+.tour-dots i { width: .5rem; height: .5rem; border-radius: 50%; background: #d5dbe3; }
+.tour-dots i.on { background: var(--blue); }
+.tour-demo { display: flex; align-items: center; gap: 1rem; margin-top: .6rem; }
+.tour-demo .tour-qr-img { width: 130px; flex: none; }
+.tour-demo .btn { margin-bottom: .4rem; }
+@media (max-width: 640px) {
+  .tour-card, .tour-card.centered { right: .5rem; left: .5rem; bottom: .5rem; width: auto; transform: none; max-height: 60vh; }
+  .tour-demo { flex-direction: column; text-align: center; }
+}
+body.touring header.top, body.touring .progress-bar { z-index: 80; }  /* dimmed with the rest of the page */
+@media (prefers-reduced-motion: reduce) { .tour-spot { transition: none; } }
+
 </style>
 </head>
-<body data-site="https://jpdesbiens11.github.io/Dynamite-Agile">
+<body data-site="https://jpdesbiens11.github.io/Dynamite-Agile" data-demo="https://dynamite.srv1980606.hstgr.cloud/">
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
 <symbol id="i-dashboard" viewBox="0 0 24 24"><path d="M3.76 15.12C3.84 14.71 4.01 13.51 4.25 12.66C4.5 11.8 4.81 10.79 5.21 9.98C5.6 9.17 5.96 8.26 6.64 7.78C7.32 7.3 8.36 7.36 9.27 7.1C10.17 6.84 11.15 6.26 12.07 6.24C12.98 6.23 13.93 6.78 14.76 7.02C15.59 7.25 16.43 7.15 17.04 7.66C17.65 8.18 17.98 9.32 18.41 10.12C18.84 10.92 19.28 11.6 19.61 12.43C19.94 13.27 20.26 14.68 20.38 15.13" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.87 15.11C3.87 14.6 3.61 12.79 3.83 12.02C4.06 11.24 4.73 11.02 5.21 10.46C5.7 9.89 6.01 9.28 6.76 8.64C7.51 7.99 8.76 6.95 9.7 6.58C10.65 6.2 11.61 6.29 12.43 6.37C13.25 6.45 13.85 6.76 14.63 7.05C15.41 7.33 16.35 7.69 17.11 8.09C17.87 8.49 18.7 8.78 19.18 9.44C19.66 10.1 19.66 11.16 19.98 12.04C20.3 12.91 20.9 14.25 21.09 14.7" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M11.7 15.13Q14 12.39 16.17 9.54" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.43 14.8Q14.38 12.18 16.29 9.53" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M13.28 14.86C13.3 14.93 13.47 15.14 13.41 15.32C13.35 15.49 13.12 15.79 12.93 15.91C12.74 16.03 12.46 16.01 12.26 16.06C12.06 16.11 11.89 16.2 11.74 16.21C11.59 16.22 11.49 16.3 11.35 16.12C11.21 15.95 11.03 15.37 10.92 15.16C10.81 14.94 10.72 14.99 10.69 14.83C10.66 14.67 10.63 14.38 10.76 14.19C10.89 14.01 11.24 13.84 11.48 13.74C11.72 13.63 11.97 13.52 12.18 13.57C12.4 13.63 12.62 13.99 12.78 14.05C12.93 14.12 12.99 13.86 13.11 13.94C13.22 14.03 13.45 14.37 13.47 14.57C13.49 14.77 13.28 15.06 13.24 15.15" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.11 15.17C13.12 15.18 13.25 15 13.18 15.22C13.1 15.43 12.8 16.32 12.65 16.45C12.5 16.58 12.39 16 12.27 15.98C12.14 15.96 12.13 16.29 11.9 16.33C11.67 16.38 11.13 16.42 10.89 16.25C10.66 16.07 10.58 15.47 10.5 15.28C10.42 15.1 10.33 15.29 10.42 15.14C10.52 14.98 10.92 14.61 11.06 14.36C11.19 14.1 11.07 13.71 11.24 13.58C11.42 13.45 11.9 13.49 12.11 13.58C12.31 13.66 12.33 13.99 12.48 14.11C12.63 14.23 12.86 14.12 13.01 14.27C13.15 14.43 13.32 14.86 13.35 15.06C13.38 15.26 13.22 15.4 13.2 15.46" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M4.25 19.65Q12.11 19.58 19.97 19.4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.61 19.77Q12.31 19.8 20.01 19.81" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M6.42 9.47Q6.99 9.82 7.58 10.16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.95 9.38Q6.78 9.92 7.64 10.41" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M12.13 6.49Q12.16 7.37 12.22 8.25" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.85 7.13Q12.11 7.66 12.4 8.19" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M17.96 9.04Q17.24 9.66 16.52 10.28" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.02 9.02Q17.39 9.75 16.81 10.52" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M2.72 11.69Q7.41 7.81 12.21 4.06M11.58 3.93Q16.35 8.08 21.4 11.9" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.99 11.9Q7.69 8.31 11.83 4.06M11.77 4.24Q16.24 8.26 21.04 11.9" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M5.39 10.95Q12.15 10.83 18.91 10.76M18.37 10.9Q18.28 15.68 18.27 20.46M18.68 20.37Q11.93 20.15 5.19 20.38M5.57 20.95Q5.56 16.04 5.38 11.13" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.31 11.39Q11.95 11.61 18.59 11.38M18.9 11.36Q18.72 16.25 18.73 21.14M18.61 20.11Q12.06 19.7 5.51 20.1M5.25 20.64Q5.47 15.63 5.11 10.61" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/><path d="M10.15 14.22Q12.1 14.48 14.06 14.68M13.69 14.63Q13.67 17.77 13.9 20.91M14.1 20.26Q12.19 20.48 10.29 20.62M10.38 20.72Q10.34 17.47 10.31 14.22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.21 14.53Q11.98 14.22 13.75 14.13M14.12 14.32Q14 17.47 13.48 20.62M13.84 20.27Q12.09 20.44 10.34 20.5M10.03 20.4Q10.07 17.55 9.96 14.7" fill="none" stroke="currentColor" stroke-width="1.22" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".38"/></symbol>
@@ -518,7 +558,13 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   <h1>Install DynamiteAgile</h1>
   <p class="lead">Five steps, top to bottom. Each command copies in one click, and a label says <b>where</b> to paste it:
     <span class="where pc">on your computer</span> or <span class="where srv">on the server</span>.</p>
-  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Latest version: 0.60.69</b> · 2026-11-07 — Guided tour in English: the pointer finds every artefact again, now that the page is translated. <a href="versions.html">See all versions →</a><br>Already installed? ⚙ Admin → Update → « Mise à jour en ligne » (online update): check, read, approve, follow live.</p>
+  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Latest version: 0.60.70</b> · 2026-11-07 — Installation page: a guided tour of the whole site, then the live demo with its QR code for a phone. <a href="versions.html">See all versions →</a><br>Already installed? ⚙ Admin → Update → « Mise à jour en ligne » (online update): check, read, approve, follow live.</p>
+  <section class="tour-banner" data-new="0.60.70-site-tour" aria-label="Guided tour">
+    <div><b>First visit?</b> This link shows all of DynamiteAgile: the preview pages, the installation, then the live demo
+      with its guided tour in the tool.</div>
+    <div class="tour-banner-btns"><button type="button" class="btn btn-primary" data-tour-start>▶ Guided tour · 2 min</button>
+      <a class="btn" href="#demo">Go to the demo ↓</a></div>
+  </section>
 
   <section class="pc-pick pc-first" data-new="0.60.49-from-where" aria-labelledby="from-where">
     <h2 id="from-where">Before you start: where are you installing from?</h2>
@@ -705,6 +751,20 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
     </ol>
   </section>
 
+  <section id="demo" class="demo-live reveal" data-new="0.60.70-site-demo">
+    <div class="demo-text">
+      <span class="kicker">Live demo · free · no account</span>
+      <h2>Try it right now</h2>
+      <p>The platform already runs online with the Rover. Open it and click <b>« Enter as guest »</b>: no account, no password,
+        everything is read-only. The <b>tool's guided tour</b> starts by itself and takes you from one artefact to the next,
+        from the need to the prototype.</p>
+      <p><a class="btn btn-primary demo-go" href="https://dynamite.srv1980606.hstgr.cloud/" target="_blank" rel="noopener">Open the demo ↗</a>
+        <button type="button" class="btn" data-tour-start>▶ Take this page's tour again</button></p>
+      <p class="muted demo-url">https://dynamite.srv1980606.hstgr.cloud/</p>
+    </div>
+    <figure class="demo-qr"><div id="demo-qr"></div><figcaption>On a phone: scan with the camera.</figcaption></figure>
+  </section>
+
   <p class="next muted">What next? The <a href="guide.html">guide</a> explains each module, from MVP0 to launch.
     An error message? See <a href="#depannage">If something gets stuck</a>, or paste it to your AI assistant.</p>
   <h2 id="depannage">If something gets stuck</h2>
@@ -760,7 +820,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       <code>python C:\DynamiteAgile\app_dynamite_agile.py --reset-password admin</code></td></tr>
     <tr><td>Move from trial to team</td><td>Follow the “On an online server” path: the same command with your domain</td></tr></table>
 </main>
-<footer>DynamiteAgile · free software under the MIT licence · version 0.60.69 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>DynamiteAgile · free software under the MIT licence · version 0.60.70 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */
@@ -1031,6 +1091,400 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
   const legacy = { linux: "online", serveur: "online" }[start];  // addresses of 0.60.39 (#linux) and before (#serveur)
   setDest(DESTS.includes(start) ? start : legacy || state.dest);
   addEventListener("hashchange", () => { const h = location.hash.slice(1); if (DESTS.includes(h)) setDest(h); });
+})();
+
+</script>
+<script>
+window.DA = window.DA || {};
+/* QR code, made in the page (0.60.30, D-O-038): the link of a page as a QR code, to carry it from a computer to a phone
+   (scan, then share from the phone). No library, no network: ISO/IEC 18004, byte mode, error correction level M,
+   versions 1 to 15 (up to 412 bytes -- every address of the tool), the mask with the lowest penalty.
+   DA.qr(text) -> {size, dark(x, y)}; DA.qrCanvas(text, px) -> a <canvas> with the quiet zone (4 modules). */
+(function () {
+  "use strict";
+
+  /* EC level M, per version: [EC codewords per block, blocks of group 1, data codewords, blocks of group 2, data codewords] */
+  const BLOCKS = [null, [10, 1, 16, 0, 0], [16, 1, 28, 0, 0], [26, 1, 44, 0, 0], [18, 2, 32, 0, 0], [24, 2, 43, 0, 0],
+    [16, 4, 27, 0, 0], [18, 4, 31, 0, 0], [22, 2, 38, 2, 39], [22, 3, 36, 2, 37], [26, 4, 43, 1, 44], [30, 1, 50, 4, 51],
+    [22, 6, 36, 2, 37], [22, 8, 37, 1, 38], [24, 4, 40, 5, 41], [24, 5, 41, 5, 42]];
+  const ALIGN = [null, [], [6, 18], [6, 22], [6, 26], [6, 30], [6, 34], [6, 22, 38], [6, 24, 42], [6, 26, 46], [6, 28, 50],
+    [6, 30, 54], [6, 32, 58], [6, 34, 62], [6, 26, 46, 66], [6, 26, 48, 70]];
+
+  function mul(x, y) {  // GF(256), polynomial 0x11D
+    let z = 0;
+    for (let i = 7; i >= 0; i--) {
+      z = (z << 1) ^ ((z >>> 7) * 0x11d);
+      z ^= ((y >>> i) & 1) * x;
+    }
+    return z & 0xff;
+  }
+
+  function divisor(degree) {
+    const out = new Array(degree).fill(0);
+    out[degree - 1] = 1;
+    let root = 1;
+    for (let i = 0; i < degree; i++) {
+      for (let j = 0; j < degree; j++) {
+        out[j] = mul(out[j], root);
+        if (j + 1 < degree) out[j] ^= out[j + 1];
+      }
+      root = mul(root, 0x02);
+    }
+    return out;
+  }
+
+  function remainder(data, div) {
+    const out = new Array(div.length).fill(0);
+    data.forEach((b) => {
+      const factor = b ^ out.shift();
+      out.push(0);
+      div.forEach((d, i) => { out[i] ^= mul(d, factor); });
+    });
+    return out;
+  }
+
+  function utf8(text) {
+    return Array.from(new TextEncoder().encode(text));
+  }
+
+  function codewords(bytes) {
+    let version = 0;
+    for (let v = 1; v <= 15; v++) {
+      const b = BLOCKS[v];
+      const capacity = (b[1] * b[2] + b[3] * b[4]) * 8;
+      if (4 + (v < 10 ? 8 : 16) + bytes.length * 8 <= capacity) { version = v; break; }
+    }
+    if (!version) throw new Error("Lien trop long pour un code QR.");
+    const [ec, n1, d1, n2, d2] = BLOCKS[version];
+    const capacity = (n1 * d1 + n2 * d2) * 8;
+    const bits = [];
+    const put = (value, len) => { for (let i = len - 1; i >= 0; i--) bits.push((value >>> i) & 1); };
+    put(4, 4);
+    put(bytes.length, version < 10 ? 8 : 16);
+    bytes.forEach((b) => put(b, 8));
+    put(0, Math.min(4, capacity - bits.length));
+    put(0, (8 - (bits.length % 8)) % 8);
+    for (let pad = 0xec; bits.length < capacity; pad ^= 0xec ^ 0x11) put(pad, 8);
+    const data = [];
+    for (let i = 0; i < bits.length; i += 8) data.push(bits.slice(i, i + 8).reduce((a, b) => (a << 1) | b, 0));
+    const blocks = [];
+    const div = divisor(ec);
+    let k = 0;
+    for (let i = 0; i < n1 + n2; i++) {
+      const len = i < n1 ? d1 : d2;
+      const block = data.slice(k, k + len);
+      k += len;
+      blocks.push({ data: block, ec: remainder(block, div) });
+    }
+    const out = [];
+    for (let i = 0; i < Math.max(d1, d2); i++) blocks.forEach((b) => { if (i < b.data.length) out.push(b.data[i]); });
+    for (let i = 0; i < ec; i++) blocks.forEach((b) => out.push(b.ec[i]));
+    return { version, out };
+  }
+
+  function build(version) {
+    const size = version * 4 + 17;
+    const dark = Array.from({ length: size }, () => new Array(size).fill(false));
+    const fixed = Array.from({ length: size }, () => new Array(size).fill(false));
+    const set = (x, y, on) => { dark[y][x] = on; fixed[y][x] = true; };
+    for (let i = 0; i < size; i++) { set(6, i, i % 2 === 0); set(i, 6, i % 2 === 0); }
+    [[3, 3], [size - 4, 3], [3, size - 4]].forEach(([cx, cy]) => {
+      for (let dy = -4; dy <= 4; dy++) {
+        for (let dx = -4; dx <= 4; dx++) {
+          const x = cx + dx, y = cy + dy, d = Math.max(Math.abs(dx), Math.abs(dy));
+          if (x >= 0 && x < size && y >= 0 && y < size) set(x, y, d !== 2 && d !== 4);
+        }
+      }
+    });
+    const pos = ALIGN[version], last = pos.length - 1;
+    pos.forEach((ax, i) => pos.forEach((ay, j) => {
+      if ((i === 0 && j === 0) || (i === 0 && j === last) || (i === last && j === 0)) return;
+      for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) set(ax + dx, ay + dy, Math.max(Math.abs(dx), Math.abs(dy)) !== 1);
+    }));
+    if (version >= 7) {
+      let rem = version;
+      for (let i = 0; i < 12; i++) rem = (rem << 1) ^ ((rem >>> 11) * 0x1f25);
+      const bits = (version << 12) | rem;
+      for (let i = 0; i < 18; i++) {
+        const on = ((bits >>> i) & 1) === 1, a = size - 11 + (i % 3), b = Math.floor(i / 3);
+        set(a, b, on);
+        set(b, a, on);
+      }
+    }
+    format(dark, fixed, size, 0);  // reserves the format areas
+    return { size, dark, fixed };
+  }
+
+  function format(dark, fixed, size, mask) {
+    const data = mask;  // level M: format bits 00
+    let rem = data;
+    for (let i = 0; i < 10; i++) rem = (rem << 1) ^ ((rem >>> 9) * 0x537);
+    const bits = ((data << 10) | rem) ^ 0x5412;
+    const bit = (i) => ((bits >>> i) & 1) === 1;
+    const set = (x, y, on) => { dark[y][x] = on; fixed[y][x] = true; };
+    for (let i = 0; i <= 5; i++) set(8, i, bit(i));
+    set(8, 7, bit(6));
+    set(8, 8, bit(7));
+    set(7, 8, bit(8));
+    for (let i = 9; i < 15; i++) set(14 - i, 8, bit(i));
+    for (let i = 0; i < 8; i++) set(size - 1 - i, 8, bit(i));
+    for (let i = 8; i < 15; i++) set(8, size - 15 + i, bit(i));
+    set(8, size - 8, true);
+  }
+
+  const MASKS = [(x, y) => (x + y) % 2 === 0, (x, y) => y % 2 === 0, (x) => x % 3 === 0, (x, y) => (x + y) % 3 === 0,
+    (x, y) => (Math.floor(x / 3) + Math.floor(y / 2)) % 2 === 0, (x, y) => ((x * y) % 2) + ((x * y) % 3) === 0,
+    (x, y) => (((x * y) % 2) + ((x * y) % 3)) % 2 === 0, (x, y) => (((x + y) % 2) + ((x * y) % 3)) % 2 === 0];
+
+  function penalty(dark, size) {
+    let score = 0;
+    const line = (get) => {
+      for (let a = 0; a < size; a++) {
+        let run = 1;
+        const cells = [];
+        for (let b = 0; b < size; b++) cells.push(get(a, b));
+        for (let b = 1; b <= size; b++) {
+          if (b < size && cells[b] === cells[b - 1]) { run++; continue; }
+          if (run >= 5) score += run - 2;
+          run = 1;
+        }
+        const s = cells.map((c) => (c ? "1" : "0")).join("");
+        score += 40 * ((s.match(/(?=10111010000)/g) || []).length + (s.match(/(?=00001011101)/g) || []).length);
+      }
+    };
+    line((a, b) => dark[a][b]);
+    line((a, b) => dark[b][a]);
+    let count = 0;
+    for (let y = 0; y < size; y++) {
+      for (let x = 0; x < size; x++) {
+        if (dark[y][x]) count++;
+        if (x < size - 1 && y < size - 1) {
+          const c = dark[y][x];
+          if (dark[y][x + 1] === c && dark[y + 1][x] === c && dark[y + 1][x + 1] === c) score += 3;
+        }
+      }
+    }
+    return score + 10 * Math.floor(Math.abs(count * 20 - size * size * 10) / (size * size));
+  }
+
+  function qr(text) {
+    const { version, out } = codewords(utf8(text));
+    const base = build(version);
+    const size = base.size;
+    const placed = base.dark.map((row) => row.slice());
+    let i = 0;
+    for (let right = size - 1; right >= 1; right -= 2) {
+      if (right === 6) right = 5;
+      for (let vert = 0; vert < size; vert++) {
+        for (let j = 0; j < 2; j++) {
+          const x = right - j, up = ((right + 1) & 2) === 0, y = up ? size - 1 - vert : vert;
+          if (!base.fixed[y][x] && i < out.length * 8) {
+            placed[y][x] = ((out[i >>> 3] >>> (7 - (i & 7))) & 1) === 1;
+            i++;
+          }
+        }
+      }
+    }
+    let best = null;
+    MASKS.forEach((fn, m) => {
+      const dark = placed.map((row, y) => row.map((on, x) => (base.fixed[y][x] ? on : on !== fn(x, y))));
+      const fixed = base.fixed.map((row) => row.slice());
+      format(dark, fixed, size, m);
+      const score = penalty(dark, size);
+      if (!best || score < best.score) best = { score, dark };
+    });
+    return { size, version, dark: (x, y) => best.dark[y][x] };
+  }
+
+  function canvas(text, px) {
+    const code = qr(text);
+    const n = code.size + 8;
+    const scale = Math.max(2, Math.floor((px || 200) / n));
+    const node = document.createElement("canvas");
+    node.width = node.height = n * scale;
+    const g = node.getContext("2d");
+    g.fillStyle = "#fff";
+    g.fillRect(0, 0, node.width, node.height);
+    g.fillStyle = "#000";
+    for (let y = 0; y < code.size; y++) {
+      for (let x = 0; x < code.size; x++) if (code.dark(x, y)) g.fillRect((x + 4) * scale, (y + 4) * scale, scale, scale);
+    }
+    return node;
+  }
+
+  if (typeof window !== "undefined" && window.DA) Object.assign(window.DA, { qr, qrCanvas: canvas });
+  if (typeof module !== "undefined") module.exports = { qr };
+})();
+
+/* The guided tour of the installation page (0.60.70, D-O-076): the one link shared with partners
+   (installation.html#online) shows everything from there -- what DynamiteAgile is, the preview pages of the site, how
+   to install it, then the live demo with its QR code for a phone. A spotlight follows the part of the page each step
+   talks about; the card has its own French and English. Opens by itself on the first visit in this browser, then
+   « ▶ Tour guidé » restarts it. No external resource: the QR code is drawn in the page (static/js/tools/qr.js). */
+(function () {
+  "use strict";
+  const EN = document.documentElement.lang === "en";
+  const SEEN = "da.site.tour.seen", AT = "da.site.tour.at";  // AT: the step, kept when FR | EN switches the page
+  const demo = document.body.dataset.demo || "";
+  const say = (fr, en) => (EN ? en : fr);
+  const store = {
+    get() { try { return localStorage.getItem(SEEN); } catch (err) { return "1"; } },
+    set() { try { localStorage.setItem(SEEN, "1"); } catch (err) { /* private window */ } },
+    at(i) { try { if (i == null) sessionStorage.removeItem(AT); else sessionStorage.setItem(AT, String(i)); } catch (err) { /* ignored */ } },
+    step() { try { return sessionStorage.getItem(AT); } catch (err) { return null; } },
+  };
+
+  function el(tag, attrs, ...kids) {
+    const node = document.createElement(tag);
+    Object.entries(attrs || {}).forEach(([k, v]) => {
+      if (k === "class") node.className = v; else if (k === "text") node.textContent = v;
+      else if (k.startsWith("on")) node.addEventListener(k.slice(2), v); else node.setAttribute(k, v);
+    });
+    kids.flat().forEach((kid) => { if (kid != null) node.append(kid.nodeType ? kid : document.createTextNode(kid)); });
+    return node;
+  }
+  const link = (href, text, blank) => el("a", blank ? { href, target: "_blank", rel: "noopener" } : { href }, text);
+  const b = (text) => el("b", {}, text);
+
+  function qr(px) {
+    if (!demo || !window.DA || !window.DA.qrCanvas) return null;
+    const node = window.DA.qrCanvas(demo, px);
+    node.className = "tour-qr-img";
+    node.setAttribute("role", "img");
+    node.setAttribute("aria-label", say("Code QR de la démo : ", "QR code of the demo: ") + demo);
+    return node;
+  }
+
+  const STEPS = [
+    { title: say("Bienvenue dans DynamiteAgile", "Welcome to DynamiteAgile"),
+      body: () => [el("p", {}, say("Une plateforme ", "A free, open-source "), b(say("gratuite et open source", "platform")),
+        say(" pour développer un produit de l'idée au lancement : besoins, analyse fonctionnelle, essais, sprints, temps.",
+          " to develop a product from the idea to the launch: needs, functional analysis, tests, sprints, time.")),
+        el("p", {}, say("Ce seul lien vous montre tout, en 6 étapes :", "This single link shows you everything, in 6 steps:")),
+        el("ol", { class: "tour-list" }, el("li", {}, say("les pages d'aperçu", "the preview pages")),
+          el("li", {}, say("comment l'installer", "how to install it")),
+          el("li", {}, b(say("la démo en ligne", "the live demo")), say(", avec son tour guidé dans l'outil", ", with its guided tour in the tool")))] },
+    { target: "header.top nav",
+      title: say("Les pages d'aperçu", "The preview pages"),
+      body: () => [el("p", {}, say("Le menu du haut mène aux autres pages du site. Elles s'ouvrent dans un nouvel onglet ; ce tour vous attend ici.",
+        "The top menu leads to the other pages of the site. They open in a new tab; this tour waits for you here.")),
+        el("ul", { class: "tour-list" },
+          el("li", {}, link("index.html#besoin", say("Accueil", "Home"), true), say(" : le besoin en 4 scènes et la descente dans la mine", ": the need in 4 scenes and the descent into the mine")),
+          el("li", {}, link("index.html#journee", say("Une journée avec l'équipe", "A day with the team"), true), say(" : l'outil en action, heure par heure", ": the tool at work, hour by hour")),
+          el("li", {}, link("modules.html", "Modules", true), say(" : chaque module, pourquoi et comment", ": each module, why and how")),
+          el("li", {}, link("guide.html", "Guide", true), say(" : de MVP 0 au lancement", ": from MVP 0 to launch")),
+          el("li", {}, link("versions.html", "Versions", true), say(" : ce qui change à chaque version", ": what each version changes")))] },
+    { target: ".wiz-step[data-step=dest]",
+      title: say("Où l'outil va tourner", "Where the tool runs"),
+      body: () => [el("p", {}, say("Un ", "An "), b(say("serveur en ligne", "online server")),
+        say(" (un VPS Linux loué, un gratuit existe) : toute l'équipe s'y connecte de partout. Ou un ", " (a rented Linux VPS, a free one exists): the whole team connects from anywhere. Or a "),
+        b(say("PC Windows de l'équipe", "team Windows PC")), say(", sur le réseau local.", ", on the local network.")),
+        el("p", { class: "muted" }, say("Aucune connaissance technique requise : un assistant IA peut vous guider, une commande à la fois.",
+          "No technical knowledge needed: an AI assistant can guide you, one command at a time."))] },
+    { target: ".progress-bar",
+      title: say("Cinq étapes, une commande", "Five steps, one command"),
+      body: () => [el("p", {}, say("De haut en bas : un serveur, une adresse web, la connexion, puis ", "Top to bottom: a server, a web address, the connection, then "),
+        b(say("une seule commande", "a single command")), say(" qui installe tout, avec le certificat HTTPS. Chaque commande se copie d'un clic.",
+          " that installs everything, with the HTTPS certificate. Each command copies in one click.")),
+        el("p", { class: "muted" }, say("Cochez chaque étape faite : la barre avance et la page s'en souvient.",
+          "Tick each step done: the bar moves on and the page remembers it."))] },
+    { target: "#exemple",
+      title: say("Le Rover, un projet complet", "The Rover, a complete project"),
+      body: () => [el("p", {}, say("Chaque installation contient le Space ", "Every installation holds the "), b("DEMO"),
+        say(" : un petit véhicule autonome, rempli dans tous les modules de MVP 0 à MVP 3. C'est lui que la démo en ligne vous fait visiter.",
+          " Space: a small autonomous robot, filled in every module from MVP 0 to MVP 3. It is the project the live demo walks you through."))] },
+    { target: "#demo", final: true,
+      title: say("À vous : la démo en ligne", "Your turn: the live demo"),
+      body: () => [el("p", {}, say("Ouvrez la plateforme, puis ", "Open the platform, then "), b(say("« Entrer en invité »", "« Enter as guest »")),
+        say(" : sans compte ni mot de passe, en lecture seule. Le tour guidé de l'outil démarre tout seul.",
+          ": no account, no password, read-only. The tool's guided tour starts by itself.")),
+        el("div", { class: "tour-demo" }, qr(150),
+          el("div", {}, el("a", { class: "btn btn-primary", href: demo, target: "_blank", rel: "noopener" }, say("Ouvrir la démo ↗", "Open the demo ↗")),
+            el("p", { class: "muted" }, say("Sur un téléphone ? Scannez le code avec l'appareil photo.", "On a phone? Scan the code with the camera."))))] },
+  ];
+
+  let index = 0, card = null, spot = null, target = null;
+
+  function place() {
+    if (!spot) return;
+    if (!target) { spot.hidden = true; return; }
+    const r = target.getBoundingClientRect(), pad = 8;
+    spot.hidden = false;
+    Object.assign(spot.style, { top: (r.top + window.scrollY - pad) + "px", left: (r.left + window.scrollX - pad) + "px",
+      width: (r.width + 2 * pad) + "px", height: (r.height + 2 * pad) + "px" });
+  }
+
+  function close() {
+    store.set();
+    store.at(null);
+    if (card) card.remove();
+    if (spot) spot.remove();
+    card = spot = target = null;
+    document.body.classList.remove("touring");
+    window.removeEventListener("resize", place);
+    window.removeEventListener("scroll", place);
+    document.removeEventListener("keydown", keys);
+  }
+
+  function keys(e) {
+    if (e.key === "Escape") close();
+    else if (e.key === "ArrowRight" && index < STEPS.length - 1) show(index + 1);
+    else if (e.key === "ArrowLeft" && index > 0) show(index - 1);
+  }
+
+  function show(i) {
+    index = i;
+    store.at(i);
+    const step = STEPS[i];
+    target = step.target ? document.querySelector(step.target) : null;
+    if (target && target.closest("details")) target.closest("details").open = true;
+    const behavior = matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+    if (target) {  // below the sticky top bar, in the part of the screen the card leaves free
+      const bar = document.querySelector("header.top");
+      const above = bar && !target.closest("header.top") ? bar.getBoundingClientRect().height + 20 : 12;
+      const free = (innerWidth <= 640 ? innerHeight * 0.4 : innerHeight) - above;
+      const r = target.getBoundingClientRect();
+      const top = r.top + scrollY - above - Math.max(0, (free - r.height) / 2);
+      window.scrollTo({ top: Math.max(0, top), behavior });
+    } else window.scrollTo({ top: 0 });
+    card.classList.toggle("centered", !target);
+    card.replaceChildren(
+      el("button", { type: "button", class: "tour-x", "aria-label": say("Fermer le tour", "Close the tour"), onclick: close }, "×"),
+      el("span", { class: "tour-n" }, say("Étape ", "Step ") + (i + 1) + " / " + STEPS.length),
+      el("h3", { id: "tour-title" }, step.title), el("div", { class: "tour-body" }, step.body()),
+      el("div", { class: "tour-nav" },
+        i > 0 ? el("button", { type: "button", class: "btn", onclick: () => show(i - 1) }, say("← Précédent", "← Back")) : el("span"),
+        el("span", { class: "tour-dots", "aria-hidden": "true" }, STEPS.map((_s, k) => el("i", { class: k === i ? "on" : "" }))),
+        step.final ? el("button", { type: "button", class: "btn btn-primary", onclick: close }, say("Terminer", "Finish"))
+          : el("button", { type: "button", class: "btn btn-primary", onclick: () => show(i + 1) }, i === 0 ? say("Commencer →", "Start →") : say("Suivant →", "Next →"))));
+    place();
+    setTimeout(place, 450);  // after the smooth scroll
+    const next = card.querySelector(".tour-nav .btn-primary");
+    if (next) next.focus({ preventScroll: true });
+  }
+
+  function start(at) {
+    if (card) close();
+    spot = el("div", { class: "tour-spot", "aria-hidden": "true" });
+    card = el("div", { class: "tour-card", role: "dialog", "aria-modal": "false", "aria-labelledby": "tour-title", "data-new": "0.60.70-site-tour" });
+    document.body.append(spot, card);
+    document.body.classList.add("touring");
+    window.addEventListener("resize", place);
+    window.addEventListener("scroll", place, { passive: true });
+    document.addEventListener("keydown", keys);
+    show(Math.min(Math.max(Number(at) || 0, 0), STEPS.length - 1));
+  }
+
+  /* the QR code of the permanent « live demo » section at the bottom of the page */
+  const box = document.getElementById("demo-qr");
+  const code = qr(200);
+  if (box && code) box.append(code);
+
+  document.querySelectorAll("[data-tour-start]").forEach((btn) => btn.addEventListener("click", () => start(0)));
+  const resume = store.step();  // the FR | EN button reloads the page in the other language: same step there
+  if (resume != null) setTimeout(() => start(resume), 400);
+  else if (!store.get()) setTimeout(() => start(0), 700);
+  window.DASiteTour = { start, close };
 })();
 
 </script>
