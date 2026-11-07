@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.64
+# Journal de mise à jour — 0.60.65
+
+- **Version :** 0.60.64 → 0.60.65 (2026-11-06)
+- **Changements :**
+  1. **Diamond dans la vitrine** : accroche, « Voir les 11 outils » et une étape Diamond (09:00) dans la journée de l'équipe.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.64
 
 - **Version :** 0.60.63 → 0.60.64 (2026-11-06)
 - **Changements :**
   1. **Correctif de l'accès invité** (D-O-072) : le paquet 0.60.63 était refusé par la mise à jour en ligne (« DELETE FROM memberships ») ; les Spaces de l'invité viennent maintenant du réglage, sans toucher aux membres.
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.63
 

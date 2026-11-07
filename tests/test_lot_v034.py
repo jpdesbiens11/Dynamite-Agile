@@ -72,7 +72,9 @@ class LotV034Test(unittest.TestCase):
         self.assertFalse(re.search(r'(src|href)="https?://', page), "no external resource")
         for marker in ("<!--SPRITE-->", "<!--HERO-->", "<!--TOOLS-->", "<!--VERSION-->"):
             self.assertNotIn(marker, page)
-        self.assertEqual(page.count('class="step"'), 8)  # the day of an engineer, eight tools
+        self.assertEqual(page.count('class="step"'), 9)  # the day of an engineer, nine tools (Diamond since 0.60.65)
+        self.assertEqual(page.count('class="scene'), 9)  # one mock-up scene per step
+        self.assertIn("Voir les 11 outils", page)
         self.assertIn('id="energy"', page)
         self.assertIn("prefers-reduced-motion", page)
 

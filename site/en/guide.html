@@ -86,6 +86,19 @@ h2 { font: 700 clamp(1.7rem, 3.2vw, 2.5rem)/1.2 var(--hand); margin: 0 0 .6rem; 
 .pain .now { margin: .6rem 0 0; font-weight: 650; }
 .pain .now span { --hlc: var(--g); }
 
+/* Diamond scene (0.60.65): function tree that grows branch by branch, then the DFMEA line */
+.ftree { display: grid; grid-template-columns: 36% 1fr; align-items: center; gap: 1.4rem; position: relative; }
+.fkids { display: flex; flex-direction: column; gap: .4rem; border-left: 2px solid var(--ink); padding-left: .9rem; }
+.fnode { border: 2px solid var(--ink); border-radius: var(--r-hand); padding: .3rem .5rem; background: #fff; font-size: .82rem; line-height: 1.2; }
+.fnode code { margin-right: .35rem; font-weight: 700; }
+.fnode.f0 { position: relative; background: color-mix(in srgb, var(--y) 55%, #fff); }
+.fnode.f0::after { content: ""; position: absolute; right: calc(-1.4rem - 2px); top: 50%; width: 1.4rem; border-top: 2px solid var(--ink); }
+.fkids .fnode { position: relative; background: color-mix(in srgb, var(--c) 22%, #fff); opacity: 0; transform: translateX(-12px); transition: opacity .4s ease, transform .4s ease; transition-delay: calc(var(--k) * .35s); }
+.fkids .fnode::before { content: ""; position: absolute; left: calc(-.9rem - 2px); top: 50%; width: .9rem; border-top: 2px solid var(--ink); }
+.fkids .fnode.crit { border-width: 3px; }
+.scene.on .fkids .fnode { opacity: 1; transform: none; }
+.dfm { opacity: 0; transition: opacity .4s ease; transition-delay: calc(1.8s + var(--k, 0) * .4s); }
+.scene.on .dfm { opacity: 1; }
 /* ---------- journey: sticky screen + steps ---------- */
 .journey { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 2.5rem; align-items: start; }
 .steps { display: flex; flex-direction: column; gap: 38vh; padding: 10vh 0 30vh; }
@@ -583,7 +596,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       the recipient, with the attestation to sign: no retyping.</li>
   </ol>
 </main>
-<footer>DynamiteAgile · free software under the MIT licence · version 0.60.64 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>DynamiteAgile · free software under the MIT licence · version 0.60.65 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */

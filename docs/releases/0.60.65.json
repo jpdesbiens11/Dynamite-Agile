@@ -1,0 +1,19 @@
+{
+  "version": "0.60.65",
+  "date": "2026-11-06",
+  "summary": {
+    "fr": "La vitrine de la plateforme présente maintenant Diamond : l'accroche nomme l'analyse fonctionnelle et le DFMEA, le bouton annonce 11 outils, et la journée de l'équipe passe par Diamond à 09:00 (arbre fonctionnel, pièces, risques, DFMEA relié à l'essai clé).",
+    "en": "The platform showcase page now presents Diamond: the lead names the functional analysis and the DFMEA, the button says 11 tools, and the team's day stops in Diamond at 09:00 (function tree, parts, risks, DFMEA linked to the key test)."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Diamond dans la vitrine",
+      "why": "La page de présentation parlait de tous les modules sauf Diamond hors de la grille : l'accroche nomme l'analyse fonctionnelle et le DFMEA, le bouton dit 11 outils, et la journée de l'équipe s'arrête à 09:00 dans Diamond (arbre fonctionnel qui pousse, ligne de DFMEA et essai clé).",
+      "files": [
+        "tools/vitrine/template.html",
+        "static/apps/vitrine/index.html"
+      ]
+    }
+  ]
+}
