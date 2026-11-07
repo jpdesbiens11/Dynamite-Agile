@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.70
+# Journal de mise à jour — 0.60.71
+
+- **Version :** 0.60.70 → 0.60.71 (2026-11-07)
+- **Changements :**
+  1. **Le projet sur son propre domaine** (D-O-077) : site https://dynamiteagile.ca, démo https://demo.dynamiteagile.ca ; `install.sh --traefik nouvelle ancienne` garde l'ancienne adresse.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.70
 
 - **Version :** 0.60.69 → 0.60.70 (2026-11-07)
 - **Changements :**
   1. **Page d'installation : tour guidé** (D-O-076) : 6 étapes sur la page partagée, puis la démo en ligne et son code QR.
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.69
 

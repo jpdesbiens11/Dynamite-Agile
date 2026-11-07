@@ -1,0 +1,27 @@
+{
+  "version": "0.60.71",
+  "date": "2026-11-07",
+  "summary": {
+    "fr": "Le projet sur son propre domaine : le site sur dynamiteagile.ca, la démo sur demo.dynamiteagile.ca ; l'ancienne adresse peut rester servie.",
+    "en": "The project on its own domain: the site on dynamiteagile.ca, the demo on demo.dynamiteagile.ca; the old address can stay served."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Le projet sur son propre domaine : dynamiteagile.ca",
+      "why": "Les filtres web des entreprises (FortiGuard…) classent les adresses *.hstgr.cloud en « Dynamic DNS » et les bloquent. Le site passe à https://dynamiteagile.ca, la démo à https://demo.dynamiteagile.ca ; derrière Traefik, l'installation peut garder l'ancienne adresse en plus de la nouvelle, pour les liens déjà partagés.",
+      "files": [
+        "tools/build_site.py",
+        "deploy/install.sh",
+        "deploy/install_traefik.sh",
+        "core/release.py",
+        "core/starter_prompt.py",
+        "static/js/guest.js",
+        "static/js/tools/guest_tour.js",
+        "tools/site/installer.md",
+        "tools/site/en/installer.md",
+        "README.md"
+      ]
+    }
+  ]
+}

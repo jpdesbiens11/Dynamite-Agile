@@ -8,7 +8,7 @@ en conception de produit et les équipes de start-up. Hébergé sur votre propre
 and timesheets, from the customer's need to the validated prototype. For product-design students and start-up teams.
 Hosted on your own server, with no external resource.
 
-Site · Website : https://jpdesbiens11.github.io/Dynamite-Agile ([English](https://jpdesbiens11.github.io/Dynamite-Agile/en/))
+Site · Website : https://dynamiteagile.ca ([English](https://dynamiteagile.ca/en/))
 
 ## Installer · Install
 
@@ -16,14 +16,14 @@ Serveur Linux (Ubuntu 22.04 / 24.04, Debian 12), domaine pointé vers le serveur
 Linux server, domain pointing to it, ports 22, 80 and 443 open:
 
 ```bash
-curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo bash -s -- atelier.mon-domaine.ca moi@exemple.ca
-curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo DA_LANG=en bash -s -- workshop.my-domain.com me@example.com
+curl -fsSL https://dynamiteagile.ca/install.sh | sudo bash -s -- atelier.mon-domaine.ca moi@exemple.ca
+curl -fsSL https://dynamiteagile.ca/install.sh | sudo DA_LANG=en bash -s -- workshop.my-domain.com me@example.com
 ```
 
 Essai privé sans domaine · Private trial without a domain: `… | sudo bash -s -- --essai`.
 Procédure illustrée pour débutants · Step-by-step guide for beginners:
-[installation](https://jpdesbiens11.github.io/Dynamite-Agile/installation.html) ·
-[installation (EN)](https://jpdesbiens11.github.io/Dynamite-Agile/en/installation.html).
+[installation](https://dynamiteagile.ca/installation.html) ·
+[installation (EN)](https://dynamiteagile.ca/en/installation.html).
 
 Sur votre ordinateur · On your computer (Python 3.10+):
 

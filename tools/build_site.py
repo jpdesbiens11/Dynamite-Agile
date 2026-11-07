@@ -25,8 +25,8 @@ SRC = BASE / "tools" / "site"   # French templates; English ones in tools/site/e
 OUT = BASE / "site"
 OWNER, NAME = "jpdesbiens11", "Dynamite-Agile"  # D-O-011: the public repository
 REPO = "https://github.com/{}/{}".format(OWNER, NAME)
-SITE_URL = "https://{}.github.io/{}".format(OWNER.lower(), NAME)  # GitHub Pages (or the domain of the site)
-DEMO_URL = "https://dynamite.srv1980606.hstgr.cloud/"  # 0.60.70 (D-O-076): the live demo, guest access, end of the page tour
+SITE_URL = "https://dynamiteagile.ca"  # 0.60.71 (D-O-077): GitHub Pages on the project's own domain (was jpdesbiens11.github.io/Dynamite-Agile)
+DEMO_URL = "https://demo.dynamiteagile.ca/"  # 0.60.70 (D-O-076): the live demo, guest access, end of the page tour
 PAGES = ("index.html", "installation.html", "guide.html", "modules.html", "versions.html")  # 0.60.12: versions; 0.60.45: modules
 
 

@@ -1,7 +1,7 @@
 # Installing Dynamite | Agile — a guide for an AI assistant
 
 This file is for the AI assistant (Claude or another) that a beginner has opened next to their terminal to install
-Dynamite | Agile. The illustrated page for people is https://jpdesbiens11.github.io/Dynamite-Agile/en/installation.html.
+Dynamite | Agile. The illustrated page for people is https://dynamiteagile.ca/en/installation.html.
 
 ## How to guide
 
@@ -58,8 +58,8 @@ pointing to the IP.
    question: does their server already run Docker applications with **Traefik** (often a Hostinger VPS with Docker)? To check
    on the server: `docker ps | grep -i traefik` (a line = yes; nothing or « command not
    found » = no).
-   - No (the usual case): `curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo DA_LANG=en bash -s -- workshop.my-domain.com me@example.com`
-   - Yes, Traefik: `curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo DA_LANG=en bash -s -- --traefik workshop.my-domain.com` (no email:
+   - No (the usual case): `curl -fsSL https://dynamiteagile.ca/install.sh | sudo DA_LANG=en bash -s -- workshop.my-domain.com me@example.com`
+   - Yes, Traefik: `curl -fsSL https://dynamiteagile.ca/install.sh | sudo DA_LANG=en bash -s -- --traefik workshop.my-domain.com` (no email:
      Traefik gets the certificate; no firewall rule is changed).
    - When in doubt, the usual command is enough: it detects Traefik by itself and installs behind it.
    - **Update** later: run exactly the same command again; the data (`data/`) stays.
@@ -72,7 +72,7 @@ pointing to the IP.
 ## B. Server, private trial
 
 1. `ssh root@IP` (on their computer).
-2. On the server: `curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo DA_LANG=en bash -s -- --essai`
+2. On the server: `curl -fsSL https://dynamiteagile.ca/install.sh | sudo DA_LANG=en bash -s -- --essai`
 3. On their computer, in a **new** terminal left open: `ssh -N -L 8080:127.0.0.1:8080 root@IP`
    (it looks frozen: that's normal). Open `http://127.0.0.1:8080`, account `admin` / `admin`, example team.
 4. Going online later: follow path A; the same command with domain and email.
@@ -86,7 +86,7 @@ the school or office network. The terminal is **PowerShell as administrator** (t
 1. **The PC**: plugged into the team's network, sleep *Never*, network marked **Private** (otherwise the firewall blocks the team).
 2. **PowerShell as administrator**: Win + X → *Terminal (Admin)* → Yes.
 3. **Install** (on that PC, in one command):
-   `irm https://jpdesbiens11.github.io/Dynamite-Agile/install.ps1 -OutFile $env:TEMP\install-dynamite.ps1; $env:DA_LANG = "en"; powershell -ExecutionPolicy Bypass -File $env:TEMP\install-dynamite.ps1`
+   `irm https://dynamiteagile.ca/install.ps1 -OutFile $env:TEMP\install-dynamite.ps1; $env:DA_LANG = "en"; powershell -ExecutionPolicy Bypass -File $env:TEMP\install-dynamite.ps1`
    The script shows `== 1/7` to `== 7/7`, then `== Installed`, the address (`https://pc-name` and the IP) and the temporary
    password of the `admin` account. Options: `-Port 8443` when 443 is used, `-Dossier D:\DynamiteAgile`, `-Desinstaller`.
    Running it again updates without touching the data.
@@ -117,8 +117,8 @@ or http.sys) → `-Port 8443`; "not running as administrator" → Win + X → Te
 
 | Message | Cause and fix |
 |---|---|
-| `ports 80 or 443 are already in use` | Another application (often Docker, installed by the control panel) uses the web ports. `sudo ss -ltnp \| grep -E ':(80\|443) '` and `docker ps` to find it; stop it or use another server. **If it is Traefik** (Hostinger VPS with Docker applications): do not stop it; install behind it with `curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh \| sudo DA_LANG=en bash -s -- --traefik <address>` (Traefik keeps the ports and the certificate). |
-| `already exists and is not an installation of this repository` | Another copy (often an older version) is in `/opt/dynamite_agile`; nothing was changed. Do not delete it: install next to it with `curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh \| sudo DA_LANG=en DA_DIR=/opt/dynamite-agile-open bash -s -- --traefik <address>`. |
+| `ports 80 or 443 are already in use` | Another application (often Docker, installed by the control panel) uses the web ports. `sudo ss -ltnp \| grep -E ':(80\|443) '` and `docker ps` to find it; stop it or use another server. **If it is Traefik** (Hostinger VPS with Docker applications): do not stop it; install behind it with `curl -fsSL https://dynamiteagile.ca/install.sh \| sudo DA_LANG=en bash -s -- --traefik <address>` (Traefik keeps the ports and the certificate). |
+| `already exists and is not an installation of this repository` | Another copy (often an older version) is in `/opt/dynamite_agile`; nothing was changed. Do not delete it: install next to it with `curl -fsSL https://dynamiteagile.ca/install.sh \| sudo DA_LANG=en DA_DIR=/opt/dynamite-agile-open bash -s -- --traefik <address>`. |
 | `the domain … does not answer yet`, certbot `NXDOMAIN` or `Timeout` | The A record is not visible yet or port 80 is closed in the control-panel firewall. Check, wait, run the same command again. |
 | `Permission denied` (ssh) | Wrong root password; set a new one in the control panel, or use the web console. |
 | `curl: command not found` | `sudo apt update && sudo apt install -y curl` |
@@ -129,10 +129,12 @@ or http.sys) → `-Port 8443`; "not running as administrator" → Win + X → Te
 
 - Update: `sudo bash /opt/dynamite_agile/deploy/redeploy.sh` (data is never touched).
 - Forgotten admin password: `sudo -u dynamite python3 /opt/dynamite_agile/app_dynamite_agile.py --reset-password admin`.
-- Getting started: https://jpdesbiens11.github.io/Dynamite-Agile/en/guide.html; inside the tool, Help → the tour of the site.
+- Getting started: https://dynamiteagile.ca/en/guide.html; inside the tool, Help → the tour of the site.
 - The tool's interface is in French today; English is coming in the next versions (the module names and technical terms
   are already in English).
 
 ## The DEMO Space (0.60.49)
 
 A fresh installation opens on a single Space, DEMO: the guided tour, a sandbox, training, the reference library and the complete Rover example (every module filled). No example account is created. When the team starts its real project (⚙ Admin → Spaces → Commencer), an administrator hides DEMO for everyone: ⚙ Admin → Spaces → DEMO → « Cacher pour tous ».
+
+- Changing the address behind Traefik while keeping the old one (links already shared): run it again with the new address then the old one, `curl -fsSL https://dynamiteagile.ca/install.sh | sudo DA_LANG=en bash -s -- --traefik demo.my-domain.com dynamite.srvXXXX.hstgr.cloud`. Both addresses lead to the same tool, data intact.

@@ -7,7 +7,7 @@
   "use strict";
   const { el } = DA;
   const SEEN = "da.tour.seen", AT = "da.tour.step";
-  const SITE = "https://jpdesbiens11.github.io/Dynamite-Agile/";  // the project's website (a link to open, not a resource)
+  const SITE = "https://dynamiteagile.ca/";  // the project's website (a link to open, not a resource)
   const store = {
     get(k) { try { return sessionStorage.getItem(k) || localStorage.getItem(k); } catch (err) { return null; } },
     set(k, v, local) { try { (local ? localStorage : sessionStorage).setItem(k, v); } catch (err) { /* private window */ } },

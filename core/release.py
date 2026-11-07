@@ -21,7 +21,7 @@ FORMAT = "dynamite-agile-release"
 MANIFEST = "docs/RELEASE.json"
 CHANGES = "UPDATE_CHANGES.json"  # read by the review, never written in the code (core/update._members)
 RELEASES = re.compile(r"^docs/releases/(\d+\.\d+\.\d+)\.json$")
-SITE = "https://jpdesbiens11.github.io/Dynamite-Agile/"
+SITE = "https://dynamiteagile.ca/"
 PAGES = {"fr": SITE + "versions.html", "en": SITE + "en/versions.html"}
 
 

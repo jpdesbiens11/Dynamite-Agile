@@ -6,6 +6,7 @@
 #   curl -fsSL <site>/install.sh | sudo bash -s -- --essai                                   # private trial
 #   curl -fsSL <site>/install.sh | sudo bash -s -- --local                                   # team's local network (0.60.44)
 #   curl -fsSL <site>/install.sh | sudo bash -s -- --traefik dynamite.srv123.hstgr.cloud      # behind Traefik (0.60.17)
+#   ... --traefik demo.mon-domaine.ca dynamite.srv123.hstgr.cloud   # new address, the old one kept (0.60.71)
 # Or from a clone:  sudo bash /opt/dynamite_agile/deploy/install.sh atelier.mon-domaine.ca moi@exemple.ca
 #
 # Online: the domain (A record) points to the IP of the server, ports 22, 80 and 443 are open in the host's panel
@@ -30,6 +31,7 @@ MODE=online
 if [ "${1:-}" = "--essai" ]; then MODE=trial; DOMAIN=""; EMAIL=""
 elif [ "${1:-}" = "--local" ]; then MODE=local; DOMAIN=""; EMAIL=""  # 0.60.44 (D-O-053): a Linux server on the team's network
 elif [ "${1:-}" = "--traefik" ]; then MODE=traefik; DOMAIN="${2:-}"; EMAIL=""  # D-O-029: Traefik keeps 80 / 443
+  ALSO="${*:3}"  # 0.60.71 (D-O-077): older addresses kept, so the links already shared keep working
 else DOMAIN="${1:-}"; EMAIL="${2:-}"; fi
 if [ "$MODE" = online ] && { [ -z "$DOMAIN" ] || [ -z "$EMAIL" ]; }; then
   fail "$(t "il manque le domaine ou le courriel. Exemple : sudo bash install.sh atelier.mon-domaine.ca moi@exemple.ca   (ou --essai sans domaine)" "the domain or the email is missing. Example: sudo DA_LANG=en bash install.sh workshop.my-domain.com me@example.com   (or --essai without a domain)")"
@@ -68,7 +70,7 @@ if [ "$MODE" = online ] && command -v docker >/dev/null 2>&1 \
   say "$(t "Traefik détecté : il garde les ports 80 / 443 et le certificat ; installation derrière lui (comme --traefik)" "Traefik detected: it keeps ports 80 / 443 and the certificate; installing behind it (as --traefik)")"
   MODE=traefik
 fi
-if [ "$MODE" = traefik ]; then exec bash "$APP_DIR/deploy/install_traefik.sh" "$DOMAIN"; fi
+if [ "$MODE" = traefik ]; then exec bash "$APP_DIR/deploy/install_traefik.sh" "$DOMAIN" ${ALSO:-}; fi
 [ "$APP_DIR" = "$TARGET" ] || fail "$(t "le code doit être dans $TARGET (ici : $APP_DIR). Correctif : sudo git clone $REPO $TARGET" "the code must be in $TARGET (here: $APP_DIR). Fix: sudo git clone $REPO $TARGET")"
 
 say "1/7 $(t "Paquets du système" "System packages") (python3, git, certbot, ufw, openssl)"

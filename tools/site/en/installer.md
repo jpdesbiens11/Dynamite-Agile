@@ -136,3 +136,5 @@ or http.sys) → `-Port 8443`; "not running as administrator" → Win + X → Te
 ## The DEMO Space (0.60.49)
 
 A fresh installation opens on a single Space, DEMO: the guided tour, a sandbox, training, the reference library and the complete Rover example (every module filled). No example account is created. When the team starts its real project (⚙ Admin → Spaces → Commencer), an administrator hides DEMO for everyone: ⚙ Admin → Spaces → DEMO → « Cacher pour tous ».
+
+- Changing the address behind Traefik while keeping the old one (links already shared): run it again with the new address then the old one, `curl -fsSL {{SITE_URL}}/install.sh | sudo DA_LANG=en bash -s -- --traefik demo.my-domain.com dynamite.srvXXXX.hstgr.cloud`. Both addresses lead to the same tool, data intact.
