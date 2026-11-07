@@ -10,7 +10,7 @@
 {{CSS}}
 </style>
 </head>
-<body data-site="{{SITE_URL}}">
+<body data-site="{{SITE_URL}}" data-demo="{{DEMO_URL}}">
 {{SPRITE}}
 {{TOP}}
 <main class="page install wizard" data-new="0.60.39-install-5">
@@ -19,6 +19,12 @@
   <p class="lead">Five steps, top to bottom. Each command copies in one click, and a label says <b>where</b> to paste it:
     <span class="where pc">on your computer</span> or <span class="where srv">on the server</span>.</p>
 {{LATEST}}
+  <section class="tour-banner" data-new="0.60.70-site-tour" aria-label="Guided tour">
+    <div><b>First visit?</b> This link shows all of DynamiteAgile: the preview pages, the installation, then the live demo
+      with its guided tour in the tool.</div>
+    <div class="tour-banner-btns"><button type="button" class="btn btn-primary" data-tour-start>▶ Guided tour · 2 min</button>
+      <a class="btn" href="#demo">Go to the demo ↓</a></div>
+  </section>
 
   <section class="pc-pick pc-first" data-new="0.60.49-from-where" aria-labelledby="from-where">
     <h2 id="from-where">Before you start: where are you installing from?</h2>
@@ -205,6 +211,20 @@
     </ol>
   </section>
 
+  <section id="demo" class="demo-live reveal" data-new="0.60.70-site-demo">
+    <div class="demo-text">
+      <span class="kicker">Live demo · free · no account</span>
+      <h2>Try it right now</h2>
+      <p>The platform already runs online with the Rover. Open it and click <b>« Enter as guest »</b>: no account, no password,
+        everything is read-only. The <b>tool's guided tour</b> starts by itself and takes you from one artefact to the next,
+        from the need to the prototype.</p>
+      <p><a class="btn btn-primary demo-go" href="{{DEMO_URL}}" target="_blank" rel="noopener">Open the demo ↗</a>
+        <button type="button" class="btn" data-tour-start>▶ Take this page's tour again</button></p>
+      <p class="muted demo-url">{{DEMO_URL}}</p>
+    </div>
+    <figure class="demo-qr"><div id="demo-qr"></div><figcaption>On a phone: scan with the camera.</figcaption></figure>
+  </section>
+
   <p class="next muted">What next? The <a href="guide.html">guide</a> explains each module, from MVP0 to launch.
     An error message? See <a href="#depannage">If something gets stuck</a>, or paste it to your AI assistant.</p>
 {{TROUBLE}}
@@ -215,6 +235,9 @@
 </script>
 <script>
 {{INSTALL_JS}}
+</script>
+<script>
+{{TOUR_JS}}
 </script>
 </body>
 </html>

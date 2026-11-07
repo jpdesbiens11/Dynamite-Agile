@@ -10,7 +10,7 @@
 {{CSS}}
 </style>
 </head>
-<body data-site="{{SITE_URL}}">
+<body data-site="{{SITE_URL}}" data-demo="{{DEMO_URL}}">
 {{SPRITE}}
 {{TOP}}
 <main class="page install wizard" data-new="0.60.39-install-5">
@@ -19,6 +19,12 @@
   <p class="lead">Cinq étapes, de haut en bas. Chaque commande se copie d'un clic, et une étiquette dit <b>où</b> la coller :
     <span class="where pc">sur votre ordinateur</span> ou <span class="where srv">sur le serveur</span>.</p>
 {{LATEST}}
+  <section class="tour-banner" data-new="0.60.70-site-tour" aria-label="Visite guidée">
+    <div><b>Première visite ?</b> Ce lien montre tout DynamiteAgile : les pages d'aperçu, l'installation, puis la démo
+      en ligne avec son tour guidé dans l'outil.</div>
+    <div class="tour-banner-btns"><button type="button" class="btn btn-primary" data-tour-start>▶ Tour guidé · 2 min</button>
+      <a class="btn" href="#demo">Aller à la démo ↓</a></div>
+  </section>
 
   <section class="pc-pick pc-first" data-new="0.60.49-from-where" aria-labelledby="from-where">
     <h2 id="from-where">Avant de commencer : d'où faites-vous l'installation ?</h2>
@@ -207,6 +213,20 @@
     </ol>
   </section>
 
+  <section id="demo" class="demo-live reveal" data-new="0.60.70-site-demo">
+    <div class="demo-text">
+      <span class="kicker">Démo en ligne · gratuite · sans compte</span>
+      <h2>Essayez-la tout de suite</h2>
+      <p>La plateforme tourne déjà en ligne avec le Rover. Ouvrez-la, cliquez <b>« Entrer en invité »</b> : pas de compte ni
+        de mot de passe, tout est en lecture seule. Le <b>tour guidé de l'outil</b> démarre tout seul et vous mène d'un artefact
+        à l'autre, du besoin au prototype.</p>
+      <p><a class="btn btn-primary demo-go" href="{{DEMO_URL}}" target="_blank" rel="noopener">Ouvrir la démo ↗</a>
+        <button type="button" class="btn" data-tour-start>▶ Refaire le tour de cette page</button></p>
+      <p class="muted demo-url">{{DEMO_URL}}</p>
+    </div>
+    <figure class="demo-qr"><div id="demo-qr"></div><figcaption>Sur un téléphone : scannez avec l'appareil photo.</figcaption></figure>
+  </section>
+
   <p class="next muted">Et ensuite ? Le <a href="guide.html">guide</a> explique chaque module, de MVP0 au lancement.
     Un message d'erreur ? Voyez <a href="#depannage">Si quelque chose bloque</a>, ou collez-le à votre assistant IA.</p>
 {{TROUBLE}}
@@ -217,6 +237,9 @@
 </script>
 <script>
 {{INSTALL_JS}}
+</script>
+<script>
+{{TOUR_JS}}
 </script>
 </body>
 </html>

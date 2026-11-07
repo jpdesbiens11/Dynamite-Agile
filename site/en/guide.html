@@ -476,6 +476,46 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .wiz-step ol.sub-steps { margin: .4rem 0 .6rem 1.2rem; padding: 0; display: grid; gap: .3rem; }
 .wiz-step ol.sub-steps li { padding-left: .2rem; }
 
+/* 0.60.70 (D-O-076): the guided tour of the installation page and the live demo with its QR code */
+.tour-banner { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.2rem; margin: 1.2rem 0 1.6rem; padding: 1rem 1.2rem;
+  background: #fff; border: 2px solid var(--ink); border-radius: 12px; box-shadow: var(--shadow); }
+.tour-banner > div:first-child { flex: 1 1 22rem; }
+.tour-banner-btns { display: flex; flex-wrap: wrap; gap: .5rem; }
+.demo-live { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem 2.5rem; margin: 3rem 0 2rem; padding: 1.6rem 1.8rem;
+  background: linear-gradient(135deg, #fff 0%, #fff8dd 100%); border: 3px solid var(--ink); border-radius: 16px; box-shadow: var(--shadow); }
+.demo-live .demo-text { flex: 1 1 24rem; }
+.demo-live h2 { margin-top: .3rem; }
+.demo-live .demo-go { font-size: 1.1rem; padding: .7rem 1.3rem; }
+.demo-live .demo-url { word-break: break-all; font-size: .9rem; }
+.demo-qr { margin: 0 auto; text-align: center; }
+.demo-qr figcaption { font-size: .85rem; color: var(--ink-2); max-width: 13rem; margin: .4rem auto 0; }
+.tour-qr-img { display: block; width: 100%; max-width: 200px; height: auto; margin: 0 auto; border: 2px solid var(--ink); border-radius: 8px;
+  image-rendering: pixelated; }
+.tour-spot { position: absolute; z-index: 90; border-radius: 12px; pointer-events: none; outline: 3px solid var(--y);
+  box-shadow: 0 0 0 9999px rgba(20, 32, 43, .55); transition: top .3s, left .3s, width .3s, height .3s; }
+.tour-card { position: fixed; z-index: 91; right: 1.2rem; bottom: 1.2rem; width: min(26rem, calc(100vw - 2rem)); max-height: calc(100vh - 2.4rem);
+  overflow: auto; padding: 1.1rem 1.2rem 1rem; background: #fff; border: 3px solid var(--ink); border-radius: 14px; box-shadow: 6px 6px 0 rgba(38, 50, 63, .25); }
+.tour-card.centered { right: 50%; bottom: 50%; transform: translate(50%, 50%); }
+.tour-card h3 { margin: .2rem 2rem .5rem 0; font: 700 1.25rem var(--hand); }
+.tour-card p { margin: .4rem 0; }
+.tour-n { font-size: .8rem; font-weight: 650; color: var(--ink-2); text-transform: uppercase; letter-spacing: .04em; }
+.tour-x { position: absolute; top: .4rem; right: .6rem; border: 0; background: none; font-size: 1.6rem; line-height: 1; cursor: pointer; color: var(--ink-2); }
+.tour-list { margin: .3rem 0 .4rem 1.2rem; padding: 0; }
+.tour-list li { margin: .2rem 0; }
+.tour-nav { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-top: .9rem; }
+.tour-dots { display: flex; gap: .3rem; }
+.tour-dots i { width: .5rem; height: .5rem; border-radius: 50%; background: #d5dbe3; }
+.tour-dots i.on { background: var(--blue); }
+.tour-demo { display: flex; align-items: center; gap: 1rem; margin-top: .6rem; }
+.tour-demo .tour-qr-img { width: 130px; flex: none; }
+.tour-demo .btn { margin-bottom: .4rem; }
+@media (max-width: 640px) {
+  .tour-card, .tour-card.centered { right: .5rem; left: .5rem; bottom: .5rem; width: auto; transform: none; max-height: 60vh; }
+  .tour-demo { flex-direction: column; text-align: center; }
+}
+body.touring header.top, body.touring .progress-bar { z-index: 80; }  /* dimmed with the rest of the page */
+@media (prefers-reduced-motion: reduce) { .tour-spot { transition: none; } }
+
 </style>
 </head>
 <body>
@@ -596,7 +636,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
       the recipient, with the attestation to sign: no retyping.</li>
   </ol>
 </main>
-<footer>DynamiteAgile · free software under the MIT licence · version 0.60.69 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>DynamiteAgile · free software under the MIT licence · version 0.60.70 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */

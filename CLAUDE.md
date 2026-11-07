@@ -123,6 +123,8 @@
 - **0.60.58** (2026-11-06) : **winget `--source winget`** (D-O-067) : la source du Microsoft Store expirait et bloquait Git.
 - **0.60.59** (2026-11-06) : **certificat depuis Documents** (D-O-068) : étape 5 Windows en trois sous-étapes, commande indépendante du dossier.
 - **0.60.69** (2026-11-07) : **tour guidé, pointeur en anglais** : `focus` passé par `DA.translateText` quand la page est en anglais.
+- **0.60.70** (2026-11-07) : **tour guidé de la page d'installation** (D-O-076, `tools/site/tour.js`) : le lien partagé
+  `installation.html#online` montre le site en 6 étapes, puis la démo en ligne (`DEMO_URL` dans `tools/build_site.py`) et son code QR (`qr.js` de l'outil).
 - **0.60.68** (2026-11-06) : **le reste de l'interface en anglais** (D-O-073) : balayage de 280 écrans (`tools/i18n_crawl.py`,
   `DA.i18nScan`), ~700 traductions, gabarits « # » pour les nombres.
 - **0.60.67** (2026-11-06) : **le Rover en anglais** (D-O-073) : le contenu affiché en lecture se traduit aussi (dictionnaire de la démo
