@@ -40,7 +40,7 @@
     draw();
     if (DA.pointer) DA.pointer.close();
     if (step.hash && location.hash !== step.hash) location.hash = step.hash;
-    if (step.focus && DA.pointTo) setTimeout(() => { if (card && index === list.indexOf(step)) DA.pointTo(step.focus); }, 700);
+    if (step.focus && DA.pointTo) setTimeout(() => { if (card && index === list.indexOf(step)) DA.pointTo(en() && DA.translateText ? DA.translateText(step.focus) : step.focus); }, 700);  // 0.60.69: the page is in English
   }
 
   function draw() {

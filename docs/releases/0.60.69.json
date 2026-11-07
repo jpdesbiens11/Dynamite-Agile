@@ -1,0 +1,19 @@
+{
+  "version": "0.60.69",
+  "date": "2026-11-07",
+  "summary": {
+    "fr": "Tour guidé en anglais : le pointeur trouve de nouveau chaque artefact, la page étant traduite.",
+    "en": "Guided tour in English: the pointer finds every artefact again, now that the page is translated."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Tour guidé : le pointeur en anglais",
+      "why": "En anglais, la page est traduite : le pointeur du tour cherche maintenant le texte anglais de l'artefact (16 étapes sur 16 trouvées) ; guillemets anglais dans les textes du tour.",
+      "files": [
+        "static/js/tools/guest_tour.js",
+        "static/js/tools/guest_tour_steps.js"
+      ]
+    }
+  ]
+}
