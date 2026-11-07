@@ -3,7 +3,7 @@
 (function () {
   "use strict";
   const { api, el } = DA;
-  const SITE = "https://jpdesbiens11.github.io/Dynamite-Agile/";
+  const SITE = "https://dynamiteagile.ca/";
 
   /** The guest entry of the sign-in card: empty until the server says guest access is open (asked each time the
       sign-in page is drawn, so it follows Admin → Accès invité without reloading the page). */

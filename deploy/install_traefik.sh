@@ -11,6 +11,8 @@
 set -euo pipefail
 
 DOMAIN="${1:-}"
+shift || true
+ALSO="$*"  # 0.60.71 (D-O-077): other addresses served too (the old one, while shared links still point to it)
 APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"   # the clone (/opt/dynamite_agile)
 DATA_DIR="$APP_DIR/data"
 NAME="$(basename "$APP_DIR" | tr 'A-Z_' 'a-z-' | tr -cd 'a-z0-9-')"          # /opt/dynamite_agile -> dynamite-agile
@@ -33,6 +35,12 @@ ENTRY="${ENTRY:-websecure}"
 echo "  Traefik : $TRAEFIK · $(t "point d'entrée" "entry point") $ENTRY · $(t "certificats" "certificates") $RESOLVER"
 getent hosts "$DOMAIN" >/dev/null || fail "$(t "l'adresse $DOMAIN ne répond pas. Correctif : créez l'enregistrement DNS vers ce serveur, attendez quelques minutes, relancez." "the address $DOMAIN does not answer. Fix: create the DNS record to this server, wait a few minutes, run again.")"
 echo "  DNS : $(getent hosts "$DOMAIN" | awk '{print $1}' | tr '\n' ' ')"
+RULE="Host(\`$DOMAIN\`)"
+for extra in $ALSO; do
+  case "$extra" in *[!A-Za-z0-9.-]*|"") fail "$(t "adresse invalide : $extra" "invalid address: $extra")" ;; esac
+  RULE="$RULE || Host(\`$extra\`)"
+  echo "  $(t "Aussi servie :" "Also served:") $extra"
+done
 
 say "2/5 Configuration (data/config.json)"
 mkdir -p "$DATA_DIR"
@@ -69,7 +77,7 @@ services:
       - $APP_DIR:/app
     labels:
       - traefik.enable=true
-      - traefik.http.routers.$NAME.rule=Host(\`$DOMAIN\`)
+      - traefik.http.routers.$NAME.rule=$RULE
       - traefik.http.routers.$NAME.entrypoints=$ENTRY
       - traefik.http.routers.$NAME.tls.certresolver=$RESOLVER
       - traefik.http.routers.$NAME.middlewares=$NAME-sec

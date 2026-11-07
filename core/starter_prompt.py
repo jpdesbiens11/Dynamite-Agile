@@ -14,7 +14,7 @@ BASE = Path(__file__).resolve().parent.parent
 SRC = BASE / "tools" / "site"
 EXAMPLE_FILE = BASE / "deploy" / "starter_exemples" / "lampe_bureau.json"
 REPO = "https://github.com/jpdesbiens11/Dynamite-Agile"
-SITE_URL = "https://jpdesbiens11.github.io/Dynamite-Agile"
+SITE_URL = "https://dynamiteagile.ca"
 
 FIELDS = [  # (field, FR, EN, vocabulary key or a fixed tuple)
     ("project.markets", "marchés", "markets", starter.MARKETS),

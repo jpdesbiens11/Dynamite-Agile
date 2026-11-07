@@ -56,7 +56,7 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 |---|---|---|
 | 1 | Droits sur le contenu de référence | Réécrit en contenu original (D-O-009) |
 | 2 | Licence du code | MIT (D-O-010) |
-| 3 | Hébergement et nom du dépôt public | GitHub, https://github.com/jpdesbiens11/Dynamite-Agile (D-O-011) ; site : https://jpdesbiens11.github.io/Dynamite-Agile |
+| 3 | Hébergement et nom du dépôt public | GitHub, https://github.com/jpdesbiens11/Dynamite-Agile (D-O-011) ; site : https://dynamiteagile.ca (D-O-077 ; avant : jpdesbiens11.github.io/Dynamite-Agile) |
 | 4 | Modules hors cours | Gardés ; évaluation par les pairs à venir (D-O-013) |
 | 5 | Profils d'études de l'équipe d'exemple | Confirmés (D-O-013) |
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |

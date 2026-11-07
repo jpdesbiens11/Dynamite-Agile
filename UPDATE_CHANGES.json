@@ -2,14 +2,22 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Page d'installation : tour guidé, démo en ligne et code QR",
-      "why": "Le lien partagé (installation.html#online) montre tout depuis une seule page : un tour guidé en 6 étapes (pages d'aperçu, où installer, les 5 étapes, le Rover), puis la démo en ligne avec son code QR pour le téléphone ; la section « Essayez-la tout de suite » reste en bas de la page.",
+      "title": "Le projet sur son propre domaine : dynamiteagile.ca",
+      "why": "Les filtres web des entreprises (FortiGuard…) classent les adresses *.hstgr.cloud en « Dynamic DNS » et les bloquent. Le site passe à https://dynamiteagile.ca, la démo à https://demo.dynamiteagile.ca ; derrière Traefik, l'installation peut garder l'ancienne adresse en plus de la nouvelle, pour les liens déjà partagés.",
       "files": [
-        "tools/site/tour.js",
-        "tools/site/installation.html",
-        "tools/site/en/installation.html",
-        "tools/site/site.css",
-        "tools/build_site.py"
+        "tools/build_site.py",
+        "deploy/install.sh",
+        "deploy/install_traefik.sh",
+        "core/release.py",
+        "core/starter_prompt.py",
+        "static/js/guest.js",
+        "static/js/tools/guest_tour.js",
+        "tools/site/installer.md",
+        "tools/site/en/installer.md",
+        "README.md",
+        "tools/site/home.html",
+        "tools/site/en/home.html",
+        "tools/site/tour.js"
       ]
     }
   ]

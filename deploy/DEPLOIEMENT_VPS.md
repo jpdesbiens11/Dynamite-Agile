@@ -16,7 +16,7 @@ l'assistant IA qui accompagne la personne est publié à côté (`site/installer
 Connecté au serveur (`ssh root@<IP>` ou la console web de l'hébergeur) :
 
 ```bash
-curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo bash -s -- mon-domaine.ca moi@exemple.ca
+curl -fsSL https://dynamiteagile.ca/install.sh | sudo bash -s -- mon-domaine.ca moi@exemple.ca
 ```
 
 Messages du script en anglais : `sudo DA_LANG=en bash -s -- …` (page anglaise : `site/en/installation.html`).
@@ -49,7 +49,7 @@ sudo bash /opt/dynamite_agile/deploy/install.sh mon-domaine.ca moi@exemple.ca
 ## Essai privé, sans domaine
 
 ```bash
-curl -fsSL https://jpdesbiens11.github.io/Dynamite-Agile/install.sh | sudo bash -s -- --essai     # sur le serveur
+curl -fsSL https://dynamiteagile.ca/install.sh | sudo bash -s -- --essai     # sur le serveur
 ssh -N -L 8080:127.0.0.1:8080 root@<IP du VPS>                                                # sur votre poste
 ```
 

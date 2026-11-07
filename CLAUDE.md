@@ -125,6 +125,8 @@
 - **0.60.69** (2026-11-07) : **tour guidé, pointeur en anglais** : `focus` passé par `DA.translateText` quand la page est en anglais.
 - **0.60.70** (2026-11-07) : **tour guidé de la page d'installation** (D-O-076, `tools/site/tour.js`) : le lien partagé
   `installation.html#online` montre le site en 6 étapes, puis la démo en ligne (`DEMO_URL` dans `tools/build_site.py`) et son code QR (`qr.js` de l'outil).
+- **0.60.71** (2026-11-07) : **le projet sur son propre domaine** (D-O-077) : site https://dynamiteagile.ca (GitHub Pages, domaine
+  personnalisé), démo https://demo.dynamiteagile.ca ; `install.sh --traefik <nouvelle> <ancienne…>` sert aussi les anciennes adresses.
 - **0.60.68** (2026-11-06) : **le reste de l'interface en anglais** (D-O-073) : balayage de 280 écrans (`tools/i18n_crawl.py`,
   `DA.i18nScan`), ~700 traductions, gabarits « # » pour les nombres.
 - **0.60.67** (2026-11-06) : **le Rover en anglais** (D-O-073) : le contenu affiché en lecture se traduit aussi (dictionnaire de la démo

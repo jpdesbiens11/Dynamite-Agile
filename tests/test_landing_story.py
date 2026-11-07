@@ -24,7 +24,7 @@ class LandingStoryTest(unittest.TestCase):
         self.assertEqual(len(set(depths)), len(depths))
 
     def test_02_pages_tell_the_need_then_the_diamonds(self):
-        for rel in ("site/index.html", "site/en/index.html"):
+        for rel in ("site/home.html", "site/en/home.html"):
             page = (BASE_DIR / rel).read_text("utf-8")
             self.assertIn('id="besoin"', page)
             self.assertEqual(page.count('class="story-card reveal"'), len(T.STORY))

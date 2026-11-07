@@ -134,3 +134,5 @@ affichées, chaque refus y nomme la valeur et le correctif.
 ## Le Space DEMO (0.60.49)
 
 Une installation neuve s'ouvre sur un seul Space, DEMO : le tour guidé, un bac à sable, la formation, la bibliothèque de référence et l'exemple complet du Rover (tous les modules remplis). Aucun compte d'exemple n'est créé. Quand l'équipe commence son vrai projet (⚙ Admin → Spaces → Commencer), un administrateur cache DEMO pour tous : ⚙ Admin → Spaces → DEMO → « Cacher pour tous ».
+
+- Changer d'adresse derrière Traefik en gardant l'ancienne (liens déjà partagés) : relancez avec la nouvelle adresse puis l'ancienne, `curl -fsSL {{SITE_URL}}/install.sh | sudo bash -s -- --traefik demo.mon-domaine.ca dynamite.srvXXXX.hstgr.cloud`. Les deux adresses mènent au même outil, données intactes.
