@@ -51,6 +51,12 @@
       const core = dict.get(norm(parts[2])) || dict.get(norm(parts[2] + parts[3]));
       if (core) return lead + parts[1] + norm(core) + (dict.get(norm(parts[2])) ? parts[3] : "") + trail;
     }
+    /* « Ajouter une ligne sous la ligne 13 »: a template of the dictionary with # for each number */
+    if (/\d/.test(key)) {
+      const nums = key.match(/\d+(?:[.,]\d+)?/g);
+      const tpl = dict.get(key.replace(/\d+(?:[.,]\d+)?/g, "#"));
+      if (tpl && tpl.includes("#")) { let i = 0; return lead + norm(tpl).replace(/#/g, () => nums[i++] || "#") + trail; }
+    }
     /* « F10 Mesurer les distances », « 🧪 TST-FUN-07 · Contournement… », « DEMO · ROVER — la démo… »: a code, then a known text;
        or pieces joined by « · » / « — » of which at least one is known */
     const coded = key.match(/^(\S*?(?:[A-Z]{1,5}-?\d+[A-Z]?|DEMO)(?:\s*[·:—-])?\s+)(.+)$/);
@@ -148,6 +154,16 @@
     on = lang === "en";
     if (!on) { stop(); return; }
     load().then(() => { if (on && document.body) start(); });
+  };
+  /** For the maintenance crawl (tools): each visible text node as [French original, what is shown]. */
+  DA.i18nScan = function () {
+    const out = [];
+    const it = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    for (let n = it.nextNode(); n; n = it.nextNode()) {
+      if (skipped(n) || !n.parentElement.getClientRects().length || !n.nodeValue.trim()) continue;
+      out.push([(done.get(n) || [n.nodeValue])[0].trim(), n.nodeValue.trim()]);
+    }
+    return out;
   };
   DA.translateText = (text) => (dict && on ? translate(text) || text : text);  // for a script that builds text itself
 })();
