@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.71
+# Journal de mise à jour — 0.60.72
+
+- **Version :** 0.60.71 → 0.60.72 (2026-11-07)
+- **Changements :**
+  1. **Tour guidé du site sur téléphone** (D-O-078) : barre compacte, « Plus », pastille repliée, bouton de la démo au lieu du QR.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.71
 
 - **Version :** 0.60.70 → 0.60.71 (2026-11-07)
 - **Changements :**
   1. **Le projet sur son propre domaine** (D-O-077) : site https://dynamiteagile.ca, démo https://demo.dynamiteagile.ca ; `install.sh --traefik nouvelle ancienne` garde l'ancienne adresse.
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.70
 

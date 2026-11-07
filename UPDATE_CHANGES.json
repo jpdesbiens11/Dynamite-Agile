@@ -2,22 +2,11 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Le projet sur son propre domaine : dynamiteagile.ca",
-      "why": "Les filtres web des entreprises (FortiGuard…) classent les adresses *.hstgr.cloud en « Dynamic DNS » et les bloquent. Le site passe à https://dynamiteagile.ca, la démo à https://demo.dynamiteagile.ca ; derrière Traefik, l'installation peut garder l'ancienne adresse en plus de la nouvelle, pour les liens déjà partagés.",
+      "title": "Tour guidé du site sur téléphone : barre compacte",
+      "why": "Sur un téléphone, la carte du tour cachait ce qu'elle montrait. Elle devient une barre mince en bas (2 lignes, « Plus » déplie le texte, « ▾ » la réduit en pastille « Étape 3 / 6 ») et la zone éclairée se place dans l'écran au-dessus ; à la dernière étape, le gros bouton « Ouvrir la démo » remplace le code QR, inutile sur le téléphone même.",
       "files": [
-        "tools/build_site.py",
-        "deploy/install.sh",
-        "deploy/install_traefik.sh",
-        "core/release.py",
-        "core/starter_prompt.py",
-        "static/js/guest.js",
-        "static/js/tools/guest_tour.js",
-        "tools/site/installer.md",
-        "tools/site/en/installer.md",
-        "README.md",
-        "tools/site/home.html",
-        "tools/site/en/home.html",
-        "tools/site/tour.js"
+        "tools/site/tour.js",
+        "tools/site/site.css"
       ]
     }
   ]

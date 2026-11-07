@@ -1,0 +1,19 @@
+{
+  "version": "0.60.72",
+  "date": "2026-11-07",
+  "summary": {
+    "fr": "Tour guidé du site sur téléphone : une barre compacte en bas, repliable, qui laisse voir ce qu'elle montre.",
+    "en": "The site's guided tour on a phone: a compact, foldable bar at the bottom that leaves in sight what it points at."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Tour guidé du site sur téléphone : barre compacte",
+      "why": "Sur un téléphone, la carte du tour cachait ce qu'elle montrait. Elle devient une barre mince en bas (2 lignes, « Plus » déplie le texte, « ▾ » la réduit en pastille « Étape 3 / 6 ») et la zone éclairée se place dans l'écran au-dessus ; à la dernière étape, le gros bouton « Ouvrir la démo » remplace le code QR, inutile sur le téléphone même.",
+      "files": [
+        "tools/site/tour.js",
+        "tools/site/site.css"
+      ]
+    }
+  ]
+}

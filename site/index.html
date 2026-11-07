@@ -509,9 +509,28 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .tour-demo { display: flex; align-items: center; gap: 1rem; margin-top: .6rem; }
 .tour-demo .tour-qr-img { width: 130px; flex: none; }
 .tour-demo .btn { margin-bottom: .4rem; }
+.tour-more { display: inline-block; margin: .1rem 0 0; padding: 0; border: 0; background: none; color: var(--blue); font: 650 .9rem var(--sans); cursor: pointer; }
+.tour-more[hidden], .tour-pill[hidden], .tour-card[hidden] { display: none; }
+.tour-fold { position: absolute; top: .45rem; right: 2.5rem; border: 0; background: none; font-size: 1.2rem; line-height: 1; cursor: pointer; color: var(--ink-2); }
+.tour-pill { position: fixed; z-index: 91; right: .8rem; bottom: calc(.8rem + env(safe-area-inset-bottom, 0px)); padding: .55rem .95rem;
+  border: 2px solid var(--ink); border-radius: 999px; background: var(--y); color: var(--ink); font: 700 .95rem var(--sans);
+  box-shadow: 3px 3px 0 rgba(38, 50, 63, .25); cursor: pointer; }
+body.tour-folded .tour-spot { display: none; }
+/* 0.60.72 (D-O-078): on a phone, a slim bar at the bottom; the spotlight stays in the screen above it */
 @media (max-width: 640px) {
-  .tour-card, .tour-card.centered { right: .5rem; left: .5rem; bottom: .5rem; width: auto; transform: none; max-height: 60vh; }
-  .tour-demo { flex-direction: column; text-align: center; }
+  .tour-card, .tour-card.centered { left: 0; right: 0; bottom: 0; width: auto; transform: none; max-height: 36vh;
+    padding: .65rem .9rem calc(.65rem + env(safe-area-inset-bottom, 0px)); border-width: 2px 0 0; border-radius: 16px 16px 0 0;
+    box-shadow: 0 -4px 16px rgba(38, 50, 63, .25); }
+  .tour-card.open { max-height: 72vh; }
+  .tour-card h3 { margin: .1rem 4.2rem .25rem 0; font-size: 1.05rem; }
+  .tour-card .tour-body { max-height: 2.9em; overflow: hidden; line-height: 1.45; font-size: .95rem; }
+  .tour-card.open .tour-body, .tour-card.tour-final .tour-body { max-height: none; }
+  .tour-card.tour-final { max-height: 60vh; }
+  .tour-card .tour-body p { margin: 0 0 .3rem; }
+  .tour-nav { margin-top: .55rem; }
+  .tour-nav .btn { padding: .45rem .8rem; font-size: .9rem; }
+  .tour-demo { flex-direction: column; align-items: stretch; text-align: center; }
+  .tour-demo .btn { justify-content: center; width: 100%; }
 }
 body.touring header.top, body.touring .progress-bar { z-index: 80; }  /* dimmed with the rest of the page */
 @media (prefers-reduced-motion: reduce) { .tour-spot { transition: none; } }
@@ -558,7 +577,7 @@ body.touring header.top, body.touring .progress-bar { z-index: 80; }  /* dimmed 
   <h1>Installer DynamiteAgile</h1>
   <p class="lead">Cinq étapes, de haut en bas. Chaque commande se copie d'un clic, et une étiquette dit <b>où</b> la coller :
     <span class="where pc">sur votre ordinateur</span> ou <span class="where srv">sur le serveur</span>.</p>
-  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Dernière version : 0.60.71</b> · 2026-11-07 — Le projet sur son propre domaine : dynamiteagile.ca ouvre la page d&#x27;installation et son tour, la démo est sur demo.dynamiteagile.ca ; les anciens liens fonctionnent encore. <a href="versions.html">Voir toutes les versions →</a><br>Déjà installé ? ⚙ Admin → Update → « Mise à jour en ligne » : vérifier, lire, approuver, suivre en direct.</p>
+  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Dernière version : 0.60.72</b> · 2026-11-07 — Tour guidé du site sur téléphone : une barre compacte en bas, repliable, qui laisse voir ce qu&#x27;elle montre. <a href="versions.html">Voir toutes les versions →</a><br>Déjà installé ? ⚙ Admin → Update → « Mise à jour en ligne » : vérifier, lire, approuver, suivre en direct.</p>
   <section class="tour-banner" data-new="0.60.70-site-tour" aria-label="Visite guidée">
     <div><b>Première visite ?</b> Ce lien montre tout DynamiteAgile : les pages d'aperçu, l'installation, puis la démo
       en ligne avec son tour guidé dans l'outil.</div>
@@ -823,7 +842,7 @@ body.touring header.top, body.touring .progress-bar { z-index: 80; }  /* dimmed 
       <code>python C:\DynamiteAgile\app_dynamite_agile.py --reset-password admin</code></td></tr>
     <tr><td>Passer de l'essai à l'équipe</td><td>Refaites le parcours « Sur un serveur en ligne » : la même commande avec votre domaine</td></tr></table>
 </main>
-<footer>DynamiteAgile · logiciel libre sous licence MIT · version 0.60.71 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>DynamiteAgile · logiciel libre sous licence MIT · version 0.60.72 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */
@@ -1401,12 +1420,15 @@ window.DA = window.DA || {};
       body: () => [el("p", {}, say("Ouvrez la plateforme, puis ", "Open the platform, then "), b(say("« Entrer en invité »", "« Enter as guest »")),
         say(" : sans compte ni mot de passe, en lecture seule. Le tour guidé de l'outil démarre tout seul.",
           ": no account, no password, read-only. The tool's guided tour starts by itself.")),
-        el("div", { class: "tour-demo" }, qr(150),
+        el("div", { class: "tour-demo" }, phone() ? null : qr(150),
           el("div", {}, el("a", { class: "btn btn-primary", href: demo, target: "_blank", rel: "noopener" }, say("Ouvrir la démo ↗", "Open the demo ↗")),
-            el("p", { class: "muted" }, say("Sur un téléphone ? Scannez le code avec l'appareil photo.", "On a phone? Scan the code with the camera."))))] },
+            phone() ? null : el("p", { class: "muted" }, say("Sur un téléphone ? Scannez le code avec l'appareil photo.", "On a phone? Scan the code with the camera."))))] },
   ];
 
-  let index = 0, card = null, spot = null, target = null;
+  let index = 0, card = null, spot = null, target = null, pill = null;
+  /* 0.60.72 (D-O-078): on a phone, the card is a slim bar at the bottom (2 lines, « Plus » unfolds the text, « ▾ » folds
+     it into a pill « Étape 3 / 6 ») and the spotlight sits in the part of the screen above it */
+  const phone = () => matchMedia("(max-width: 640px)").matches;
 
   function place() {
     if (!spot) return;
@@ -1422,11 +1444,30 @@ window.DA = window.DA || {};
     store.at(null);
     if (card) card.remove();
     if (spot) spot.remove();
-    card = spot = target = null;
-    document.body.classList.remove("touring");
+    if (pill) pill.remove();
+    card = spot = target = pill = null;
+    document.body.classList.remove("touring", "tour-folded");
     window.removeEventListener("resize", place);
     window.removeEventListener("scroll", place);
     document.removeEventListener("keydown", keys);
+  }
+
+  function fold(folded) {
+    document.body.classList.toggle("tour-folded", folded);
+    card.hidden = folded;
+    pill.hidden = !folded;
+    if (folded) pill.focus({ preventScroll: true });
+    else { place(); const next = card.querySelector(".tour-nav .btn-primary"); if (next) next.focus({ preventScroll: true }); }
+  }
+
+  function scrollToTarget(behavior) {  // below the sticky top bar, in the part of the screen the card leaves free
+    const bar = document.querySelector("header.top");
+    const above = bar && !target.closest("header.top") ? bar.getBoundingClientRect().height + 16 : 8;
+    const below = phone() ? card.getBoundingClientRect().height + 16 : 0;
+    const free = innerHeight - above - below;
+    const r = target.getBoundingClientRect();
+    const top = r.top + scrollY - above - Math.max(0, (free - r.height) / 2);
+    window.scrollTo({ top: Math.max(0, top), behavior });
   }
 
   function keys(e) {
@@ -1441,25 +1482,35 @@ window.DA = window.DA || {};
     const step = STEPS[i];
     target = step.target ? document.querySelector(step.target) : null;
     if (target && target.closest("details")) target.closest("details").open = true;
-    const behavior = matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
-    if (target) {  // below the sticky top bar, in the part of the screen the card leaves free
-      const bar = document.querySelector("header.top");
-      const above = bar && !target.closest("header.top") ? bar.getBoundingClientRect().height + 20 : 12;
-      const free = (innerWidth <= 640 ? innerHeight * 0.4 : innerHeight) - above;
-      const r = target.getBoundingClientRect();
-      const top = r.top + scrollY - above - Math.max(0, (free - r.height) / 2);
-      window.scrollTo({ top: Math.max(0, top), behavior });
-    } else window.scrollTo({ top: 0 });
-    card.classList.toggle("centered", !target);
+    const small = phone();
+    const body = el("div", { class: "tour-body" }, step.body());
+    const more = el("button", { type: "button", class: "tour-more", hidden: "", "aria-expanded": "false" }, say("Plus ▾", "More ▾"));
+    more.addEventListener("click", () => {
+      const open = !card.classList.contains("open");
+      card.classList.toggle("open", open);
+      more.setAttribute("aria-expanded", String(open));
+      more.textContent = open ? say("Moins ▴", "Less ▴") : say("Plus ▾", "More ▾");
+      if (target) scrollToTarget("auto");
+      place();
+    });
+    card.classList.toggle("centered", !target && !small);
+    card.classList.remove("open");
+    card.classList.toggle("tour-final", !!step.final);  // the last step shows all: its button to the demo must be in sight
     card.replaceChildren(
       el("button", { type: "button", class: "tour-x", "aria-label": say("Fermer le tour", "Close the tour"), onclick: close }, "×"),
+      small ? el("button", { type: "button", class: "tour-fold", "aria-label": say("Réduire le tour", "Fold the tour"), onclick: () => fold(true) }, "▾") : null,
       el("span", { class: "tour-n" }, say("Étape ", "Step ") + (i + 1) + " / " + STEPS.length),
-      el("h3", { id: "tour-title" }, step.title), el("div", { class: "tour-body" }, step.body()),
+      el("h3", { id: "tour-title" }, step.title), body, more,
       el("div", { class: "tour-nav" },
         i > 0 ? el("button", { type: "button", class: "btn", onclick: () => show(i - 1) }, say("← Précédent", "← Back")) : el("span"),
         el("span", { class: "tour-dots", "aria-hidden": "true" }, STEPS.map((_s, k) => el("i", { class: k === i ? "on" : "" }))),
         step.final ? el("button", { type: "button", class: "btn btn-primary", onclick: close }, say("Terminer", "Finish"))
           : el("button", { type: "button", class: "btn btn-primary", onclick: () => show(i + 1) }, i === 0 ? say("Commencer →", "Start →") : say("Suivant →", "Next →"))));
+    if (small && body.scrollHeight > body.clientHeight + 4) more.hidden = false;  // the text is longer than the 2 lines shown
+    pill.textContent = say("Étape ", "Step ") + (i + 1) + " / " + STEPS.length + " ▴";
+    const behavior = matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+    if (target) scrollToTarget(behavior);
+    else window.scrollTo({ top: 0 });
     place();
     setTimeout(place, 450);  // after the smooth scroll
     const next = card.querySelector(".tour-nav .btn-primary");
@@ -1470,7 +1521,9 @@ window.DA = window.DA || {};
     if (card) close();
     spot = el("div", { class: "tour-spot", "aria-hidden": "true" });
     card = el("div", { class: "tour-card", role: "dialog", "aria-modal": "false", "aria-labelledby": "tour-title", "data-new": "0.60.70-site-tour" });
-    document.body.append(spot, card);
+    pill = el("button", { type: "button", class: "tour-pill", hidden: "", "aria-label": say("Rouvrir le tour guidé", "Open the guided tour again"),
+      onclick: () => fold(false) });
+    document.body.append(spot, card, pill);
     document.body.classList.add("touring");
     window.addEventListener("resize", place);
     window.addEventListener("scroll", place, { passive: true });

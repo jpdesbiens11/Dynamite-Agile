@@ -80,12 +80,15 @@
       body: () => [el("p", {}, say("Ouvrez la plateforme, puis ", "Open the platform, then "), b(say("« Entrer en invité »", "« Enter as guest »")),
         say(" : sans compte ni mot de passe, en lecture seule. Le tour guidé de l'outil démarre tout seul.",
           ": no account, no password, read-only. The tool's guided tour starts by itself.")),
-        el("div", { class: "tour-demo" }, qr(150),
+        el("div", { class: "tour-demo" }, phone() ? null : qr(150),
           el("div", {}, el("a", { class: "btn btn-primary", href: demo, target: "_blank", rel: "noopener" }, say("Ouvrir la démo ↗", "Open the demo ↗")),
-            el("p", { class: "muted" }, say("Sur un téléphone ? Scannez le code avec l'appareil photo.", "On a phone? Scan the code with the camera."))))] },
+            phone() ? null : el("p", { class: "muted" }, say("Sur un téléphone ? Scannez le code avec l'appareil photo.", "On a phone? Scan the code with the camera."))))] },
   ];
 
-  let index = 0, card = null, spot = null, target = null;
+  let index = 0, card = null, spot = null, target = null, pill = null;
+  /* 0.60.72 (D-O-078): on a phone, the card is a slim bar at the bottom (2 lines, « Plus » unfolds the text, « ▾ » folds
+     it into a pill « Étape 3 / 6 ») and the spotlight sits in the part of the screen above it */
+  const phone = () => matchMedia("(max-width: 640px)").matches;
 
   function place() {
     if (!spot) return;
@@ -101,11 +104,30 @@
     store.at(null);
     if (card) card.remove();
     if (spot) spot.remove();
-    card = spot = target = null;
-    document.body.classList.remove("touring");
+    if (pill) pill.remove();
+    card = spot = target = pill = null;
+    document.body.classList.remove("touring", "tour-folded");
     window.removeEventListener("resize", place);
     window.removeEventListener("scroll", place);
     document.removeEventListener("keydown", keys);
+  }
+
+  function fold(folded) {
+    document.body.classList.toggle("tour-folded", folded);
+    card.hidden = folded;
+    pill.hidden = !folded;
+    if (folded) pill.focus({ preventScroll: true });
+    else { place(); const next = card.querySelector(".tour-nav .btn-primary"); if (next) next.focus({ preventScroll: true }); }
+  }
+
+  function scrollToTarget(behavior) {  // below the sticky top bar, in the part of the screen the card leaves free
+    const bar = document.querySelector("header.top");
+    const above = bar && !target.closest("header.top") ? bar.getBoundingClientRect().height + 16 : 8;
+    const below = phone() ? card.getBoundingClientRect().height + 16 : 0;
+    const free = innerHeight - above - below;
+    const r = target.getBoundingClientRect();
+    const top = r.top + scrollY - above - Math.max(0, (free - r.height) / 2);
+    window.scrollTo({ top: Math.max(0, top), behavior });
   }
 
   function keys(e) {
@@ -120,25 +142,35 @@
     const step = STEPS[i];
     target = step.target ? document.querySelector(step.target) : null;
     if (target && target.closest("details")) target.closest("details").open = true;
-    const behavior = matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
-    if (target) {  // below the sticky top bar, in the part of the screen the card leaves free
-      const bar = document.querySelector("header.top");
-      const above = bar && !target.closest("header.top") ? bar.getBoundingClientRect().height + 20 : 12;
-      const free = (innerWidth <= 640 ? innerHeight * 0.4 : innerHeight) - above;
-      const r = target.getBoundingClientRect();
-      const top = r.top + scrollY - above - Math.max(0, (free - r.height) / 2);
-      window.scrollTo({ top: Math.max(0, top), behavior });
-    } else window.scrollTo({ top: 0 });
-    card.classList.toggle("centered", !target);
+    const small = phone();
+    const body = el("div", { class: "tour-body" }, step.body());
+    const more = el("button", { type: "button", class: "tour-more", hidden: "", "aria-expanded": "false" }, say("Plus ▾", "More ▾"));
+    more.addEventListener("click", () => {
+      const open = !card.classList.contains("open");
+      card.classList.toggle("open", open);
+      more.setAttribute("aria-expanded", String(open));
+      more.textContent = open ? say("Moins ▴", "Less ▴") : say("Plus ▾", "More ▾");
+      if (target) scrollToTarget("auto");
+      place();
+    });
+    card.classList.toggle("centered", !target && !small);
+    card.classList.remove("open");
+    card.classList.toggle("tour-final", !!step.final);  // the last step shows all: its button to the demo must be in sight
     card.replaceChildren(
       el("button", { type: "button", class: "tour-x", "aria-label": say("Fermer le tour", "Close the tour"), onclick: close }, "×"),
+      small ? el("button", { type: "button", class: "tour-fold", "aria-label": say("Réduire le tour", "Fold the tour"), onclick: () => fold(true) }, "▾") : null,
       el("span", { class: "tour-n" }, say("Étape ", "Step ") + (i + 1) + " / " + STEPS.length),
-      el("h3", { id: "tour-title" }, step.title), el("div", { class: "tour-body" }, step.body()),
+      el("h3", { id: "tour-title" }, step.title), body, more,
       el("div", { class: "tour-nav" },
         i > 0 ? el("button", { type: "button", class: "btn", onclick: () => show(i - 1) }, say("← Précédent", "← Back")) : el("span"),
         el("span", { class: "tour-dots", "aria-hidden": "true" }, STEPS.map((_s, k) => el("i", { class: k === i ? "on" : "" }))),
         step.final ? el("button", { type: "button", class: "btn btn-primary", onclick: close }, say("Terminer", "Finish"))
           : el("button", { type: "button", class: "btn btn-primary", onclick: () => show(i + 1) }, i === 0 ? say("Commencer →", "Start →") : say("Suivant →", "Next →"))));
+    if (small && body.scrollHeight > body.clientHeight + 4) more.hidden = false;  // the text is longer than the 2 lines shown
+    pill.textContent = say("Étape ", "Step ") + (i + 1) + " / " + STEPS.length + " ▴";
+    const behavior = matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+    if (target) scrollToTarget(behavior);
+    else window.scrollTo({ top: 0 });
     place();
     setTimeout(place, 450);  // after the smooth scroll
     const next = card.querySelector(".tour-nav .btn-primary");
@@ -149,7 +181,9 @@
     if (card) close();
     spot = el("div", { class: "tour-spot", "aria-hidden": "true" });
     card = el("div", { class: "tour-card", role: "dialog", "aria-modal": "false", "aria-labelledby": "tour-title", "data-new": "0.60.70-site-tour" });
-    document.body.append(spot, card);
+    pill = el("button", { type: "button", class: "tour-pill", hidden: "", "aria-label": say("Rouvrir le tour guidé", "Open the guided tour again"),
+      onclick: () => fold(false) });
+    document.body.append(spot, card, pill);
     document.body.classList.add("touring");
     window.addEventListener("resize", place);
     window.addEventListener("scroll", place, { passive: true });
