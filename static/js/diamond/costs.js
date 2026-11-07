@@ -35,7 +35,8 @@
     const data = state.data, editable = A.canEdit(ctx);
     holder.append(A.pageHead(ctx, [el("span", null, "Diamond"), el("span", null, "Coûts et budget")], [
       el("a", { class: "btn btn-small", href: D.base(ctx) + "/costs/export.csv", download: "" }, "Exporter (.csv)"),
-      el("button", { type: "button", class: "btn btn-small", "data-new": "0.60.61-cost-print", onclick: () => printSummary() }, "Version investisseurs (imprimer)")]),
+      el("button", { type: "button", class: "btn btn-small", "data-new": "0.60.61-cost-print", onclick: () => printSummary() }, "Version investisseurs (imprimer)")]
+      .concat(D.costTools ? D.costTools(ctx, editable, (fresh) => { state.data = fresh; draw(holder, ctx, state, run); }) : [])),
     el("div", { class: "page-head dm-intro" }, el("h1", { "data-new": "0.60.61-costs" }, "Coûts et budget"),
       el("p", { class: "muted" }, "Combien coûte le produit, et combien coûte le projet. Les NRE (coûts uniques : outillage, moules, essais, "
         + "certification, gabarits…), le coût de chaque pièce en prototype puis en production, le temps de l'équipe (heures de "

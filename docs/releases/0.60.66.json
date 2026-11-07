@@ -1,0 +1,49 @@
+{
+  "version": "0.60.66",
+  "date": "2026-11-06",
+  "summary": {
+    "fr": "FR | EN partout : en anglais, les écrans des modules se traduisent aussi, et l'invité peut changer de langue. L'invité suit un tour guidé de 16 étapes sur le projet Rover, qui ouvre chaque artefact et le pointe à l'écran, et il lit les feuilles de temps de l'équipe. Dans Diamond → Coûts et budget : « Importer (.csv) » au format de l'export et « Copier le prompt pour l'IA ».",
+    "en": "FR | EN everywhere: in English the module screens are translated too, and guests can switch language. Guests follow a 16-step guided tour of the Rover project that opens each artefact and points at it, and they can read the team's timesheets. In Diamond → Coûts et budget: « Importer (.csv) » in the export format and « Copier le prompt pour l'IA »."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "FR | EN partout, invité compris (D-O-073)",
+      "why": "Dictionnaire d'affichage : les écrans des modules se traduisent en anglais ; l'invité garde sa langue dans son navigateur.",
+      "files": [
+        "static/js/tools/i18n_dom.js",
+        "static/i18n/en_1.json",
+        "static/js/tools/prefs.js",
+        "static/js/tools/i18n.js",
+        "tools/i18n_missing.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Tour guidé de l'invité (D-O-074)",
+      "why": "16 étapes sur les artefacts du Rover, pointées à l'écran, en français ou en anglais ; feuilles de temps de l'équipe en lecture.",
+      "files": [
+        "static/js/tools/guest_tour.js",
+        "static/js/tools/guest_tour_steps.js",
+        "static/js/guest.js",
+        "static/css/guest.css",
+        "modules/timesheet/manage.py",
+        "modules/timesheet/leave.py",
+        "static/js/timesheet/manage.js",
+        "static/js/timesheet/timesheet.js"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Coûts et budget : importer et prompt IA (D-O-075)",
+      "why": "Le CSV de l'export revient par « Importer » (vérification à blanc, rien supprimé) ; « Copier le prompt pour l'IA » tire de Diamond les instructions complètes.",
+      "files": [
+        "modules/diamond/costs_import.py",
+        "modules/diamond/costs_prompt.py",
+        "modules/diamond/costs_budget.py",
+        "modules/diamond/costs.py",
+        "static/js/diamond/costs_io.js"
+      ]
+    }
+  ]
+}

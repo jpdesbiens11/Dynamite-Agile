@@ -9,8 +9,14 @@
   let current = {};
 
   /* ---------- Apply ---------- */
+  /* 0.60.66: the guest account is shared and read-only -- its language lives in this browser only (FR | EN works) */
+  const GUEST_LANG = "da.guest.lang";
+  const isGuest = () => !!(DA.session && DA.session.user && DA.session.user.is_guest);
   DA.applyPrefs = function (prefs) {
     current = Object.assign({}, prefs || {});
+    if (isGuest()) {
+      try { current.language = localStorage.getItem(GUEST_LANG) || current.language; } catch (err) { /* private window */ }
+    }
     const html = document.documentElement;
     const set = (name, value, neutral) => {
       if (!value || value === neutral) html.removeAttribute(name); else html.setAttribute(name, value);
@@ -31,6 +37,11 @@
   DA.prefs = () => current;
 
   async function save(changes) {
+    if (isGuest()) {  // 0.60.66: nothing is written on the server for a guest; the language stays in the browser
+      if (changes.language) { try { localStorage.setItem(GUEST_LANG, changes.language); } catch (err) { /* ignored */ } }
+      DA.applyPrefs(Object.assign({}, current, changes));
+      return current;
+    }
     const res = await api.put("/api/me/prefs", changes);
     DA.applyPrefs(res.prefs);
     if (DA.session) DA.session.prefs = res.prefs;

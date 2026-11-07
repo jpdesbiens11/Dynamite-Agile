@@ -122,6 +122,9 @@
 - **0.60.57** (2026-11-06) : **install.ps1 réparé** (D-O-066) : dans `( … )`, une commande PowerShell coupée sur deux lignes finit par un accent grave.
 - **0.60.58** (2026-11-06) : **winget `--source winget`** (D-O-067) : la source du Microsoft Store expirait et bloquait Git.
 - **0.60.59** (2026-11-06) : **certificat depuis Documents** (D-O-068) : étape 5 Windows en trois sous-étapes, commande indépendante du dossier.
+- **0.60.66** (2026-11-06) : **FR | EN partout** (D-O-073, `static/js/tools/i18n_dom.js`, dictionnaire `static/i18n/en_*.json`,
+  `tools/i18n_missing.py`) ; **tour guidé de l'invité** (D-O-074, `static/js/tools/guest_tour*.js`) et Timesheet de l'équipe en lecture ;
+  Diamond → Coûts : **Importer (.csv)** et **prompt IA** (D-O-075, `modules/diamond/costs_import.py`, `costs_prompt.py`).
 - **0.60.65** (2026-11-06) : **Diamond dans la vitrine** (`tools/vitrine/template.html`) : accroche, « 11 outils », étape 09:00 de la journée
   (arbre fonctionnel, DFMEA, essai clé) ; les index des scènes suivantes décalés d'un cran dans le script.
 - **0.60.64** (2026-11-06) : **correctif de l'accès invité** : paquet 0.60.63 refusé en ligne (« DELETE FROM memberships ») ; visibilité de
