@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.75
+# Journal de mise à jour — 0.60.76
+
+- **Version :** 0.60.75 → 0.60.76 (2026-11-07)
+- **Changements :**
+  1. **Mot de passe oublié consolidé** (D-O-082) : jeton jamais dans une adresse ni au journal, mot de passe SMTP oublié quand l'hôte ou le compte change, compteurs par IP purgés.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.75
 
 - **Version :** 0.60.74 → 0.60.75 (2026-11-07)
 - **Changements :**
   1. **Formulaire de contact consolidé** (D-O-081) : plafond quotidien compté aux envois réussis, saut de ligne refusé, erreur SMTP au journal, OPTIONS derrière les mêmes barrières, message clair dans tous les navigateurs.
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.74
 

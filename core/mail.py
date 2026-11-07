@@ -162,6 +162,7 @@ def api_admin_get(ctx):
 def api_admin_put(ctx):
     cfg = load(ctx.data_dir)
     body = ctx.body
+    before = (cfg["host"].lower(), cfg["username"])
     for key, limit in (("host", 253), ("username", 254), ("sender_name", 80), ("public_url", 200)):
         if key in body:
             cfg[key] = validate.text(body, key, limit, required=False)
@@ -191,6 +192,10 @@ def api_admin_put(ctx):
     if cfg["contact_enabled"] and not (cfg["contact_to"] and cfg["contact_origin"] and cfg["host"] and cfg["sender"]):
         raise ApiError(400, "Pour ouvrir le formulaire du site : serveur SMTP, expéditeur, destinataire et adresse du site sont requis.")
     if body.get("clear_password"):
+        cfg["password"] = ""
+    # 0.60.76 (D-O-082): the saved password goes only to the server it was typed for -- a new host or account
+    # without a new password forgets it (else an admin could send it to his own server with « courriel test »)
+    if (cfg["host"].lower(), cfg["username"]) != before and not body.get("password"):
         cfg["password"] = ""
     cfg["public_url"] = cfg["public_url"].rstrip("/")
     if cfg["public_url"] and not re.match(r"^https://[A-Za-z0-9.-]+(:\d+)?$", cfg["public_url"]):

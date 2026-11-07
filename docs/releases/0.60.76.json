@@ -1,0 +1,23 @@
+{
+  "version": "0.60.76",
+  "date": "2026-11-07",
+  "summary": {
+    "fr": "Mot de passe oublié consolidé : le lien ne laisse plus de trace dans les journaux du serveur.",
+    "en": "Forgotten password hardened: the link no longer leaves a trace in the server logs."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Mot de passe oublié consolidé",
+      "why": "Revue de « Mot de passe oublié » (0.60.73) : la page vérifiait le jeton par GET /api/password/reset?token=…, écrit en clair dans data/logs/server.log et dans les journaux du reverse proxy ; quiconque les lisait dans les 30 minutes pouvait choisir le mot de passe du compte. Le jeton passe maintenant dans le corps d'un POST (/api/password/reset/check) et le journal masque token=, key=, password=, secret= et code= de toute adresse. Le mot de passe SMTP enregistré est oublié quand l'hôte ou le compte change sans nouveau mot de passe (il ne part que vers le serveur pour lequel il a été tapé). Les compteurs par adresse IP oublient les adresses anciennes.",
+      "files": [
+        "core/password_reset.py",
+        "core/router.py",
+        "core/mail.py",
+        "core/contact.py",
+        "static/js/account_mail.js",
+        "tests/test_password_reset.py"
+      ]
+    }
+  ]
+}
