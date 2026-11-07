@@ -2,19 +2,13 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Formulaire de contact du site",
-      "why": "Le site du projet a un formulaire « Une question ? Écrivez-moi » (réponse sous 7 jours ouvrables), sans adresse courriel affichée ; il passe par l'instance de démo, qui transmet la demande au destinataire réglé dans Admin → Courriel (Reply-To : la personne). Coupé par défaut, CORS pour l'adresse du site seulement.",
+      "title": "Formulaire de contact consolidé",
+      "why": "Revue du formulaire de contact (0.60.74) : seules les demandes réellement transmises comptent dans le plafond de 30 par jour (une demande refusée compte seulement pour son adresse IP) et le journal du serveur le signale une fois par jour ; un saut de ligne dans le nom ou l'organisation donne 400 au lieu de 500 ; un refus du serveur SMTP reste au journal et le visiteur reçoit un message simple ; la requête OPTIONS passe par les mêmes barrières que les autres (proxy de confiance, partage de dev) ; le site affiche « Le formulaire est indisponible pour l'instant » dans tous les navigateurs (Firefox affichait « NetworkError… »).",
       "files": [
         "core/contact.py",
-        "core/mail.py",
         "core/router.py",
-        "static/js/admin_mail.js",
         "tools/site/contact.js",
-        "tools/site/installation.html",
-        "tools/site/en/installation.html",
-        "tools/site/site.css",
-        "tools/site_text.py",
-        "tools/build_site.py"
+        "tests/test_contact.py"
       ]
     }
   ]

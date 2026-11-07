@@ -8,12 +8,19 @@ on the site) and the address of the website allowed to post (CORS: that origin o
 The person never learns the recipient's address; the e-mail has Reply-To = the person's address, so the author
 answers from his own mailbox. No confirmation e-mail is sent (the form would become a way to mail strangers).
 Spam: a hidden field (« website ») that people never fill, 3 requests per hour per IP address, 30 per day in all.
+
+0.60.75 (D-O-081): only a request actually forwarded counts toward the 30 of the day (a refused one counts for its IP
+only), and the server log says once a day when that ceiling is reached; a line break in the name or organization is a
+400, not a 500; a refusal of the SMTP server is logged and the visitor gets a plain message, never its details.
 """
+import logging
 import threading
 import time
 
 from . import audit, mail
 from .errors import ApiError
+
+log = logging.getLogger("dynamite_agile.contact")
 
 TOPICS = {"question": ("Question sur l'outil", "Question about the tool"),
           "install": ("Installation", "Installation"),
@@ -47,26 +54,64 @@ def cors_headers(data_dir, origin):
             "Cross-Origin-Resource-Policy": "cross-origin"}
 
 
+def _too_many(lang):
+    return ApiError(429, "Trop de demandes pour l'instant. Correctif : réessayez plus tard." if lang == "fr"
+                    else "Too many requests for now. Fix: try again later.")
+
+
 def _rate(ip, lang):
+    """Every request counts for its IP address (3 per hour); the day's ceiling is checked here and counted at the send."""
     now = time.time()
     with _lock:
         recent = [t for t in _hits.get(ip, []) if now - t < 3600]
-        _day[:] = [t for t in _day if now - t < 86400]
-        if len(recent) >= PER_IP_HOUR or len(_day) >= PER_DAY:
-            raise ApiError(429, "Trop de demandes pour l'instant. Correctif : réessayez plus tard." if lang == "fr"
-                           else "Too many requests for now. Fix: try again later.")
+        if len(recent) >= PER_IP_HOUR:
+            raise _too_many(lang)
         recent.append(now)
         _hits[ip] = recent
+        _day[:] = [t for t in _day if now - t < 86400]
+        if len(_day) >= PER_DAY:
+            _warn_ceiling(now)
+            raise _too_many(lang)
+
+
+def _reserve(lang):
+    """One of the day's places, taken just before the send (never by a refused request); 429 when none is left."""
+    now = time.time()
+    with _lock:
+        _day[:] = [t for t in _day if now - t < 86400]
+        if len(_day) >= PER_DAY:
+            _warn_ceiling(now)
+            raise _too_many(lang)
         _day.append(now)
+        return now
 
 
-def _field(body, key, limit, required, lang, label):
+def _release(stamp):
+    with _lock:
+        if stamp in _day:
+            _day.remove(stamp)
+
+
+_warned = [0.0]
+
+
+def _warn_ceiling(now):
+    """Called under _lock: one line in the server log per day when the form stops for everyone."""
+    if now - _warned[0] >= 86400:
+        _warned[0] = now
+        log.warning("Contact form: the ceiling of %d requests per day is reached; the form answers 429 until it frees.",
+                    PER_DAY)
+
+
+def _field(body, key, limit, required, lang, label, one_line=True):
     value = body.get(key, "")
     value = value.strip() if isinstance(value, str) else ""
     if required and not value:
         raise ApiError(400, ("Champ requis : " if lang == "fr" else "Required field: ") + label)
     if len(value) > limit:
         raise ApiError(400, ("Trop long : " if lang == "fr" else "Too long: ") + label)
+    if one_line and any(c in value for c in "\r\n\x0b\x0c\x1c\x1d\x1e\x85\u2028\u2029"):
+        raise ApiError(400, ("Une seule ligne : " if lang == "fr" else "One line only: ") + label)
     return value
 
 
@@ -87,7 +132,7 @@ def api_contact(ctx):
                        else "Invalid e-mail: an address like firstname@example.com is expected.")
     org = _field(body, "organization", 160, False, lang, "organisation" if fr else "organization")
     topic = body.get("topic") if body.get("topic") in TOPICS else "other"
-    text = _field(body, "message", 5000, True, lang, "message")
+    text = _field(body, "message", 5000, True, lang, "message", one_line=False)
     cfg = mail.load(ctx.data_dir)
     if not cfg.get("contact_to"):
         raise ApiError(503, "Formulaire de contact non configuré." if fr else "Contact form not configured.")
@@ -97,7 +142,14 @@ def api_contact(ctx):
              "Sujet / Topic : " + TOPICS[topic][0], "Langue / Language : " + lang, "Adresse IP : " + str(ctx.ip), "",
              "— Message —", "", text, "", "Répondre à ce courriel écrit directement à la personne (Reply-To).",
              "À répondre d'ici 7 jours ouvrables (promis sur le site)."]
-    mail.send(ctx.data_dir, cfg["contact_to"], subject, "\n".join(lines), reply_to=email)
+    stamp = _reserve(lang)
+    try:
+        mail.send(ctx.data_dir, cfg["contact_to"], subject, "\n".join(lines), reply_to=email)
+    except (ApiError, ValueError) as err:  # the details of the mail server stay in the log, never on the website
+        _release(stamp)
+        log.warning("Contact form: the request could not be forwarded: %s", getattr(err, "message", err))
+        raise ApiError(502, "Envoi impossible pour l'instant. Correctif : réessayez plus tard." if fr
+                       else "Could not send for now. Fix: try again later.")
     audit.log_action(ctx.conn, None, "contact_request", "contact", None, {"topic": topic, "lang": lang}, ctx.ip)
     return {"ok": True, "message": THANKS[lang]}
 

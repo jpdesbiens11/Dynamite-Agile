@@ -166,7 +166,10 @@ class AppHandler(BaseHTTPRequestHandler):
         """0.60.74 (D-O-080): the CORS OPTIONS request of the website's contact form -- that route, that origin, nothing else."""
         self._peer_cache = None
         self._cors = {}
-        if urlsplit(self.path).path == "/api/contact":
+        # 0.60.75 (D-O-081): the same gates as every other request (trusted proxy, development sharing list)
+        allowed = (not proxy.refused(self.server.app_config, self.client_address[0], self.server.use_tls)
+                   and devshare.client_allowed(self.server.app_config, self.client_address[0]))
+        if allowed and urlsplit(self.path).path == "/api/contact":
             self._cors = contact.cors_headers(self.server.data_dir, self.headers.get("Origin"))
         self.send_response(204 if self._cors else 403)
         for name, value in self._cors.items():
