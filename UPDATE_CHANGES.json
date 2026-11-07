@@ -2,13 +2,11 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Le reste de l'interface en anglais (D-O-073)",
-      "why": "Un balayage de 280 écrans (invité et admin) a relevé les textes encore en français : descriptions en haut des pages, aide, Diamond, objectifs, Timesheet ; ~700 traductions et des gabarits pour les phrases avec des nombres. Il reste 1 texte.",
+      "title": "Tour guidé : le pointeur en anglais",
+      "why": "En anglais, la page est traduite : le pointeur du tour cherche maintenant le texte anglais de l'artefact (16 étapes sur 16 trouvées) ; guillemets anglais dans les textes du tour.",
       "files": [
-        "static/i18n/en_1.json",
-        "static/js/tools/i18n_dom.js",
-        "tools/i18n_crawl.py",
-        "tools/i18n_missing.py"
+        "static/js/tools/guest_tour.js",
+        "static/js/tools/guest_tour_steps.js"
       ]
     }
   ]
