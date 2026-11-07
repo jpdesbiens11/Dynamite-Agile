@@ -64,6 +64,7 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 
 ## Relais (fin de 0.60.67)
 
+- Balayage FR | EN (0.60.67) : serveur de dev sur le port 8091, puis `python tools/i18n_crawl.py` (Playwright) liste les textes français encore affichés, avec leur original ; traduire, puis `tools/i18n_missing.py --merge`.
 - Contenu de la démo en anglais (D-O-073, 0.60.67) : quand le Rover ou la bibliothèque de référence change, démarrer un serveur neuf (`--dev-admin --data-dir DIR`), puis `python tools/i18n_demo.py DIR` liste les textes à traduire et `--merge` les ajoute. Un texte modifié par une équipe reste dans sa langue (correspondance exacte seulement).
 
 - FR | EN (D-O-073) : à chaque version, `python tools/i18n_missing.py` liste les libellés pas encore au dictionnaire (240 à la sortie de 0.60.66, surtout de longs textes d'aide) ; `--merge fichier.json` les ajoute. Les messages d'erreur du serveur et le contenu des Spaces restent en français.
