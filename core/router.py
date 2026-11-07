@@ -15,7 +15,7 @@ from http import cookies
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, unquote, urlsplit
 
-from . import access_rules, admin, auth, guest, backup, bot, bot_admin, update_online, proxy, static_cache, baseline_view, baselines, dashboard, datapack, db, devshare, members, mentions, modules, objectives, platform_config, prefs, profile, restorepoints, reviews, team, search, session_api, sitemove, spacecard, spacecopy, stamp, starter_apply, tls, ui_audit, update
+from . import access_rules, admin, auth, guest, mail, password_reset, backup, bot, bot_admin, update_online, proxy, static_cache, baseline_view, baselines, dashboard, datapack, db, devshare, members, mentions, modules, objectives, platform_config, prefs, profile, restorepoints, reviews, team, search, session_api, sitemove, spacecard, spacecopy, stamp, starter_apply, tls, ui_audit, update
 from .errors import ApiError
 
 # D-B-058: no write without the person's 3-letter traceability key, except to set it (and privacy events).
@@ -98,6 +98,7 @@ ROUTES = [(method, re.compile(pattern), handler, access)
           + members.ROUTES + prefs.ROUTES + backup.ROUTES + dashboard.ROUTES + platform_config.ROUTES + objectives.ROUTES + profile.ROUTES + reviews.ROUTES + team.ROUTES + mentions.ROUTES + update.ROUTES + tls.ROUTES
           + datapack.ROUTES + sitemove.ROUTES + spacecopy.ROUTES + spacecard.ROUTES + restorepoints.ROUTES + baselines.ROUTES
           + starter_apply.ROUTES + bot.ROUTES + bot_admin.ROUTES + update_online.ROUTES + guest.ROUTES
+          + mail.ROUTES + password_reset.ROUTES  # 0.60.73 (D-O-079)
           + modules.registered_routes()]
 
 

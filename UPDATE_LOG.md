@@ -1,11 +1,25 @@
-# Journal de mise à jour — 0.60.71
+# Journal de mise à jour — 0.60.73
+
+- **Version :** 0.60.72 → 0.60.73 (2026-11-07)
+- **Changements :**
+  1. **Mot de passe oublié par courriel** (D-O-079) : lien à usage unique de 30 minutes, courriel par compte, Admin → Courriel (SMTP, coupé par défaut).
+- **Base de données :** ['Migration core 19 : users.email (unique si rempli), table password_resets (additive).']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.72
+
+- **Version :** 0.60.71 → 0.60.72 (2026-11-07)
+- **Changements :**
+  1. **Tour guidé du site sur téléphone** (D-O-078) : barre compacte, « Plus », pastille repliée, bouton de la démo au lieu du QR.
+- **Base de données :** ['Aucun changement de schéma.']
+
+### Journal de mise à jour — 0.60.71
 
 - **Version :** 0.60.70 → 0.60.71 (2026-11-07)
 - **Changements :**
   1. **Le projet sur son propre domaine** (D-O-077) : site https://dynamiteagile.ca, démo https://demo.dynamiteagile.ca ; `install.sh --traefik nouvelle ancienne` garde l'ancienne adresse.
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.70
 

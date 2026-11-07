@@ -25,6 +25,8 @@ class SiteTourTest(unittest.TestCase):
                 self.assertIn("data-tour-start", page)
                 self.assertIn("da.site.tour.seen", page)      # the tour script
                 self.assertIn("qrCanvas", page)                # the QR drawn in the page
+                for part in ("tour-pill", "tour-more", "tour-fold", "tour-final"):  # 0.60.72: the phone bar
+                    self.assertIn(part, page)
                 self.assertEqual(page.count('href="{}"'.format(build_site.DEMO_URL)), 1)
 
     def test_tour_targets_exist_in_the_page(self):

@@ -5,14 +5,14 @@ rejected non-administrators before these functions run.
 """
 import re
 
-from . import audit, auth, db, prefs, validate
+from . import audit, auth, db, mail, prefs, validate
 from .errors import ApiError
 from .permissions import VALID_ROLES
 
 USERNAME_RE = re.compile(r"^[a-z0-9][a-z0-9._-]{1,31}$")
 PROJECT_KEY_RE = re.compile(r"^[A-Z][A-Z0-9]{1,9}$")
 USER_COLUMNS = ("id, username, display_name, is_admin, is_active, must_change_password, created_at, "
-                "title, expertise, route_when, study_profile")
+                "title, expertise, route_when, study_profile, email")
 
 
 # --------------------------------------------------------------------------
@@ -62,14 +62,17 @@ def create_user(ctx):
     display_name = validate.text(ctx.body, "display_name", 80)
     is_admin = validate.boolean(ctx.body, "is_admin", default=False)
     profile = validate.text(ctx.body, "study_profile", 80, required=False)  # 0.60.01
+    email = mail.clean_email(ctx.body.get("email"))  # 0.60.73 (D-O-079)
+    if mail.email_taken(ctx.conn, email, 0):
+        raise ApiError(409, "Ce courriel est déjà celui d'un autre compte.")
     if ctx.conn.execute("SELECT 1 FROM users WHERE username = ?", (username,)).fetchone():
         raise ApiError(409, "Cet identifiant existe déjà.")
 
     temp = auth.generate_temp_password()
     cursor = ctx.conn.execute(
         "INSERT INTO users (username, display_name, password_hash, is_admin, is_active, "
-        "must_change_password, created_at, study_profile) VALUES (?, ?, ?, ?, 1, 1, ?, ?)",
-        (username, display_name, auth.hash_password(temp), int(is_admin), db.utc_now(), profile))
+        "must_change_password, created_at, study_profile, email) VALUES (?, ?, ?, ?, 1, 1, ?, ?, ?)",
+        (username, display_name, auth.hash_password(temp), int(is_admin), db.utc_now(), profile, email))
     prefs.ensure_initials(ctx.conn, cursor.lastrowid)  # 0.60.19 (D-O-030)
     audit.log_action(ctx.conn, ctx.user["id"], "user_created", "user", cursor.lastrowid,
                      {"username": username, "is_admin": is_admin}, ctx.ip)
@@ -88,6 +91,10 @@ def update_user(ctx):
                          ("study_profile", 80)):  # 0.60.01: « Profil d'études »
         if field in ctx.body:
             changes[field] = validate.text(ctx.body, field, limit, required=False)
+    if "email" in ctx.body:  # 0.60.73 (D-O-079): the address of « Mot de passe oublié ? »
+        changes["email"] = mail.clean_email(ctx.body.get("email"))
+        if mail.email_taken(ctx.conn, changes["email"], user_id):
+            raise ApiError(409, "Ce courriel est déjà celui d'un autre compte.")
     for flag in ("is_admin", "is_active"):
         if flag in ctx.body:
             value = validate.boolean(ctx.body, flag)

@@ -509,9 +509,28 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .tour-demo { display: flex; align-items: center; gap: 1rem; margin-top: .6rem; }
 .tour-demo .tour-qr-img { width: 130px; flex: none; }
 .tour-demo .btn { margin-bottom: .4rem; }
+.tour-more { display: inline-block; margin: .1rem 0 0; padding: 0; border: 0; background: none; color: var(--blue); font: 650 .9rem var(--sans); cursor: pointer; }
+.tour-more[hidden], .tour-pill[hidden], .tour-card[hidden] { display: none; }
+.tour-fold { position: absolute; top: .45rem; right: 2.5rem; border: 0; background: none; font-size: 1.2rem; line-height: 1; cursor: pointer; color: var(--ink-2); }
+.tour-pill { position: fixed; z-index: 91; right: .8rem; bottom: calc(.8rem + env(safe-area-inset-bottom, 0px)); padding: .55rem .95rem;
+  border: 2px solid var(--ink); border-radius: 999px; background: var(--y); color: var(--ink); font: 700 .95rem var(--sans);
+  box-shadow: 3px 3px 0 rgba(38, 50, 63, .25); cursor: pointer; }
+body.tour-folded .tour-spot { display: none; }
+/* 0.60.72 (D-O-078): on a phone, a slim bar at the bottom; the spotlight stays in the screen above it */
 @media (max-width: 640px) {
-  .tour-card, .tour-card.centered { right: .5rem; left: .5rem; bottom: .5rem; width: auto; transform: none; max-height: 60vh; }
-  .tour-demo { flex-direction: column; text-align: center; }
+  .tour-card, .tour-card.centered { left: 0; right: 0; bottom: 0; width: auto; transform: none; max-height: 36vh;
+    padding: .65rem .9rem calc(.65rem + env(safe-area-inset-bottom, 0px)); border-width: 2px 0 0; border-radius: 16px 16px 0 0;
+    box-shadow: 0 -4px 16px rgba(38, 50, 63, .25); }
+  .tour-card.open { max-height: 72vh; }
+  .tour-card h3 { margin: .1rem 4.2rem .25rem 0; font-size: 1.05rem; }
+  .tour-card .tour-body { max-height: 2.9em; overflow: hidden; line-height: 1.45; font-size: .95rem; }
+  .tour-card.open .tour-body, .tour-card.tour-final .tour-body { max-height: none; }
+  .tour-card.tour-final { max-height: 60vh; }
+  .tour-card .tour-body p { margin: 0 0 .3rem; }
+  .tour-nav { margin-top: .55rem; }
+  .tour-nav .btn { padding: .45rem .8rem; font-size: .9rem; }
+  .tour-demo { flex-direction: column; align-items: stretch; text-align: center; }
+  .tour-demo .btn { justify-content: center; width: 100%; }
 }
 body.touring header.top, body.touring .progress-bar { z-index: 80; }  /* dimmed with the rest of the page */
 @media (prefers-reduced-motion: reduce) { .tour-spot { transition: none; } }
@@ -585,7 +604,7 @@ body.touring header.top, body.touring .progress-bar { z-index: 80; }  /* dimmed 
   <h2>All versions</h2>
   <ol id="ver-list" class="stepper ver-list"></ol>
 </main>
-<footer>DynamiteAgile · free software under the MIT licence · version 0.60.71 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>DynamiteAgile · free software under the MIT licence · version 0.60.73 · Jean-Philippe Desbiens · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */

@@ -9,7 +9,7 @@
   const TEXT = {
     fr: {
       "nav.debuter": "Débuter", "nav.dashboard": "Dashboard", "nav.home": "Accueil", "nav.admin": "Admin", "nav.user": "User",
-      "menu.settings": "Paramètres", "menu.members": "Membres de mes Spaces", "menu.objectives": "Mes objectifs", "menu.password": "Changer mon mot de passe",
+      "menu.settings": "Paramètres", "menu.members": "Membres de mes Spaces", "menu.objectives": "Mes objectifs", "menu.password": "Changer mon mot de passe", "menu.email": "Courriel de récupération",
       "menu.admin": "Administration", "menu.about": "À propos", "menu.logout": "Se déconnecter",
       "tools.search": "Rechercher…", "tools.auditList": "Liste Audit", "tools.audit": "Audit",
       "tools.mine": "Mes éléments", "tools.mineOn": "Filtre « Mes éléments » actif : seuls vos tickets et tasks s'affichent. Cliquez pour tout voir.",
@@ -36,7 +36,7 @@
     },
     en: {
       "nav.debuter": "Get started", "nav.dashboard": "Dashboard", "nav.home": "Home", "nav.admin": "Admin", "nav.user": "User",
-      "menu.settings": "Settings", "menu.members": "My projects' members", "menu.objectives": "My objectives", "menu.password": "Change my password",
+      "menu.settings": "Settings", "menu.members": "My projects' members", "menu.objectives": "My objectives", "menu.password": "Change my password", "menu.email": "Recovery e-mail",
       "menu.admin": "Administration", "menu.about": "About", "menu.logout": "Sign out",
       "tools.search": "Search…", "tools.auditList": "Audit list", "tools.audit": "Audit",
       "tools.mine": "My items", "tools.mineOn": "« My items » filter on: only your tickets and tasks are shown. Click to see everything.",
