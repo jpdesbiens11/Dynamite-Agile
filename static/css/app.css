@@ -213,6 +213,9 @@ input:focus, select:focus, textarea:focus {
 .form-row > .btn, .form-row > .check { margin-bottom: .9rem; }
 .check { display: inline-flex; align-items: center; gap: .4rem; padding: .5rem 0; white-space: nowrap; }
 .form-error { min-height: 1.3em; margin: .2rem 0 .7rem; color: var(--danger); font-size: .9rem; }
+.form-ok { margin: .2rem 0 .7rem; color: var(--ok); font-size: .9rem; }  /* 0.60.73 (D-O-079): « Mot de passe oublié » sent */
+.form-ok:empty { display: none; }
+.muted.small { font-size: .78rem; }
 .form-actions { display: flex; justify-content: flex-end; gap: .5rem; margin-top: .5rem; }
 
 /* ---------- Tables ---------- */

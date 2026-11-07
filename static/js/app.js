@@ -101,6 +101,8 @@
         "Nouveau ? Découvrez la plateforme en 3 minutes")));  // D-B-087: the showcase page
     const guestEntry = DA.guestEntry(session.about, async (me) => { applyMe(me); route(); });  // 0.60.63 (D-O-072)
     if (guestEntry) submit.after(guestEntry);
+    const forgot = DA.forgotLink && DA.forgotLink(session.about);  // 0.60.73 (D-O-079): « Mot de passe oublié ? »
+    if (forgot) submit.after(forgot);
 
     /* D-B-087: the sign-in page shows the notebook sketch being drawn (default theme) */
     const hero = el("section", { class: "sk-hero", "aria-hidden": "true" },
@@ -260,6 +262,7 @@
       el("hr"),
       el("hr"),  // 0.60.48 (D-O-057): the themes are in Paramètres only
       guest ? null : menuItem(t("menu.password"), openPasswordDialog),
+      guest || !DA.accountMail ? null : menuItem(t("menu.email"), DA.accountMail.open),  // 0.60.73 (D-O-079)
       menuItem(t("menu.about"), showAbout),
       menuItem("Découvrir la plateforme (vitrine)", () => { window.open("/apps/vitrine/index.html", "_blank", "noopener"); }),  // D-B-087
       el("hr"),
@@ -470,6 +473,8 @@
     window.addEventListener("hashchange", route);
 
     try { session.about = await api.get("/api/about"); } catch (err) { /* keep defaults */ }
+    const reset = DA.resetToken && DA.resetToken();  // 0.60.73 (D-O-079): the link of « Mot de passe oublié ? »
+    if (reset) { await DA.showReset(root, reset, companyBrand, () => showLogin()); return; }
     try {
       applyMe(await api.get("/api/me"));
     } catch (err) {

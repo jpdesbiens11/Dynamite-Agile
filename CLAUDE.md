@@ -129,6 +129,9 @@
   personnalisé), démo https://demo.dynamiteagile.ca ; `install.sh --traefik <nouvelle> <ancienne…>` sert aussi les anciennes adresses.
 - **0.60.72** (2026-11-07) : **tour du site sur téléphone** (D-O-078, `tools/site/tour.js`) : barre compacte en bas, « Plus », pastille
   « Étape n / 6 » (▾), zone éclairée au-dessus ; pas de QR sur le téléphone. Accueil du site : `home.html`, l'adresse seule ouvre l'installation.
+- **0.60.73** (2026-11-07) : **mot de passe oublié par courriel** (D-O-079, `core/mail.py`, `core/password_reset.py`,
+  `static/js/account_mail.js`, `admin_mail.js`) : lien à usage unique (30 min, `#reset=`), `users.email` unique, Admin → Courriel (SMTP dans
+  `data/mail.json` 0600, coupé par défaut) ; migration core 19. Seule sortie réseau du serveur.
 - **0.60.68** (2026-11-06) : **le reste de l'interface en anglais** (D-O-073) : balayage de 280 écrans (`tools/i18n_crawl.py`,
   `DA.i18nScan`), ~700 traductions, gabarits « # » pour les nombres.
 - **0.60.67** (2026-11-06) : **le Rover en anglais** (D-O-073) : le contenu affiché en lecture se traduit aussi (dictionnaire de la démo
@@ -196,8 +199,8 @@
   `core.audit.log_action(...)`.
 - **Aucune dépendance externe** : bibliothèque standard Python uniquement,
   aucun CDN, aucune police externe, aucun appel réseau sortant depuis le
-  serveur ou la page. Chaque équipe l'héberge sur son propre serveur : le code
-  se comporte comme sur un réseau fermé.
+  serveur ou la page (seule exception : le courriel de « Mot de passe oublié », vers le SMTP réglé par l'admin, D-O-079).
+  Chaque équipe l'héberge sur son propre serveur : le code se comporte comme sur un réseau fermé.
 - **Exports** : un fichier construit à partir des données part en `RawFile` ; le noyau le marque de sa révision et l'inscrit au
   registre (D-B-129). Un fichier déposé par quelqu'un et renvoyé tel quel : `RawFile(..., export=False)`.
 - **Transport** : jamais de TLS, de cookie ni d'en-tête de sécurité dans un module ; le noyau (`core/tls.py`,
@@ -208,7 +211,7 @@
 
 ## Réservé, ne pas construire avant qu'on le demande explicitement
 
-Notifications courriel, agent de supervision, miroir chiffré des fichiers. Si une tâche semble s'en approcher,
+Notifications courriel (au-delà de « Mot de passe oublié », D-O-079), agent de supervision, miroir chiffré des fichiers. Si une tâche semble s'en approcher,
 signaler la question plutôt que de commencer.
 
 ## Système de conception (une fois qu'on attaque l'UI de Dynamite/Agile)

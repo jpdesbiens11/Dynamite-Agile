@@ -9,8 +9,8 @@
   const GROUPS = [["Comptes", [["users", "Utilisateurs"], ["rights", "Droits"], ["rules", "Règles d'accès"], ["guest", "Accès invité"]]],
     ["Spaces", [["start", "Commencer"], ["projects", "Spaces"], ["setup", "Setup des Spaces"]]],
     ["Plateforme", [["update", "Update et sauvegardes"], ["revisions", "Révisions"], ["transport", "Sécurité réseau"],
-      ["privacy", "Confidentialité"], ["audit", "Journal d'audit"], ["bob", "Bob (agent IA)"]]]];
-  const NEW = { start: "0.60.07-starter", update: "0.50.1-admin-maintenance", transport: "0.46.0-admin-transport", revisions: "0.50.11-admin-revisions", bob: "0.60.36-bob", guest: "0.60.63-guest" };  // D-A-049 badges
+      ["privacy", "Confidentialité"], ["audit", "Journal d'audit"], ["bob", "Bob (agent IA)"], ["mail", "Courriel"]]]];
+  const NEW = { start: "0.60.07-starter", update: "0.50.1-admin-maintenance", transport: "0.46.0-admin-transport", revisions: "0.50.11-admin-revisions", bob: "0.60.36-bob", guest: "0.60.63-guest", mail: "0.60.73-mail" };  // D-A-049 badges
   const MOVED = { config: "config", backups: "data" };  // old addresses -> part of « Update et sauvegardes »
   const SECTIONS = GROUPS.flatMap(([, items]) => items);
 
@@ -165,6 +165,7 @@
     const username = el("input", { type: "text", maxlength: 32, required: true, autocomplete: "off", placeholder: "prenom.nom" });
     const displayName = el("input", { type: "text", maxlength: 80, required: true, autocomplete: "off" });
     const isAdmin = el("input", { type: "checkbox" });
+    const email = el("input", { type: "text", inputmode: "email", spellcheck: "false", maxlength: 254, autocomplete: "off", placeholder: "prenom@exemple.ca", "data-new": "0.60.73-user-email" });
     const profile = el("input", { type: "text", maxlength: 80, autocomplete: "off", list: "da-study-profiles-new",
       placeholder: "ex. Génie mécanique", "data-new": "0.60.01-study-profile" });
     const form = el("form", {
@@ -173,7 +174,7 @@
         ev.preventDefault();
         const result = await run(() => api.post("/api/admin/users", {
           username: username.value.trim(), display_name: displayName.value.trim(), is_admin: isAdmin.checked,
-          study_profile: profile.value.trim(),
+          study_profile: profile.value.trim(), email: email.value.trim(),
         }), null, refresh);
         if (result) showTempPassword(result.user.username, result.temp_password);
       },
@@ -183,6 +184,7 @@
         field("Identifiant", username),
         field("Nom affiché", displayName),
         field("Profil d'études", profile),
+        field("Courriel", email),
         el("datalist", { id: "da-study-profiles-new" }, PROFILES.map((p) => el("option", { value: p }))),
         el("label", { class: "check" }, isAdmin, "Administrateur"),
         el("button", { type: "submit", class: "btn btn-primary" }, "Ajouter l'utilisateur")));
@@ -196,7 +198,7 @@
 
       return el("tr", { class: user.is_active ? null : "row-inactive" },
         el("td", { class: "code" }, user.username),
-        el("td", null, user.display_name),
+        el("td", null, user.display_name, user.email ? el("div", { class: "muted small", "data-new": "0.60.73-user-email" }, user.email) : null),
         el("td", null, user.study_profile || el("span", { class: "muted" }, "—")),
         el("td", null, user.is_admin ? badge("Admin", "admin") : badge("Membre", "reader")),
         el("td", null, status),
@@ -204,6 +206,7 @@
           el("button", { type: "button", class: "btn btn-small", onclick: () => renameUser(user, refresh) }, "Renommer"),
           el("button", { type: "button", class: "btn btn-small", "data-new": "0.60.01-study-profile-edit",
             onclick: () => profileUser(user, refresh) }, "Profil…"),
+          DA.adminMail ? DA.adminMail.emailButton(user, refresh) : null,  // 0.60.73 (D-O-079)
           DA.adminExtra ? DA.adminExtra.userActions(user, data.users, refresh) : null,
           el("button", {
             type: "button", class: "btn btn-small", disabled: self, title: selfTitle,
