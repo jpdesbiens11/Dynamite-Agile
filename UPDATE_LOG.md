@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.68
+# Journal de mise à jour — 0.60.69
+
+- **Version :** 0.60.68 → 0.60.69 (2026-11-07)
+- **Changements :**
+  1. **Tour guidé : le pointeur en anglais** : il cherche le texte traduit de l'artefact.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.68
 
 - **Version :** 0.60.67 → 0.60.68 (2026-11-06)
 - **Changements :**
   1. **Le reste de l'interface en anglais** (D-O-073) : balayage de 280 écrans, ~700 traductions, gabarits pour les nombres.
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.67
 
