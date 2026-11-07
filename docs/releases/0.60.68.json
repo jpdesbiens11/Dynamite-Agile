@@ -1,0 +1,21 @@
+{
+  "version": "0.60.68",
+  "date": "2026-11-06",
+  "summary": {
+    "fr": "Le reste de l'interface en anglais : les descriptions en haut des pages, l'aide, Diamond, les objectifs et la feuille de temps se traduisent aussi ; les phrases avec des nombres (« ligne 13 », une date) suivent.",
+    "en": "The rest of the interface in English: page descriptions, help, Diamond, objectives and timesheet are translated too; sentences with numbers (« row 13 », a date) follow."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Le reste de l'interface en anglais (D-O-073)",
+      "why": "Un balayage de 280 écrans (invité et admin) a relevé les textes encore en français : descriptions en haut des pages, aide, Diamond, objectifs, Timesheet ; ~700 traductions et des gabarits pour les phrases avec des nombres. Il reste 1 texte.",
+      "files": [
+        "static/i18n/en_1.json",
+        "static/js/tools/i18n_dom.js",
+        "tools/i18n_crawl.py",
+        "tools/i18n_missing.py"
+      ]
+    }
+  ]
+}

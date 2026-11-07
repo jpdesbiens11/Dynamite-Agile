@@ -1,12 +1,19 @@
-# Journal de mise à jour — 0.60.67
+# Journal de mise à jour — 0.60.68
+
+- **Version :** 0.60.67 → 0.60.68 (2026-11-06)
+- **Changements :**
+  1. **Le reste de l'interface en anglais** (D-O-073) : balayage de 280 écrans, ~700 traductions, gabarits pour les nombres.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.67
 
 - **Version :** 0.60.66 → 0.60.67 (2026-11-06)
 - **Changements :**
   1. **Le Rover en anglais** (D-O-073) : le contenu de la démo se traduit à l'affichage (dictionnaire `static/i18n/demo_en_*.json`).
   2. **Tour guidé** : la carte suit le bouton FR | EN de la barre du haut.
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.66
 
