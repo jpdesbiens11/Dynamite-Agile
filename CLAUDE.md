@@ -142,6 +142,8 @@
   masqués au journal (`LOG_SECRET`), mot de passe SMTP oublié quand l'hôte ou le compte change, compteurs par IP purgés (`prune`).
 - **0.60.77** (2026-11-07) : **tour guidé du site sur téléphone, suite** (D-O-083, `tools/site/tour.js`, `site.css`) : la barre suit
   l'écran (téléphone tourné, étape changée pendant que la carte est réduite) : « Plus » et « ▾ » recalculés (`fit()`).
+- **0.60.78** (2026-11-07) : **adresses en plus derrière Traefik vérifiées** (D-O-084, `deploy/install_traefik.sh`) : chaque adresse
+  passée après la principale à `--traefik` doit répondre dans le DNS, comme la principale.
 - **0.60.68** (2026-11-06) : **le reste de l'interface en anglais** (D-O-073) : balayage de 280 écrans (`tools/i18n_crawl.py`,
   `DA.i18nScan`), ~700 traductions, gabarits « # » pour les nombres.
 - **0.60.67** (2026-11-06) : **le Rover en anglais** (D-O-073) : le contenu affiché en lecture se traduit aussi (dictionnaire de la démo

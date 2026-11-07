@@ -38,6 +38,8 @@ echo "  DNS : $(getent hosts "$DOMAIN" | awk '{print $1}' | tr '\n' ' ')"
 RULE="Host(\`$DOMAIN\`)"
 for extra in $ALSO; do
   case "$extra" in *[!A-Za-z0-9.-]*|"") fail "$(t "adresse invalide : $extra" "invalid address: $extra")" ;; esac
+  # 0.60.78 (D-O-084): checked like the main address -- a typo in the old address was accepted and its links stayed broken
+  getent hosts "$extra" >/dev/null || fail "$(t "l'adresse $extra ne répond pas. Correctif : vérifiez son orthographe et son enregistrement DNS vers ce serveur, ou retirez-la de la commande, puis relancez." "the address $extra does not answer. Fix: check its spelling and its DNS record to this server, or remove it from the command, then run again.")"
   RULE="$RULE || Host(\`$extra\`)"
   echo "  $(t "Aussi servie :" "Also served:") $extra"
 done

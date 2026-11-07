@@ -482,6 +482,10 @@ Le prompt `starter.md` passe en 0.60.18.
 **Contexte :** la Storyline était au brief (§4) : illustrer l'usage d'un produit, scène par scène.
 **Décision (choix de JP, un à la fois) :** pictogrammes intégrés (pas d'images déposées) ; dans Diamond, avant l'arbre fonctionnel ; aucun lien imposé avec les fonctions, c'est un exercice de divergence en équipe ; un assistant IA la lit pour proposer l'arbre et le reste de Diamond par un bouton « Copier pour l'IA » (0.60.52). Les 39 pictogrammes sont générés comme les icônes (`tools/story_pictos.py`, deux sprites, mêmes clés), sans texte ; l'étiquette est du HTML. Une scène : titre, ce qui se passe, notes en vrac, pictogrammes (clé, x / y en %, taille, miroir, étiquette) ; 40 scènes et 30 pictogrammes par scène au plus.
 
+### D-O-084 — Adresses en plus derrière Traefik vérifiées (2026-11-07, revue du code demandée par JP)
+**Contexte :** revue de D-O-077. `install_traefik.sh` vérifiait l'adresse principale avec `getent hosts`, mais les adresses en plus (l'ancienne adresse gardée pour les liens déjà partagés) seulement sur leurs caractères : une faute de frappe passait sans message et ses liens restaient cassés.
+**Décision :** chaque adresse en plus passe le même contrôle DNS que la principale ; sinon l'installation s'arrête avant d'écrire la configuration ou le conteneur, avec le correctif à appliquer.
+
 ### D-O-083 — Tour guidé sur téléphone : la barre suit l'écran (2026-11-07, revue du code demandée par JP)
 **Contexte :** revue de D-O-078. La barre du bas (2 lignes, « Plus », « ▾ ») était décidée une seule fois, à l'affichage de l'étape : un téléphone tourné de paysage à portrait gardait le texte coupé sans « Plus » ni « ▾ », et une étape changée au clavier pendant que la carte était en pastille mesurait un texte caché (hauteur 0), donc jamais de « Plus » après réouverture.
 **Décision :** le bouton « ▾ » est toujours dans la carte et ne s'affiche que sur téléphone (CSS) ; `fit()` recalcule « Plus » et la carte centrée à chaque `resize`, à chaque changement de `matchMedia("(max-width: 640px)")` et quand la carte se rouvre.

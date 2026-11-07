@@ -1,0 +1,19 @@
+{
+  "version": "0.60.78",
+  "date": "2026-11-07",
+  "summary": {
+    "fr": "Installation derrière Traefik : chaque adresse gardée est vérifiée dans le DNS.",
+    "en": "Installation behind Traefik: every address kept is checked in the DNS."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Adresses en plus derrière Traefik vérifiées",
+      "why": "Revue de « dynamiteagile.ca » (0.60.71) : install.sh --traefik <nouvelle> <ancienne…> vérifiait seulement l'adresse principale dans le DNS ; une adresse en plus mal écrite ou sans enregistrement DNS était acceptée sans message et ses liens ne marchaient pas. Chaque adresse en plus est maintenant vérifiée comme la principale ; l'installation s'arrête avant de toucher à quoi que ce soit si l'une ne répond pas.",
+      "files": [
+        "deploy/install_traefik.sh",
+        "tests/test_traefik_aliases.py"
+      ]
+    }
+  ]
+}

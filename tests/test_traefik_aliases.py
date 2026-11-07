@@ -54,6 +54,17 @@ class TraefikAliasesTest(unittest.TestCase):
         self.assertEqual(done.returncode, 0, done.stdout + done.stderr)
         self.assertIn("rule=Host(`demo.dynamiteagile.ca`)\n", compose)
 
+    def test_extra_address_without_dns_refused(self):  # 0.60.78 (D-O-084): checked like the main address
+        stub = STUBS["getent"]
+        STUBS["getent"] = '#!/bin/sh\ncase "$2" in *nodns*) exit 2 ;; esac\necho "203.0.113.10 $2"\n'
+        try:
+            done, compose = self.run_install("demo.dynamiteagile.ca", "nodns.exemple.ca")
+        finally:
+            STUBS["getent"] = stub
+        self.assertNotEqual(done.returncode, 0)
+        self.assertIn("nodns.exemple.ca", done.stdout + done.stderr)
+        self.assertEqual(compose, "")
+
     def test_bad_extra_address_refused(self):
         done, compose = self.run_install("demo.dynamiteagile.ca", "x`) || PathPrefix(`/")
         self.assertNotEqual(done.returncode, 0)
