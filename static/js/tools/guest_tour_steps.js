@@ -1,0 +1,58 @@
+/* The guest's guided tour (0.60.66, D-O-074): the storyline of the Rover team, step by step, each step opening the
+   real artefact of the DEMO Space and pointing at it (DA.pointTo). Text in French and English; the step's `focus` is
+   the text the pointer looks for on the page (French: the demo content is written in French). Engine: guest_tour.js.
+   A step without `hash` stays on the current page. Keep the order of a real project: need → function → requirement
+   → decision → plan → sprint → change → test → cost → hours. */
+(function () {
+  "use strict";
+  DA.guestTourSteps = [
+    { id: "hello", hash: "#/dynamite/DEMO/page/1", focus: "ROVER — Bienvenue dans la démo",
+      fr: ["Bienvenue dans la mine", "Voici le Rover : un petit robot éducatif qui roule seul et évite les obstacles. Nina, Léa, Hugo et Alexis le mènent de l'idée au prototype, en 15 semaines. Nous sommes à la semaine 15 : tout ce que vous allez voir est leur vrai travail, en lecture seule. Le tour dure environ 5 minutes."],
+      en: ["Welcome to the mine", "Meet the Rover: a small educational robot that drives itself and avoids obstacles. Nina, Léa, Hugo and Alexis take it from idea to prototype in 15 weeks. We are at week 15: everything you will see is their real work, read-only. The tour takes about 5 minutes."] },
+    { id: "story", hash: "#/diamond/DEMO/story", focus: "La découverte",
+      fr: ["1. Raconter l'usage — Diamond → Storyline", "Avant de dessiner une pièce, l'équipe raconte l'usage du produit, scène par scène : Sam ouvre la boîte, assemble, programme, fait rouler. « Copier pour l'IA » envoie cette histoire à un assistant IA, qui propose un premier arbre de fonctions en quelques secondes."],
+      en: ["1. Tell the use — Diamond → Storyline", "Before drawing a single part, the team tells how the product is used, scene by scene: Sam opens the box, builds, codes, drives. « Copier pour l'IA » sends this story to an AI assistant, which drafts a first function tree in seconds."] },
+    { id: "need", hash: "#/goldmine/DEMO/issue/18", focus: "BES-1",
+      fr: ["2. Le besoin du client — Goldmine", "BES-1 : l'étudiant veut un robot qui roule seul sans foncer dans les obstacles. Chaque besoin a sa source et son Need Status ; les requirements en dérivent."],
+      en: ["2. The customer's need — Goldmine", "BES-1: the student wants a robot that drives itself without crashing into obstacles. Each need has its source and Need Status; requirements derive from it."] },
+    { id: "tree", hash: "#/diamond/DEMO/ftree", focus: "Se déplacer seul en évitant les obstacles",
+      fr: ["3. Les fonctions — Diamond → Arbre fonctionnel", "La fonction primaire, puis le « comment » de chaque branche : 39 fonctions numérotées pour toujours (F1, F2…). On conçoit des fonctions avant de choisir des pièces ; la Structure fonctionnelle montre ensuite les flux d'énergie, de matière et d'information."],
+      en: ["3. The functions — Diamond → Function tree", "The primary function, then the « how » of each branch: 39 functions numbered for good (F1, F2…). Functions come before parts; the Functional structure then shows the flows of energy, material and information."] },
+    { id: "req", hash: "#/goldmine/DEMO/issue/27", focus: "REQ-1",
+      fr: ["4. Un requirement vérifiable — Goldmine", "REQ-1 : détecter un obstacle de 10 cm de haut ou plus. Une phrase mesurable, une Verification Method, des Acceptance Criteria et l'essai qui le prouve. Status : Verified."],
+      en: ["4. A verifiable requirement — Goldmine", "REQ-1: detect an obstacle 10 cm high or more. One measurable sentence, a Verification Method, Acceptance Criteria and the test that proves it. Status: Verified."] },
+    { id: "kt", hash: "#/tools/DEMO/kt", focus: "Choix final : fusion de capteurs ou lidar",
+      fr: ["5. Décider de façon défendable — Tools", "Fusion de capteurs ou lidar ? L'analyse Kepner-Tregoe pèse les critères tirés des requirements : 345 points contre 265. La décision et sa raison restent écrites, pour la revue et pour la prochaine équipe."],
+      en: ["5. A decision you can defend — Tools", "Sensor fusion or lidar? The Kepner-Tregoe analysis weighs criteria taken from the requirements: 345 points to 265. The decision and its reason stay written, for the review and for the next team."] },
+    { id: "plan", hash: "#/exploration/DEMO/plan", focus: "Rover — lancement du projet (exemple)",
+      fr: ["6. Le plan — Exploration", "Les quatre phases du PDP (Discovery, Concept, Design, Validation), un MVP par phase, les jalons des revues. Le Gantt se recalcule quand une durée change ; l'Excel fait l'aller-retour."],
+      en: ["6. The plan — Exploration", "The four PDP phases (Discovery, Concept, Design, Validation), one MVP per phase, the review milestones. The Gantt recomputes when a duration changes; Excel goes both ways."] },
+    { id: "board", hash: "#/agile/DEMO/board", focus: "DEMO-83",
+      fr: ["7. Le Sprint en cours — Agile → Board", "Le travail de la semaine : To Do, In Progress, In Review, Done. Chaque ticket appartient à un MVP et « implements » un requirement."],
+      en: ["7. The current Sprint — Agile → Board", "This week's work: To Do, In Progress, In Review, Done. Each ticket belongs to an MVP and « implements » a requirement."] },
+    { id: "ticket", hash: "#/agile/DEMO/issue/83", focus: "Pré-balayage CEM et dossier radio, batterie et RoHS",
+      fr: ["8. Un ticket, de près — Agile", "DEMO-83, chez Léa : le pré-balayage CEM. Description, commentaires, liens vers d'autres tickets, historique de chaque changement de status : la conversation de l'équipe vit avec le travail."],
+      en: ["8. A ticket up close — Agile", "DEMO-83, owned by Léa: the EMC pre-scan. Description, comments, links to other tickets, the history of every status change: the team's conversation lives with the work."] },
+    { id: "change", hash: "#/agile/DEMO/changes", focus: "Ferrite sur le câble moteur",
+      fr: ["9. Un problème d'essai devient un changement — Change Management", "Le pré-balayage montre une marge CEM de 4 dB : un PR est ouvert, puis dérivé en ECN « Ferrite sur le câble moteur », approuvé et mis en œuvre par ses tâches."],
+      en: ["9. A test problem becomes a change — Change Management", "The pre-scan shows a 4 dB EMC margin: a PR is opened, then derived into the ECN « Ferrite sur le câble moteur », approved and carried out through its tasks."] },
+    { id: "dfmea", hash: "#/diamond/DEMO/dfmea", focus: "Obstacle non détecté",
+      fr: ["10. Prévoir les défaillances — Diamond → DFMEA", "Une ligne par fonction : mode de défaillance, effet, cause, S / O / D et l'Action Priority. La détection renvoie à l'essai clé de la Test Base ; chaque action a un responsable et une échéance."],
+      en: ["10. Anticipate failures — Diamond → DFMEA", "One line per function: failure mode, effect, cause, S / O / D and the Action Priority. Detection points to the key test of the Test Base; each action has an owner and a due date."] },
+    { id: "test", hash: "#/testing/DEMO/plans", focus: "TP-ROVER-3",
+      fr: ["11. Prouver — Testing → Test Plans", "Les essais choisis dans la Test Base, regroupés par laboratoire. Le plan part chez le fournisseur ; le rapport PDF revient et ferme la boucle jusqu'au requirement « Verified »."],
+      en: ["11. Prove it — Testing → Test Plans", "Tests picked from the Test Base, grouped by lab. The plan goes to the supplier; the PDF report comes back and closes the loop up to the « Verified » requirement."] },
+    { id: "costs", hash: "#/diamond/DEMO/costs", focus: "Version investisseurs (imprimer)",
+      fr: ["12. Combien ça coûte — Diamond → Coûts et budget", "Les frais NRE, le coût des pièces en prototype et à 100, 1 000 et 10 000 kits, le temps de l'équipe et la contingence : un budget prêt pour les investisseurs."],
+      en: ["12. What it costs — Diamond → Costs and budget", "NRE, part cost as a prototype and at 100, 1,000 and 10,000 kits, the team's time and contingency: a budget ready for investors."] },
+    { id: "wiki", hash: "#/dynamite/DEMO/page/42", focus: "Architecture et structure fonctionnelle",
+      fr: ["13. Écrire le pourquoi — Dynamite", "Le wiki de l'équipe : une page par livrable, des blocs ticket vivants, des schémas, export Word ou PDF. ✨ Avec l'IA, un brouillon de page s'écrit en une minute, puis l'équipe le relit."],
+      en: ["13. Write down the why — Dynamite", "The team's wiki: one page per deliverable, live ticket blocks, diagrams, Word or PDF export. ✨ With AI, a page draft is written in a minute, then the team reviews it."] },
+    { id: "hours", hash: "#/timesheet/approbation", focus: "Nina (exemple)",
+      fr: ["14. Où passe le temps — Timesheet", "Les semaines de Nina, Léa, Hugo et Alexis, par étape du PDP, approuvées par le gestionnaire. De quoi justifier les heures d'un projet financé, automatiquement."],
+      en: ["14. Where the time goes — Timesheet", "Nina, Léa, Hugo and Alexis's weeks, by PDP step, approved by the manager. Enough to justify the hours of a funded project, automatically."] },
+    { id: "end", hash: "#/dynamite/DEMO/page/26", focus: "Guide de lecture : l'exemple module par module",
+      fr: ["Et maintenant, votre produit", "Ce guide reprend l'exemple module par module. Pour votre équipe : installez Dynamite | Agile sur votre serveur (gratuit, open source), puis ⚙ Admin → Spaces → Commencer : un assistant IA vous pose une vingtaine de questions et prépare tout le projet. Vos commentaires sont les bienvenus !"],
+      en: ["Now, your own product", "This guide walks through the example module by module. For your team: install Dynamite | Agile on your server (free, open source), then ⚙ Admin → Spaces → Commencer: an AI assistant asks you about twenty questions and prepares the whole project. Your feedback is welcome!"] },
+  ];
+})();

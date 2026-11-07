@@ -72,8 +72,18 @@ def api_save_project(ctx):
 def api_approvals(ctx):
     """Administrators see every sheet; a manager (approver) the sheets of the
     people who named him in their settings (D-B-031)."""
-    reports = None if ctx.user["is_admin"] else leave.reports_of(ctx.conn, ctx.user["id"])
-    if reports == []:
+    guest = permissions.is_guest(ctx.user)
+    spaces = permissions.guest_projects(ctx.conn) if guest else None
+    if guest:  # 0.60.66: read-only, the people who logged hours on the guest's Spaces, those lines only
+        reports = [r["user_id"] for r in ctx.conn.execute(
+            "SELECT DISTINCT w.user_id FROM timesheet_entries e JOIN timesheet_weeks w ON w.id = e.week_id "
+            "WHERE e.project_id IN ({})".format(
+                ",".join("?" * len(spaces)) or "NULL"), list(spaces))]
+    else:
+        reports = None if ctx.user["is_admin"] else leave.reports_of(ctx.conn, ctx.user["id"])
+    if guest and not reports:
+        return {"weeks": [], "statuses": catalog.STATUSES, "is_admin": False, "read_only": True}
+    if reports == [] and not guest:
         raise ApiError(403, "Aucune feuille à approuver : personne ne vous a nommé gestionnaire. Correctif : chaque "
                             "employé choisit son gestionnaire dans menu à votre nom → Paramètres.")
     status = ctx.query.get("status", "submitted")
@@ -94,9 +104,14 @@ def api_approvals(ctx):
             continue
         r["status_label"] = catalog.STATUSES[r["status"]]
         r["entries"] = weeks.entries(ctx.conn, r["id"])
+        if guest:
+            r["entries"] = [e for e in r["entries"] if e["project_id"] in spaces]
+            r["total"] = sum(e["hours"] for e in r["entries"])
+            if not r["entries"]:
+                continue
         r["leave"] = leave.week_summary(ctx.conn, r["user_id"], r["entries"])
         out.append(r)
-    return {"weeks": out, "statuses": catalog.STATUSES, "is_admin": bool(ctx.user["is_admin"])}
+    return {"weeks": out, "statuses": catalog.STATUSES, "is_admin": bool(ctx.user["is_admin"]), "read_only": guest}
 
 
 def api_decide(ctx):

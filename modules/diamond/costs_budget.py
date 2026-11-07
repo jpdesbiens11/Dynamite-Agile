@@ -85,10 +85,9 @@ def budget(s, nre, lines, hours):
             "volumes": volumes, "checks": checks}
 
 
-def api_export(ctx):
-    """CSV (Excel) : the summary, then the NRE, then the parts."""
-    pid = F.access(ctx)
-    data = C.payload(ctx.conn, pid)
+def csv_text(conn, pid):
+    """The CSV of the page (0.60.66: also read back by « Importer », costs_import.py, and quoted in the AI prompt)."""
+    data = C.payload(conn, pid)
     b, s, L = data["budget"], data["settings"], data["labels"]
     out = io.StringIO()
     w = csv.writer(out, delimiter=";")
@@ -114,6 +113,13 @@ def api_export(ctx):
     for ln in data["lines"]:
         w.writerow([ln["code"], ln["name"], ln["qty"], ln["proto_unit"], ln["prod_1"], ln["prod_2"], ln["prod_3"], ln["supplier"],
                     L["bases"].get(ln["basis"], ln["basis"]), ln["notes"]])
+    return out.getvalue()
+
+
+def api_export(ctx):
+    """CSV (Excel) : the summary, then the NRE, then the parts."""
+    pid = F.access(ctx)
+    text = csv_text(ctx.conn, pid)
     key = ctx.conn.execute("SELECT key FROM projects WHERE id = ?", (pid,)).fetchone()["key"]
     C._log(ctx, "diamond_cost_export", "projects", pid)
-    return RawFile(("\ufeff" + out.getvalue()).encode("utf-8"), "{}_couts_budget.csv".format(key), "text/csv")
+    return RawFile(("\ufeff" + text).encode("utf-8"), "{}_couts_budget.csv".format(key), "text/csv")

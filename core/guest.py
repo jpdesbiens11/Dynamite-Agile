@@ -6,7 +6,8 @@ account `invite`, a reader of those Spaces only -- each visitor has their own se
 
 Read-only, enforced by the server (router.py calls guard() before every handler): every write is refused except
 signing out, the privacy events and the PDF / Word export of a Dynamite page (exporting is allowed on purpose: the
-tool is free and is shown off). Admin, Settings, password, initials and the timesheet stay closed (admin routes
+tool is free and is shown off). Admin, Settings, password and initials stay closed; 0.60.66: the team's timesheets of the
+guest's Spaces are read-only (modules/timesheet/manage.py), the language stays in the browser (admin routes
 are admin-only; writes are refused). Guest sign-ins are limited per IP address and journalled.
 """
 import json

@@ -67,6 +67,7 @@
   DA.setLanguage = function (value) {
     lang = TEXT[value] ? value : "fr";
     document.documentElement.lang = lang;
+    if (DA.domLanguage) DA.domLanguage(lang);  // 0.60.66 (D-O-073): the display dictionary for the module screens
   };
   DA.lang = () => lang;
   DA.t = (key) => (TEXT[lang] && TEXT[lang][key]) || TEXT.fr[key] || key;

@@ -1,11 +1,20 @@
-# Journal de mise à jour — 0.60.65
+# Journal de mise à jour — 0.60.66
+
+- **Version :** 0.60.65 → 0.60.66 (2026-11-06)
+- **Changements :**
+  1. **FR | EN partout** (D-O-073) : dictionnaire d'affichage pour les écrans des modules ; la langue de l'invité reste dans son navigateur.
+  2. **Tour guidé de l'invité** (D-O-074) : 16 étapes sur le Rover ; feuilles de temps de l'équipe en lecture.
+  3. **Coûts et budget : importer et prompt IA** (D-O-075).
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.65
 
 - **Version :** 0.60.64 → 0.60.65 (2026-11-06)
 - **Changements :**
   1. **Diamond dans la vitrine** : accroche, « Voir les 11 outils » et une étape Diamond (09:00) dans la journée de l'équipe.
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.64
 

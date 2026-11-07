@@ -116,6 +116,15 @@ def api_get(ctx):
     return payload(ctx.conn, F.access(ctx))
 
 
+def save_settings(conn, pid, s, user_id):
+    conn.execute(
+        "INSERT INTO diamond_cost_settings (project_id, currency, proto_qty, volumes, contingency, labour_rate, notes, updated_by, updated_at) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(project_id) DO UPDATE SET currency = excluded.currency, proto_qty = excluded.proto_qty, "
+        "volumes = excluded.volumes, contingency = excluded.contingency, labour_rate = excluded.labour_rate, notes = excluded.notes, "
+        "updated_by = excluded.updated_by, updated_at = excluded.updated_at",
+        (pid, s["currency"], s["proto_qty"], json.dumps(s["volumes"]), s["contingency"], s["labour_rate"], s["notes"], user_id, db.utc_now()))
+
+
 def api_settings(ctx):
     pid = F.access(ctx, "editor")
     s = settings(ctx.conn, pid)
@@ -138,12 +147,7 @@ def api_settings(ctx):
         s["labour_rate"] = _num(b, "labour_rate", "Taux horaire de l'équipe", 0, 10000, True)
     if "notes" in b:
         s["notes"] = str(b.get("notes") or "").strip()[:2000]
-    ctx.conn.execute(
-        "INSERT INTO diamond_cost_settings (project_id, currency, proto_qty, volumes, contingency, labour_rate, notes, updated_by, updated_at) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(project_id) DO UPDATE SET currency = excluded.currency, proto_qty = excluded.proto_qty, "
-        "volumes = excluded.volumes, contingency = excluded.contingency, labour_rate = excluded.labour_rate, notes = excluded.notes, "
-        "updated_by = excluded.updated_by, updated_at = excluded.updated_at",
-        (pid, s["currency"], s["proto_qty"], json.dumps(s["volumes"]), s["contingency"], s["labour_rate"], s["notes"], ctx.user["id"], db.utc_now()))
+    save_settings(ctx.conn, pid, s, ctx.user["id"])
     _log(ctx, "diamond_cost_settings", "projects", pid, {k: s[k] for k in ("currency", "proto_qty", "volumes", "contingency", "labour_rate")})
     return payload(ctx.conn, pid)
 

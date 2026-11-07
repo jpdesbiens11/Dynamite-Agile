@@ -34,12 +34,18 @@
 
   /* ---------- Approval ---------- */
   TS.approvalView = async function (page, reload) {
-    const filter = el("select", { "aria-label": "Status" },
-      [["submitted", "À approuver (soumises)"], ["returned", "Renvoyées"], ["approved", "Approuvées"], ["all", "Toutes"]]
-        .map(([v, l]) => el("option", { value: v }, l)));
+    const guest = !!DA.session.user.is_guest;  // 0.60.66: read-only view of the demo team's weeks
+    const en = DA.lang() === "en";
+    const choices = [["submitted", "À approuver (soumises)"], ["returned", "Renvoyées"], ["approved", "Approuvées"], ["all", "Toutes"]];
+    const filter = el("select", { "aria-label": "Status" }, (guest ? choices.slice(3).concat(choices.slice(0, 3)) : choices)
+      .map(([v, l]) => el("option", { value: v }, l)));
     const holder = el("div", { class: "tt-approvals" });
-    page.append(el("div", { class: "page-head" }, el("h1", null, "Approbation des feuilles de temps"),
-      el("p", { class: "muted" }, "Vérifiez les plages, leurs descriptions et les absences (banque de vacances, congé santé), "
+    page.append(el("div", { class: "page-head" }, el("h1", null, guest ? (en ? "The Rover team's timesheets" : "Les feuilles de temps de l'équipe du Rover")
+      : "Approbation des feuilles de temps"),
+      el("p", { class: "muted", "data-new": guest ? "0.60.66-guest-timesheet" : null }, guest
+        ? (en ? "Read-only: each week of Nina, Léa, Hugo and Alexis, hours by PDP step and description. Approved, submitted or draft -- the manager decides, a guest only reads."
+          : "Lecture seule : chaque semaine de Nina, Léa, Hugo et Alexis, les heures par étape du PDP et leur description. Approuvée, soumise ou en brouillon : le gestionnaire décide, l'invité lit.")
+        : "Vérifiez les plages, leurs descriptions et les absences (banque de vacances, congé santé), "
         + "puis approuvez ou renvoyez avec une note. Vous voyez les personnes qui vous ont choisi comme gestionnaire.")),
     el("div", { class: "tt-toolbar" }, filter), holder);
 
@@ -49,13 +55,13 @@
       try { data = await api.get("/api/timesheet/approvals?status=" + filter.value); }
       catch (err) { holder.append(el("div", { class: "empty" }, el("p", null, err.message))); return; }
       if (!data.weeks.length) { holder.append(el("div", { class: "empty" }, el("p", null, "Aucune feuille dans cet état."))); return; }
-      data.weeks.forEach((w) => holder.append(weekCard(w, draw)));
+      data.weeks.forEach((w) => holder.append(weekCard(w, draw, data.read_only)));
     }
     filter.addEventListener("change", draw);
     await draw();
   };
 
-  function weekCard(w, redraw) {
+  function weekCard(w, redraw, readOnly) {
     const byProject = {};
     w.entries.forEach((e) => { byProject[e.project_key] = (byProject[e.project_key] || 0) + e.hours; });
     async function decide(action, note) {
@@ -81,9 +87,9 @@
         el("span", { class: "tt-card-total" }, fmtH(w.total)),
         el("span", { class: "muted tt-small" }, Object.entries(byProject).map(([k, h]) => k + " " + fmtH(h)).join(" · ")),
         el("span", { class: "tt-spacer" }),
-        w.status === "submitted" ? el("button", { type: "button", class: "btn btn-primary btn-small", onclick: () => decide("approve") }, "Approuver") : null,
-        ["submitted", "approved"].includes(w.status) ? el("button", { type: "button", class: "btn btn-small", onclick: returnDialog }, "Renvoyer…") : null,
-        w.status === "approved" ? el("button", { type: "button", class: "btn btn-small", onclick: () => decide("reopen") }, "Rouvrir") : null),
+        readOnly ? null : w.status === "submitted" ? el("button", { type: "button", class: "btn btn-primary btn-small", onclick: () => decide("approve") }, "Approuver") : null,
+        !readOnly && ["submitted", "approved"].includes(w.status) ? el("button", { type: "button", class: "btn btn-small", onclick: returnDialog }, "Renvoyer…") : null,
+        !readOnly && w.status === "approved" ? el("button", { type: "button", class: "btn btn-small", onclick: () => decide("reopen") }, "Rouvrir") : null),
       w.note ? el("p", { class: "tt-small muted" }, "Note : " + w.note) : null,
       TS.leaveBanner(w.leave, true),
       DA.table(["Jour", "Space", "Budget Line", "Heures", "Description"], w.entries.map((e) => el("tr", null,

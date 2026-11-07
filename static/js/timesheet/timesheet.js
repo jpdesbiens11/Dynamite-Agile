@@ -19,7 +19,9 @@
   /* ---------- Shell ---------- */
   function layout(main, view, approver) {
     const admin = DA.session.user.is_admin;
-    const nav = [["semaine", "Ma semaine"]].concat(approver ? [["approbation", "Approbation"]] : []);
+    const guest = !!DA.session.user.is_guest;  // 0.60.66: a guest reads the demo team's sheets, nothing of his own
+    const nav = guest ? [["approbation", DA.lang() === "en" ? "Team timesheets" : "Feuilles de l'équipe"]]
+      : [["semaine", "Ma semaine"]].concat(approver ? [["approbation", "Approbation"]] : []);
     const adminItems = admin ? [["export", "Export et rapport Word"], ["projets", "Spaces et organismes"]] : [];  // D-A-039
     const page = el("section", { class: "ag-page tt-page" });
     main.append(el("div", { class: "ag-layout" },
@@ -40,7 +42,7 @@
     try { info = await api.get("/api/timesheet/leave"); } catch (err) { /* keep the week view */ }
     const admin = DA.session.user.is_admin;
     const approver = admin || !!info.is_manager;  // D-B-031: a manager approves the weeks of his people
-    let view = ["approbation", "export", "projets"].includes(parts[0]) ? parts[0] : "semaine";
+    let view = ["approbation", "export", "projets"].includes(parts[0]) ? parts[0] : (info.guest_team ? "approbation" : "semaine");
     if ((view === "approbation" && !approver) || (["export", "projets"].includes(view) && !admin)) view = "semaine";
     const page = layout(main, view, approver);
     const reload = () => render(main, parts);

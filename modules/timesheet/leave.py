@@ -109,4 +109,7 @@ def api_balance(ctx):
     """GET /api/timesheet/leave: my bank, what is taken, what is left (settings screen)."""
     info = balance(ctx.conn, ctx.user["id"])
     info["is_manager"] = bool(reports_of(ctx.conn, ctx.user["id"]))  # « Approbation » in the side bar
+    from core import permissions
+    if permissions.is_guest(ctx.user):  # 0.60.66: the guest reads the team's sheets of the demo, never decides
+        info["is_manager"] = info["guest_team"] = True
     return info

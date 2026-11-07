@@ -19,7 +19,7 @@ Every table is tied to projects(id) (backup, restore, copy by the core); every w
 from .search import search  # noqa: F401  (core search hook, 0.60.36)
 from .bot import bot_summary  # noqa: F401  (Bob le mineur, core/bot.py, 0.60.36)
 from .actions import dashboard  # noqa: F401  (core dashboard hook, 0.60.38)
-from . import actions, costs, costs_budget, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
+from . import actions, costs, costs_budget, costs_import, costs_prompt, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
 
 SCHEMA = ""
 
@@ -261,6 +261,8 @@ SC = P + r"/story/scenes/(?P<sid>\d+)"
 ROUTES = [
     ("GET", P + r"/costs", costs.api_get, "user"),  # 0.60.61 (D-O-070): « Coûts et budget »
     ("GET", P + r"/costs/export\.csv", costs_budget.api_export, "user"),
+    ("POST", P + r"/costs/import", costs_import.api_import, "user"),  # 0.60.66 (D-O-075): the CSV of the export, back in
+    ("GET", P + r"/costs/prompt", costs_prompt.api_prompt, "user"),  # 0.60.66 (D-O-075): instructions for an AI assistant
     ("PATCH", P + r"/costs/settings", costs.api_settings, "user"),
     ("POST", P + r"/costs/nre", costs.api_nre_create, "user"),
     ("PATCH", P + r"/costs/nre/(?P<oid>\d+)", costs.api_nre_update, "user"),
