@@ -27,6 +27,9 @@ class SiteTourTest(unittest.TestCase):
                 self.assertIn("qrCanvas", page)                # the QR drawn in the page
                 for part in ("tour-pill", "tour-more", "tour-fold", "tour-final"):  # 0.60.72: the phone bar
                     self.assertIn(part, page)
+                # 0.60.77 (D-O-083): the phone layout follows the screen (turned phone, step changed while folded)
+                self.assertIn('PHONE.addEventListener("change", resized)', page)
+                self.assertIn("function fit()", page)
                 self.assertEqual(page.count('href="{}"'.format(build_site.DEMO_URL)), 1)
 
     def test_tour_targets_exist_in_the_page(self):

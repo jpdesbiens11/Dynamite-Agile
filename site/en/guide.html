@@ -511,7 +511,7 @@ pre.prompt { white-space: pre-wrap; background: #fffdf8; color: var(--ink); bord
 .tour-demo .btn { margin-bottom: .4rem; }
 .tour-more { display: inline-block; margin: .1rem 0 0; padding: 0; border: 0; background: none; color: var(--blue); font: 650 .9rem var(--sans); cursor: pointer; }
 .tour-more[hidden], .tour-pill[hidden], .tour-card[hidden] { display: none; }
-.tour-fold { position: absolute; top: .45rem; right: 2.5rem; border: 0; background: none; font-size: 1.2rem; line-height: 1; cursor: pointer; color: var(--ink-2); }
+.tour-fold { display: none; position: absolute; top: .45rem; right: 2.5rem; border: 0; background: none; font-size: 1.2rem; line-height: 1; cursor: pointer; color: var(--ink-2); }
 .tour-pill { position: fixed; z-index: 91; right: .8rem; bottom: calc(.8rem + env(safe-area-inset-bottom, 0px)); padding: .55rem .95rem;
   border: 2px solid var(--ink); border-radius: 999px; background: var(--y); color: var(--ink); font: 700 .95rem var(--sans);
   box-shadow: 3px 3px 0 rgba(38, 50, 63, .25); cursor: pointer; }
@@ -522,6 +522,7 @@ body.tour-folded .tour-spot { display: none; }
     padding: .65rem .9rem calc(.65rem + env(safe-area-inset-bottom, 0px)); border-width: 2px 0 0; border-radius: 16px 16px 0 0;
     box-shadow: 0 -4px 16px rgba(38, 50, 63, .25); }
   .tour-card.open { max-height: 72vh; }
+  .tour-fold { display: block; }  /* 0.60.77: always in the card, shown on a phone only */
   .tour-card h3 { margin: .1rem 4.2rem .25rem 0; font-size: 1.05rem; }
   .tour-card .tour-body { max-height: 2.9em; overflow: hidden; line-height: 1.45; font-size: .95rem; }
   .tour-card.open .tour-body, .tour-card.tour-final .tour-body { max-height: none; }
@@ -668,7 +669,7 @@ body.touring header.top, body.touring .progress-bar { z-index: 80; }  /* dimmed 
       the recipient, with the attestation to sign: no retyping.</li>
   </ol>
 </main>
-<footer>DynamiteAgile · free software under the MIT licence · version 0.60.76 · Jean-Philippe Desbiens · <a href="installation.html#contact" data-new="0.60.74-contact">Contact</a> · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
+<footer>DynamiteAgile · free software under the MIT licence · version 0.60.77 · Jean-Philippe Desbiens · <a href="installation.html#contact" data-new="0.60.74-contact">Contact</a> · <a href="https://github.com/jpdesbiens11/Dynamite-Agile">GitHub</a></footer>
 <script>
 /* Website of Dynamite | Agile (D-O-015): reveal on scroll, copy buttons, the descent into the mine and the terminal
    that types the three installation commands. No external resource; motion off with prefers-reduced-motion. */
