@@ -1,0 +1,20 @@
+{
+  "version": "0.60.77",
+  "date": "2026-11-07",
+  "summary": {
+    "fr": "Tour guidé du site sur téléphone : le texte complet reste lisible quand on tourne le téléphone.",
+    "en": "Site guided tour on a phone: the full text stays readable when the phone is turned."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Tour guidé sur téléphone : la barre suit l'écran",
+      "why": "Revue du tour guidé sur téléphone (0.60.72) : la barre du bas était calculée une seule fois, au moment où l'étape s'affichait. Un téléphone tourné de paysage à portrait (ou une fenêtre rétrécie) gardait le texte coupé à 2 lignes sans bouton « Plus » ni « ▾ » ; une étape changée avec les flèches du clavier pendant que la carte était réduite en pastille faisait de même (texte mesuré pendant qu'il était caché). La mise en page est maintenant recalculée à chaque changement de taille de l'écran et quand la carte se rouvre.",
+      "files": [
+        "tools/site/tour.js",
+        "tools/site/site.css",
+        "tests/test_site_tour.py"
+      ]
+    }
+  ]
+}

@@ -88,7 +88,7 @@
   let index = 0, card = null, spot = null, target = null, pill = null;
   /* 0.60.72 (D-O-078): on a phone, the card is a slim bar at the bottom (2 lines, « Plus » unfolds the text, « ▾ » folds
      it into a pill « Étape 3 / 6 ») and the spotlight sits in the part of the screen above it */
-  const phone = () => matchMedia("(max-width: 640px)").matches;
+  const PHONE = matchMedia("(max-width: 640px)"), phone = () => PHONE.matches;
 
   function place() {
     if (!spot) return;
@@ -107,7 +107,8 @@
     if (pill) pill.remove();
     card = spot = target = pill = null;
     document.body.classList.remove("touring", "tour-folded");
-    window.removeEventListener("resize", place);
+    window.removeEventListener("resize", resized);
+    PHONE.removeEventListener("change", resized);
     window.removeEventListener("scroll", place);
     document.removeEventListener("keydown", keys);
   }
@@ -117,8 +118,20 @@
     card.hidden = folded;
     pill.hidden = !folded;
     if (folded) pill.focus({ preventScroll: true });
-    else { place(); const next = card.querySelector(".tour-nav .btn-primary"); if (next) next.focus({ preventScroll: true }); }
+    else { fit(); place(); const next = card.querySelector(".tour-nav .btn-primary"); if (next) next.focus({ preventScroll: true }); }
   }
+
+  /* 0.60.77 (D-O-083): the phone layout follows the screen, not the moment the step was drawn -- a phone turned
+     from landscape to portrait, or a step changed while the card was folded (its text measured while hidden), kept
+     its text cut to 2 lines with no « Plus » */
+  function fit() {
+    if (!card || card.hidden) return;  // measured again when the card is unfolded
+    const small = phone(), body = card.querySelector(".tour-body"), more = card.querySelector(".tour-more");
+    card.classList.toggle("centered", !target && !small);
+    if (more) more.hidden = !(small && (card.classList.contains("open") || body.scrollHeight > body.clientHeight + 4));
+  }
+
+  function resized() { fit(); place(); }
 
   function scrollToTarget(behavior) {  // below the sticky top bar, in the part of the screen the card leaves free
     const bar = document.querySelector("header.top");
@@ -142,7 +155,6 @@
     const step = STEPS[i];
     target = step.target ? document.querySelector(step.target) : null;
     if (target && target.closest("details")) target.closest("details").open = true;
-    const small = phone();
     const body = el("div", { class: "tour-body" }, step.body());
     const more = el("button", { type: "button", class: "tour-more", hidden: "", "aria-expanded": "false" }, say("Plus ▾", "More ▾"));
     more.addEventListener("click", () => {
@@ -153,12 +165,11 @@
       if (target) scrollToTarget("auto");
       place();
     });
-    card.classList.toggle("centered", !target && !small);
     card.classList.remove("open");
     card.classList.toggle("tour-final", !!step.final);  // the last step shows all: its button to the demo must be in sight
     card.replaceChildren(
       el("button", { type: "button", class: "tour-x", "aria-label": say("Fermer le tour", "Close the tour"), onclick: close }, "×"),
-      small ? el("button", { type: "button", class: "tour-fold", "aria-label": say("Réduire le tour", "Fold the tour"), onclick: () => fold(true) }, "▾") : null,
+      el("button", { type: "button", class: "tour-fold", "aria-label": say("Réduire le tour", "Fold the tour"), onclick: () => fold(true) }, "▾"),
       el("span", { class: "tour-n" }, say("Étape ", "Step ") + (i + 1) + " / " + STEPS.length),
       el("h3", { id: "tour-title" }, step.title), body, more,
       el("div", { class: "tour-nav" },
@@ -166,7 +177,7 @@
         el("span", { class: "tour-dots", "aria-hidden": "true" }, STEPS.map((_s, k) => el("i", { class: k === i ? "on" : "" }))),
         step.final ? el("button", { type: "button", class: "btn btn-primary", onclick: close }, say("Terminer", "Finish"))
           : el("button", { type: "button", class: "btn btn-primary", onclick: () => show(i + 1) }, i === 0 ? say("Commencer →", "Start →") : say("Suivant →", "Next →"))));
-    if (small && body.scrollHeight > body.clientHeight + 4) more.hidden = false;  // the text is longer than the 2 lines shown
+    fit();  // « Plus » when the text is longer than the 2 lines shown
     pill.textContent = say("Étape ", "Step ") + (i + 1) + " / " + STEPS.length + " ▴";
     const behavior = matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
     if (target) scrollToTarget(behavior);
@@ -185,7 +196,8 @@
       onclick: () => fold(false) });
     document.body.append(spot, card, pill);
     document.body.classList.add("touring");
-    window.addEventListener("resize", place);
+    window.addEventListener("resize", resized);
+    PHONE.addEventListener("change", resized);  // the phone turned: no resize event in some browsers
     window.addEventListener("scroll", place, { passive: true });
     document.addEventListener("keydown", keys);
     show(Math.min(Math.max(Number(at) || 0, 0), STEPS.length - 1));

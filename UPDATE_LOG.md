@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.76
+# Journal de mise à jour — 0.60.77
+
+- **Version :** 0.60.76 → 0.60.77 (2026-11-07)
+- **Changements :**
+  1. **Tour guidé sur téléphone : la barre suit l'écran** (D-O-083) : « Plus » et « ▾ » recalculés quand le téléphone tourne ou quand la carte réduite se rouvre.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.76
 
 - **Version :** 0.60.75 → 0.60.76 (2026-11-07)
 - **Changements :**
   1. **Mot de passe oublié consolidé** (D-O-082) : jeton jamais dans une adresse ni au journal, mot de passe SMTP oublié quand l'hôte ou le compte change, compteurs par IP purgés.
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.75
 
