@@ -2,11 +2,12 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Adresses en plus derrière Traefik vérifiées",
-      "why": "Revue de « dynamiteagile.ca » (0.60.71) : install.sh --traefik <nouvelle> <ancienne…> vérifiait seulement l'adresse principale dans le DNS ; une adresse en plus mal écrite ou sans enregistrement DNS était acceptée sans message et ses liens ne marchaient pas. Chaque adresse en plus est maintenant vérifiée comme la principale ; l'installation s'arrête avant de toucher à quoi que ce soit si l'une ne répond pas.",
+      "title": "Supprimer une sauvegarde (double confirmation)",
+      "why": "Demande de JP : on ne pouvait pas effacer une sauvegarde. Dans ⚙ Admin → Update et sauvegardes → Restaurer, chaque copie du code (Framework) et chaque point de restauration des données a maintenant un bouton « Supprimer… », réservé aux administrateurs. Double confirmation : un premier message, puis une fenêtre où il faut taper SUPPRIMER ; le serveur exige en plus le nom exact de la sauvegarde. La suppression est inscrite au journal d'audit ; le code en service et les données ne changent pas.",
       "files": [
-        "deploy/install_traefik.sh",
-        "tests/test_traefik_aliases.py"
+        "core/restorepoints.py",
+        "static/js/admin_restore.js",
+        "tests/test_backup_delete.py"
       ]
     }
   ]

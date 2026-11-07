@@ -482,6 +482,10 @@ Le prompt `starter.md` passe en 0.60.18.
 **Contexte :** la Storyline était au brief (§4) : illustrer l'usage d'un produit, scène par scène.
 **Décision (choix de JP, un à la fois) :** pictogrammes intégrés (pas d'images déposées) ; dans Diamond, avant l'arbre fonctionnel ; aucun lien imposé avec les fonctions, c'est un exercice de divergence en équipe ; un assistant IA la lit pour proposer l'arbre et le reste de Diamond par un bouton « Copier pour l'IA » (0.60.52). Les 39 pictogrammes sont générés comme les icônes (`tools/story_pictos.py`, deux sprites, mêmes clés), sans texte ; l'étiquette est du HTML. Une scène : titre, ce qui se passe, notes en vrac, pictogrammes (clé, x / y en %, taille, miroir, étiquette) ; 40 scènes et 30 pictogrammes par scène au plus.
 
+### D-O-085 — Supprimer une sauvegarde (2026-11-07, demande de JP)
+**Contexte :** les copies du code et les points de restauration ne disparaissaient que remplacés par plus récents (3 gardés) ; un administrateur ne pouvait pas en effacer un.
+**Décision :** bouton « Supprimer… » sur chaque copie du code et chaque point (⚙ Admin → Update et sauvegardes → Restaurer), administrateurs seulement ; double confirmation : un message, puis une fenêtre où l'on tape SUPPRIMER ; le serveur exige le nom exact (`POST /api/admin/restore-points/<nom>/delete`, `POST /api/admin/code-backups/<fichier>/delete`, `{confirm}`) ; inscrit au journal d'audit (`restore_point_deleted`, `code_backup_deleted`). Aucun point n'est créé avant : effacer une sauvegarde ne change ni le code en service ni les données.
+
 ### D-O-084 — Adresses en plus derrière Traefik vérifiées (2026-11-07, revue du code demandée par JP)
 **Contexte :** revue de D-O-077. `install_traefik.sh` vérifiait l'adresse principale avec `getent hosts`, mais les adresses en plus (l'ancienne adresse gardée pour les liens déjà partagés) seulement sur leurs caractères : une faute de frappe passait sans message et ses liens restaient cassés.
 **Décision :** chaque adresse en plus passe le même contrôle DNS que la principale ; sinon l'installation s'arrête avant d'écrire la configuration ou le conteneur, avec le correctif à appliquer.

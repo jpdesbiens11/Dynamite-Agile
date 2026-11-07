@@ -254,6 +254,35 @@ def api_revert(ctx):
     return {"ok": True, "point": meta, "safety_point": safety["name"], "audit_rows_kept": len(since), "signed_out": True}
 
 
+def api_delete(ctx):
+    """0.60.79 (D-O-085): a point erased by an administrator, after a double confirmation (the exact name sent back)."""
+    permissions.require_admin(ctx.user)
+    path, meta = _point(ctx)
+    if str(ctx.body.get("confirm") or "") != meta["name"]:
+        raise ApiError(400, "Confirmation incorrecte. Correctif : renvoyez le nom exact du point ({}).".format(meta["name"]))
+    for suffix in (".sqlite", ".json"):
+        path.with_suffix(suffix).unlink(missing_ok=True)
+    audit.log_action(ctx.conn, ctx.user["id"], "restore_point_deleted", "restore_point", None,
+                     {"name": meta["name"], "point_at": meta.get("local"), "reason": meta.get("reason")}, ctx.ip)
+    return {"ok": True, "points": points(ctx.data_dir)}
+
+
+def api_delete_code(ctx):
+    """0.60.79 (D-O-085): a copy of the code (Framework) erased, same double confirmation; the code in service stays."""
+    permissions.require_admin(ctx.user)
+    from . import update  # update imports this module
+    name = str(ctx.params.get("backup") or "")
+    found = {c["backup"]: c for c in update.code_versions(ctx)}
+    if name not in found:
+        raise ApiError(404, "Copie du code « {} » introuvable. Correctif : rechargez la page.".format(name))
+    if str(ctx.body.get("confirm") or "") != name:
+        raise ApiError(400, "Confirmation incorrecte. Correctif : renvoyez le nom exact de la copie ({}).".format(name))
+    (update._dir(ctx, "backups") / name).unlink(missing_ok=True)
+    audit.log_action(ctx.conn, ctx.user["id"], "code_backup_deleted", "code_backup", None,
+                     {"backup": name, "version": found[name]["version"]}, ctx.ip)
+    return {"ok": True, "framework": update.code_versions(ctx)}
+
+
 P = r"/api/admin/restore-points/(?P<name>data_[0-9_a-z-]+)"
 ROUTES = [
     ("GET", r"/api/admin/restore-points", api_list, "admin"),
@@ -261,4 +290,6 @@ ROUTES = [
     ("GET", P + r"/spaces", api_spaces, "admin"),
     ("POST", P + r"/space", api_restore_space, "admin"),
     ("POST", P + r"/revert", api_revert, "admin"),
+    ("POST", P + r"/delete", api_delete, "admin"),
+    ("POST", r"/api/admin/code-backups/(?P<backup>code_v[\w.]+_\d{8}-\d{6}\.zip)/delete", api_delete_code, "admin"),
 ]

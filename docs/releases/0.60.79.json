@@ -1,0 +1,20 @@
+{
+  "version": "0.60.79",
+  "date": "2026-11-07",
+  "summary": {
+    "fr": "Les administrateurs peuvent supprimer une copie du code ou un point de restauration, après une double confirmation.",
+    "en": "Administrators can delete a code copy or a restore point, after a double confirmation."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Supprimer une sauvegarde (double confirmation)",
+      "why": "Demande de JP : on ne pouvait pas effacer une sauvegarde. Dans ⚙ Admin → Update et sauvegardes → Restaurer, chaque copie du code (Framework) et chaque point de restauration des données a maintenant un bouton « Supprimer… », réservé aux administrateurs. Double confirmation : un premier message, puis une fenêtre où il faut taper SUPPRIMER ; le serveur exige en plus le nom exact de la sauvegarde. La suppression est inscrite au journal d'audit ; le code en service et les données ne changent pas.",
+      "files": [
+        "core/restorepoints.py",
+        "static/js/admin_restore.js",
+        "tests/test_backup_delete.py"
+      ]
+    }
+  ]
+}

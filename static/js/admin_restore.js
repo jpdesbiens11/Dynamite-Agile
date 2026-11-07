@@ -1,7 +1,8 @@
 /* Admin → Update et sauvegardes → « ↺ Restaurer » (core lot v0.28, D-B-104): the « 2 × 3 chances ».
    Left: the 3 most recent copies of the code (Framework), « Revenir à la vX » (POST /api/update/rollback).
    Right: the 3 most recent restore points of the data (core/restorepoints.py): « Créer un point maintenant »,
-   « Récupérer un Space… » (as a NEW Space) and « Revenir à ce point… » (the whole site, a point « avant retour » first). */
+   « Récupérer un Space… » (as a NEW Space) and « Revenir à ce point… » (the whole site, a point « avant retour » first).
+   0.60.79: « Supprimer… » on both sides, with a double confirmation. */
 (function () {
   "use strict";
   const { api, el, clear, toast, field, modal } = DA;
@@ -15,7 +16,7 @@
       box.append(el("p", { class: "muted" }, "Deux filets de sécurité, trois chances chacun : les " + data.keep + " dernières versions "
         + "du code (Framework) et les " + data.keep + " derniers points de restauration des données. Le code et les données se "
         + "restaurent séparément : revenir à une version du code ne change aucune donnée, et inversement."),
-      el("div", { class: "rp-grid" }, framework(data), points(data, reload)),
+      el("div", { class: "rp-grid" }, framework(data, reload), points(data, reload)),
       el("p", { class: "muted rp-foot" }, "Un point de données est créé automatiquement avant chaque mise à jour du Framework, import "
         + "de données, configuration appliquée ou retour à un point, et une fois par jour à la première activité (l'état de la "
         + "veille au soir). Seuls les " + data.keep + " plus récents sont gardés : un nouveau point efface le plus ancien. Les "
@@ -24,11 +25,40 @@
     },
   };
 
-  function framework(data) {
+  /* 0.60.79 (D-O-085): erase a copy of the code or a point of the data, after two confirmations: a first message,
+     then a window where SUPPRIMER is typed; the server also wants the exact name back. Nothing can bring it back. */
+  function erase(what, url, name, reload) {
+    if (!confirm("Supprimer " + what + " ? Cette sauvegarde ne pourra plus servir à revenir en arrière.")) return;
+    const word = el("input", { type: "text", autocomplete: "off", "aria-label": "Tapez SUPPRIMER pour confirmer" });
+    const go = el("button", { type: "button", class: "btn btn-danger", disabled: true }, "Supprimer définitivement");
+    word.addEventListener("input", () => { go.disabled = word.value.trim() !== "SUPPRIMER"; });
+    let close = null;
+    go.addEventListener("click", async () => {
+      go.disabled = true;
+      try {
+        await api.post(url, { confirm: name });
+        close();
+        toast("Supprimé : " + what + ".", "success");
+        reload();
+      } catch (err) { toast(err.message, "error"); go.disabled = false; }
+    });
+    close = modal("Deuxième confirmation", el("div", { class: "form" },
+      el("p", null, el("strong", null, "Suppression définitive de " + what + ". "), "Aucune autre sauvegarde ne la remplace : "
+        + "il restera une chance de moins de revenir en arrière. L'opération est inscrite au journal d'audit."),
+      field("Tapez SUPPRIMER pour confirmer", word),
+      el("div", { class: "form-actions" }, el("button", { type: "button", class: "btn", onclick: () => close() }, "Annuler"), go)));
+    word.focus();
+  }
+
+  function framework(data, reload) {
     const rows = data.framework.map((c) => el("tr", null,
       el("td", { class: "code" }, "v" + c.version), el("td", { class: "nowrap" }, c.saved_at),
       el("td", null, c.replaced_by ? "par la v" + c.replaced_by + (c.by ? " (" + c.by + ")" : "") : "—"),
-      el("td", null, el("button", { type: "button", class: "btn btn-small", onclick: () => rollback(c) }, "Revenir à la v" + c.version))));
+      el("td", null, el("div", { class: "rp-actions" },
+        el("button", { type: "button", class: "btn btn-small", onclick: () => rollback(c) }, "Revenir à la v" + c.version),
+        el("button", { type: "button", class: "btn btn-small btn-danger", "data-new": "0.60.79-backup-delete",
+          onclick: () => erase("la copie du code v" + c.version + " (gardée le " + c.saved_at + ")",
+            "/api/admin/code-backups/" + c.backup + "/delete", c.backup, reload) }, "Supprimer…")))));
     return el("section", { class: "up-step rp-col" },
       el("h2", { "data-new": "0.50.1-restore-framework" }, "Framework — " + data.keep + " dernières versions du code"),
       el("p", null, "En service : ", el("strong", null, "v" + data.version), ". Chaque mise à jour garde une copie du code qu'elle "
@@ -56,7 +86,10 @@
         el("div", { class: "muted rp-meta" }, "par " + p.by + " · " + p.spaces + " Spaces · " + p.users + " comptes · " + size(p.size))),
       el("td", null, el("div", { class: "rp-actions" },
         el("button", { type: "button", class: "btn btn-small", onclick: () => spaceDialog(p, reload) }, "Récupérer un Space…"),
-        el("button", { type: "button", class: "btn btn-small btn-danger", onclick: () => revertDialog(p) }, "Revenir à ce point…")))));
+        el("button", { type: "button", class: "btn btn-small btn-danger", onclick: () => revertDialog(p) }, "Revenir à ce point…"),
+        el("button", { type: "button", class: "btn btn-small btn-danger", "data-new": "0.60.79-backup-delete",
+          onclick: () => erase("le point de restauration du " + p.local, "/api/admin/restore-points/" + p.name + "/delete", p.name, reload) },
+          "Supprimer…")))));
     return el("section", { class: "up-step rp-col" },
       el("h2", { "data-new": "0.50.1-restore-data" }, "Données — " + data.keep + " points de restauration"),
       el("div", { class: "form-row" }, field("Note (optionnel)", note),
