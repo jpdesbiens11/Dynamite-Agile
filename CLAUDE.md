@@ -122,6 +122,8 @@
 - **0.60.57** (2026-11-06) : **install.ps1 réparé** (D-O-066) : dans `( … )`, une commande PowerShell coupée sur deux lignes finit par un accent grave.
 - **0.60.58** (2026-11-06) : **winget `--source winget`** (D-O-067) : la source du Microsoft Store expirait et bloquait Git.
 - **0.60.59** (2026-11-06) : **certificat depuis Documents** (D-O-068) : étape 5 Windows en trois sous-étapes, commande indépendante du dossier.
+- **0.60.67** (2026-11-06) : **le Rover en anglais** (D-O-073) : le contenu affiché en lecture se traduit aussi (dictionnaire de la démo
+  `static/i18n/demo_en_*.json`, `tools/i18n_demo.py DATA_DIR` pour le refaire) ; la carte du tour suit FR | EN (`da:language`).
 - **0.60.66** (2026-11-06) : **FR | EN partout** (D-O-073, `static/js/tools/i18n_dom.js`, dictionnaire `static/i18n/en_*.json`,
   `tools/i18n_missing.py`) ; **tour guidé de l'invité** (D-O-074, `static/js/tools/guest_tour*.js`) et Timesheet de l'équipe en lecture ;
   Diamond → Coûts : **Importer (.csv)** et **prompt IA** (D-O-075, `modules/diamond/costs_import.py`, `costs_prompt.py`).

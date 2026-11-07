@@ -74,6 +74,8 @@
     card = body;
   }
 
+  window.addEventListener("da:language", () => { if (card) draw(); });  // 0.60.67: the top bar FR | EN switches the card too
+
   DA.guestTour = {
     start(i) { store.set(SEEN, "1", true); go(i || 0); },
     close,

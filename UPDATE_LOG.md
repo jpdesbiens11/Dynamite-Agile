@@ -1,4 +1,14 @@
-# Journal de mise à jour — 0.60.66
+# Journal de mise à jour — 0.60.67
+
+- **Version :** 0.60.66 → 0.60.67 (2026-11-06)
+- **Changements :**
+  1. **Le Rover en anglais** (D-O-073) : le contenu de la démo se traduit à l'affichage (dictionnaire `static/i18n/demo_en_*.json`).
+  2. **Tour guidé** : la carte suit le bouton FR | EN de la barre du haut.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.66
 
 - **Version :** 0.60.65 → 0.60.66 (2026-11-06)
 - **Changements :**
@@ -6,8 +16,6 @@
   2. **Tour guidé de l'invité** (D-O-074) : 16 étapes sur le Rover ; feuilles de temps de l'équipe en lecture.
   3. **Coûts et budget : importer et prompt IA** (D-O-075).
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.65
 
