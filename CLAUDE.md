@@ -132,6 +132,8 @@
 - **0.60.73** (2026-11-07) : **mot de passe oublié par courriel** (D-O-079, `core/mail.py`, `core/password_reset.py`,
   `static/js/account_mail.js`, `admin_mail.js`) : lien à usage unique (30 min, `#reset=`), `users.email` unique, Admin → Courriel (SMTP dans
   `data/mail.json` 0600, coupé par défaut) ; migration core 19. Seule sortie réseau du serveur.
+- **0.60.74** (2026-11-07) : **formulaire de contact du site** (D-O-080, `core/contact.py`, `tools/site/contact.js`) : seulement
+  sur le site ; il poste à la démo (`POST /api/contact`, CORS pour l'adresse du site seulement), qui transmet au destinataire d'Admin → Courriel.
 - **0.60.68** (2026-11-06) : **le reste de l'interface en anglais** (D-O-073) : balayage de 280 écrans (`tools/i18n_crawl.py`,
   `DA.i18nScan`), ~700 traductions, gabarits « # » pour les nombres.
 - **0.60.67** (2026-11-06) : **le Rover en anglais** (D-O-073) : le contenu affiché en lecture se traduit aussi (dictionnaire de la démo
@@ -199,7 +201,7 @@
   `core.audit.log_action(...)`.
 - **Aucune dépendance externe** : bibliothèque standard Python uniquement,
   aucun CDN, aucune police externe, aucun appel réseau sortant depuis le
-  serveur ou la page (seule exception : le courriel de « Mot de passe oublié », vers le SMTP réglé par l'admin, D-O-079).
+  serveur ou la page (seule exception : le courriel de « Mot de passe oublié » et du formulaire de contact du site, vers le SMTP réglé par l'admin, D-O-079, D-O-080).
   Chaque équipe l'héberge sur son propre serveur : le code se comporte comme sur un réseau fermé.
 - **Exports** : un fichier construit à partir des données part en `RawFile` ; le noyau le marque de sa révision et l'inscrit au
   registre (D-B-129). Un fichier déposé par quelqu'un et renvoyé tel quel : `RawFile(..., export=False)`.

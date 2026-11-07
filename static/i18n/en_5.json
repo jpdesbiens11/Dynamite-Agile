@@ -1,4 +1,5 @@
 {
+"Registre — ": "Register — ",
 "Regroupement libre (ex. « Concept », « Conception préliminaire »). Les tasks d'une même phase se suivent.": "Free grouping (e.g. “Concept”, “Preliminary design”). The tasks of the same phase follow each other.",
 "Regrouper par": "Group by",
 "Regrouper par thèmes (labels), puis étoiler les meilleures (★).": "Group by themes (labels), then star the best ones (★).",
@@ -478,6 +479,7 @@
 "Session liée au certificat": "Session bound to the certificate",
 "Sessions invité ouvertes en ce moment : ": "Guest sessions open right now: ",
 "Setup des Spaces": "Spaces setup",
+"Seul ce site peut envoyer le formulaire (https://…, sans chemin).": "Only this website can send the form (https://…, no path).",
 "Seul l'animateur (créateur de la séance) ou un admin du Space pilote les tours.": "Only the facilitator (the session's creator) or a Space admin controls the rounds.",
 "Seul l'auteur (ou un admin du Space) modifie le texte d'une idée. Correctif : « Rebondir » pour la compléter.": "Only the author (or a Space admin) edits an idea's text. Fix: “Build on it” to complete it.",
 "Seul l'auteur (ou un admin du Space) retire une idée.": "Only the author (or a Space admin) removes an idea.",

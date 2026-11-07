@@ -27,6 +27,10 @@
     const sender = input(m.sender, { type: "text", inputmode: "email", spellcheck: "false", placeholder: "noreply@exemple.ca", maxlength: 254 });
     const name = input(m.sender_name, { maxlength: 80 });
     const url = input(m.public_url || data.suggested_url, { placeholder: "https://demo.exemple.ca", maxlength: 200 });
+    /* 0.60.74 (D-O-080): the contact form of the project's website posts here; the recipient is never shown on the site */
+    const cOn = el("input", { type: "checkbox", checked: !!m.contact_enabled });
+    const cTo = input(m.contact_to, { inputmode: "email", spellcheck: "false", placeholder: "vous@exemple.ca", maxlength: 254 });
+    const cOrigin = input(m.contact_origin, { placeholder: "https://votre-site.ca", maxlength: 200 });
     const preset = el("select", { onchange: () => {
       const p = PRESETS[preset.value];
       if (p) { host.value = p.host; port.value = p.port; security.value = p.security; }
@@ -40,7 +44,8 @@
         save.disabled = true;
         try {
           const payload = { enabled: on.checked, host: host.value.trim(), port: Number(port.value), security: security.value,
-            username: user.value.trim(), sender: sender.value.trim(), sender_name: name.value.trim(), public_url: url.value.trim() };
+            username: user.value.trim(), sender: sender.value.trim(), sender_name: name.value.trim(), public_url: url.value.trim(),
+            contact_enabled: cOn.checked, contact_to: cTo.value.trim(), contact_origin: cOrigin.value.trim() };
           if (pass.value) payload.password = pass.value;
           await api.put("/api/admin/mail", payload);
           toast(on.checked ? "Courriel activé : « Mot de passe oublié ? » apparaît sur la page de connexion." : "Réglages enregistrés (courriel coupé).", "success");
@@ -62,6 +67,13 @@
       el("label", { class: "privacy-item" }, on, el("span", null, el("strong", null, "Activer « Mot de passe oublié ? »"),
         el("span", { class: "muted" }, "Ajoute le lien sous le formulaire de connexion ; un lien à usage unique, valide 30 minutes, "
           + "part vers le courriel du compte."))),
+      el("h3", { "data-new": "0.60.74-contact" }, "Formulaire de contact du site"),
+      el("p", { class: "muted" }, "Le site web du projet (pages statiques) ne sait pas envoyer de courriel : son formulaire « Nous joindre » "
+        + "passe par ce serveur, qui transmet la demande au destinataire. Réponse à la personne par « Répondre » (Reply-To)."),
+      el("div", { class: "form-row" }, field("Destinataire des demandes", cTo, "Jamais affiché sur le site."),
+        field("Adresse du site", cOrigin, "Seul ce site peut envoyer le formulaire (https://…, sans chemin).")),
+      el("label", { class: "privacy-item" }, cOn, el("span", null, el("strong", null, "Ouvrir le formulaire de contact du site"),
+        el("span", { class: "muted" }, "3 demandes par heure et par adresse IP, 30 par jour au total ; un champ caché arrête les robots."))),
       el("div", { class: "form-actions" }, save));
 
     const to = input(data.my_email, { type: "text", inputmode: "email", spellcheck: "false", placeholder: "vous@exemple.ca", maxlength: 254 });

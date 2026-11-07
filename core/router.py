@@ -15,7 +15,7 @@ from http import cookies
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, unquote, urlsplit
 
-from . import access_rules, admin, auth, guest, mail, password_reset, backup, bot, bot_admin, update_online, proxy, static_cache, baseline_view, baselines, dashboard, datapack, db, devshare, members, mentions, modules, objectives, platform_config, prefs, profile, restorepoints, reviews, team, search, session_api, sitemove, spacecard, spacecopy, stamp, starter_apply, tls, ui_audit, update
+from . import access_rules, admin, auth, contact, guest, mail, password_reset, backup, bot, bot_admin, update_online, proxy, static_cache, baseline_view, baselines, dashboard, datapack, db, devshare, members, mentions, modules, objectives, platform_config, prefs, profile, restorepoints, reviews, team, search, session_api, sitemove, spacecard, spacecopy, stamp, starter_apply, tls, ui_audit, update
 from .errors import ApiError
 
 # D-B-058: no write without the person's 3-letter traceability key, except to set it (and privacy events).
@@ -99,6 +99,7 @@ ROUTES = [(method, re.compile(pattern), handler, access)
           + datapack.ROUTES + sitemove.ROUTES + spacecopy.ROUTES + spacecard.ROUTES + restorepoints.ROUTES + baselines.ROUTES
           + starter_apply.ROUTES + bot.ROUTES + bot_admin.ROUTES + update_online.ROUTES + guest.ROUTES
           + mail.ROUTES + password_reset.ROUTES  # 0.60.73 (D-O-079)
+          + contact.ROUTES  # 0.60.74 (D-O-080)
           + modules.registered_routes()]
 
 
@@ -116,6 +117,7 @@ class RequestContext:
         self.secure = secure
         self.config = config
         self.data_dir = data_dir
+        self.origin = None  # 0.60.74 (D-O-080): the Origin header, read by the website's contact form
         self.upload = None  # core.uploads.Upload for @binary_body routes
         self.cookies_out = []
         self.transport = {}  # core lot v0.24: TLS version, cipher, client certificate (core.tls.peer)
@@ -160,6 +162,18 @@ class AppHandler(BaseHTTPRequestHandler):
     def do_DELETE(self):
         self._dispatch("DELETE")
 
+    def do_OPTIONS(self):
+        """0.60.74 (D-O-080): the CORS OPTIONS request of the website's contact form -- that route, that origin, nothing else."""
+        self._peer_cache = None
+        self._cors = {}
+        if urlsplit(self.path).path == "/api/contact":
+            self._cors = contact.cors_headers(self.server.data_dir, self.headers.get("Origin"))
+        self.send_response(204 if self._cors else 403)
+        for name, value in self._cors.items():
+            self.send_header(name, value)
+        self.send_header("Content-Length", "0")
+        self.end_headers()
+
     def log_message(self, fmt, *args):
         log.info("%s %s", self._peer()[0], fmt % args)
 
@@ -173,6 +187,7 @@ class AppHandler(BaseHTTPRequestHandler):
     # ------------------------------------------------------------------
     def _dispatch(self, method):
         path = urlsplit(self.path).path
+        self._cors = {}  # 0.60.74 (D-O-080): set only for a route marked cors, from the allowed origin
         self._peer_cache = None  # one connection may carry the requests of several visitors (keep-alive from the proxy)
         try:
             if proxy.refused(self.server.app_config, self.client_address[0], self.server.use_tls):
@@ -199,6 +214,8 @@ class AppHandler(BaseHTTPRequestHandler):
         parts = urlsplit(self.path)
         route, params = self._match(method, parts.path)
         _, _, handler, access = route
+        if getattr(handler, "cors", False):
+            self._cors = contact.cors_headers(self.server.data_dir, self.headers.get("Origin"))
         upload = None
         if method in BODY_METHODS and getattr(handler, "accepts_binary", False):
             body, upload = {}, self._read_upload(handler)
@@ -246,6 +263,7 @@ class AppHandler(BaseHTTPRequestHandler):
                                  self.server.app_config, self.server.data_dir)
             ctx.upload = upload
             ctx.transport = transport
+            ctx.origin = self.headers.get("Origin")
             # Core lot v0.33 (D-B-129): a person viewing a revision reads its working copy; writing is refused.
             ctx.baseline = baseline_view.active(conn, session, self.server.data_dir) if access != "public" else None
             frozen = baseline_view.guard(method, parts.path, ctx.baseline)
@@ -419,7 +437,11 @@ class AppHandler(BaseHTTPRequestHandler):
             pass
 
     def _send_security_headers(self):
+        cors = getattr(self, "_cors", None) or {}
         for name, value in SECURITY_HEADERS.items():
+            if name not in cors:
+                self.send_header(name, value)
+        for name, value in cors.items():
             self.send_header(name, value)
         for name, value in tls.transport_headers(self.server).items():  # HSTS once HTTPS is on
             self.send_header(name, value)

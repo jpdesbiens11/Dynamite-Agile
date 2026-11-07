@@ -167,4 +167,6 @@ def term(lang, site_url):
 def footer(lang, version, repo):
     text = ("DynamiteAgile · free software under the MIT licence · version {} · Jean-Philippe Desbiens · "
             if lang == "en" else "DynamiteAgile · logiciel libre sous licence MIT · version {} · Jean-Philippe Desbiens · ")
-    return '<footer>' + text.format(version) + '<a href="{}">GitHub</a></footer>'.format(repo)
+    contact = "Contact" if lang == "en" else "Nous joindre"  # 0.60.74 (D-O-080): the form of the installation page
+    return ('<footer>' + text.format(version) + '<a href="installation.html#contact" data-new="0.60.74-contact">{}</a> · '
+            '<a href="{}">GitHub</a></footer>').format(contact, repo)

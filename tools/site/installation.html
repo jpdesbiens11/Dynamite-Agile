@@ -227,6 +227,28 @@
     <figure class="demo-qr"><div id="demo-qr"></div><figcaption>Sur un téléphone : scannez avec l'appareil photo.</figcaption></figure>
   </section>
 
+  <section id="contact" class="contact reveal" data-new="0.60.74-contact">
+    <h2>Une question ? Écrivez-moi</h2>
+    <p>Une question précise sur l'outil, l'installation, un cours ou une collaboration ? Remplissez ce formulaire :
+      <b>vous aurez une réponse à votre courriel d'ici 7 jours ouvrables.</b></p>
+    <form id="contact-form" class="contact-form" novalidate>
+      <div class="fields">
+        <label>Nom <input name="name" required maxlength="120" autocomplete="name"></label>
+        <label>Courriel <input name="email" type="email" required maxlength="254" autocomplete="email"></label>
+        <label>Organisation <span class="opt">(facultatif)</span> <input name="organization" maxlength="160" autocomplete="organization"></label>
+        <label>Sujet <select name="topic">
+          <option value="question">Question sur l'outil</option><option value="install">Installation</option>
+          <option value="partner">Collaboration ou partenariat</option><option value="course">Cours ou formation</option>
+          <option value="other">Autre</option></select></label>
+      </div>
+      <label class="contact-msg">Message <textarea name="message" required maxlength="5000" rows="6"></textarea></label>
+      <label class="hp" aria-hidden="true">Site web <input name="website" tabindex="-1" autocomplete="off"></label>
+      <p class="muted">Vos coordonnées servent seulement à vous répondre ; elles ne sont ni publiées ni partagées.</p>
+      <button type="submit" class="btn btn-primary">Envoyer la demande</button>
+      <p class="contact-status note" role="status" hidden></p>
+    </form>
+  </section>
+
   <p class="next muted">Et ensuite ? Le <a href="guide.html">guide</a> explique chaque module, de MVP0 au lancement.
     Un message d'erreur ? Voyez <a href="#depannage">Si quelque chose bloque</a>, ou collez-le à votre assistant IA.</p>
 {{TROUBLE}}
@@ -240,6 +262,9 @@
 </script>
 <script>
 {{TOUR_JS}}
+</script>
+<script>
+{{CONTACT_JS}}
 </script>
 </body>
 </html>

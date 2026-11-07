@@ -1,4 +1,5 @@
 {
+"Batteries : des modules de cellules identiques, assemblés en packs de tailles différentes selon le produit.": "Batteries: identical cell modules, assembled into packs of different sizes depending on the product.",
 "Batteries : en additionnant le cobalt, le nickel, l'aluminium et le carbone d'un pack au prix du marché, Musk a souvent raconté trouver un coût bien plus bas que celui des batteries vendues ; l'écart venait de la fabrication, donc il pouvait se réduire.": "Batteries: by adding up the cobalt, nickel, aluminum and carbon of a pack at market price, Musk often told of finding a cost far lower than that of the batteries on sale; the gap came from manufacturing, so it could be narrowed.",
 "Before drawing a single part, the team tells how the product is used, scene by scene: Sam opens the box, builds, codes, drives. « Copier pour l'IA » sends this story to an AI assistant, which drafts a first function tree in seconds.": "Before drawing a single part, the team tells how the product is used, scene by scene: Sam opens the box, builds, codes, drives. “Copy for AI” sends this story to an AI assistant, which drafts a first function tree in seconds.",
 "Besoins (Needs)": "Needs",
@@ -779,6 +780,7 @@
 "Design thinking et double diamant": "Design thinking and double diamond",
 "Dessous : ensuite ↓": "Below: next ↓",
 "Destinataire": "Recipient",
+"Destinataire des demandes": "Recipient of the requests",
 "Destinataire obligatoire : entrez l'organisme de subvention ou le client.": "Recipient required: enter the funding agency or the customer.",
 "Destinataire obligatoire. Correctif : entrez le nom de l'organisme de subvention ou du client à qui le rapport est adressé.": "Recipient required. Fix: enter the name of the funding agency or the customer to whom the report is addressed.",
 "Detection : capacité du contrôle à trouver la défaillance (# = toujours)": "Detection: ability of the control to find the failure (# = always)",

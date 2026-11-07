@@ -440,6 +440,7 @@
 "20 caractères au maximum.": "20 characters maximum.",
 "20 questions sont recommandées.": "20 questions are recommended.",
 "255 caractères au maximum.": "255 characters maximum.",
+"3 demandes par heure et par adresse IP, 30 par jour au total ; un champ caché arrête les robots.": "3 requests per hour per IP address, 30 per day in all; a hidden field stops robots.",
 "3 · Modéré": "3 · Moderate",
 "3 · Très bien": "3 · Very good",
 "3 à 12 participants connectés (6 idéalement), un animateur qui démarre et surveille le temps.": "3 to 12 connected participants (6 ideally), a facilitator who starts and watches the time.",
@@ -589,6 +590,8 @@
 "Adresse IP": "IP address",
 "Adresse de l'outil": "Address of the tool",
 "Adresse de l'outil invalide : https://votre-domaine (sans chemin), celle que voit l'équipe.": "Invalid tool address: https://your-domain (no path), the one the team sees.",
+"Adresse du site": "Address of the website",
+"Adresse du site invalide : https://votre-site (sans chemin).": "Invalid website address: https://your-site (no path).",
 "Adulte": "Adult",
 "Afficher ": "Show ",
 "Afficher la latence dans l'application": "Display the latency in the application",
@@ -1068,6 +1071,5 @@
 "Base propre au Space ": "Base specific to the Space ",
 "Basse": "Low",
 "Batterie": "Battery",
-"Batterie lithium : cellules IEC 62133-2, circuit de gestion de la batterie (surcharge, décharge profonde, court-circuit, température), transport UN 38.3": "Lithium battery: IEC 62133-2 cells, battery management circuit (overcharge, deep discharge, short circuit, temperature), UN 38.3 transport",
-"Batteries : des modules de cellules identiques, assemblés en packs de tailles différentes selon le produit.": "Batteries: identical cell modules, assembled into packs of different sizes depending on the product."
+"Batterie lithium : cellules IEC 62133-2, circuit de gestion de la batterie (surcharge, décharge profonde, court-circuit, température), transport UN 38.3": "Lithium battery: IEC 62133-2 cells, battery management circuit (overcharge, deep discharge, short circuit, temperature), UN 38.3 transport"
 }

@@ -42,7 +42,8 @@ FILE = "mail.json"
 EMAIL_RE = re.compile(r"^[^@\s<>\"',;]{1,64}@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$")
 HOST_RE = re.compile(r"^[A-Za-z0-9.-]{1,253}$")
 DEFAULTS = {"enabled": False, "host": "", "port": 587, "security": "starttls", "username": "", "password": "",
-            "sender": "", "sender_name": "DynamiteAgile", "public_url": ""}
+            "sender": "", "sender_name": "DynamiteAgile", "public_url": "",
+            "contact_enabled": False, "contact_to": "", "contact_origin": ""}  # 0.60.74 (D-O-080): the website's form
 TIMEOUT = 20
 
 
@@ -101,7 +102,7 @@ def ready(data_dir):
     return bool(cfg["enabled"] and cfg["host"] and cfg["sender"] and cfg["public_url"])
 
 
-def send(data_dir, to, subject, text):
+def send(data_dir, to, subject, text, reply_to=None):
     """Send one plain-text message; raises ApiError(502) with the server's answer when it fails."""
     cfg = load(data_dir)
     if not (cfg["host"] and cfg["sender"]):
@@ -110,6 +111,8 @@ def send(data_dir, to, subject, text):
     msg["From"] = formataddr((cfg["sender_name"] or "DynamiteAgile", cfg["sender"]))
     msg["To"] = to
     msg["Subject"] = subject
+    if reply_to:
+        msg["Reply-To"] = reply_to
     msg["Message-ID"] = make_msgid(domain=cfg["sender"].rsplit("@", 1)[-1])
     msg.set_content(text)
     context = ssl.create_default_context()
@@ -177,6 +180,16 @@ def api_admin_put(ctx):
         cfg["security"] = body["security"]
     if body.get("password"):  # empty = keep the one already saved
         cfg["password"] = validate.text(body, "password", 256)
+    if "contact_to" in body:  # 0.60.74 (D-O-080): the contact form of the website
+        cfg["contact_to"] = clean_email(body.get("contact_to"))
+    if "contact_origin" in body:
+        cfg["contact_origin"] = validate.text(body, "contact_origin", 200, required=False).rstrip("/")
+        if cfg["contact_origin"] and not re.match(r"^https://[A-Za-z0-9.-]+(:\d+)?$", cfg["contact_origin"]):
+            raise ApiError(400, "Adresse du site invalide : https://votre-site (sans chemin).")
+    if "contact_enabled" in body:
+        cfg["contact_enabled"] = validate.boolean(body, "contact_enabled")
+    if cfg["contact_enabled"] and not (cfg["contact_to"] and cfg["contact_origin"] and cfg["host"] and cfg["sender"]):
+        raise ApiError(400, "Pour ouvrir le formulaire du site : serveur SMTP, expéditeur, destinataire et adresse du site sont requis.")
     if body.get("clear_password"):
         cfg["password"] = ""
     cfg["public_url"] = cfg["public_url"].rstrip("/")
