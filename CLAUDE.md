@@ -167,6 +167,10 @@
   closed » ; indice précis quand Gmail refuse le mot de passe.
 - **0.60.86** (2026-11-07) : **noms de fichiers téléchargés** (D-O-092, `core/files.py` `disposition`, `core/router.py`) : un nom avec
   « œ », « — », « € » ou un emoji coupait la réponse (en-tête HTTP en Latin-1) ; nom ASCII + `filename*=UTF-8''` (RFC 6266).
+- **0.60.87** (2026-11-07) : **Gmail 534 et classeurs piégés** (D-O-093, `core/mail.py`, `static/js/admin_mail.js`,
+  `modules/exploration/xlsx.py`) : consigne pour « Application-specific password required » et lien vers la page Google des
+  mots de passe d'application ; l'erreur du courriel test reste sous le bouton, liens cliquables ; lecteur .xlsx borné aux
+  limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.68** (2026-11-06) : **le reste de l'interface en anglais** (D-O-073) : balayage de 280 écrans (`tools/i18n_crawl.py`,
   `DA.i18nScan`), ~700 traductions, gabarits « # » pour les nombres.
 - **0.60.67** (2026-11-06) : **le Rover en anglais** (D-O-073) : le contenu affiché en lecture se traduit aussi (dictionnaire de la démo

@@ -11,6 +11,15 @@
     outlook: { host: "smtp-mail.outlook.com", port: 587, security: "starttls" },
   };
 
+  /* 0.60.87 (D-O-093): the Google page where an app password is made (Gmail refuses the account's own password: 534) */
+  const APP_PASSWORDS = "https://myaccount.google.com/apppasswords";
+  const outLink = (href, text) => el("a", { href, target: "_blank", rel: "noopener noreferrer" }, text || href);
+
+  /** A server message with its https:// addresses as links (built with el(), never as HTML). */
+  function linked(text) {
+    return String(text || "").split(/(https:\/\/[^\s<>"'«»)]+[^\s<>"'«»).,;:])/).map((part, i) => (i % 2 ? outLink(part) : part));
+  }
+
   async function render(body) {
     const data = await api.get("/api/admin/mail");
     clear(body);
@@ -85,7 +94,9 @@
         field("Ou un fichier", el("span", null, loadBtn, load), "Un réglage .json (sans mot de passe) : remplit tout le formulaire.")),
       el("div", { class: "form-row" }, field("Hôte SMTP", host), field("Port", port), field("Chiffrement", security)),
       el("div", { class: "form-row" }, field("Compte SMTP", user), field("Mot de passe SMTP", pass,
-        "Gmail : un « mot de passe d'application » (Compte Google → Sécurité → Validation en deux étapes)."),
+        el("span", { "data-new": "0.60.87-app-password" }, "Gmail : un « mot de passe d'application » de 16 lettres, jamais le mot de "
+          + "passe du compte Google — ", outLink(APP_PASSWORDS, "créer un mot de passe d'application ↗"),
+          " (validation en deux étapes activée).")),
       data.has_password ? el("label", { class: "check" }, el("input", { type: "checkbox", onchange: async (ev) => {
         if (!ev.target.checked) return;
         try { await api.put("/api/admin/mail", { clear_password: true }); toast("Mot de passe SMTP effacé.", "success"); render(body); }
@@ -107,15 +118,20 @@
 
     const to = input(data.my_email, { type: "text", inputmode: "email", spellcheck: "false", placeholder: "vous@exemple.ca", maxlength: 254 });
     const testBtn = el("button", { type: "button", class: "btn" }, "Envoyer un courriel test");
+    const outcome = el("div", { class: "danger-box", role: "status", hidden: true });
     testBtn.addEventListener("click", async () => {
       if (state() !== saved) {
         toast("Enregistrez d'abord vos changements : le courriel test utilise les réglages enregistrés sur le serveur.", "error");
         return;
       }
       testBtn.disabled = true;
+      outcome.hidden = true;
       try { toast("Courriel test envoyé à " + (await api.post("/api/admin/mail/test", { to: to.value.trim() })).to + ".", "success"); }
-      catch (err) { toast(err.message, "error"); }
-      finally { testBtn.disabled = false; }
+      catch (err) {  // 0.60.87: the message stays under the button, its links clickable (a toast is gone in 4 seconds)
+        toast("Le courriel test n'est pas parti : détails sous le bouton.", "error");
+        outcome.replaceChildren(el("strong", null, "Courriel test refusé. "), ...linked(err.message));
+        outcome.hidden = false;
+      } finally { testBtn.disabled = false; }
     });
 
     body.append(
@@ -128,7 +144,7 @@
         + "Comptes actifs avec un courriel : " + data.accounts_with_email + "."),
       form,
       el("div", { class: "panel" }, el("h3", null, "Essai"),
-        el("div", { class: "form-row" }, field("Envoyer à", to), testBtn)));
+        el("div", { class: "form-row" }, field("Envoyer à", to), testBtn), outcome));
   }
 
   /** The « Courriel… » button of an account in Admin → Comptes. */

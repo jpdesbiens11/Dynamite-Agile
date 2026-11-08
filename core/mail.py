@@ -174,13 +174,18 @@ def _hint(step, cfg, err):
     if step == "connexion":
         return ("le serveur ne répond pas sur ce port. Vérifiez l'hôte et le port ; sinon l'hébergeur bloque peut-être "
                 "la sortie vers ce port (essayez l'autre : 465 avec SSL / TLS, ou 587 avec STARTTLS).")
-    if step == "login" and ("BadCredentials" in _said(err) or "535" in _said(err)[:4]):
+    said = _said(err)
+    if step == "login" and ("InvalidSecondFactor" in said or said.startswith("534")):  # 0.60.87 (D-O-093)
+        return ("Gmail demande un mot de passe d'APPLICATION, pas le mot de passe du compte Google. Créez-en un sur "
+                "https://myaccount.google.com/apppasswords (connecté au bon compte ; 16 lettres, affichées une seule fois), "
+                "cochez « Effacer le mot de passe enregistré », collez-le sans espaces, Enregistrer, puis refaites le test.")
+    if step == "login" and ("BadCredentials" in said or said.startswith("535")):
         return ("Gmail (ou le serveur) refuse ce mot de passe pour ce compte. Créez un NOUVEAU mot de passe d'application "
-                "(myaccount.google.com/apppasswords ; un changement du mot de passe Google annule les anciens), cochez « Effacer le "
+                "(https://myaccount.google.com/apppasswords ; un changement du mot de passe Google annule les anciens), cochez « Effacer le "
                 "mot de passe enregistré », collez le nouveau sans espaces, Enregistrer, puis refaites le test.")
     if step == "login":
         return ("le compte ou le mot de passe est refusé. Gmail : un « mot de passe d'application » de 16 lettres, "
-                "sans espaces (myaccount.google.com/apppasswords), et le compte SMTP = l'adresse Gmail entière.")
+                "sans espaces (https://myaccount.google.com/apppasswords), et le compte SMTP = l'adresse Gmail entière.")
     if step == "envoi":
         return "le compte est accepté mais pas le message : l'expéditeur doit être l'adresse du compte (ou un alias permis)."
     return "vérifiez l'hôte, le port, la sécurité et le compte (Gmail : un mot de passe d'application)."

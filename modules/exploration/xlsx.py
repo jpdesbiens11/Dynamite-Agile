@@ -22,6 +22,10 @@ PKG_REL_NS = "http://schemas.openxmlformats.org/package/2006/relationships"
 EPOCH = dt.date(1899, 12, 30)
 MAX_BYTES = 10 * 1024 * 1024
 MAX_UNZIPPED = 60 * 1024 * 1024
+# 0.60.87 (D-O-093): a cell « ZZZZZZZ1 » or a row « 999999999 » made a 775-byte file fill the memory (the row is padded
+# up to that column, the sheet up to that row). Excel's own limits, and a budget of cells for the whole workbook.
+MAX_COLS, MAX_ROW = 16_384, 1_048_576
+MAX_CELLS = 2_000_000
 
 # Style ids of the stylesheet below (cellXfs order).
 TEXT, HEADER, DATE, WRAP, WEEK, PERCENT, TITLE = 0, 1, 2, 3, 4, 5, 6
@@ -255,7 +259,7 @@ def read(data, prefer=("Plan",)):
         if "xl/sharedStrings.xml" in z.namelist():
             shared = [_text(si) for si in ET.fromstring(z.read("xl/sharedStrings.xml")).iter(_q("si"))]
         dates = _date_styles(z)
-        result = {}
+        result, budget = {}, [MAX_CELLS]
         for sheet in workbook.iter(_q("sheet")):
             target = targets.get(sheet.get("{%s}id" % REL_NS), "")
             path = target.lstrip("/") if target.startswith("/") else "xl/" + target
@@ -263,17 +267,21 @@ def read(data, prefer=("Plan",)):
                 root = ET.fromstring(z.read(path))
             except (KeyError, ET.ParseError):
                 continue
-            result[sheet.get("name")] = _rows(root, shared, dates)
+            result[sheet.get("name")] = _rows(root, shared, dates, budget)
         return result
 
 
-def _rows(root, shared, dates):
+def _rows(root, shared, dates, budget=None):
+    budget = budget if budget is not None else [MAX_CELLS]
     rows = []
     for row in root.iter(_q("row")):
         values = {}
         for c in row.iter(_q("c")):
             ref = re.match(r"([A-Z]+)", c.get("r", "A"))
             col = _col_index(ref.group(1)) if ref else len(values)
+            if col >= MAX_COLS:
+                raise XlsxError("Cellule {} hors des colonnes d'Excel (XFD au plus). Correctif : enregistrez le classeur "
+                                "depuis Excel ou LibreOffice, puis réessayez.".format(c.get("r", "")[:20]))
             kind, style = c.get("t", "n"), int(c.get("s", 0))
             v = c.find(_q("v"))
             raw = v.text if v is not None else None
@@ -289,14 +297,30 @@ def _rows(root, shared, dates):
             elif kind in ("str", "e"):
                 text = raw
             else:
-                number = float(raw)
-                if style in dates and 1 <= number < 200000:
+                try:
+                    number = float(raw)
+                except ValueError:
+                    number = None
+                if number is None or number != number or number in (float("inf"), float("-inf")):
+                    text = raw  # « inf », « nan », a malformed number: kept as written, never a 500
+                elif style in dates and 1 <= number < 200000:
                     text = (EPOCH + dt.timedelta(days=int(number))).isoformat()
                 else:
                     text = str(int(number)) if number == int(number) else repr(round(number, 6))
             values[col] = text.strip()
-        index = int(row.get("r", len(rows) + 1)) - 1
+        try:
+            index = int(row.get("r", len(rows) + 1)) - 1
+        except ValueError:
+            index = len(rows)
+        if not 0 <= index < MAX_ROW:
+            raise XlsxError("Ligne {} hors des lignes d'Excel (1 048 576 au plus). Correctif : enregistrez le classeur "
+                            "depuis Excel ou LibreOffice, puis réessayez.".format(str(row.get("r"))[:20]))
+        width = max(values) + 1 if values else 0
+        budget[0] -= max(0, index - len(rows)) + width
+        if budget[0] < 0:
+            raise XlsxError("Classeur trop grand : plus de {} cellules. Correctif : gardez seulement les feuilles et les "
+                            "lignes utiles.".format(MAX_CELLS))
         while len(rows) < index:
             rows.append([])
-        rows.append([values.get(i, "") for i in range(max(values) + 1)] if values else [])
+        rows.append([values.get(i, "") for i in range(width)] if values else [])
     return rows
