@@ -1,0 +1,23 @@
+{
+  "version": "0.60.93",
+  "date": "2026-11-08",
+  "summary": {
+    "fr": "Site et vitrine : la journée de l'équipe jouée par un curseur, geste par geste, aussi sur téléphone.",
+    "en": "Website and showcase: the team's day played by a cursor, gesture by gesture, on phones too."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "La journée du site et de la vitrine jouée par un curseur",
+      "why": "Dans « Une journée dans le carnet », un curseur ouvre l'onglet de chaque outil et y fait son geste : Acknowledge, Need Status « Customer Confirmed », ligne DFMEA de F3, durée de Concept étirée, carte glissée vers In Progress, Export Word, PDF joint → Verified, semaine copiée et soumise, test réussi → Completed. Sur téléphone, la journée joue seule ; en mouvement réduit, chaque écran montre son résultat.",
+      "files": [
+        "tools/vitrine/journey.js",
+        "tools/vitrine/journey.css",
+        "tools/vitrine/template.html",
+        "tools/build_vitrine.py",
+        "tools/site/en/journee.html",
+        "static/apps/vitrine/index.html"
+      ]
+    }
+  ]
+}

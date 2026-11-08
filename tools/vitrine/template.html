@@ -83,83 +83,7 @@ h2 { font: 700 clamp(1.7rem, 3.2vw, 2.5rem)/1.2 var(--hand); margin: 0 0 .6rem; 
 .pain .now { margin: .6rem 0 0; font-weight: 650; }
 .pain .now span { --hlc: var(--g); }
 
-/* Diamond scene (0.60.65): function tree that grows branch by branch, then the DFMEA line */
-.ftree { display: grid; grid-template-columns: 36% 1fr; align-items: center; gap: 1.4rem; position: relative; }
-.fkids { display: flex; flex-direction: column; gap: .4rem; border-left: 2px solid var(--ink); padding-left: .9rem; }
-.fnode { border: 2px solid var(--ink); border-radius: var(--r-hand); padding: .3rem .5rem; background: #fff; font-size: .82rem; line-height: 1.2; }
-.fnode code { margin-right: .35rem; font-weight: 700; }
-.fnode.f0 { position: relative; background: color-mix(in srgb, var(--y) 55%, #fff); }
-.fnode.f0::after { content: ""; position: absolute; right: calc(-1.4rem - 2px); top: 50%; width: 1.4rem; border-top: 2px solid var(--ink); }
-.fkids .fnode { position: relative; background: color-mix(in srgb, var(--c) 22%, #fff); opacity: 0; transform: translateX(-12px); transition: opacity .4s ease, transform .4s ease; transition-delay: calc(var(--k) * .35s); }
-.fkids .fnode::before { content: ""; position: absolute; left: calc(-.9rem - 2px); top: 50%; width: .9rem; border-top: 2px solid var(--ink); }
-.fkids .fnode.crit { border-width: 3px; }
-.scene.on .fkids .fnode { opacity: 1; transform: none; }
-.dfm { opacity: 0; transition: opacity .4s ease; transition-delay: calc(1.8s + var(--k, 0) * .4s); }
-.scene.on .dfm { opacity: 1; }
-/* ---------- journey: sticky screen + steps ---------- */
-.journey { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 2.5rem; align-items: start; }
-.steps { display: flex; flex-direction: column; gap: 38vh; padding: 10vh 0 30vh; }
-.step { padding: 1.2rem 1.3rem; background: rgba(255, 255, 255, .86); border: 1.6px solid rgba(38, 50, 63, .25); border-radius: var(--r-card);
-  box-shadow: var(--shadow); opacity: .35; transform: scale(.97); transition: opacity .4s ease, transform .4s var(--pop), border-color .3s; }
-.step.on { opacity: 1; transform: none; border-color: var(--ink); }
-.step .time { font: 700 .95rem var(--hand); color: var(--ink-2); }
-.step h3 { display: flex; align-items: center; gap: .5rem; margin: .2rem 0 .4rem; font-size: 1.3rem; }
-.step p { margin: 0; color: var(--ink-2); }
-.step .gain { display: inline-block; margin-top: .6rem; font: 600 .9rem var(--hand); --hlc: var(--g); }
-.stage { position: sticky; top: 14vh; }
-.screen { position: relative; height: 470px; background: #fff; border: 2px solid var(--ink); border-radius: var(--r-card);
-  box-shadow: 8px 8px 0 rgba(38, 50, 63, .16); overflow: hidden; }
-.screen::before { content: ""; position: absolute; top: -12px; left: 40px; width: 96px; height: 22px; background: color-mix(in srgb, var(--y) 70%, transparent);
-  transform: rotate(-4deg); z-index: 3; }
-.bar { display: flex; align-items: center; gap: .45rem; height: 40px; padding: 0 .8rem; border-bottom: 1.4px solid rgba(38, 50, 63, .25);
-  font: 600 .8rem var(--sans); }
-.bar .tab { display: inline-flex; align-items: center; gap: .25rem; padding: .15rem .35rem; border-radius: var(--r-hand); color: var(--ink-2); }
-.bar .tab.on { color: var(--ink); background: color-mix(in srgb, var(--acc, var(--b)) 45%, transparent); }
-.bar .ico { width: 16px; height: 16px; }
-.scene { position: absolute; inset: 40px 0 0; padding: 1rem 1.1rem; opacity: 0; transform: translateX(24px); transition: opacity .45s ease, transform .45s ease;
-  font-size: .9rem; }
-.scene.on { opacity: 1; transform: none; }
-.mini-h { font: 700 1.05rem var(--hand); margin: 0 0 .7rem; display: inline-block; background: linear-gradient(transparent 58%, color-mix(in srgb, var(--acc, var(--b)) 55%, transparent) 58% 90%, transparent 90%); }
-.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; }
-.kpi { padding: .6rem; border: 1.4px solid rgba(38, 50, 63, .25); border-radius: var(--r-card); box-shadow: 2px 2px 0 rgba(38, 50, 63, .12); }
-.kpi b { display: block; font-size: 1.5rem; }
-.kpi small { color: var(--ink-2); }
-.msg { display: flex; align-items: center; gap: .5rem; margin-top: .8rem; padding: .55rem .7rem; border-left: 4px solid var(--r);
-  background: #fff5f4; border-radius: 6px; transform: scale(0); transform-origin: left; transition: transform .45s var(--pop) .6s; }
-.scene.on .msg { transform: scale(1); }
-.dot { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--r); color: #fff; font-size: .75rem; font-weight: 700; }
-.rows { display: grid; gap: .45rem; }
-.row { display: grid; grid-template-columns: 70px 1fr auto; gap: .6rem; align-items: center; padding: .45rem .55rem; border: 1.2px solid rgba(38, 50, 63, .18);
-  border-radius: 8px; background: #fff; }
-.row code { font: 600 .78rem "Cascadia Mono", Consolas, monospace; color: var(--blue); }
-.chip { padding: .05rem .45rem; border-radius: var(--r-hand); font: 700 .72rem var(--sans); background: #eef1f5; }
-.chip.y { background: #fff1bf; color: #8a5a00; } .chip.g { background: #dcf7e6; color: #1a6e3e; } .chip.b { background: #e3eeff; color: #0a58ad; }
-.trace { position: relative; height: 120px; margin-top: .7rem; }
-.trace svg { width: 100%; height: 100%; }
-.trace .flow { stroke-dasharray: 8 10; animation: flow 1.2s linear infinite; }
-@keyframes flow { to { stroke-dashoffset: -36; } }
-.gantt { display: grid; gap: .55rem; margin-top: .4rem; }
-.g-row { display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: .6rem; font-size: .82rem; }
-.g-bar { height: 14px; border-radius: var(--r-hand); background: var(--v); width: 0; transition: width 1s ease; opacity: .85; }
-.scene.on .g-bar { width: var(--w); }
-.board { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; height: 330px; }
-.col { background: #f4f5f7; border-radius: 10px; padding: .5rem; position: relative; }
-.col h4 { margin: 0 0 .4rem; font-size: .75rem; text-transform: uppercase; color: var(--ink-2); }
-.card { position: absolute; left: .5rem; right: .5rem; padding: .45rem .55rem; background: #fff; border: 1.4px solid rgba(38, 50, 63, .25);
-  border-radius: var(--r-card); box-shadow: 2px 2px 0 rgba(38, 50, 63, .12); font-size: .78rem; transition: transform .9s var(--pop); }
-.wiki { font-size: .86rem; }
-.wiki .typed { border-right: 2px solid var(--ink); white-space: nowrap; overflow: hidden; display: inline-block; max-width: 100%; }
-.wiki .block { margin-top: .6rem; padding: .5rem .6rem; border: 1.4px dashed var(--o); border-radius: 8px; background: #fff7ef; }
-.scope { display: grid; grid-template-columns: 1.3fr 1fr; gap: .8rem; }
-.scope svg { width: 100%; height: 150px; background: #0f1d1a; border-radius: 10px; }
-.scope .wave { stroke-dasharray: 600; stroke-dashoffset: 600; }
-.scene.on .scope .wave { animation: draw 2.4s linear forwards; }
-.hours { display: grid; grid-template-columns: repeat(5, 1fr); gap: .45rem; align-items: end; height: 150px; margin-top: .6rem; }
-.hours div { background: var(--t); border-radius: 6px 6px 3px 3px; height: 0; transition: height .8s var(--pop); opacity: .85; }
-.scene.on .hours div { height: var(--h); }
-.progress { height: 14px; border: 1.4px solid var(--ink); border-radius: var(--r-hand); overflow: hidden; margin: .6rem 0; }
-.progress i { display: block; height: 100%; width: 0; background: var(--p); transition: width 1.4s ease; }
-.scene.on .progress i { width: 72%; }
+/*JOURNEY_CSS*/
 
 /* ---------- chain ---------- */
 .chain svg { width: 100%; height: auto; }
@@ -292,8 +216,8 @@ footer { text-align: center; padding: 2rem 1rem 3rem; color: var(--ink-2); font-
       <div class="stage" aria-hidden="true">
         <div class="screen" id="screen">
           <div class="bar">
-            <span class="tab" data-t="0"><svg class="ico"><use href="#i-dashboard"/></svg>Dashboard</span>
-            <span class="tab" data-t="1"><svg class="ico"><use href="#i-goldmine"/></svg>Goldmine</span>
+            <span class="tab" data-t="0"><svg class="ico"><use href="#i-dashboard"/></svg><span class="tl">Dashboard</span></span>
+            <span class="tab" data-t="1"><svg class="ico"><use href="#i-goldmine"/></svg><span class="tl">Goldmine</span></span>
             <span class="tab" data-t="2" data-new="0.60.65-vitrine-diamond"><svg class="ico"><use href="#i-diamond"/></svg></span>
             <span class="tab" data-t="3"><svg class="ico"><use href="#i-exploration"/></svg></span>
             <span class="tab" data-t="4"><svg class="ico"><use href="#i-agile"/></svg></span>
@@ -302,51 +226,69 @@ footer { text-align: center; padding: 2rem 1rem 3rem; color: var(--ink-2); font-
             <span class="tab" data-t="7"><svg class="ico"><use href="#i-timesheet"/></svg></span>
             <span class="tab" data-t="8"><svg class="ico"><use href="#i-training"/></svg></span>
           </div>
-          <div class="scene" data-s="0"><div class="mini-h">Mon Dashboard</div>
-            <div class="kpis"><div class="kpi"><b data-count="7">0</b><small>Tickets</small></div><div class="kpi"><b data-count="12">0</b><small>Requirements</small></div>
-              <div class="kpi"><b data-count="3">0</b><small>Tests</small></div><div class="kpi"><b data-count="32">0</b><small>Heures</small></div></div>
-            <div class="msg"><span class="dot">1</span><span><b>@lea</b> — « Peux-tu confirmer l'usage à une main avec le client ? »</span></div>
+          <div class="scene" data-s="0" data-play="dash"><div class="mini-h">Mon Dashboard</div>
+            <div class="kpis"><div class="kpi"><b>7</b><small>Tickets</small></div><div class="kpi"><b>12</b><small>Requirements</small></div>
+              <div class="kpi"><b>3</b><small>Tests</small></div><div class="kpi"><b>32</b><small>Heures</small></div></div>
+            <div class="msg"><span class="dot" data-to="✓">1</span><span class="msg-t"><b>@lea</b> — « Peux-tu confirmer l'usage à une main avec le client ? »</span>
+              <span class="btn" data-to="Acknowledged ✓" data-new="0.60.93-journee-curseur">Acknowledge</span></div>
             <div class="rows" style="margin-top:.8rem"><div class="row"><code>EQP-12</code><span>Préhension à une main</span><span class="chip y">Assumption</span></div>
               <div class="row"><code>EQP-22</code><span>Buse 2 mm → 1,5 mm</span><span class="chip b">In Review</span></div></div></div>
-          <div class="scene" data-s="1"><div class="mini-h">Requirements et needs</div>
+          <div class="scene" data-s="1" data-play="need"><div class="mini-h">Requirements et needs</div>
             <div class="rows"><div class="row"><code>N-01</code><span>Coller rapidement des petites pièces</span><span class="chip">Need</span></div>
-              <div class="row"><code>N-02</code><span>Utiliser d'une seule main</span><span class="chip g" id="nstatus">Assumption</span></div>
+              <div class="row"><code>N-02</code><span>Utiliser d'une seule main</span><span class="chip y" id="nstatus" data-to="Customer Confirmed">Assumption</span></div>
               <div class="row"><code>REQ-012</code><span>Masse ≤ 500 g, préhension une main</span><span class="chip b">Requirement</span></div></div>
-            <div class="trace"><svg viewBox="0 0 460 120"><path class="flow" d="M40 60 C120 20 160 100 230 60 S360 20 420 60" fill="none" stroke="#ffd23f" stroke-width="5" stroke-linecap="round"/>
-              <g font-family="Segoe Print, Ink Free, Segoe UI, sans-serif" font-size="13" fill="#26323f"><text x="8" y="100">Need</text><text x="185" y="100">Fonction</text><text x="360" y="100">Requirement</text></g>
-              <circle cx="40" cy="60" r="9" fill="#fff" stroke="#26323f" stroke-width="2"/><circle cx="230" cy="60" r="9" fill="#fff" stroke="#26323f" stroke-width="2"/><circle cx="420" cy="60" r="9" fill="#fff" stroke="#26323f" stroke-width="2"/></svg></div></div>
-          <div class="scene" data-s="2" style="--acc: var(--c)" data-new="0.60.65-vitrine-diamond"><div class="mini-h">Arbre fonctionnel · pistolet à colle</div>
+            <div class="pop" data-new="0.60.93-journee-curseur"><span>Assumption</span><span class="pick">Customer Confirmed</span><span>Rejected</span></div>
+            <div class="trace"><svg viewBox="0 0 460 100"><path class="base" d="M40 50 C120 10 160 90 230 50 S360 10 420 50" fill="none" stroke-width="4" stroke-linecap="round"/>
+              <path class="lit" d="M40 50 C120 10 160 90 230 50 S360 10 420 50" fill="none" stroke-width="5" stroke-linecap="round"/>
+              <circle cx="40" cy="50" r="9"/><circle cx="230" cy="50" r="9"/><circle cx="420" cy="50" r="9"/></svg>
+              <div class="trace-l"><span>Need</span><span>Fonction</span><span>Requirement</span></div></div></div>
+          <div class="scene" data-s="2" style="--acc: var(--c)" data-play="tree" data-new="0.60.65-vitrine-diamond"><div class="mini-h">Arbre fonctionnel · pistolet à colle</div>
             <div class="ftree"><div class="fnode f0"><code>F1</code>Appliquer de la colle chaude</div>
               <div class="fkids"><div class="fnode" style="--k:1"><code>F2</code>Stocker les bâtonnets</div><div class="fnode crit" style="--k:2"><code>F3</code>Fondre la colle</div>
                 <div class="fnode" style="--k:3"><code>F4</code>Étendre la colle</div><div class="fnode" style="--k:4"><code>F5</code>Protéger l'utilisateur</div></div></div>
-            <div class="rows" style="margin-top:.7rem"><div class="row dfm" style="grid-template-columns:auto 1fr auto"><code>F3</code><span>Surchauffe de la buse · S 8 · O 3 · D 4</span><span class="chip y">AP M</span></div>
-              <div class="row dfm" style="grid-template-columns:auto 1fr auto; --k:1"><code>TST</code><span>Essai clé : échauffement de la buse</span><span class="chip b">Test Base</span></div></div></div>
-          <div class="scene" data-s="3" style="--acc: var(--v)"><div class="mini-h">Plan du projet</div>
-            <div class="gantt"><div class="g-row"><span>Discovery</span><i class="g-bar" style="--w: 38%"></i></div><div class="g-row"><span>Concept</span><i class="g-bar" style="--w: 55%; margin-left: 30%"></i></div>
-              <div class="g-row"><span>Design</span><i class="g-bar" style="--w: 45%; margin-left: 48%; background: var(--p)"></i></div><div class="g-row"><span>Validation</span><i class="g-bar" style="--w: 30%; margin-left: 66%"></i></div>
-              <div class="g-row"><span>Lancement ◆</span><i class="g-bar" style="--w: 4%; margin-left: 80%; background: var(--o)"></i></div></div></div>
-          <div class="scene" data-s="4"><div class="mini-h">Sprint 7 · Board</div>
+            <div class="rows" style="margin-top:.9rem"><div class="row dfm"><code>F3</code><span>Surchauffe de la buse · S 8 · O 3 · D 4</span><span class="chip y">AP M</span></div>
+              <div class="row dfm"><code>TST</code><span>Essai clé : échauffement de la buse</span><span class="chip b">Test Base</span></div></div></div>
+          <div class="scene" data-s="3" style="--acc: var(--v)" data-play="plan"><div class="mini-h">Plan du projet</div>
+            <div class="gantt">
+              <div class="g-row g-ruler"><span></span><div class="g-track"><span style="left:0">Jan</span><span style="left:16.7%">Fév</span><span style="left:33.3%">Mar</span><span style="left:50%">Avr</span><span style="left:66.7%">Mai</span><span style="left:83.3%">Juin</span></div></div>
+              <div class="g-row"><span>Discovery</span><div class="g-track"><i class="g-bar" data-x="0" data-w="20"></i></div></div>
+              <div class="g-row"><span>Concept</span><div class="g-track"><i class="g-bar" data-x="16" data-w="20" data-grip></i></div></div>
+              <div class="g-row"><span>Design</span><div class="g-track"><i class="g-bar pink" data-x="32" data-w="24" data-dep></i></div></div>
+              <div class="g-row"><span>Validation</span><div class="g-track"><i class="g-bar" data-x="52" data-w="18" data-dep></i></div></div>
+              <div class="g-row"><span>Lancement</span><div class="g-track"><i class="g-ms" data-x="73" data-dep></i></div></div></div>
+            <div class="row g-sum" data-new="0.60.93-journee-curseur"><span>◆ Date de lancement</span><b data-to="26 mai">12 mai</b></div></div>
+          <div class="scene" data-s="4" data-play="board"><div class="mini-h">Sprint 7 · Board</div>
             <div class="board"><div class="col"><h4>To Do</h4></div><div class="col"><h4>In Progress</h4></div><div class="col"><h4>Done</h4></div></div>
-            <div class="card" id="c1" style="top:92px">EQP-31 · Gâchette</div><div class="card" id="c2" style="top:150px">EQP-32 · Buse et clapet</div><div class="card" id="c3" style="top:208px">EQP-33 · AMDEC chauffe</div></div>
-          <div class="scene wiki" data-s="5" style="--acc: var(--o)"><div class="mini-h">PRC-CHUTE — Procédure d'essai de chute</div>
-            <div><span class="typed" id="typed"></span></div>
+            <div class="card" data-at="1 0">EQP-31 · Gâchette</div><div class="card" data-at="0 0" data-end="1 1" data-carry>EQP-32 · Buse et clapet</div>
+            <div class="card" data-at="0 1" data-end="0 0">EQP-33 · AMDEC chauffe</div><div class="card" data-at="2 0">EQP-30 · Boîtier</div></div>
+          <div class="scene wiki" data-s="5" style="--acc: var(--o)" data-play="wiki"><div class="mini-h">PRC-CHUTE — Procédure d'essai de chute</div>
+            <div class="typed" id="typed"></div><div class="ph" style="width:64%"></div><div class="ph" style="width:46%"></div>
             <div class="block">▣ Ticket vivant : <b>EQP-32</b> · Buse et clapet · <span class="chip b">In Progress</span></div>
-            <div class="block" style="border-color: var(--b); background:#f2f7ff">⇩ Export Word au gabarit de l'équipe · Codebeamer-style</div></div>
-          <div class="scene" data-s="6" style="--acc: var(--g)"><div class="mini-h">Test Plan TP-014 · Laboratoire</div>
+            <div class="block exp"><span class="btn" data-to="PRC-CHUTE.docx ✓" data-new="0.60.93-journee-curseur">⇩ Export Word</span><span>gabarit de l'équipe · Codebeamer-style</span></div></div>
+          <div class="scene" data-s="6" style="--acc: var(--g)" data-play="test"><div class="mini-h">Test Plan TP-014 · Laboratoire</div>
             <div class="scope"><svg viewBox="0 0 300 150"><g stroke="#1f3b33" stroke-width="1">
               <path d="M0 37H300M0 75H300M0 112H300M60 0V150M120 0V150M180 0V150M240 0V150"/></g>
               <path class="wave" d="M0 75 C20 20 40 20 60 75 S100 130 120 75 S160 20 180 75 S220 130 240 75 S280 20 300 75" fill="none" stroke="#5fd08a" stroke-width="3"/></svg>
-              <div class="rows"><div class="row" style="grid-template-columns:1fr auto"><span>TST-ELE-02</span><span class="chip g">Pass</span></div>
-                <div class="row" style="grid-template-columns:1fr auto"><span>TST-MEC-01</span><span class="chip g">Pass</span></div>
-                <div class="row" style="grid-template-columns:1fr auto"><span>REQ-012</span><span class="chip b" id="verified">In Verification</span></div></div></div></div>
-          <div class="scene" data-s="7" style="--acc: var(--t)"><div class="mini-h">Ma semaine · 40 h</div>
-            <div class="hours"><div style="--h: 78%"></div><div style="--h: 84%"></div><div style="--h: 70%"></div><div style="--h: 88%"></div><div style="--h: 62%"></div></div>
-            <div class="rows" style="margin-top:.8rem"><div class="row" style="grid-template-columns:1fr auto"><span>B-09 · Recherche des fonctions</span><b>14 h</b></div>
-              <div class="row" style="grid-template-columns:1fr auto"><span>B-11 · Spécifications d'ingénierie (CdCF)</span><b>9 h</b></div></div></div>
-          <div class="scene" data-s="8" style="--acc: var(--p)"><div class="mini-h">Mon plan de formation 2026</div>
-            <div>TL-02 — Matrice de Pugh</div><div class="progress"><i></i></div>
-            <div class="rows"><div class="row" style="grid-template-columns:1fr auto"><span>Test Markdown · 20 questions</span><span class="chip g">18 / 20</span></div>
-              <div class="row" style="grid-template-columns:1fr auto"><span>DEMO · étape 6 Agile</span><span class="chip y">En cours</span></div></div></div>
+              <div class="rows"><div class="row two"><span>TST-ELE-02</span><span class="chip g">Pass</span></div>
+                <div class="row two"><span>TST-MEC-01</span><span class="chip g">Pass</span></div>
+                <div class="row two"><span>REQ-012</span><span class="chip b" id="verified" data-to="Verified ✓">In Verification</span></div>
+                <span class="btn" data-to="TP-014.pdf ✓" data-new="0.60.93-journee-curseur">Joindre le PDF</span></div></div></div>
+          <div class="scene" data-s="7" style="--acc: var(--t)" data-play="hours"><div class="mini-h">Ma semaine · <span data-to="40">32</span> h</div>
+            <div class="hours"><div class="hcol" data-h="78"><i></i></div><div class="hcol" data-h="84"><i></i></div><div class="hcol" data-h="70"><i></i></div>
+              <div class="hcol" data-h="88"><i></i></div><div class="hcol fri" data-h="88"><i></i></div></div>
+            <div class="days"><span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span></div>
+            <div class="acts" data-new="0.60.93-journee-curseur"><span class="btn" data-copy>Copier jeudi → vendredi</span><span class="btn btn-primary" data-to="Soumise ✓">Soumettre</span></div>
+            <div class="rows"><div class="row two"><span>B-09 · Recherche des fonctions</span><b>14 h</b></div>
+              <div class="row two"><span>B-11 · Spécifications d'ingénierie (CdCF)</span><b>9 h</b></div></div></div>
+          <div class="scene" data-s="8" style="--acc: var(--p)" data-play="train"><div class="mini-h">Mon plan de formation 2026</div>
+            <div class="tl"><span>TL-02 — Matrice de Pugh</span><span class="chip y" data-to="Completed">In Progress</span></div><div class="progress"><i></i></div>
+            <div class="rows"><div class="row two"><span>Test · 20 questions</span><span class="btn" data-to="18 / 20 ✓" data-new="0.60.93-journee-curseur">Soumettre le test</span></div>
+              <div class="row two"><span>DEMO · étape 6 Agile</span><span class="chip y">En cours</span></div></div></div>
+          <div class="jc" data-kind="arrow" data-new="0.60.93-journee-curseur"><div class="jc-press">
+            <svg class="jc-g jc-arrow" width="22" height="22" viewBox="0 0 22 22"><path d="M4 3 18.5 9.6 11.8 11.8 9.6 18.5Z"/></svg>
+            <svg class="jc-g jc-ibeam" width="10" height="16" viewBox="0 0 10 16" fill="none"><path class="edge" d="M3 1H7M3 15H7M5 1V15" stroke-width="2.6" stroke-linecap="round"/><path class="line" d="M3 1H7M3 15H7M5 1V15" stroke-width="1" stroke-linecap="round"/></svg>
+            <svg class="jc-g jc-ew" width="21" height="21" viewBox="-14 -14 28 28"><g transform="rotate(90)" stroke-linejoin="round"><path class="edge" d="M0-8.4 2.55-3.65H-2.55ZM0 8.4 2.55 3.65H-2.55Z" stroke-width="3.2"/><path class="line" d="M0-8.4 2.55-3.65H-2.55ZM0 8.4 2.55 3.65H-2.55Z" stroke-width="1.2"/></g></svg>
+          </div></div>
         </div>
       </div>
     </div>
@@ -425,59 +367,6 @@ footer { text-align: center; padding: 2rem 1rem 3rem; color: var(--ink-2); font-
   }), { threshold: .2 });
   document.querySelectorAll(".reveal, .pain, .chain").forEach((n) => io.observe(n));
 
-  /* ---------- journey: the step in the middle of the screen drives the mock-up ---------- */
-  const steps = Array.from(document.querySelectorAll(".step"));
-  const scenes = Array.from(document.querySelectorAll("#screen .scene"));
-  const tabs = Array.from(document.querySelectorAll(".bar .tab"));
-  const screen = document.getElementById("screen");
-  let current = -1, timers = [];
-  function later(fn, ms) { timers.push(setTimeout(fn, reduce ? 0 : ms)); }
-  function show(i) {
-    if (i === current) return;
-    current = i;
-    timers.forEach(clearTimeout); timers = [];
-    steps.forEach((s, k) => s.classList.toggle("on", k === i));
-    scenes.forEach((s, k) => s.classList.toggle("on", k === i));
-    tabs.forEach((t, k) => t.classList.toggle("on", k === i));
-    screen.style.setProperty("--acc", steps[i].getAttribute("data-acc"));
-    const scene = scenes[i];
-    scene.querySelectorAll("[data-count]").forEach(count);
-    if (i === 1) {
-      const chip = document.getElementById("nstatus");
-      chip.textContent = "Assumption"; chip.className = "chip y";
-      later(() => { chip.textContent = "Customer Confirmed"; chip.className = "chip g"; }, 1300);
-    }
-    if (i === 4) {  // cards travel To Do → In Progress → Done
-      const cols = document.querySelectorAll(".board .col");
-      const x = (c) => cols[c].offsetLeft - cols[0].offsetLeft;
-      ["c1", "c2", "c3"].forEach((id) => {
-        const card = document.getElementById(id);
-        card.style.left = (cols[0].offsetLeft + 8) + "px"; card.style.right = "auto"; card.style.width = (cols[0].offsetWidth - 16) + "px";
-        card.style.transform = "none";
-      });
-      later(() => { document.getElementById("c1").style.transform = "translateX(" + x(1) + "px)"; }, 500);
-      later(() => { document.getElementById("c1").style.transform = "translate(" + x(2) + "px, 0)"; }, 1500);
-      later(() => { document.getElementById("c2").style.transform = "translate(" + x(1) + "px, -58px)"; }, 2100);
-      later(() => { document.getElementById("c3").style.transform = "translateY(-116px)"; }, 2700);
-    }
-    if (i === 5) {  // typing
-      const text = "Objectif : vérifier que le pistolet chaud tombé d'un mètre reste sûr et fonctionnel.";
-      const node = document.getElementById("typed"); node.textContent = "";
-      let k = 0;
-      (function type() { node.textContent = text.slice(0, ++k); if (k < text.length) later(type, 28); })();
-    }
-    if (i === 6) {
-      const v = document.getElementById("verified");
-      v.textContent = "In Verification"; v.className = "chip b";
-      later(() => { v.textContent = "Verified ✓"; v.className = "chip g"; }, 2500);
-    }
-  }
-  const so = new IntersectionObserver((entries) => entries.forEach((e) => {
-    if (e.isIntersecting) show(Number(e.target.getAttribute("data-scene")));
-  }), { rootMargin: "-45% 0px -45% 0px" });
-  steps.forEach((s) => so.observe(s));
-  show(0);
-
   /* ---------- tool cards tilt toward the pencil ---------- */
   document.querySelectorAll(".tool").forEach((card) => {
     card.addEventListener("mousemove", (ev) => {
@@ -532,6 +421,7 @@ footer { text-align: center; padding: 2rem 1rem 3rem; color: var(--ink-2); font-
   }
   requestAnimationFrame(step);
 })();
+/*JOURNEY_JS*/
 </script>
 </body>
 </html>
