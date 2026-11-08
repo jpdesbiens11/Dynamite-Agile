@@ -15,9 +15,14 @@
   const APP_PASSWORDS = "https://myaccount.google.com/apppasswords";
   const outLink = (href, text) => el("a", { href, target: "_blank", rel: "noopener noreferrer" }, text || href);
 
-  /** A server message with its https:// addresses as links (built with el(), never as HTML). */
+  /* 0.60.89 (D-O-095): only the pages the platform itself points to become links; an address the SMTP server writes
+     in its answer stays plain text (the server is not ours to trust) */
+  const LINKABLE = new Set([APP_PASSWORDS]);
+
+  /** A server message with the known https:// pages as links (built with el(), never as HTML). */
   function linked(text) {
-    return String(text || "").split(/(https:\/\/[^\s<>"'«»)]+[^\s<>"'«»).,;:])/).map((part, i) => (i % 2 ? outLink(part) : part));
+    return String(text || "").split(/(https:\/\/[^\s<>"'«»)]+[^\s<>"'«»).,;:])/)
+      .map((part, i) => (i % 2 && LINKABLE.has(part) ? outLink(part) : part));
   }
 
   async function render(body) {
@@ -169,7 +174,7 @@
     } }, "Courriel…");
   }
 
-  DA.adminMail = { emailButton };
+  DA.adminMail = { emailButton, linked };  // linked: tests/js/admin_mail_links.js
   DA.adminExtra = DA.adminExtra || {};
   DA.adminExtra.loaders = Object.assign(DA.adminExtra.loaders || {}, { mail: render });
 })();

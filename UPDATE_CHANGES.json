@@ -2,11 +2,20 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Sceau des paquets : nombre d'itérations fixe",
-      "why": "Fin de la revue : à l'ouverture d'un paquet « Données » ou « Site complet », le nombre d'itérations PBKDF2 du sceau était lu dans le paquet lui-même ; un paquet trafiqué pouvait en demander des milliards et occuper le serveur pendant la vérification. Seul le nombre que la plateforme écrit (310 000, le même depuis la première version) est accepté ; un paquet déjà exporté reste lisible.",
+      "title": "Classeurs Excel mal formés : un message, plus une erreur 500",
+      "why": "Revue des correctifs de la revue du code : un classeur .xlsx dont une cellule portait un style ou un numéro de texte partagé qui n'est pas un nombre, ou dont styles.xml / sharedStrings.xml était illisible, donnait « Erreur interne du serveur » à l'import (plan Exploration, retour client des Q&R Goldmine, postes budgétaires Timesheet). Il donne maintenant « Classeur illisible » avec la cellule en cause et le correctif. Un numéro de texte partagé négatif (-1) ne donne plus le dernier texte du classeur à la place d'une cellule vide.",
       "files": [
-        "core/seal.py",
-        "tests/test_seal_iterations.py"
+        "modules/exploration/xlsx.py",
+        "tests/test_xlsx_limits.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Courriel test : seuls les liens de la plateforme sont cliquables",
+      "why": "Revue des correctifs de la revue du code : dans ⚙ Admin → Courriel, l'erreur du courriel test rendait cliquable toute adresse https:// écrite par le serveur SMTP dans sa réponse. Seule la page Google des mots de passe d'application, que la plateforme donne elle-même, est maintenant un lien ; une autre adresse reste du texte.",
+      "files": [
+        "static/js/admin_mail.js",
+        "tests/js/admin_mail_links.js"
       ]
     }
   ]

@@ -256,9 +256,12 @@ def read(data, prefer=("Plan",)):
             raise XlsxError("Classeur illisible (workbook.xml manquant).")
         targets = {r.get("Id"): r.get("Target") for r in rels}
         shared = []
-        if "xl/sharedStrings.xml" in z.namelist():
-            shared = [_text(si) for si in ET.fromstring(z.read("xl/sharedStrings.xml")).iter(_q("si"))]
-        dates = _date_styles(z)
+        try:  # 0.60.89 (D-O-095): a malformed part is a 400 with its message, never a 500
+            if "xl/sharedStrings.xml" in z.namelist():
+                shared = [_text(si) for si in ET.fromstring(z.read("xl/sharedStrings.xml")).iter(_q("si"))]
+            dates = _date_styles(z)
+        except (ValueError, ET.ParseError):
+            raise XlsxError("Classeur illisible (styles ou textes partagés mal formés).")
         result, budget = {}, [MAX_CELLS]
         for sheet in workbook.iter(_q("sheet")):
             target = targets.get(sheet.get("{%s}id" % REL_NS), "")
@@ -282,32 +285,11 @@ def _rows(root, shared, dates, budget=None):
             if col >= MAX_COLS:
                 raise XlsxError("Cellule {} hors des colonnes d'Excel (XFD au plus). Correctif : enregistrez le classeur "
                                 "depuis Excel ou LibreOffice, puis réessayez.".format(c.get("r", "")[:20]))
-            kind, style = c.get("t", "n"), int(c.get("s", 0))
-            v = c.find(_q("v"))
-            raw = v.text if v is not None else None
-            if kind == "s" and raw is not None:
-                text = shared[int(raw)] if int(raw) < len(shared) else ""
-            elif kind == "inlineStr":
-                node = c.find(_q("is"))
-                text = _text(node) if node is not None else ""
-            elif kind == "b":
-                text = "VRAI" if raw == "1" else "FAUX"
-            elif raw is None:
-                text = ""
-            elif kind in ("str", "e"):
-                text = raw
-            else:
-                try:
-                    number = float(raw)
-                except ValueError:
-                    number = None
-                if number is None or number != number or number in (float("inf"), float("-inf")):
-                    text = raw  # « inf », « nan », a malformed number: kept as written, never a 500
-                elif style in dates and 1 <= number < 200000:
-                    text = (EPOCH + dt.timedelta(days=int(number))).isoformat()
-                else:
-                    text = str(int(number)) if number == int(number) else repr(round(number, 6))
-            values[col] = text.strip()
+            try:
+                values[col] = _cell_text(c, shared, dates).strip()
+            except ValueError:  # 0.60.89 (D-O-095): a style or a shared-string index that is not a number
+                raise XlsxError("Classeur illisible (cellule {} mal formée). Correctif : enregistrez le classeur "
+                                "depuis Excel ou LibreOffice, puis réessayez.".format(c.get("r", "")[:20]))
         try:
             index = int(row.get("r", len(rows) + 1)) - 1
         except ValueError:
@@ -324,3 +306,31 @@ def _rows(root, shared, dates, budget=None):
             rows.append([])
         rows.append([values.get(i, "") for i in range(width)] if values else [])
     return rows
+
+
+def _cell_text(c, shared, dates):
+    """Text of one <c>; ValueError when its style or its shared-string index is not a number."""
+    kind, style = c.get("t", "n"), int(c.get("s", 0))
+    v = c.find(_q("v"))
+    raw = v.text if v is not None else None
+    if kind == "s" and raw is not None:
+        index = int(raw)
+        return shared[index] if 0 <= index < len(shared) else ""  # 0.60.89: -1 was the last string of the table
+    if kind == "inlineStr":
+        node = c.find(_q("is"))
+        return _text(node) if node is not None else ""
+    if kind == "b":
+        return "VRAI" if raw == "1" else "FAUX"
+    if raw is None:
+        return ""
+    if kind in ("str", "e"):
+        return raw
+    try:
+        number = float(raw)
+    except ValueError:
+        number = None
+    if number is None or number != number or number in (float("inf"), float("-inf")):
+        return raw  # « inf », « nan », a malformed number: kept as written, never a 500
+    if style in dates and 1 <= number < 200000:
+        return (EPOCH + dt.timedelta(days=int(number))).isoformat()
+    return str(int(number)) if number == int(number) else repr(round(number, 6))

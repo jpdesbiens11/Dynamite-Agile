@@ -173,6 +173,9 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.89** (2026-11-07) : **revue des correctifs** (D-O-095, `modules/exploration/xlsx.py`, `static/js/admin_mail.js`) :
+  classeur .xlsx mal formé → « Classeur illisible » (400) au lieu d'une erreur 500 ; erreur du courriel test : seules les
+  pages de la plateforme sont des liens. R1 (plafond de connexion par IP derrière une adresse partagée) attend la décision de JP.
 - **0.60.68** (2026-11-06) : **le reste de l'interface en anglais** (D-O-073) : balayage de 280 écrans (`tools/i18n_crawl.py`,
   `DA.i18nScan`), ~700 traductions, gabarits « # » pour les nombres.
 - **0.60.67** (2026-11-06) : **le Rover en anglais** (D-O-073) : le contenu affiché en lecture se traduit aussi (dictionnaire de la démo
@@ -200,7 +203,7 @@
   règles techniques : `docs/FONDATIONS.md` (prime sur ce fichier) ; décisions antérieures D-A / D-B citées dans le
   code : `docs/DECISIONS_ANTERIEURES.md`.
 - Tests : `python3 -m unittest discover -s tests -t .` puis `node tests/js/ai_markdown.js` et
-  `node tests/js/editor_roundtrip.js`. Démarrage : `python3 app_dynamite_agile.py --dev-admin` (admin / admin).
+  `node tests/js/editor_roundtrip.js`, `node tests/js/admin_mail_links.js`. Démarrage : `python3 app_dynamite_agile.py --dev-admin` (admin / admin).
 
 ## Comment travailler ici
 
