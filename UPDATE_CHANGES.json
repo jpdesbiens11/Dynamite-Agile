@@ -2,11 +2,19 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Admin → Courriel plus sûr à régler",
-      "why": "Réglage du courriel de la démo (Gmail) : les erreurs ne disaient pas à quelle étape le serveur SMTP coupait, choisir « SSL / TLS (port 465) » laissait le port à 587 (« wrong version number »), et le courriel test utilisait les réglages enregistrés même quand l'écran en montrait d'autres. L'erreur nomme maintenant l'étape (connexion au serveur, passage en chiffré, connexion au compte, envoi), l'hôte, le port et le chiffrement réellement utilisés, avec la cause habituelle à cette étape ; le port suit le chiffrement ; le courriel test refuse tant que des changements ne sont pas enregistrés ; « Charger un réglage… » remplit tout le formulaire depuis un fichier .json (jamais de mot de passe), lu dans le navigateur.",
+      "title": "Tour guidé : les flèches restent au champ",
+      "why": "Revue de la page d'installation (0.60.70) : pendant le tour guidé, ← / → tapées dans l'adresse IP ou le domaine de l'assistant, ou sur ses boutons radio, changeaient aussi l'étape du tour, prenaient le focus et faisaient défiler la page. Elles restent maintenant au champ ; hors d'un champ, elles mènent toujours le tour.",
+      "files": [
+        "tools/site/tour.js",
+        "tests/test_site_tour.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Mot de passe SMTP absent dit en clair",
+      "why": "Réglage de Gmail sur la démo : sans mot de passe enregistré (il est effacé quand l'hôte ou le compte change), Gmail coupait la connexion à l'étape du compte sans dire pourquoi. Le serveur le dit maintenant avant de se connecter, avec le correctif.",
       "files": [
         "core/mail.py",
-        "static/js/admin_mail.js",
         "tests/test_mail_steps.py"
       ]
     }
