@@ -1,12 +1,19 @@
-# Journal de mise à jour — 0.60.83
+# Journal de mise à jour — 0.60.84
+
+- **Version :** 0.60.83 → 0.60.84 (2026-11-07)
+- **Changements :**
+  1. **Connexion : plafond d'échecs par adresse IP** (D-O-090).
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.83
 
 - **Version :** 0.60.82 → 0.60.83 (2026-11-07)
 - **Changements :**
   1. **Exports Office toujours valides** (D-O-089).
   2. **Mise à jour en ligne : empreinte obligatoire** (D-O-089).
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.82
 
