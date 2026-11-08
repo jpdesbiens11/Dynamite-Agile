@@ -24,6 +24,7 @@ INITIAL_PASSWORD_FILE = "INITIAL_ADMIN_PASSWORD.txt"
 
 _fail_lock = threading.Lock()
 _failures = {}  # "username|ip" -> (failure_count, locked_until_epoch)
+_ip_failures = {}  # 0.60.84 (D-O-090): ip -> [epoch of each failed login], every username together
 
 
 # --------------------------------------------------------------------------
@@ -84,21 +85,40 @@ def reset_pending_temp_passwords(conn):
 # --------------------------------------------------------------------------
 # Login throttling (in memory, reset when the server restarts)
 # --------------------------------------------------------------------------
-def _check_lock(key, now):
+def _check_lock(key, now, ip=None, cfg=None):
     with _fail_lock:
         entry = _failures.get(key)
         if entry and entry[1] > now:
             raise ApiError(429, "Trop de tentatives. Réessayez dans quelques minutes.")
+        if ip is not None and cfg is not None:  # 0.60.84 (D-O-090): one password tried on every account (spraying)
+            window = float(cfg.get("login_ip_window_minutes", 15)) * 60
+            recent = [t for t in _ip_failures.get(ip, []) if now - t < window]
+            _ip_failures[ip] = recent
+            if len(recent) >= int(cfg.get("login_ip_max_failures", 30)):
+                raise ApiError(429, "Trop de tentatives depuis cette adresse. Réessayez dans quelques minutes.")
 
 
-def _record_failure(key, now, max_failures, lock_minutes):
+def _prune(now, keep=1024):
+    """Called under _fail_lock: forget the counters that no longer lock anything (they grew with every username tried)."""
+    if len(_failures) > keep:
+        for k in [k for k, (_c, until, *last) in _failures.items() if until <= now and (not last or now - last[0] > 3600)]:
+            del _failures[k]
+    if len(_ip_failures) > keep:
+        for ip in [ip for ip, times in _ip_failures.items() if not times or now - times[-1] > 3600]:
+            del _ip_failures[ip]
+
+
+def _record_failure(key, now, max_failures, lock_minutes, ip=None):
     with _fail_lock:
-        count, locked_until = _failures.get(key, (0, 0))
+        count, locked_until = _failures.get(key, (0, 0, 0))[:2]
         if locked_until and locked_until <= now:
             count = 0  # Previous lock expired: start counting again
         count += 1
         locked_until = now + lock_minutes * 60 if count >= max_failures else 0
-        _failures[key] = (count, locked_until)
+        _failures[key] = (count, locked_until, now)
+        if ip is not None:
+            _ip_failures.setdefault(ip, []).append(now)
+        _prune(now)
 
 
 # --------------------------------------------------------------------------
@@ -120,12 +140,12 @@ def login(conn, username, password, ip, cfg):
 
     key = "{}|{}".format(username, ip)
     now = time.time()
-    _check_lock(key, now)
+    _check_lock(key, now, ip, cfg)
 
     user = conn.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
     password_ok = verify_password(password, user["password_hash"] if user else _DUMMY_HASH)
     if not (user and user["is_active"] and password_ok):
-        _record_failure(key, now, int(cfg["login_max_failures"]), int(cfg["login_lock_minutes"]))
+        _record_failure(key, now, int(cfg["login_max_failures"]), int(cfg["login_lock_minutes"]), ip)
         user_id = user["id"] if user else None
         audit.log_action(conn, user_id, "login_failed", "user", user_id,
                          {"username": username}, ip)

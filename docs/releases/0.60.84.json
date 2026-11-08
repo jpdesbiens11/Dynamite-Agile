@@ -1,0 +1,20 @@
+{
+  "version": "0.60.84",
+  "date": "2026-11-07",
+  "summary": {
+    "fr": "Connexion : une même adresse ne peut plus essayer un mot de passe sur tous les comptes.",
+    "en": "Sign-in: one address can no longer try a password on every account."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Connexion : plafond d'échecs par adresse IP",
+      "why": "Revue du socle (sessions et connexion) : le verrou après 5 échecs portait sur le couple identifiant + adresse. Une même adresse pouvait donc essayer un mot de passe sur tous les comptes sans jamais être bloquée (essai : 40 identifiants, 40 tentatives jusqu'au contrôle du mot de passe, 0,3 s de calcul chacune), et les compteurs n'étaient jamais purgés. Une adresse a maintenant au plus 30 échecs en 15 minutes, tous identifiants confondus ; au-delà, 429 sans calculer le mot de passe. Réglable dans data/config.json (login_ip_max_failures, login_ip_window_minutes).",
+      "files": [
+        "core/auth.py",
+        "core/config.py",
+        "tests/test_login_ip.py"
+      ]
+    }
+  ]
+}

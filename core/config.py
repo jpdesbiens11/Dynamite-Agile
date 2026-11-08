@@ -10,6 +10,8 @@ DEFAULTS = {
     "max_transfer_mb": 2048,      # D-B-094: « Données » / « Site complet » packages of Admin → Update
     "login_max_failures": 5,      # Failed logins before a temporary lock
     "login_lock_minutes": 5,
+    "login_ip_max_failures": 30,  # 0.60.84 (D-O-090): failed logins per IP address, all usernames together...
+    "login_ip_window_minutes": 15,  # ...within this window, then 429 before any password is hashed
     "tls_cert": "",               # Path to certificate (relative to data/) for HTTPS
     "tls_key": "",
     # Core lot v0.24 (D-B-090, deploy/TLS.md): secure transport

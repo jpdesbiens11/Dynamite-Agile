@@ -2,28 +2,12 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Exports Office toujours valides",
-      "why": "Revue des exports Diamond (0.60.50) : un caractère de contrôle collé d'un PDF ou d'un terminal dans une fonction ou une page (U+0001, U+0008…) est interdit en XML, même échappé ; les exports PowerPoint et draw.io de Diamond et l'export Word d'une page Dynamite sortaient endommagés (Office propose de « réparer », draw.io refuse le fichier). Tous les rédacteurs de fichiers passent maintenant par core.xmltext.escape, qui retire ces caractères.",
+      "title": "Connexion : plafond d'échecs par adresse IP",
+      "why": "Revue du socle (sessions et connexion) : le verrou après 5 échecs portait sur le couple identifiant + adresse. Une même adresse pouvait donc essayer un mot de passe sur tous les comptes sans jamais être bloquée (essai : 40 identifiants, 40 tentatives jusqu'au contrôle du mot de passe, 0,3 s de calcul chacune), et les compteurs n'étaient jamais purgés. Une adresse a maintenant au plus 30 échecs en 15 minutes, tous identifiants confondus ; au-delà, 429 sans calculer le mot de passe. Réglable dans data/config.json (login_ip_max_failures, login_ip_window_minutes).",
       "files": [
-        "core/xmltext.py",
-        "core/stamp_office.py",
-        "modules/diamond/export_drawio.py",
-        "modules/diamond/export_pptx.py",
-        "modules/diamond/pptx_book.py",
-        "modules/diamond/xlsx_book.py",
-        "modules/dynamite/export_docx.py",
-        "modules/exploration/xlsx.py",
-        "modules/testing/word_doc.py",
-        "tests/test_xml_text.py"
-      ]
-    },
-    {
-      "id": "C2",
-      "title": "Mise à jour en ligne : empreinte obligatoire",
-      "why": "Revue de la mise à jour en ligne (0.60.36) : l'empreinte SHA-256 n'était vérifiée que si la liste des versions la donnait, et le téléchargement n'avait pas de limite. La liste doit maintenant donner un nom de paquet valide, sa taille (100 Mo au plus) et son empreinte ; le téléchargement s'arrête s'il dépasse la taille publiée.",
-      "files": [
-        "core/update_online.py",
-        "tests/test_update_online.py"
+        "core/auth.py",
+        "core/config.py",
+        "tests/test_login_ip.py"
       ]
     }
   ]
