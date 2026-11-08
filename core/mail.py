@@ -116,6 +116,7 @@ def send(data_dir, to, subject, text, reply_to=None):
     msg["Message-ID"] = make_msgid(domain=cfg["sender"].rsplit("@", 1)[-1])
     msg.set_content(text)
     context = ssl.create_default_context()
+    step = "connexion"  # 0.60.80 (D-O-086): the error names the step that broke, and what usually causes it there
     try:
         if cfg["security"] == "ssl":
             server = smtplib.SMTP_SSL(cfg["host"], int(cfg["port"]), timeout=TIMEOUT, context=context)
@@ -123,13 +124,38 @@ def send(data_dir, to, subject, text, reply_to=None):
             server = smtplib.SMTP(cfg["host"], int(cfg["port"]), timeout=TIMEOUT)
         with server:
             if cfg["security"] == "starttls":
+                step = "starttls"
                 server.starttls(context=context)
             if cfg["username"]:
+                step = "login"
                 server.login(cfg["username"], cfg["password"])
+            step = "envoi"
             server.send_message(msg)
     except (smtplib.SMTPException, OSError, ssl.SSLError) as err:
-        raise ApiError(502, "Le serveur de courriel a refusé l'envoi : {}. Correctif : vérifiez l'hôte, le port, la "
-                            "sécurité et le compte (Gmail : un mot de passe d'application).".format(str(err)[:200]))
+        raise ApiError(502, "Le serveur de courriel a refusé l'envoi à l'étape « {} » ({}:{}, {}) : {}. Correctif : {}".format(
+            STEPS[step], cfg["host"], cfg["port"], cfg["security"].upper(), str(err)[:200], _hint(step, cfg, err)))
+
+
+STEPS = {"connexion": "connexion au serveur", "starttls": "passage en chiffré (STARTTLS)",
+         "login": "connexion au compte", "envoi": "envoi du message"}
+
+
+def _hint(step, cfg, err):
+    """The usual cause of a failure at this step (0.60.80, D-O-086)."""
+    text, port = str(err), int(cfg["port"])
+    if "WRONG_VERSION_NUMBER" in text or (cfg["security"] == "ssl" and port == 587):
+        return "SSL / TLS va avec le port 465, STARTTLS avec le port 587."
+    if step == "connexion" and cfg["security"] == "starttls" and port == 465:
+        return "le port 465 attend SSL / TLS ; avec STARTTLS, mettez le port 587."
+    if step == "connexion":
+        return ("le serveur ne répond pas sur ce port. Vérifiez l'hôte et le port ; sinon l'hébergeur bloque peut-être "
+                "la sortie vers ce port (essayez l'autre : 465 avec SSL / TLS, ou 587 avec STARTTLS).")
+    if step == "login":
+        return ("le compte ou le mot de passe est refusé. Gmail : un « mot de passe d'application » de 16 lettres, "
+                "sans espaces (myaccount.google.com/apppasswords), et le compte SMTP = l'adresse Gmail entière.")
+    if step == "envoi":
+        return "le compte est accepté mais pas le message : l'expéditeur doit être l'adresse du compte (ou un alias permis)."
+    return "vérifiez l'hôte, le port, la sécurité et le compte (Gmail : un mot de passe d'application)."
 
 
 def send_later(data_dir, to, subject, text, on_error=None):

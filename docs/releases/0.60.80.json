@@ -1,0 +1,20 @@
+{
+  "version": "0.60.80",
+  "date": "2026-11-07",
+  "summary": {
+    "fr": "Courriel : l'erreur dit à quelle étape l'envoi casse, le port suit le chiffrement, et un réglage se charge d'un fichier.",
+    "en": "E-mail: the error says at which step sending breaks, the port follows the encryption, and a setup loads from a file."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Admin → Courriel plus sûr à régler",
+      "why": "Réglage du courriel de la démo (Gmail) : les erreurs ne disaient pas à quelle étape le serveur SMTP coupait, choisir « SSL / TLS (port 465) » laissait le port à 587 (« wrong version number »), et le courriel test utilisait les réglages enregistrés même quand l'écran en montrait d'autres. L'erreur nomme maintenant l'étape (connexion au serveur, passage en chiffré, connexion au compte, envoi), l'hôte, le port et le chiffrement réellement utilisés, avec la cause habituelle à cette étape ; le port suit le chiffrement ; le courriel test refuse tant que des changements ne sont pas enregistrés ; « Charger un réglage… » remplit tout le formulaire depuis un fichier .json (jamais de mot de passe), lu dans le navigateur.",
+      "files": [
+        "core/mail.py",
+        "static/js/admin_mail.js",
+        "tests/test_mail_steps.py"
+      ]
+    }
+  ]
+}
