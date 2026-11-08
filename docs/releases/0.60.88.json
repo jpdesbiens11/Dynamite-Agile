@@ -1,0 +1,19 @@
+{
+  "version": "0.60.88",
+  "date": "2026-11-07",
+  "summary": {
+    "fr": "Paquets scellés : un sceau trafiqué ne peut plus occuper le serveur pendant sa vérification.",
+    "en": "Sealed packages: a forged seal can no longer hold the server while it is checked."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Sceau des paquets : nombre d'itérations fixe",
+      "why": "Fin de la revue : à l'ouverture d'un paquet « Données » ou « Site complet », le nombre d'itérations PBKDF2 du sceau était lu dans le paquet lui-même ; un paquet trafiqué pouvait en demander des milliards et occuper le serveur pendant la vérification. Seul le nombre que la plateforme écrit (310 000, le même depuis la première version) est accepté ; un paquet déjà exporté reste lisible.",
+      "files": [
+        "core/seal.py",
+        "tests/test_seal_iterations.py"
+      ]
+    }
+  ]
+}

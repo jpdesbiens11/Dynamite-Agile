@@ -1,12 +1,19 @@
-# Journal de mise à jour — 0.60.87
+# Journal de mise à jour — 0.60.88
+
+- **Version :** 0.60.87 → 0.60.88 (2026-11-07)
+- **Changements :**
+  1. **Sceau des paquets : nombre d'itérations fixe** (D-O-094).
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.87
 
 - **Version :** 0.60.86 → 0.60.87 (2026-11-07)
 - **Changements :**
   1. **Courriel : Gmail 534 et lien vers Google** (D-O-093).
   2. **Classeurs Excel piégés refusés** (D-O-093).
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.86
 

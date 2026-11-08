@@ -74,7 +74,11 @@ def open_sealed(path, passphrase, fmt, label):
                             "Update.".format(manifest.get("format"), fmt))
     try:
         salt = bytes.fromhex(seal["salt"])
-        expected = hmac.new(hashlib.pbkdf2_hmac("sha256", passphrase.encode("utf-8"), salt, int(seal["iterations"])),
+        # 0.60.88 (D-O-094): the count comes from the file -- a forged package asking for billions would hold the server;
+        # every package written here uses ITERATIONS, so only that count is accepted
+        if int(seal["iterations"]) != ITERATIONS:
+            raise ValueError("iterations")
+        expected = hmac.new(hashlib.pbkdf2_hmac("sha256", passphrase.encode("utf-8"), salt, ITERATIONS),
                             raw, "sha256").hexdigest()
         good = hmac.compare_digest(expected, str(seal["hmac"]))
     except (KeyError, ValueError, TypeError):
