@@ -592,6 +592,34 @@ body.touring header.top, body.touring .progress-bar { z-index: 80; }  /* dimmed 
   <p class="lead">Chaque version publiée tient dans un seul paquet : le code, jamais vos données. Vos comptes, vos Spaces, vos
     pages, vos heures et les réglages de la plateforme restent tels quels. Vous pouvez sauter des versions, ou attendre.</p>
 
+  <p class="note ok latest" data-new="0.60.36-site-latest"><b>Dernière version : 0.60.92</b> · 2026-11-08 — Testing : résumé Word des résultats d&#x27;un plan de test (prototypes, résultats, justifications, preuves).<br>Déjà installé ? ⚙ Admin → Update → « Mise à jour en ligne » : vérifier, lire, approuver, suivre en direct.</p>
+
+  <details class="tools-used" data-new="0.60.90-tools-used" open>
+    <summary><b>Outils d'assistance utilisés pour ces versions</b> — ce qui est sur mesure, ce qui est par défaut</summary>
+    <p class="small">Transparence : ce que l'assistant (Claude Code, modèle Sonnet 5.5, dans l'application Claude desktop) a réellement
+      appelé pendant ce travail, puis ce qui était disponible sans être appelé. <b>Par défaut</b> = fourni tel quel par Claude Code ou
+      l'application ; <b>Sur mesure</b> = choisi ou écrit par JP (réglages, plugin local, consignes du dépôt).</p>
+    <table class="t">
+      <thead><tr><th>Outil</th><th>À quoi il a servi</th><th>Origine</th></tr></thead>
+      <tbody>
+        <tr><td colspan="3"><b>Appelés pendant ce travail</b></td></tr>
+        <tr><td>Outils intégrés : Bash, lecture et écriture de fichiers, Monitor</td><td>Exécuter les commandes, modifier le code, attendre la fin des tests</td><td>Par défaut (Claude Code)</td></tr>
+        <tr><td>Liste de tâches et récapitulatif de fin</td><td>Suivi affiché dans l'application</td><td>Par défaut (application Claude desktop)</td></tr>
+        <tr><td>git et gh (GitHub CLI), connecté au compte du dépôt</td><td>Branches et pull requests</td><td>Sur mesure : installation et connexion de JP ; sa règle « une branche + une PR, JP fusionne » est notée dans la mémoire du projet</td></tr>
+        <tr><td>python3 (unittest) et node (vérification de syntaxe)</td><td>Tests : aucune dépendance externe</td><td>Par défaut du dépôt</td></tr>
+        <tr><td>CLAUDE.md du dépôt et mémoire de projet</td><td>Règles d'architecture, de langue et de workflow suivies tout au long</td><td>Sur mesure (écrits pour ce projet)</td></tr>
+        <tr><td colspan="3"><b>Disponibles, mais non appelés pendant ce travail</b></td></tr>
+        <tr><td>Plugin « dynamite-engineering-suite » 1.0.0 (revue de code, exécution des tests, cadrage)</td><td>—</td><td>Sur mesure : place de marché locale « dynamite-agile » déclarée dans settings.json, plugin activé par JP</td></tr>
+        <tr><td>Skill de conception de la plateforme</td><td>—</td><td>Sur mesure : fournie dans le dépôt</td></tr>
+        <tr><td>Skills « find-skills » et « stageshow »</td><td>—</td><td>Installées dans le dossier de skills de l'utilisateur (origine non vérifiée)</td></tr>
+        <tr><td>Plugins « engineering » et « cockroachdb », connecteurs (Notion, qbash, Onshape, Claude in Chrome…), skills Anthropic</td><td>—</td><td>Fournis par le compte ou l'application, pas par settings.json : ce n'est pas un réglage local de cette machine</td></tr>
+      </tbody>
+    </table>
+    <p class="small"><b>Réglages sur mesure dans settings.json :</b> le plugin « dynamite-engineering-suite » activé et sa place de marché locale ;
+      la fenêtre de compactage automatique du modèle Sonnet 5.5 fixée à 400 000 ; les notifications d'agent activées. Tout le reste est
+      par défaut.</p>
+  </details>
+
   <div class="note ok ver-you">
     <label for="ver-input"><b>Votre version</b> (Admin → Update → Framework) :</label>
     <input id="ver-input" class="ver-input" type="text" inputmode="decimal" placeholder="0.60.11">
