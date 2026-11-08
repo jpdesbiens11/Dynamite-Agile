@@ -107,6 +107,10 @@ def send(data_dir, to, subject, text, reply_to=None):
     cfg = load(data_dir)
     if not (cfg["host"] and cfg["sender"]):
         raise ApiError(400, "Courriel non configuré : Admin → Plateforme → Courriel.")
+    if cfg["username"] and not cfg["password"]:  # 0.60.81 (D-O-087): Gmail only cut the connection, without a word
+        raise ApiError(400, "Aucun mot de passe SMTP enregistré pour le compte {}. Correctif : Admin → Plateforme → Courriel, "
+                            "tapez le mot de passe (Gmail : un mot de passe d'application), puis Enregistrer. Il est effacé "
+                            "quand l'hôte ou le compte change.".format(cfg["username"]))
     msg = EmailMessage()
     msg["From"] = formataddr((cfg["sender_name"] or "DynamiteAgile", cfg["sender"]))
     msg["To"] = to

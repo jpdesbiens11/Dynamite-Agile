@@ -57,6 +57,15 @@ class MailStepsTest(unittest.TestCase):
         self.assertIn("« connexion au compte »", text)
         self.assertIn("mot de passe d'application", text)
 
+    def test_account_without_password_said_plainly(self):  # 0.60.81 (D-O-087): before Gmail cuts the connection
+        values = dict(mail.DEFAULTS, host="127.0.0.1", port=1, security="starttls", sender="jp@exemple.ca",
+                      username="jp@exemple.ca", password="")
+        mail._save(self.tmp.name, values)
+        with self.assertRaises(ApiError) as caught:
+            mail.send(self.tmp.name, "nina@exemple.ca", "Essai", "Bonjour")
+        self.assertEqual(caught.exception.status, 400)
+        self.assertIn("Aucun mot de passe SMTP enregistré", caught.exception.message)
+
     def test_starttls_on_465_hint(self):
         hint = mail._hint("connexion", {"security": "starttls", "port": 465}, OSError("Connection unexpectedly closed"))
         self.assertIn("mettez le port 587", hint)

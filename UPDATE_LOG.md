@@ -1,11 +1,19 @@
-# Journal de mise à jour — 0.60.80
+# Journal de mise à jour — 0.60.81
+
+- **Version :** 0.60.80 → 0.60.81 (2026-11-07)
+- **Changements :**
+  1. **Tour guidé : les flèches restent au champ** (D-O-087).
+  2. **Mot de passe SMTP absent dit en clair** (D-O-087).
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.80
 
 - **Version :** 0.60.79 → 0.60.80 (2026-11-07)
 - **Changements :**
   1. **Admin → Courriel plus sûr à régler** (D-O-086) : étape SMTP nommée dans l'erreur, port qui suit le chiffrement, test refusé sur des changements non enregistrés, « Charger un réglage… ».
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.79
 

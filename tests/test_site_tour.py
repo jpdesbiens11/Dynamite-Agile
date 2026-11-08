@@ -30,6 +30,7 @@ class SiteTourTest(unittest.TestCase):
                 # 0.60.77 (D-O-083): the phone layout follows the screen (turned phone, step changed while folded)
                 self.assertIn('PHONE.addEventListener("change", resized)', page)
                 self.assertIn("function fit()", page)
+                self.assertIn("typing(e.target)", page)  # 0.60.81 (D-O-087): arrows typed in a field stay there
                 self.assertEqual(page.count('href="{}"'.format(build_site.DEMO_URL)), 1)
 
     def test_tour_targets_exist_in_the_page(self):

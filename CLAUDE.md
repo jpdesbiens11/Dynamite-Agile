@@ -150,6 +150,9 @@
 - **0.60.80** (2026-11-07) : **Admin → Courriel plus sûr à régler** (D-O-086, `core/mail.py` `STEPS`, `_hint`,
   `static/js/admin_mail.js`) : l'erreur nomme l'étape SMTP qui casse et les réglages utilisés ; le port suit le chiffrement ; le
   courriel test refuse les changements non enregistrés ; « Charger un réglage… » remplit le formulaire depuis un .json sans mot de passe.
+- **0.60.81** (2026-11-07) : **flèches du tour et mot de passe SMTP absent** (D-O-087, `tools/site/tour.js` `typing`, `core/mail.py`) :
+  ← / → tapées dans un champ ou un bouton radio de la page d'installation restent au champ ; un compte SMTP sans mot de passe
+  enregistré est dit en clair (400) au lieu de laisser Gmail couper la connexion.
 - **0.60.68** (2026-11-06) : **le reste de l'interface en anglais** (D-O-073) : balayage de 280 écrans (`tools/i18n_crawl.py`,
   `DA.i18nScan`), ~700 traductions, gabarits « # » pour les nombres.
 - **0.60.67** (2026-11-06) : **le Rover en anglais** (D-O-073) : le contenu affiché en lecture se traduit aussi (dictionnaire de la démo

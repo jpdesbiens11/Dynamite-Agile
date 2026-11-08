@@ -1,0 +1,28 @@
+{
+  "version": "0.60.81",
+  "date": "2026-11-07",
+  "summary": {
+    "fr": "Tour guidé : les flèches tapées dans un champ y restent ; un mot de passe SMTP absent est signalé clairement.",
+    "en": "Guided tour: arrows typed in a field stay there; a missing SMTP password is reported plainly."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Tour guidé : les flèches restent au champ",
+      "why": "Revue de la page d'installation (0.60.70) : pendant le tour guidé, ← / → tapées dans l'adresse IP ou le domaine de l'assistant, ou sur ses boutons radio, changeaient aussi l'étape du tour, prenaient le focus et faisaient défiler la page. Elles restent maintenant au champ ; hors d'un champ, elles mènent toujours le tour.",
+      "files": [
+        "tools/site/tour.js",
+        "tests/test_site_tour.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Mot de passe SMTP absent dit en clair",
+      "why": "Réglage de Gmail sur la démo : sans mot de passe enregistré (il est effacé quand l'hôte ou le compte change), Gmail coupait la connexion à l'étape du compte sans dire pourquoi. Le serveur le dit maintenant avant de se connecter, avec le correctif.",
+      "files": [
+        "core/mail.py",
+        "tests/test_mail_steps.py"
+      ]
+    }
+  ]
+}

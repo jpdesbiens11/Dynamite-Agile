@@ -143,7 +143,12 @@
     window.scrollTo({ top: Math.max(0, top), behavior });
   }
 
+  /* 0.60.81 (D-O-087): ← / → belong to the field being typed in (the IP address, the domain of the wizard) and to its
+     radio buttons; the tour followed them, took the focus away and scrolled the page */
+  const typing = (node) => !!(node && node.closest && node.closest("input, textarea, select, [contenteditable]:not([contenteditable=false])"));
+
   function keys(e) {
+    if (e.key !== "Escape" && (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || typing(e.target))) return;
     if (e.key === "Escape") close();
     else if (e.key === "ArrowRight" && index < STEPS.length - 1) show(index + 1);
     else if (e.key === "ArrowLeft" && index > 0) show(index - 1);
