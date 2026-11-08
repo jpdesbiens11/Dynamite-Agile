@@ -21,6 +21,31 @@
 
 {{LATEST}}
 
+  <details class="tools-used" data-new="0.60.90-tools-used" open>
+    <summary><b>Assistant tools used for these versions</b> — what is custom, what is default</summary>
+    <p class="small">Transparency: what the assistant (Claude Code, Sonnet 5.5, in the Claude desktop app) actually called during this
+      work, then what was available without being called. <b>Default</b> = provided as is by Claude Code or the app;
+      <b>Custom</b> = chosen or written by JP (settings, local plugin, repository instructions).</p>
+    <table class="t">
+      <thead><tr><th>Tool</th><th>What it was used for</th><th>Origin</th></tr></thead>
+      <tbody>
+        <tr><td colspan="3"><b>Called during this work</b></td></tr>
+        <tr><td>Built-in tools: Bash, file reading and writing, Monitor</td><td>Run commands, edit code, wait for the tests to finish</td><td>Default (Claude Code)</td></tr>
+        <tr><td>Task list and closing recap</td><td>Progress shown in the app</td><td>Default (Claude desktop app)</td></tr>
+        <tr><td>git and gh (GitHub CLI), signed in to the repository account</td><td>Branches and pull requests</td><td>Custom: installed and signed in by JP; his rule "one branch + one PR, JP merges" is kept in the project memory</td></tr>
+        <tr><td>python3 (unittest) and node (syntax check)</td><td>Tests: no external dependency</td><td>Repository default</td></tr>
+        <tr><td>The repository's CLAUDE.md and the project memory</td><td>Architecture, language and workflow rules followed throughout</td><td>Custom (written for this project)</td></tr>
+        <tr><td colspan="3"><b>Available, but not called during this work</b></td></tr>
+        <tr><td>Plugin "dynamite-engineering-suite" 1.0.0 (code review, test runs, scoping)</td><td>—</td><td>Custom: local marketplace "dynamite-agile" declared in settings.json, plugin enabled by JP</td></tr>
+        <tr><td>Skill "h55-design-plateforme"</td><td>—</td><td>Custom: in the repository, <code>.claude/skills/</code></td></tr>
+        <tr><td>Skills "find-skills" and "stageshow"</td><td>—</td><td>Installed in the user's skills folder (origin not verified)</td></tr>
+        <tr><td>Plugins "engineering" and "cockroachdb", connectors (Notion, qbash, Onshape, Claude in Chrome…), Anthropic skills</td><td>—</td><td>Provided by the account or the app, not by settings.json: not a local setting of this machine</td></tr>
+      </tbody>
+    </table>
+    <p class="small"><b>Custom settings in settings.json:</b> the "dynamite-engineering-suite" plugin enabled and its local marketplace;
+      the automatic compaction window of the Sonnet 5.5 model set to 400,000; agent notifications enabled. Everything else is default.</p>
+  </details>
+
   <div class="note ok ver-you">
     <label for="ver-input"><b>Your version</b> (Admin → Update → Framework):</label>
     <input id="ver-input" class="ver-input" type="text" inputmode="decimal" placeholder="0.60.11">
