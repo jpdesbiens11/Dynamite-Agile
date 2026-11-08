@@ -1,0 +1,19 @@
+{
+  "version": "0.60.85",
+  "date": "2026-11-07",
+  "summary": {
+    "fr": "Courriel : quand Gmail refuse le mot de passe, l'écran le dit au lieu de « Connection unexpectedly closed ».",
+    "en": "E-mail: when Gmail refuses the password, the screen says so instead of « Connection unexpectedly closed »."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Courriel : la vraie réponse du serveur",
+      "why": "Réglage de Gmail sur la démo : l'erreur restait « Connection unexpectedly closed » à l'étape du compte. smtplib essaie PLAIN, puis LOGIN après un refus ; Gmail raccroche après son « 535 Username and Password not accepted », si bien que le refus du mot de passe était caché par la coupure. Une seule méthode est maintenant essayée, la réponse du serveur s'affiche lisiblement, et un refus 535 dit quoi faire : créer un nouveau mot de passe d'application.",
+      "files": [
+        "core/mail.py",
+        "tests/test_mail_steps.py"
+      ]
+    }
+  ]
+}

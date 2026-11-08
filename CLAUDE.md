@@ -162,6 +162,9 @@
 - **0.60.84** (2026-11-07) : **connexion : plafond par adresse IP** (D-O-090, `core/auth.py`, config `login_ip_max_failures`,
   `login_ip_window_minutes`) : 30 échecs par adresse en 15 minutes, tous identifiants confondus, puis 429 avant tout calcul du
   mot de passe ; compteurs d'échecs purgés.
+- **0.60.85** (2026-11-07) : **courriel : la vraie réponse du serveur** (D-O-091, `core/mail.py` `_login`, `_said`) : une seule
+  méthode d'authentification (PLAIN, sinon LOGIN), si bien que le refus 535 de Gmail s'affiche au lieu de « Connection unexpectedly
+  closed » ; indice précis quand Gmail refuse le mot de passe.
 - **0.60.68** (2026-11-06) : **le reste de l'interface en anglais** (D-O-073) : balayage de 280 écrans (`tools/i18n_crawl.py`,
   `DA.i18nScan`), ~700 traductions, gabarits « # » pour les nombres.
 - **0.60.67** (2026-11-06) : **le Rover en anglais** (D-O-073) : le contenu affiché en lecture se traduit aussi (dictionnaire de la démo

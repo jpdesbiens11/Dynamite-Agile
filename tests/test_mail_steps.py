@@ -3,8 +3,11 @@ login, envoi), the settings really used (host:port, security) and the usual caus
 
     python -m unittest tests.test_mail_steps -v
 """
+import base64
+import socket
 import sys
 import tempfile
+import threading
 import unittest
 from pathlib import Path
 
@@ -14,6 +17,50 @@ sys.path.insert(0, str(BASE_DIR))
 from core import mail  # noqa: E402
 from core.errors import ApiError  # noqa: E402
 from tests.test_password_reset import SmtpSink  # noqa: E402
+
+
+def fake_gmail(accept):
+    """A server announcing AUTH LOGIN PLAIN: 535 then hang-up (like Gmail), or 235 then a normal session. -> (port, seen)."""
+    sock = socket.socket()
+    sock.bind(("127.0.0.1", 0))
+    sock.listen(1)
+    seen = []
+
+    def serve():
+        conn, _ = sock.accept()
+        f = conn.makefile("rb")
+        send = lambda line: conn.sendall((line + "\r\n").encode())  # noqa: E731
+        send("220 fake ESMTP")
+        for raw in f:
+            cmd = raw.decode().strip()
+            seen.append(cmd.split(" ")[0].upper() + (" " + cmd.split(" ")[1].upper() if cmd.upper().startswith("AUTH") else ""))
+            up = cmd.upper()
+            if up.startswith("EHLO"):
+                send("250-fake")
+                send("250 AUTH LOGIN PLAIN")
+            elif up.startswith("AUTH"):
+                if not accept:
+                    send("535-5.7.8 Username and Password not accepted. For more information, go to")
+                    send("535 5.7.8  https://support.google.com/mail/?p=BadCredentials")
+                    conn.close()
+                    sock.close()
+                    return
+                seen.append(base64.b64decode(cmd.split(" ")[2]).split(b"\0")[1].decode())
+                send("235 2.7.0 Accepted")
+            elif up.startswith(("MAIL", "RCPT")):
+                send("250 ok")
+            elif up == "DATA":
+                send("354 go")
+            elif cmd == ".":
+                send("250 queued")
+            elif up == "QUIT":
+                send("221 bye")
+                conn.close()
+                sock.close()
+                return
+
+    threading.Thread(target=serve, daemon=True).start()
+    return sock.getsockname()[1], seen
 
 
 class MailStepsTest(unittest.TestCase):
@@ -65,6 +112,23 @@ class MailStepsTest(unittest.TestCase):
             mail.send(self.tmp.name, "nina@exemple.ca", "Essai", "Bonjour")
         self.assertEqual(caught.exception.status, 400)
         self.assertIn("Aucun mot de passe SMTP enregistré", caught.exception.message)
+
+    def test_gmail_refusal_is_shown_not_the_hang_up(self):  # 0.60.85 (D-O-091): what JP saw on the demo
+        port, seen = fake_gmail(accept=False)
+        text = self.error(port=port, username="jp@gmail.com", password="mauvais")
+        self.assertIn("535 5.7.8 Username and Password not accepted", text)
+        self.assertNotIn("Connection unexpectedly closed", text)
+        self.assertIn("NOUVEAU mot de passe d'application", text)
+        self.assertEqual([c for c in seen if c.startswith("AUTH")], ["AUTH PLAIN"])  # one method only
+
+    def test_login_accepted(self):
+        port, seen = fake_gmail(accept=True)
+        values = dict(mail.DEFAULTS, host="127.0.0.1", port=port, security="none", sender="jp@gmail.com",
+                      username="jp@gmail.com", password="bon-mot-de-passe")
+        mail._save(self.tmp.name, values)
+        mail.send(self.tmp.name, "nina@exemple.ca", "Essai", "Bonjour")
+        self.assertIn("jp@gmail.com", seen)
+        self.assertIn("DATA", seen)
 
     def test_starttls_on_465_hint(self):
         hint = mail._hint("connexion", {"security": "starttls", "port": 465}, OSError("Connection unexpectedly closed"))
