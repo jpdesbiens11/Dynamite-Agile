@@ -24,3 +24,19 @@ class RawFile:
     @classmethod
     def csv(cls, text, filename):
         return cls(text.encode("utf-8-sig"), filename, "text/csv; charset=utf-8")
+
+
+def disposition(filename, inline=False):
+    """0.60.86 (D-O-092): the Content-Disposition of a download (RFC 6266). An HTTP header is Latin-1 only: a name with
+    « œ », « — », « € » or an emoji (a page « Cœur du moteur ») cut the answer short (UnicodeEncodeError). So: an ASCII
+    name for old browsers, plus filename*=UTF-8'' with the exact name."""
+    import unicodedata
+    from urllib.parse import quote
+    name = "".join(ch for ch in str(filename or "fichier") if ch.isprintable() and ch not in '"\\')[:200] or "fichier"
+    plain = unicodedata.normalize("NFKD", name.replace("œ", "oe").replace("Œ", "OE").replace("—", "-").replace("–", "-"))
+    plain = "".join(ch if 32 <= ord(ch) < 127 else "_" for ch in plain if not unicodedata.combining(ch)) or "fichier"
+    value = '{}; filename="{}"'.format("inline" if inline else "attachment", plain)
+    if plain != name:
+        value += "; filename*=UTF-8''" + quote(name, safe="")
+    return value
+

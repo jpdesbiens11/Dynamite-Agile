@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.85
+# Journal de mise à jour — 0.60.86
+
+- **Version :** 0.60.85 → 0.60.86 (2026-11-07)
+- **Changements :**
+  1. **Téléchargements : noms avec œ, —, €** (D-O-092).
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.85
 
 - **Version :** 0.60.84 → 0.60.85 (2026-11-07)
 - **Changements :**
   1. **Courriel : la vraie réponse du serveur** (D-O-091).
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.84
 

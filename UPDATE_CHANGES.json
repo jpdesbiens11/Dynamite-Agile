@@ -2,11 +2,12 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Courriel : la vraie réponse du serveur",
-      "why": "Réglage de Gmail sur la démo : l'erreur restait « Connection unexpectedly closed » à l'étape du compte. smtplib essaie PLAIN, puis LOGIN après un refus ; Gmail raccroche après son « 535 Username and Password not accepted », si bien que le refus du mot de passe était caché par la coupure. Une seule méthode est maintenant essayée, la réponse du serveur s'affiche lisiblement, et un refus 535 dit quoi faire : créer un nouveau mot de passe d'application.",
+      "title": "Téléchargements : noms avec œ, —, €",
+      "why": "Revue du socle : un en-tête HTTP ne prend que le Latin-1. L'export Word ou PDF d'une page dont le titre contenait « œ » (cœur, œuvre, manœuvre), « — », « € » ou un emoji était coupé net (UnicodeEncodeError) : le navigateur recevait un fichier vide ou tronqué. Le nom part maintenant en ASCII pour les anciens navigateurs et, tel quel, dans filename*=UTF-8'' (RFC 6266), pour tous les téléchargements.",
       "files": [
-        "core/mail.py",
-        "tests/test_mail_steps.py"
+        "core/files.py",
+        "core/router.py",
+        "tests/test_download_names.py"
       ]
     }
   ]

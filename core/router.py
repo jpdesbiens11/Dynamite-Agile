@@ -22,6 +22,7 @@ from .errors import ApiError
 INITIALS_FREE = re.compile(r"/api/(me/prefs|privacy/event|logout|new/seen)")
 INITIALS_MESSAGE = ("INITIALES_REQUISES: définissez d'abord votre clé de traçabilité de 3 lettres (Paramètres → "
                     "Mes initiales). Correctif : saisissez-la, puis refaites votre action.")
+from . import files
 from .files import RawFile
 from .uploads import Upload
 
@@ -414,8 +415,7 @@ class AppHandler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-Type", raw.content_type)
             self.send_header("Content-Length", str(len(raw.data)))
-            self.send_header("Content-Disposition", '{}; filename="{}"'.format(
-                "inline" if raw.inline else "attachment", raw.filename))
+            self.send_header("Content-Disposition", files.disposition(raw.filename, raw.inline))  # 0.60.86 (D-O-092)
             self.send_header("Cache-Control", "private, max-age=86400" if raw.inline else "no-store")
             for cookie in cookies_out:
                 self.send_header("Set-Cookie", cookie)
