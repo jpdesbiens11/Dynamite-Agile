@@ -1,0 +1,21 @@
+{
+  "version": "0.60.92",
+  "date": "2026-11-08",
+  "summary": {
+    "fr": "Testing : résumé Word des résultats d'un plan de test (prototypes, résultats, justifications, preuves).",
+    "en": "Testing: Word summary of a test plan's results (prototypes, results, justifications, evidence)."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Résumé Word des résultats d'un plan de test",
+      "why": "Sur la page d'un plan avec bundles, « Résumé des résultats (.docx) » : les prototypes testés, un tableau par prototype (test, résultat, justification, preuves) et l'index des fichiers de preuve. Les fichiers de preuve restent sur le serveur, ils sont nommés, pas intégrés.",
+      "files": [
+        "modules/testing/results_docx.py",
+        "modules/testing/__init__.py",
+        "static/js/testing/testing_plans.js",
+        "tests/test_lot_v030.py"
+      ]
+    }
+  ]
+}

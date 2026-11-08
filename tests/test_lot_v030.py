@@ -133,6 +133,9 @@ class LotV030Test(unittest.TestCase):
         self.admin.post(base + "/status", {"status": "closed"})
         self.assertEqual(self.admin.get(base)["plan"]["status"], "closed")
         self.assertEqual(self.status(lambda: self.admin.post(base + "/bundles", {"proto": "P3"})), 409)  # closed: read only
+        summary = zipfile.ZipFile(io.BytesIO(self.download(base + "/results-summary.docx"))).read("word/document.xml").decode("utf-8")
+        for text in ("P2-B07", "SN-12", "Passed with derogation", "Écart accepté par le client", "rapport_rempli.docx", "mesures.csv"):
+            self.assertIn(text, summary)
         # 0.60.91 (D-O-097): the results show on the record of the test and in the verification of the requirements
         record = self.admin.get("/api/testing/tests/" + plan["tests"][0])
         self.assertEqual(record["verdict"], "derogation")

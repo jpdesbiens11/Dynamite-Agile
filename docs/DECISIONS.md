@@ -482,6 +482,10 @@ Le prompt `starter.md` passe en 0.60.18.
 **Contexte :** la Storyline était au brief (§4) : illustrer l'usage d'un produit, scène par scène.
 **Décision (choix de JP, un à la fois) :** pictogrammes intégrés (pas d'images déposées) ; dans Diamond, avant l'arbre fonctionnel ; aucun lien imposé avec les fonctions, c'est un exercice de divergence en équipe ; un assistant IA la lit pour proposer l'arbre et le reste de Diamond par un bouton « Copier pour l'IA » (0.60.52). Les 39 pictogrammes sont générés comme les icônes (`tools/story_pictos.py`, deux sprites, mêmes clés), sans texte ; l'étiquette est du HTML. Une scène : titre, ce qui se passe, notes en vrac, pictogrammes (clé, x / y en %, taille, miroir, étiquette) ; 40 scènes et 30 pictogrammes par scène au plus.
 
+### D-O-098 — Testing : résumé Word des résultats d'un plan (2026-11-08, suite de D-O-096)
+**Contexte :** le Word du plan part au fournisseur avant les essais ; les résultats saisis dans les bundles n'avaient aucun export.
+**Décision :** `GET /api/testing/plans/<code>/results-summary.docx` (`results_docx.py`) : prototypes testés, un tableau par prototype (test, résultat, justification, preuves) et index des preuves ; les fichiers eux-mêmes ne sont pas intégrés. Le Word du plan envoyé reste inchangé. Aucune migration.
+
 ### D-O-097 — Testing : vérification des requirements par les résultats (2026-11-08, suite de D-O-096)
 **Contexte :** les bundles (D-O-096) donnent un résultat par test et par prototype, mais rien ne disait quelles exigences Goldmine étaient vérifiées.
 **Décision :** verdict d'un test = dernier résultat sur chaque prototype (`verification.verdicts`), le pire l'emporte (Failed, puis Passed with derogation, puis Passed ; Abandoned ne vérifie rien) ; verdict d'une requirement = ses tests cités dans « Test Procedure » (Verified, Verified with derogation, Partially verified, Failed, Not run). Écran `#/testing/<KEY>/verification` et exécutions sur la fiche du test ; les plans annulés sont ignorés. Aucune écriture, aucune migration.

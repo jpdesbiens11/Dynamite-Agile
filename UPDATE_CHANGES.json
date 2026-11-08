@@ -2,16 +2,12 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Vérification des requirements par les résultats d'essai",
-      "why": "Testing → Vérification des requirements : une ligne par requirement Goldmine qui cite des tests, avec son verdict (Verified, Verified with derogation, Partially verified, Failed, Not run) et celui de chaque test cité. Le verdict d'un test vient du dernier résultat sur chaque prototype dans les bundles des plans de test (un échec sur un proto l'emporte ; Abandoned ne vérifie rien). La fiche d'un test montre ses exécutions (plan, proto, résultat, justification, date).",
+      "title": "Résumé Word des résultats d'un plan de test",
+      "why": "Sur la page d'un plan avec bundles, « Résumé des résultats (.docx) » : les prototypes testés, un tableau par prototype (test, résultat, justification, preuves) et l'index des fichiers de preuve. Les fichiers de preuve restent sur le serveur, ils sont nommés, pas intégrés.",
       "files": [
-        "modules/testing/verification.py",
-        "modules/testing/tests_api.py",
+        "modules/testing/results_docx.py",
         "modules/testing/__init__.py",
-        "static/js/testing/testing_verify.js",
-        "static/js/testing/testing.js",
-        "static/js/testing/testing_record.js",
-        "tests/test_testing_verification.py",
+        "static/js/testing/testing_plans.js",
         "tests/test_lot_v030.py"
       ]
     }
