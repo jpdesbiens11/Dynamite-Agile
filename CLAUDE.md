@@ -165,6 +165,8 @@
 - **0.60.85** (2026-11-07) : **courriel : la vraie réponse du serveur** (D-O-091, `core/mail.py` `_login`, `_said`) : une seule
   méthode d'authentification (PLAIN, sinon LOGIN), si bien que le refus 535 de Gmail s'affiche au lieu de « Connection unexpectedly
   closed » ; indice précis quand Gmail refuse le mot de passe.
+- **0.60.86** (2026-11-07) : **noms de fichiers téléchargés** (D-O-092, `core/files.py` `disposition`, `core/router.py`) : un nom avec
+  « œ », « — », « € » ou un emoji coupait la réponse (en-tête HTTP en Latin-1) ; nom ASCII + `filename*=UTF-8''` (RFC 6266).
 - **0.60.68** (2026-11-06) : **le reste de l'interface en anglais** (D-O-073) : balayage de 280 écrans (`tools/i18n_crawl.py`,
   `DA.i18nScan`), ~700 traductions, gabarits « # » pour les nombres.
 - **0.60.67** (2026-11-06) : **le Rover en anglais** (D-O-073) : le contenu affiché en lecture se traduit aussi (dictionnaire de la démo
