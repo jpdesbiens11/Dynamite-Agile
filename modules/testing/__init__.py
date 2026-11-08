@@ -8,7 +8,7 @@ requirement names its tests in « Test Procedure » (modules/agile/goldmine.py
 calls catalog.check_refs), and each test record lists the requirements that
 cite it.
 """
-from . import bundles, catalog, docx_tests, lists, plans, review, tests_api
+from . import bundles, catalog, docx_tests, lists, plans, review, tests_api, verification
 from .search import search  # noqa: F401  (core search hook, D-B-076)
 
 SCHEMA = ""
@@ -222,6 +222,7 @@ ROUTES = [
     ("PATCH", TP + r"/evidence/(?P<eid>\d+)", bundles.api_evidence_update, "user"),
     ("DELETE", TP + r"/evidence/(?P<eid>\d+)", bundles.api_evidence_delete, "user"),
     ("GET", TP + r"/evidence/(?P<eid>\d+)/file", bundles.api_evidence_file, "user"),
+    ("GET", r"/api/testing/verification", verification.api_verification, "user"),  # 0.60.91 (D-O-097)
     ("GET", r"/api/testing/tests", tests_api.api_list, "user"),
     ("GET", r"/api/testing/options", tests_api.api_options, "user"),
     ("GET", r"/api/testing/export\.csv", tests_api.api_export, "user"),

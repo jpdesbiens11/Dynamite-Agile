@@ -51,6 +51,7 @@
         el("td", { class: "nowrap" }, el("a", { class: "ag-key", href: T.reqHref(r.key) }, r.key)),
         el("td", { class: "nowrap" }, r.external_id || "—"), el("td", null, r.title), el("td", null, r.status))))
         : el("p", { class: "muted" }, "Aucune requirement de vos Spaces ne cite encore ce test (champ « Test Procedure » de la fiche requirement)."),
+      T.executions(data),  // 0.60.91 (D-O-097)
       el("h2", null, "History"),
       data.history.length ? el("ul", { class: "tg-history" }, data.history.map((h) => el("li", null,
         el("span", { class: "muted" }, DA.formatDate(h.at) + " · " + (h.who || "Système") + " — "), h.field,

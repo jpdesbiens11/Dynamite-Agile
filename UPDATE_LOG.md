@@ -1,4 +1,13 @@
-# Journal de mise à jour — 0.60.90
+# Journal de mise à jour — 0.60.91
+
+- **Version :** 0.60.90 → 0.60.91 (2026-11-08)
+- **Changements :**
+  1. **Vérification des requirements par les résultats d'essai** (D-O-097).
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.90
 
 - **Version :** 0.60.89 → 0.60.90 (2026-11-08)
 - **Changements :**
@@ -6,7 +15,6 @@
   2. **Preuves en vrac : Word, Excel, PowerPoint, PDF, images, texte, zip** (D-O-096).
 - **Base de données :** ['Testing : migration 6 (testing_bundles, testing_results, testing_evidence), additive.']
 
-## Précédent
 
 ### Journal de mise à jour — 0.60.89
 

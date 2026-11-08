@@ -133,6 +133,14 @@ class LotV030Test(unittest.TestCase):
         self.admin.post(base + "/status", {"status": "closed"})
         self.assertEqual(self.admin.get(base)["plan"]["status"], "closed")
         self.assertEqual(self.status(lambda: self.admin.post(base + "/bundles", {"proto": "P3"})), 409)  # closed: read only
+        # 0.60.91 (D-O-097): the results show on the record of the test and in the verification of the requirements
+        record = self.admin.get("/api/testing/tests/" + plan["tests"][0])
+        self.assertEqual(record["verdict"], "derogation")
+        self.assertEqual(record["executions"][0]["proto"], "P2-B07")
+        self.assertEqual(self.admin.get("/api/testing/tests/" + plan["tests"][1])["verdict"], "passed")
+        ver = self.admin.get("/api/testing/verification")
+        self.assertIn("requirements", ver)
+        self.assertEqual(set(ver["counts"]), {"verified", "derogation", "failed", "partial", "not_run"})
 
 
 if __name__ == "__main__":

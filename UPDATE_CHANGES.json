@@ -2,26 +2,17 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Plans de test : un bundle par prototype testé, un résultat par test",
-      "why": "Dans Testing → Test Plans, une fois le plan envoyé au fournisseur, on ajoute un bundle par prototype effectivement testé (identifiant, numéro de série, note). Chaque test du plan y reçoit un résultat : Passed, Passed with derogation, Failed ou Abandoned, avec une justification et les preuves à l'appui. Le plan ne se ferme plus tant que chaque bundle n'est pas complet (le serveur dit ce qui manque).",
+      "title": "Vérification des requirements par les résultats d'essai",
+      "why": "Testing → Vérification des requirements : une ligne par requirement Goldmine qui cite des tests, avec son verdict (Verified, Verified with derogation, Partially verified, Failed, Not run) et celui de chaque test cité. Le verdict d'un test vient du dernier résultat sur chaque prototype dans les bundles des plans de test (un échec sur un proto l'emporte ; Abandoned ne vérifie rien). La fiche d'un test montre ses exécutions (plan, proto, résultat, justification, date).",
       "files": [
-        "modules/testing/bundles.py",
+        "modules/testing/verification.py",
+        "modules/testing/tests_api.py",
         "modules/testing/__init__.py",
-        "modules/testing/plans.py",
-        "static/js/testing/testing_bundles.js",
-        "static/js/testing/testing_plans.js",
+        "static/js/testing/testing_verify.js",
+        "static/js/testing/testing.js",
+        "static/js/testing/testing_record.js",
+        "tests/test_testing_verification.py",
         "tests/test_lot_v030.py"
-      ]
-    },
-    {
-      "id": "C2",
-      "title": "Preuves en vrac : Word, Excel, PowerPoint, PDF, images, texte, zip",
-      "why": "Les preuves se déposent en vrac sur le plan (rapport du plan rempli en .docx ou .pdf, rapports de laboratoire, classeurs, photos, journaux), puis se lient aux résultats. Le type est décidé par les premiers octets ; les documents avec macros et les exécutables sont refusés. Une preuve qui soutient un résultat ne peut pas être retirée avant d'être déliée. Le PDF des résultats existant reste exigé.",
-      "files": [
-        "core/uploads.py",
-        "modules/testing/migrations (testing 6)",
-        "modules/testing/__init__.py",
-        "core/modules.py"
       ]
     }
   ]

@@ -57,3 +57,7 @@ html[data-theme="dark"] { --testing: #4bce97; --testing-soft: rgba(75, 206, 151,
 .tb-res.tb-ok select { border-color: var(--ok, #2e7d32); }
 .tb-res.tb-warn select { border-color: var(--warn, #b26a00); }
 .tb-res.tb-danger select { border-color: var(--danger, #c62828); }
+
+/* 0.60.91 (D-O-097): verification of the requirements */
+.tv-summary { display: flex; flex-wrap: wrap; gap: .8rem 1.4rem; margin: .6rem 0 1rem; }
+.tv-test { text-decoration: none; margin-right: .2rem; }
