@@ -212,6 +212,12 @@ def store_file(ctx, project_id, module, max_bytes):
     return _store(ctx, project_id, module, upload, mime or "application/octet-stream")
 
 
+def store_text(ctx, project_id, module, text, filename):
+    """A short UTF-8 note kept like an uploaded file (core lot v0.36, D-O-100): the reference to a document that lives
+    elsewhere (a file too large for the platform, left on the team's network)."""
+    return _store(ctx, project_id, module, Upload(text.encode("utf-8"), "text/plain", filename), "text/plain")
+
+
 def _store(ctx, project_id, module, upload, mime):
     conn = ctx.conn
     digest = hashlib.sha256(upload.data).hexdigest()

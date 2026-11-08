@@ -206,31 +206,16 @@ MIGRATIONS.append((6, """
 """))
 MIGRATIONS.append((7, """
     -- 0.60.94 (D-O-100): an evidence is a file on the server (any type, 150 Mo at most) or, beyond that, a reference to
-    -- where it lies on the network (kind 'link': no attachment). A newer version from the supplier replaces the file under
-    -- the same id, so the results that cite it keep it; the previous versions stay in history (JSON). The table is
-    -- rebuilt (SQLite cannot drop NOT NULL on attachment_id); no other table references it.
-    CREATE TABLE testing_evidence_v7 (
-        id            INTEGER PRIMARY KEY,
-        plan_id       INTEGER NOT NULL REFERENCES testing_plans(id) ON DELETE CASCADE,
-        attachment_id INTEGER REFERENCES attachments(id),
-        name          TEXT NOT NULL,
-        note          TEXT NOT NULL DEFAULT '',
-        bundle_id     INTEGER REFERENCES testing_bundles(id) ON DELETE SET NULL,
-        created_by    INTEGER REFERENCES users(id) ON DELETE SET NULL,
-        created_at    TEXT NOT NULL,
-        kind          TEXT NOT NULL DEFAULT 'file',
-        link          TEXT NOT NULL DEFAULT '',
-        link_size     INTEGER,
-        version       INTEGER NOT NULL DEFAULT 1,
-        history       TEXT NOT NULL DEFAULT '[]',
-        updated_by    INTEGER REFERENCES users(id) ON DELETE SET NULL,
-        updated_at    TEXT
-    );
-    INSERT INTO testing_evidence_v7 (id, plan_id, attachment_id, name, note, bundle_id, created_by, created_at)
-    SELECT id, plan_id, attachment_id, name, note, bundle_id, created_by, created_at FROM testing_evidence;
-    DROP TABLE testing_evidence;
-    ALTER TABLE testing_evidence_v7 RENAME TO testing_evidence;
-    CREATE INDEX idx_testing_evidence_plan ON testing_evidence(plan_id);
+    -- where it lies on the network (kind 'link'; its attachment is a short text note of the location). A newer version
+    -- from the supplier replaces the file under the same id, so the results that cite it keep it; the previous versions
+    -- stay in history (JSON). Additive only: an online update never drops anything.
+    ALTER TABLE testing_evidence ADD COLUMN kind TEXT NOT NULL DEFAULT 'file';
+    ALTER TABLE testing_evidence ADD COLUMN link TEXT NOT NULL DEFAULT '';
+    ALTER TABLE testing_evidence ADD COLUMN link_size INTEGER;
+    ALTER TABLE testing_evidence ADD COLUMN version INTEGER NOT NULL DEFAULT 1;
+    ALTER TABLE testing_evidence ADD COLUMN history TEXT NOT NULL DEFAULT '[]';
+    ALTER TABLE testing_evidence ADD COLUMN updated_by INTEGER REFERENCES users(id) ON DELETE SET NULL;
+    ALTER TABLE testing_evidence ADD COLUMN updated_at TEXT;
 """))
 
 TP = r"/api/testing/plans/(?P<code>TP-\d{3,})"

@@ -104,7 +104,8 @@
       return sel;
     };
     const row = (e) => el("tr", null,
-      el("td", null, e.kind === "link" ? el("div", null, el("b", null, e.name), el("span", { class: "badge badge-info te-net" }, "Réseau"), el("div", null, where(e, e.id)))
+      el("td", null, e.kind === "link" ? el("div", null, el("b", null, e.name), el("span", { class: "badge badge-info te-net" }, "Réseau"), el("div", null, where(e, e.id)),
+        el("a", { class: "te-note", href: url("/evidence/" + e.id + "/file"), download: e.name + " - emplacement.txt" }, "Fiche d'emplacement (.txt)"))
         : where({ kind: "file", name: e.name }, e.id), e.note ? el("div", { class: "muted te-note" }, e.note) : null),
       el("td", { class: "te-ver" }, "v" + e.version, e.history.length ? el("details", { "data-new": NEW }, el("summary", null, e.history.length + " précédente(s)"),
         el("ul", { class: "te-history" }, e.history.map((h) => el("li", null, "v" + h.version + " · ", where(h, e.id), " · " + size(h.size) + " · " + day(h.at) + (h.by ? " · " + h.by : ""))))) : null),

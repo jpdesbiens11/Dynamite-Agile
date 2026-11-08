@@ -3,8 +3,8 @@
 What the test supplier sends -- the filled-in report, lab reports, raw data, spreadsheets, photos, videos, archives --
 is dropped on the plan, then pointed at from the results of each bundle (bundles.py). Any type of file is accepted, up
 to « max_evidence_mb » of data/config.json (150 Mo); the server never opens it and only ever sends it back as a
-download. A larger file stays on the network: the plan records its name, its size and where it lies (kind 'link'), and
-that reference counts as evidence like a file.
+download. A larger file stays on the network: the plan records its name, its size and where it lies (kind 'link'), as
+a short text note kept in place of the file (the result document in reference); it counts as evidence like a file.
 
 A newer version from the supplier replaces the file (or the link) under the same evidence id, so the results that cite
 it follow; the previous versions stay downloadable (history, newest first on screen). Removing an evidence also takes
@@ -70,6 +70,18 @@ def listing(conn, row):
     return out
 
 
+def _mb(n):
+    return "{:.1f} Mo".format(n / 1048576).replace(".0 ", " ").replace(".", ",") if n is not None else "inconnue"
+
+
+def _note(ctx, pid, row, name, link, size):
+    """The reference document of a file left on the network: what it is and where to open it."""
+    text = "\n".join(["Document de résultat rangé sur le réseau — {} · {}".format(row["code"], row["title"]), "",
+                      "Fichier : " + name, "Emplacement : " + link, "Taille : " + _mb(size),
+                      "Consigné par : {} ({})".format(ctx.user["display_name"], db.utc_now()[:10])]) + "\n"
+    return uploads.store_text(ctx, pid, MODULE, text, name + " - emplacement.txt")
+
+
 def _uploaded(ctx, pid):
     stored = uploads.store_file(ctx, pid, MODULE, limit_mb(ctx.config) * 1048576)
     name = uploads.clean_name(ctx.upload.filename) or stored["original_name"] or "preuve"
@@ -91,20 +103,21 @@ def api_link_add(ctx):
     pid, row = _open_plan(ctx)
     name = validate.text(ctx.body, "name", 120)
     link, size = _link(ctx.body), _declared_size(ctx.body)
+    note = _note(ctx, pid, row, name, link, size)
     eid = ctx.conn.execute(
         "INSERT INTO testing_evidence (plan_id, attachment_id, name, note, kind, link, link_size, created_by, created_at) "
-        "VALUES (?, NULL, ?, ?, 'link', ?, ?, ?, ?)",
-        (row["id"], name, validate.text(ctx.body, "note", 500, required=False), link, size, ctx.user["id"], db.utc_now())).lastrowid
+        "VALUES (?, ?, ?, ?, 'link', ?, ?, ?, ?)",
+        (row["id"], note["id"], name, validate.text(ctx.body, "note", 500, required=False), link, size, ctx.user["id"],
+         db.utc_now())).lastrowid
     _plans()._log(ctx, "testing_evidence_linked", row["id"], {"file": name, "link": link, "size": size})
     return {"id": eid, "name": name}
 
 
 def _new_version(ctx, row, e, name, attachment_id, link, link_size):
     """Keep the current version in history, then put the new one under the same id (the results that cite it follow)."""
-    size, sha = e["link_size"], None
-    if e["kind"] == "file":
-        att = ctx.conn.execute("SELECT size, sha256 FROM attachments WHERE id = ?", (e["attachment_id"],)).fetchone()
-        size, sha = (att["size"], att["sha256"]) if att else (None, None)
+    att = ctx.conn.execute("SELECT size, sha256 FROM attachments WHERE id = ?", (e["attachment_id"],)).fetchone()
+    sha = att["sha256"] if att else None
+    size = e["link_size"] if e["kind"] == "link" else (att["size"] if att else None)
     who = ctx.conn.execute("SELECT display_name FROM users WHERE id = ?", (e["updated_by"] or e["created_by"],)).fetchone()
     history = json.loads(e["history"] or "[]") + [{
         # the file by its content (sha256), not by attachment id: a restore or a Space copy renumbers the attachments
@@ -132,7 +145,8 @@ def api_link_replace(ctx):
     pid, row = _open_plan(ctx)
     e = _evidence(ctx, row)
     name = validate.text(ctx.body, "name", 120, required=False) or e["name"]
-    return _new_version(ctx, row, e, name, None, _link(ctx.body), _declared_size(ctx.body))
+    link, size = _link(ctx.body), _declared_size(ctx.body)
+    return _new_version(ctx, row, e, name, _note(ctx, pid, row, name, link, size)["id"], link, size)
 
 
 def api_update(ctx):
@@ -167,25 +181,26 @@ def api_delete(ctx):
 
 
 def api_file(ctx):
-    """The current version, or an earlier one (?version=N), always as a download."""
+    """The current version, or an earlier one (?version=N), always as a download; for a file left on the network, its
+    reference document (where it lies)."""
     P = _plans()
     pid = P._pid(ctx)
     row = P._row(ctx, pid)
     e = _evidence(ctx, row)
     want = str(ctx.query.get("version") or "").strip()
-    name, kind, link = e["name"], e["kind"], e["link"]
+    name, kind = e["name"], e["kind"]
     att = ctx.conn.execute("SELECT * FROM attachments WHERE id = ? AND project_id = ?", (e["attachment_id"], pid)).fetchone()
     if want and want != str(e["version"]):
         old = next((h for h in json.loads(e["history"] or "[]") if str(h.get("version")) == want), None)
         if old is None:
             raise ApiError(404, "Version {} introuvable pour « {} ».".format(want[:10], e["name"]))
-        name, kind, link = old.get("name") or name, old.get("kind") or "file", old.get("link") or ""
+        name, kind = old.get("name") or name, old.get("kind") or "file"
         att = ctx.conn.execute("SELECT * FROM attachments WHERE project_id = ? AND module = ? AND sha256 = ?",
                                (pid, MODULE, str(old.get("sha256") or ""))).fetchone()
-    if kind == "link":
-        raise ApiError(409, "« {} » n'est pas sur la plateforme. Correctif : ouvrez-le sur le réseau : {}".format(name, link))
     if att is None:
         raise ApiError(404, "Fichier de preuve absent du serveur. Correctif : restaurez data/attachments depuis la sauvegarde.")
+    if kind == "link":
+        name = name + " - emplacement.txt"
     return RawFile(uploads.read(ctx.data_dir, att), name, att["mime"], export=False)
 
 

@@ -3,7 +3,7 @@
 - **Version :** 0.60.93 → 0.60.94 (2026-11-08)
 - **Changements :**
   1. **Preuves des plans de test : dépôt réparé, tout type de fichier, versions et liens réseau** (D-O-100).
-- **Base de données :** ['Migration testing 7 : table testing_evidence reconstruite (attachment_id facultatif ; kind, link, link_size, version, history, updated_by, updated_at). Lignes existantes gardées.']
+- **Base de données :** ['Migration testing 7 (additive) : colonnes kind, link, link_size, version, history, updated_by, updated_at ajoutées à testing_evidence. Lignes existantes gardées.']
 
 ## Précédent
 

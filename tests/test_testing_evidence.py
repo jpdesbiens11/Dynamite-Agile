@@ -16,7 +16,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(BASE_DIR))
 
-from core import auth, db, modules, router, startup  # noqa: E402
+from core import auth, db, modules, router, startup, update  # noqa: E402
 from core.config import load_config  # noqa: E402
 from modules import testing  # noqa: E402
 from tools.api_client import ApiFailure, Client  # noqa: E402
@@ -45,11 +45,10 @@ class MigrationTest(unittest.TestCase):
         conn.executescript(steps[6])
         conn.execute("INSERT INTO testing_evidence (id, plan_id, attachment_id, name, note, created_by, created_at) "
                      "VALUES (9, 3, 5, 'rapport.docx', 'v finale', 1, '2026-11-08')")
+        self.assertIsNone(update.DESTRUCTIVE.search(steps[7]))  # an online update refuses any DROP
         conn.executescript(steps[7])
         row = conn.execute("SELECT id, plan_id, attachment_id, name, note, kind, version, history FROM testing_evidence").fetchone()
         self.assertEqual(row, (9, 3, 5, "rapport.docx", "v finale", "file", 1, "[]"))
-        conn.execute("INSERT INTO testing_evidence (plan_id, name, kind, link, created_at) VALUES (3, 'video.mp4', 'link', "
-                     "'\\\\srv\\essais\\video.mp4', '2026-11-08')")  # no attachment for a network reference
 
 
 class EvidenceApiTest(unittest.TestCase):
@@ -113,9 +112,10 @@ class EvidenceApiTest(unittest.TestCase):
         net = self.admin.post(base + "/evidence/link", {"name": "video_chute.mp4", "link": link, "size": 412 * MB, "note": "Caméra rapide"})
         self.assertEqual(self.fails(lambda: self.admin.post(base + "/evidence/link", {"name": "x", "link": "a\nb"}))[0], 400)
         self.assertEqual(self.fails(lambda: self.admin.post(base + "/evidence/link", {"name": "x", "link": ""}))[0], 400)
-        status, text = self.download(base + "/evidence/{}/file".format(net["id"]))
-        self.assertEqual(status, 409)
-        self.assertIn("labo-srv", text)
+        note, disposition = self.download(base + "/evidence/{}/file".format(net["id"]))  # its reference document
+        self.assertIn(link, note.decode("utf-8"))
+        self.assertIn("412 Mo", note.decode("utf-8"))
+        self.assertIn("video_chute.mp4 - emplacement.txt", disposition)
 
         # results cite both; a newer version keeps the same evidence (and so the results)
         bundle = self.admin.post(base + "/bundles", {"proto": "P1"})["id"]

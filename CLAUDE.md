@@ -173,7 +173,7 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
-- **0.60.94** (2026-11-08) : **preuves des plans de test** (D-O-100, lot noyau v0.36 : `uploads.store_file`, `uploads.large_body`,
+- **0.60.94** (2026-11-08) : **preuves des plans de test** (D-O-100, lot noyau v0.36 : `uploads.store_file`, `store_text`, `large_body`,
   `max_evidence_mb` = 150 ; `modules/testing/evidence.py`, `static/js/testing/testing_evidence.js`, migration testing 7) : dépôt et bundles
   réparés (« ?space= » au bout de l'adresse), tout type de fichier, glisser-déposer, « Remplacer… » (versions sous la même preuve),
   lien réseau au-delà de 150 Mo, « Retirer » libère les résultats ; crochet `on_restore` de Testing (résultats → preuves).
