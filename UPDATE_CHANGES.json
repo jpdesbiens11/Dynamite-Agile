@@ -2,12 +2,11 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Tour guidé sur téléphone : la barre suit l'écran",
-      "why": "Revue du tour guidé sur téléphone (0.60.72) : la barre du bas était calculée une seule fois, au moment où l'étape s'affichait. Un téléphone tourné de paysage à portrait (ou une fenêtre rétrécie) gardait le texte coupé à 2 lignes sans bouton « Plus » ni « ▾ » ; une étape changée avec les flèches du clavier pendant que la carte était réduite en pastille faisait de même (texte mesuré pendant qu'il était caché). La mise en page est maintenant recalculée à chaque changement de taille de l'écran et quand la carte se rouvre.",
+      "title": "Adresses en plus derrière Traefik vérifiées",
+      "why": "Revue de « dynamiteagile.ca » (0.60.71) : install.sh --traefik <nouvelle> <ancienne…> vérifiait seulement l'adresse principale dans le DNS ; une adresse en plus mal écrite ou sans enregistrement DNS était acceptée sans message et ses liens ne marchaient pas. Chaque adresse en plus est maintenant vérifiée comme la principale ; l'installation s'arrête avant de toucher à quoi que ce soit si l'une ne répond pas.",
       "files": [
-        "tools/site/tour.js",
-        "tools/site/site.css",
-        "tests/test_site_tour.py"
+        "deploy/install_traefik.sh",
+        "tests/test_traefik_aliases.py"
       ]
     }
   ]

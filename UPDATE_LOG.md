@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.77
+# Journal de mise à jour — 0.60.78
+
+- **Version :** 0.60.77 → 0.60.78 (2026-11-07)
+- **Changements :**
+  1. **Adresses en plus derrière Traefik vérifiées** (D-O-084) : chaque adresse passée après la principale à `--traefik` doit répondre dans le DNS.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.77
 
 - **Version :** 0.60.76 → 0.60.77 (2026-11-07)
 - **Changements :**
   1. **Tour guidé sur téléphone : la barre suit l'écran** (D-O-083) : « Plus » et « ▾ » recalculés quand le téléphone tourne ou quand la carte réduite se rouvre.
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.76
 
