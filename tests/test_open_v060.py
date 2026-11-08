@@ -54,7 +54,7 @@ def scanned_files():
 
 class StaticContentTest(unittest.TestCase):
     def test_01_version(self):
-        self.assertEqual(APP_VERSION, "0.60.92")
+        self.assertEqual(APP_VERSION, "0.60.93")
 
     def test_02_nothing_of_the_original_use_left(self):
         hits = []

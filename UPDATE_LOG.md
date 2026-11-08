@@ -1,11 +1,19 @@
-# Journal de mise à jour — 0.60.92
+# Journal de mise à jour — 0.60.93
+
+- **Version :** 0.60.92 → 0.60.93 (2026-11-08)
+- **Changements :**
+  1. **La journée du site et de la vitrine jouée par un curseur** (D-O-099).
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.92
 
 - **Version :** 0.60.91 → 0.60.92 (2026-11-08)
 - **Changements :**
   1. **Résumé Word des résultats d'un plan de test** (D-O-098).
 - **Base de données :** ['Aucun changement de schéma.']
 
-## Précédent
 
 ### Journal de mise à jour — 0.60.91
 

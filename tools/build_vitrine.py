@@ -39,6 +39,9 @@ def build():
     cards = "\n".join(
         '      <article class="tool reveal" style="--a: var({})"><svg class="ico"><use href="#i-{}"/></svg><h3>{}</h3><p>{}</p></article>'
         .format(accent, icon, html.escape(name), html.escape(text)) for icon, accent, name, text in TOOLS)
+    journey = BASE / "tools" / "vitrine"  # 0.60.93 (D-O-099): the day with the team, its screen and the cursor that plays it
+    template = (template.replace("/*JOURNEY_CSS*/", (journey / "journey.css").read_text(encoding="utf-8").strip())
+                .replace("/*JOURNEY_JS*/", (journey / "journey.js").read_text(encoding="utf-8").strip()))
     page = (template.replace("<!--SPRITE-->", sprite.strip()).replace("<!--HERO-->", hero.strip())
             .replace("<!--TOOLS-->", cards.strip()).replace("<!--VERSION-->", "version " + APP_VERSION)
             .replace("LOGO_FONT_DATA", "data:font/woff2;base64," + base64.b64encode(

@@ -2,13 +2,15 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Résumé Word des résultats d'un plan de test",
-      "why": "Sur la page d'un plan avec bundles, « Résumé des résultats (.docx) » : les prototypes testés, un tableau par prototype (test, résultat, justification, preuves) et l'index des fichiers de preuve. Les fichiers de preuve restent sur le serveur, ils sont nommés, pas intégrés.",
+      "title": "La journée du site et de la vitrine jouée par un curseur",
+      "why": "Dans « Une journée dans le carnet », un curseur ouvre l'onglet de chaque outil et y fait son geste : Acknowledge, Need Status « Customer Confirmed », ligne DFMEA de F3, durée de Concept étirée, carte glissée vers In Progress, Export Word, PDF joint → Verified, semaine copiée et soumise, test réussi → Completed. Sur téléphone, la journée joue seule ; en mouvement réduit, chaque écran montre son résultat.",
       "files": [
-        "modules/testing/results_docx.py",
-        "modules/testing/__init__.py",
-        "static/js/testing/testing_plans.js",
-        "tests/test_lot_v030.py"
+        "tools/vitrine/journey.js",
+        "tools/vitrine/journey.css",
+        "tools/vitrine/template.html",
+        "tools/build_vitrine.py",
+        "tools/site/en/journee.html",
+        "static/apps/vitrine/index.html"
       ]
     }
   ]

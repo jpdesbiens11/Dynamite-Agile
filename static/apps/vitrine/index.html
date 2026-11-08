@@ -83,20 +83,7 @@ h2 { font: 700 clamp(1.7rem, 3.2vw, 2.5rem)/1.2 var(--hand); margin: 0 0 .6rem; 
 .pain .now { margin: .6rem 0 0; font-weight: 650; }
 .pain .now span { --hlc: var(--g); }
 
-/* Diamond scene (0.60.65): function tree that grows branch by branch, then the DFMEA line */
-.ftree { display: grid; grid-template-columns: 36% 1fr; align-items: center; gap: 1.4rem; position: relative; }
-.fkids { display: flex; flex-direction: column; gap: .4rem; border-left: 2px solid var(--ink); padding-left: .9rem; }
-.fnode { border: 2px solid var(--ink); border-radius: var(--r-hand); padding: .3rem .5rem; background: #fff; font-size: .82rem; line-height: 1.2; }
-.fnode code { margin-right: .35rem; font-weight: 700; }
-.fnode.f0 { position: relative; background: color-mix(in srgb, var(--y) 55%, #fff); }
-.fnode.f0::after { content: ""; position: absolute; right: calc(-1.4rem - 2px); top: 50%; width: 1.4rem; border-top: 2px solid var(--ink); }
-.fkids .fnode { position: relative; background: color-mix(in srgb, var(--c) 22%, #fff); opacity: 0; transform: translateX(-12px); transition: opacity .4s ease, transform .4s ease; transition-delay: calc(var(--k) * .35s); }
-.fkids .fnode::before { content: ""; position: absolute; left: calc(-.9rem - 2px); top: 50%; width: .9rem; border-top: 2px solid var(--ink); }
-.fkids .fnode.crit { border-width: 3px; }
-.scene.on .fkids .fnode { opacity: 1; transform: none; }
-.dfm { opacity: 0; transition: opacity .4s ease; transition-delay: calc(1.8s + var(--k, 0) * .4s); }
-.scene.on .dfm { opacity: 1; }
-/* ---------- journey: sticky screen + steps ---------- */
+/* ---------- journey: sticky screen + steps; a cursor plays each tool's gesture (journey.js) ---------- */
 .journey { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 2.5rem; align-items: start; }
 .steps { display: flex; flex-direction: column; gap: 38vh; padding: 10vh 0 30vh; }
 .step { padding: 1.2rem 1.3rem; background: rgba(255, 255, 255, .86); border: 1.6px solid rgba(38, 50, 63, .25); border-radius: var(--r-card);
@@ -108,58 +95,197 @@ h2 { font: 700 clamp(1.7rem, 3.2vw, 2.5rem)/1.2 var(--hand); margin: 0 0 .6rem; 
 .step .gain { display: inline-block; margin-top: .6rem; font: 600 .9rem var(--hand); --hlc: var(--g); }
 .stage { position: sticky; top: 14vh; }
 .screen { position: relative; height: 470px; background: #fff; border: 2px solid var(--ink); border-radius: var(--r-card);
-  box-shadow: 8px 8px 0 rgba(38, 50, 63, .16); overflow: hidden; }
+  box-shadow: 8px 8px 0 rgba(38, 50, 63, .16); overflow: hidden; pointer-events: none; user-select: none; }
 .screen::before { content: ""; position: absolute; top: -12px; left: 40px; width: 96px; height: 22px; background: color-mix(in srgb, var(--y) 70%, transparent);
   transform: rotate(-4deg); z-index: 3; }
 .bar { display: flex; align-items: center; gap: .45rem; height: 40px; padding: 0 .8rem; border-bottom: 1.4px solid rgba(38, 50, 63, .25);
   font: 600 .8rem var(--sans); }
-.bar .tab { display: inline-flex; align-items: center; gap: .25rem; padding: .15rem .35rem; border-radius: var(--r-hand); color: var(--ink-2); }
+.bar .tab { display: inline-flex; align-items: center; gap: .25rem; padding: .15rem .35rem; border-radius: var(--r-hand); color: var(--ink-2);
+  transition: background-color .15s ease, color .15s ease; }
 .bar .tab.on { color: var(--ink); background: color-mix(in srgb, var(--acc, var(--b)) 45%, transparent); }
 .bar .ico { width: 16px; height: 16px; }
-.scene { position: absolute; inset: 40px 0 0; padding: 1rem 1.1rem; opacity: 0; transform: translateX(24px); transition: opacity .45s ease, transform .45s ease;
+/* a page swap inside one window: only the body crossfades, with a small rise */
+.scene { position: absolute; inset: 40px 0 0; padding: 1rem 1.1rem; opacity: 0; transform: translateY(8px); transition: opacity .2s ease, transform .2s ease;
   font-size: .9rem; }
 .scene.on { opacity: 1; transform: none; }
+.scene.snap, .scene.snap * { transition: none !important; animation: none !important; }  /* a state set while hidden */
 .mini-h { font: 700 1.05rem var(--hand); margin: 0 0 .7rem; display: inline-block; background: linear-gradient(transparent 58%, color-mix(in srgb, var(--acc, var(--b)) 55%, transparent) 58% 90%, transparent 90%); }
+.rows { display: grid; gap: .45rem; }
+.row { display: grid; grid-template-columns: 70px 1fr auto; gap: .6rem; align-items: center; padding: .45rem .55rem; border: 1.2px solid rgba(38, 50, 63, .18);
+  border-radius: 8px; background: #fff; }
+.row.two { grid-template-columns: 1fr auto; }
+.row code { font: 600 .78rem "Cascadia Mono", Consolas, monospace; color: var(--blue); }
+/* fixed heights: a ✓ drawn from a fallback font must not make a line taller when a label changes */
+.chip { display: inline-flex; align-items: center; height: 1.3rem; padding: 0 .45rem; border-radius: var(--r-hand); font: 700 .72rem/1 var(--sans);
+  background: #eef1f5; white-space: nowrap; transition: background-color .2s ease, color .2s ease; }
+.chip.y { background: #fff1bf; color: #8a5a00; } .chip.g { background: #dcf7e6; color: #1a6e3e; } .chip.b { background: #e3eeff; color: #0a58ad; }
+/* the small buttons of the mock-up: the page's .btn at the size of an application */
+.screen .btn { height: 1.85rem; padding: 0 .6rem; font-size: .76rem; line-height: 1; border-width: 1.4px; box-shadow: 2px 2px 0 rgba(38, 50, 63, .16); gap: .3rem; white-space: nowrap;
+  transition: transform .08s ease-out, box-shadow .08s ease-out, background-color .2s ease, color .2s ease, border-color .2s ease; }
+.screen .btn-primary { box-shadow: 2px 2px 0 #0b3f8f; }
+.screen .btn[data-pressed] { transform: translate(1px, 1px); box-shadow: 1px 1px 0 rgba(38, 50, 63, .16); }
+.screen .btn.is-done { background: #dcf7e6; color: #1a6e3e; border-color: #1a6e3e; box-shadow: 2px 2px 0 rgba(26, 110, 62, .25); }
+/* a label that changes on itself: the old words leave upward, the new arrive from below, the box eases to its width */
+.roll { display: inline-grid; overflow: hidden; vertical-align: bottom; transition: width .32s cubic-bezier(.45, 0, .1, 1); }
+.roll > span { grid-area: 1 / 1; justify-self: start; white-space: nowrap; }
+.roll .ro-out { animation: ro-out .32s cubic-bezier(.45, 0, .1, 1) forwards; }
+.roll .ro-in { animation: ro-in .32s cubic-bezier(.45, 0, .1, 1) both; }
+@keyframes ro-out { to { transform: translateY(-110%); opacity: 0; } }
+@keyframes ro-in { from { transform: translateY(110%); opacity: 0; } }
+
+/* the cursor (glyphs and hotspots of the stageshow kit: arrow, I-beam, east-west resize) */
+.jc { position: absolute; left: 0; top: 0; z-index: 5; opacity: 0; transition: opacity .25s ease; will-change: transform; }
+.jc.live { opacity: 1; }
+.jc.live.idle { opacity: 0; transition-duration: .6s; }
+.jc-press { display: grid; transform-origin: 0 0; transition: transform .26s cubic-bezier(.22, 1, .36, 1); }
+.jc[data-pressed] .jc-press { transform: scale(.9); transition: transform .08s ease-out; }
+.jc-g { grid-area: 1 / 1; display: block; opacity: 0; transform: scale(.6); transform-origin: 0 0; transition: transform .2s ease, opacity .2s ease; }
+.jc[data-kind="arrow"] .jc-arrow, .jc[data-kind="ibeam"] .jc-ibeam, .jc[data-kind="ew"] .jc-ew { opacity: 1; transform: none; }
+.jc-arrow { margin: -3px 0 0 -4px; transform-origin: 4px 3px; filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, .22)); }
+.jc-arrow path { fill: var(--ink); stroke: var(--ink); stroke-width: 2.4; stroke-linejoin: round; }
+.jc-ibeam { margin: -8px 0 0 -5px; transform-origin: 5px 8px; overflow: visible; }
+.jc-ew { margin: -10.5px 0 0 -10.5px; transform-origin: 10.5px 10.5px; overflow: visible; }
+.jc .edge { stroke: #fff; fill: #fff; } .jc .line { stroke: var(--ink); fill: var(--ink); }
+
+/* Dashboard: the @mention arrives whole from just above, then is acknowledged */
 .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; }
 .kpi { padding: .6rem; border: 1.4px solid rgba(38, 50, 63, .25); border-radius: var(--r-card); box-shadow: 2px 2px 0 rgba(38, 50, 63, .12); }
 .kpi b { display: block; font-size: 1.5rem; }
 .kpi small { color: var(--ink-2); }
-.msg { display: flex; align-items: center; gap: .5rem; margin-top: .8rem; padding: .55rem .7rem; border-left: 4px solid var(--r);
-  background: #fff5f4; border-radius: 6px; transform: scale(0); transform-origin: left; transition: transform .45s var(--pop) .6s; }
-.scene.on .msg { transform: scale(1); }
-.dot { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--r); color: #fff; font-size: .75rem; font-weight: 700; }
-.rows { display: grid; gap: .45rem; }
-.row { display: grid; grid-template-columns: 70px 1fr auto; gap: .6rem; align-items: center; padding: .45rem .55rem; border: 1.2px solid rgba(38, 50, 63, .18);
-  border-radius: 8px; background: #fff; }
-.row code { font: 600 .78rem "Cascadia Mono", Consolas, monospace; color: var(--blue); }
-.chip { padding: .05rem .45rem; border-radius: var(--r-hand); font: 700 .72rem var(--sans); background: #eef1f5; }
-.chip.y { background: #fff1bf; color: #8a5a00; } .chip.g { background: #dcf7e6; color: #1a6e3e; } .chip.b { background: #e3eeff; color: #0a58ad; }
-.trace { position: relative; height: 120px; margin-top: .7rem; }
-.trace svg { width: 100%; height: 100%; }
-.trace .flow { stroke-dasharray: 8 10; animation: flow 1.2s linear infinite; }
-@keyframes flow { to { stroke-dashoffset: -36; } }
-.gantt { display: grid; gap: .55rem; margin-top: .4rem; }
-.g-row { display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: .6rem; font-size: .82rem; }
-.g-bar { height: 14px; border-radius: var(--r-hand); background: var(--v); width: 0; transition: width 1s ease; opacity: .85; }
-.scene.on .g-bar { width: var(--w); }
+.msg { display: flex; align-items: center; gap: .6rem; margin-top: .8rem; padding: .55rem .7rem; border-left: 4px solid var(--r);
+  background: #fff5f4; border-radius: 6px; opacity: 0; transform: translateY(-8px);
+  transition: opacity .5s cubic-bezier(.25, .8, .25, 1), transform .5s cubic-bezier(.25, .8, .25, 1), background-color .25s ease, border-color .25s ease; }
+.msg.in { opacity: 1; transform: none; }
+.msg.ok { border-left-color: var(--g); background: #f2fbf5; }
+.msg .msg-t { flex: 1; min-width: 0; }
+.dot { display: inline-grid; place-items: center; flex: none; width: 20px; height: 20px; border-radius: 50%; background: var(--r); color: #fff;
+  font-size: .75rem; font-weight: 700; transition: background-color .2s ease; }
+.msg.ok .dot { background: #1a6e3e; }
+
+/* Goldmine: the Need Status menu, then the trace drawn from the need to the requirement */
+.pop { position: absolute; z-index: 4; display: grid; min-width: 170px; padding: .25rem; background: #fff; border: 1.4px solid var(--ink);
+  border-radius: 10px; box-shadow: 3px 3px 0 rgba(38, 50, 63, .16); font: 600 .78rem var(--sans);
+  opacity: 0; transform: translateY(-4px); transition: opacity .16s ease, transform .16s ease; }
+.pop.open { opacity: 1; transform: none; }
+.pop > span { padding: .3rem .55rem; border-radius: 7px; transition: background-color .15s ease; }
+.pop > span[data-hover] { background: color-mix(in srgb, var(--acc, var(--y)) 40%, transparent); }
+.trace { position: relative; height: 130px; margin-top: .9rem; }
+.trace svg { width: 100%; height: 100px; }
+.trace .base { stroke: #c9ced6; stroke-dasharray: 8 10; }
+.trace .lit { stroke: var(--y); stroke-dasharray: 600; stroke-dashoffset: 600; transition: stroke-dashoffset 1.1s cubic-bezier(.45, 0, .1, 1); }
+.trace.on .lit { stroke-dashoffset: 0; }
+.trace circle { fill: #fff; stroke: var(--ink); stroke-width: 2; transition: fill .25s ease; }
+.trace.on circle { fill: var(--y); }
+.trace.on circle:nth-of-type(2) { transition-delay: .5s; } .trace.on circle:nth-of-type(3) { transition-delay: 1s; }
+.trace-l { position: relative; height: 22px; font: 600 .82rem var(--hand); }
+.trace-l span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.trace-l span:nth-child(1) { left: 8.7%; } .trace-l span:nth-child(2) { left: 50%; } .trace-l span:nth-child(3) { left: 91.3%; transform: translateX(-80%); }
+
+/* Diamond: the function tree grows branch by branch; a click on F3 brings its DFMEA line and key test */
+.ftree { display: grid; grid-template-columns: 36% 1fr; align-items: center; gap: 1.4rem; position: relative; }
+.fkids { display: flex; flex-direction: column; gap: .4rem; border-left: 2px solid transparent; padding-left: .9rem; transition: border-color .3s ease; }
+.ftree.grown .fkids { border-left-color: var(--ink); }
+.fnode { border: 2px solid var(--ink); border-radius: var(--r-hand); padding: .3rem .5rem; background: #fff; font-size: .82rem; line-height: 1.2; }
+.fnode code { margin-right: .35rem; font-weight: 700; }
+.fnode.f0 { position: relative; background: color-mix(in srgb, var(--y) 55%, #fff); }
+.fnode.f0::after { content: ""; position: absolute; right: calc(-1.4rem - 2px); top: 50%; width: 1.4rem; border-top: 2px solid var(--ink); }
+.fkids .fnode { position: relative; background: color-mix(in srgb, var(--c) 22%, #fff); opacity: 0; transform: translateX(-12px);
+  transition: opacity .4s ease, transform .4s ease, background-color .15s ease, box-shadow .15s ease;
+  transition-delay: calc(var(--k, 0) * .3s), calc(var(--k, 0) * .3s), 0s, 0s; }
+.fkids .fnode::before { content: ""; position: absolute; left: calc(-.9rem - 2px); top: 50%; width: .9rem; border-top: 2px solid var(--ink); }
+.fkids .fnode.crit { border-width: 3px; }
+.ftree.grown .fkids .fnode { opacity: 1; transform: none; }
+.ftree .fnode.sel { background: color-mix(in srgb, var(--c) 60%, #fff); box-shadow: 2px 2px 0 var(--ink); }
+.dfm { opacity: 0; transform: translateY(-6px); transition: opacity .45s cubic-bezier(.25, .8, .25, 1), transform .45s cubic-bezier(.25, .8, .25, 1); }
+.dfm.in { opacity: 1; transform: none; }
+.row.dfm { grid-template-columns: auto 1fr auto; }
+
+/* Exploration: a month ruler, the phases, and the launch date that follows a longer Concept */
+.gantt { display: grid; gap: 1rem; margin-top: .3rem; }
+.g-row { display: grid; grid-template-columns: 96px 1fr; align-items: center; gap: .6rem; font-size: .84rem; }
+.g-track { position: relative; height: 24px;
+  background: repeating-linear-gradient(90deg, rgba(38, 50, 63, .1) 0 1px, transparent 1px 16.666%); }
+.g-ruler .g-track { height: 1rem; background: none; font-size: .72rem; color: var(--ink-2); }
+.g-ruler .g-track span { position: absolute; top: 0; }
+.g-bar { position: absolute; top: 3px; height: 18px; border-radius: var(--r-hand); background: var(--v); opacity: .85; width: 0;
+  transition: width .8s ease, left .45s cubic-bezier(.45, 0, .1, 1); }
+.g-bar.pink { background: var(--p); }
+.g-bar.drag { transition: none; }
+.g-ms { position: absolute; top: 5px; width: 14px; height: 14px; margin-left: -7px; background: var(--o); border: 1.6px solid var(--ink);
+  transform: rotate(45deg); transition: left .45s cubic-bezier(.45, 0, .1, 1); }
+.row.g-sum { margin-top: 1.4rem; grid-template-columns: 1fr auto; }
+.g-sum b { font-variant-numeric: tabular-nums; }
+
+/* Agile: one card carried by the hand from To Do to In Progress */
 .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; height: 330px; }
 .col { background: #f4f5f7; border-radius: 10px; padding: .5rem; position: relative; }
 .col h4 { margin: 0 0 .4rem; font-size: .75rem; text-transform: uppercase; color: var(--ink-2); }
-.card { position: absolute; left: .5rem; right: .5rem; padding: .45rem .55rem; background: #fff; border: 1.4px solid rgba(38, 50, 63, .25);
-  border-radius: var(--r-card); box-shadow: 2px 2px 0 rgba(38, 50, 63, .12); font-size: .78rem; transition: transform .9s var(--pop); }
+.card { position: absolute; padding: .45rem .55rem; background: #fff; border: 1.4px solid rgba(38, 50, 63, .25); border-radius: var(--r-card);
+  box-shadow: 2px 2px 0 rgba(38, 50, 63, .12); font-size: .78rem; will-change: transform; transform-origin: 50% 50%;
+  transition: transform .35s cubic-bezier(.45, 0, .1, 1), box-shadow .2s ease; }
+.card.held { transition: box-shadow .2s ease; box-shadow: 6px 8px 0 rgba(38, 50, 63, .16); z-index: 3; }
+
+/* Dynamite: the objective typed in the page, then the Word export */
 .wiki { font-size: .86rem; }
-.wiki .typed { border-right: 2px solid var(--ink); white-space: nowrap; overflow: hidden; display: inline-block; max-width: 100%; }
-.wiki .block { margin-top: .6rem; padding: .5rem .6rem; border: 1.4px dashed var(--o); border-radius: 8px; background: #fff7ef; }
+.wiki .typed { min-height: 2.6em; }
+.wiki .typed.caret::after { content: ""; display: inline-block; width: 2px; height: 1.05em; margin-left: 1px; vertical-align: -.18em; background: var(--ink); }
+.wiki .ph { height: 7px; margin: .55rem 0 0; border-radius: 4px; background: #e9ecf0; }
+.wiki .block { margin-top: .7rem; padding: .5rem .6rem; border: 1.4px dashed var(--o); border-radius: 8px; background: #fff7ef; }
+.wiki .block.exp { display: flex; align-items: center; gap: .7rem; border-color: var(--b); background: #f2f7ff; color: var(--ink-2); }
+
+/* Testing: the waveform, the attached PDF, then Verified */
 .scope { display: grid; grid-template-columns: 1.3fr 1fr; gap: .8rem; }
 .scope svg { width: 100%; height: 150px; background: #0f1d1a; border-radius: 10px; }
 .scope .wave { stroke-dasharray: 600; stroke-dashoffset: 600; }
-.scene.on .scope .wave { animation: draw 2.4s linear forwards; }
-.hours { display: grid; grid-template-columns: repeat(5, 1fr); gap: .45rem; align-items: end; height: 150px; margin-top: .6rem; }
-.hours div { background: var(--t); border-radius: 6px 6px 3px 3px; height: 0; transition: height .8s var(--pop); opacity: .85; }
-.scene.on .hours div { height: var(--h); }
-.progress { height: 14px; border: 1.4px solid var(--ink); border-radius: var(--r-hand); overflow: hidden; margin: .6rem 0; }
-.progress i { display: block; height: 100%; width: 0; background: var(--p); transition: width 1.4s ease; }
-.scene.on .progress i { width: 72%; }
+.scope.run .wave { animation: draw 2.4s linear forwards; }
+.scope .btn { justify-self: start; margin-top: .3rem; }
+
+/* Timesheet: four days, Thursday copied to Friday, the week submitted */
+.hours { display: grid; grid-template-columns: repeat(5, 1fr); gap: .45rem; height: 150px; margin-top: .4rem; }
+.hcol { position: relative; display: flex; align-items: flex-end; }
+.hcol i { display: block; width: 100%; height: 0; background: var(--t); border-radius: 6px 6px 3px 3px; opacity: .85; transition: height .8s var(--pop); }
+.hcol.fri::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 88%; border: 1.6px dashed rgba(38, 50, 63, .35);
+  border-radius: 6px 6px 3px 3px; transition: opacity .3s ease; }
+.hcol.fri.filled::before { opacity: 0; }
+.days { display: grid; grid-template-columns: repeat(5, 1fr); gap: .45rem; margin-top: .25rem; text-align: center; font-size: .75rem; color: var(--ink-2); }
+.acts { display: flex; gap: .6rem; flex-wrap: wrap; margin: .8rem 0; }
+
+/* Training: the test submitted, the topic Completed */
+.tl { display: flex; align-items: center; justify-content: space-between; gap: .6rem; }
+.progress { height: 14px; border: 1.4px solid var(--ink); border-radius: var(--r-hand); overflow: hidden; margin: .6rem 0 .9rem; }
+.progress i { display: block; height: 100%; width: 0; background: var(--p); transition: width 1s ease; }
+.progress.full i { background: var(--g); }
+
+/* narrow screens: the screen comes first and plays the day on its own (journey.js) */
+@media (max-width: 900px) {
+  .stage { order: -1; margin-bottom: .6rem; }
+}
+@media (max-width: 560px) {
+  .bar { gap: .2rem; padding: 0 .5rem; }
+  .bar .tl { display: none; }
+  .scene { padding: .9rem .8rem; }
+  .row { grid-template-columns: 64px 1fr auto; gap: .5rem; padding: .4rem .45rem; }
+  .row.g-sum { grid-template-columns: 1fr auto; }
+  .row code { white-space: nowrap; }
+  .kpis { gap: .4rem; }
+  .kpi { padding: .35rem .5rem; }
+  .kpi b { font-size: 1.15rem; }
+  .msg { flex-wrap: wrap; row-gap: .45rem; }
+  .msg .msg-t { flex-basis: calc(100% - 20px - .6rem); }
+  .msg .btn { margin-left: calc(20px + .6rem); }
+  .msg + .rows .row + .row { display: none; }  /* one ticket under the message, room left for the hand to rest */
+  .ftree { grid-template-columns: 1fr; gap: .5rem; }
+  .fnode.f0::after { display: none; }
+  .g-row { grid-template-columns: 72px 1fr; }
+  .scope { grid-template-columns: 1fr; }
+  .scope svg { height: 96px; }
+  .board { height: 330px; gap: .4rem; }
+  .card { font-size: .72rem; padding: .4rem .45rem; }
+  .hours { height: 120px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scope .wave { stroke-dashoffset: 0; }
+}
 
 /* ---------- chain ---------- */
 .chain svg { width: 100%; height: auto; }
@@ -318,8 +444,8 @@ footer { text-align: center; padding: 2rem 1rem 3rem; color: var(--ink-2); font-
       <div class="stage" aria-hidden="true">
         <div class="screen" id="screen">
           <div class="bar">
-            <span class="tab" data-t="0"><svg class="ico"><use href="#i-dashboard"/></svg>Dashboard</span>
-            <span class="tab" data-t="1"><svg class="ico"><use href="#i-goldmine"/></svg>Goldmine</span>
+            <span class="tab" data-t="0"><svg class="ico"><use href="#i-dashboard"/></svg><span class="tl">Dashboard</span></span>
+            <span class="tab" data-t="1"><svg class="ico"><use href="#i-goldmine"/></svg><span class="tl">Goldmine</span></span>
             <span class="tab" data-t="2" data-new="0.60.65-vitrine-diamond"><svg class="ico"><use href="#i-diamond"/></svg></span>
             <span class="tab" data-t="3"><svg class="ico"><use href="#i-exploration"/></svg></span>
             <span class="tab" data-t="4"><svg class="ico"><use href="#i-agile"/></svg></span>
@@ -328,51 +454,69 @@ footer { text-align: center; padding: 2rem 1rem 3rem; color: var(--ink-2); font-
             <span class="tab" data-t="7"><svg class="ico"><use href="#i-timesheet"/></svg></span>
             <span class="tab" data-t="8"><svg class="ico"><use href="#i-training"/></svg></span>
           </div>
-          <div class="scene" data-s="0"><div class="mini-h">Mon Dashboard</div>
-            <div class="kpis"><div class="kpi"><b data-count="7">0</b><small>Tickets</small></div><div class="kpi"><b data-count="12">0</b><small>Requirements</small></div>
-              <div class="kpi"><b data-count="3">0</b><small>Tests</small></div><div class="kpi"><b data-count="32">0</b><small>Heures</small></div></div>
-            <div class="msg"><span class="dot">1</span><span><b>@lea</b> — « Peux-tu confirmer l'usage à une main avec le client ? »</span></div>
+          <div class="scene" data-s="0" data-play="dash"><div class="mini-h">Mon Dashboard</div>
+            <div class="kpis"><div class="kpi"><b>7</b><small>Tickets</small></div><div class="kpi"><b>12</b><small>Requirements</small></div>
+              <div class="kpi"><b>3</b><small>Tests</small></div><div class="kpi"><b>32</b><small>Heures</small></div></div>
+            <div class="msg"><span class="dot" data-to="✓">1</span><span class="msg-t"><b>@lea</b> — « Peux-tu confirmer l'usage à une main avec le client ? »</span>
+              <span class="btn" data-to="Acknowledged ✓" data-new="0.60.93-journee-curseur">Acknowledge</span></div>
             <div class="rows" style="margin-top:.8rem"><div class="row"><code>EQP-12</code><span>Préhension à une main</span><span class="chip y">Assumption</span></div>
               <div class="row"><code>EQP-22</code><span>Buse 2 mm → 1,5 mm</span><span class="chip b">In Review</span></div></div></div>
-          <div class="scene" data-s="1"><div class="mini-h">Requirements et needs</div>
+          <div class="scene" data-s="1" data-play="need"><div class="mini-h">Requirements et needs</div>
             <div class="rows"><div class="row"><code>N-01</code><span>Coller rapidement des petites pièces</span><span class="chip">Need</span></div>
-              <div class="row"><code>N-02</code><span>Utiliser d'une seule main</span><span class="chip g" id="nstatus">Assumption</span></div>
+              <div class="row"><code>N-02</code><span>Utiliser d'une seule main</span><span class="chip y" id="nstatus" data-to="Customer Confirmed">Assumption</span></div>
               <div class="row"><code>REQ-012</code><span>Masse ≤ 500 g, préhension une main</span><span class="chip b">Requirement</span></div></div>
-            <div class="trace"><svg viewBox="0 0 460 120"><path class="flow" d="M40 60 C120 20 160 100 230 60 S360 20 420 60" fill="none" stroke="#ffd23f" stroke-width="5" stroke-linecap="round"/>
-              <g font-family="Segoe Print, Ink Free, Segoe UI, sans-serif" font-size="13" fill="#26323f"><text x="8" y="100">Need</text><text x="185" y="100">Fonction</text><text x="360" y="100">Requirement</text></g>
-              <circle cx="40" cy="60" r="9" fill="#fff" stroke="#26323f" stroke-width="2"/><circle cx="230" cy="60" r="9" fill="#fff" stroke="#26323f" stroke-width="2"/><circle cx="420" cy="60" r="9" fill="#fff" stroke="#26323f" stroke-width="2"/></svg></div></div>
-          <div class="scene" data-s="2" style="--acc: var(--c)" data-new="0.60.65-vitrine-diamond"><div class="mini-h">Arbre fonctionnel · pistolet à colle</div>
+            <div class="pop" data-new="0.60.93-journee-curseur"><span>Assumption</span><span class="pick">Customer Confirmed</span><span>Rejected</span></div>
+            <div class="trace"><svg viewBox="0 0 460 100"><path class="base" d="M40 50 C120 10 160 90 230 50 S360 10 420 50" fill="none" stroke-width="4" stroke-linecap="round"/>
+              <path class="lit" d="M40 50 C120 10 160 90 230 50 S360 10 420 50" fill="none" stroke-width="5" stroke-linecap="round"/>
+              <circle cx="40" cy="50" r="9"/><circle cx="230" cy="50" r="9"/><circle cx="420" cy="50" r="9"/></svg>
+              <div class="trace-l"><span>Need</span><span>Fonction</span><span>Requirement</span></div></div></div>
+          <div class="scene" data-s="2" style="--acc: var(--c)" data-play="tree" data-new="0.60.65-vitrine-diamond"><div class="mini-h">Arbre fonctionnel · pistolet à colle</div>
             <div class="ftree"><div class="fnode f0"><code>F1</code>Appliquer de la colle chaude</div>
               <div class="fkids"><div class="fnode" style="--k:1"><code>F2</code>Stocker les bâtonnets</div><div class="fnode crit" style="--k:2"><code>F3</code>Fondre la colle</div>
                 <div class="fnode" style="--k:3"><code>F4</code>Étendre la colle</div><div class="fnode" style="--k:4"><code>F5</code>Protéger l'utilisateur</div></div></div>
-            <div class="rows" style="margin-top:.7rem"><div class="row dfm" style="grid-template-columns:auto 1fr auto"><code>F3</code><span>Surchauffe de la buse · S 8 · O 3 · D 4</span><span class="chip y">AP M</span></div>
-              <div class="row dfm" style="grid-template-columns:auto 1fr auto; --k:1"><code>TST</code><span>Essai clé : échauffement de la buse</span><span class="chip b">Test Base</span></div></div></div>
-          <div class="scene" data-s="3" style="--acc: var(--v)"><div class="mini-h">Plan du projet</div>
-            <div class="gantt"><div class="g-row"><span>Discovery</span><i class="g-bar" style="--w: 38%"></i></div><div class="g-row"><span>Concept</span><i class="g-bar" style="--w: 55%; margin-left: 30%"></i></div>
-              <div class="g-row"><span>Design</span><i class="g-bar" style="--w: 45%; margin-left: 48%; background: var(--p)"></i></div><div class="g-row"><span>Validation</span><i class="g-bar" style="--w: 30%; margin-left: 66%"></i></div>
-              <div class="g-row"><span>Lancement ◆</span><i class="g-bar" style="--w: 4%; margin-left: 80%; background: var(--o)"></i></div></div></div>
-          <div class="scene" data-s="4"><div class="mini-h">Sprint 7 · Board</div>
+            <div class="rows" style="margin-top:.9rem"><div class="row dfm"><code>F3</code><span>Surchauffe de la buse · S 8 · O 3 · D 4</span><span class="chip y">AP M</span></div>
+              <div class="row dfm"><code>TST</code><span>Essai clé : échauffement de la buse</span><span class="chip b">Test Base</span></div></div></div>
+          <div class="scene" data-s="3" style="--acc: var(--v)" data-play="plan"><div class="mini-h">Plan du projet</div>
+            <div class="gantt">
+              <div class="g-row g-ruler"><span></span><div class="g-track"><span style="left:0">Jan</span><span style="left:16.7%">Fév</span><span style="left:33.3%">Mar</span><span style="left:50%">Avr</span><span style="left:66.7%">Mai</span><span style="left:83.3%">Juin</span></div></div>
+              <div class="g-row"><span>Discovery</span><div class="g-track"><i class="g-bar" data-x="0" data-w="20"></i></div></div>
+              <div class="g-row"><span>Concept</span><div class="g-track"><i class="g-bar" data-x="16" data-w="20" data-grip></i></div></div>
+              <div class="g-row"><span>Design</span><div class="g-track"><i class="g-bar pink" data-x="32" data-w="24" data-dep></i></div></div>
+              <div class="g-row"><span>Validation</span><div class="g-track"><i class="g-bar" data-x="52" data-w="18" data-dep></i></div></div>
+              <div class="g-row"><span>Lancement</span><div class="g-track"><i class="g-ms" data-x="73" data-dep></i></div></div></div>
+            <div class="row g-sum" data-new="0.60.93-journee-curseur"><span>◆ Date de lancement</span><b data-to="26 mai">12 mai</b></div></div>
+          <div class="scene" data-s="4" data-play="board"><div class="mini-h">Sprint 7 · Board</div>
             <div class="board"><div class="col"><h4>To Do</h4></div><div class="col"><h4>In Progress</h4></div><div class="col"><h4>Done</h4></div></div>
-            <div class="card" id="c1" style="top:92px">EQP-31 · Gâchette</div><div class="card" id="c2" style="top:150px">EQP-32 · Buse et clapet</div><div class="card" id="c3" style="top:208px">EQP-33 · AMDEC chauffe</div></div>
-          <div class="scene wiki" data-s="5" style="--acc: var(--o)"><div class="mini-h">PRC-CHUTE — Procédure d'essai de chute</div>
-            <div><span class="typed" id="typed"></span></div>
+            <div class="card" data-at="1 0">EQP-31 · Gâchette</div><div class="card" data-at="0 0" data-end="1 1" data-carry>EQP-32 · Buse et clapet</div>
+            <div class="card" data-at="0 1" data-end="0 0">EQP-33 · AMDEC chauffe</div><div class="card" data-at="2 0">EQP-30 · Boîtier</div></div>
+          <div class="scene wiki" data-s="5" style="--acc: var(--o)" data-play="wiki"><div class="mini-h">PRC-CHUTE — Procédure d'essai de chute</div>
+            <div class="typed" id="typed"></div><div class="ph" style="width:64%"></div><div class="ph" style="width:46%"></div>
             <div class="block">▣ Ticket vivant : <b>EQP-32</b> · Buse et clapet · <span class="chip b">In Progress</span></div>
-            <div class="block" style="border-color: var(--b); background:#f2f7ff">⇩ Export Word au gabarit de l'équipe · Codebeamer-style</div></div>
-          <div class="scene" data-s="6" style="--acc: var(--g)"><div class="mini-h">Test Plan TP-014 · Laboratoire</div>
+            <div class="block exp"><span class="btn" data-to="PRC-CHUTE.docx ✓" data-new="0.60.93-journee-curseur">⇩ Export Word</span><span>gabarit de l'équipe · Codebeamer-style</span></div></div>
+          <div class="scene" data-s="6" style="--acc: var(--g)" data-play="test"><div class="mini-h">Test Plan TP-014 · Laboratoire</div>
             <div class="scope"><svg viewBox="0 0 300 150"><g stroke="#1f3b33" stroke-width="1">
               <path d="M0 37H300M0 75H300M0 112H300M60 0V150M120 0V150M180 0V150M240 0V150"/></g>
               <path class="wave" d="M0 75 C20 20 40 20 60 75 S100 130 120 75 S160 20 180 75 S220 130 240 75 S280 20 300 75" fill="none" stroke="#5fd08a" stroke-width="3"/></svg>
-              <div class="rows"><div class="row" style="grid-template-columns:1fr auto"><span>TST-ELE-02</span><span class="chip g">Pass</span></div>
-                <div class="row" style="grid-template-columns:1fr auto"><span>TST-MEC-01</span><span class="chip g">Pass</span></div>
-                <div class="row" style="grid-template-columns:1fr auto"><span>REQ-012</span><span class="chip b" id="verified">In Verification</span></div></div></div></div>
-          <div class="scene" data-s="7" style="--acc: var(--t)"><div class="mini-h">Ma semaine · 40 h</div>
-            <div class="hours"><div style="--h: 78%"></div><div style="--h: 84%"></div><div style="--h: 70%"></div><div style="--h: 88%"></div><div style="--h: 62%"></div></div>
-            <div class="rows" style="margin-top:.8rem"><div class="row" style="grid-template-columns:1fr auto"><span>B-09 · Recherche des fonctions</span><b>14 h</b></div>
-              <div class="row" style="grid-template-columns:1fr auto"><span>B-11 · Spécifications d'ingénierie (CdCF)</span><b>9 h</b></div></div></div>
-          <div class="scene" data-s="8" style="--acc: var(--p)"><div class="mini-h">Mon plan de formation 2026</div>
-            <div>TL-02 — Matrice de Pugh</div><div class="progress"><i></i></div>
-            <div class="rows"><div class="row" style="grid-template-columns:1fr auto"><span>Test Markdown · 20 questions</span><span class="chip g">18 / 20</span></div>
-              <div class="row" style="grid-template-columns:1fr auto"><span>DEMO · étape 6 Agile</span><span class="chip y">En cours</span></div></div></div>
+              <div class="rows"><div class="row two"><span>TST-ELE-02</span><span class="chip g">Pass</span></div>
+                <div class="row two"><span>TST-MEC-01</span><span class="chip g">Pass</span></div>
+                <div class="row two"><span>REQ-012</span><span class="chip b" id="verified" data-to="Verified ✓">In Verification</span></div>
+                <span class="btn" data-to="TP-014.pdf ✓" data-new="0.60.93-journee-curseur">Joindre le PDF</span></div></div></div>
+          <div class="scene" data-s="7" style="--acc: var(--t)" data-play="hours"><div class="mini-h">Ma semaine · <span data-to="40">32</span> h</div>
+            <div class="hours"><div class="hcol" data-h="78"><i></i></div><div class="hcol" data-h="84"><i></i></div><div class="hcol" data-h="70"><i></i></div>
+              <div class="hcol" data-h="88"><i></i></div><div class="hcol fri" data-h="88"><i></i></div></div>
+            <div class="days"><span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span></div>
+            <div class="acts" data-new="0.60.93-journee-curseur"><span class="btn" data-copy>Copier jeudi → vendredi</span><span class="btn btn-primary" data-to="Soumise ✓">Soumettre</span></div>
+            <div class="rows"><div class="row two"><span>B-09 · Recherche des fonctions</span><b>14 h</b></div>
+              <div class="row two"><span>B-11 · Spécifications d'ingénierie (CdCF)</span><b>9 h</b></div></div></div>
+          <div class="scene" data-s="8" style="--acc: var(--p)" data-play="train"><div class="mini-h">Mon plan de formation 2026</div>
+            <div class="tl"><span>TL-02 — Matrice de Pugh</span><span class="chip y" data-to="Completed">In Progress</span></div><div class="progress"><i></i></div>
+            <div class="rows"><div class="row two"><span>Test · 20 questions</span><span class="btn" data-to="18 / 20 ✓" data-new="0.60.93-journee-curseur">Soumettre le test</span></div>
+              <div class="row two"><span>DEMO · étape 6 Agile</span><span class="chip y">En cours</span></div></div></div>
+          <div class="jc" data-kind="arrow" data-new="0.60.93-journee-curseur"><div class="jc-press">
+            <svg class="jc-g jc-arrow" width="22" height="22" viewBox="0 0 22 22"><path d="M4 3 18.5 9.6 11.8 11.8 9.6 18.5Z"/></svg>
+            <svg class="jc-g jc-ibeam" width="10" height="16" viewBox="0 0 10 16" fill="none"><path class="edge" d="M3 1H7M3 15H7M5 1V15" stroke-width="2.6" stroke-linecap="round"/><path class="line" d="M3 1H7M3 15H7M5 1V15" stroke-width="1" stroke-linecap="round"/></svg>
+            <svg class="jc-g jc-ew" width="21" height="21" viewBox="-14 -14 28 28"><g transform="rotate(90)" stroke-linejoin="round"><path class="edge" d="M0-8.4 2.55-3.65H-2.55ZM0 8.4 2.55 3.65H-2.55Z" stroke-width="3.2"/><path class="line" d="M0-8.4 2.55-3.65H-2.55ZM0 8.4 2.55 3.65H-2.55Z" stroke-width="1.2"/></g></svg>
+          </div></div>
         </div>
       </div>
     </div>
@@ -436,7 +580,7 @@ footer { text-align: center; padding: 2rem 1rem 3rem; color: var(--ink-2); font-
       <a class="btn" href="/#/help"><svg class="ico"><use href="#i-help"/></svg>Commencer par Help</a></div>
   </section>
 </main>
-<footer>Dynamite | Agile · logiciel libre · sur votre serveur · version 0.60.92</footer>
+<footer>Dynamite | Agile · logiciel libre · sur votre serveur · version 0.60.93</footer>
 
 <script>
 (function () {
@@ -460,59 +604,6 @@ footer { text-align: center; padding: 2rem 1rem 3rem; color: var(--ink-2); font-
     io.unobserve(e.target);
   }), { threshold: .2 });
   document.querySelectorAll(".reveal, .pain, .chain").forEach((n) => io.observe(n));
-
-  /* ---------- journey: the step in the middle of the screen drives the mock-up ---------- */
-  const steps = Array.from(document.querySelectorAll(".step"));
-  const scenes = Array.from(document.querySelectorAll("#screen .scene"));
-  const tabs = Array.from(document.querySelectorAll(".bar .tab"));
-  const screen = document.getElementById("screen");
-  let current = -1, timers = [];
-  function later(fn, ms) { timers.push(setTimeout(fn, reduce ? 0 : ms)); }
-  function show(i) {
-    if (i === current) return;
-    current = i;
-    timers.forEach(clearTimeout); timers = [];
-    steps.forEach((s, k) => s.classList.toggle("on", k === i));
-    scenes.forEach((s, k) => s.classList.toggle("on", k === i));
-    tabs.forEach((t, k) => t.classList.toggle("on", k === i));
-    screen.style.setProperty("--acc", steps[i].getAttribute("data-acc"));
-    const scene = scenes[i];
-    scene.querySelectorAll("[data-count]").forEach(count);
-    if (i === 1) {
-      const chip = document.getElementById("nstatus");
-      chip.textContent = "Assumption"; chip.className = "chip y";
-      later(() => { chip.textContent = "Customer Confirmed"; chip.className = "chip g"; }, 1300);
-    }
-    if (i === 4) {  // cards travel To Do → In Progress → Done
-      const cols = document.querySelectorAll(".board .col");
-      const x = (c) => cols[c].offsetLeft - cols[0].offsetLeft;
-      ["c1", "c2", "c3"].forEach((id) => {
-        const card = document.getElementById(id);
-        card.style.left = (cols[0].offsetLeft + 8) + "px"; card.style.right = "auto"; card.style.width = (cols[0].offsetWidth - 16) + "px";
-        card.style.transform = "none";
-      });
-      later(() => { document.getElementById("c1").style.transform = "translateX(" + x(1) + "px)"; }, 500);
-      later(() => { document.getElementById("c1").style.transform = "translate(" + x(2) + "px, 0)"; }, 1500);
-      later(() => { document.getElementById("c2").style.transform = "translate(" + x(1) + "px, -58px)"; }, 2100);
-      later(() => { document.getElementById("c3").style.transform = "translateY(-116px)"; }, 2700);
-    }
-    if (i === 5) {  // typing
-      const text = "Objectif : vérifier que le pistolet chaud tombé d'un mètre reste sûr et fonctionnel.";
-      const node = document.getElementById("typed"); node.textContent = "";
-      let k = 0;
-      (function type() { node.textContent = text.slice(0, ++k); if (k < text.length) later(type, 28); })();
-    }
-    if (i === 6) {
-      const v = document.getElementById("verified");
-      v.textContent = "In Verification"; v.className = "chip b";
-      later(() => { v.textContent = "Verified ✓"; v.className = "chip g"; }, 2500);
-    }
-  }
-  const so = new IntersectionObserver((entries) => entries.forEach((e) => {
-    if (e.isIntersecting) show(Number(e.target.getAttribute("data-scene")));
-  }), { rootMargin: "-45% 0px -45% 0px" });
-  steps.forEach((s) => so.observe(s));
-  show(0);
 
   /* ---------- tool cards tilt toward the pencil ---------- */
   document.querySelectorAll(".tool").forEach((card) => {
@@ -567,6 +658,398 @@ footer { text-align: center; padding: 2rem 1rem 3rem; color: var(--ink-2); font-
     requestAnimationFrame(step);
   }
   requestAnimationFrame(step);
+})();
+/* The day with the team (vitrine D-B-087, website D-O-015): the step being read drives the mock-up screen, and a
+   cursor plays each tool's gesture there, so every change on screen has a cause (the stageshow method, written for
+   the platform: native JS, no library). Wide screens: one scene per step, played when its step reaches the middle of
+   the window. Narrow screens: the screen sits above the steps and plays the day on its own while it is in view.
+   Reduced motion: no cursor, each scene shows its result. The words come from the markup (data-to), so the French
+   and English pages share this script; tools/build_site.py swaps the typed line. */
+(function () {
+  "use strict";
+  const screen = document.getElementById("screen");
+  if (!screen) return;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const narrow = window.matchMedia("(max-width: 900px)");
+  const steps = Array.from(document.querySelectorAll(".step"));
+  const scenes = Array.from(screen.querySelectorAll(".scene"));
+  const tabs = Array.from(screen.querySelectorAll(".bar .tab"));
+  const cur = screen.querySelector(".jc");
+  const TYPED = "Objectif : vérifier que le pistolet chaud tombé d'un mètre reste sûr et fonctionnel.";
+  const SHIFT = 8;  // Exploration: Concept grows by 8 % of the six months (two weeks)
+  const STOP = new Error("journey: replaced by a newer run");
+  const TRAVEL = (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const q = (root, sel) => root.querySelector(sel);
+  const all = (root, sel) => Array.from(root.querySelectorAll(sel));
+  let gen = 0, current = -1, pos = { x: 0, y: 0 }, idleTimer = 0;
+  const state = scenes.map(() => "reset");  // reset | playing | done
+
+  /* ---------- clock: every wait belongs to one run and stops with it ---------- */
+  function wait(ms, g) {
+    return new Promise((res, rej) => setTimeout(() => (g === gen ? res() : rej(STOP)), ms));
+  }
+  function tween(ms, g, fn) {
+    return new Promise((res, rej) => {
+      const t0 = performance.now();
+      (function frame(now) {
+        if (g !== gen) { rej(STOP); return; }
+        const t = Math.min(1, Math.max(0, (now - t0) / ms));
+        fn(t);
+        if (t < 1) requestAnimationFrame(frame); else res();
+      })(t0);
+    });
+  }
+  function later(ms, g, fn) { setTimeout(() => { if (g === gen) fn(); }, ms); }
+  const quiet = (e) => { if (e !== STOP) throw e; };
+
+  /* ---------- the cursor: a hand that travels in a shallow arc, presses, and rests off what it changed ---------- */
+  function at(el, fx, fy) {
+    const s = screen.getBoundingClientRect(), r = el.getBoundingClientRect();
+    return { x: r.left - s.left - screen.clientLeft + r.width * (fx == null ? .86 : fx),
+             y: r.top - s.top - screen.clientTop + r.height * (fy == null ? .8 : fy) };
+  }
+  function place(p) {
+    pos = { x: p.x, y: p.y };
+    cur.style.transform = "translate(" + p.x.toFixed(1) + "px, " + p.y.toFixed(1) + "px)";
+  }
+  function wake() { clearTimeout(idleTimer); cur.classList.remove("idle"); }
+  function rest() { clearTimeout(idleTimer); idleTimer = setTimeout(() => cur.classList.add("idle"), 4000); }
+  function restPoint() { return { x: screen.clientWidth * .84, y: screen.clientHeight - 22 }; }
+
+  async function move(to, g, opts) {
+    opts = opts || {};
+    wake();
+    const from = pos, dist = Math.hypot(to.x - from.x, to.y - from.y);
+    if (dist > .5) {
+      const ms = opts.ms || clamp(300 + dist, 340, 760);
+      const bow = opts.straight ? 0 : Math.min(dist * .08, 24);
+      const nx = -(to.y - from.y) / dist, ny = (to.x - from.x) / dist;
+      let switched = !opts.kind;
+      await tween(ms, g, (t) => {
+        const e = TRAVEL(t), lift = Math.sin(Math.PI * e) * bow;
+        place({ x: from.x + (to.x - from.x) * e + nx * lift, y: from.y + (to.y - from.y) * e + ny * lift });
+        if (!switched && e > .7) { switched = true; cur.dataset.kind = opts.kind; }  // the kind changes as it reaches the target
+        if (opts.onMove) opts.onMove(pos, e);
+      });
+    }
+    if (opts.kind) cur.dataset.kind = opts.kind;
+    rest();
+  }
+  async function press(el, g) {
+    wake();
+    cur.setAttribute("data-pressed", "");
+    if (el) el.setAttribute("data-pressed", "");
+    try { await wait(110, g); } finally {
+      cur.removeAttribute("data-pressed");
+      if (el) el.removeAttribute("data-pressed");
+    }
+    rest();
+  }
+  async function click(el, g, fx, fy) {
+    await move(at(el, fx, fy), g, { kind: "arrow" });
+    await wait(120, g);
+    await press(el, g);
+  }
+  function aside(g, dx, dy) {  // after the press, the hand leaves the words it changed
+    return move({ x: clamp(pos.x + (dx || 34), 12, screen.clientWidth - 26), y: clamp(pos.y + (dy || 30), 52, screen.clientHeight - 26) },
+                g, { ms: 420, kind: "arrow" });
+  }
+  function settle(s, g) {  // or rests in the empty band under the scene's content
+    let bottom = 0;
+    Array.from(s.children).forEach((n) => { if (getComputedStyle(n).position !== "absolute") bottom = Math.max(bottom, at(n, 0, 1).y); });
+    return move({ x: clamp(pos.x - 24, 24, screen.clientWidth - 40), y: clamp(bottom + 34, 60, screen.clientHeight - 24) }, g, { ms: 480, kind: "arrow" });
+  }
+
+  /* ---------- words that change on themselves (data-to), never swapped in one frame ---------- */
+  function roll(el, text) {
+    if (el.textContent === text) return;
+    if (reduce) { el.textContent = text; return; }
+    const box = document.createElement("span"), out = document.createElement("span"), inn = document.createElement("span");
+    box.className = "roll"; out.textContent = el.textContent; inn.textContent = text;
+    el.textContent = ""; box.append(out, inn); el.append(box);
+    box.style.width = out.offsetWidth + "px";
+    out.className = "ro-out"; inn.className = "ro-in";
+    void box.offsetWidth;
+    box.style.width = inn.offsetWidth + "px";
+    setTimeout(() => { if (box.parentNode === el) el.textContent = text; }, 380);
+  }
+  function back(s) { all(s, "[data-to]").forEach((el) => { el.textContent = el.dataset.from; }); }
+  function forth(s) { all(s, "[data-to]").forEach((el) => { el.textContent = el.dataset.to; }); }
+  function snap(s, fn) {  // a state set while hidden, with no transition to watch
+    s.classList.add("snap");
+    fn(s);
+    void s.offsetWidth;
+    s.classList.remove("snap");
+  }
+
+  /* ---------- board geometry: columns, slots and the card carried between them ---------- */
+  function slot(s, where) {
+    const [c, k] = where.split(" ").map(Number), col = all(s, ".col")[c], h4 = q(col, "h4");
+    return { left: col.offsetLeft + 8, top: col.offsetTop + h4.offsetTop + h4.offsetHeight + 6 + k * s._pitch };
+  }
+  function layout(s) {
+    const cards = all(s, ".card"), col = q(s, ".col");
+    cards.forEach((c) => { c.style.width = (col.offsetWidth - 16) + "px"; c.style.transform = "none"; });
+    s._pitch = Math.max.apply(null, cards.map((c) => c.offsetHeight)) + 8;
+    cards.forEach((c) => {
+      c._base = slot(s, c.dataset.at);
+      c.style.left = c._base.left + "px"; c.style.top = c._base.top + "px";
+    });
+  }
+  function put(s, c, where, lift) {
+    const to = slot(s, where);
+    c.style.transform = "translate(" + (to.left - c._base.left) + "px, " + (to.top - c._base.top) + "px)" + (lift || "");
+  }
+
+  /* ---------- the nine gestures: reset (hidden), done (the result, also the reduced-motion still), play ---------- */
+  const SCENES = {
+    dash: {
+      reset(s) { back(s); q(s, ".msg").classList.remove("in", "ok"); q(s, ".msg .btn").classList.remove("is-done"); },
+      done(s) { forth(s); q(s, ".msg").classList.add("in", "ok"); q(s, ".msg .btn").classList.add("is-done"); },
+      async play(s, g) {
+        const msg = q(s, ".msg"), b = q(s, ".msg .btn"), dot = q(s, ".dot");
+        await wait(500, g); msg.classList.add("in");  // Nina's @lea arrives
+        await wait(1100, g); await click(b, g);
+        roll(b, b.dataset.to); b.classList.add("is-done");
+        await wait(160, g); roll(dot, dot.dataset.to); msg.classList.add("ok");
+        await settle(s, g);
+      },
+    },
+    need: {
+      reset(s) {
+        back(s); q(s, "#nstatus").className = "chip y"; q(s, ".pop").classList.remove("open");
+        all(s, ".pop [data-hover]").forEach((n) => n.removeAttribute("data-hover")); q(s, ".trace").classList.remove("on");
+      },
+      done(s) { forth(s); q(s, "#nstatus").className = "chip g"; q(s, ".trace").classList.add("on"); },
+      async play(s, g) {
+        const chip = q(s, "#nstatus"), pop = q(s, ".pop"), pick = q(s, ".pop .pick");
+        await wait(600, g); await click(chip, g, .82, .7);
+        const sr = s.getBoundingClientRect(), cr = chip.getBoundingClientRect();  // the menu opens under the chip, right edges aligned
+        pop.style.top = (cr.bottom - sr.top + 6) + "px";
+        pop.style.left = Math.max(8, cr.right - sr.left - pop.offsetWidth) + "px";
+        pop.classList.add("open");
+        await wait(380, g); await move(at(pick, .84, .62), g);
+        pick.setAttribute("data-hover", "");
+        await wait(160, g); await press(pick, g);
+        pop.classList.remove("open");
+        roll(chip, chip.dataset.to); chip.className = "chip g";
+        await wait(260, g); q(s, ".trace").classList.add("on");  // the need now justifies the requirement: the trace draws on
+        await aside(g, 30, 44);
+      },
+    },
+    tree: {
+      reset(s) { q(s, ".ftree").classList.remove("grown"); q(s, ".crit").classList.remove("sel"); all(s, ".dfm").forEach((d) => d.classList.remove("in")); },
+      done(s) { q(s, ".ftree").classList.add("grown"); q(s, ".crit").classList.add("sel"); all(s, ".dfm").forEach((d) => d.classList.add("in")); },
+      async play(s, g) {
+        await wait(250, g); q(s, ".ftree").classList.add("grown");  // the branches, one after the other (--k)
+        await wait(1900, g);
+        const f3 = q(s, ".crit"), rows = all(s, ".dfm");
+        await click(f3, g, .9, .62);
+        f3.classList.add("sel");
+        await wait(220, g); rows[0].classList.add("in");
+        await wait(140, g); rows[1].classList.add("in");
+        await wait(300, g); await settle(s, g);
+      },
+    },
+    plan: {
+      reset(s) {
+        back(s);
+        all(s, "[data-x]").forEach((b) => { b.style.left = b.dataset.x + "%"; if (b.dataset.w) b.style.width = "0"; });
+      },
+      done(s) {
+        forth(s);
+        all(s, "[data-x]").forEach((b) => {
+          b.style.left = (+b.dataset.x + ("dep" in b.dataset ? SHIFT : 0)) + "%";
+          if (b.dataset.w) b.style.width = (+b.dataset.w + ("grip" in b.dataset ? SHIFT : 0)) + "%";
+        });
+      },
+      async play(s, g) {
+        all(s, "[data-w]").forEach((b, k) => later(150 + k * 110, g, () => { b.style.width = b.dataset.w + "%"; }));
+        await wait(1500, g);
+        const grip = q(s, "[data-grip]"), deps = all(s, "[data-dep]"), date = q(s, ".g-sum [data-to]");
+        const tw = grip.parentNode.getBoundingClientRect().width, w0 = +grip.dataset.w;
+        const start = at(grip, 1, .5); start.x -= 2;
+        await move(start, g, { kind: "ew" });  // the end of Concept: a resize handle
+        await wait(140, g);
+        wake(); cur.setAttribute("data-pressed", ""); grip.classList.add("drag");
+        try {
+          await wait(100, g);
+          await move({ x: start.x + tw * SHIFT / 100, y: start.y }, g, { ms: 950, straight: true, onMove: (p) => {
+            const d = clamp((p.x - start.x) / tw * 100, 0, SHIFT);
+            grip.style.width = (w0 + d) + "%";
+            deps.forEach((b) => { b.style.left = (+b.dataset.x + d) + "%"; });  // the phases that follow it move with it
+          } });
+        } finally { cur.removeAttribute("data-pressed"); grip.classList.remove("drag"); }
+        await wait(280, g); roll(date, date.dataset.to);
+        await settle(s, g);
+      },
+    },
+    board: {
+      reset(s) { layout(s); all(s, ".card").forEach((c) => { c.classList.remove("held"); put(s, c, c.dataset.at); }); },
+      done(s) { layout(s); all(s, ".card").forEach((c) => put(s, c, c.dataset.end || c.dataset.at)); },
+      async play(s, g) {
+        const card = q(s, ".card[data-end][data-carry]"), next = all(s, ".card[data-end]:not([data-carry])");
+        await wait(500, g);
+        const grab = at(card, .8, .55);
+        await move(grab, g);
+        await wait(140, g);
+        const sr = screen.getBoundingClientRect(), cr = card.getBoundingClientRect();
+        const off = { x: grab.x - (cr.left - sr.left - screen.clientLeft), y: grab.y - (cr.top - sr.top - screen.clientTop) };
+        const base = { x: grab.x - off.x, y: grab.y - off.y }, to = slot(s, card.dataset.end);
+        const target = { x: base.x + to.left - card._base.left + off.x, y: base.y + to.top - card._base.top + off.y };
+        const LIFT = " rotate(2deg) scale(1.03)";
+        wake(); cur.setAttribute("data-pressed", "");
+        card.style.transition = "transform .12s ease-out, box-shadow .2s ease";  // picked up on the press
+        card.classList.add("held"); card.style.transform = "translate(0px, 0px)" + LIFT;
+        later(160, g, () => next.forEach((c) => put(s, c, c.dataset.end)));  // the column closes behind it
+        try {
+          await wait(130, g);
+          card.style.transition = "";  // from here it rides with the hand exactly
+          await move(target, g, { ms: 980, onMove: (p) => {
+            card.style.transform = "translate(" + (p.x - off.x - base.x).toFixed(1) + "px, " + (p.y - off.y - base.y).toFixed(1) + "px)" + LIFT;
+          } });
+        } finally { cur.removeAttribute("data-pressed"); }
+        card.classList.remove("held"); put(s, card, card.dataset.end);  // set down flat in its slot
+        rest();
+        await wait(420, g); await aside(g, 30, 50);
+      },
+    },
+    wiki: {
+      reset(s) { back(s); const t = q(s, ".typed"); t.textContent = ""; t.classList.remove("caret"); q(s, ".exp .btn").classList.remove("is-done"); },
+      done(s) { forth(s); const t = q(s, ".typed"); t.textContent = TYPED; t.classList.remove("caret"); q(s, ".exp .btn").classList.add("is-done"); },
+      async play(s, g) {
+        const t = q(s, ".typed"), b = q(s, ".exp .btn");
+        await wait(400, g);
+        await move(at(t, .03, .28), g, { kind: "ibeam" });
+        await wait(100, g); await press(null, g);
+        t.classList.add("caret");
+        const ph = at(q(s, ".ph"), 1, .5);  // out of the line about to be typed, beside the page's next lines
+        await move({ x: Math.min(ph.x + 48, screen.clientWidth - 40), y: ph.y + 4 }, g, { ms: 480, kind: "arrow" });
+        for (let k = 1; k <= TYPED.length; k++) { t.textContent = TYPED.slice(0, k); await wait(26, g); }
+        await wait(350, g); await click(b, g);
+        t.classList.remove("caret");
+        roll(b, b.dataset.to); b.classList.add("is-done");
+        await aside(g);
+      },
+    },
+    test: {
+      reset(s) { back(s); q(s, ".scope").classList.remove("run"); q(s, "#verified").className = "chip b"; q(s, ".scope .btn").classList.remove("is-done"); },
+      done(s) { forth(s); q(s, ".scope").classList.add("run"); q(s, "#verified").className = "chip g"; q(s, ".scope .btn").classList.add("is-done"); },
+      async play(s, g) {
+        q(s, ".scope").classList.add("run");
+        await wait(1700, g);
+        const b = q(s, ".scope .btn"), v = q(s, "#verified");
+        await click(b, g);
+        roll(b, b.dataset.to); b.classList.add("is-done");
+        await wait(450, g); roll(v, v.dataset.to); v.className = "chip g";  // the PDF closes the loop
+        await aside(g, 26, 38);
+      },
+    },
+    hours: {
+      reset(s) {
+        back(s); q(s, ".btn-primary").classList.remove("is-done");
+        all(s, ".hcol").forEach((c) => { c.classList.remove("filled"); c.firstElementChild.style.height = "0"; });
+      },
+      done(s) {
+        forth(s); q(s, ".btn-primary").classList.add("is-done");
+        all(s, ".hcol").forEach((c) => { c.classList.add("filled"); c.firstElementChild.style.height = c.dataset.h + "%"; });
+      },
+      async play(s, g) {
+        const cols = all(s, ".hcol"), fri = cols[cols.length - 1];
+        cols.slice(0, -1).forEach((c, k) => later(120 + k * 90, g, () => { c.firstElementChild.style.height = c.dataset.h + "%"; }));
+        await wait(1300, g);
+        const copy = q(s, "[data-copy]"), sub = q(s, ".btn-primary"), total = q(s, ".mini-h [data-to]");
+        await click(copy, g);
+        fri.classList.add("filled"); fri.firstElementChild.style.height = fri.dataset.h + "%";
+        await wait(320, g); roll(total, total.dataset.to);
+        await wait(900, g); await click(sub, g);
+        roll(sub, sub.dataset.to); sub.classList.add("is-done");
+        const right = at(sub, 1, .5);  // beside the buttons, on the empty end of their line
+        await move({ x: Math.min(right.x + 70, screen.clientWidth - 30), y: right.y + 6 }, g, { ms: 460, kind: "arrow" });
+      },
+    },
+    train: {
+      reset(s) {
+        back(s); q(s, ".tl .chip").className = "chip y"; q(s, ".rows .btn").classList.remove("is-done");
+        const p = q(s, ".progress"); p.classList.remove("full"); p.firstElementChild.style.width = "0";
+      },
+      done(s) {
+        forth(s); q(s, ".tl .chip").className = "chip g"; q(s, ".rows .btn").classList.add("is-done");
+        const p = q(s, ".progress"); p.classList.add("full"); p.firstElementChild.style.width = "100%";
+      },
+      async play(s, g) {
+        const bar = q(s, ".progress"), b = q(s, ".rows .btn"), chip = q(s, ".tl .chip");
+        await wait(150, g); bar.firstElementChild.style.width = "72%";
+        await wait(1300, g); await click(b, g);
+        roll(b, b.dataset.to); b.classList.add("is-done");
+        await wait(450, g); roll(chip, chip.dataset.to); chip.className = "chip g";  // the topic is Completed
+        bar.classList.add("full"); bar.firstElementChild.style.width = "100%";
+        await settle(s, g);
+      },
+    },
+  };
+  const sceneOf = (i) => SCENES[scenes[i].dataset.play];
+
+  /* ---------- the run: the hand opens the tool's tab, the page swaps, the gesture plays ---------- */
+  function swap(i) {
+    if (i === current) return;
+    snap(scenes[i], sceneOf(i).reset); state[i] = "reset";
+    scenes.forEach((n, k) => n.classList.toggle("on", k === i));
+    tabs.forEach((t) => t.classList.toggle("on", Number(t.dataset.t) === i));
+    const step = steps.find((n) => Number(n.dataset.scene) === i);
+    if (step) screen.style.setProperty("--acc", step.getAttribute("data-acc"));
+    current = i;
+  }
+  function finish(i) { swap(i); snap(scenes[i], sceneOf(i).done); state[i] = "done"; }
+  async function go(i, g) {
+    if (!cur.classList.contains("live")) { place(restPoint()); cur.classList.add("live"); await wait(300, g); }
+    if (i !== current) {
+      await click(tabs.find((t) => Number(t.dataset.t) === i), g, .7, .8);
+      swap(i);
+      await wait(240, g);
+    } else if (state[i] !== "reset") { finish(i); return; }  // its result is already on screen: it never plays backwards
+    state[i] = "playing";
+    await sceneOf(i).play(scenes[i], g);
+    state[i] = "done";
+  }
+  function start(i) {
+    const g = ++gen;
+    if (reduce || !cur) { finish(i); return; }
+    go(i, g).catch(quiet);
+  }
+  async function tour(g) {  // narrow screens: the whole day, tab after tab, while the screen is in view
+    if (state[current] === "playing") finish(current);  // interrupted when it left the view: its result
+    if (state[current] === "reset") await go(current, g);
+    for (;;) {
+      await wait(2400, g);
+      await go((current + 1) % scenes.length, g);
+    }
+  }
+
+  all(screen, "[data-to]").forEach((el) => { el.dataset.from = el.textContent; });
+  if (reduce || !cur) finish(0); else { swap(0); place(restPoint()); }
+
+  const so = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (!e.isIntersecting || narrow.matches) return;
+    const i = Number(e.target.dataset.scene);
+    steps.forEach((n) => n.classList.toggle("on", n === e.target));
+    start(i);
+  }), { rootMargin: "-45% 0px -45% 0px" });
+  const vo = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (!narrow.matches) return;
+    if (!e.isIntersecting) { gen++; return; }  // out of view: the day pauses
+    const g = ++gen;
+    if (reduce || !cur) finish(current); else tour(g).catch(quiet);
+  }), { threshold: .45 });
+  function watch() {
+    gen++;
+    so.disconnect(); vo.disconnect();
+    steps.forEach((n) => so.observe(n));
+    vo.observe(screen);
+  }
+  watch();
+  narrow.addEventListener("change", watch);
 })();
 </script>
 </body>
