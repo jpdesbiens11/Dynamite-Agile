@@ -132,12 +132,32 @@ def send(data_dir, to, subject, text, reply_to=None):
                 server.starttls(context=context)
             if cfg["username"]:
                 step = "login"
-                server.login(cfg["username"], cfg["password"])
+                _login(server, cfg["username"], cfg["password"])
             step = "envoi"
             server.send_message(msg)
     except (smtplib.SMTPException, OSError, ssl.SSLError) as err:
         raise ApiError(502, "Le serveur de courriel a refusé l'envoi à l'étape « {} » ({}:{}, {}) : {}. Correctif : {}".format(
-            STEPS[step], cfg["host"], cfg["port"], cfg["security"].upper(), str(err)[:200], _hint(step, cfg, err)))
+            STEPS[step], cfg["host"], cfg["port"], cfg["security"].upper(), _said(err)[:300], _hint(step, cfg, err)))
+
+
+def _said(err):
+    """What the server answered, readable: « 535 5.7.8 Username and Password not accepted… » (0.60.85)."""
+    if isinstance(err, smtplib.SMTPResponseException):
+        text = err.smtp_error.decode("utf-8", "replace") if isinstance(err.smtp_error, bytes) else str(err.smtp_error)
+        return "{} {}".format(err.smtp_code, " ".join(text.split()))
+    return str(err)
+
+
+def _login(server, user, password):
+    """0.60.85 (D-O-091): one method only. smtplib.login tries PLAIN, then LOGIN after a refusal; Gmail hangs up after
+    its « 535 Username and Password not accepted », so the person read « Connection unexpectedly closed » instead."""
+    server.ehlo_or_helo_if_needed()
+    offered = (server.esmtp_features.get("auth") or "").upper().split()
+    method = next((m for m in ("PLAIN", "LOGIN") if m in offered), None)
+    if method is None:
+        return server.login(user, password)  # CRAM-MD5 only, or nothing announced: smtplib's own choice
+    server.user, server.password = user, password
+    return server.auth(method, getattr(server, "auth_" + method.lower()), initial_response_ok=True)
 
 
 STEPS = {"connexion": "connexion au serveur", "starttls": "passage en chiffré (STARTTLS)",
@@ -154,6 +174,10 @@ def _hint(step, cfg, err):
     if step == "connexion":
         return ("le serveur ne répond pas sur ce port. Vérifiez l'hôte et le port ; sinon l'hébergeur bloque peut-être "
                 "la sortie vers ce port (essayez l'autre : 465 avec SSL / TLS, ou 587 avec STARTTLS).")
+    if step == "login" and ("BadCredentials" in _said(err) or "535" in _said(err)[:4]):
+        return ("Gmail (ou le serveur) refuse ce mot de passe pour ce compte. Créez un NOUVEAU mot de passe d'application "
+                "(myaccount.google.com/apppasswords ; un changement du mot de passe Google annule les anciens), cochez « Effacer le "
+                "mot de passe enregistré », collez le nouveau sans espaces, Enregistrer, puis refaites le test.")
     if step == "login":
         return ("le compte ou le mot de passe est refusé. Gmail : un « mot de passe d'application » de 16 lettres, "
                 "sans espaces (myaccount.google.com/apppasswords), et le compte SMTP = l'adresse Gmail entière.")

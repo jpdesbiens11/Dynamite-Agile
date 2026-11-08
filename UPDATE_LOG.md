@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.84
+# Journal de mise à jour — 0.60.85
+
+- **Version :** 0.60.84 → 0.60.85 (2026-11-07)
+- **Changements :**
+  1. **Courriel : la vraie réponse du serveur** (D-O-091).
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.84
 
 - **Version :** 0.60.83 → 0.60.84 (2026-11-07)
 - **Changements :**
   1. **Connexion : plafond d'échecs par adresse IP** (D-O-090).
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.83
 
