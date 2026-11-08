@@ -8,7 +8,7 @@ kind: energy, material, information), Carte des risques (P x I, now and residual
 editable in draw.io (diagrams.net, desktop or web), then exports to PNG / SVG / PDF for Word or PowerPoint.
 """
 import html
-from xml.sax.saxutils import escape
+from core.xmltext import clean, escape  # 0.60.83 (D-O-089): also drops what XML forbids
 
 from . import export_data as X
 
@@ -29,7 +29,7 @@ def _a(text):
 
 
 def _h(text):
-    return html.escape(str(text or ""), quote=False)
+    return html.escape(clean(text or ""), quote=False)
 
 
 class Page:

@@ -1,12 +1,20 @@
-# Journal de mise à jour — 0.60.82
+# Journal de mise à jour — 0.60.83
+
+- **Version :** 0.60.82 → 0.60.83 (2026-11-07)
+- **Changements :**
+  1. **Exports Office toujours valides** (D-O-089).
+  2. **Mise à jour en ligne : empreinte obligatoire** (D-O-089).
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.82
 
 - **Version :** 0.60.81 → 0.60.82 (2026-11-07)
 - **Changements :**
   1. **Invité : jamais la liste des comptes** (D-O-088).
   2. **Export PDF : images PNG bornées** (D-O-088).
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.81
 

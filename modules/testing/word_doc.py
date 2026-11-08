@@ -11,7 +11,7 @@ import io
 import re
 import zipfile
 from pathlib import Path
-from xml.sax.saxutils import escape
+from core.xmltext import escape  # 0.60.83 (D-O-089): also drops what XML forbids
 
 from core.errors import ApiError
 

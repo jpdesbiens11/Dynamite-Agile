@@ -15,6 +15,7 @@ The site is release.SITE, or config « release_site » (a mirror, a test server)
 import datetime as dt
 import hashlib
 import json
+import re
 import threading
 import urllib.request
 from pathlib import Path
@@ -26,6 +27,9 @@ from .errors import ApiError
 
 CHUNK = 64 * 1024
 TIMEOUT = 20
+MAX_PACKAGE = 100 * 1024 * 1024  # 0.60.83 (D-O-089): today's package is under 3 MB
+PACKAGE_RE = re.compile(r"dynamite-agile-\d+\.\d+\.\d+\.zip")
+SHA_RE = re.compile(r"[0-9a-f]{64}")
 _lock = threading.Lock()
 _job = {"state": "idle", "percent": 0, "step": "", "lines": [], "version": "", "error": "", "started_at": ""}
 
@@ -99,6 +103,13 @@ def api_check(ctx):
                             "téléchargez le paquet à la main (Voir les versions publiées).".format(url, exc))
     if not isinstance(listing, dict) or not listing.get("latest") or not listing.get("package"):
         raise ApiError(502, "Réponse inattendue du site des versions ({}). Correctif : réessayez plus tard.".format(url))
+    # 0.60.83 (D-O-089): the fingerprint and the size are required (the package was installed unchecked without them)
+    size = listing.get("bytes")
+    if (not PACKAGE_RE.fullmatch(str(listing["package"])) or not SHA_RE.fullmatch(str(listing.get("sha256") or ""))
+            or not isinstance(size, int) or not 0 < size <= MAX_PACKAGE):
+        raise ApiError(502, "Liste des versions incomplète ({}) : nom du paquet, taille ou empreinte SHA-256 absent ou invalide ; "
+                            "rien n'est installé sans eux. Correctif : réessayez plus tard, ou installez le paquet à la main."
+                            .format(url))
     s.update(listing=listing, last_check=dt.datetime.now().strftime("%Y-%m-%d %H:%M"))
     _save(ctx, s)
     audit.log_action(ctx.conn, ctx.user["id"], "update_online_checked", "update", None,
@@ -122,20 +133,22 @@ def _run(user, cfg, data_dir, ip, listing):
     try:
         _say("Téléchargement du paquet", 2, "Téléchargement de {} ({} Ko)".format(listing["package"], int(listing.get("bytes", 0)) // 1024))
         parts, got = [], 0
+        total = int(listing["bytes"])
         with _open(url) as r:
-            total = int(r.headers.get("Content-Length") or listing.get("bytes") or 0)
             while True:
                 chunk = r.read(CHUNK)
                 if not chunk:
                     break
                 parts.append(chunk)
                 got += len(chunk)
+                if got > total:  # 0.60.83 (D-O-089): never more than the size published
+                    raise RuntimeError("le paquet dépasse la taille publiée ({} Ko) : rien n'a été modifié.".format(total // 1024))
                 if total:
                     _say(percent=2 + 58 * got / total)
         data = b"".join(parts)
         _say("Vérification de l'empreinte", 62, "Reçu : {} Ko".format(len(data) // 1024))
         digest = hashlib.sha256(data).hexdigest()
-        if listing.get("sha256") and digest != listing["sha256"]:
+        if digest != listing["sha256"]:
             raise RuntimeError("l'empreinte SHA-256 du paquet ({}…) n'est pas celle publiée ({}…) : rien n'a été modifié.".format(
                 digest[:12], listing["sha256"][:12]))
         _say(None, 66, "Empreinte SHA-256 conforme : " + digest[:16] + "…")

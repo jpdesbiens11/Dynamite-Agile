@@ -4,7 +4,7 @@ The parts are the smallest set PowerPoint, LibreOffice and Google Slides open wi
 import datetime as dt
 import io
 import zipfile
-from xml.sax.saxutils import escape
+from core.xmltext import escape  # 0.60.83 (D-O-089): also drops what XML forbids
 
 SLIDE_W, SLIDE_H = 12192000, 6858000  # 13.333 in x 7.5 in, in EMU
 P = 'xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" ' \

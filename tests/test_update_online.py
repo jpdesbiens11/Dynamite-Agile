@@ -17,7 +17,7 @@ sys.path.insert(0, str(BASE_DIR))
 from core import auth, db, modules, router, startup  # noqa: E402
 from core.config import load_config  # noqa: E402
 from tests.test_release import copy_code, future_package  # noqa: E402
-from tools.api_client import Client  # noqa: E402
+from tools.api_client import ApiFailure, Client  # noqa: E402
 
 
 class Quiet(http.server.SimpleHTTPRequestHandler):
@@ -37,6 +37,7 @@ class UpdateOnlineTest(unittest.TestCase):
         site.mkdir(parents=True)
         (site / listing["package"]).write_bytes(data)
         (site / "versions.json").write_text(json.dumps(listing), "utf-8")
+        cls.site, cls.listing = site, listing
         cls.web = http.server.ThreadingHTTPServer(("127.0.0.1", 0), functools.partial(Quiet, directory=str(tmp / "site")))
         threading.Thread(target=cls.web.serve_forever, daemon=True).start()
         data_dir = tmp / "data"
@@ -93,6 +94,22 @@ class UpdateOnlineTest(unittest.TestCase):
             actions = {r["action"] for r in conn.execute("SELECT action FROM audit_log")}
         for a in ("update_online_enabled", "update_online_checked", "update_online_started", "update_applied", "restore_point_created"):
             self.assertIn(a, actions)
+
+
+    def test_02_listing_without_fingerprint_or_size_refused(self):  # 0.60.83 (D-O-089)
+        self.admin.put("/api/admin/update/online", {"enabled": True})
+        broken = [dict(self.listing, sha256=""), dict(self.listing, bytes=0), dict(self.listing, package="../../x.zip")]
+        broken.append({k: v for k, v in self.listing.items() if k != "sha256"})
+        try:
+            for listing in broken:
+                (self.site / "versions.json").write_text(json.dumps(listing), "utf-8")
+                with self.subTest(listing={k: listing.get(k) for k in ("package", "bytes", "sha256")}):
+                    with self.assertRaises(ApiFailure) as caught:
+                        self.admin.post("/api/admin/update/online/check", {})
+                    self.assertEqual(caught.exception.status, 502)
+                    self.assertIn("SHA-256", caught.exception.message)
+        finally:
+            (self.site / "versions.json").write_text(json.dumps(self.listing), "utf-8")
 
 
 if __name__ == "__main__":

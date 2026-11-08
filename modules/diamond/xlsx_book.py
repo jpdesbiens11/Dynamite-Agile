@@ -9,7 +9,7 @@ landscape fitted to the width.
 import io
 import re
 import zipfile
-from xml.sax.saxutils import escape
+from core.xmltext import escape  # 0.60.83 (D-O-089): also drops what XML forbids
 
 NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 REL_NS = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"

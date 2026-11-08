@@ -5,7 +5,7 @@ indented list items, tables with a header row, images (PNG, JPEG, GIF)."""
 import io
 import struct
 import zipfile
-from xml.sax.saxutils import escape
+from core.xmltext import escape  # 0.60.83 (D-O-089): also drops what XML forbids
 
 COLORS = {"red": "C9372C", "orange": "E56910", "green": "216E4E", "blue": "0C66E4", "purple": "6E5DC6", "gray": "626F86",
           "yellow": "A54800"}
