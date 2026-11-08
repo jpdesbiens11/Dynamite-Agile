@@ -1,0 +1,30 @@
+{
+  "version": "0.60.82",
+  "date": "2026-11-07",
+  "summary": {
+    "fr": "Accès invité et export PDF consolidés : ni liste des comptes pour un invité, ni image qui épuise le serveur.",
+    "en": "Guest access and PDF export hardened: no account list for a guest, no image that exhausts the server."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Invité : jamais la liste des comptes",
+      "why": "Revue de l'accès invité (0.60.63) : la saisie automatique des @mentions, les Paramètres (choix du gestionnaire) et l'Audit de l'interface donnaient à un invité anonyme le nom de tous les comptes du serveur, et pour les @mentions leur identifiant de connexion ; l'Audit lui montrait aussi les observations internes de l'équipe et leurs captures. Un invité reçoit maintenant des listes vides : il ne peut de toute façon ni mentionner, ni choisir un gestionnaire, ni gérer l'Audit.",
+      "files": [
+        "core/mentions.py",
+        "core/prefs.py",
+        "core/ui_audit.py",
+        "tests/test_guest.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Export PDF : images PNG bornées",
+      "why": "Revue de l'export PDF des diagrammes Mermaid (0.60.62) : le décodeur PNG du PDF décompressait sans limite (un fichier de 380 Ko occupait 380 Mo de mémoire) et décode en Python (près de 5 s pour la plus grande image acceptée). Il ne décompresse plus que la taille annoncée par l'en-tête et s'arrête à 12 millions de pixels par document ; au-delà, le PDF affiche « [image : … — voir l'export Word] » et l'export Word garde l'image telle quelle.",
+      "files": [
+        "modules/dynamite/export_pdf.py",
+        "tests/test_export_png.py"
+      ]
+    }
+  ]
+}

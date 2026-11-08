@@ -71,8 +71,14 @@ def _font(style):
     return "BI" if bold and italic else "B" if bold else "I" if italic else "R"
 
 
-def png_to_rgb(data):
-    """(width, height, colors, raw 8-bit pixels) of a non-interlaced 8-bit PNG, or None."""
+MAX_PIXELS = 3_000_000  # one image
+PIXEL_BUDGET = 12_000_000  # 0.60.82 (D-O-088): all the PNG of one PDF (decoded in Python: ~1.5 s per million pixels)
+
+
+def png_to_rgb(data, budget=None):
+    """(width, height, colors, raw 8-bit pixels) of a non-interlaced 8-bit PNG, or None.
+    0.60.82 (D-O-088): never more bytes than the header announces (a 400 KB file could unpack to 400 MB), and never
+    beyond `budget` (a one-item list: pixels still allowed in this document, decreased here)."""
     if not data.startswith(b"\x89PNG"):
         return None
     pos, idat, head = 8, [], None
@@ -88,9 +94,20 @@ def png_to_rgb(data):
         return None
     w, h, depth, ctype, _c, _f, interlace = head
     channels = {0: 1, 2: 3, 4: 2, 6: 4}.get(ctype)
-    if depth != 8 or interlace or channels is None or w * h > 3_000_000:
+    if depth != 8 or interlace or channels is None or w * h > MAX_PIXELS:
         return None
-    raw = zlib.decompress(b"".join(idat))
+    if budget is not None:
+        if w * h > budget[0]:
+            return None
+        budget[0] -= w * h
+    expected = h * (w * channels + 1)
+    try:
+        unpack = zlib.decompressobj()
+        raw = unpack.decompress(b"".join(idat), expected)
+    except zlib.error:
+        return None
+    if len(raw) != expected or unpack.unconsumed_tail:
+        return None
     stride = w * channels
     out = bytearray(stride * h)
     prev = bytearray(stride)
@@ -139,6 +156,7 @@ def jpeg_info(data):
 class Pdf:
     def __init__(self, footer):
         self.pages, self.ops, self.images, self.footer = [], [], [], footer
+        self.pixel_budget = [PIXEL_BUDGET]  # 0.60.82 (D-O-088): what png_to_rgb may still decode for this document
         self.y = PAGE_H - MARGIN
         self.new_page()
 
@@ -244,7 +262,7 @@ class Pdf:
             if j and j[2] in (1, 3):
                 info = (j[0], j[1], j[2], data, "DCTDecode")
         elif data and mime == "image/png":
-            p = png_to_rgb(data)
+            p = png_to_rgb(data, self.pixel_budget)
             if p:
                 info = (p[0], p[1], p[2], zlib.compress(p[3], 6), "FlateDecode")
         if not info:
