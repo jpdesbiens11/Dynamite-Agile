@@ -1,0 +1,28 @@
+{
+  "version": "0.60.89",
+  "date": "2026-11-07",
+  "summary": {
+    "fr": "Un classeur Excel mal formé donne un message clair ; l'erreur du courriel test ne rend cliquables que les pages de la plateforme.",
+    "en": "A malformed Excel workbook gives a clear message; the test e-mail error links only the platform's own pages."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Classeurs Excel mal formés : un message, plus une erreur 500",
+      "why": "Revue des correctifs de la revue du code : un classeur .xlsx dont une cellule portait un style ou un numéro de texte partagé qui n'est pas un nombre, ou dont styles.xml / sharedStrings.xml était illisible, donnait « Erreur interne du serveur » à l'import (plan Exploration, retour client des Q&R Goldmine, postes budgétaires Timesheet). Il donne maintenant « Classeur illisible » avec la cellule en cause et le correctif. Un numéro de texte partagé négatif (-1) ne donne plus le dernier texte du classeur à la place d'une cellule vide.",
+      "files": [
+        "modules/exploration/xlsx.py",
+        "tests/test_xlsx_limits.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Courriel test : seuls les liens de la plateforme sont cliquables",
+      "why": "Revue des correctifs de la revue du code : dans ⚙ Admin → Courriel, l'erreur du courriel test rendait cliquable toute adresse https:// écrite par le serveur SMTP dans sa réponse. Seule la page Google des mots de passe d'application, que la plateforme donne elle-même, est maintenant un lien ; une autre adresse reste du texte.",
+      "files": [
+        "static/js/admin_mail.js",
+        "tests/js/admin_mail_links.js"
+      ]
+    }
+  ]
+}
