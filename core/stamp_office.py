@@ -12,7 +12,7 @@ Open XML parts; nothing else in the file is touched):
 import io
 import re
 import zipfile
-from xml.sax.saxutils import escape
+from .xmltext import escape  # 0.60.83 (D-O-089): also drops what XML forbids
 
 CT_CUSTOM = "application/vnd.openxmlformats-officedocument.custom-properties+xml"
 CT_SHEET = "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"

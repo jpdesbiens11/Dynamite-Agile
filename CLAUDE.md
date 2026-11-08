@@ -156,6 +156,9 @@
 - **0.60.82** (2026-11-07) : **invité et export PDF consolidés** (D-O-088, `core/mentions.py`, `core/prefs.py`, `core/ui_audit.py`,
   `modules/dynamite/export_pdf.py`) : un invité ne reçoit plus la liste des comptes ni les observations d'Audit ; le décodeur PNG du
   PDF ne décompresse jamais plus que l'en-tête annonce et s'arrête à 12 millions de pixels par document.
+- **0.60.83** (2026-11-07) : **exports Office valides et mise à jour en ligne vérifiée** (D-O-089, `core/xmltext.py`,
+  `core/update_online.py`) : tout texte écrit dans un fichier Word / PowerPoint / Excel / draw.io passe par `core.xmltext.escape`
+  (caractères interdits en XML retirés) ; la mise à jour en ligne exige le nom, la taille et l'empreinte SHA-256 du paquet.
 - **0.60.68** (2026-11-06) : **le reste de l'interface en anglais** (D-O-073) : balayage de 280 écrans (`tools/i18n_crawl.py`,
   `DA.i18nScan`), ~700 traductions, gabarits « # » pour les nombres.
 - **0.60.67** (2026-11-06) : **le Rover en anglais** (D-O-073) : le contenu affiché en lecture se traduit aussi (dictionnaire de la démo

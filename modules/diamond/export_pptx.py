@@ -7,7 +7,7 @@ connectors glued to their boxes: move a box, the arrow follows.
 """
 import re
 from html.parser import HTMLParser
-from xml.sax.saxutils import escape
+from core.xmltext import escape  # 0.60.83 (D-O-089): also drops what XML forbids
 
 from . import export_data as X
 from . import export_drawio as D
