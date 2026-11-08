@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.78
+# Journal de mise à jour — 0.60.79
+
+- **Version :** 0.60.78 → 0.60.79 (2026-11-07)
+- **Changements :**
+  1. **Supprimer une sauvegarde** (D-O-085) : « Supprimer… » sur chaque copie du code et chaque point de restauration, double confirmation, journal d'audit.
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.78
 
 - **Version :** 0.60.77 → 0.60.78 (2026-11-07)
 - **Changements :**
   1. **Adresses en plus derrière Traefik vérifiées** (D-O-084) : chaque adresse passée après la principale à `--traefik` doit répondre dans le DNS.
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.77
 
