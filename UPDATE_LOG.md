@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.93
+# Journal de mise à jour — 0.60.94
+
+- **Version :** 0.60.93 → 0.60.94 (2026-11-08)
+- **Changements :**
+  1. **Preuves des plans de test : dépôt réparé, tout type de fichier, versions et liens réseau** (D-O-100).
+- **Base de données :** ['Migration testing 7 (additive) : colonnes kind, link, link_size, version, history, updated_by, updated_at ajoutées à testing_evidence. Lignes existantes gardées.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.93
 
 - **Version :** 0.60.92 → 0.60.93 (2026-11-08)
 - **Changements :**
   1. **La journée du site et de la vitrine jouée par un curseur** (D-O-099).
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.92
 

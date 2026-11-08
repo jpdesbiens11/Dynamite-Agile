@@ -330,7 +330,8 @@ class AppHandler(BaseHTTPRequestHandler):
             length = int(self.headers.get("Content-Length") or 0)
         except ValueError:
             raise ApiError(400, "En-tête Content-Length invalide.")
-        setting = "max_transfer_mb" if getattr(handler, "transfer", False) else "max_upload_mb"  # D-B-094: packages of a site
+        setting = getattr(handler, "limit_setting", None) or (  # core lot v0.36: a route with its own cap (uploads.large_body)
+            "max_transfer_mb" if getattr(handler, "transfer", False) else "max_upload_mb")  # D-B-094: packages of a site
         limit = int(self.server.app_config.get(setting, 50)) * 1024 * 1024
         if length > limit:
             # Drain (bounded) so the browser reads our 413 instead of a reset.

@@ -8,6 +8,7 @@ DEFAULTS = {
     "session_hours": 10,          # Session lifetime (one work day)
     "max_upload_mb": 50,          # Used from step 3.4 (attachments)
     "max_transfer_mb": 2048,      # D-B-094: « Données » / « Site complet » packages of Admin → Update
+    "max_evidence_mb": 150,       # core lot v0.36 (0.60.94, D-O-100): evidence files of a test plan, any type
     "login_max_failures": 5,      # Failed logins before a temporary lock
     "login_lock_minutes": 5,
     "login_ip_max_failures": 30,  # 0.60.84 (D-O-090): failed logins per IP address, all usernames together...

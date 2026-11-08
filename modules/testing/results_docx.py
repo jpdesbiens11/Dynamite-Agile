@@ -12,7 +12,14 @@ DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 
 
 def _size(n):
+    if n is None:  # 0.60.94 (D-O-100): a network reference without a declared size
+        return "—"
     return "{:.1f} MB".format(n / 1048576) if n >= 1048576 else "{} KB".format(max(1, round(n / 1024)))
+
+
+def _where(e):
+    """0.60.94 (D-O-100): the version on the platform, or where a file too large for it lies on the network."""
+    return "Network: " + e["link"] if e.get("kind") == "link" else "Platform (v{})".format(e.get("version") or 1)
 
 
 def build_body(conn, row, data):
@@ -42,8 +49,9 @@ def build_body(conn, row, data):
     out.append(d.heading(1, "Evidence Index"))
     if data["evidence"]:
         label = {b["id"]: b["proto"] for b in data["bundles"]}
-        out.append(d.table(["File", "Size", "Filed by", "Bundle"], [[e["name"], _size(e["size"]), e["by"] or "", label.get(e["bundle_id"], "Bulk")]
-                                                                     for e in data["evidence"]], [4200, 1200, 2200, 1800]))
+        out.append(d.table(["File", "Location", "Size", "Filed by", "Bundle"], [
+            [e["name"], _where(e), _size(e["size"]), e["by"] or "", label.get(e["bundle_id"], "Bulk")] for e in data["evidence"]],
+            [2800, 2600, 1000, 1700, 1300]))
     else:
         out.append(d.para("No evidence file has been filed."))
     return out

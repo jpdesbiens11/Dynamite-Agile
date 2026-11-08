@@ -173,6 +173,10 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.94** (2026-11-08) : **preuves des plans de test** (D-O-100, lot noyau v0.36 : `uploads.store_file`, `store_text`, `large_body`,
+  `max_evidence_mb` = 150 ; `modules/testing/evidence.py`, `static/js/testing/testing_evidence.js`, migration testing 7) : dépôt et bundles
+  réparés (« ?space= » au bout de l'adresse), tout type de fichier, glisser-déposer, « Remplacer… » (versions sous la même preuve),
+  lien réseau au-delà de 150 Mo, « Retirer » libère les résultats ; crochet `on_restore` de Testing (résultats → preuves).
 - **0.60.93** (2026-11-08) : **la journée jouée par un curseur** sur le site et la vitrine (D-O-099, `tools/vitrine/journey.js`,
   `journey.css`) : chaque étape lue ouvre l'onglet de l'outil et y fait son geste ; écran étroit : la journée joue seule ;
   mouvement réduit : le résultat de chaque écran ; textes dans le balisage (`data-to`), la page anglaise retrouve Diamond.

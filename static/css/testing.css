@@ -61,3 +61,17 @@ html[data-theme="dark"] { --testing: #4bce97; --testing-soft: rgba(75, 206, 151,
 /* 0.60.91 (D-O-097): verification of the requirements */
 .tv-summary { display: flex; flex-wrap: wrap; gap: .8rem 1.4rem; margin: .6rem 0 1rem; }
 .tv-test { text-decoration: none; margin-right: .2rem; }
+
+/* 0.60.94 (D-O-100): evidence of any type, versions, files left on the network */
+.te-drop { border: 2px dashed transparent; border-radius: var(--radius-sm); transition: border-color .15s, background-color .15s; }
+.te-drop.te-over { border-color: var(--testing); background: var(--testing-soft); }
+.te-status:empty { display: none; }
+.te-net { margin-left: .4rem; }
+.te-path { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .3rem; margin-top: .2rem; }
+.te-path code { font-family: var(--mono); font-size: .85em; word-break: break-all; }
+.te-note { font-size: .85em; }
+.te-ver { white-space: nowrap; }
+.te-ver details { white-space: normal; font-size: .85em; }
+.te-history { margin: .3rem 0 0; padding-left: 1rem; }
+.te-linkset { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: .4rem .8rem .2rem; margin: 0 0 .8rem; }
+.te-linkset legend { font-weight: 600; padding: 0 .3rem; }

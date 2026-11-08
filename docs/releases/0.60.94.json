@@ -1,0 +1,31 @@
+{
+  "version": "0.60.94",
+  "date": "2026-11-08",
+  "summary": {
+    "fr": "Testing : dépôt des preuves et des bundles réparé ; preuves de tout type jusqu'à 150 Mo, versions, liens réseau au-delà.",
+    "en": "Testing: evidence and bundle saving fixed; evidence of any type up to 150 MB, versions, network links beyond."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Preuves des plans de test : dépôt réparé, tout type de fichier, versions et liens réseau",
+      "why": "Sur la page d'un plan envoyé au fournisseur, « Déposer des fichiers… » et « + Bundle » répondaient « Méthode non permise » : l'adresse portait « ?space= » au milieu. C'est corrigé. Les preuves acceptent maintenant tout type de fichier jusqu'à 150 Mo (réglage « max_evidence_mb »), par le bouton ou en glissant les fichiers sur la section. Au-delà, le fichier reste sur le réseau : le plan demande où il est rangé et le cite comme document de résultat, avec « Copier le chemin ». « Remplacer… » dépose une version plus récente sous la même preuve (les résultats qui la citent la gardent) ; les versions précédentes restent téléchargeables. « Retirer » enlève aussi la preuve des résultats qui la citaient, après confirmation. Une sauvegarde restaurée (ou un Space recomposé) garde le lien entre les résultats et leurs preuves, et les anciennes versions restent téléchargeables.",
+      "files": [
+        "static/js/testing/testing_evidence.js",
+        "static/js/testing/testing_bundles.js",
+        "static/css/testing.css",
+        "modules/testing/evidence.py",
+        "modules/testing/bundles.py",
+        "modules/testing/__init__.py",
+        "modules/testing/plans.py",
+        "modules/testing/results_docx.py",
+        "core/uploads.py",
+        "core/router.py",
+        "core/config.py",
+        "core/modules.py",
+        "tests/test_testing_evidence.py",
+        "tests/test_lot_v030.py"
+      ]
+    }
+  ]
+}
