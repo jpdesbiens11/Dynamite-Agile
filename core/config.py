@@ -11,8 +11,10 @@ DEFAULTS = {
     "max_evidence_mb": 150,       # core lot v0.36 (0.60.94, D-O-100): evidence files of a test plan, any type
     "login_max_failures": 5,      # Failed logins before a temporary lock
     "login_lock_minutes": 5,
-    "login_ip_max_failures": 30,  # 0.60.84 (D-O-090): failed logins per IP address, all usernames together...
+    "login_ip_max_failures": 200,  # 0.60.84 (D-O-090): failed logins per IP address, all usernames together...
+    "login_ip_max_usernames": 10,  # 0.60.95 (D-O-101): ...or different usernames failed from it (spraying)...
     "login_ip_window_minutes": 15,  # ...within this window, then 429 before any password is hashed
+    "login_known_days": 30,       # 0.60.95: above the ceiling, a username signed in from that address since then may try
     "tls_cert": "",               # Path to certificate (relative to data/) for HTTPS
     "tls_key": "",
     # Core lot v0.24 (D-B-090, deploy/TLS.md): secure transport
