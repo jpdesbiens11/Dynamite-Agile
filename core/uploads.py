@@ -79,6 +79,16 @@ def binary_body(handler):
     return handler
 
 
+def large_body(setting):
+    """Core lot v0.36 (0.60.94, D-O-100): a raw-file route capped by its own setting of data/config.json instead of
+    « max_upload_mb » (evidence of a test plan: « max_evidence_mb », 150 Mo)."""
+    def mark(handler):
+        handler.accepts_binary = True
+        handler.limit_setting = setting
+        return handler
+    return mark
+
+
 def sniff_image(data):
     for mime, (_, test) in IMAGE_TYPES.items():
         if test(data):
@@ -89,6 +99,9 @@ def sniff_image(data):
 def _clean_name(name):
     name = (name or "").replace("\\", "/").rsplit("/", 1)[-1]
     return "".join(ch for ch in name if ch.isprintable() and ch not in '"<>')[:120]
+
+
+clean_name = _clean_name  # core lot v0.36: the file name as it will be shown and saved (no path, no quote)
 
 
 def _root(data_dir):
@@ -182,6 +195,21 @@ def store_evidence(ctx, project_id, module, max_bytes):
         raise ApiError(415, "« {} » refusé : {}. Correctif : formats acceptés : {} ; enregistrez le document sans macros "
                             "(.docx, .xlsx, .pptx).".format(_clean_name(upload.filename) or "sans nom", why, EVIDENCE_LABEL))
     return _store(ctx, project_id, module, upload, mime)
+
+
+def store_file(ctx, project_id, module, max_bytes):
+    """Any file, kept as it is (core lot v0.36, D-O-100): the evidence a test supplier sends (reports, raw data,
+    archives, videos, macro workbooks...). The type is still read from the bytes when known (PDF, images, Office, zip,
+    text); anything else is application/octet-stream. Such a file is only ever sent back as a download (attachment,
+    nosniff, the platform's CSP), never shown in a page, and the server never opens it."""
+    upload = getattr(ctx, "upload", None)
+    if upload is None or not upload.data:
+        raise ApiError(400, "Aucun fichier reçu (ou fichier vide). Correctif : choisissez le fichier à déposer.")
+    if len(upload.data) > max_bytes:
+        raise ApiError(413, "Fichier de {:.1f} Mo. Correctif : {} Mo au maximum ; au-delà, laissez le fichier sur le réseau "
+                            "et indiquez son emplacement.".format(len(upload.data) / 1048576, max_bytes // 1048576))
+    mime, _ = sniff_evidence(upload.data)
+    return _store(ctx, project_id, module, upload, mime or "application/octet-stream")
 
 
 def _store(ctx, project_id, module, upload, mime):

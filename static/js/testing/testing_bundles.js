@@ -1,6 +1,6 @@
 /* Bundles per prototype and evidence of a test plan (0.60.90, D-O-096).
-   Shown on the plan page (#/testing/plans/<code>) once the plan is sent: evidence files dropped in bulk (the filled-in
-   report, lab reports, spreadsheets, photos...), then one bundle per prototype actually tested, with a result for each
+   Shown on the plan page (#/testing/plans/<code>) once the plan is sent: evidence files dropped in bulk (testing_evidence.js,
+   0.60.94), then one bundle per prototype actually tested, with a result for each
    test (Passed / Passed with derogation / Failed / Abandoned), a justification, and the evidence that supports it.
    The plan cannot be closed until every bundle is complete (the server says what is missing). */
 (function () {
@@ -8,35 +8,14 @@
   const { api, el, toast, modal, field } = DA;
   const T = (DA.testing = DA.testing || {});
   const RESULT_CLASS = { passed: "ok", derogation: "warn", failed: "danger", abandoned: "neutral" };
-  const size = (n) => (n >= 1048576 ? (n / 1048576).toFixed(1) + " Mo" : Math.max(1, Math.round(n / 1024)) + " Ko");
 
   T.execution = function (p, code, reload) {
-    const base = T.api("/api/testing/plans/" + code);
+    // 0.60.94 (D-O-100): « ?space= » goes at the end of the address. With "/evidence" glued after it, the query string
+    // swallowed the rest of the path, every call hit the plan itself, and the server answered « Méthode non permise ».
+    const url = (rest) => T.api("/api/testing/plans/" + code + (rest || ""));
     const live = ["sent", "results"].includes(p.status);
     const run = (job) => async (...args) => { try { await job(...args); } catch (err) { toast(err.message, "error"); } };
-
-    const picker = el("input", { type: "file", multiple: true, hidden: true });
-    picker.addEventListener("change", run(async () => {
-      for (const f of picker.files) await api.upload(base + "/evidence", f);
-      toast(picker.files.length + " fichier(s) déposé(s).", "success"); reload();
-    }));
-    const bundleSelect = (e) => {
-      const sel = el("select", { "aria-label": "Bundle de " + e.name, disabled: !live, onchange: run(async () => {
-        await api.patch(base + "/evidence/" + e.id, { bundle_id: sel.value ? Number(sel.value) : null }); reload();
-      }) }, el("option", { value: "" }, "En vrac"), p.bundles.map((b) => el("option", { value: b.id, selected: b.id === e.bundle_id }, b.proto)));
-      return sel;
-    };
-    const evidenceBlock = el("section", { "data-new": "0.60.90-plan-evidence" },
-      el("h2", null, "Preuves (" + p.evidence.length + ")"),
-      el("p", { class: "muted" }, "Déposez les fichiers en vrac : rapport du plan rempli (.docx ou .pdf), rapports de laboratoire, Excel, PowerPoint, "
-        + "photos, journaux (.txt, .csv, .log, .zip). Ensuite, pointez-les depuis les résultats de chaque bundle."),
-      live ? el("div", { class: "form-actions tt-left" }, el("button", { type: "button", class: "btn btn-small btn-primary", onclick: () => picker.click() }, "Déposer des fichiers…"), picker) : null,
-      p.evidence.length ? DA.table(["Fichier", "Taille", "Déposé par", "Bundle", ""], p.evidence.map((e) => el("tr", null,
-        el("td", null, el("a", { href: base + "/evidence/" + e.id + "/file", download: e.name }, e.name)), el("td", null, size(e.size)),
-        el("td", null, e.by || ""), el("td", null, bundleSelect(e)),
-        el("td", null, live ? el("button", { type: "button", class: "btn btn-small", onclick: run(async () => {
-          await api.del(base + "/evidence/" + e.id); reload();
-        }) }, "Retirer") : null)))) : el("p", { class: "muted" }, "Aucune preuve pour le moment."));
+    const evidenceBlock = T.evidenceBlock(p, url, live, reload);
 
     const resultRow = (b, t) => {
       const cur = b.results[t.test_id] || { result: "", note: "", evidence: [] };
@@ -47,7 +26,7 @@
       const boxes = p.evidence.map((e) => el("label", { class: "tb-ev" }, el("input", { type: "checkbox", checked: chosen.has(e.id), disabled: !live,
         onchange: (ev) => { ev.target.checked ? chosen.add(e.id) : chosen.delete(e.id); save(); } }), " " + e.name));
       const save = run(async () => {
-        await api.put(base + "/bundles/" + b.id + "/results/" + t.test_id, { result: sel.value, note: note.value, evidence: [...chosen] }); reload();
+        await api.put(url("/bundles/" + b.id + "/results/" + t.test_id), { result: sel.value, note: note.value, evidence: [...chosen] }); reload();
       });
       sel.addEventListener("change", save); note.addEventListener("change", save);
       return el("tr", null, el("td", null, el("a", { class: "ag-key", href: T.href("test/" + t.test_id) }, t.test_id), " " + t.title),
@@ -61,7 +40,7 @@
         live ? el("div", { class: "tg-actions" }, el("button", { type: "button", class: "btn btn-small", onclick: () => bundleForm(b) }, "Modifier"),
           el("button", { type: "button", class: "btn btn-small", onclick: run(async () => {
             if (!confirm("Supprimer le bundle " + b.proto + " et ses résultats ? Les preuves restent dans le plan.")) return;
-            await api.del(base + "/bundles/" + b.id); reload();
+            await api.del(url("/bundles/" + b.id)); reload();
           }) }, "Supprimer")) : null,
         DA.table(["Test", "Résultat", "Justification", "Preuves à l'appui"], p.test_rows.map((t) => resultRow(b, t))));
     };
@@ -75,7 +54,7 @@
         ev.preventDefault();
         try {
           const body = { proto: proto.value, serial: serial.value, note: note.value };
-          if (b) await api.patch(base + "/bundles/" + b.id, body); else await api.post(base + "/bundles", body);
+          if (b) await api.patch(url("/bundles/" + b.id), body); else await api.post(url("/bundles"), body);
           close(); reload();
         } catch (err) { error.textContent = err.message; }
       } }, field("Prototype testé (identifiant)", proto), field("Numéro de série", serial), field("Note (configuration, firmware, conditions)", note), error,

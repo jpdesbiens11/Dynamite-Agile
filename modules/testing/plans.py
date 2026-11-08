@@ -119,7 +119,7 @@ def api_get(ctx):
     pages = catalog.procedure_pages(ctx.conn, catalog.project_id(ctx.conn))  # shared wiki
     p["test_rows"] = [dict(tests[t], has_procedure=tests[t]["subject"] in pages) for t in p["tests"] if t in tests]
     p["results_name"] = row["results_name"]
-    p.update(bundles.public(ctx.conn, row))  # 0.60.90 (D-O-096)
+    p.update(bundles.public(ctx.conn, row, ctx.config))  # 0.60.90 (D-O-096)
     return {"plan": p, "statuses": STATUSES}
 
 

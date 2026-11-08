@@ -111,8 +111,10 @@ class LotV030Test(unittest.TestCase):
         with zipfile.ZipFile(macro, "w") as z:
             z.writestr("[Content_Types].xml", "<Types/>")
             z.writestr("word/vbaProject.bin", "x")
-        self.assertEqual(self.client_upload(base + "/evidence", macro.getvalue(), "macro.docm"), 415)
-        self.assertEqual(self.client_upload(base + "/evidence", b"MZ\x90\x00\x03\x00\x00\x00", "virus.exe"), 415)
+        # 0.60.94 (D-O-100): every type of file is accepted (only ever sent back as a download)
+        self.assertEqual(self.client_upload(base + "/evidence", macro.getvalue(), "macro.docm"), 200)
+        exe = self.client_upload(base + "/evidence", b"MZ\x90\x00\x03\x00\x00\x00", "outil_labo.exe", full=True)
+        self.admin.delete(base + "/evidence/{}".format(exe["id"]))
         ev = self.client_upload(base + "/evidence", docx.getvalue(), "rapport_rempli.docx", full=True)
         txt = self.client_upload(base + "/evidence", b"mesure;1.2\n", "mesures.csv", full=True)
         self.assertEqual(self.download(base + "/evidence/{}/file".format(ev["id"])), docx.getvalue())
@@ -127,7 +129,6 @@ class LotV030Test(unittest.TestCase):
         self.assertEqual(len(blockers), 1)
         self.assertIn("justification", blockers[0])
         self.assertEqual(self.status(lambda: self.admin.post(base + "/status", {"status": "closed"})), 409)
-        self.assertEqual(self.status(lambda: self.admin.delete(base + "/evidence/{}".format(ev["id"]))), 409)  # supports a result
         self.admin.put("{}/bundles/{}/results/{}".format(base, bundle, plan["tests"][0]),
                        {"result": "derogation", "note": "Écart accepté par le client", "evidence": [ev["id"]]})
         self.admin.post(base + "/status", {"status": "closed"})

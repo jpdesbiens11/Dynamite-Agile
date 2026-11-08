@@ -3,16 +3,15 @@
 A plan sent to a supplier is run on real prototypes. Each prototype actually tested is one **bundle** of the plan (a
 proto identifier, its serial number, a note): inside it, every test of the plan gets a result -- Passed, Passed with
 derogation, Failed or Abandoned -- and the evidence that supports it. Evidence files (the filled-in report, lab
-reports, spreadsheets, photos, logs...) are dropped in bulk on the plan, then pointed at from the results.
+reports, spreadsheets, photos, logs...) are dropped in bulk on the plan, then pointed at from the results (evidence.py).
 
 A plan cannot be closed before every bundle is complete (see close_blockers): a result for each test, a note for any
 result other than Passed, and at least one evidence file behind every result except Abandoned.
 """
 import json
 
-from core import db, permissions, uploads, validate
+from core import db, validate
 from core.errors import ApiError
-from core.files import RawFile
 
 RESULTS = {"passed": "Passed", "derogation": "Passed with derogation", "failed": "Failed", "abandoned": "Abandoned"}
 NEEDS_NOTE = ("derogation", "failed", "abandoned")
@@ -44,26 +43,16 @@ def _bundle(ctx, row):
     return b
 
 
-def _evidence_row(ctx, row):
-    e = ctx.conn.execute("SELECT * FROM testing_evidence WHERE id = ? AND plan_id = ?",
-                         (int(ctx.params["eid"]), row["id"])).fetchone()
-    if e is None:
-        raise ApiError(404, "Preuve introuvable dans {}.".format(row["code"]))
-    return e
-
-
-def public(conn, row):
+def public(conn, row, config=None):
     """Bundles (with their results) and evidence of a plan, for the plan screen."""
-    evidence = [dict(id=e["id"], name=e["name"], note=e["note"], bundle_id=e["bundle_id"], mime=e["mime"], size=e["size"],
-                     at=e["created_at"], by=e["author"]) for e in conn.execute(
-        "SELECT v.*, a.mime, a.size, u.display_name AS author FROM testing_evidence v JOIN attachments a ON a.id = v.attachment_id "
-        "LEFT JOIN users u ON u.id = v.created_by WHERE v.plan_id = ? ORDER BY v.id", (row["id"],))]
+    from . import evidence
     bundles = []
     for b in conn.execute("SELECT * FROM testing_bundles WHERE plan_id = ? ORDER BY id", (row["id"],)):
         results = {r["test_id"]: {"result": r["result"], "note": r["note"], "evidence": json.loads(r["evidence"] or "[]")}
                    for r in conn.execute("SELECT * FROM testing_results WHERE bundle_id = ?", (b["id"],))}
         bundles.append({"id": b["id"], "proto": b["proto"], "serial": b["serial"], "note": b["note"], "results": results})
-    return {"bundles": bundles, "evidence": evidence, "result_labels": RESULTS, "blockers": close_blockers(conn, row)}
+    return {"bundles": bundles, "evidence": evidence.listing(conn, row), "result_labels": RESULTS,
+            "blockers": close_blockers(conn, row), "evidence_max_mb": evidence.limit_mb(config or {})}
 
 
 def close_blockers(conn, row):
@@ -155,52 +144,3 @@ def api_result(ctx):
         (b["id"], test_id, result, note, json.dumps(sorted(set(ids))), ctx.user["id"], now))
     _plans()._log(ctx, "testing_result_set", row["id"], {"bundle": b["proto"], "test": test_id, "result": result})
     return {"ok": True}
-
-
-@uploads.binary_body
-def api_evidence_add(ctx):
-    pid, row = _open_plan(ctx)
-    stored = uploads.store_evidence(ctx, pid, "testing_plan", int(ctx.config.get("max_upload_mb", 50)) * 1048576)
-    name = stored["original_name"] or "preuve"
-    eid = ctx.conn.execute("INSERT INTO testing_evidence (plan_id, attachment_id, name, created_by, created_at) VALUES (?, ?, ?, ?, ?)",
-                           (row["id"], stored["id"], name, ctx.user["id"], db.utc_now())).lastrowid
-    _plans()._log(ctx, "testing_evidence_added", row["id"], {"file": name, "size": stored["size"], "type": stored["mime"]})
-    return {"id": eid, "name": name}
-
-
-def api_evidence_update(ctx):
-    pid, row = _open_plan(ctx)
-    e = _evidence_row(ctx, row)
-    note = validate.text(ctx.body, "note", 500, required=False) if "note" in ctx.body else e["note"]
-    bundle_id = e["bundle_id"]
-    if "bundle_id" in ctx.body:
-        bundle_id = ctx.body["bundle_id"]
-        if bundle_id is not None and not ctx.conn.execute("SELECT 1 FROM testing_bundles WHERE id = ? AND plan_id = ?",
-                                                          (bundle_id, row["id"])).fetchone():
-            raise ApiError(400, "Bundle inconnu dans {}.".format(row["code"]))
-    ctx.conn.execute("UPDATE testing_evidence SET note = ?, bundle_id = ? WHERE id = ?", (note, bundle_id, e["id"]))
-    return {"ok": True}
-
-
-def api_evidence_delete(ctx):
-    pid, row = _open_plan(ctx)
-    e = _evidence_row(ctx, row)
-    for r in ctx.conn.execute("SELECT r.evidence, b.proto, r.test_id FROM testing_results r JOIN testing_bundles b ON b.id = r.bundle_id "
-                              "WHERE b.plan_id = ?", (row["id"],)):
-        if e["id"] in json.loads(r["evidence"] or "[]"):
-            raise ApiError(409, "« {} » soutient le résultat de {} (bundle {}). Correctif : retirez-la de ce résultat, puis "
-                                "supprimez-la.".format(e["name"], r["test_id"], r["proto"]))
-    ctx.conn.execute("DELETE FROM testing_evidence WHERE id = ?", (e["id"],))  # the stored file stays (content-addressed store)
-    _plans()._log(ctx, "testing_evidence_deleted", row["id"], {"file": e["name"]})
-    return {"ok": True}
-
-
-def api_evidence_file(ctx):
-    P = _plans()
-    pid = P._pid(ctx)
-    row = P._row(ctx, pid)
-    e = _evidence_row(ctx, row)
-    att = ctx.conn.execute("SELECT * FROM attachments WHERE id = ?", (e["attachment_id"],)).fetchone()
-    if att is None:
-        raise ApiError(404, "Fichier de preuve absent du serveur. Correctif : restaurez data/attachments depuis la sauvegarde.")
-    return RawFile(uploads.read(ctx.data_dir, att), e["name"], att["mime"], export=False)

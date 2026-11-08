@@ -8,8 +8,9 @@ requirement names its tests in « Test Procedure » (modules/agile/goldmine.py
 calls catalog.check_refs), and each test record lists the requirements that
 cite it.
 """
-from . import bundles, catalog, docx_tests, lists, plans, results_docx, review, tests_api, verification
+from . import bundles, catalog, docx_tests, evidence, lists, plans, results_docx, review, tests_api, verification
 from .search import search  # noqa: F401  (core search hook, D-B-076)
+from .evidence import on_restore  # noqa: F401  (core lot v0.10 hook; 0.60.94, D-O-100)
 
 SCHEMA = ""
 
@@ -203,6 +204,34 @@ MIGRATIONS.append((6, """
     CREATE INDEX idx_testing_bundles_plan ON testing_bundles(plan_id);
     CREATE INDEX idx_testing_evidence_plan ON testing_evidence(plan_id);
 """))
+MIGRATIONS.append((7, """
+    -- 0.60.94 (D-O-100): an evidence is a file on the server (any type, 150 Mo at most) or, beyond that, a reference to
+    -- where it lies on the network (kind 'link': no attachment). A newer version from the supplier replaces the file under
+    -- the same id, so the results that cite it keep it; the previous versions stay in history (JSON). The table is
+    -- rebuilt (SQLite cannot drop NOT NULL on attachment_id); no other table references it.
+    CREATE TABLE testing_evidence_v7 (
+        id            INTEGER PRIMARY KEY,
+        plan_id       INTEGER NOT NULL REFERENCES testing_plans(id) ON DELETE CASCADE,
+        attachment_id INTEGER REFERENCES attachments(id),
+        name          TEXT NOT NULL,
+        note          TEXT NOT NULL DEFAULT '',
+        bundle_id     INTEGER REFERENCES testing_bundles(id) ON DELETE SET NULL,
+        created_by    INTEGER REFERENCES users(id) ON DELETE SET NULL,
+        created_at    TEXT NOT NULL,
+        kind          TEXT NOT NULL DEFAULT 'file',
+        link          TEXT NOT NULL DEFAULT '',
+        link_size     INTEGER,
+        version       INTEGER NOT NULL DEFAULT 1,
+        history       TEXT NOT NULL DEFAULT '[]',
+        updated_by    INTEGER REFERENCES users(id) ON DELETE SET NULL,
+        updated_at    TEXT
+    );
+    INSERT INTO testing_evidence_v7 (id, plan_id, attachment_id, name, note, bundle_id, created_by, created_at)
+    SELECT id, plan_id, attachment_id, name, note, bundle_id, created_by, created_at FROM testing_evidence;
+    DROP TABLE testing_evidence;
+    ALTER TABLE testing_evidence_v7 RENAME TO testing_evidence;
+    CREATE INDEX idx_testing_evidence_plan ON testing_evidence(plan_id);
+"""))
 
 TP = r"/api/testing/plans/(?P<code>TP-\d{3,})"
 ROUTES = [
@@ -219,10 +248,13 @@ ROUTES = [
     ("PATCH", TP + r"/bundles/(?P<bid>\d+)", bundles.api_bundle_update, "user"),
     ("DELETE", TP + r"/bundles/(?P<bid>\d+)", bundles.api_bundle_delete, "user"),
     ("PUT", TP + r"/bundles/(?P<bid>\d+)/results/(?P<tid>[A-Za-z0-9-]{2,40})", bundles.api_result, "user"),
-    ("POST", TP + r"/evidence", bundles.api_evidence_add, "user"),
-    ("PATCH", TP + r"/evidence/(?P<eid>\d+)", bundles.api_evidence_update, "user"),
-    ("DELETE", TP + r"/evidence/(?P<eid>\d+)", bundles.api_evidence_delete, "user"),
-    ("GET", TP + r"/evidence/(?P<eid>\d+)/file", bundles.api_evidence_file, "user"),
+    ("POST", TP + r"/evidence", evidence.api_add, "user"),
+    ("PATCH", TP + r"/evidence/(?P<eid>\d+)", evidence.api_update, "user"),
+    ("DELETE", TP + r"/evidence/(?P<eid>\d+)", evidence.api_delete, "user"),
+    ("POST", TP + r"/evidence/link", evidence.api_link_add, "user"),  # 0.60.94 (D-O-100)
+    ("POST", TP + r"/evidence/(?P<eid>\d+)/replace", evidence.api_replace, "user"),
+    ("POST", TP + r"/evidence/(?P<eid>\d+)/link", evidence.api_link_replace, "user"),
+    ("GET", TP + r"/evidence/(?P<eid>\d+)/file", evidence.api_file, "user"),
     ("GET", r"/api/testing/verification", verification.api_verification, "user"),  # 0.60.91 (D-O-097)
     ("GET", r"/api/testing/tests", tests_api.api_list, "user"),
     ("GET", r"/api/testing/options", tests_api.api_options, "user"),
