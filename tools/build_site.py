@@ -113,7 +113,7 @@ def _news(lang):
             '    </div>\n  </section>').format(head, html.escape(sub), cards)
 
 
-def _latest(lang):
+def _latest(lang, link=True):
     """0.60.36 (D-O-045): the latest version and its date on the installation page, so a team decides whether to update."""
     found = []
     for path in (BASE / "docs" / "releases").glob("*.json"):
@@ -123,10 +123,11 @@ def _latest(lang):
         return ""
     data = max(found, key=lambda item: item[0])[1]
     head, more, already = T.LATEST[lang]
-    return ('  <p class="note ok latest" data-new="0.60.36-site-latest"><b>{} {}</b> · {} — {} '
-            '<a href="versions.html">{}</a><br>{}</p>').format(
+    # 0.60.90: the banner now lives on the versions page only, where the link to that same page would be pointless
+    return ('  <p class="note ok latest" data-new="0.60.36-site-latest"><b>{} {}</b> · {} — {}{}<br>{}</p>').format(
         head, html.escape(data["version"]), html.escape(data.get("date", "")),
-        html.escape(data["summary"][lang] if isinstance(data.get("summary"), dict) else ""), more, already)
+        html.escape(data["summary"][lang] if isinstance(data.get("summary"), dict) else ""),
+        ' <a href="versions.html">{}</a>'.format(more) if link else "", already)
 
 
 def _landing(vitrine, lang, src):
@@ -174,8 +175,9 @@ def build():
             values = dict(common, TOP=_top(name, lang), MINE_ROWS=_mine_rows(lang), FOOTER=T.footer(lang, APP_VERSION, REPO))
             if name == "home.html":  # 0.60.71 (D-O-077): the landing page, the address itself opens the installation
                 values.update(_landing(vitrine, lang, src))
+            if name == "versions.html":
+                values["LATEST"] = _latest(lang, link=False)
             if name == "installation.html":
-                values["LATEST"] = _latest(lang)
                 values.update(TROUBLE=(src / "trouble.html").read_text(encoding="utf-8").rstrip(),
                               INSTALL_JS=(SRC / "install.js").read_text(encoding="utf-8"),
                               # 0.60.70 (D-O-076): the page's guided tour and the QR code of the demo, drawn in the page
