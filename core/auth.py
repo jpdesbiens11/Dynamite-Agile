@@ -24,7 +24,7 @@ INITIAL_PASSWORD_FILE = "INITIAL_ADMIN_PASSWORD.txt"
 
 _fail_lock = threading.Lock()
 _failures = {}  # "username|ip" -> (failure_count, locked_until_epoch)
-_ip_failures = {}  # 0.60.84 (D-O-090): ip -> [epoch of each failed login], every username together
+_ip_failures = {}  # 0.60.84 (D-O-090): ip -> [(epoch, username) of each failed login], every username together
 
 
 # --------------------------------------------------------------------------
@@ -85,17 +85,35 @@ def reset_pending_temp_passwords(conn):
 # --------------------------------------------------------------------------
 # Login throttling (in memory, reset when the server restarts)
 # --------------------------------------------------------------------------
-def _check_lock(key, now, ip=None, cfg=None):
+def _check_lock(key, now, ip=None, cfg=None, known=None):
+    """429 if this username is locked from this address, or if the address itself is over its ceiling.
+
+    0.60.95 (D-O-101, R1 of D-O-095): behind a shared address (company VPN, NAT, school network) one person mistyping
+    must not lock everyone out. The address ceiling therefore counts the different usernames that failed (one password
+    tried on many accounts: « spraying »), next to a much higher ceiling of raw failures; someone who mistypes their own
+    password only meets the per-username lock (login_max_failures). Above the ceiling, a username that already signed in
+    from this address within login_known_days (`known()`, read from the audit log only then) may still try: its own
+    lock still applies."""
     with _fail_lock:
         entry = _failures.get(key)
         if entry and entry[1] > now:
             raise ApiError(429, "Trop de tentatives. Réessayez dans quelques minutes.")
+        over = False
         if ip is not None and cfg is not None:  # 0.60.84 (D-O-090): one password tried on every account (spraying)
             window = float(cfg.get("login_ip_window_minutes", 15)) * 60
-            recent = [t for t in _ip_failures.get(ip, []) if now - t < window]
+            recent = [(t, u) for t, u in _ip_failures.get(ip, []) if now - t < window]
             _ip_failures[ip] = recent
-            if len(recent) >= int(cfg.get("login_ip_max_failures", 30)):
-                raise ApiError(429, "Trop de tentatives depuis cette adresse. Réessayez dans quelques minutes.")
+            over = (len(recent) >= int(cfg.get("login_ip_max_failures", 200))
+                    or len({u for _t, u in recent}) >= int(cfg.get("login_ip_max_usernames", 10)))
+    if over and not (known and known()):
+        raise ApiError(429, "Trop de tentatives depuis cette adresse. Réessayez dans quelques minutes.")
+
+
+def _known_here(conn, username, ip, days):
+    """0.60.95 (D-O-101): did this username sign in from this address recently? (audit log, kept with the data)"""
+    since = db.utc_in(-24 * float(days))
+    return conn.execute("SELECT 1 FROM audit_log a JOIN users u ON u.id = a.user_id WHERE a.ts >= ? AND a.action = 'login' "
+                        "AND a.ip = ? AND u.username = ? LIMIT 1", (since, ip, username)).fetchone() is not None
 
 
 def _prune(now, keep=1024):
@@ -104,11 +122,11 @@ def _prune(now, keep=1024):
         for k in [k for k, (_c, until, *last) in _failures.items() if until <= now and (not last or now - last[0] > 3600)]:
             del _failures[k]
     if len(_ip_failures) > keep:
-        for ip in [ip for ip, times in _ip_failures.items() if not times or now - times[-1] > 3600]:
+        for ip in [ip for ip, times in _ip_failures.items() if not times or now - times[-1][0] > 3600]:
             del _ip_failures[ip]
 
 
-def _record_failure(key, now, max_failures, lock_minutes, ip=None):
+def _record_failure(key, now, max_failures, lock_minutes, ip=None, username=""):
     with _fail_lock:
         count, locked_until = _failures.get(key, (0, 0, 0))[:2]
         if locked_until and locked_until <= now:
@@ -117,7 +135,7 @@ def _record_failure(key, now, max_failures, lock_minutes, ip=None):
         locked_until = now + lock_minutes * 60 if count >= max_failures else 0
         _failures[key] = (count, locked_until, now)
         if ip is not None:
-            _ip_failures.setdefault(ip, []).append(now)
+            _ip_failures.setdefault(ip, []).append((now, username))
         _prune(now)
 
 
@@ -140,12 +158,12 @@ def login(conn, username, password, ip, cfg):
 
     key = "{}|{}".format(username, ip)
     now = time.time()
-    _check_lock(key, now, ip, cfg)
+    _check_lock(key, now, ip, cfg, lambda: _known_here(conn, username, ip, cfg.get("login_known_days", 30)))
 
     user = conn.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
     password_ok = verify_password(password, user["password_hash"] if user else _DUMMY_HASH)
     if not (user and user["is_active"] and password_ok):
-        _record_failure(key, now, int(cfg["login_max_failures"]), int(cfg["login_lock_minutes"]), ip)
+        _record_failure(key, now, int(cfg["login_max_failures"]), int(cfg["login_lock_minutes"]), ip, username)
         user_id = user["id"] if user else None
         audit.log_action(conn, user_id, "login_failed", "user", user_id,
                          {"username": username}, ip)
@@ -154,6 +172,8 @@ def login(conn, username, password, ip, cfg):
 
     with _fail_lock:
         _failures.pop(key, None)
+        if ip in _ip_failures:  # 0.60.95 (D-O-101): this person has proven who they are; their typos no longer count
+            _ip_failures[ip] = [(t, u) for t, u in _ip_failures[ip] if u != username]
     purge_expired_sessions(conn)
     token, csrf = create_session(conn, user["id"], ip, cfg["session_hours"])
     audit.log_action(conn, user["id"], "login", "user", user["id"], None, ip)

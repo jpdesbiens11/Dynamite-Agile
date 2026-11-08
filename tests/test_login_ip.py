@@ -63,14 +63,14 @@ class LoginIpTest(unittest.TestCase):
         for i in range(6):
             self.attempt("compte{}".format(i))
         with auth._fail_lock:  # 16 minutes later
-            auth._ip_failures["127.0.0.1"] = [t - 16 * 60 for t in auth._ip_failures["127.0.0.1"]]
+            auth._ip_failures["127.0.0.1"] = [(t - 16 * 60, u) for t, u in auth._ip_failures["127.0.0.1"]]
         self.assertEqual(self.attempt("admin", "admin"), 200)
 
     def test_old_counters_forgotten(self):
         with auth._fail_lock:
             for i in range(1500):
                 auth._failures["vieux{}|10.0.0.1".format(i)] = (1, 0, 0.0)
-                auth._ip_failures["10.0.{}.{}".format(i // 250, i % 250)] = [0.0]
+                auth._ip_failures["10.0.{}.{}".format(i // 250, i % 250)] = [(0.0, "vieux")]
         self.attempt("compte-x")
         self.assertLess(len(auth._failures), 10)
         self.assertLess(len(auth._ip_failures), 10)

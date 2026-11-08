@@ -173,6 +173,10 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.95** (2026-11-08) : **connexion derrière une adresse partagée** (D-O-101, R1 de D-O-095, `core/auth.py`) : le plafond
+  de l'adresse compte les identifiants différents (`login_ip_max_usernames` 10) et 200 échecs au total ; au-delà, un compte déjà
+  connecté depuis cette adresse (`login_known_days` 30, journal d'audit) peut encore se connecter ; une connexion réussie efface
+  les fautes de frappe de la personne.
 - **0.60.94** (2026-11-08) : **preuves des plans de test** (D-O-100, lot noyau v0.36 : `uploads.store_file`, `store_text`, `large_body`,
   `max_evidence_mb` = 150 ; `modules/testing/evidence.py`, `static/js/testing/testing_evidence.js`, migration testing 7) : dépôt et bundles
   réparés (« ?space= » au bout de l'adresse), tout type de fichier, glisser-déposer, « Remplacer… » (versions sous la même preuve),
@@ -187,7 +191,7 @@
   `core/uploads.py` `store_evidence`, migration testing 6) : un bundle par prototype testé, un résultat par test, preuves en vrac.
 - **0.60.89** (2026-11-07) : **revue des correctifs** (D-O-095, `modules/exploration/xlsx.py`, `static/js/admin_mail.js`) :
   classeur .xlsx mal formé → « Classeur illisible » (400) au lieu d'une erreur 500 ; erreur du courriel test : seules les
-  pages de la plateforme sont des liens. R1 (plafond de connexion par IP derrière une adresse partagée) attend la décision de JP.
+  pages de la plateforme sont des liens. R1 (plafond de connexion par IP derrière une adresse partagée) : réglé en 0.60.95.
 - **0.60.68** (2026-11-06) : **le reste de l'interface en anglais** (D-O-073) : balayage de 280 écrans (`tools/i18n_crawl.py`,
   `DA.i18nScan`), ~700 traductions, gabarits « # » pour les nombres.
 - **0.60.67** (2026-11-06) : **le Rover en anglais** (D-O-073) : le contenu affiché en lecture se traduit aussi (dictionnaire de la démo
