@@ -37,6 +37,34 @@
     } }, el("option", { value: "" }, "Remplir pour…"), el("option", { value: "gmail" }, "Gmail"),
       el("option", { value: "hostinger" }, "Courriel Hostinger"), el("option", { value: "outlook" }, "Outlook / Microsoft 365"));
     const save = el("button", { type: "submit", class: "btn btn-primary" }, "Enregistrer");
+    /* 0.60.80 (D-O-086): the port follows the encryption (it stayed at 587 with SSL / TLS: « wrong version number »), the
+       test refuses changes not saved yet (it uses the saved settings), and a setup file fills the form at once */
+    security.addEventListener("change", () => {
+      const want = { starttls: "587", ssl: "465" }[security.value];
+      if (want && ["", "25", "465", "587"].includes(port.value.trim())) port.value = want;
+    });
+    const fields = { host, port, security, username: user, sender, sender_name: name, public_url: url, contact_to: cTo,
+      contact_origin: cOrigin };
+    const checks = { enabled: on, contact_enabled: cOn };
+    const state = () => JSON.stringify([Object.values(fields).map((f) => f.value.trim()), Object.values(checks).map((c) => c.checked), pass.value]);
+    const saved = state();
+    const load = el("input", { type: "file", accept: ".json,application/json", hidden: true });
+    load.addEventListener("change", async () => {
+      const file = load.files[0];
+      load.value = "";
+      if (!file) return;
+      let setup;
+      try { setup = JSON.parse(await file.text()); } catch (err) { toast("Fichier illisible : un réglage .json est attendu.", "error"); return; }
+      if (!setup || typeof setup !== "object" || Array.isArray(setup)) { toast("Fichier illisible : un réglage .json est attendu.", "error"); return; }
+      const mail = setup.mail && typeof setup.mail === "object" ? setup.mail : setup;
+      let n = 0;
+      Object.entries(fields).forEach(([k, f]) => { if (mail[k] != null && typeof mail[k] !== "object") { f.value = String(mail[k]); n += 1; } });
+      Object.entries(checks).forEach(([k, c]) => { if (typeof mail[k] === "boolean") { c.checked = mail[k]; n += 1; } });
+      toast(n + " réglage(s) chargé(s), jamais de mot de passe. Vérifiez" + (data.has_password ? "" : ", tapez le mot de passe SMTP")
+        + ", puis Enregistrer.", "success");
+    });
+    const loadBtn = el("button", { type: "button", class: "btn", "data-new": "0.60.80-mail-setup", onclick: () => load.click() },
+      "Charger un réglage…");
     const form = el("form", {
       class: "panel",
       onsubmit: async (ev) => {
@@ -53,7 +81,8 @@
         } catch (err) { toast(err.message, "error"); save.disabled = false; }
       },
     },
-      el("div", { class: "form-row" }, field("Fournisseur de courriel", preset, "Remplit l'hôte, le port et le chiffrement.")),
+      el("div", { class: "form-row" }, field("Fournisseur de courriel", preset, "Remplit l'hôte, le port et le chiffrement."),
+        field("Ou un fichier", el("span", null, loadBtn, load), "Un réglage .json (sans mot de passe) : remplit tout le formulaire.")),
       el("div", { class: "form-row" }, field("Hôte SMTP", host), field("Port", port), field("Chiffrement", security)),
       el("div", { class: "form-row" }, field("Compte SMTP", user), field("Mot de passe SMTP", pass,
         "Gmail : un « mot de passe d'application » (Compte Google → Sécurité → Validation en deux étapes)."),
@@ -79,6 +108,10 @@
     const to = input(data.my_email, { type: "text", inputmode: "email", spellcheck: "false", placeholder: "vous@exemple.ca", maxlength: 254 });
     const testBtn = el("button", { type: "button", class: "btn" }, "Envoyer un courriel test");
     testBtn.addEventListener("click", async () => {
+      if (state() !== saved) {
+        toast("Enregistrez d'abord vos changements : le courriel test utilise les réglages enregistrés sur le serveur.", "error");
+        return;
+      }
       testBtn.disabled = true;
       try { toast("Courriel test envoyé à " + (await api.post("/api/admin/mail/test", { to: to.value.trim() })).to + ".", "success"); }
       catch (err) { toast(err.message, "error"); }

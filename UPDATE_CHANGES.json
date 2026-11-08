@@ -2,12 +2,12 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Supprimer une sauvegarde (double confirmation)",
-      "why": "Demande de JP : on ne pouvait pas effacer une sauvegarde. Dans ⚙ Admin → Update et sauvegardes → Restaurer, chaque copie du code (Framework) et chaque point de restauration des données a maintenant un bouton « Supprimer… », réservé aux administrateurs. Double confirmation : un premier message, puis une fenêtre où il faut taper SUPPRIMER ; le serveur exige en plus le nom exact de la sauvegarde. La suppression est inscrite au journal d'audit ; le code en service et les données ne changent pas.",
+      "title": "Admin → Courriel plus sûr à régler",
+      "why": "Réglage du courriel de la démo (Gmail) : les erreurs ne disaient pas à quelle étape le serveur SMTP coupait, choisir « SSL / TLS (port 465) » laissait le port à 587 (« wrong version number »), et le courriel test utilisait les réglages enregistrés même quand l'écran en montrait d'autres. L'erreur nomme maintenant l'étape (connexion au serveur, passage en chiffré, connexion au compte, envoi), l'hôte, le port et le chiffrement réellement utilisés, avec la cause habituelle à cette étape ; le port suit le chiffrement ; le courriel test refuse tant que des changements ne sont pas enregistrés ; « Charger un réglage… » remplit tout le formulaire depuis un fichier .json (jamais de mot de passe), lu dans le navigateur.",
       "files": [
-        "core/restorepoints.py",
-        "static/js/admin_restore.js",
-        "tests/test_backup_delete.py"
+        "core/mail.py",
+        "static/js/admin_mail.js",
+        "tests/test_mail_steps.py"
       ]
     }
   ]
