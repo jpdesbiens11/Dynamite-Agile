@@ -85,6 +85,8 @@
           ["sent", "results"].includes(p.status) ? el("button", { type: "button", class: "btn btn-small", onclick: () => file.click() },
             p.has_results ? "Remplacer le PDF des résultats" : "Joindre les résultats (PDF)") : null, file,
           p.has_results ? el("a", { class: "btn btn-small", href: T.api("/api/testing/plans/" + code + "/results.pdf"), download: "" }, "Ouvrir le PDF") : null,
+          p.bundles && p.bundles.length ? el("a", { class: "btn btn-small", "data-new": "0.60.92-results-docx", download: "",
+            href: T.api("/api/testing/plans/" + code + "/results-summary.docx") }, "Résumé des résultats (.docx)") : null,
           p.moves.map((m) => el("button", { type: "button", class: "btn btn-small" + (m.to === "closed" || m.to === "sent" ? " btn-primary" : ""),
             onclick: move(m.to) }, "→ " + m.label)))),
       el("p", { class: "tg-notice" }, "Le document reprend les procédures existantes du wiki et les fiches des tests ; tout le reste y est marqué "
@@ -97,6 +99,7 @@
       DA.table(["Test", "Title", "Standard · Section", "Method", "Procédure", "Status"], p.test_rows.map((t) => el("tr", null,
         el("td", null, el("a", { class: "ag-key", href: T.href("test/" + t.test_id) }, t.test_id)), el("td", null, t.title),
         el("td", null, (t.standard + " · " + t.section).replace(/ · $/, "")), el("td", null, t.method),
-        el("td", null, t.has_procedure ? "Wiki" : el("span", { class: "tp-todo" }, "À rédiger")), el("td", null, T.statusBadge(t.status))))));
+        el("td", null, t.has_procedure ? "Wiki" : el("span", { class: "tp-todo" }, "À rédiger")), el("td", null, T.statusBadge(t.status))))),
+      p.status === "draft" || p.status === "cancelled" ? null : T.execution(p, code, reload));  // 0.60.90 (D-O-096)
   };
 })();

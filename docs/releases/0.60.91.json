@@ -1,0 +1,25 @@
+{
+  "version": "0.60.91",
+  "date": "2026-11-08",
+  "summary": {
+    "fr": "Testing : la vérification des requirements Goldmine par les résultats des plans de test, et les exécutions sur la fiche de chaque test.",
+    "en": "Testing: Goldmine requirements verified by the test plan results, and the executions on each test's record."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Vérification des requirements par les résultats d'essai",
+      "why": "Testing → Vérification des requirements : une ligne par requirement Goldmine qui cite des tests, avec son verdict (Verified, Verified with derogation, Partially verified, Failed, Not run) et celui de chaque test cité. Le verdict d'un test vient du dernier résultat sur chaque prototype dans les bundles des plans de test (un échec sur un proto l'emporte ; Abandoned ne vérifie rien). La fiche d'un test montre ses exécutions (plan, proto, résultat, justification, date).",
+      "files": [
+        "modules/testing/verification.py",
+        "modules/testing/tests_api.py",
+        "modules/testing/__init__.py",
+        "static/js/testing/testing_verify.js",
+        "static/js/testing/testing.js",
+        "static/js/testing/testing_record.js",
+        "tests/test_testing_verification.py",
+        "tests/test_lot_v030.py"
+      ]
+    }
+  ]
+}

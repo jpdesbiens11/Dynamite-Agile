@@ -263,13 +263,13 @@
     T.space = keyed ? parts[0] : T.ref();  // the old addresses (#/testing/test/…) open the catalogue
     if (keyed) parts = parts.slice(1);
     /* D-A-044: left panel like the other modules, with the Testing logo */
-    const view = parts[0] === "lists" ? "lists" : parts[0] === "plans" ? "plans" : parts[0] === "test" ? "test" : "base";
+    const view = parts[0] === "lists" ? "lists" : parts[0] === "plans" ? "plans" : parts[0] === "verification" ? "verification" : parts[0] === "test" ? "test" : "base";
     const main = DA.moduleLayout(shell, { mark: DA.mark("testing"), label: "Testing",
       /* D-B-103: the Space drop-down, as in Goldmine and Dynamite; a change keeps the same view (base, plans, lists) */
-      picker: listing ? null : DA.spaces.picker(T.space, (k) => "#/testing/" + k + (view === "plans" || view === "lists" ? "/" + view : "")),
+      picker: listing ? null : DA.spaces.picker(T.space, (k) => "#/testing/" + k + (view === "plans" || view === "lists" || view === "verification" ? "/" + view : "")),
       /* D-B-087: order of use -- choose tests, read their procedure, send a plan; the central lists (set-up) last */
       nav: listing ? [] : [[T.href(""), "Test Base · " + T.space, view === "base"], ["#/dynamite/" + T.ref(), "Test Procedures (wiki)", false],
-        [T.href("plans"), "Test Plans (fournisseurs)", view === "plans"], [T.href("lists"), "Listes centrales", view === "lists"]],
+        [T.href("plans"), "Test Plans (fournisseurs)", view === "plans"], [T.href("verification"), "Vérification des requirements", view === "verification"], [T.href("lists"), "Listes centrales", view === "lists"]],
       footer: listing ? DA.spaces.sidebar("testing", (k) => "#/testing/" + k, "") : DA.spaces.allLink("testing") });
     main.classList.add("tg-main");
     try {
@@ -278,6 +278,7 @@
       else if (parts[0] === "plans" && parts[1]) await T.planView(main, decodeURIComponent(parts[1]));  // D-A-048
       else if (parts[0] === "plans") await T.plansView(main);
       else if (parts[0] === "lists") await T.listsView(main);
+      else if (parts[0] === "verification") await T.verifyView(main);  // 0.60.91 (D-O-097)
       else await listView(main, parts[0] === "subject" ? parts[1] : "");
     } catch (err) {
       clear(main);

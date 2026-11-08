@@ -203,7 +203,11 @@ def api_get(ctx):
     history = [dict(h) for h in conn.execute(
         "SELECT h.field, h.old_value, h.new_value, h.at, u.display_name AS who FROM testing_history h "
         "LEFT JOIN users u ON u.id = h.user_id WHERE h.test_row_id = ? ORDER BY h.id DESC LIMIT 100", (row["id"],))]
+    from . import verification  # 0.60.91 (D-O-097): the results of this test in the plans of the Space
+    runs = verification.executions(conn, pid, row["test_id"])
+    verdict = verification.verdicts(runs).get(row["test_id"], "not_run")
     return {"test": _public(row, pages, linked), "requirements": linked.get(row["test_id"], []), "history": history,
+            "executions": runs[::-1], "verdict": verdict, "verdict_label": verification.TEST_LABELS[verdict],
             "can_edit": _can_edit(conn, ctx.user, pid), "space": key}
 
 

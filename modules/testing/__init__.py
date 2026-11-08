@@ -8,7 +8,7 @@ requirement names its tests in « Test Procedure » (modules/agile/goldmine.py
 calls catalog.check_refs), and each test record lists the requirements that
 cite it.
 """
-from . import catalog, docx_tests, lists, plans, review, tests_api
+from . import bundles, catalog, docx_tests, lists, plans, results_docx, review, tests_api, verification
 from .search import search  # noqa: F401  (core search hook, D-B-076)
 
 SCHEMA = ""
@@ -166,6 +166,44 @@ MIGRATIONS.append((5, """
     ALTER TABLE testing_tests ADD COLUMN review_checked TEXT NOT NULL DEFAULT '';
 """))
 
+MIGRATIONS.append((6, """
+    -- 0.60.90 (D-O-096): one bundle per prototype actually tested, a result per test, evidence files in bulk on the plan.
+    CREATE TABLE testing_bundles (
+        id         INTEGER PRIMARY KEY,
+        plan_id    INTEGER NOT NULL REFERENCES testing_plans(id) ON DELETE CASCADE,
+        proto      TEXT NOT NULL,
+        serial     TEXT NOT NULL DEFAULT '',
+        note       TEXT NOT NULL DEFAULT '',
+        created_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL,
+        UNIQUE (plan_id, proto)
+    );
+    CREATE TABLE testing_evidence (
+        id            INTEGER PRIMARY KEY,
+        plan_id       INTEGER NOT NULL REFERENCES testing_plans(id) ON DELETE CASCADE,
+        attachment_id INTEGER NOT NULL REFERENCES attachments(id),
+        name          TEXT NOT NULL,
+        note          TEXT NOT NULL DEFAULT '',
+        bundle_id     INTEGER REFERENCES testing_bundles(id) ON DELETE SET NULL,
+        created_by    INTEGER REFERENCES users(id) ON DELETE SET NULL,
+        created_at    TEXT NOT NULL
+    );
+    CREATE TABLE testing_results (
+        id         INTEGER PRIMARY KEY,
+        bundle_id  INTEGER NOT NULL REFERENCES testing_bundles(id) ON DELETE CASCADE,
+        test_id    TEXT NOT NULL,
+        result     TEXT NOT NULL DEFAULT '',
+        note       TEXT NOT NULL DEFAULT '',
+        evidence   TEXT NOT NULL DEFAULT '[]',
+        updated_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+        updated_at TEXT NOT NULL,
+        UNIQUE (bundle_id, test_id)
+    );
+    CREATE INDEX idx_testing_bundles_plan ON testing_bundles(plan_id);
+    CREATE INDEX idx_testing_evidence_plan ON testing_evidence(plan_id);
+"""))
+
 TP = r"/api/testing/plans/(?P<code>TP-\d{3,})"
 ROUTES = [
     ("GET", r"/api/testing/plans", plans.api_list, "user"),
@@ -176,6 +214,16 @@ ROUTES = [
     ("POST", TP + r"/results", plans.api_results, "user"),
     ("GET", TP + r"/results\.pdf", plans.api_results_file, "user"),
     ("GET", TP + r"/plan\.docx", plans.api_docx, "user"),
+    ("GET", TP + r"/results-summary\.docx", results_docx.api_results_docx, "user"),  # 0.60.92 (D-O-098)
+    ("POST", TP + r"/bundles", bundles.api_bundle_create, "user"),  # 0.60.90 (D-O-096)
+    ("PATCH", TP + r"/bundles/(?P<bid>\d+)", bundles.api_bundle_update, "user"),
+    ("DELETE", TP + r"/bundles/(?P<bid>\d+)", bundles.api_bundle_delete, "user"),
+    ("PUT", TP + r"/bundles/(?P<bid>\d+)/results/(?P<tid>[A-Za-z0-9-]{2,40})", bundles.api_result, "user"),
+    ("POST", TP + r"/evidence", bundles.api_evidence_add, "user"),
+    ("PATCH", TP + r"/evidence/(?P<eid>\d+)", bundles.api_evidence_update, "user"),
+    ("DELETE", TP + r"/evidence/(?P<eid>\d+)", bundles.api_evidence_delete, "user"),
+    ("GET", TP + r"/evidence/(?P<eid>\d+)/file", bundles.api_evidence_file, "user"),
+    ("GET", r"/api/testing/verification", verification.api_verification, "user"),  # 0.60.91 (D-O-097)
     ("GET", r"/api/testing/tests", tests_api.api_list, "user"),
     ("GET", r"/api/testing/options", tests_api.api_options, "user"),
     ("GET", r"/api/testing/export\.csv", tests_api.api_export, "user"),

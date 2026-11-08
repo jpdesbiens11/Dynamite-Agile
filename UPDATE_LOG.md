@@ -1,4 +1,30 @@
-# Journal de mise à jour — 0.60.89
+# Journal de mise à jour — 0.60.92
+
+- **Version :** 0.60.91 → 0.60.92 (2026-11-08)
+- **Changements :**
+  1. **Résumé Word des résultats d'un plan de test** (D-O-098).
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.91
+
+- **Version :** 0.60.90 → 0.60.91 (2026-11-08)
+- **Changements :**
+  1. **Vérification des requirements par les résultats d'essai** (D-O-097).
+- **Base de données :** ['Aucun changement de schéma.']
+
+
+### Journal de mise à jour — 0.60.90
+
+- **Version :** 0.60.89 → 0.60.90 (2026-11-08)
+- **Changements :**
+  1. **Plans de test : un bundle par prototype testé, un résultat par test** (D-O-096).
+  2. **Preuves en vrac : Word, Excel, PowerPoint, PDF, images, texte, zip** (D-O-096).
+- **Base de données :** ['Testing : migration 6 (testing_bundles, testing_results, testing_evidence), additive.']
+
+
+### Journal de mise à jour — 0.60.89
 
 - **Version :** 0.60.88 → 0.60.89 (2026-11-07)
 - **Changements :**
@@ -6,7 +32,6 @@
   2. **Courriel test : seuls les liens de la plateforme sont cliquables** (D-O-095).
 - **Base de données :** ['Aucun changement de schéma.']
 
-## Précédent
 
 ### Journal de mise à jour — 0.60.88
 

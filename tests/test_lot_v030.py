@@ -61,6 +61,13 @@ class LotV030Test(unittest.TestCase):
         except urllib.error.HTTPError as exc:
             return exc.code
 
+    def client_upload(self, path, data, name, full=False):
+        try:
+            out = self.admin.upload(path, data, "application/octet-stream", name)
+        except ApiFailure as exc:
+            return exc.status
+        return out if full else 200
+
     def download(self, path):
         with self.admin.opener.open(self.url + path) as resp:
             return resp.read()
@@ -90,8 +97,53 @@ class LotV030Test(unittest.TestCase):
         self.assertEqual(plan["status"], "results")
         self.assertEqual(plan["results_name"], "EXT_rapport.pdf")
         self.assertEqual(self.download(base + "/results.pdf"), PDF)
+        # 0.60.90 (D-O-096): closing needs a bundle per prototype tested, a result per test, evidence behind each result
+        self.assertEqual(self.status(lambda: self.admin.post(base + "/status", {"status": "closed"})), 409)
+        plan = self.admin.get(base)["plan"]
+        bundle = self.admin.post(base + "/bundles", {"proto": "P2-B07", "serial": "SN-12"})["id"]
+        self.assertEqual(self.status(lambda: self.admin.post(base + "/bundles", {"proto": "p2-b07"})), 409)  # one per proto
+        self.assertEqual(self.status(lambda: self.admin.post(base + "/status", {"status": "closed"})), 409)  # no results yet
+        docx = io.BytesIO()
+        with zipfile.ZipFile(docx, "w") as z:
+            z.writestr("[Content_Types].xml", "<Types/>")
+            z.writestr("word/document.xml", "<w:document/>")
+        macro = io.BytesIO()
+        with zipfile.ZipFile(macro, "w") as z:
+            z.writestr("[Content_Types].xml", "<Types/>")
+            z.writestr("word/vbaProject.bin", "x")
+        self.assertEqual(self.client_upload(base + "/evidence", macro.getvalue(), "macro.docm"), 415)
+        self.assertEqual(self.client_upload(base + "/evidence", b"MZ\x90\x00\x03\x00\x00\x00", "virus.exe"), 415)
+        ev = self.client_upload(base + "/evidence", docx.getvalue(), "rapport_rempli.docx", full=True)
+        txt = self.client_upload(base + "/evidence", b"mesure;1.2\n", "mesures.csv", full=True)
+        self.assertEqual(self.download(base + "/evidence/{}/file".format(ev["id"])), docx.getvalue())
+        for i, t in enumerate(plan["tests"]):
+            path = "{}/bundles/{}/results/{}".format(base, bundle, t)
+            self.assertEqual(self.status(lambda: self.admin.put(path, {"result": "BOGUS"})), 400)
+            if i == 0:
+                self.admin.put(path, {"result": "derogation", "evidence": [ev["id"]]})  # no note yet
+            else:
+                self.admin.put(path, {"result": "passed", "evidence": [ev["id"], txt["id"]]})
+        blockers = self.admin.get(base)["plan"]["blockers"]
+        self.assertEqual(len(blockers), 1)
+        self.assertIn("justification", blockers[0])
+        self.assertEqual(self.status(lambda: self.admin.post(base + "/status", {"status": "closed"})), 409)
+        self.assertEqual(self.status(lambda: self.admin.delete(base + "/evidence/{}".format(ev["id"]))), 409)  # supports a result
+        self.admin.put("{}/bundles/{}/results/{}".format(base, bundle, plan["tests"][0]),
+                       {"result": "derogation", "note": "Écart accepté par le client", "evidence": [ev["id"]]})
         self.admin.post(base + "/status", {"status": "closed"})
         self.assertEqual(self.admin.get(base)["plan"]["status"], "closed")
+        self.assertEqual(self.status(lambda: self.admin.post(base + "/bundles", {"proto": "P3"})), 409)  # closed: read only
+        summary = zipfile.ZipFile(io.BytesIO(self.download(base + "/results-summary.docx"))).read("word/document.xml").decode("utf-8")
+        for text in ("P2-B07", "SN-12", "Passed with derogation", "Écart accepté par le client", "rapport_rempli.docx", "mesures.csv"):
+            self.assertIn(text, summary)
+        # 0.60.91 (D-O-097): the results show on the record of the test and in the verification of the requirements
+        record = self.admin.get("/api/testing/tests/" + plan["tests"][0])
+        self.assertEqual(record["verdict"], "derogation")
+        self.assertEqual(record["executions"][0]["proto"], "P2-B07")
+        self.assertEqual(self.admin.get("/api/testing/tests/" + plan["tests"][1])["verdict"], "passed")
+        ver = self.admin.get("/api/testing/verification")
+        self.assertIn("requirements", ver)
+        self.assertEqual(set(ver["counts"]), {"verified", "derogation", "failed", "partial", "not_run"})
 
 
 if __name__ == "__main__":
