@@ -2,12 +2,21 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Téléchargements : noms avec œ, —, €",
-      "why": "Revue du socle : un en-tête HTTP ne prend que le Latin-1. L'export Word ou PDF d'une page dont le titre contenait « œ » (cœur, œuvre, manœuvre), « — », « € » ou un emoji était coupé net (UnicodeEncodeError) : le navigateur recevait un fichier vide ou tronqué. Le nom part maintenant en ASCII pour les anciens navigateurs et, tel quel, dans filename*=UTF-8'' (RFC 6266), pour tous les téléchargements.",
+      "title": "Courriel : Gmail 534 et lien vers Google",
+      "why": "Réglage de Gmail sur la démo : Gmail répondait « 534 Application-specific password required » quand le mot de passe du compte Google était collé à la place d'un mot de passe d'application. L'erreur le dit maintenant en clair, avec le lien https://myaccount.google.com/apppasswords ; le même lien est sous le champ du mot de passe ; l'erreur du courriel test reste affichée sous le bouton, adresses cliquables (un message éphémère disparaissait en 4 secondes).",
       "files": [
-        "core/files.py",
-        "core/router.py",
-        "tests/test_download_names.py"
+        "core/mail.py",
+        "static/js/admin_mail.js",
+        "tests/test_mail_steps.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Classeurs Excel piégés refusés",
+      "why": "Revue des imports : le lecteur .xlsx (plan Exploration, retour client des Q&R Goldmine, postes budgétaires Timesheet) complétait chaque ligne jusqu'à la colonne de ses cellules et la feuille jusqu'au numéro de ses lignes. Un fichier de 775 octets annonçant la cellule « ZZZZZZZ1 » ou la ligne 999 999 999 remplissait la mémoire du serveur en 5 secondes (essai borné à 1 Go). Les limites d'Excel s'appliquent maintenant (16 384 colonnes, 1 048 576 lignes), avec 2 millions de cellules au plus par classeur ; une cellule « inf » ou « nan » reste du texte au lieu d'une erreur 500.",
+      "files": [
+        "modules/exploration/xlsx.py",
+        "tests/test_xlsx_limits.py"
       ]
     }
   ]

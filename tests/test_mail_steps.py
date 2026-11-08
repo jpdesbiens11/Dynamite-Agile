@@ -19,7 +19,8 @@ from core.errors import ApiError  # noqa: E402
 from tests.test_password_reset import SmtpSink  # noqa: E402
 
 
-def fake_gmail(accept):
+def fake_gmail(accept, refusal=("535-5.7.8 Username and Password not accepted. For more information, go to",
+                                   "535 5.7.8  https://support.google.com/mail/?p=BadCredentials")):
     """A server announcing AUTH LOGIN PLAIN: 535 then hang-up (like Gmail), or 235 then a normal session. -> (port, seen)."""
     sock = socket.socket()
     sock.bind(("127.0.0.1", 0))
@@ -40,8 +41,8 @@ def fake_gmail(accept):
                 send("250 AUTH LOGIN PLAIN")
             elif up.startswith("AUTH"):
                 if not accept:
-                    send("535-5.7.8 Username and Password not accepted. For more information, go to")
-                    send("535 5.7.8  https://support.google.com/mail/?p=BadCredentials")
+                    for line in refusal:
+                        send(line)
                     conn.close()
                     sock.close()
                     return
@@ -120,6 +121,15 @@ class MailStepsTest(unittest.TestCase):
         self.assertNotIn("Connection unexpectedly closed", text)
         self.assertIn("NOUVEAU mot de passe d'application", text)
         self.assertEqual([c for c in seen if c.startswith("AUTH")], ["AUTH PLAIN"])  # one method only
+
+    def test_account_password_instead_of_an_app_password(self):  # 0.60.87 (D-O-093): JP's 534 on the demo
+        port, _seen = fake_gmail(accept=False, refusal=(
+            "534-5.7.9 Application-specific password required. For more information, go to",
+            "534 5.7.9  https://support.google.com/mail/?p=InvalidSecondFactor"))
+        text = self.error(port=port, username="jp@gmail.com", password="mot-de-passe-du-compte")
+        self.assertIn("534 5.7.9 Application-specific password required", text)
+        self.assertIn("pas le mot de passe du compte Google", text)
+        self.assertIn("https://myaccount.google.com/apppasswords", text)
 
     def test_login_accepted(self):
         port, seen = fake_gmail(accept=True)
