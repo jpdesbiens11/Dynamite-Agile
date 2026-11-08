@@ -153,6 +153,9 @@
 - **0.60.81** (2026-11-07) : **flèches du tour et mot de passe SMTP absent** (D-O-087, `tools/site/tour.js` `typing`, `core/mail.py`) :
   ← / → tapées dans un champ ou un bouton radio de la page d'installation restent au champ ; un compte SMTP sans mot de passe
   enregistré est dit en clair (400) au lieu de laisser Gmail couper la connexion.
+- **0.60.82** (2026-11-07) : **invité et export PDF consolidés** (D-O-088, `core/mentions.py`, `core/prefs.py`, `core/ui_audit.py`,
+  `modules/dynamite/export_pdf.py`) : un invité ne reçoit plus la liste des comptes ni les observations d'Audit ; le décodeur PNG du
+  PDF ne décompresse jamais plus que l'en-tête annonce et s'arrête à 12 millions de pixels par document.
 - **0.60.68** (2026-11-06) : **le reste de l'interface en anglais** (D-O-073) : balayage de 280 écrans (`tools/i18n_crawl.py`,
   `DA.i18nScan`), ~700 traductions, gabarits « # » pour les nombres.
 - **0.60.67** (2026-11-06) : **le Rover en anglais** (D-O-073) : le contenu affiché en lecture se traduit aussi (dictionnaire de la démo

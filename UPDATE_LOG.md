@@ -1,12 +1,20 @@
-# Journal de mise à jour — 0.60.81
+# Journal de mise à jour — 0.60.82
+
+- **Version :** 0.60.81 → 0.60.82 (2026-11-07)
+- **Changements :**
+  1. **Invité : jamais la liste des comptes** (D-O-088).
+  2. **Export PDF : images PNG bornées** (D-O-088).
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.81
 
 - **Version :** 0.60.80 → 0.60.81 (2026-11-07)
 - **Changements :**
   1. **Tour guidé : les flèches restent au champ** (D-O-087).
   2. **Mot de passe SMTP absent dit en clair** (D-O-087).
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.80
 

@@ -217,6 +217,8 @@ def api_ack(ctx):
 
 def api_people(ctx):
     """Autocomplete of « @ »: active accounts, with their username (what the mention writes)."""
+    if permissions.is_guest(ctx.user):  # 0.60.82 (D-O-088): a guest mentions nobody; never the list of the accounts
+        return {"people": []}
     q = validate.text(ctx.query, "q", 40, required=False).lower()
     rows = ctx.conn.execute("SELECT username, display_name FROM users WHERE is_active = 1 AND (lower(username) LIKE ? OR "
                             "lower(display_name) LIKE ?) ORDER BY display_name LIMIT 8", ("%" + q + "%", "%" + q + "%")).fetchall()

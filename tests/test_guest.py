@@ -131,6 +131,21 @@ class GuestTest(unittest.TestCase):
         self.assertEqual([p["id"] for p in me["projects"]], [self.demo])
         self.assertIn(self.status(lambda: c.get("/api/dynamite/p/{}/pages".format(self.other)))[0], (403, 404))
 
+    def test_08_never_the_list_of_the_accounts(self):  # 0.60.82 (D-O-088)
+        made = self.admin.post("/api/admin/users", {"username": "secrete", "display_name": "Personne Secrète"})
+        self.admin.put("/api/admin/projects/{}/members/{}".format(self.other, made["user"]["id"]), {"role": "editor"})
+        self.admin.put("/api/admin/guest", {"enabled": True, "projects": [self.demo]})
+        c, _me = self.visitor()
+        for path in ("/api/mentions/people", "/api/mentions/people?q=s", "/api/me/prefs", "/api/ui-audit", "/api/ui-audit/export.csv"):
+            with self.subTest(path=path):
+                body = c.get(path) if not path.endswith(".csv") else c.raw_get(path)[2].decode("utf-8")
+                self.assertNotIn("Personne Secrète", str(body))
+                self.assertNotIn("secrete", str(body))
+        self.assertEqual(c.get("/api/ui-audit/count")["open"], 0)
+        # a team account still gets them
+        self.assertIn("Personne Secrète", str(self.admin.get("/api/mentions/people?q=pers")))
+        self.assertIn("Personne Secrète", str(self.admin.get("/api/me/prefs")["people"]))
+
 
 class UpdateSafetyTest(unittest.TestCase):
     """0.60.64: the 0.60.63 package was refused online (« DELETE FROM memberships » added in core/guest.py). Every file

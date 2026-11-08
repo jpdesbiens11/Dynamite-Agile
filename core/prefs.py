@@ -270,7 +270,7 @@ def update(ctx, user_id, body):
 
 
 def api_get(ctx):
-    users = db.rows(ctx.conn.execute(
+    users = [] if permissions.is_guest(ctx.user) else db.rows(ctx.conn.execute(  # 0.60.82 (D-O-088): never to a guest
         "SELECT id, display_name FROM users WHERE is_active = 1 AND id != ? ORDER BY display_name", (ctx.user["id"],)).fetchall())
     return {"prefs": get(ctx.conn, ctx.user["id"]), "choices": CHOICES, "people": users}
 

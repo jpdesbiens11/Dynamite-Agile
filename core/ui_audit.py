@@ -16,7 +16,7 @@ import io
 import re
 from pathlib import Path
 
-from . import audit, db, uploads, validate
+from . import audit, db, permissions, uploads, validate
 from .errors import ApiError
 from .files import RawFile
 
@@ -86,6 +86,9 @@ def _path(data_dir, sha, mime):
 
 
 def api_list(ctx):
+    if permissions.is_guest(ctx.user):  # 0.60.82 (D-O-088): the team's observations and accounts stay with the team
+        return {"items": [], "kinds": KINDS, "priorities": PRIORITIES, "statuses": STATUSES, "users": [], "releases": [],
+                "can_manage": False}
     ids = [r[0] for r in ctx.conn.execute(
         "SELECT id FROM ui_audits ORDER BY CASE status WHEN 'doing' THEN 0 WHEN 'planned' THEN 1 WHEN 'new' THEN 2 ELSE 3 END, "
         "created_at DESC LIMIT 1000")]
@@ -103,6 +106,8 @@ def _release_key(text):
 
 def api_count(ctx):
     """Open observations, for the badge of the top-bar button."""
+    if permissions.is_guest(ctx.user):
+        return {"open": 0}
     row = ctx.conn.execute("SELECT COUNT(*) FROM ui_audits WHERE status IN ('new', 'planned', 'doing')").fetchone()
     return {"open": row[0]}
 
@@ -154,6 +159,8 @@ def api_image(ctx):
 
 
 def api_get_image(ctx):
+    if permissions.is_guest(ctx.user):
+        raise ApiError(404, "Pas de capture pour cette observation.")
     row = ctx.conn.execute("SELECT image_sha, image_mime FROM ui_audits WHERE id = ?",
                            (validate.int_param(ctx.params, "aid"),)).fetchone()
     if row is None or not row["image_sha"]:
