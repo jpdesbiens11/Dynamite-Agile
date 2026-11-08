@@ -2,20 +2,26 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Classeurs Excel mal formés : un message, plus une erreur 500",
-      "why": "Revue des correctifs de la revue du code : un classeur .xlsx dont une cellule portait un style ou un numéro de texte partagé qui n'est pas un nombre, ou dont styles.xml / sharedStrings.xml était illisible, donnait « Erreur interne du serveur » à l'import (plan Exploration, retour client des Q&R Goldmine, postes budgétaires Timesheet). Il donne maintenant « Classeur illisible » avec la cellule en cause et le correctif. Un numéro de texte partagé négatif (-1) ne donne plus le dernier texte du classeur à la place d'une cellule vide.",
+      "title": "Plans de test : un bundle par prototype testé, un résultat par test",
+      "why": "Dans Testing → Test Plans, une fois le plan envoyé au fournisseur, on ajoute un bundle par prototype effectivement testé (identifiant, numéro de série, note). Chaque test du plan y reçoit un résultat : Passed, Passed with derogation, Failed ou Abandoned, avec une justification et les preuves à l'appui. Le plan ne se ferme plus tant que chaque bundle n'est pas complet (le serveur dit ce qui manque).",
       "files": [
-        "modules/exploration/xlsx.py",
-        "tests/test_xlsx_limits.py"
+        "modules/testing/bundles.py",
+        "modules/testing/__init__.py",
+        "modules/testing/plans.py",
+        "static/js/testing/testing_bundles.js",
+        "static/js/testing/testing_plans.js",
+        "tests/test_lot_v030.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Courriel test : seuls les liens de la plateforme sont cliquables",
-      "why": "Revue des correctifs de la revue du code : dans ⚙ Admin → Courriel, l'erreur du courriel test rendait cliquable toute adresse https:// écrite par le serveur SMTP dans sa réponse. Seule la page Google des mots de passe d'application, que la plateforme donne elle-même, est maintenant un lien ; une autre adresse reste du texte.",
+      "title": "Preuves en vrac : Word, Excel, PowerPoint, PDF, images, texte, zip",
+      "why": "Les preuves se déposent en vrac sur le plan (rapport du plan rempli en .docx ou .pdf, rapports de laboratoire, classeurs, photos, journaux), puis se lient aux résultats. Le type est décidé par les premiers octets ; les documents avec macros et les exécutables sont refusés. Une preuve qui soutient un résultat ne peut pas être retirée avant d'être déliée. Le PDF des résultats existant reste exigé.",
       "files": [
-        "static/js/admin_mail.js",
-        "tests/js/admin_mail_links.js"
+        "core/uploads.py",
+        "modules/testing/migrations (testing 6)",
+        "modules/testing/__init__.py",
+        "core/modules.py"
       ]
     }
   ]

@@ -62,7 +62,7 @@ MODULE_MANIFEST = [
      "styles": ["/css/diamond.css", "/css/diamond_dfmea.css", "/css/diamond_costs.css"]},
     # D-B-079: the test team's portal, right after Goldmine (test base + procedures in the space TESTING)
     {"key": "testing", "label": "Testing", "phase": "3.9", "module": testing,
-     "scripts": ["/js/testing/testing.js", "/js/testing/testing_record.js", "/js/testing/testing_lists.js", "/js/testing/testing_plans.js"], "styles": ["/css/testing.css"]},
+     "scripts": ["/js/testing/testing.js", "/js/testing/testing_record.js", "/js/testing/testing_lists.js", "/js/testing/testing_bundles.js", "/js/testing/testing_plans.js"], "styles": ["/css/testing.css"]},
     {"key": "exploration", "label": "Exploration", "phase": "3.4", "module": exploration,
      "scripts": ["/js/exploration/gantt.js", "/js/exploration/exploration.js", "/js/exploration/exploration_io.js"],
      "styles": ["/css/exploration.css"]},

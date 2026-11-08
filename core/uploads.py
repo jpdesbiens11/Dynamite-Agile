@@ -17,6 +17,8 @@ RawFile.image() after checking the reader's role on the project.
   still show its images); a cleanup of orphans is a later decision.
 """
 import hashlib
+import io
+import zipfile
 from pathlib import Path
 
 from . import db
@@ -49,6 +51,17 @@ IMAGE_LABEL = "PNG, JPEG, GIF ou WebP"
 DOC_TYPES = {"application/pdf": ("pdf", lambda b: b.startswith(b"%PDF-")),  # core lot v0.20 (D-A-048): results reports
              # core lot v0.32 (D-B-114): 3D models (ISO 10303-21, « STEP »), read in the browser (3D viewers)
              "model/step": ("stp", lambda b: b.lstrip(b"\xef\xbb\xbf \t\r\n")[:13] == b"ISO-10303-21;")}
+
+
+# core lot v0.35: evidence files of a test campaign -- Office documents, text logs, archives. Never served inline.
+OFFICE_TYPES = {  # mime -> (extension, folder that every file of that format has in its zip)
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document": ("docx", "word/"),
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": ("xlsx", "xl/"),
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation": ("pptx", "ppt/"),
+}
+EVIDENCE_TYPES = dict({m: (e, None) for m, (e, _) in OFFICE_TYPES.items()},
+                      **{"application/zip": ("zip", None), "text/plain": ("txt", None)})
+EVIDENCE_LABEL = "PDF, Word, Excel, PowerPoint, images (PNG, JPEG, GIF, WebP), texte (.txt, .csv, .log) ou zip"
 
 
 class Upload:
@@ -127,6 +140,50 @@ def store_step(ctx, project_id, module, max_bytes):
     return _store(ctx, project_id, module, upload, "model/step")
 
 
+def sniff_evidence(data):
+    """The mime of an evidence file from its bytes, or (None, reason). Macros and active content are refused."""
+    mime = sniff_image(data)
+    if mime:
+        return mime, ""
+    if DOC_TYPES["application/pdf"][1](data):
+        return "application/pdf", ""
+    if data[:4] == b"PK\x03\x04":
+        try:
+            names = zipfile.ZipFile(io.BytesIO(data)).namelist()
+        except (zipfile.BadZipFile, OSError, ValueError):
+            return None, "archive zip illisible"
+        if any(n.lower().endswith(("vbaproject.bin", ".exe", ".dll", ".js", ".vbs", ".bat", ".cmd", ".scr")) for n in names):
+            return None, "elle contient des macros ou du code exécutable"
+        for mime, (_, folder) in OFFICE_TYPES.items():
+            if "[Content_Types].xml" in names and any(n.startswith(folder) for n in names):
+                return mime, ""
+        return "application/zip", ""
+    head = data[:4096]
+    if b"\x00" not in head:
+        try:
+            head.decode("utf-8", "strict")
+        except UnicodeDecodeError as err:
+            if err.start < len(head) - 4:  # a cut multi-byte character at the end of the sample is fine
+                return None, "type de fichier non reconnu"
+        return "text/plain", ""
+    return None, "type de fichier non reconnu"
+
+
+def store_evidence(ctx, project_id, module, max_bytes):
+    """Validate ctx.upload as an evidence file (core lot v0.35) and store it. Returns the row dict."""
+    upload = getattr(ctx, "upload", None)
+    if upload is None or not upload.data:
+        raise ApiError(400, "Aucun fichier reçu. Correctif : choisissez le fichier de preuve.")
+    if len(upload.data) > max_bytes:
+        raise ApiError(413, "Fichier de {:.1f} Mo. Correctif : {} Mo au maximum (compressez-le, ou demandez à l'administrateur "
+                            "d'augmenter « max_upload_mb »).".format(len(upload.data) / 1048576, max_bytes // 1048576))
+    mime, why = sniff_evidence(upload.data)
+    if mime is None:
+        raise ApiError(415, "« {} » refusé : {}. Correctif : formats acceptés : {} ; enregistrez le document sans macros "
+                            "(.docx, .xlsx, .pptx).".format(_clean_name(upload.filename) or "sans nom", why, EVIDENCE_LABEL))
+    return _store(ctx, project_id, module, upload, mime)
+
+
 def _store(ctx, project_id, module, upload, mime):
     conn = ctx.conn
     digest = hashlib.sha256(upload.data).hexdigest()
@@ -149,7 +206,7 @@ def _store(ctx, project_id, module, upload, mime):
 
 
 def file_path(data_dir, project_id, digest, mime):
-    ext = (IMAGE_TYPES.get(mime) or DOC_TYPES.get(mime) or ("bin", None))[0]
+    ext = (IMAGE_TYPES.get(mime) or DOC_TYPES.get(mime) or EVIDENCE_TYPES.get(mime) or ("bin", None))[0]
     return _root(data_dir) / str(int(project_id)) / digest[:2] / "{}.{}".format(digest, ext)
 
 

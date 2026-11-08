@@ -50,3 +50,10 @@ html[data-theme="dark"] { --testing: #4bce97; --testing-soft: rgba(75, 206, 151,
 .tg-notice { padding: .5rem .75rem; border-left: 3px solid var(--agile); background: var(--surface); font-size: .9rem; }
 .tp-todo { color: #c55a11; font-weight: 600; }
 .tg-hidden { display: none; }
+
+/* 0.60.90 (D-O-096): bundles per prototype and evidence of a plan */
+.tb-bundle { margin: 1.2rem 0; }
+.tb-ev { display: block; white-space: nowrap; font-size: .9em; }
+.tb-res.tb-ok select { border-color: var(--ok, #2e7d32); }
+.tb-res.tb-warn select { border-color: var(--warn, #b26a00); }
+.tb-res.tb-danger select { border-color: var(--danger, #c62828); }

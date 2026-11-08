@@ -16,7 +16,7 @@ from core import audit, db, permissions, uploads, validate
 from core.errors import ApiError
 from core.files import RawFile
 
-from . import catalog, word_doc as d, lists
+from . import bundles, catalog, word_doc as d, lists
 
 STATUSES = {"draft": "Draft", "sent": "Sent to Supplier", "results": "Results Received", "closed": "Closed",
             "cancelled": "Cancelled"}
@@ -119,6 +119,7 @@ def api_get(ctx):
     pages = catalog.procedure_pages(ctx.conn, catalog.project_id(ctx.conn))  # shared wiki
     p["test_rows"] = [dict(tests[t], has_procedure=tests[t]["subject"] in pages) for t in p["tests"] if t in tests]
     p["results_name"] = row["results_name"]
+    p.update(bundles.public(ctx.conn, row))  # 0.60.90 (D-O-096)
     return {"plan": p, "statuses": STATUSES}
 
 
@@ -156,6 +157,10 @@ def api_status(ctx):
     if to == "closed" and not row["results_id"]:
         raise ApiError(409, "Plan {} : le PDF des résultats du fournisseur n'est pas joint. Correctif : « Joindre les résultats "
                             "(PDF) », puis fermez.".format(row["code"]))
+    if to == "closed":  # 0.60.90 (D-O-096): every prototype tested has its bundle, every test its result and evidence
+        blockers = bundles.close_blockers(ctx.conn, row)
+        if blockers:
+            raise ApiError(409, "Plan {} : pas prêt à fermer. Correctif : {}".format(row["code"], " ".join(blockers[:8])))
     now = db.utc_now()
     extra = {"sent": ", sent_at = ?", "closed": ", closed_at = ?, closed_by = {}".format(int(ctx.user["id"]))}.get(to, "")
     params = [to, ctx.user["id"], now] + ([now] if extra else []) + [row["id"]]
