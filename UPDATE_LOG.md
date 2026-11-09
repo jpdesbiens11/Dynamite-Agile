@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.95
+# Journal de mise à jour — 0.60.96
+
+- **Version :** 0.60.95 → 0.60.96 (2026-11-09)
+- **Changements :**
+  1. **Bouton œil dans les champs mot de passe : afficher ou masquer ce que l'on tape** (D-O-102).
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.95
 
 - **Version :** 0.60.94 → 0.60.95 (2026-11-08)
 - **Changements :**
   1. **Connexion derrière une adresse partagée : une faute de frappe ne bloque plus toute l'équipe** (D-O-101).
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.94
 

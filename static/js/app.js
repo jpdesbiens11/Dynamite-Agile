@@ -93,7 +93,7 @@
       companyBrand(),
       el("h1", { class: "auth-title" }, "Connexion"),
       field("Identifiant", username),
-      field("Mot de passe", password),
+      field("Mot de passe", DA.passwordToggle(password)),  // 0.60.96 (D-O-102): eye button
       error,
       submit,
       el("p", { class: "auth-note" }, "Atelier de conception de produit : besoins, fonctions, requirements, essais."),
@@ -152,9 +152,9 @@
         }
       },
     },
-      field("Mot de passe actuel", current),
-      field("Nouveau mot de passe", next, "12 caractères minimum, sans votre identifiant."),
-      field("Confirmer le nouveau mot de passe", confirmation),
+      field("Mot de passe actuel", DA.passwordToggle(current)),
+      field("Nouveau mot de passe", DA.passwordToggle(next), "12 caractères minimum, sans votre identifiant."),
+      field("Confirmer le nouveau mot de passe", DA.passwordToggle(confirmation)),
       error,
       el("div", { class: "form-actions" }, submit));
   }

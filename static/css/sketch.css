@@ -233,3 +233,8 @@ html[data-sketch] :is(a, button):hover > .sk-icon { animation: sk-wiggle .45s ea
 @media print {
   html[data-sketch] body, html[data-sketch] .content { background: #fff; }
 }
+/* 0.60.96 (D-O-102): eye button of a password field -- graphite pencil, highlighter on focus */
+html[data-sketch] .pw-toggle { color: color-mix(in srgb, var(--graphite) 70%, transparent); border-radius: var(--r-hand); }
+html[data-sketch] .pw-toggle:hover { color: var(--graphite); background: color-mix(in srgb, var(--acc) 30%, transparent); }
+html[data-sketch] .pw-toggle:focus-visible { outline: 2px solid var(--graphite); box-shadow: 0 0 0 4px color-mix(in srgb, var(--acc) 45%, transparent); }
+html[data-sketch] .pw-toggle[aria-pressed="true"] { color: var(--graphite); background: color-mix(in srgb, var(--acc) 38%, transparent); }

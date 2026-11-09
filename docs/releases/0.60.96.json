@@ -1,0 +1,26 @@
+{
+  "version": "0.60.96",
+  "date": "2026-11-09",
+  "summary": {
+    "fr": "Connexion et mots de passe : un bouton œil affiche ou masque le mot de passe tapé.",
+    "en": "Sign-in and passwords: an eye button shows or hides the password you type."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Bouton œil dans les champs mot de passe : afficher ou masquer ce que l'on tape",
+      "why": "Sur la page de connexion, dans « Changer mon mot de passe », « Choisissez votre mot de passe » et le lien « Mot de passe oublié ? », un bouton œil à droite du champ affiche le mot de passe tapé ; l'œil barré le masque à nouveau. Le bouton se prend au clavier (Tab puis Espace ou Entrée), garde la saisie et la position du curseur, et le mot de passe est masqué de nouveau à l'envoi du formulaire. Les lecteurs d'écran annoncent « Afficher le mot de passe » ou « Masquer le mot de passe ». Les icônes suivent les thèmes Carnet, Terminal et les autres.",
+      "files": [
+        "static/js/tools/password_toggle.js",
+        "static/js/app.js",
+        "static/js/account_mail.js",
+        "static/index.html",
+        "static/css/app.css",
+        "static/css/sketch.css",
+        "static/css/terminal.css",
+        "tests/test_password_toggle.py",
+        "tests/js/password_toggle.js"
+      ]
+    }
+  ]
+}
