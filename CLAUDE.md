@@ -173,6 +173,9 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.96** (2026-11-09) : **bouton œil des mots de passe** (D-O-102, `static/js/tools/password_toggle.js`, `DA.passwordToggle(input)`) :
+  connexion, changement / premier mot de passe, réinitialisation ; œil / œil barré en SVG intégré, `aria-pressed`, re-masqué à l'envoi
+  (`tests/js/password_toggle.js`).
 - **0.60.95** (2026-11-08) : **connexion derrière une adresse partagée** (D-O-101, R1 de D-O-095, `core/auth.py`) : le plafond
   de l'adresse compte les identifiants différents (`login_ip_max_usernames` 10) et 200 échecs au total ; au-delà, un compte déjà
   connecté depuis cette adresse (`login_known_days` 30, journal d'audit) peut encore se connecter ; une connexion réussie efface
@@ -219,7 +222,7 @@
   règles techniques : `docs/FONDATIONS.md` (prime sur ce fichier) ; décisions antérieures D-A / D-B citées dans le
   code : `docs/DECISIONS_ANTERIEURES.md`.
 - Tests : `python3 -m unittest discover -s tests -t .` puis `node tests/js/ai_markdown.js` et
-  `node tests/js/editor_roundtrip.js`, `node tests/js/admin_mail_links.js`. Démarrage : `python3 app_dynamite_agile.py --dev-admin` (admin / admin).
+  `node tests/js/editor_roundtrip.js`, `node tests/js/admin_mail_links.js`, `node tests/js/password_toggle.js`. Démarrage : `python3 app_dynamite_agile.py --dev-admin` (admin / admin).
 
 ## Comment travailler ici
 

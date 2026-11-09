@@ -205,3 +205,8 @@ html[data-term] .tl-idea.tl-voted { background: rgba(126, 231, 135, .1); }
 html[data-term] .tl-idea.tl-partner { background: rgba(88, 166, 255, .1); }
 html[data-term] :is(.ts-result, .ts-suggest) mark { background: rgba(227, 179, 65, .3); color: var(--ink); }
 html[data-term] .dy-sidebar { background: #010409; }
+/* 0.60.96 (D-O-102): eye button of a password field */
+html[data-term] .pw-toggle { color: var(--muted); border-radius: 6px; }
+html[data-term] .pw-toggle:hover { color: var(--ink); background: var(--sel, rgba(88, 166, 255, .12)); }
+html[data-term] .pw-toggle:focus-visible { outline: 1px solid var(--acc); box-shadow: 0 0 0 3px var(--acc-glow); }
+html[data-term] .pw-toggle[aria-pressed="true"] { color: var(--acc); }

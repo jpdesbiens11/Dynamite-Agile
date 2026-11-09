@@ -212,6 +212,21 @@ input:focus, select:focus, textarea:focus {
 .form-row { display: flex; flex-wrap: wrap; align-items: flex-end; gap: .9rem; }
 .form-row > .btn, .form-row > .check { margin-bottom: .9rem; }
 .check { display: inline-flex; align-items: center; gap: .4rem; padding: .5rem 0; white-space: nowrap; }
+/* 0.60.96 (D-O-102): eye button inside a password field (static/js/tools/password_toggle.js); tokens only */
+.pw-wrap { position: relative; display: block; width: 100%; }
+.pw-wrap > input { padding-right: 2.6rem; }
+.pw-wrap > input::-ms-reveal, .pw-wrap > input::-ms-clear { display: none; }  /* one eye only (Edge has its own) */
+.pw-toggle {
+  position: absolute; top: 50%; right: .25rem; transform: translateY(-50%);
+  display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; padding: 0;
+  border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--muted); cursor: pointer;
+}
+.pw-toggle:hover { color: var(--ink); background: color-mix(in srgb, var(--ink) 7%, transparent); }
+.pw-toggle:focus-visible { outline: 2px solid var(--acc, var(--agile)); outline-offset: 1px; color: var(--ink); }
+.pw-toggle[aria-pressed="true"] { color: var(--acc, var(--agile)); }
+.pw-icon { width: 1.2rem; height: 1.2rem; pointer-events: none; }
+.pw-toggle.is-new { width: auto; gap: .25rem; padding: 0 .35rem; }  /* [new] tag beside the eye, never over it */
+.pw-wrap:has(.pw-toggle.is-new) > input { padding-right: 5.2rem; }
 .form-error { min-height: 1.3em; margin: .2rem 0 .7rem; color: var(--danger); font-size: .9rem; }
 .form-ok { margin: .2rem 0 .7rem; color: var(--ok); font-size: .9rem; }  /* 0.60.73 (D-O-079): « Mot de passe oublié » sent */
 .form-ok:empty { display: none; }

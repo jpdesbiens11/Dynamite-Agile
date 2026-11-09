@@ -87,8 +87,8 @@
       el("h1", { class: "auth-title" }, "Nouveau mot de passe"),
       el("p", { class: "muted" }, "Compte : ", el("strong", null, username)),
       el("input", { type: "text", autocomplete: "username", value: username, hidden: true, readonly: true }),  // password managers
-      field("Nouveau mot de passe", next, "12 caractères minimum, sans votre identifiant."),
-      field("Confirmer le mot de passe", again),
+      field("Nouveau mot de passe", DA.passwordToggle(next), "12 caractères minimum, sans votre identifiant."),  // 0.60.96
+      field("Confirmer le mot de passe", DA.passwordToggle(again)),
       error, submit,
       el("p", { class: "auth-note" }, "Toutes les sessions ouvertes de ce compte seront fermées."));
     root.append(el("main", { class: "auth-page" }, form));
