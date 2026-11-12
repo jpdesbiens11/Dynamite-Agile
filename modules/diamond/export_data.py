@@ -2,7 +2,8 @@
 
   export_xlsx.py   every table           -> Excel   (functions, structure, parts x functions, risks, DFMEA)
   export_drawio.py every diagram         -> draw.io (functional tree, functional structure x 2 views, risk map)
-  export_docx.py   the report            -> Word    (for a teacher, a jury, an investor; Save as PDF in Word)
+  export_docx.py   the report            -> Word    (for a teacher, a jury, an investor; Save as PDF in Word), with the
+                   Storyline and the diagrams as figures since 0.60.98 (report_figures.py, figures.py, story_figure.py)
 Each file carries the mark « DynamiteAgile · Co-Intelligence WorkFlow™ »: in the page header of the workbook, the
 footer of the report, the title block of each diagram. The Golden Nuggets are the tool's reference text, not the
 Space's content: they stay in the tool.
@@ -17,6 +18,7 @@ from . import dfmea_complete as DC
 from . import functions as F
 from . import parts as P
 from . import risks as R
+from . import story as ST
 from . import structure as S
 
 MARK = "DynamiteAgile · Co-Intelligence WorkFlow™"
@@ -41,6 +43,7 @@ def gather(conn, pid):
     data = {"project": project, "version": APP_VERSION, "date": now.strftime("%Y-%m-%d"), "stamp": now.strftime("%Y-%m-%d %H:%M"),
             "tree": tree, "kids": kids, "by_id": by_id, "views": view_nodes, "structure": structure, "parts": parts,
             "part_stats": structure["part_stats"], "part_checks": structure["part_checks"], "risks": risks, "dfmea": dfmea,
+            "story": ST.rows(conn, pid),  # the scenes of the Storyline: figures of the Word report (0.60.98)
             "checks": {"tree": F.checks(F.rows(conn, pid)), "structure": structure["checks"], "risks": R.checks(risks),
                        "dfmea": DF.checks(conn, pid, dfmea)},
             "labels": {"types": F.TYPES, "kano": F.KANO, "importance": F.IMPORTANCE, "levels": F.LEVELS, "kinds": S.KINDS,
@@ -67,7 +70,7 @@ def summary(data):
             "critical": sum(1 for f in tree if f["critical"]),
             "inputs": sum(1 for p in data["structure"]["ports"] if p["side"] == "in"),
             "outputs": sum(1 for p in data["structure"]["ports"] if p["side"] == "out"),
-            "flows": len(data["structure"]["flows"]), "parts": len(data["parts"]),
+            "flows": len(data["structure"]["flows"]), "parts": len(data["parts"]), "scenes": len(data["story"]),
             "risks": len(data["risks"]), "risks_high": sum(1 for r in data["risks"] if r["level"]["key"] in ("critique", "eleve")),
             "dfmea": len(rows), "ap": {k: sum(1 for r in rows if r["ap"] == k) for k in ("H", "M", "L")},
             "dfmea_unrated": sum(1 for r in rows if not r["ap"]), "dfmea_tested": sum(1 for r in rows if r["test_id"])}

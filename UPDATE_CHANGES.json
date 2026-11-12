@@ -2,40 +2,19 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Un essai passé en ligne ne garde plus admin / admin",
-      "why": "L'essai privé (--essai) crée le compte admin avec le mot de passe admin. Relancer la commande avec un domaine pour passer en ligne gardait ce mot de passe : le site public acceptait admin / admin. Désormais, à chaque démarrage hors mode développement, admin et les comptes pas encore activés qui ont encore le mot de passe du mode développement reçoivent un mot de passe temporaire aléatoire, à changer à la première connexion. Celui d'admin s'affiche à la fin de l'installation et dans data/INITIAL_ADMIN_PASSWORD.txt ; les autres se redonnent dans ⚙ Admin → Comptes. Un compte dont le mot de passe a déjà été choisi n'est jamais touché.",
+      "title": "Le rapport Word de Diamond montre ses diagrammes et la Storyline en figures",
+      "why": "Diamond → Exporter → « Télécharger Word » ne donnait que du texte et des tableaux : les diagrammes restaient dans les fichiers draw.io et PowerPoint. Le rapport porte maintenant des figures numérotées (« Figure n — … », avec une phrase d'introduction) : une nouvelle section Storyline (ce qu'est l'exercice, puis une figure par scène avec ce qui s'y passe et les notes de l'équipe), l'arbre fonctionnel (vue d'ensemble puis une figure par branche, comme le PowerPoint, toutes à la même échelle), la structure fonctionnelle en vue générale et détaillée (frontière, entrées, sorties, flux, pastilles P-n des pièces comme à l'écran) et la carte des risques (maintenant, puis résiduelle dès qu'un risque a sa cotation résiduelle). Les images sont des EMF, le format d'image vectoriel d'Office : Word et LibreOffice les dessinent eux-mêmes, le texte reste net au zoom et à l'impression, sans police ni bibliothèque ajoutée. Le gabarit, l'en-tête, le pied de page, la table des matières (F9) et la révision restent ; les fichiers draw.io et PowerPoint ne changent pas.",
       "files": [
-        "core/auth.py",
-        "app_dynamite_agile.py",
-        "tests/test_dev_passwords.py"
-      ]
-    },
-    {
-      "id": "C2",
-      "title": "Les données du serveur et les mots de passe enregistrés sont privés",
-      "why": "Le dossier data/ (base de données, sauvegardes, journaux, mot de passe SMTP, clé HTTPS, premier mot de passe admin) est réservé au compte qui fait tourner le serveur (0700) dès le démarrage, et le service systemd crée tous ses fichiers pour lui seul (UMask=0077). Le mot de passe SMTP et le premier mot de passe admin sont écrits dans un fichier privé dès sa création. Sous Windows, C:\\DynamiteAgile est réservé à SYSTEM et aux administrateurs : un autre compte du PC ne peut plus modifier le code que la tâche lance en SYSTEM ni lire les données. Derrière Traefik, .git est en lecture seule dans le conteneur. La clé de l'agent Bob ne paraît plus dans la liste des processus.",
-      "files": [
-        "app_dynamite_agile.py",
-        "core/mail.py",
-        "core/auth.py",
-        "deploy/dynamite-agile.service",
-        "deploy/install.ps1",
-        "deploy/install_traefik.sh",
-        "deploy/bob/da.sh",
-        "tests/test_secret_files.py"
-      ]
-    },
-    {
-      "id": "C3",
-      "title": "Mise à jour en ligne et installation : HTTPS seulement, code toujours récupéré",
-      "why": "La mise à jour en ligne refuse un site des versions en http:// et toute redirection vers http:// : le code installé ne voyage qu'en HTTPS vérifié. Lancée par curl … | sudo bash, l'installation récupère toujours le code depuis GitHub au lieu de prendre des fichiers trouvés près du dossier courant. Le site est publié par des actions GitHub fixées à un commit précis. SECURITY.md dit comment signaler une faille en privé.",
-      "files": [
-        "core/update_online.py",
-        "deploy/install.sh",
-        ".github/workflows/pages.yml",
-        "SECURITY.md",
-        "tests/test_update_https.py",
-        "tests/test_install_copies.py"
+        "modules/diamond/emf.py",
+        "modules/diamond/figures.py",
+        "modules/diamond/story_figure.py",
+        "modules/diamond/docx_figures.py",
+        "modules/diamond/report_figures.py",
+        "modules/diamond/export_docx.py",
+        "modules/diamond/export_data.py",
+        "modules/diamond/export_drawio.py",
+        "static/js/diamond/export.js",
+        "tests/test_diamond_word_figures.py"
       ]
     }
   ]

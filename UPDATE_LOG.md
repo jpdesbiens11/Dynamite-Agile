@@ -1,4 +1,13 @@
-# Journal de mise à jour — 0.60.97
+# Journal de mise à jour — 0.60.98
+
+- **Version :** 0.60.97 → 0.60.98 (2026-11-11)
+- **Changements :**
+  1. **Le rapport Word de Diamond montre ses diagrammes et la Storyline en figures** (D-O-105).
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.97
 
 - **Version :** 0.60.96 → 0.60.97 (2026-11-11)
 - **Changements :**
@@ -6,8 +15,6 @@
   2. **Les données du serveur et les mots de passe enregistrés sont privés** (D-O-103).
   3. **Mise à jour en ligne et installation : HTTPS seulement, code toujours récupéré** (D-O-103).
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.96
 

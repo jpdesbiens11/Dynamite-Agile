@@ -16,7 +16,7 @@ sys.path.insert(0, str(BASE_DIR))
 
 from core import auth, db, modules, router, startup  # noqa: E402
 from core.config import load_config  # noqa: E402
-from tests.test_release import copy_code, future_package  # noqa: E402
+from tests.test_release import LATEST, NEXT, copy_code, future_package  # noqa: E402
 from tools.api_client import ApiFailure, Client  # noqa: E402
 
 
@@ -69,13 +69,13 @@ class UpdateOnlineTest(unittest.TestCase):
             self.admin.post("/api/admin/update/online/check", {})
         self.admin.put("/api/admin/update/online", {"enabled": True})
         state = self.admin.post("/api/admin/update/online/check", {})
-        self.assertEqual(state["latest"], "0.60.99")
+        self.assertEqual(state["latest"], LATEST)
         newer = [v["version"] for v in state["newer"]]
-        self.assertIn("0.60.98", newer)
-        self.assertIn("0.60.99", newer)
+        self.assertIn(NEXT[0], newer)
+        self.assertIn(LATEST, newer)
         self.assertTrue(all(v["summary"] for v in state["newer"]))
         with self.assertRaises(Exception):  # every version must be read first
-            self.admin.post("/api/admin/update/online/start", {"read": ["0.60.99"]})
+            self.admin.post("/api/admin/update/online/start", {"read": [LATEST]})
         self.admin.post("/api/admin/update/online/start", {"read": newer})
         seen, job = [], {}
         for _ in range(200):
@@ -88,7 +88,7 @@ class UpdateOnlineTest(unittest.TestCase):
         self.assertEqual(job["percent"], 100)
         self.assertTrue(any("SHA-256 conforme" in line for line in job["lines"]))
         self.assertEqual(seen, sorted(seen))  # the bar only moves forward
-        self.assertIn('APP_VERSION = "0.60.99"', (self.code / "core" / "__init__.py").read_text("utf-8"))
+        self.assertIn('APP_VERSION = "{}"'.format(LATEST), (self.code / "core" / "__init__.py").read_text("utf-8"))
         self.assertTrue((self.code / "docs" / "NOUVEAU.md").exists())
         with db.connect() as conn:
             actions = {r["action"] for r in conn.execute("SELECT action FROM audit_log")}
