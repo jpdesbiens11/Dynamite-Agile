@@ -1,11 +1,20 @@
-# Journal de mise à jour — 0.60.96
+# Journal de mise à jour — 0.60.97
+
+- **Version :** 0.60.96 → 0.60.97 (2026-11-11)
+- **Changements :**
+  1. **Un essai passé en ligne ne garde plus admin / admin** (D-O-104).
+  2. **Les données du serveur et les mots de passe enregistrés sont privés** (D-O-103).
+  3. **Mise à jour en ligne et installation : HTTPS seulement, code toujours récupéré** (D-O-103).
+- **Base de données :** ['Aucun changement de schéma.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.96
 
 - **Version :** 0.60.95 → 0.60.96 (2026-11-09)
 - **Changements :**
   1. **Bouton œil dans les champs mot de passe : afficher ou masquer ce que l'on tape** (D-O-102).
 - **Base de données :** ['Aucun changement de schéma.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.95
 

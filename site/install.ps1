@@ -147,12 +147,27 @@ if (Test-Path (Join-Path $Dossier ".git")) {
 }
 $Data = Join-Path $Dossier "data"
 New-Item -ItemType Directory -Force -Path $Data | Out-Null
+# 0.60.97 (D-O-103): a folder made at the root of C:\ inherits « Authenticated Users: Modify », and the task below runs
+# this code as SYSTEM: any account of the PC could have changed the code (SYSTEM rights) or read data\ (the database,
+# the team's CA key). Only SYSTEM and the administrators keep access (SIDs, so a French Windows reads them too).
+icacls $Dossier /inheritance:r /grant:r "*S-1-5-18:(OI)(CI)F" "*S-1-5-32-544:(OI)(CI)F" /Q | Out-Null
+$AclOk = ($LASTEXITCODE -eq 0)
+# Everything already inside (the clone, data\ of an earlier installation) takes back the folder's rights only.
+if ($AclOk) { icacls (Join-Path $Dossier "*") /reset /T /C /Q | Out-Null; $AclOk = ($LASTEXITCODE -eq 0) }
+if (-not $AclOk) {
+    Write-Host ("  " + (T "Attention : les droits de $Dossier n'ont pas pu être restreints (icacls). Correctif : Propriétés → Sécurité, ne laissez que SYSTEM et Administrateurs." `
+                         "Warning: the rights of $Dossier could not be restricted (icacls). Fix: Properties → Security, keep only SYSTEM and Administrators.")) -ForegroundColor Yellow
+} else {
+    Write-Host ("  " + (T "Dossier réservé à SYSTEM et aux administrateurs." "Folder restricted to SYSTEM and the administrators."))
+}
 
 # ---------- 4. HTTPS: the team's certificate authority and the certificate of this PC ----------
 Say ("4/7 " + (T "Certificat HTTPS de l'équipe" "The team's HTTPS certificate"))
 & $py (Join-Path $Dossier "tools\make_team_ca.py") --data-dir $Data | Out-Host
 if ($LASTEXITCODE -ne 0) { Fail (T "le certificat n'a pas pu être créé (message ci-dessus)." "the certificate could not be created (message above).") }
 $Ca = Join-Path $Data "tls\partage\ca-dynamite.crt"
+# The public certificate only (never the key, in data\tls): readable by the PC's users, so it can be copied to the team.
+icacls (Split-Path $Ca) /grant "*S-1-5-32-545:(OI)(CI)RX" /Q | Out-Null
 Import-Certificate -FilePath $Ca -CertStoreLocation Cert:\LocalMachine\Root | Out-Null
 Write-Host ("  " + (T "Autorité de l'équipe approuvée sur ce PC." "Team authority trusted on this PC."))
 

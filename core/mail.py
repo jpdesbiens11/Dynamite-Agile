@@ -91,8 +91,12 @@ def _save(data_dir, value):
     path = _path(data_dir)
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(".tmp")
-    tmp.write_text(json.dumps(value, ensure_ascii=False, indent=1), encoding="utf-8")
+    # 0.60.97: 0600 before the SMTP password is written (was: written, then chmod -- a window where another account
+    # of the server could read it); the chmod covers a .tmp left by an older version, which O_CREAT does not change
+    fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
     os.chmod(tmp, 0o600)
+    with os.fdopen(fd, "w", encoding="utf-8") as handle:
+        handle.write(json.dumps(value, ensure_ascii=False, indent=1))
     os.replace(tmp, path)
 
 

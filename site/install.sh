@@ -39,8 +39,11 @@ fi
 [ "$MODE" = traefik ] || [ "$TARGET" = /opt/dynamite_agile ] || fail "$(t "DA_DIR ne sert qu'avec --traefik (le service systemd attend /opt/dynamite_agile)." "DA_DIR is only for --traefik (the systemd service expects /opt/dynamite_agile).")"
 
 # ---------- 0. the code: when the script runs from curl (no clone yet), fetch it, then run the copy of the clone ----------
-HERE="$(cd "$(dirname "${BASH_SOURCE[0]:-.}")/.." 2>/dev/null && pwd || pwd)"
-if [ ! -f "$HERE/app_dynamite_agile.py" ]; then
+# 0.60.97 (D-O-103): piped from curl there is no script file -- HERE stays empty and the code is always fetched, never
+# taken from around the folder where the command was typed (another account of the server could have put files there).
+HERE=""
+if [ -n "${BASH_SOURCE[0]:-}" ] && [ -f "${BASH_SOURCE[0]}" ]; then HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"; fi
+if [ -z "$HERE" ] || [ ! -f "$HERE/app_dynamite_agile.py" ]; then
   say "0/7 $(t "Récupération du code dans" "Fetching the code into") $TARGET"
   # 0.60.17: a folder that is not a clone of this repository (another application, an older private copy) is never touched.
   if [ -d "$TARGET/.git" ] && ! git -C "$TARGET" remote get-url origin 2>/dev/null | grep -qi 'dynamite-agile'; then

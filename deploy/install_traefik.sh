@@ -64,6 +64,10 @@ EOF
 
 say "3/5 $(t "Le conteneur et ses étiquettes Traefik" "The container and its Traefik labels") ($STACK)"
 mkdir -p "$STACK"
+# 0.60.97 (D-O-103): .git read-only inside the container -- the server never writes it (core/update.py skips it), and a
+# hook or config written there would run as root the next time this installation runs git on the host.
+GIT_RO=""
+if [ -d "$APP_DIR/.git" ]; then GIT_RO="      - $APP_DIR/.git:/app/.git:ro"; fi
 cat > "$STACK/docker-compose.yml" <<EOF
 # Dynamite | Agile behind Traefik -- written by deploy/install_traefik.sh (D-O-029). Run the installation again to update.
 services:
@@ -75,8 +79,11 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - TZ=America/Toronto
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - $APP_DIR:/app
+$GIT_RO
     labels:
       - traefik.enable=true
       - traefik.http.routers.$NAME.rule=$RULE
@@ -102,9 +109,13 @@ echo "  $(t "Conteneur actif." "Container running.")"
 say "5/5 $(t "C'est installé" "Installed")"
 echo "  $(t "Ouvrez :" "Open:")  https://$DOMAIN"
 echo "  $(t "(le premier chargement peut prendre une minute : Traefik obtient le certificat HTTPS)" "(the first load may take a minute: Traefik obtains the HTTPS certificate)")"
-if [ -f "$DATA_DIR/INITIAL_ADMIN_PASSWORD.txt" ]; then
+# 0.60.97 (D-O-103): data/ is private to the container's account (0700): without root, read it through the container.
+PW_TEXT=""
+if [ -r "$DATA_DIR/INITIAL_ADMIN_PASSWORD.txt" ]; then PW_TEXT="$(cat "$DATA_DIR/INITIAL_ADMIN_PASSWORD.txt")"
+else PW_TEXT="$(docker compose -f "$STACK/docker-compose.yml" exec -T dynamite-agile cat data/INITIAL_ADMIN_PASSWORD.txt 2>/dev/null || true)"; fi
+if [ -n "$PW_TEXT" ]; then
   echo "  $(t "Compte administrateur (mot de passe temporaire, à changer à la première connexion) :" "Administrator account (temporary password, to change at first login):")"
-  sed 's/^/    /' "$DATA_DIR/INITIAL_ADMIN_PASSWORD.txt"
+  printf '%s\n' "$PW_TEXT" | sed 's/^/    /'
 else
   echo "  $(t "Le compte admin existe déjà. Mot de passe oublié :" "The admin account already exists. Forgotten password:") docker compose -f $STACK/docker-compose.yml exec dynamite-agile python3 app_dynamite_agile.py --reset-password admin"
 fi

@@ -54,9 +54,29 @@ def _site(cfg):
     return str(cfg.get("release_site") or release.SITE).rstrip("/") + "/"
 
 
+LOOPBACK = re.compile(r"http://(127\.0\.0\.1|localhost|\[::1\])(:\d+)?/")
+
+
+def _https_only(url):
+    """0.60.97 (D-O-103): the code to install comes over HTTPS only -- a « release_site » in http://, or a redirect to
+    http://, is refused (plain HTTP only on this computer's loopback, for the tests)."""
+    if not (url.startswith("https://") or LOOPBACK.match(url)):
+        raise ValueError("adresse refusée, HTTPS seulement : {}. Correctif : « release_site » en https:// dans "
+                         "data/config.json, ou vide pour le site officiel".format(url[:120]))
+    return url
+
+
+class _HttpsRedirects(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return super().redirect_request(req, fp, code, msg, headers, _https_only(newurl))
+
+
+_OPENER = urllib.request.build_opener(_HttpsRedirects)  # the default HTTPS handler checks the certificate
+
+
 def _open(url):
-    req = urllib.request.Request(url, headers={"User-Agent": "DynamiteAgile/{} (update check)".format(APP_VERSION)})
-    return urllib.request.urlopen(req, timeout=TIMEOUT)
+    req = urllib.request.Request(_https_only(url), headers={"User-Agent": "DynamiteAgile/{} (update check)".format(APP_VERSION)})
+    return _OPENER.open(req, timeout=TIMEOUT)
 
 
 def _newer(listing):

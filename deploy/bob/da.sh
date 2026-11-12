@@ -18,7 +18,8 @@ fi
 
 get() {
   route=$1; shift
-  curl -sS -G --max-time 20 -H "Authorization: Bearer $TOKEN" "$@" "$URL/api/bot/v1/$route"
+  # 0.60.97 (D-O-103): the key goes through stdin (-H @-), never on curl's command line where `ps` shows it
+  printf 'Authorization: Bearer %s\n' "$TOKEN" | curl -sS -G --max-time 20 -H @- "$@" "$URL/api/bot/v1/$route"
   echo
 }
 

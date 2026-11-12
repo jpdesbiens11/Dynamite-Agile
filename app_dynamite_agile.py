@@ -16,7 +16,9 @@ Examples:
 import argparse
 import logging
 import logging.handlers
+import os
 import ssl
+import stat
 import sys
 import threading
 from pathlib import Path
@@ -109,6 +111,21 @@ def setup_logging(data_dir):
     root.propagate = False
 
 
+def make_private(data_dir):
+    """0.60.97 (D-O-103): data/ holds the database (password hashes included), the backups and restore points, the SMTP
+    password (mail.json), the TLS key and the first admin password: only the account running the server enters it (0700),
+    whatever mode the files below were written with. POSIX only; never blocks the start."""
+    if os.name != "posix":
+        return
+    try:
+        if stat.S_IMODE(data_dir.stat().st_mode) & 0o077:
+            os.chmod(data_dir, 0o700)
+            log.info("data/ made private (0700): %s", data_dir)
+    except OSError as exc:
+        log.warning("data/ could not be made private (%s): other accounts of this server may read it. "
+                    "Fix: chown the folder to the account running the server, then chmod 700.", exc)
+
+
 def enable_tls(server, cfg, data_dir):
     """Core lot v0.24 (D-B-090): TLS 1.3, optional mTLS -- see core/tls.py and deploy/TLS.md."""
     tls.enable(server, cfg, data_dir)
@@ -186,10 +203,11 @@ def seed_example_data(port, cafile=None):
                     "version with another admin password, delete data/ once.", exc)
 
 
-def print_initial_admin(temp_password):
-    """Show the first-launch administrator credentials."""
+def print_initial_admin(temp_password, retired=False):
+    """Show the first-launch administrator credentials (or the new ones replacing admin / admin, 0.60.97)."""
     print("=" * 64)
-    print(" FIRST LAUNCH - initial administrator account created")
+    print(" admin / admin RETIRED (production) - new temporary password" if retired else
+          " FIRST LAUNCH - initial administrator account created")
     print("   Username : " + auth.INITIAL_ADMIN_USERNAME)
     print("   Password : " + temp_password)
     print(" Also saved in data/{} until the first password change.".format(
@@ -207,6 +225,7 @@ def main(argv=None):
         return 1
 
     setup_logging(data_dir)
+    make_private(data_dir)
     cfg = load_config(data_dir)
     if args.host:
         cfg["host"] = args.host
@@ -237,9 +256,21 @@ def main(argv=None):
         print_dev_admin_warning()
         log.warning("Development mode: fixed admin/admin credentials, example data.")
         auth.DEV_TEMP_PASSWORD = str(cfg.get("dev_temp_password") or "admin")  # D-A-040: team tests
+    retired, admin_temp = [], None
     with db.connect() as conn:
         temp = auth.ensure_initial_admin(conn, data_dir, dev_password="admin" if dev else None)
         auth.purge_expired_sessions(conn)
+        if dev:
+            auth.mark_dev_passwords(conn)
+        else:  # 0.60.97 (D-O-104): a trial that went online never keeps admin / admin
+            retired, admin_temp = auth.retire_dev_passwords(conn, data_dir, ("admin", cfg.get("dev_temp_password")))
+    if retired:
+        log.warning("Development passwords retired (%s): each account got a new random temporary password (%s).",
+                    ", ".join(retired), "; ".join(
+                        (["admin: printed below and in data/" + auth.INITIAL_PASSWORD_FILE] if admin_temp else [])
+                        + (["the others: give them again in Admin → Comptes"] if len(retired) > (1 if admin_temp else 0) else [])))
+    if admin_temp:
+        print_initial_admin(admin_temp, retired=True)
     startup.run(data_dir, cfg)  # core lot v0.7: module start-up hooks (e.g. the TESTING Space)
     if dev:
         with db.connect() as conn:
