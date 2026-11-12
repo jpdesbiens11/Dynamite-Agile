@@ -173,6 +173,11 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.97** (2026-11-11) : **sécurité de l'installation** (D-O-103, D-O-104) : un essai passé en ligne ne garde plus admin / admin
+  (`auth.retire_dev_passwords` au démarrage hors développement) ; `data/` en 0700 (`make_private`), `UMask=0077`, `mail.json` et
+  `INITIAL_ADMIN_PASSWORD.txt` créés en 0600 ; Windows : `C:\DynamiteAgile` réservé à SYSTEM et Administrateurs ; `.git` en lecture
+  seule derrière Traefik ; mise à jour en ligne HTTPS seulement (`update_online._https_only`) ; actions de `pages.yml` fixées à un
+  commit ; `SECURITY.md`.
 - **0.60.96** (2026-11-09) : **bouton œil des mots de passe** (D-O-102, `static/js/tools/password_toggle.js`, `DA.passwordToggle(input)`) :
   connexion, changement / premier mot de passe, réinitialisation ; œil / œil barré en SVG intégré, `aria-pressed`, re-masqué à l'envoi
   (`tests/js/password_toggle.js`).

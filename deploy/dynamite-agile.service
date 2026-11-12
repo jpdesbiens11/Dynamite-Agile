@@ -24,6 +24,8 @@ ReadWritePaths=/opt/dynamite_agile/data
 ProtectHome=true
 PrivateTmp=true
 NoNewPrivileges=true
+# 0.60.97 (D-O-103): every file the server writes (database, backups, logs, passwords) is for its own account only.
+UMask=0077
 
 [Install]
 WantedBy=multi-user.target

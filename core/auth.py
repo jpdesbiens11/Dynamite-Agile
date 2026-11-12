@@ -7,6 +7,7 @@ SHA-256 hash, so a copy of the database cannot be used to hijack sessions.
 """
 import hashlib
 import hmac
+import os
 import secrets
 import threading
 import time
@@ -277,13 +278,59 @@ def ensure_initial_admin(conn, data_dir, dev_password=None):
         "must_change_password, created_at) VALUES (?, ?, ?, 1, 1, 1, ?)",
         (INITIAL_ADMIN_USERNAME, "Administrateur", hash_password(temp), db.utc_now()))
     audit.log_action(conn, None, "initial_admin_created", "user", cursor.lastrowid)
-    (Path(data_dir) / INITIAL_PASSWORD_FILE).write_text(
-        "Initial administrator account\n"
-        "Username: {}\nTemporary password: {}\n\n"
-        "This file is deleted automatically after the first password change.\n".format(
-            INITIAL_ADMIN_USERNAME, temp),
-        encoding="utf-8")
+    write_initial_password_file(data_dir, temp)
     return temp
+
+
+def write_initial_password_file(data_dir, temp):
+    """0.60.97 (D-O-103): the file is 0600 from the moment it exists (was the default 0644)."""
+    path = Path(data_dir) / INITIAL_PASSWORD_FILE
+    text = ("Initial administrator account\n"
+            "Username: {}\nTemporary password: {}\n\n"
+            "This file is deleted automatically after the first password change.\n".format(INITIAL_ADMIN_USERNAME, temp))
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+    os.chmod(path, 0o600)  # a file left by an older version keeps its mode through O_CREAT
+    with os.fdopen(fd, "w", encoding="utf-8") as handle:
+        handle.write(text)
+
+
+# 0.60.97 (D-O-104): set by every start in development mode (--essai, --dev-admin): known passwords were handed out.
+DEV_PASSWORDS_FLAG = "dev_passwords_used"
+
+
+def mark_dev_passwords(conn):
+    conn.execute("INSERT INTO app_settings (key, value, updated_by, updated_at) VALUES (?, '1', NULL, ?) "
+                 "ON CONFLICT(key) DO UPDATE SET updated_at = excluded.updated_at", (DEV_PASSWORDS_FLAG, db.utc_now()))
+
+
+def retire_dev_passwords(conn, data_dir, known=("admin",)):
+    """0.60.97 (D-O-104): outside development mode, no active account keeps a password of development mode -- admin /
+    admin of a trial (install.sh --essai) that later went online, or the shared temporary password of the accounts not
+    yet activated. Each one gets a random temporary password, to change at first login: admin's goes to
+    INITIAL_ADMIN_PASSWORD.txt (0600) and is returned for the console; the others are given again by an administrator.
+    Cost: one password check (admin) per start; the accounts not yet activated are checked only after a start in
+    development mode, or when admin still had a known password. -> (retired usernames, admin's new password or None)."""
+    known = [p for p in dict.fromkeys(known) if p]
+    flagged = conn.execute("SELECT 1 FROM app_settings WHERE key = ?", (DEV_PASSWORDS_FLAG,)).fetchone() is not None
+    rows = conn.execute("SELECT id, username, password_hash FROM users WHERE is_active = 1 AND "
+                        "(username = ? OR must_change_password = 1) ORDER BY id", (INITIAL_ADMIN_USERNAME,)).fetchall()
+    admin = next((r for r in rows if r["username"] == INITIAL_ADMIN_USERNAME), None)
+    admin_known = admin is not None and any(verify_password(p, admin["password_hash"]) for p in known)
+    retired, admin_temp = [], None
+    for row in (rows if (flagged or admin_known) else []):
+        if row["username"] == INITIAL_ADMIN_USERNAME:
+            if not admin_known:
+                continue
+        elif not any(verify_password(p, row["password_hash"]) for p in known):
+            continue
+        temp = set_temp_password(conn, row["id"])
+        audit.log_action(conn, None, "dev_password_retired", "user", row["id"])
+        retired.append(row["username"])
+        if row["username"] == INITIAL_ADMIN_USERNAME:
+            admin_temp = temp
+            write_initial_password_file(data_dir, temp)
+    conn.execute("DELETE FROM app_settings WHERE key = ?", (DEV_PASSWORDS_FLAG,))
+    return retired, admin_temp
 
 
 def remove_initial_password_file(data_dir):
