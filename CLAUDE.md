@@ -173,6 +173,11 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.98** (2026-11-11) : **figures du rapport Word de Diamond** (D-O-105) : images EMF écrites en bibliothèque standard
+  (`modules/diamond/emf.py`) à partir de `Page.items` de `export_drawio.py` (`figures.py` ; rôles `chrome` / `legend` / `frame`,
+  pastilles P-n), scènes de la Storyline lues dans `static/img/story-term.svg` (`story_figure.py`) ; section Storyline, arbre par branche,
+  structure générale et détaillée, carte des risques (résiduelle si cotée) en « Figure n — … » à champ SEQ (`report_figures.py`,
+  `docx_figures.py`) ; draw.io et PowerPoint inchangés (`tests/test_diamond_word_figures.py`).
 - **0.60.97** (2026-11-11) : **sécurité de l'installation** (D-O-103, D-O-104) : un essai passé en ligne ne garde plus admin / admin
   (`auth.retire_dev_passwords` au démarrage hors développement) ; `data/` en 0700 (`make_private`), `UMask=0077`, `mail.json` et
   `INITIAL_ADMIN_PASSWORD.txt` créés en 0600 ; Windows : `C:\DynamiteAgile` réservé à SYSTEM et Administrateurs ; `.git` en lecture

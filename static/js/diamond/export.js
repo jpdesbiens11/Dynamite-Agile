@@ -1,6 +1,7 @@
 /* Diamond · « Exporter » (0.60.33, D-O-041): #/diamond/KEY/dexport. The three files of the Space's functional analysis,
    made to be shown (a teacher, a jury, an investor) and to feed a Word or PowerPoint presentation:
-   Excel -- every table; draw.io -- every diagram, editable; Word -- the report (Save as PDF in Word). Each carries the
+   Excel -- every table; draw.io -- every diagram, editable; Word -- the report with the diagrams and the Storyline as
+   figures (0.60.98, D-O-105; Save as PDF in Word). Each carries the
    mark « DynamiteAgile · Co-Intelligence WorkFlow™ »; Excel and Word are also stamped with the revision (core). */
 (function () {
   "use strict";
@@ -21,9 +22,11 @@
       + "découpé : vue d'ensemble, puis une diapositive par branche.",
     ["Diapositive de titre, puis un diagramme par diapositive", "Les flèches suivent les blocs qu'on déplace",
       "Les vues denses se lisent en zoomant (vectoriel)"], "0.60.50"],
-    ["docx", "Rapport", "Word (.docx)", "Le rapport de l'analyse fonctionnelle : page de titre, table des matières, synthèse, arbre, structure, "
-      + "pièces, risques, DFMEA, ce qu'une revue demanderait, et les fichiers joints.",
-    ["Gabarit de la plateforme, en-tête et pied de page", "Fichier → Enregistrer sous → PDF", "Mettre à jour la table des matières (F9)"]],
+    ["docx", "Rapport", "Word (.docx)", "Le rapport de l'analyse fonctionnelle : page de titre, table des matières, synthèse, Storyline, "
+      + "arbre, structure, pièces, risques, DFMEA, ce qu'une revue demanderait, et les fichiers joints. Les diagrammes et les scènes "
+      + "y sont en figures numérotées.",
+    ["Figures : scènes, arbre par branche, structure, cartes des risques", "Gabarit de la plateforme, en-tête et pied de page",
+      "Fichier → Enregistrer sous → PDF", "Mettre à jour la table des matières (F9)"], "0.60.98"],
   ];
 
   function view(page, ctx) {

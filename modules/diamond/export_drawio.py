@@ -63,6 +63,12 @@ class Page:
         self.items.append({"kind": "edge", "id": cid, "src": src, "dst": dst, "style": style, "value": value, "at": at})
         return cid
 
+    def role(self, n, name):
+        """The last n items: « chrome » (title block, footer) or « legend » -- what a Word figure may leave out -- or
+        « frame » (the system and its sub-systems: the Word figure draws the flows over them, under the boxes) (0.60.98)."""
+        for item in self.items[-n:]:
+            item["role"] = name
+
     def to_back(self):
         """The last box goes behind everything (the frame of the system)."""
         self.cells.insert(0, self.cells.pop())
@@ -82,6 +88,7 @@ def title_block(page, data, title, subtitle, width=760):
     page.box(40, 66, width, 32, "<b>{}</b>".format(_h(title)), "text;align=left;verticalAlign=middle;fontSize=20;fontColor=#0B1B33;strokeColor=none;fillColor=none;")
     page.box(40, 98, max(width, 1100), 24, _h("{} — Space {} · {} · {}".format(data["project"]["name"], data["project"]["key"], data["date"], subtitle)),
              "text;align=left;verticalAlign=middle;fontSize=12;fontColor=#5B6573;fontStyle=2;strokeColor=none;fillColor=none;")
+    page.role(3, "chrome")
 
 
 def footer(page, data):
@@ -90,6 +97,7 @@ def footer(page, data):
              "text;align=left;verticalAlign=middle;fontSize=10;fontColor=#5B6573;strokeColor=none;fillColor=none;")
     page.box(max(page.width - 260, 640), y, 260, 22, _h(X.WORKFLOW), "text;align=right;verticalAlign=middle;fontSize=11;fontStyle=3;"
              "fontColor=#0E9A9A;strokeColor=none;fillColor=none;")
+    page.role(2, "chrome")
 
 
 def legend(page, x, y, items, title="Légende"):
@@ -101,6 +109,7 @@ def legend(page, x, y, items, title="Légende"):
         yy = y + 34 + 26 * i
         page.box(x + 14, yy + 3, 34, 16, "", style)
         page.box(x + 58, yy, 210, 22, _h(label), "text;align=left;verticalAlign=middle;fontSize=11;fontColor=#1F2933;strokeColor=none;fillColor=none;")
+    page.role(2 + 2 * len(items), "legend")
 
 
 def _fn_label(f, data):
@@ -215,6 +224,19 @@ def _sides(a, b):
     return "exitX=0.4;exitY=0;entryX=0.6;entryY=1;"
 
 
+def part_badges(data, view):
+    """{function id: [part]} as the structure screen shows them (structure_parts.js): a sub-system of the general view also
+    carries the parts of its tertiaries."""
+    detail, out = data["views"]["detail"], {}
+    for p in data["parts"]:
+        for fid in p["functions"]:
+            f = detail.get(fid)
+            for target in [fid] + ([f["parent_id"]] if view == "general" and f and f["level"] == 3 else []):
+                if p not in out.setdefault(target, []):
+                    out[target].append(p)
+    return out
+
+
 def structure_page(data, view):
     names = {"general": "Structure — vue générale", "detail": "Structure — vue détaillée"}
     page = Page(names[view])
@@ -233,6 +255,7 @@ def structure_page(data, view):
                 page.box(r[0], r[1] + dy, r[2], r[3], "<b>F{}</b> {}".format(s["number"], _h(s["text"])),
                          "rounded=1;arcSize=4;fillColor=#FBF3EE;strokeColor=#E7B9A3;verticalAlign=top;align=left;spacingLeft=8;"
                          "spacingTop=2;fontSize=11;fontColor=#7A3E1E;")
+                page.role(1, "frame")
     system = _bound([{"x": g[0], "y": g[1], "w": g[2], "h": g[3]} for g in groups] if groups else funcs, 24, 30)
     if system:
         primary = data["structure"]["primary"]
@@ -240,12 +263,15 @@ def structure_page(data, view):
                          "<b>Système</b>{}".format(" — " + _h(primary["text"]) if primary else ""),
                          "rounded=1;arcSize=3;dashed=1;dashPattern=8 4;fillColor=none;strokeColor=#0B1B33;strokeWidth=2;"
                          "verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;fontSize=12;fontColor=#0B1B33;")
+        page.role(1, "frame")
         page.to_back()  # the frame behind everything
-    ids = {}
+    ids, badges = {}, part_badges(data, view)
     for key, b in boxes.items():
         item = b["item"]
         if b["kind"] == "function":
             ids[key] = page.box(b["x"], b["y"] + dy, b["w"], b["h"], _fn_label(item, data), _fn_style(item))
+            # the P-n badges of the screen, for the Word figure (0.60.98); the draw.io cell keeps its text label
+            page.items[-1]["badges"] = [("P-{}".format(p["number"]), len(p["functions"]) >= 2) for p in badges.get(item["id"], [])]
         else:
             side = "Entrée" if item["side"] == "in" else "Sortie"
             kind = item["kind"]
@@ -274,11 +300,15 @@ def structure_page(data, view):
     return page
 
 
-def risk_page(data):
+MAPS = (("now", "Maintenant", "probability", "impact"), ("residual", "Résiduel (après action)", "residual_p", "residual_i"))
+
+
+def risk_page(data, only=None):
+    """only: "now" or "residual" -- one map alone, without the list nor the legend (a figure of the Word report, 0.60.98)."""
     page = Page("Carte des risques")
     title_block(page, data, "Carte des risques projet — probabilité × impact", "maintenant et après les actions (résiduel)")
-    size, gx = 112, 120
-    for k, (label, pkey, ikey) in enumerate((("Maintenant", "probability", "impact"), ("Résiduel (après action)", "residual_p", "residual_i"))):
+    size = 112
+    for k, (_key, label, pkey, ikey) in enumerate(m for m in MAPS if only in (None, m[0])):
         x0, y0 = 120 + k * (5 * size + 220), HEAD + 50
         page.box(x0, y0 - 40, 5 * size, 30, "<b>{}</b>".format(label), "text;align=center;fontSize=14;fontColor=#0B1B33;strokeColor=none;fillColor=none;")
         for impact in range(5, 0, -1):
@@ -293,6 +323,8 @@ def risk_page(data):
             page.box(x0 + (p - 1) * size, y0 + 5 * size + 4, size, 24, str(p), "text;align=center;fontSize=13;fontStyle=1;strokeColor=none;fillColor=none;")
         page.box(x0, y0 + 5 * size + 30, 5 * size, 22, "Probabilité →", "text;align=center;fontSize=12;fontColor=#5B6573;strokeColor=none;fillColor=none;")
         page.box(x0 - 110, y0 + 2 * size, 70, size, "Impact ↑", "text;align=center;verticalAlign=middle;fontSize=12;fontColor=#5B6573;strokeColor=none;fillColor=none;")
+    if only:
+        return page
     lines = "<br>".join("<b>R-{}</b> {} — P×I {} ({})".format(r["number"], _h(r["title"]), r["score"], _h(r["level"]["label"])) for r in data["risks"])
     page.box(120, HEAD + 50 + 5 * size + 70, 2 * 5 * size + 220, 22 * max(len(data["risks"]), 1) + 20,
              lines or "Aucun risque au registre.", "text;align=left;verticalAlign=top;fontSize=11;fontColor=#1F2933;strokeColor=none;fillColor=none;")

@@ -18,7 +18,16 @@ from core.config import load_config  # noqa: E402
 from tools import build_release  # noqa: E402
 from tools.api_client import ApiFailure, Client  # noqa: E402
 
-NEXT = "0.60.98", "0.60.99"
+
+
+def bump(version, n):
+    """The n-th version after this one, by the third number (D-B-107): the « future » of the tests follows each release."""
+    major, minor, patch = (int(x) for x in version.split("."))
+    return "{}.{}.{:02d}".format(major, minor, patch + n)
+
+
+NEXT = bump(APP_VERSION, 1), bump(APP_VERSION, 2)
+LATEST = NEXT[-1]
 
 
 def copy_code(dest):
@@ -28,16 +37,16 @@ def copy_code(dest):
 
 
 def future_package(tmp):
-    """The current code as if it were 0.60.99, with two more versions in the series (0.60.98 and 0.60.99)."""
+    """The current code as if it were LATEST, with two more versions in the series (NEXT)."""
     src = tmp / "future"
     copy_code(src)
     init = src / "core" / "__init__.py"
-    init.write_text(init.read_text("utf-8").replace('APP_VERSION = "{}"'.format(APP_VERSION), 'APP_VERSION = "0.60.99"'), "utf-8")
+    init.write_text(init.read_text("utf-8").replace('APP_VERSION = "{}"'.format(APP_VERSION), 'APP_VERSION = "{}"'.format(LATEST)), "utf-8")
     for v in NEXT:
         (src / "docs" / "releases" / (v + ".json")).write_text(json.dumps({"version": v, "date": "2026-12-01", "summary": {
             "fr": "Essai " + v, "en": "Test " + v}, "changes": [{"id": "C1", "title": "Changement " + v, "files": ["core/__init__.py"]}]}), "utf-8")
     (src / "docs" / "NOUVEAU.md").write_text("fichier ajouté par la version future\n", "utf-8")
-    return build_release.build(src, "0.60.99")
+    return build_release.build(src, LATEST)
 
 
 class ReleaseTest(unittest.TestCase):
@@ -78,8 +87,8 @@ class ReleaseTest(unittest.TestCase):
         self.assertFalse(any("/data/" in n for n in names))
         merged = json.loads(z.read("Dynamite_Agile/UPDATE_CHANGES.json"))["changes"]
         self.assertTrue(any(c["id"].startswith("0.60.05-") for c in merged))  # the whole series, for older portals
-        self.assertEqual(self.listing["latest"], "0.60.99")
-        self.assertEqual([v["version"] for v in self.listing["versions"][:3]], ["0.60.99", "0.60.98", APP_VERSION])
+        self.assertEqual(self.listing["latest"], LATEST)
+        self.assertEqual([v["version"] for v in self.listing["versions"][:3]], [LATEST, NEXT[0], APP_VERSION])
         again, _ = future_package(Path(tempfile.mkdtemp(dir=self.tmp.name)))
         self.assertEqual(again, self.data)  # reproducible: the same SHA-256 on the site and in CI
 
@@ -108,7 +117,7 @@ class ReleaseTest(unittest.TestCase):
         marker = self.code / "data"  # never touched (here, a stand-in next to the code)
         r = self.check(self.data)
         self.assertTrue(r["ok"], r["problems"])
-        self.assertEqual(r["official"]["version"], "0.60.99")
+        self.assertEqual(r["official"]["version"], LATEST)
         self.assertEqual(r["sha256"], self.listing["sha256"])
         mine = [p.stem for p in sorted((BASE_DIR / "docs" / "releases").glob("*.json"))
                 if release.version_tuple(p.stem) > release.version_tuple(APP_VERSION)]
@@ -120,17 +129,17 @@ class ReleaseTest(unittest.TestCase):
             self.admin.get("{}/{}".format(base, n))
             self.admin.post("{}/{}".format(base, n), {"decision": "approve"})
         done = self.admin.post("/api/update/apply", {"token": r["token"]})
-        self.assertEqual(done["version"], "0.60.99")
-        self.assertIn('APP_VERSION = "0.60.99"', (self.code / "core" / "__init__.py").read_text("utf-8"))
+        self.assertEqual(done["version"], LATEST)
+        self.assertIn('APP_VERSION = "{}"'.format(LATEST), (self.code / "core" / "__init__.py").read_text("utf-8"))
         self.assertTrue((self.code / "docs" / "NOUVEAU.md").is_file())
         self.assertFalse(marker.exists())
         with db.connect() as conn:  # the accounts are still there
             self.assertTrue(conn.execute("SELECT 1 FROM users WHERE username = 'admin'").fetchone())
-        man = release.installed(self.code, "0.60.99")
-        self.assertEqual(man["version"], "0.60.99")
-        self.assertEqual(release.local_changes(self.code, "0.60.99", update.code_files(self.code)), [])
+        man = release.installed(self.code, LATEST)
+        self.assertEqual(man["version"], LATEST)
+        self.assertEqual(release.local_changes(self.code, LATEST, update.code_files(self.code)), [])
         (self.code / "core" / "router.py").write_text("# edited by hand\n", "utf-8")
-        self.assertEqual(release.local_changes(self.code, "0.60.99", update.code_files(self.code)), ["core/router.py"])
+        self.assertEqual(release.local_changes(self.code, LATEST, update.code_files(self.code)), ["core/router.py"])
         self.assertIsNone(release.local_changes(self.code, "0.61.00", update.code_files(self.code)))  # another version: unknown
 
     def test_05_status_links_to_the_versions_page(self):

@@ -1,0 +1,27 @@
+{
+  "version": "0.60.98",
+  "date": "2026-11-11",
+  "summary": {
+    "fr": "Le rapport Word de Diamond porte ses diagrammes et la Storyline en figures numérotées : scènes, arbre par branche, structure fonctionnelle et cartes des risques, en images vectorielles dessinées sur le serveur.",
+    "en": "The Word report of Diamond carries its diagrams and the Storyline as numbered figures: scenes, tree by branch, functional structure and risk maps, as vector pictures drawn on the server."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Le rapport Word de Diamond montre ses diagrammes et la Storyline en figures",
+      "why": "Diamond → Exporter → « Télécharger Word » ne donnait que du texte et des tableaux : les diagrammes restaient dans les fichiers draw.io et PowerPoint. Le rapport porte maintenant des figures numérotées (« Figure n — … », avec une phrase d'introduction) : une nouvelle section Storyline (ce qu'est l'exercice, puis une figure par scène avec ce qui s'y passe et les notes de l'équipe), l'arbre fonctionnel (vue d'ensemble puis une figure par branche, comme le PowerPoint, toutes à la même échelle), la structure fonctionnelle en vue générale et détaillée (frontière, entrées, sorties, flux, pastilles P-n des pièces comme à l'écran) et la carte des risques (maintenant, puis résiduelle dès qu'un risque a sa cotation résiduelle). Les images sont des EMF, le format d'image vectoriel d'Office : Word et LibreOffice les dessinent eux-mêmes, le texte reste net au zoom et à l'impression, sans police ni bibliothèque ajoutée. Le gabarit, l'en-tête, le pied de page, la table des matières (F9) et la révision restent ; les fichiers draw.io et PowerPoint ne changent pas.",
+      "files": [
+        "modules/diamond/emf.py",
+        "modules/diamond/figures.py",
+        "modules/diamond/story_figure.py",
+        "modules/diamond/docx_figures.py",
+        "modules/diamond/report_figures.py",
+        "modules/diamond/export_docx.py",
+        "modules/diamond/export_data.py",
+        "modules/diamond/export_drawio.py",
+        "static/js/diamond/export.js",
+        "tests/test_diamond_word_figures.py"
+      ]
+    }
+  ]
+}

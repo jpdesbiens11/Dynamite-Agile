@@ -1,10 +1,12 @@
 """Diamond -> Word (0.60.33, D-O-041): the report of the functional analysis, for a teacher, a jury or an investor.
 
 The platform's template (modules/testing/templates/document.docx: cover page, table of contents, numbered headings,
-header) and, in its footer, the mark « DynamiteAgile · Co-Intelligence WorkFlow™ ». Sections: synthesis, functional
-tree, functional structure, parts x functions, project risks, DFMEA, what a review would ask, the companion files.
-The full tables (DFMEA prevention controls, every column) are in the Excel workbook, the diagrams in the draw.io file
-(draw.io -> Export as PNG or SVG, then Insert -> Picture in Word or PowerPoint). Word -> Save as -> PDF gives the PDF.
+header) and, in its footer, the mark « DynamiteAgile · Co-Intelligence WorkFlow™ ». Sections: synthesis, Storyline,
+functional tree, functional structure, parts x functions, project risks, DFMEA, what a review would ask, the companion
+files. Since 0.60.98 (D-O-105) the visuals are in the report as numbered figures (report_figures.py): the scenes of the
+Storyline, the tree (overview then one figure per branch, as the PowerPoint), both views of the structure and the risk map
+now and residual -- EMF pictures drawn from the same layout as draw.io and PowerPoint. The full tables (DFMEA prevention
+controls, every column) are in the Excel workbook; Word -> Save as -> PDF gives the PDF.
 """
 import io
 import zipfile
@@ -12,6 +14,8 @@ import zipfile
 from modules.testing import word_doc as WD
 
 from . import export_data as X
+from . import report_figures as RF
+from .docx_figures import Figures
 
 WIDTH = 9400  # dxa between the margins of the template (letter, 2.5 cm)
 FOOTER_OLD = "Document généré par Dynamite | Agile."
@@ -59,7 +63,8 @@ def _note(text):
 def section_summary(data):
     sm, ps = data["summary"], data["part_stats"]
     lv = sm["by_level"]
-    rows = [["Fonctions de l'arbre", sm["functions"], "{} primaire, {} secondaires, {} tertiaires, {} techniques".format(lv[1], lv[2], lv[3], lv[4])],
+    rows = [["Scènes de la Storyline", sm["scenes"], "l'usage raconté avant l'arbre"],
+            ["Fonctions de l'arbre", sm["functions"], "{} primaire, {} secondaires, {} tertiaires, {} techniques".format(lv[1], lv[2], lv[3], lv[4])],
             ["Fonctions hors arbre (estime…)", sm["outside"], ""], ["Fonctions critiques", sm["critical"], "le chemin critique de l'arbre"],
             ["Entrées / sorties du système", "{} / {}".format(sm["inputs"], sm["outputs"]), "la frontière du produit"],
             ["Flux de la structure", sm["flows"], "énergie, matière, information"],
@@ -69,12 +74,12 @@ def section_summary(data):
             ["Lignes avec essai clé", sm["dfmea_tested"], "Test Base du Space"]]
     primary = next((f for f in data["tree"] if f["level"] == 1 and f["in_tree"]), None)
     lead = ("Le produit « {} » a pour fonction primaire : {}. ".format(data["project"]["name"], primary["text"]) if primary else "") + \
-        "Ce rapport rassemble l'analyse fonctionnelle de Diamond : l'arbre des fonctions, la structure fonctionnelle, l'allocation " \
-        "des pièces, les risques du projet et le DFMEA."
+        "Ce rapport rassemble l'analyse fonctionnelle de Diamond : la Storyline, l'arbre des fonctions, la structure fonctionnelle, " \
+        "l'allocation des pièces, les risques du projet et le DFMEA ; les diagrammes y sont en figures numérotées."
     return WD.heading(1, "Synthèse") + _intro(lead) + table(["Indicateur", "Valeur", "Précision"], rows, [36, 12, 52], aligns=["left", "center", "left"])
 
 
-def section_tree(data):
+def section_tree(data, figs):
     lab = data["labels"]
     rows, fills = [], {}
     for f in data["tree"]:
@@ -86,18 +91,21 @@ def section_tree(data):
             _intro("Lecture : vers la droite, « Comment ? » (chaque fonction est réalisée par celles à sa droite) ; vers la gauche, "
                    "« Pourquoi ? » ; de haut en bas, « Quand ? », dans l'ordre de l'usage. Les couleurs suivent les niveaux : primaire, "
                    "secondaires (sous-systèmes), tertiaires, techniques et hors arbre.") +
+            RF.tree(data, figs) +
+            _intro("Le tableau donne chaque fonction avec son niveau, son type, sa catégorie Kano et ses pièces.") +
             table(["N°", "Fonction", "Niveau", "Type", "Kano", "Critique", "Pièces"], rows, [7, 43, 12, 10, 12, 8, 12],
                   fills=lambda r: [fills[r[0]]] * 7, aligns=["left", "left", "left", "left", "left", "center", "left"]) +
-            _note("Le diagramme de l'arbre est dans le fichier draw.io (page « Arbre fonctionnel »)."))
+            _note("Le même diagramme, modifiable, est dans les fichiers draw.io et PowerPoint (page « Arbre fonctionnel »)."))
 
 
-def section_structure(data):
+def section_structure(data, figs):
     st, lab = data["structure"], data["labels"]
     name = {("p", p["id"]): p["label"] for p in st["ports"]}
     name.update({("f", f["id"]): X.code(f) + " " + f["text"] for f in data["tree"]})
     out = [WD.heading(1, "Structure fonctionnelle"),
            _intro("La frontière du système (boundary diagram) : ce que le produit reçoit à gauche, ce qu'il rend à droite, et les flux "
                   "d'énergie, de matière et d'information entre ses fonctions."),
+           RF.structure(data, figs),
            WD.heading(2, "Entrées et sorties"),
            table(["Côté", "Libellé", "Type de flux"], [[lab["sides"][p["side"]], p["label"], lab["kinds"].get(p["kind"], "")] for p in st["ports"]],
                  [30, 45, 25])]
@@ -107,7 +115,7 @@ def section_structure(data):
                  name.get(("p", fl["dst_port_id"])) or name.get(("f", fl["dst_function_id"]), "")] for fl in st["flows"] if fl["view"] == view]
         if rows:
             out += [WD.heading(2, "Flux — " + lab["views"][view].lower()), table(["Flux", "Type", "De", "Vers"], rows, [20, 14, 33, 33])]
-    out.append(_note("Les deux vues de la structure sont dans le fichier draw.io (pages « Structure »)."))
+    out.append(_note("Les deux vues, modifiables, sont aussi dans les fichiers draw.io et PowerPoint (pages « Structure »)."))
     return "".join(out)
 
 
@@ -130,7 +138,7 @@ def section_parts(data):
     return "".join(out)
 
 
-def section_risks(data):
+def section_risks(data, figs):
     lab = data["labels"]
     if not data["risks"]:
         return WD.heading(1, "Risques projet") + _intro("Aucun risque au registre.")
@@ -139,13 +147,14 @@ def section_risks(data):
     lvl = {"R-{}".format(r["number"]): r["level"]["key"] for r in data["risks"]}
     out = [WD.heading(1, "Risques projet"),
            _intro("Probabilité (P) et impact (I) de 1 à 5 ; niveau selon P × I : faible 1 à 4, moyen 5 à 9, élevé 10 à 14, critique 15 à 25."),
+           RF.risks(data, figs),
            table(["N°", "Risque", "P", "I", "P × I", "Niveau", "Stratégie", "Responsable"], rows, [7, 41, 5, 5, 7, 11, 11, 13],
                  fills=lambda r: [None] * 5 + [X.RISK_STYLE[lvl[r[0]]][0]] + [None, None],
                  aligns=["left", "left", "center", "center", "center", "center", "left", "left"])]
     actions = ["R-{} {} — {}".format(r["number"], r["title"], r["action"]) for r in data["risks"] if r["action"] and r["level"]["key"] in ("critique", "eleve")]
     if actions:
         out += [WD.heading(2, "Actions sur les risques élevés et critiques"), WD.bullets(actions)]
-    out.append(_note("La carte P × I (maintenant et résiduelle) est dans le fichier draw.io ; le registre complet, dans le classeur Excel."))
+    out.append(_note("La carte P × I est aussi dans les fichiers draw.io et PowerPoint ; le registre complet, dans le classeur Excel."))
     return "".join(out)
 
 
@@ -180,19 +189,20 @@ def section_review(data):
 def section_files(data):
     return (WD.heading(1, "Fichiers joints") + WD.bullets([
         "Classeur Excel « {} » : chaque tableau complet (arbre, structure, pièces × fonctions, risques, DFMEA).".format(X.safe_name(data, "Tableaux", "xlsx")),
-        "Fichier draw.io « {} » : l'arbre, les deux vues de la structure et la carte des risques, modifiables ; Fichier → "
-        "Exporter en PNG ou SVG, puis Insertion → Image dans Word ou PowerPoint.".format(X.safe_name(data, "Diagrammes", "drawio")),
+        "Fichiers draw.io « {} » et PowerPoint « {} » : les diagrammes de ce rapport, modifiables (formes et flèches) ; draw.io "
+        "exporte aussi en PNG ou SVG.".format(X.safe_name(data, "Diagrammes", "drawio"), X.safe_name(data, "Diagrammes", "pptx")),
         "Ce rapport en PDF : dans Word, Fichier → Enregistrer sous → PDF."]) +
         _note("{} · DynamiteAgile v{} · {}".format(X.MARK, data["version"], data["stamp"])))
 
 
 def build(data, prepared, initials):
-    body = "".join([section_summary(data), section_tree(data), section_structure(data), section_parts(data), section_risks(data),
-                    section_dfmea(data), section_review(data), section_files(data)])
+    figs = Figures()
+    body = "".join([section_summary(data), RF.storyline(data, figs), section_tree(data, figs), section_structure(data, figs),
+                    section_parts(data), section_risks(data, figs), section_dfmea(data), section_review(data), section_files(data)])
     meta = {"title": "Diamond — Analyse fonctionnelle", "subject": "{} ({})".format(data["project"]["name"], data["project"]["key"])[:80],
             "prepared": prepared[:80], "docno": "DIA-{}".format(data["project"]["key"])[:40], "rev": "A", "doctype": "Rapport", "lang": "fr"}
     raw = WD.build(meta, body, "Export de Diamond", initials)
-    return _mark(raw)
+    return figs.package(_mark(raw))
 
 
 def _mark(raw):
