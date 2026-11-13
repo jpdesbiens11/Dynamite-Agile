@@ -54,7 +54,7 @@ Stored codes never change (CSV / Excel exports keep working); the import also ac
 
 | Code / field | English label | Note |
 |---|---|---|
-| class CC / SC (0.61.0, D-O-107) | Class: CC (Critical Characteristic), SC (Significant Characteristic) | AIAG, IATF 16949 § 8.3.3.3 ; shown with the symbol of the Space's customer (Ford YC / YS in the DFMEA, CC ∇ / SC in process; aerospace CSC / KC) |
+| class CC / SC (0.60.101, D-O-108) | Class: CC (Critical Characteristic), SC (Significant Characteristic) | AIAG, IATF 16949 § 8.3.3.3 ; shown with the symbol of the Space's customer (Ford YC / YS in the DFMEA, CC ∇ / SC in process; aerospace CSC / KC) |
 | class state proposed / confirmed / refused | « Proposée », « Confirmée », « Refusée » | sentences of the DFMEA (« Confirmée par LEX · date · « reason » »), like the Diamond action statuses |
 | CSR | Customer-Specific Requirements | where a customer's symbols and rules come from |
 | fields | Function of Focus Element, Requirement / Characteristic, Failure Mode, Failure Effect, Failure Cause, Prevention Controls, Detection Controls, Higher-Level / Focus / Lower-Level Element, Action Priority (AP), RPN | AIAG-VDA |

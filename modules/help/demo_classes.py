@@ -1,4 +1,4 @@
-"""The classes CC / SC of the Rover in DEMO (0.61.0, D-O-107): what the team decided at the CDR (sprint 6, week 12) on the
+"""The classes CC / SC of the Rover in DEMO (0.60.101, D-O-108): what the team decided at the CDR (sprint 6, week 12) on the
 proposals of the rule -- three CC (the stop before contact, the emergency stop, the battery cut-off), four SC (the gasket
 groove, the corners of the plate, the air gap of the Hall sensor, the travel of the bumper) and five refusals with their
 reason (a refusal is kept). Three CC proposals are left to decide (F28, F1, F26): the « CC proposées » filter shows them,

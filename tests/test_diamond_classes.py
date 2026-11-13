@@ -1,4 +1,4 @@
-"""0.61.0 (D-O-107): Diamond -- the classes CC / SC of the DFMEA: the rule proposes (never assigns), a person confirms or
+"""0.60.101 (D-O-108): Diamond -- the classes CC / SC of the DFMEA: the rule proposes (never assigns), a person confirms or
 refuses with a reason (a refusal is kept, the history too), the rules and the customer dictionary of the Space (AIAG, Ford,
 aerospace; a customer of the team), the symbols in the payload and the CSV, the filters' counts, the checks, the rights,
 the copy of a Space, the search, and the Rover's CDR decisions in DEMO (once, never over a person's decision)."""
@@ -187,7 +187,7 @@ class ClassApiTest(unittest.TestCase):
             self.assertIn("/js/diamond/" + name, manifest["scripts"])
             text = (BASE_DIR / "static" / "js" / "diamond" / name).read_text("utf-8")
             self.assertNotIn("innerHTML", text)
-            self.assertIn('data-new": "0.61.0-', text)
+            self.assertIn('data-new": "0.60.101-', text)
         self.assertLess(manifest["scripts"].index("/js/diamond/dfmea_class.js"), manifest["scripts"].index("/js/diamond/dfmea_table.js"))
         row = next(r for r in self.rows() if r["class_proposed"])
         self.admin.post(self.base + "/rows/{}/class".format(row["id"]), {"decision": row["class_proposed"], "reason": "trace de recherche unique"})

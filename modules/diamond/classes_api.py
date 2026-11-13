@@ -1,4 +1,4 @@
-"""Routes of the classes CC / SC (0.61.0, D-O-107, classes.py): the decision on a DFMEA row, the rules and the customer
+"""Routes of the classes CC / SC (0.60.101, D-O-108, classes.py): the decision on a DFMEA row, the rules and the customer
 dictionary of the Space. Every write needs the editor role and is journalled; a decision always carries its reason."""
 import re
 

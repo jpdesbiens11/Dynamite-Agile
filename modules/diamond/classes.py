@@ -1,4 +1,4 @@
-"""Special characteristics in the DFMEA (0.61.0, D-O-107): the class CC / SC of a failure chain.
+"""Special characteristics in the DFMEA (0.60.101, D-O-108): the class CC / SC of a failure chain.
 
 AIAG (APQP, Control Plan) and IATF 16949:2016 § 8.3.3.3: a Critical Characteristic (CC) touches safety or the law; a
 Significant Characteristic (SC) touches the fit, the function, the performance or the satisfaction of the customer. The
@@ -120,7 +120,7 @@ def enrich(conn, pid, rows):
 
 def counts(rows, r):
     """What the filters of the DFMEA show: every row, CC · SC confirmed, S >= the CC threshold, CC proposed, and the confirmed
-    classes whose Requirement / Characteristic is empty (0.61.0; from the characteristics C-n, increment 2)."""
+    classes whose Requirement / Characteristic is empty (0.60.101; from the characteristics C-n, increment 2)."""
     return {"all": len(rows), "special": sum(1 for x in rows if x["special"]),
             "severe": sum(1 for x in rows if (x["severity"] or 0) >= r["cc_severity"]),
             "cc_proposed": sum(1 for x in rows if x["class_status"] == "proposed" and x["class_proposed"] == "CC"),

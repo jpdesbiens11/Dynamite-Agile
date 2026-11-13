@@ -1,4 +1,4 @@
-/* Diamond · DFMEA: the classes CC / SC (0.61.0, D-O-107). The platform proposes a class from S and O and the rules of
+/* Diamond · DFMEA: the classes CC / SC (0.60.101, D-O-108). The platform proposes a class from S and O and the rules of
    the Space (classes.py), a person decides: « Class » shows the symbol of the Space's customer (red for CC, orange for SC,
    dashed while only proposed), « Décision » who decided, when and why -- a refusal is kept. The decision is taken in a
    dialog that asks for the reason and shows the earlier decisions of the row. The filters of the DFMEA: every row, CC ·
@@ -61,10 +61,10 @@
     if (editable) {
       const open = (choice) => dialog(row, state, choice);
       box.append(el("div", { class: "dm-actions dm-cls-btns" }, row.class_status === "proposed"
-        ? [el("button", { type: "button", class: "btn btn-small btn-primary", "data-new": "0.61.0-class-confirm", onclick: () => open(row.class_proposed) },
+        ? [el("button", { type: "button", class: "btn btn-small btn-primary", "data-new": "0.60.101-class-confirm", onclick: () => open(row.class_proposed) },
           el("span", null, "Confirmer"), " " + sym(cls(state.data), row.class_proposed)),
         el("button", { type: "button", class: "btn btn-small", onclick: () => open("refused") }, "Refuser")]
-        : el("button", { type: "button", class: "btn btn-small", "data-new": "0.61.0-class-review", onclick: () => open(row.class_state === "confirmed" ? row.class_code : "") },
+        : el("button", { type: "button", class: "btn btn-small", "data-new": "0.60.101-class-review", onclick: () => open(row.class_state === "confirmed" ? row.class_code : "") },
           row.class_state ? "Revoir…" : "Classer…")));
     }
     if (said) box.append(said);
@@ -151,7 +151,7 @@
 
   function filters(state) {
     const C = cls(state.data), n = C.counts || {};
-    return el("div", { class: "dm-fm-filters", role: "group", "aria-label": "Filtres des classes", "data-new": "0.61.0-class-filters" },
+    return el("div", { class: "dm-fm-filters", role: "group", "aria-label": "Filtres des classes", "data-new": "0.60.101-class-filters" },
       el("span", { class: "dm-fm-filters-h" }, "Filtres"),
       FILTERS.map(([key, text, count]) => el("button", { type: "button", class: "btn btn-small", "aria-pressed": String((state.cls || "") === key),
         "data-tip": TIPS[key] || null, onclick: () => { state.cls = key; state.redraw(); } },

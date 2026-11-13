@@ -37,7 +37,7 @@ class Kit:
                       "focus": s(bold=True, fill="D6E6FB", border=True, h="center", v="center"),
                       "lower": s(bold=True, fill="FCE2D2", border=True, h="center", v="center"),
                       "risk": s(bold=True, fill="E9E2F7", border=True, h="center", v="center"),
-                      "special": s(bold=True, fill="FFE9A3", border=True, h="center", v="center")}  # 0.61.0
+                      "special": s(bold=True, fill="FFE9A3", border=True, h="center", v="center")}  # 0.60.101
         self.cls = {"CC": s(border=True, bold=True, h="center", fill="FDE2E1", color="9B1C1C"),
                     "SC": s(border=True, bold=True, h="center", fill="FDEBD9", color="8A3B00")}
         self.rot = s(bold=True, color="FFFFFF", fill=X.NAVY, border=True, h="center", v="bottom", rotate=90)
@@ -106,7 +106,7 @@ def synthese(book, kit, data):
                ("Risques projet", sm["risks"], "{} élevé(s) ou critique(s)".format(sm["risks_high"])),
                ("Lignes du DFMEA", sm["dfmea"], "AP High {} · Medium {} · Low {} · sans cotation {}".format(sm["ap"]["H"], sm["ap"]["M"], sm["ap"]["L"], sm["dfmea_unrated"])),
                ("Lignes avec essai clé (Test Base)", sm["dfmea_tested"], ""),
-               ("Caractéristiques spéciales du DFMEA", "{} CC · {} SC".format(sm["classes"]["CC"], sm["classes"]["SC"]),  # 0.61.0
+               ("Caractéristiques spéciales du DFMEA", "{} CC · {} SC".format(sm["classes"]["CC"], sm["classes"]["SC"]),  # 0.60.101
                 "symboles : {} ; {} proposée(s) à décider, {} refusée(s)".format(data["classes"]["customer"]["name"], sm["class_proposed"],
                                                                               sm["class_refused"]))]
     for label, value, note in figures:
@@ -251,7 +251,7 @@ def dfmea_sheet(book, kit, data):
     _frame(s, data, "DFMEA — Design FMEA (AIAG-VDA)", widths, kit, "7E57C2")
     groups = [("higher", 0, 1, "Structure : Higher-Level"), ("focus", 2, 7, "Focus Element : fonction, requirement, défaillance, effet"),
               ("lower", 8, 14, "Lower-Level : cause, prévention, détection"), ("risk", 15, 22, "Risque, actions et suivi"),
-              ("special", 23, 26, "Classe CC / SC")]  # 0.61.0 (D-O-107)
+              ("special", 23, 26, "Classe CC / SC")]  # 0.60.101 (D-O-108)
     r = s.line([""] * len(widths), kit.empty, height=22)
     for key, a, b, label in groups:
         s.put(r, a, label, kit.group[key])
@@ -283,7 +283,7 @@ def dfmea_sheet(book, kit, data):
     r = s.line(["S, O, D : de 1 à 10. RPN = S × O × D. AP (Action Priority, AIAG-VDA) : H = action requise, M = action "
                 "recommandée, L = action possible. La légende complète est dans Diamond → DFMEA → Légende AP."], kit.sub)
     s.merge(r, 0, r, 10)
-    r = s.line([class_note(data["classes"])], kit.sub)  # 0.61.0 (D-O-107)
+    r = s.line([class_note(data["classes"])], kit.sub)  # 0.60.101 (D-O-108)
     s.merge(r, 0, r, 10)
 
 

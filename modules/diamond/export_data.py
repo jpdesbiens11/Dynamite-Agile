@@ -45,7 +45,7 @@ def gather(conn, pid):
             "tree": tree, "kids": kids, "by_id": by_id, "views": view_nodes, "structure": structure, "parts": parts,
             "part_stats": structure["part_stats"], "part_checks": structure["part_checks"], "risks": risks, "dfmea": dfmea,
             "story": ST.rows(conn, pid),  # the scenes of the Storyline: figures of the Word report (0.60.98)
-            "classes": CL.info(conn, pid, dfmea),  # 0.61.0 (D-O-107): rules, the customer's symbols, the counts
+            "classes": CL.info(conn, pid, dfmea),  # 0.60.101 (D-O-108): rules, the customer's symbols, the counts
             "checks": {"tree": F.checks(F.rows(conn, pid)), "structure": structure["checks"], "risks": R.checks(risks),
                        "dfmea": DF.checks(conn, pid, dfmea)},
             "labels": {"types": F.TYPES, "kano": F.KANO, "importance": F.IMPORTANCE, "levels": F.LEVELS, "kinds": S.KINDS,

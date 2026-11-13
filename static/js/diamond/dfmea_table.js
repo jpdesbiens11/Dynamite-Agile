@@ -16,9 +16,9 @@
     { key: "failure_mode", label: "Failure Mode", group: "focus", type: "area", tip: "Comment la fonction peut ne pas être remplie" },
     { key: "effect", label: "Failure Effect", group: "higher", type: "area", tip: "La conséquence pour l'élément supérieur ou l'utilisateur" },
     { key: "severity", label: "S", group: "higher", type: "rating", tip: "Severity : gravité de l'effet, de 1 à 10" },
-    // 0.61.0 (D-O-107): the class CC / SC, proposed by the rules of the Space, decided by a person (dfmea_class.js)
-    { key: "class", label: "Class", group: "special", type: "class", fresh: "0.61.0-class-col", tip: "CC ou SC : proposée par la règle du Space (S, O), confirmée ou refusée par une personne" },
-    { key: "class_decision", label: "Décision", group: "special", type: "decision", fresh: "0.61.0-class-decision-col", tip: "Qui a décidé la classe, quand et pourquoi ; un refus est gardé" },
+    // 0.60.101 (D-O-108): the class CC / SC, proposed by the rules of the Space, decided by a person (dfmea_class.js)
+    { key: "class", label: "Class", group: "special", type: "class", fresh: "0.60.101-class-col", tip: "CC ou SC : proposée par la règle du Space (S, O), confirmée ou refusée par une personne" },
+    { key: "class_decision", label: "Décision", group: "special", type: "decision", fresh: "0.60.101-class-decision-col", tip: "Qui a décidé la classe, quand et pourquoi ; un refus est gardé" },
     { key: "cause", label: "Failure Cause", group: "lower", type: "area", tip: "Pourquoi le mode de défaillance se produit" },
     { key: "prevention", label: "Prevention Controls", group: "lower", type: "area", tip: "Ce qui, en conception, empêche la cause" },
     { key: "occurrence", label: "O", group: "lower", type: "rating", tip: "Occurrence : probabilité de la cause, avec la prévention" },
@@ -46,7 +46,7 @@
       td.append(col.key === "ap" ? apBadge(row.ap, state.data.labels.ap) : el("span", { class: "dm-fm-rpn" }, row.rpn ? String(row.rpn) : "—"));
       return td;
     }
-    if (col.type === "class" || col.type === "decision") return DA.diamond.classCell(td, col, row, state, editable);  // 0.61.0
+    if (col.type === "class" || col.type === "decision") return DA.diamond.classCell(td, col, row, state, editable);  // 0.60.101
     if (col.key === "detection_ctrl") td.append(keyTest(row, state, save, editable));  // 0.60.24 (D-O-033)
     if (["owner", "date", "status", "ticket"].includes(col.type)) return actionCell(td, col, row, state, save, editable);
     if (!editable) {
@@ -167,7 +167,7 @@
     return el("div", { class: "dm-scroll dm-fm-scroll" }, el("table", { class: "data dm-fm" }, el("thead", null, head), body), lists);
   }
 
-  /* after a cell is saved: refresh the scores of its row without redrawing (the focus stays where it is); 0.61.0: and its class */
+  /* after a cell is saved: refresh the scores of its row without redrawing (the focus stays where it is); 0.60.101: and its class */
   function refreshRow(holder, row, labels, state) {
     const tr = holder.querySelector('tr[data-row="' + row.id + '"]');
     if (!tr) return;

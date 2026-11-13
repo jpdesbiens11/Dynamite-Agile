@@ -88,7 +88,7 @@ html[data-term] :is(.dm-fm-h-act, table.dm-fm thead th.dm-fm-h-act) { background
 .dm-fm-track { white-space: nowrap; }
 .dm-risk-ticket { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; margin: .5rem 0; }
 
-/* 0.61.0 (D-O-107): the classes CC / SC -- yellow columns, red CC, orange SC, dashed while only proposed; a thick stripe
+/* 0.60.101 (D-O-108): the classes CC / SC -- yellow columns, red CC, orange SC, dashed while only proposed; a thick stripe
    on the row (thin stripe: AP High / Medium, as before) */
 .dm-fm-h-special, table.dm-fm thead th.dm-fm-h-special { background: #ffe9a3; color: #3d2e00; }
 html[data-term] :is(.dm-fm-h-special, table.dm-fm thead th.dm-fm-h-special) { background: #4a3a06; color: #ffe9a3; }

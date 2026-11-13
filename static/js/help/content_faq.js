@@ -139,9 +139,9 @@
     { q: "Mes données sortent-elles de notre serveur ?",
       blocks: [["p", "Non. L'outil tourne sur le serveur de l'équipe, sans CDN, sans police ou service externe ; la page elle-même interdit au navigateur de contacter un autre site, et l'échange est chiffré en HTTPS (TLS 1.3) sur le réseau. Seul ce que **vous** copiez vers un outil externe en sort : d'où la règle sur les agents IA."]] },
 
-    { q: "CC, SC : comment une ligne du DFMEA devient-elle une caractéristique spéciale ?", newTag: "0.61.0-faq-classes",
+    { q: "CC, SC : comment une ligne du DFMEA devient-elle une caractéristique spéciale ?", newTag: "0.60.101-faq-classes",
       blocks: [
-        ["p", "Diamond → DFMEA, colonnes **Class** et **Décision** (D-O-107). La plateforme **propose**, une personne **décide** : rien ne devient CC tout seul."],
+        ["p", "Diamond → DFMEA, colonnes **Class** et **Décision** (D-O-108). La plateforme **propose**, une personne **décide** : rien ne devient CC tout seul."],
         ["table", ["Classe", "Ce qu'elle veut dire", "Proposée quand (règle de départ)"], [
           ["CC — Critical Characteristic", "Sécurité ou loi ; Cpk habituel 1,67, traçabilité lot / numéro de série", "S = 9 ou 10"],
           ["SC — Significant Characteristic", "Ajustement, fonction, performance, satisfaction du client ; Cpk habituel 1,33", "S de 5 à 8 et O ≥ 4"]]],

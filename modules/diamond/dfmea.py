@@ -47,7 +47,7 @@ def _rows(conn, pid):
         row["line"] = n
         row["rpn"] = AP.rpn(row["severity"], row["occurrence"], row["detection"])
         row["ap"] = AP.action_priority(row["severity"], row["occurrence"], row["detection"])
-    CL.enrich(conn, pid, items)  # 0.61.0 (D-O-107): the class CC / SC proposed by the rules, decided by a person
+    CL.enrich(conn, pid, items)  # 0.60.101 (D-O-108): the class CC / SC proposed by the rules, decided by a person
     return ACT.enrich(conn, items, "dfmea")  # 0.60.38 (D-O-047): owner, due date, status, Agile ticket
 
 
@@ -123,7 +123,7 @@ def checks(conn, pid, rows):
                          "(SELECT risk_id FROM diamond_dfmea WHERE project_id = ? AND risk_id IS NOT NULL)", (pid, pid)).fetchall()
     if risks:
         out.append("Risque(s) projet à détailler ici : {} — « Depuis les risques ».".format(", ".join("R-{}".format(r["number"]) for r in risks)))
-    return out + CL.checks(rows, CL.rules(conn, pid))  # 0.61.0 (D-O-107)
+    return out + CL.checks(rows, CL.rules(conn, pid))  # 0.60.101 (D-O-108)
 
 
 def payload(conn, pid):
@@ -331,7 +331,7 @@ def api_export(ctx):
                 "Requirement / Characteristic", "Failure Mode", "Failure Effect", "S", "Failure Cause", "Prevention Controls", "O",
                 "Detection Controls", "Essai clé (Test Base)", "D", "RPN", "AP", "Actions", "Responsable", "Échéance", "Status de l'action",
                 "Ticket Agile", "Risque projet", "Class", "Class Status", "Décision de classe", "Justification de la classe"])
-    cust = CL.customer(ctx.conn, pid)  # 0.61.0 (D-O-107): the symbol of the Space's customer
+    cust = CL.customer(ctx.conn, pid)  # 0.60.101 (D-O-108): the symbol of the Space's customer
     for r in _rows(ctx.conn, pid):
         w.writerow([r["line"], r["higher"], r["focus"], r["lower"],
                     "F{} {}".format(r["function_number"], r["function_text"]) if r["function_number"] else "", r["requirement"],
@@ -345,7 +345,7 @@ def api_export(ctx):
 
 
 def class_cells(r, cust):
-    """0.61.0 (D-O-107): Class (symbol of the customer), Class Status, who and when, why -- for the CSV and Excel exports."""
+    """0.60.101 (D-O-108): Class (symbol of the customer), Class Status, who and when, why -- for the CSV and Excel exports."""
     st = r["class_status"]
     who = " · ".join(x for x in (r["class_by_initials"] or r["class_by_name"], r["class_at"][:10]) if x) if r["class_state"] else ""
     return [CL.symbol(cust, r["class_shown"]) if st == "confirmed" else CL.symbol(cust, r["class_shown"]) + " ?" if st == "proposed" else "",

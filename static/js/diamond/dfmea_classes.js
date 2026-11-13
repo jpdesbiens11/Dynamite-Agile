@@ -1,4 +1,4 @@
-/* Diamond · DFMEA: the classes CC / SC of the Space (0.61.0, D-O-107), #/diamond/KEY/dfmeaclass -- a page of its own
+/* Diamond · DFMEA: the classes CC / SC of the Space (0.60.101, D-O-108), #/diamond/KEY/dfmeaclass -- a page of its own
    (taller than a dialog may be): what CC and SC mean (AIAG, IATF 16949 § 8.3.3.3), the rule that proposes them (set per
    Space: S for a CC, S and O for a SC), the customer of the Space and the dictionary that turns the internal class into
    the customer's symbol on screen and in the exports. Start values: generic AIAG, Ford, aerospace AS9100 / AS9103; the
@@ -32,7 +32,7 @@
   function draw(holder, state) {
     clear(holder);
     const ctx = state.ctx, d = state.data;
-    holder.append(el("div", { class: "page-head dm-intro" }, el("h1", { "data-new": "0.61.0-class-page" }, "Classes CC / SC"),
+    holder.append(el("div", { class: "page-head dm-intro" }, el("h1", { "data-new": "0.60.101-class-page" }, "Classes CC / SC"),
       el("p", { class: "muted" }, "Les caractéristiques spéciales au sens de l'AIAG et de l'IATF 16949 (§ 8.3.3.3). La plateforme propose une "
         + "classe à partir de la sévérité et de l'occurrence de chaque ligne du DFMEA ; une personne la confirme ou la refuse, avec sa "
         + "justification. Rien ne devient CC tout seul.")),
@@ -63,7 +63,7 @@
     [cc, sc, so].forEach((i) => { i.disabled = !state.editable; });
     const upper = el("strong", null, String(r.cc_severity - 1));
     cc.addEventListener("input", () => { upper.textContent = String((Number(cc.value) || 1) - 1); });
-    return el("section", { class: "dm-cls-rules", "data-new": "0.61.0-class-thresholds" }, el("h2", null, "Règle de proposition du Space"),
+    return el("section", { class: "dm-cls-rules", "data-new": "0.60.101-class-thresholds" }, el("h2", null, "Règle de proposition du Space"),
       el("p", { class: "dm-cls-rule" }, el("span", { class: "dm-cls dm-cls-CC" }, "CC"), " proposée si S ≥ ", cc, " — la sévérité seule suffit."),
       el("p", { class: "dm-cls-rule" }, el("span", { class: "dm-cls dm-cls-SC" }, "SC"), " proposée si S de ", sc, " à ", upper, " et O ≥ ", so,
         " — règle de départ inspirée de Ford (YC, YS)."),
@@ -93,7 +93,7 @@
             if (window.confirm("Retirer « " + c.name + " » du dictionnaire ? L'action est journalisée.")) send(state, "post", "/customers/" + c.code + "/delete", {}, "Client retiré.");
           } }, "Retirer") : null) : null));
     });
-    return el("section", { class: "dm-cls-dict", "data-new": "0.61.0-class-symbols" }, el("h2", null, "Client du Space et ses symboles"),
+    return el("section", { class: "dm-cls-dict", "data-new": "0.60.101-class-symbols" }, el("h2", null, "Client du Space et ses symboles"),
       el("p", { class: "muted" }, "La classe reste interne (CC, SC) ; le client coché donne le symbole affiché dans le DFMEA et dans les "
         + "exports. Ford, par exemple, écrit YC / YS au DFMEA, puis CC ∇ / SC au procédé. Les symboles des autres donneurs d'ordres ne sont "
         + "pas fournis : ajoutez votre client à partir de ses CSR, sans les deviner."),
@@ -101,7 +101,7 @@
         el("thead", null, el("tr", null, el("th", { scope: "col" }, "Space"), el("th", { scope: "col" }, "Client"),
           COLS.map(([, t]) => el("th", { scope: "col" }, t)), el("th", { scope: "col" }, "Libellés"), el("th", { scope: "col" }, "Source"),
           el("th", { scope: "col" }, ""))), el("tbody", null, rows))),
-      state.editable ? el("button", { type: "button", class: "btn btn-small", "data-new": "0.61.0-class-customer", onclick: () => edit(state, null) }, "+ Ajouter un client") : null);
+      state.editable ? el("button", { type: "button", class: "btn btn-small", "data-new": "0.60.101-class-customer", onclick: () => edit(state, null) }, "+ Ajouter un client") : null);
   }
 
   /* the dialog of one customer: name, the four symbols, the two labels, the source (its CSR) */

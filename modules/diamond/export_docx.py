@@ -180,7 +180,7 @@ def section_dfmea(data):
 
 
 def section_classes(data):
-    """0.61.0 (D-O-107): the classes CC / SC -- the decided and the proposed rows, with the symbols of the Space's customer."""
+    """0.60.101 (D-O-108): the classes CC / SC -- the decided and the proposed rows, with the symbols of the Space's customer."""
     from . import dfmea as DF
     info, sm = data["classes"], data["summary"]
     cust, r = info["customer"], info["rules"]

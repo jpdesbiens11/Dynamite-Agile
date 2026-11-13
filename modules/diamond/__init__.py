@@ -14,7 +14,7 @@ Sub-modules, one per iteration:
   0.60.52  Storyline → IA (story_ai.py): the prompt built from the scenes, and the AI's answer imported into the Space.
   0.60.61  Coûts et budget (costs.py, costs_budget.py): NRE, unit cost of each part in prototype and at three volumes,
            the project budget for investors and the department.
-  0.61.0   Classes CC / SC du DFMEA (classes.py, classes_api.py): proposed by the rules of the Space, decided by a person,
+  0.60.101   Classes CC / SC du DFMEA (classes.py, classes_api.py): proposed by the rules of the Space, decided by a person,
            shown with the symbols of the Space's customer.
 Every table is tied to projects(id) (backup, restore, copy by the core); every write is journalled.
 """
@@ -254,7 +254,7 @@ MIGRATIONS = [
         CREATE INDEX idx_diamond_cost_parts_project ON diamond_cost_parts(project_id, position);
     """),
     (10, """
-        -- 0.61.0 (D-O-107): the class CC / SC of a DFMEA row -- proposed by the rules, decided by a person (classes.py)
+        -- 0.60.101 (D-O-108): the class CC / SC of a DFMEA row -- proposed by the rules, decided by a person (classes.py)
         ALTER TABLE diamond_dfmea ADD COLUMN class_code TEXT NOT NULL DEFAULT '';
         ALTER TABLE diamond_dfmea ADD COLUMN class_state TEXT NOT NULL DEFAULT '';
         ALTER TABLE diamond_dfmea ADD COLUMN class_by INTEGER REFERENCES users(id) ON DELETE SET NULL;
@@ -360,7 +360,7 @@ ROUTES = [
     ("POST", P + r"/risks/(?P<rid>\d+)/archive", risks.api_archive, "user"),
     ("POST", P + r"/actions/(?P<kind>risk|dfmea)/(?P<oid>\d+)/track", actions.api_track, "user"),  # 0.60.38 (D-O-047)
     ("GET", P + r"/dfmea", dfmea.api_list, "user"),
-    ("GET", P + r"/dfmea/classes", classes_api.api_get, "user"),  # 0.61.0 (D-O-107): classes CC / SC, rules and symbols
+    ("GET", P + r"/dfmea/classes", classes_api.api_get, "user"),  # 0.60.101 (D-O-108): classes CC / SC, rules and symbols
     ("PATCH", P + r"/dfmea/classes", classes_api.api_settings, "user"),
     ("POST", P + r"/dfmea/classes/customers", classes_api.api_customer_create, "user"),
     ("PATCH", P + CUST, classes_api.api_customer_update, "user"),

@@ -1,8 +1,8 @@
-# Journal de mise à jour — 0.61.0
+# Journal de mise à jour — 0.60.101
 
-- **Version :** 0.60.99 → 0.61.0 (2026-11-13)
+- **Version :** 0.60.100 → 0.60.101 (2026-11-13)
 - **Changements :**
-  1. **Classes CC / SC dans le DFMEA de Diamond : la plateforme propose, une personne décide** (D-O-107, D-O-108).
+  1. **Classes CC / SC dans le DFMEA de Diamond : la plateforme propose, une personne décide** (D-O-108, D-O-109).
 - **Base de données :** ['Migration diamond 10 (additive) : colonnes class_code, class_state, class_by, class_at, class_reason, class_severity, class_occurrence de diamond_dfmea ; tables diamond_class_settings, diamond_class_customers, diamond_class_decisions.']
 
 ## Précédent

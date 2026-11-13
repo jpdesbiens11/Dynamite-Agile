@@ -173,7 +173,7 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
-- **0.61.0** (2026-11-13) : **classes CC / SC dans le DFMEA** (D-O-107, incrément 1 de D-O-108 : caractéristiques spéciales
+- **0.60.101** (2026-11-13) : **classes CC / SC dans le DFMEA** (D-O-108, incrément 1 de D-O-109 : caractéristiques spéciales
   jusqu'au poste en six incréments) : colonnes Class et Décision (`modules/diamond/classes.py`, `classes_api.py`,
   `static/js/diamond/dfmea_class.js`, migration diamond 10) — la règle du Space propose (S ≥ 9 → CC ; S 5 à 8 et O ≥ 4 → SC), une
   personne confirme ou refuse avec sa justification (`diamond_class_decisions`, un refus est gardé) ; règle et symboles du client par
