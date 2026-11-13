@@ -2,15 +2,15 @@
   "changes": [
     {
       "id": "C1",
-      "title": "La démo Rover dit ce que ses preuves montrent",
-      "why": "Une démo regardée par une auditrice ISO 9001 / IATF 16949 doit tenir à la première trace. Avant : Testing → Vérification affichait « Not run » partout alors que Goldmine disait « Verified » (les plans du Rover n'avaient qu'un PDF, aucun résultat saisi) ; l'ECN fermé n'avait ni approbateurs CCB ni référence de vérification, et son PR restait « Derived to ECN » ; deux exigences de l'ancien HeadLamp traînaient. Maintenant, une fois par installation (nouvelle démo comme démo existante) : un bundle par plan qui a ses résultats, un résultat par essai et le rapport PDF en preuve, donc des verdicts calculés et un plan fermé sans manque ; une exigence est « Verified » quand son verdict le dit, avec sa « Verification Ref. » ; les champs CCB des ECN, la référence de vérification de l'ECN fermé et son PR fermé ; HL-001 et HL-002 passent « Rejected » avec un commentaire (une exigence ne s'efface jamais). Ce qu'une personne a déjà saisi n'est jamais remplacé. La page Vérification laisse de côté les exigences « Rejected » ou « Obsolete » : il n'y a plus rien à y prouver.",
+      "title": "Un onglet ne charge que ses scripts, et le navigateur les garde",
+      "why": "Le premier onglet de module ouvert dans une session (souvent Diamond) chargeait les scripts et les styles de tous les modules d'un coup, une centaine de fichiers, et les faisait revalider à chaque nouvelle session : environ 2 secondes d'attente sur la démo, quel que soit le module. Maintenant, un onglet charge ses propres scripts et ceux du module dont il dépend (Agile pour Diamond, Goldmine, Testing, Tools et Dynamite), puis les autres modules arrivent en arrière-plan, une fois la page dessinée. Chaque fichier est demandé à une adresse qui porte l'empreinte de son contenu : le navigateur le garde, et ne le redemande que lorsqu'il change. Mesuré à 80 ms de latence : Diamond s'ouvre en 0,4 s au lieu de 1,9 s, sans aucun fichier sur le réseau à la session suivante. Rien ne change pour les données.",
       "files": [
-        "modules/help/demo_evidence.py",
-        "modules/help/__init__.py",
-        "modules/help/headlamp.py",
-        "modules/testing/verification.py",
-        "tests/test_demo_evidence.py",
-        "tests/test_demo_life.py"
+        "static/js/api.js",
+        "static/js/app.js",
+        "core/modules.py",
+        "core/router.py",
+        "core/static_cache.py",
+        "tests/test_module_assets.py"
       ]
     }
   ]

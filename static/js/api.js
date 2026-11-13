@@ -187,14 +187,13 @@
      parts) receives the empty <main> of the shell and the URL hash parts
      after the module key (#/agile/EQP/board -> ["EQP", "board"]). */
   const views = {};
-  const loadedAssets = new Set();
+  const loadedAssets = new Map();  // url -> its load: a second caller waits for the same one, even while it is still loading
 
   function registerModule(key, render) { views[key] = render; }
 
   function loadAsset(url, isStyle) {
-    if (loadedAssets.has(url)) return Promise.resolve();
-    loadedAssets.add(url);
-    return new Promise((resolve) => {
+    if (loadedAssets.has(url)) return loadedAssets.get(url);
+    const job = new Promise((resolve) => {
       const node = isStyle
         ? el("link", { rel: "stylesheet", href: url })
         : el("script", { src: url });
@@ -203,16 +202,43 @@
       node.addEventListener("error", () => { console.error("Asset not loaded: " + url); resolve(); });
       document.head.append(node);
     });
+    loadedAssets.set(url, job);
+    return job;
   }
 
-  function loadModuleAssets(modules) {
+  /* 0.60.100 (D-O-107): the scripts of the module being opened and of the ones it requires (theirs first), no longer
+     the ~110 files of every module at once; the styles of every module (small, and shared by the left panels). Each
+     file is asked for at its versioned address (url?v=token), which the browser keeps until the file changes. */
+  const pinned = (m, url) => (m.v && m.v[url] ? url + "?v=" + m.v[url] : url);
+
+  function withRequired(modules, key) {
+    const byKey = new Map(modules.filter((m) => m.available).map((m) => [m.key, m]));
+    const out = [];
+    (function add(k) {
+      const m = byKey.get(k);
+      if (!m || out.includes(m)) return;
+      (m.requires || []).forEach(add);
+      out.push(m);
+    })(key);
+    return out;
+  }
+
+  function loadModuleAssets(modules, key) {
+    const all = (modules || []).filter((m) => m.available);
+    const wanted = key === undefined ? all.flatMap((m) => withRequired(all, m.key)) : withRequired(all, key);
     const jobs = [];
-    for (const m of modules || []) {
-      if (!m.available) continue;
-      (m.styles || []).forEach((url) => jobs.push(loadAsset(url, true)));
-      (m.scripts || []).forEach((url) => jobs.push(loadAsset(url, false)));
-    }
+    for (const m of all) (m.styles || []).forEach((url) => jobs.push(loadAsset(pinned(m, url), true)));
+    for (const m of new Set(wanted)) (m.scripts || []).forEach((url) => jobs.push(loadAsset(pinned(m, url), false)));
     return Promise.all(jobs);
+  }
+
+  /* the other modules, once the page has been drawn and the browser is idle: the next tab opens at once */
+  let prefetching = false;
+  function prefetchModuleAssets(modules) {
+    if (prefetching) return;
+    prefetching = true;
+    const run = () => loadModuleAssets(modules);
+    if (window.requestIdleCallback) requestIdleCallback(run, { timeout: 3000 }); else setTimeout(run, 1200);
   }
 
   window.DA = {
@@ -228,6 +254,6 @@
     setCsrf(token) { state.csrf = token; },
     onUnauthorized: null,
     ApiError, el, clear, field, badge, roleBadge, table, toast, modal, formatDate, initials,
-    registerModule, loadModuleAssets, views,
+    registerModule, loadModuleAssets, prefetchModuleAssets, views,
   };
 })();

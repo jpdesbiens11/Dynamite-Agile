@@ -30,7 +30,9 @@ A module object is expected to expose, at minimum:
 To register a finished module, add its import at the top and change its
 manifest entry's "module" value -- nothing else in core/ needs to change.
 """
+from pathlib import Path
 
+from . import static_cache
 from modules import agile, codex, dynamite, exploration, goldmine, testing, timesheet, toolbox, training
 from modules import help as help_module  # noqa: E402  (top-level package next to core/)
 from modules import about  # noqa: E402  D-B-108
@@ -165,13 +167,35 @@ def registered_migrations():
     return result
 
 
+# 0.60.100 (D-O-107): the browser loads a module's scripts when its tab is first opened, no longer every module's at
+# once. A module whose scripts use another module's (DA.agile: the Agile shell, the Goldmine tests DA.gt, the ticket
+# badges of Dynamite) names it here; that one is loaded first. tests/test_module_assets.py checks the list is complete.
+REQUIRES = {"dynamite": ("agile",), "goldmine": ("agile",), "diamond": ("agile",), "testing": ("agile",), "tools": ("agile",)}
+STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
+
+
+def asset_tokens(urls):
+    """{url: token} -- a short hash of each file's content. The browser asks for url?v=token, which the server lets it
+    keep for a year (core/router.py): a changed file gets a new token, so a new address, at the next sign-in."""
+    tokens = {}
+    for url in urls:
+        target = STATIC_DIR / url.lstrip("/")
+        if target.is_file():
+            tokens[url] = static_cache.token(static_cache.get(target))
+    return tokens
+
+
 def nav_manifest():
-    """What the browser needs to build the top navigation."""
-    return [
-        {"key": entry["key"], "label": entry["label"], "phase": entry["phase"],
-         "available": entry["module"] is not None,
-         "scripts": entry.get("scripts", []) if entry["module"] is not None else [],
-         "styles": entry.get("styles", []) if entry["module"] is not None else [],
-         "placement": entry.get("placement", "main")}  # "end": right of Administration (core lot v0.8)
-        for entry in MODULE_MANIFEST if entry.get("placement") != "none"  # core lot v0.34: a module without any screen
-    ]
+    """What the browser needs to build the top navigation, and to load each module's screens when they are opened."""
+    result = []
+    for entry in MODULE_MANIFEST:
+        if entry.get("placement") == "none":  # core lot v0.34: a module without any screen
+            continue
+        built = entry["module"] is not None
+        scripts = entry.get("scripts", []) if built else []
+        styles = entry.get("styles", []) if built else []
+        result.append({"key": entry["key"], "label": entry["label"], "phase": entry["phase"], "available": built,
+                       "scripts": scripts, "styles": styles,
+                       "placement": entry.get("placement", "main"),  # "end": right of Administration (core lot v0.8)
+                       "requires": list(REQUIRES.get(entry["key"], ())), "v": asset_tokens(scripts + styles)})
+    return result
