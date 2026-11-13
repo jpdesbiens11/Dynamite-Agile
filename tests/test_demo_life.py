@@ -73,7 +73,7 @@ class DemoLifeTest(unittest.TestCase):
     def test_03_goldmine_testing_plan_hours_diamond(self):
         verified = self.one("SELECT COUNT(*) FROM agile_requirements r JOIN agile_issues i ON i.id = r.issue_id JOIN agile_statuses s "
                             "ON s.id = i.status_id WHERE i.project_id = ? AND s.name = 'Verified'", self.pid)
-        self.assertEqual(verified, 10)
+        self.assertEqual(verified, 18)  # 0.60.99 (D-O-106): every requirement whose recorded results prove it
         qa = self.admin.get("/api/agile/p/{}/qa".format(self.pid))["items"]
         self.assertEqual(sorted(q["status"] for q in qa), ["closed", "closed", "closed", "open"])
         plans = {p["code"]: p for p in self.admin.get("/api/testing/plans?space=DEMO")["plans"]}

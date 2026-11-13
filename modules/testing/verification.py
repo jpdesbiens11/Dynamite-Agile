@@ -11,6 +11,7 @@ from . import bundles, catalog, tests_api
 TEST_LABELS = {"passed": "Passed", "derogation": "Passed with derogation", "failed": "Failed", "not_run": "Not run"}
 REQ_LABELS = {"verified": "Verified", "derogation": "Verified with derogation", "failed": "Failed",
               "partial": "Partially verified", "not_run": "Not run"}
+SET_ASIDE = ("Rejected", "Obsolete")  # 0.60.99 (D-O-106): a rejected or replaced requirement has nothing left to verify
 
 
 def executions(conn, pid, test_id=None):
@@ -59,6 +60,8 @@ def api_verification(ctx):
     reqs = {}
     for test_id, items in linked.items():
         for item in items:
+            if item["status"] in SET_ASIDE:
+                continue
             reqs.setdefault(item["key"], dict(item, tests=[]))["tests"].append((test_id, by_test.get(test_id, "not_run")))
     rows = []
     for r in sorted(reqs.values(), key=lambda x: (x["key"].split("-")[0], int(x["key"].rsplit("-", 1)[1]))):
