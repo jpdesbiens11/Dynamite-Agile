@@ -17,8 +17,8 @@
     { key: "effect", label: "Failure Effect", group: "higher", type: "area", tip: "La conséquence pour l'élément supérieur ou l'utilisateur" },
     { key: "severity", label: "S", group: "higher", type: "rating", tip: "Severity : gravité de l'effet, de 1 à 10" },
     // 0.61.0 (D-O-107): the class CC / SC, proposed by the rules of the Space, decided by a person (dfmea_class.js)
-    { key: "class", label: "Class", group: "special", type: "class", tip: "CC ou SC : proposée par la règle du Space (S, O), confirmée ou refusée par une personne" },
-    { key: "class_decision", label: "Décision", group: "special", type: "decision", tip: "Qui a décidé la classe, quand et pourquoi ; un refus est gardé" },
+    { key: "class", label: "Class", group: "special", type: "class", fresh: "0.61.0-class-col", tip: "CC ou SC : proposée par la règle du Space (S, O), confirmée ou refusée par une personne" },
+    { key: "class_decision", label: "Décision", group: "special", type: "decision", fresh: "0.61.0-class-decision-col", tip: "Qui a décidé la classe, quand et pourquoi ; un refus est gardé" },
     { key: "cause", label: "Failure Cause", group: "lower", type: "area", tip: "Pourquoi le mode de défaillance se produit" },
     { key: "prevention", label: "Prevention Controls", group: "lower", type: "area", tip: "Ce qui, en conception, empêche la cause" },
     { key: "occurrence", label: "O", group: "lower", type: "rating", tip: "Occurrence : probabilité de la cause, avec la prévention" },
@@ -142,7 +142,7 @@
     const cols = COLS.filter((c) => visible.has(c.key));
     const head = el("tr", null, el("th", { class: "dm-fm-tools-h", scope: "col" }, "#"),
       cols.map((c) => el("th", { scope: "col", class: "dm-fm-h dm-fm-h-" + c.group + (c.type === "rating" || c.type === "calc" ? " dm-fm-narrow" : ""),
-        "data-tip": c.tip }, c.label)));
+        "data-tip": c.tip, "data-new": c.fresh || null }, c.label)));
     const rows = state.filtered;
     const body = el("tbody", null, rows.map((row, i) => {
       const prev = i > 0 ? rows[i - 1] : null;

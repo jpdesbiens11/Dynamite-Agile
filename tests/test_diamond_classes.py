@@ -205,6 +205,15 @@ class ClassApiTest(unittest.TestCase):
         self.assertEqual(len(kept), 1)
         self.assertEqual(kept[0]["class_history"], 1)
         self.assertEqual(self.admin.get(nb + "/rows/{}/class".format(kept[0]["id"]))["history"][0]["reason"], "trace de recherche unique")
+        # a backup of the Space, restored as a new Space: the same (backup.collect follows the foreign keys)
+        status, _headers, zipped = self.admin.raw_get("/api/admin/projects/{}/backup.zip".format(self.pid))
+        self.assertEqual(status, 200)
+        restored = self.admin.upload("/api/admin/restore?key=LAMPR&name=Restauree", zipped, "application/zip", "lampk.zip")
+        rb = "/api/diamond/p/{}/dfmea".format(restored["project"]["id"])
+        back = self.admin.get(rb)
+        self.assertEqual(back["classes"]["rules"]["sc_occurrence"], 5)
+        again = [r for r in back["rows"] if r["class_reason"] == "trace de recherche unique"]
+        self.assertEqual((len(again), again[0]["class_history"], again[0]["class_by_initials"]), (1, 1, "ADM"))
         self.admin.patch(self.base + "/classes", {"sc_occurrence": 4})
 
 

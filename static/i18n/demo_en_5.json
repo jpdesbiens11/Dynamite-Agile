@@ -1,4 +1,6 @@
 {
+"Prise en main terminée": "Onboarding completed",
+"Prix acceptable pour l'école : 200 à 300 $": "Price acceptable to the school: $200 to $300",
 "Prix de 2026, taxes en sus. Prototype : achat à l'unité chez un distributeur ; 100 kits : tarifs par lots ; 1 000 et 10 000 kits : soumissions de deux fournisseurs, boîtier et pare-chocs moulés par injection.": "2026 prices, taxes extra. Prototype: bought individually from a distributor; 100 kits: batch pricing; 1,000 and 10,000 kits: quotes from two suppliers, enclosure and bumper injection-molded.",
 "Problème": "Problem",
 "Problème trouvé en essai ; voir le ticket relié.": "Problem found in testing; see the linked ticket.",
@@ -304,6 +306,7 @@
 "Système de fichiers corrompu par une coupure brutale": "File system corrupted by an abrupt power cut",
 "Système en lecture seule (overlay)": "Read-only system (overlay)",
 "Sécurité": "Safety",
+"Sécurité des personnes : l'arrêt d'urgence doit couper la traction en 0,2 s au plus (REQ-7).": "Personal safety: the emergency stop must cut traction in 0.2 s at most (REQ-7).",
 "Séparateur": "Separator",
 "Séquence d'usage (RESEAU)": "Sequence of use (RESEAU)",
 "Séquence de démarrage": "Startup sequence",
@@ -316,6 +319,7 @@
 "Tenir les modules sur tout terrain": "Hold the modules together on any terrain",
 "Tenir un cahier de conception daté et utile : idées, calculs, décisions.": "Keep a dated and useful design notebook: ideas, calculations, decisions.",
 "Tension trop haute sur l'entrée du Pi": "Voltage too high on the Pi input",
+"Tenue à la chute de 0,5 m (REQ-23) : le rayon des coins de la plaque se tient à la découpe.": "Withstand a 0.5 m drop (REQ-23): the corner radius of the plate is held at cutting.",
 "Termes (Definitions)": "Terms (Definitions)",
 "Terminez-le (« Clôturer ») : les tickets reviennent au Backlog, puis créez-en un nouveau.": "Finish it (“Close”): the tickets go back to the Backlog, then create a new one.",
 "Terminé": "Done",
@@ -425,7 +429,5 @@
 "Un seul tournevis cruciforme no 1 pour tout le robot.": "A single no. 1 Phillips screwdriver for the whole robot.",
 "Un seul ultrason sur un servo qui balaie": "A single ultrasonic sensor on a sweeping servo",
 "Un ticket clôturé avec le Sprint revient au Backlog même s'il était presque fini : c'est voulu, il sera replanifié.": "A ticket closed with the Sprint goes back to the Backlog even if it was almost finished: this is intended, it will be re-planned.",
-"Un ticket est passé au mauvais status": "A ticket moved to the wrong status",
-"Un ticket est trop gros pour le Sprint": "A ticket is too big for the Sprint",
-"Un ticket ne change de status que par une transition listée : ajoutez-en une au besoin (« Ajouter la transition »).": "A ticket changes status only through a listed transition: add one if needed (“Add the transition”)."
+"Un ticket est passé au mauvais status": "A ticket moved to the wrong status"
 }

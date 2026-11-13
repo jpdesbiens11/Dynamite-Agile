@@ -173,6 +173,13 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.61.0** (2026-11-13) : **classes CC / SC dans le DFMEA** (D-O-107, incrément 1 de D-O-108 : caractéristiques spéciales
+  jusqu'au poste en six incréments) : colonnes Class et Décision (`modules/diamond/classes.py`, `classes_api.py`,
+  `static/js/diamond/dfmea_class.js`, migration diamond 10) — la règle du Space propose (S ≥ 9 → CC ; S 5 à 8 et O ≥ 4 → SC), une
+  personne confirme ou refuse avec sa justification (`diamond_class_decisions`, un refus est gardé) ; règle et symboles du client par
+  Space (`#/diamond/KEY/dfmeaclass`, `dfmea_classes.js` : AIAG générique, Ford YC / YS · CC ∇ / SC, aéro CSC / KC) ; filtres CC · SC,
+  S ≥ 9, CC proposées, SC sans caractéristique ; exports CSV / Excel / Word ; démo Rover : décisions de la CDR
+  (`modules/help/demo_classes.py`) (`tests/test_diamond_classes.py`).
 - **0.60.99** (2026-11-13) : **la démo Rover tient devant une auditrice** (D-O-106, `modules/help/demo_evidence.py`, une fois par
   installation, journal `demo_evidence_coherent`) : bundle, résultats et rapport PDF en preuve pour les plans TP-ROVER fermé et reçu,
   statut « Verified » aligné sur le verdict calculé avec sa « Verification Ref. », champs CCB des ECN et PR fermé avec son ECN,

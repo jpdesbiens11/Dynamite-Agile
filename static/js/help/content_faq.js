@@ -139,6 +139,19 @@
     { q: "Mes données sortent-elles de notre serveur ?",
       blocks: [["p", "Non. L'outil tourne sur le serveur de l'équipe, sans CDN, sans police ou service externe ; la page elle-même interdit au navigateur de contacter un autre site, et l'échange est chiffré en HTTPS (TLS 1.3) sur le réseau. Seul ce que **vous** copiez vers un outil externe en sort : d'où la règle sur les agents IA."]] },
 
+    { q: "CC, SC : comment une ligne du DFMEA devient-elle une caractéristique spéciale ?", newTag: "0.61.0-faq-classes",
+      blocks: [
+        ["p", "Diamond → DFMEA, colonnes **Class** et **Décision** (D-O-107). La plateforme **propose**, une personne **décide** : rien ne devient CC tout seul."],
+        ["table", ["Classe", "Ce qu'elle veut dire", "Proposée quand (règle de départ)"], [
+          ["CC — Critical Characteristic", "Sécurité ou loi ; Cpk habituel 1,67, traçabilité lot / numéro de série", "S = 9 ou 10"],
+          ["SC — Significant Characteristic", "Ajustement, fonction, performance, satisfaction du client ; Cpk habituel 1,33", "S de 5 à 8 et O ≥ 4"]]],
+        ["steps", [
+          "Une proposition apparaît en pointillé (« CC ? ») : « Confirmer CC » ou « Refuser », avec une justification obligatoire.",
+          "La décision garde le nom, la date, S et O du moment ; un refus est gardé aussi, et « Revoir… » montre les décisions précédentes.",
+          "Filtres au-dessus du tableau : CC · SC, S ≥ 9, CC proposées, SC sans caractéristique (Requirement / Characteristic vide).",
+          "« Classes CC / SC » (en haut du DFMEA) : la règle du Space et le client dont les symboles s'affichent et s'exportent (AIAG générique, Ford YC / YS, aéro CSC / KC)."]],
+        ["warn", "Les symboles d'un autre donneur d'ordres ne sont pas fournis : ajoutez votre client à partir de ses CSR (Customer-Specific Requirements), sans les deviner."]] },
+
     { q: "Pourquoi Goldmine, Dynamite, Exploration… ? Les noms de la mine", newTag: "0.60.02-faq-mine",
       blocks: [
         ["p", "Concevoir un produit, c'est exploiter un gisement : on prospecte, on dégage la roche, on extrait ce qui a de la valeur, on en vérifie la teneur. Chaque module porte le nom de son geste."],

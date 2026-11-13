@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-06 (v0.60.52)
-**Version :** 0.60.52 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** 0.60.52 (demande de JP du 2026-11-06) : Copier pour l'IA, importer la réponse, Storyline du Rover, Storytelling retiré de Tools
+**Dernière mise à jour :** 2026-11-13 (v0.61.0)
+**Version :** 0.61.0 — +1 sur le dernier chiffre à chaque livraison (D-O-001) ; après 0.60.99 vient 0.61.0 (D-B-107)
+**Chantier actif :** caractéristiques spéciales dans Diamond, six incréments (D-O-108, demande de JP du 2026-11-13) : incrément 1, classes CC / SC dans le DFMEA, livré en 0.61.0 (D-O-107) ; suit l'incrément 2, caractéristiques C-n et sommaire des caractéristiques spéciales
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -48,6 +48,8 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.34 | Installation : question Traefik, détection par install.sh ; site web avec Diamond et les nouveautés (D-O-042) | Livré |
 | 0.60.35 | Le pointeur et Bob le mineur en lecture seule (D-O-043, D-O-044) | Livré |
 | 0.60.36 | Mise à jour en ligne : vérifier, approuver, progression (D-O-045) | Livré |
+| 0.61.0 | Diamond : classes CC / SC dans le DFMEA — proposées par la règle du Space, décidées par une personne avec sa justification, refus gardé ; règle et symboles du client par Space (AIAG, Ford, aéro) ; filtres, exports, démo Rover (D-O-107, D-O-108) | Livré (PR) |
+| 0.61.1 à 0.61.5 | Diamond, suite de D-O-108 : (2) caractéristiques C-n et sommaire des SC ; (3) numéros de pièce de l'entreprise par l'IA (boucle externe) ; (4) « Procédés », la ligne d'assemblage ; (5) PFMEA généré en brouillon ; (6) plans de contrôle, Cpk, priorisation en vagues, impact d'un ECN | À faire, un incrément à la fois |
 | 0.60.37 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
 
 ## Table 2 : Questions du brief §5 (toutes tranchées)
@@ -61,6 +63,15 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 5 | Profils d'études de l'équipe d'exemple | Confirmés (D-O-013) |
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
+
+## Relais (0.61.0)
+
+- Caractéristiques spéciales (D-O-107, D-O-108) : la proposition se calcule (`classes.propose`, jamais stockée) ; la décision est sur
+  `diamond_dfmea.class_*` et dans `diamond_class_decisions`. Incrément 2 : remplacer la définition provisoire de « SC sans
+  caractéristique » (`classes.no_characteristic` : Requirement / Characteristic vide) par « aucune caractéristique C-n liée ». Les
+  symboles au procédé (`cc_symbol`, `sc_symbol`) servent au sommaire, au PFMEA et au plan de contrôle. Toute nouvelle table : dans
+  `spacecopy.DIAMOND`, liée à `projects(id)`. Question ouverte de l'incrément 3 : la boucle interne vers un modèle local (exception à
+  « aucun appel réseau sortant »).
 
 ## Relais (fin de 0.60.67)
 

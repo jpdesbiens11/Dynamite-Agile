@@ -1,0 +1,52 @@
+{
+  "version": "0.61.0",
+  "date": "2026-11-13",
+  "summary": {
+    "fr": "Diamond → DFMEA : classes CC / SC proposées par la règle du Space, confirmées ou refusées par une personne avec sa justification ; symboles du client (AIAG, Ford, aéro) ; démo Rover classée.",
+    "en": "Diamond → DFMEA: CC / SC classes proposed by the Space's rule, confirmed or refused by a person with a justification; the customer's symbols (AIAG, Ford, aerospace); the Rover demo classified."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Classes CC / SC dans le DFMEA de Diamond : la plateforme propose, une personne décide",
+      "why": "Les caractéristiques spéciales de l'AIAG (IATF 16949 § 8.3.3.3) naissent dans le DFMEA, mais la décision n'était tracée nulle part. Maintenant, Diamond → DFMEA a deux colonnes, Class et Décision : la règle du Space propose une classe à partir de S et O (S 9 ou 10 → CC ; S 5 à 8 et O ≥ 4 → SC), une personne la confirme ou la refuse avec sa justification, son nom, la date, S et O du moment ; un refus est gardé et chaque décision reste dans l'historique de la ligne. Rien ne devient CC tout seul. La page « Classes CC / SC » règle les seuils et le client du Space, dont les symboles s'affichent et s'exportent : AIAG générique, Ford (YC / YS au DFMEA, CC ∇ / SC au procédé), aéro AS9100 / AS9103 (CSC / KC), ou un client ajouté à partir de ses CSR. Filtres CC · SC, S ≥ 9, CC proposées, SC sans caractéristique ; liseré rouge (CC) ou orange (SC) ; exports CSV, Excel et Word ; copie de Space et recherche. La démo Rover reçoit les décisions de sa CDR : 3 CC, 4 SC, 5 refus justifiés et 3 CC encore à décider. Migration additive diamond 10 : sept colonnes ajoutées au DFMEA, trois tables.",
+      "files": [
+        "core/__init__.py",
+        "core/modules.py",
+        "core/spacecopy.py",
+        "modules/diamond/__init__.py",
+        "modules/diamond/classes.py",
+        "modules/diamond/classes_api.py",
+        "modules/diamond/dfmea.py",
+        "modules/diamond/export_data.py",
+        "modules/diamond/export_docx.py",
+        "modules/diamond/export_xlsx.py",
+        "modules/diamond/search.py",
+        "modules/help/__init__.py",
+        "modules/help/demo_classes.py",
+        "modules/help/module_docs_more.py",
+        "static/css/diamond_dfmea.css",
+        "static/js/diamond/dfmea.js",
+        "static/js/diamond/dfmea_class.js",
+        "static/js/diamond/dfmea_classes.js",
+        "static/js/diamond/dfmea_table.js",
+        "static/js/help/content_faq.js",
+        "static/js/tools/guest_tour_steps.js",
+        "static/i18n/en_1.json",
+        "static/i18n/en_2.json",
+        "static/i18n/en_3.json",
+        "static/i18n/en_4.json",
+        "static/i18n/en_5.json",
+        "static/i18n/en_6.json",
+        "static/i18n/demo_en_1.json",
+        "static/i18n/demo_en_2.json",
+        "static/i18n/demo_en_3.json",
+        "static/i18n/demo_en_4.json",
+        "static/i18n/demo_en_5.json",
+        "static/i18n/demo_en_6.json",
+        "tests/test_diamond_classes.py",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}

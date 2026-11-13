@@ -1,4 +1,6 @@
 {
+"Les essais de sécurité et de CEM en pré-conformité avant le laboratoire reconnu.": "Safety and EMC tests as pre-compliance before the recognized laboratory.",
+"Les essais dehors trouvent ce que le banc ne voit pas (soleil, gazon).": "Outdoor tests find what the bench cannot see (sun, grass).",
 "Les essais du Space : sujet, catégorie, norme et article, méthode (T, A, I, D), objectif.": "The Space's tests: subject, category, standard and clause, method (T, A, I, D), objective.",
 "Les essais prouvent chaque requirement ; une autre équipe refait le projet à partir du wiki ; la décision de lancer le kit se prend sur les résultats.": "The tests prove each requirement; another team redoes the project from the wiki; the decision to launch the kit is taken on the results.",
 "Les facettes": "The facets",
@@ -70,6 +72,7 @@
 "Lien externe ou interne": "External or internal link",
 "Lien vers le CdCF : chaque fonction critique (F9, F10, F16, F18, F26, F27, F28) a au moins un requirement mesurable.": "Link to the CdCF: every critical function (F9, F10, F16, F18, F26, F27, F28) has at least one measurable requirement.",
 "Lignes, ultrason": "Lines, ultrasonic",
+"Limite d'environnement du capteur à temps de vol, couverte par les ultrasons : aucune caractéristique de produit à tenir.": "Environmental limit of the ToF sensor, covered by the ultrasonic sensors: no product characteristic to hold.",
 "Limiter la commande du variateur à 30 % sous 1,2 m": "Limit the motor controller command to 30% below 1.2 m",
 "Limiter la vitesse à 0,6 m/s sur le gazon": "Limit the speed to 0.6 m/s on grass",
 "Links : « implémente » un requirement Goldmine (traçabilité) ; Sous-tickets : les étapes.": "Links: “implements” a Goldmine requirement (traceability); Sub-tickets: the steps.",
@@ -352,6 +355,7 @@
 "Pertes du convertisseur 5 V": "5 V converter losses",
 "Peu adapté seul aux jalons fixes d'un cours (revues de fin de phase : à combiner avec Exploration)": "Not well suited alone to the fixed milestones of a course (end-of-phase reviews: to combine with Exploration)",
 "Peur : qu'il fonce dans quelqu'un": "Fear: that it will charge into someone",
+"Peut blesser une personne : l'arrêt avant le contact est la fonction de sécurité du robot (REQ-2).": "Can injure a person: stopping before contact is the robot's safety function (REQ-2).",
 "Peut-on le faire à distance ?": "Can it be done remotely?",
 "Peut-on travailler à plusieurs ?": "Can several people work at once?",
 "Peut-on utiliser des Needs comme Criteria ?": "Can Needs be used as Criteria?",
@@ -425,7 +429,5 @@
 "Primaire, secondaires, tertiaires et techniques ; comment · pourquoi · quand ; chemin critique ; numéros F gardés pour toujours.": "Primary, secondary, tertiary and technical; how · why · when; critical path; F numbers kept forever.",
 "Principes de chauffe et d'alimentation de la colle possibles": "Possible glue heating and feeding principles",
 "Priorise le Backlog (flèches ↑ ↓), écrit les Epics et Stories.": "Prioritizes the Backlog (↑ ↓ arrows), writes the Epics and Stories.",
-"Prise en main en une semaine": "Getting started within a week",
-"Prise en main terminée": "Onboarding completed",
-"Prix acceptable pour l'école : 200 à 300 $": "Price acceptable to the school: $200 to $300"
+"Prise en main en une semaine": "Getting started within a week"
 }

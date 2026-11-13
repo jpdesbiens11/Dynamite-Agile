@@ -127,6 +127,8 @@
     box.append(err, el("div", { class: "dm-actions" }, el("button", { type: "button", class: "btn btn-primary", onclick: save }, "Enregistrer"),
       el("button", { type: "button", class: "btn", onclick: () => close() }, "Annuler")));
     close = DA.modal(c ? "Symboles de " + c.name : "Nouveau client", box);
+    const dialogBox = box.closest(".modal");
+    if (dialogBox) dialogBox.classList.add("dm-cls-modal");
   }
 
   A.views.dfmeaclass = view;

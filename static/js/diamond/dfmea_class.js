@@ -8,9 +8,10 @@
 
   const { api, el, clear, toast } = DA;
   const D = DA.diamond;
-  const day = (iso) => {
+  const day = (iso) => {  // « 20 oct. 2026 », or « Oct 20, 2026 » when the page is shown in English (i18n_dom.js)
     const d = new Date(iso);
-    return isNaN(d.getTime()) ? "" : d.toLocaleDateString("fr-CA", { day: "numeric", month: "short", year: "numeric" });
+    const lang = document.documentElement.lang === "en" ? "en-CA" : "fr-CA";
+    return isNaN(d.getTime()) ? "" : d.toLocaleDateString(lang, { day: "numeric", month: "short", year: "numeric" });
   };
 
   function cls(data) { return (data && data.classes) || { rules: { cc_severity: 9, sc_severity: 5, sc_occurrence: 4 }, customer: {}, counts: {}, names: {} }; }
@@ -40,12 +41,15 @@
     return "S " + row.severity + " · O " + (row.occurrence || "—") + " : sous les seuils";
   }
 
-  function decisionText(row, data) {
+  /* « Confirmée par LEX · 20 oct. 2026 · « reason » »: one text node per piece, so that the display dictionary translates
+     each one (the reason of the demo too); the quotes of <q> follow the language of the page */
+  function decisionText(row, data, prefix) {
     const C = cls(data);
     if (!row.class_state) return null;
     const who = row.class_by_initials || row.class_by_name || "?";
-    const head = row.class_state === "confirmed" ? "Confirmée" : sym(C, row.class_code) + " refusée";
-    return head + " par " + who + " · " + day(row.class_at) + " · « " + row.class_reason + " »";
+    const head = row.class_state === "confirmed" ? [el("span", null, "Confirmée")] : [sym(C, row.class_code) + " ", el("span", null, "refusée")];
+    return el("p", { class: "dm-cls-who dm-cls-" + row.class_state }, prefix ? el("span", null, prefix) : null, prefix ? " " : null, head,
+      " ", el("span", null, "par"), " " + who + " · " + day(row.class_at) + " · ", el("q", null, row.class_reason));  // « » or “ ” by the page's language
   }
 
   /* the cells « Class » and « Décision » */
@@ -53,17 +57,17 @@
     td.classList.add("dm-fm-special");
     if (col.type === "class") { td.append(chip(row, state.data)); return td; }
     const box = el("div", { class: "dm-cls-dec" });
-    const said = decisionText(row, state.data);
+    const said = decisionText(row, state.data, "");
     if (editable) {
       const open = (choice) => dialog(row, state, choice);
       box.append(el("div", { class: "dm-actions dm-cls-btns" }, row.class_status === "proposed"
         ? [el("button", { type: "button", class: "btn btn-small btn-primary", "data-new": "0.61.0-class-confirm", onclick: () => open(row.class_proposed) },
-          "Confirmer " + sym(cls(state.data), row.class_proposed)),
+          el("span", null, "Confirmer"), " " + sym(cls(state.data), row.class_proposed)),
         el("button", { type: "button", class: "btn btn-small", onclick: () => open("refused") }, "Refuser")]
         : el("button", { type: "button", class: "btn btn-small", "data-new": "0.61.0-class-review", onclick: () => open(row.class_state === "confirmed" ? row.class_code : "") },
           row.class_state ? "Revoir…" : "Classer…")));
     }
-    if (said) box.append(el("p", { class: "dm-cls-who dm-cls-" + row.class_state }, said));
+    if (said) box.append(said);
     if (row.class_status === "proposed" || !row.class_state) box.append(el("p", { class: "dm-cls-who" }, ruleText(row, state.data)));
     if (row.class_changed) {
       box.append(el("p", { class: "dm-cls-who dm-cls-changed" }, "Décidée sur S " + (row.class_severity || "—") + " · O " + (row.class_occurrence || "—")
@@ -76,15 +80,17 @@
   /* the dialog of the decision: choice, reason (required), earlier decisions */
   function dialog(row, state, choice) {
     const C = cls(state.data);
-    const options = [["CC", "Confirmer " + sym(C, "CC") + " — " + label(C, "CC") + " : sécurité ou loi"],
-      ["SC", "Confirmer " + sym(C, "SC") + " — " + label(C, "SC") + " : ajustement, fonction, performance, satisfaction du client"]];
+    // [value, verb, symbol, meaning]: each piece its own text node (display dictionary)
+    const options = [["CC", "Confirmer", sym(C, "CC"), label(C, "CC"), "sécurité ou loi"],
+      ["SC", "Confirmer", sym(C, "SC"), label(C, "SC"), "ajustement, fonction, performance, satisfaction du client"]];
     const refusable = row.class_proposed || (row.class_state === "confirmed" ? row.class_code : "");
-    if (refusable) options.push(["refused", "Refuser " + sym(C, refusable) + " — la question est posée, la réponse est non (le refus est gardé)"]);
-    if (row.class_state) options.push(["clear", "Retirer la décision — revenir à la proposition de la règle"]);
+    if (refusable) options.push(["refused", "Refuser", sym(C, refusable), "", "la question est posée, la réponse est non (le refus est gardé)"]);
+    if (row.class_state) options.push(["clear", "Retirer la décision", "", "", "revenir à la proposition de la règle"]);
     const pick = choice || row.class_proposed || "CC";
-    const radios = options.map(([value, text]) => {
+    const radios = options.map(([value, verb, code, name, text]) => {
       const input = el("input", { type: "radio", name: "dm-cls-choice", value, checked: value === pick });
-      return el("label", { class: "dm-check dm-cls-opt" }, input, " " + text);
+      return el("label", { class: "dm-check dm-cls-opt" }, input, el("span", null, el("strong", null, el("span", null, verb), code ? " " + code : null), " — ",
+        name ? el("span", null, name) : null, name ? " : " : null, el("span", null, text)));
     });
     const reason = el("textarea", { rows: 3, maxlength: 400, required: true, "aria-label": "Justification de la décision",
       placeholder: "Pourquoi ? ex. « peut blesser une personne », « fonction de vitesse », « cause logicielle, rien à contrôler en fabrication »" });
@@ -105,12 +111,14 @@
       el("p", null, el("strong", null, (row.function_number ? "F" + row.function_number + " " + row.function_text : "Sans fonction") + " — "),
         (row.failure_mode || "—") + " → " + (row.effect || "—") + " · S " + (row.severity || "—") + " · O " + (row.occurrence || "—")),
       el("p", { class: "muted" }, ruleText(row, state.data) + (C.customer.name ? " · symboles : " + C.customer.name : "")),
-      decisionText(row, state.data) ? el("p", { class: "dm-cls-who dm-cls-" + row.class_state }, "Aujourd'hui : " + decisionText(row, state.data)) : null,
+      decisionText(row, state.data, "Aujourd'hui :"),
       el("fieldset", { class: "dm-cls-choices" }, el("legend", null, "Décision"), radios),
       DA.field("Justification (obligatoire)", reason, "Elle est gardée avec votre nom et la date, comme chaque décision précédente."),
       err, el("div", { class: "dm-actions" }, el("button", { type: "button", class: "btn btn-primary", onclick: save }, "Enregistrer la décision"),
         el("button", { type: "button", class: "btn", onclick: () => close() }, "Annuler")), history);
     close = DA.modal("Classe de la ligne " + row.line, content);
+    const box = content.closest(".modal");
+    if (box) box.classList.add("dm-cls-modal");  // wider than the default dialog (480 px)
     if (row.class_history) loadHistory(history, row, state);
   }
 

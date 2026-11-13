@@ -56,11 +56,13 @@
 "Fin du Sprint : Sprint Review (on montre le résultat), puis Retrospective (on améliore la façon de travailler).": "End of Sprint: Sprint Review (we show the result), then Retrospective (we improve the way we work).",
 "Fixation des deux coquilles d'un pistolet à colle : vis, clips, collage, ultrasons ; Criteria = assemblage, réparation, fin de vie. Les clips dominent ; le collage est éliminé (démontage).": "Fastening the two shells of a glue gun: screws, clips, bonding, ultrasonic welding; Criteria = assembly, repair, end of life. Clips dominate; bonding is eliminated (disassembly).",
 "Flexibilité": "Flexibility",
+"Fonction IPX4 (REQ-11) : la gorge du joint du boîtier est une cote à tenir en fabrication.": "IPX4 function (REQ-11): the gasket groove of the enclosure is a dimension to hold in manufacturing.",
 "Fonction d'estime : la plaque transparente ne porte aucune charge de sécurité ; sa tenue est couverte par la ligne de F31.": "Esteem function: the transparent plate carries no safety load; its retention is covered by the F31 line.",
 "Fonction d'estime : le robot montre ses capteurs et son câblage au lieu de les cacher. — Brouillon IA (Project Starter) : à relire par l'équipe.": "Esteem function: the robot shows its sensors and wiring instead of hiding them. — AI draft (Project Starter): to be reviewed by the team.",
 "Fonction d'estime : son échec ne cause aucun danger ; elle se juge aux entrevues et au nombre d'équipes qui finissent le MVP 2.": "Esteem function: its failure causes no hazard; it is judged by the interviews and the number of teams that finish MVP 2.",
 "Fonction de contrainte": "Constraint function",
 "Fonction de service": "Service function",
+"Fonction de vitesse : l'entrefer entre l'aimant et le capteur à effet Hall décide si les impulsions sont lues.": "Speed function: the air gap between the magnet and the Hall-effect sensor decides whether the pulses are read.",
 "Fonction primaire, secondaires, tertiaires ; comment, pourquoi, quand ; chemin critique, rétroaction, fonctions hors arbre.": "Primary, secondary and tertiary functions; how, why, when; critical path, feedback, functions outside the tree.",
 "Fonction primaire, trouvée par la méthode intuitive puis vérifiée avec la bête à cornes : à qui rend-il service, sur quoi agit-il, dans quel but. — Brouillon IA (Project Starter) : à relire par l'équipe.": "Primary function, found by the intuitive method then verified with the horned beast diagram: whom does it serve, what does it act on, for what purpose. — AI draft (Project Starter): to be reviewed by the team.",
 "Fonction technique": "Technical function",
@@ -248,6 +250,7 @@
 "La démo et le rangement": "The demo and the put-away",
 "La démo, c'est le Rover : un projet étudiant complet (15 semaines, 4 étudiants) rempli dans chaque module -- wiki, Storyline et Diamond, requirements et Q&R, sprints et tickets, changements, essais et Test Plans, plan du PDP, heures. Avec le parcours guidé de chaque outil, la bibliothèque de référence et les documents de formation. Un bac à sable : rien ici ne touche aux vrais projets.": "The demo is the Rover: a complete student project (15 weeks, 4 students) filled into every module -- wiki, Storyline and Diamond, requirements and Q&A, sprints and tickets, changes, tests and Test Plans, PDP plan, hours. With the guided path for each tool, the reference library and the training documents. A sandbox: nothing here touches the real projects.",
 "La démo, c'est le Rover.": "The demo is the Rover.",
+"La détection dépend de la surface de l'obstacle, pas d'une cote qu'on fabrique : couverte par l'arrêt avant le contact (F18, CC) et par le pare-chocs (F14, SC).": "Detection depends on the obstacle's surface, not on a dimension we manufacture: covered by the stop before contact (F18, CC) and by the bumper (F14, SC).",
 "La fonction primaire F1 « Se déplacer seul en évitant les obstacles » et les grandes branches": "The primary function F1 “Move on its own while avoiding obstacles” and the main branches",
 "La fonction primaire et les fonctions de service vues par le client ; les premiers risques projet.": "The primary function and the service functions as seen by the customer; the first project risks.",
 "La fonction primaire, puis les secondaires et tertiaires (comment ↓, pourquoi ↑).": "The primary function, then the secondary and tertiary ones (how ↓, why ↑).",
@@ -348,6 +351,7 @@
 "Le moyen d'essai, les étapes et le critère d'acceptation, dans Testing ou une page Dynamite.": "The test means, the steps and the acceptance criterion, in Testing or a Dynamite page.",
 "Le parcours d'accueil : une section par outil, chacune avec son exercice dans le Space DEMO.": "The onboarding path: one section per tool, each with its exercise in the DEMO Space.",
 "Le parcours en 14 étapes": "The 14-step course",
+"Le pare-chocs est la dernière protection avant un contact : sa course d'enclenchement se règle au montage.": "The bumper is the last protection before contact: its actuation travel is set at assembly.",
 "Le plan de référence du PDP appliqué au Rover : 15 semaines, 4 étudiants, deux pistes par phase.": "The PDP reference plan applied to the Rover: 15 weeks, 4 students, two tracks per phase.",
 "Le plan du produit : phases du PDP, MVP, jalons et Gantt.": "The product plan: PDP phases, MVPs, milestones and Gantt.",
 "Le point d'accès ne démarre pas": "The access point does not start",
@@ -425,7 +429,5 @@
 "Les contraintes (F38, F39) et les fonctions d'estime (F36, F37) sont dans l'arbre, avec leur type.": "The constraints (F38, F39) and the esteem functions (F36, F37) are in the tree, with their type.",
 "Les critères de pièce minimale de Boothroyd-Dewhurst : la base de « la meilleure pièce est celle qu'on n'a pas ».": "The Boothroyd-Dewhurst minimum-part criteria: the basis of “the best part is the one you don't have”.",
 "Les données saisies (tickets, requirements, pages, heures, tests, plans…) : l'import ne touche pas au dossier data/.": "The entered data (tickets, requirements, pages, hours, tests, plans…): the import does not touch the data/ folder.",
-"Les définitions normalisées : fonction de service, fonction technique, valeur.": "The standardized definitions: service function, technical function, value.",
-"Les essais de sécurité et de CEM en pré-conformité avant le laboratoire reconnu.": "Safety and EMC tests as pre-compliance before the recognized laboratory.",
-"Les essais dehors trouvent ce que le banc ne voit pas (soleil, gazon).": "Outdoor tests find what the bench cannot see (sun, grass)."
+"Les définitions normalisées : fonction de service, fonction technique, valeur.": "The standardized definitions: service function, technical function, value."
 }

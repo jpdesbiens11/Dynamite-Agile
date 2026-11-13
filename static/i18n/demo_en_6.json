@@ -1,4 +1,6 @@
 {
+"Un ticket est trop gros pour le Sprint": "A ticket is too big for the Sprint",
+"Un ticket ne change de status que par une transition listée : ajoutez-en une au besoin (« Ajouter la transition »).": "A ticket changes status only through a listed transition: add one if needed (“Add the transition”).",
 "Un ticket se modifie par son Assignee ou un administrateur seulement (règle de traçabilité D-B-017).": "A ticket can be edited only by its Assignee or an administrator (traceability rule D-B-017).",
 "Un ticket « implements » un requirement ; « Suivre dans Agile » transforme une action du DFMEA en ticket.": "A ticket “implements” a requirement; “Follow in Agile” turns a DFMEA action into a ticket.",
 "Un travail imprévu urgent arrive": "Urgent unplanned work arrives",

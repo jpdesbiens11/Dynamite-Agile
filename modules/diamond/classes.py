@@ -28,7 +28,7 @@ PRESETS = [
     {"code": "ford", "name": "Ford", "cc_dfmea": "YC", "sc_dfmea": "YS", "cc_symbol": "CC ∇", "sc_symbol": "SC",
      "cc_label": "Critical Characteristic (YC au DFMEA)", "sc_label": "Significant Characteristic (YS au DFMEA)",
      "source": "Ford SCCAF : YC / YS au DFMEA, CC (∇) / SC au procédé. " + CSR},
-    {"code": "aero", "name": "Aéronautique AS9100 / AS9103", "cc_dfmea": "CSC", "sc_dfmea": "KC", "cc_symbol": "CSC", "sc_symbol": "KC",
+    {"code": "aero", "name": "Aéro AS9100 / AS9103", "cc_dfmea": "CSC", "sc_dfmea": "KC", "cc_symbol": "CSC", "sc_symbol": "KC",
      "cc_label": "Critical Safety Characteristic", "sc_label": "Key Characteristic (AS9103)",
      "source": "SAE AS9100, AS9103 (Variation Management of Key Characteristics), IAQG. " + CSR},
 ]
