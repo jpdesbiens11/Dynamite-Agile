@@ -48,7 +48,8 @@ def _cat(conn):
     row = conn.execute("SELECT key FROM projects WHERE id = ?", (pid,)).fetchone() if pid else None
     return row["key"] if row else CATALOGUE
 DIAMOND = ("diamond_functions", "diamond_ports", "diamond_flows", "diamond_positions", "diamond_parts", "diamond_part_functions",
-           "diamond_risks", "diamond_dfmea", "diamond_story_scenes", "diamond_cost_settings", "diamond_cost_nre", "diamond_cost_parts")
+           "diamond_risks", "diamond_dfmea", "diamond_story_scenes", "diamond_cost_settings", "diamond_cost_nre", "diamond_cost_parts",
+           "diamond_class_settings", "diamond_class_customers", "diamond_class_decisions")  # 0.61.0 (D-O-107): classes CC / SC
 
 
 def _tables_of(part, infra):

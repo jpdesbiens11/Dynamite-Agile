@@ -1,5 +1,6 @@
-"""Search hook of Diamond (0.60.36, D-O-044): functions (F-n), project risks (R-n) and DFMEA rows -- for the search of
-the top bar and for Bob le mineur (core/bot.py), who answers with pointer links to them."""
+"""Search hook of Diamond (0.60.36, D-O-044): functions (F-n), project risks (R-n) and DFMEA rows (with their confirmed class
+CC / SC and its reason, 0.61.0) -- for the search of the top bar and for Bob le mineur (core/bot.py), who answers with
+pointer links to them."""
 
 
 def search(conn, projects, q):
@@ -23,9 +24,10 @@ def search(conn, projects, q):
             hits.append(dict(h, focus=code))
     for r in conn.execute("SELECT * FROM diamond_dfmea WHERE project_id IN ({})".format(marks), ids):
         key = projects[r["project_id"]]
-        h = q.hit("function", q.score("", r["failure_mode"], (r["effect"], r["cause"], r["focus"], r["requirement"])), key,
-                  "DFMEA · {}".format(r["failure_mode"][:120]), "#/diamond/{}/dfmea".format(key), r["cause"], r["updated_at"],
-                  extra="DFMEA")
+        cls = r["class_code"] if r["class_state"] == "confirmed" else ""  # 0.61.0 (D-O-107): « CC », « SC » and the reason are found
+        h = q.hit("function", q.score("", r["failure_mode"], (r["effect"], r["cause"], r["focus"], r["requirement"], cls, r["class_reason"])), key,
+                  "DFMEA · {}{}".format(cls + " · " if cls else "", r["failure_mode"][:120]), "#/diamond/{}/dfmea".format(key), r["cause"],
+                  r["updated_at"], extra="DFMEA")
         if h:
             hits.append(dict(h, focus=r["failure_mode"][:80]))
     return hits

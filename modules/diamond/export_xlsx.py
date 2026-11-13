@@ -8,6 +8,7 @@ its revision sheet (core/stamp.py). Rows are sized to their text: Excel does not
 import math
 
 from . import actions as ACT
+from . import dfmea as DF
 from . import export_data as X
 from .xlsx_book import Book, col
 
@@ -35,7 +36,10 @@ class Kit:
         self.group = {"higher": s(bold=True, fill="EEF1F5", border=True, h="center", v="center"),
                       "focus": s(bold=True, fill="D6E6FB", border=True, h="center", v="center"),
                       "lower": s(bold=True, fill="FCE2D2", border=True, h="center", v="center"),
-                      "risk": s(bold=True, fill="E9E2F7", border=True, h="center", v="center")}
+                      "risk": s(bold=True, fill="E9E2F7", border=True, h="center", v="center"),
+                      "special": s(bold=True, fill="FFE9A3", border=True, h="center", v="center")}  # 0.61.0
+        self.cls = {"CC": s(border=True, bold=True, h="center", fill="FDE2E1", color="9B1C1C"),
+                    "SC": s(border=True, bold=True, h="center", fill="FDEBD9", color="8A3B00")}
         self.rot = s(bold=True, color="FFFFFF", fill=X.NAVY, border=True, h="center", v="bottom", rotate=90)
         self.dot = s(border=True, h="center", v="center", bold=True, color=X.TEAL, size=12)
         self.empty = s(border=True)
@@ -101,7 +105,10 @@ def synthese(book, kit, data):
                ("Pièces", sm["parts"], "{} intégrée(s) · {} fonction(s) à plusieurs pièces".format(data["part_stats"]["integrated"], data["part_stats"]["shared"])),
                ("Risques projet", sm["risks"], "{} élevé(s) ou critique(s)".format(sm["risks_high"])),
                ("Lignes du DFMEA", sm["dfmea"], "AP High {} · Medium {} · Low {} · sans cotation {}".format(sm["ap"]["H"], sm["ap"]["M"], sm["ap"]["L"], sm["dfmea_unrated"])),
-               ("Lignes avec essai clé (Test Base)", sm["dfmea_tested"], "")]
+               ("Lignes avec essai clé (Test Base)", sm["dfmea_tested"], ""),
+               ("Caractéristiques spéciales du DFMEA", "{} CC · {} SC".format(sm["classes"]["CC"], sm["classes"]["SC"]),  # 0.61.0
+                "symboles : {} ; {} proposée(s) à décider, {} refusée(s)".format(data["classes"]["customer"]["name"], sm["class_proposed"],
+                                                                              sm["class_refused"]))]
     for label, value, note in figures:
         s.line([label, value, note], [kit.label, kit.kpi, kit.wrap])
     s.skip()
@@ -240,10 +247,11 @@ def risks_sheet(book, kit, data):
 
 def dfmea_sheet(book, kit, data):
     s = book.sheet("DFMEA")
-    widths = [6, 20, 24, 20, 30, 28, 32, 30, 5, 32, 62, 5, 30, 26, 5, 7, 8, 34, 18, 11, 10, 11, 9]
+    widths = [6, 20, 24, 20, 30, 28, 32, 30, 5, 32, 62, 5, 30, 26, 5, 7, 8, 34, 18, 11, 10, 11, 9, 8, 16, 14, 40]
     _frame(s, data, "DFMEA — Design FMEA (AIAG-VDA)", widths, kit, "7E57C2")
     groups = [("higher", 0, 1, "Structure : Higher-Level"), ("focus", 2, 7, "Focus Element : fonction, requirement, défaillance, effet"),
-              ("lower", 8, 14, "Lower-Level : cause, prévention, détection"), ("risk", 15, 22, "Risque, actions et suivi")]
+              ("lower", 8, 14, "Lower-Level : cause, prévention, détection"), ("risk", 15, 22, "Risque, actions et suivi"),
+              ("special", 23, 26, "Classe CC / SC")]  # 0.61.0 (D-O-107)
     r = s.line([""] * len(widths), kit.empty, height=22)
     for key, a, b, label in groups:
         s.put(r, a, label, kit.group[key])
@@ -253,18 +261,21 @@ def dfmea_sheet(book, kit, data):
     header = ["Ligne", "Higher-Level Element", "Focus Element", "Lower-Level Element", "Function of Focus Element",
               "Requirement / Characteristic", "Failure Mode", "Failure Effect", "S", "Failure Cause", "Prevention Controls", "O",
               "Detection Controls", "Essai clé (Test Base)", "D", "RPN", "AP", "Actions", "Responsable", "Échéance", "Status",
-              "Ticket Agile", "Risque projet"]
+              "Ticket Agile", "Risque projet", "Class", "Class Status", "Décision", "Justification de la classe"]
+    cust = data["classes"]["customer"]
     rows = [[d["line"], d["higher"], d["focus"], d["lower"], "F{} {}".format(d["function_number"], d["function_text"]) if d["function_number"] else "",
              d["requirement"], d["failure_mode"], d["effect"], d["severity"] or "", d["cause"], d["prevention"], d["occurrence"] or "",
              d["detection_ctrl"], "{} {}".format(d["test_code"], d["test_title"]) if d["test_code"] else "", d["detection"] or "",
              d["rpn"] or "", d["ap"] or "", d["action"], d["action_owner_name"] or "", d["action_due"],
              ACT.DFMEA_STATUSES.get(d["action_status"], "") if d["action"].strip() else "", d["ticket"]["key"] if d["ticket"] else "",
-             "R-{}".format(d["risk_number"]) if d["risk_number"] else ""] for d in data["dfmea"]]
+             "R-{}".format(d["risk_number"]) if d["risk_number"] else ""] + DF.class_cells(d, cust) for d in data["dfmea"]]
+    special = {DF.class_cells(d, cust)[0]: d["class_code"] for d in data["dfmea"] if d["class_status"] == "confirmed"}
 
     def styles(v):
         ap = kit.ap.get(v[16], kit.center)
         return [kit.bold] + [kit.wrap] * 7 + [kit.center, kit.wrap, kit.wrap, kit.center, kit.wrap, kit.wrap, kit.center, kit.center, ap,
-                                               kit.wrap, kit.wrap, kit.center, kit.center, kit.center, kit.center]
+                                               kit.wrap, kit.wrap, kit.center, kit.center, kit.center, kit.center,
+                                               kit.cls.get(special.get(v[23]), kit.center), kit.center, kit.center, kit.wrap]
     top = _table(s, kit, header, rows, widths, styles)
     s.freeze = "E{}".format(top + 1)
     s.print_rows = (top - 1, top)
@@ -272,6 +283,15 @@ def dfmea_sheet(book, kit, data):
     r = s.line(["S, O, D : de 1 à 10. RPN = S × O × D. AP (Action Priority, AIAG-VDA) : H = action requise, M = action "
                 "recommandée, L = action possible. La légende complète est dans Diamond → DFMEA → Légende AP."], kit.sub)
     s.merge(r, 0, r, 10)
+    r = s.line([class_note(data["classes"])], kit.sub)  # 0.61.0 (D-O-107)
+    s.merge(r, 0, r, 10)
+
+
+def class_note(info):
+    r, c = info["rules"], info["customer"]
+    return ("Class : symboles du client « {} » ({} / {} au DFMEA). Proposée par la règle du Space (CC si S ≥ {} ; SC si S de {} à {} et "
+            "O ≥ {}), confirmée ou refusée par une personne ; « ? » = proposée, pas encore décidée.").format(
+        c["name"], c["cc_dfmea"], c["sc_dfmea"], r["cc_severity"], r["sc_severity"], r["cc_severity"] - 1, r["sc_occurrence"])
 
 
 def build(data, only=None):
