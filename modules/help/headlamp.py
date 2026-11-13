@@ -6,7 +6,7 @@ Created once at start-up, through the same API handlers a user would call
 - Agile: epic « Parcours DEMO » + one ticket per step (Étape 1 … 14, modules/help/tour.py);
 - Dynamite: the home page becomes the hub of the path; child pages hold the
   exercises (first page, AI import) and a syntax cheat sheet;
-- Goldmine: two example requirements traced to their step tickets;
+- Goldmine: no example of its own since 0.60.99 (D-O-106), the Rover's requirements are the example;
 - Exploration: a four-week onboarding plan;
 - Generator: an example reference (the user guide);
 - Timesheet: closed (the time sheet exercise uses the team Space and a time code of the PDP).
@@ -145,7 +145,6 @@ def ensure_space(ctx):
     pid = admin.create_project_record(ctx, KEY, NAME, DESCRIPTION)["id"]
     api = LocalApi(ctx)
     tickets = _agile(api, pid)
-    _goldmine(api, pid, tickets)
     _dynamite(api, pid, tickets)
     _exploration(api, pid)
     api.post("/api/codex/p/{}/refs".format(pid), {"doc_type": "MAN", "step": "03", "sub": "00",
@@ -168,27 +167,6 @@ def _agile(api, pid):
         tickets.append(api.post(base + "/issues", dict(ticket_fields(n, chapter, title, exercise), type_id=types["task"]["id"],
                                                        priority="medium", parent_number=epic["number"])))
     return tickets
-
-
-def _goldmine(api, pid, tickets):
-    base = "/api/agile/p/{}".format(pid)
-    examples = [
-        ("bienvenue", "Prise en main en une semaine", {
-            "external_id": "HL-001", "category": "performance", "verification_method": "D", "test_ref": "TST-VER-03",
-            "statement": "Un nouveau membre de l'équipe doit pouvoir réaliser les étapes du parcours DEMO (hors Admin) en moins "
-                         "de 5 jours ouvrables.",
-            "acceptance_criteria": "Les tickets d'étape (hors Admin) sont faits par le nouveau membre en 5 jours ou moins.",
-            "source_doc": "Exemple DEMO", "allocation": "Training"}),
-        ("timesheet", "Heures de formation déclarées", {
-            "external_id": "HL-002", "category": "functional", "verification_method": "I", "test_ref": "TST-VER-01",
-            "statement": "Chaque séance de travail doit être déclarée dans Timesheet, avec le code de l'étape du PDP travaillée.",
-            "acceptance_criteria": "Une plage avec un code du PDP et une description existe dans la première semaine soumise.",
-            "source_doc": "Exemple DEMO", "allocation": "Timesheet"}),
-    ]
-    for chapter, title, fields in examples:
-        req = api.post(base + "/goldmine/requirements", dict(fields, title=title))
-        api.post(base + "/issues/{}/links".format(tickets[number(chapter) - 1]["number"]),
-                 {"link_type": "implements", "target_key": req["key"]})
 
 
 def build_hub(tickets):

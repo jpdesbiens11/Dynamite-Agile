@@ -173,6 +173,11 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.99** (2026-11-13) : **la démo Rover tient devant une auditrice** (D-O-106, `modules/help/demo_evidence.py`, une fois par
+  installation, journal `demo_evidence_coherent`) : bundle, résultats et rapport PDF en preuve pour les plans TP-ROVER fermé et reçu,
+  statut « Verified » aligné sur le verdict calculé avec sa « Verification Ref. », champs CCB des ECN et PR fermé avec son ECN,
+  HL-001 / HL-002 « Rejected » (plus créés par `headlamp.py`) ; Vérification laisse de côté « Rejected » / « Obsolete »
+  (`verification.SET_ASIDE`) (`tests/test_demo_evidence.py`).
 - **0.60.98** (2026-11-11) : **figures du rapport Word de Diamond** (D-O-105) : images EMF écrites en bibliothèque standard
   (`modules/diamond/emf.py`) à partir de `Page.items` de `export_drawio.py` (`figures.py` ; rôles `chrome` / `legend` / `frame`,
   pastilles P-n), scènes de la Storyline lues dans `static/img/story-term.svg` (`story_figure.py`) ; section Storyline, arbre par branche,

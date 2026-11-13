@@ -2,19 +2,15 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Le rapport Word de Diamond montre ses diagrammes et la Storyline en figures",
-      "why": "Diamond → Exporter → « Télécharger Word » ne donnait que du texte et des tableaux : les diagrammes restaient dans les fichiers draw.io et PowerPoint. Le rapport porte maintenant des figures numérotées (« Figure n — … », avec une phrase d'introduction) : une nouvelle section Storyline (ce qu'est l'exercice, puis une figure par scène avec ce qui s'y passe et les notes de l'équipe), l'arbre fonctionnel (vue d'ensemble puis une figure par branche, comme le PowerPoint, toutes à la même échelle), la structure fonctionnelle en vue générale et détaillée (frontière, entrées, sorties, flux, pastilles P-n des pièces comme à l'écran) et la carte des risques (maintenant, puis résiduelle dès qu'un risque a sa cotation résiduelle). Les images sont des EMF, le format d'image vectoriel d'Office : Word et LibreOffice les dessinent eux-mêmes, le texte reste net au zoom et à l'impression, sans police ni bibliothèque ajoutée. Le gabarit, l'en-tête, le pied de page, la table des matières (F9) et la révision restent ; les fichiers draw.io et PowerPoint ne changent pas.",
+      "title": "La démo Rover dit ce que ses preuves montrent",
+      "why": "Une démo regardée par une auditrice ISO 9001 / IATF 16949 doit tenir à la première trace. Avant : Testing → Vérification affichait « Not run » partout alors que Goldmine disait « Verified » (les plans du Rover n'avaient qu'un PDF, aucun résultat saisi) ; l'ECN fermé n'avait ni approbateurs CCB ni référence de vérification, et son PR restait « Derived to ECN » ; deux exigences de l'ancien HeadLamp traînaient. Maintenant, une fois par installation (nouvelle démo comme démo existante) : un bundle par plan qui a ses résultats, un résultat par essai et le rapport PDF en preuve, donc des verdicts calculés et un plan fermé sans manque ; une exigence est « Verified » quand son verdict le dit, avec sa « Verification Ref. » ; les champs CCB des ECN, la référence de vérification de l'ECN fermé et son PR fermé ; HL-001 et HL-002 passent « Rejected » avec un commentaire (une exigence ne s'efface jamais). Ce qu'une personne a déjà saisi n'est jamais remplacé. La page Vérification laisse de côté les exigences « Rejected » ou « Obsolete » : il n'y a plus rien à y prouver.",
       "files": [
-        "modules/diamond/emf.py",
-        "modules/diamond/figures.py",
-        "modules/diamond/story_figure.py",
-        "modules/diamond/docx_figures.py",
-        "modules/diamond/report_figures.py",
-        "modules/diamond/export_docx.py",
-        "modules/diamond/export_data.py",
-        "modules/diamond/export_drawio.py",
-        "static/js/diamond/export.js",
-        "tests/test_diamond_word_figures.py"
+        "modules/help/demo_evidence.py",
+        "modules/help/__init__.py",
+        "modules/help/headlamp.py",
+        "modules/testing/verification.py",
+        "tests/test_demo_evidence.py",
+        "tests/test_demo_life.py"
       ]
     }
   ]

@@ -1,0 +1,23 @@
+{
+  "version": "0.60.99",
+  "date": "2026-11-13",
+  "summary": {
+    "fr": "La démo Rover tient devant une auditrice : verdicts calculés depuis de vrais résultats d'essai, exigences « Verified » avec leur référence, ECN complet et PR fermé, exemples HeadLamp rejetés.",
+    "en": "The Rover demo holds up in front of an auditor: verdicts computed from real test results, « Verified » requirements with their reference, complete ECN and closed PR, HeadLamp examples rejected."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "La démo Rover dit ce que ses preuves montrent",
+      "why": "Une démo regardée par une auditrice ISO 9001 / IATF 16949 doit tenir à la première trace. Avant : Testing → Vérification affichait « Not run » partout alors que Goldmine disait « Verified » (les plans du Rover n'avaient qu'un PDF, aucun résultat saisi) ; l'ECN fermé n'avait ni approbateurs CCB ni référence de vérification, et son PR restait « Derived to ECN » ; deux exigences de l'ancien HeadLamp traînaient. Maintenant, une fois par installation (nouvelle démo comme démo existante) : un bundle par plan qui a ses résultats, un résultat par essai et le rapport PDF en preuve, donc des verdicts calculés et un plan fermé sans manque ; une exigence est « Verified » quand son verdict le dit, avec sa « Verification Ref. » ; les champs CCB des ECN, la référence de vérification de l'ECN fermé et son PR fermé ; HL-001 et HL-002 passent « Rejected » avec un commentaire (une exigence ne s'efface jamais). Ce qu'une personne a déjà saisi n'est jamais remplacé. La page Vérification laisse de côté les exigences « Rejected » ou « Obsolete » : il n'y a plus rien à y prouver.",
+      "files": [
+        "modules/help/demo_evidence.py",
+        "modules/help/__init__.py",
+        "modules/help/headlamp.py",
+        "modules/testing/verification.py",
+        "tests/test_demo_evidence.py",
+        "tests/test_demo_life.py"
+      ]
+    }
+  ]
+}
