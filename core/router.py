@@ -392,7 +392,11 @@ class AppHandler(BaseHTTPRequestHandler):
             self.send_header("Vary", "Accept-Encoding")
         self.send_header("ETag", static_cache.gzip_etag(entry.etag) if packed else entry.etag)
         vendor = relative.startswith(VENDOR_PREFIX)
-        self.send_header("Cache-Control", "public, max-age=31536000, immutable" if vendor else "no-cache")
+        # 0.60.100 (D-O-107): a module's script or style asked for at its versioned address (url?v=token, see
+        # core/modules.asset_tokens) is kept a year; any other address is revalidated (ETag) as before
+        pinned = parse_qs(urlsplit(self.path).query).get("v") == [static_cache.token(entry)]
+        self.send_header("Cache-Control", "public, max-age=31536000, immutable" if vendor
+                         else "private, max-age=31536000, immutable" if pinned else "no-cache")
         if relative.startswith(APP_PREFIX) and target.suffix.lower() == ".html":
             for name, value in APP_HEADERS.items():  # lot v0.15: isolated offline tool
                 self.send_header(name, value)

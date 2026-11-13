@@ -433,7 +433,10 @@
   /* ---------------- Router ---------------- */
   async function route() {  // 0.60.23: same tab and Space (#/module/KEY): the page stays where it was (scrollkeep.js)
     const hold = DA.placeHold(location.hash);
-    try { await routeTo(); } finally { DA.releaseScroll(hold); } }
+    try { await routeTo(); } finally {
+      DA.releaseScroll(hold);
+      if (session.user && session.modules) DA.prefetchModuleAssets(session.modules);  // D-O-107: the other tabs, when idle
+    } }
   async function routeTo() {
     closeMenus();
     if (!session.user) { showLogin(); return; }
@@ -458,7 +461,7 @@
       DA.coreViews[parts[0]](renderShell(parts[0]), parts.slice(1));
       return;
     }
-    await DA.loadModuleAssets(session.modules);
+    await DA.loadModuleAssets(session.modules, parts[0]);  // 0.60.100 (D-O-107): this module and what it requires
     const mod = session.modules.find((m) => m.key === parts[0] && m.available);
     if (mod && DA.views[mod.key]) {
       await DA.views[mod.key](renderShell(mod.placement === "tools" ? "tools" : mod.key), parts.slice(1));  // D-B-065
