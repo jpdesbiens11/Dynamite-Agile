@@ -24,6 +24,7 @@ from .search import search  # noqa: F401  (core search hook, 0.60.36)
 from .bot import bot_summary  # noqa: F401  (Bob le mineur, core/bot.py, 0.60.36)
 from .actions import dashboard  # noqa: F401  (core dashboard hook, 0.60.38)
 from . import migrations_a, migrations_b  # noqa: E402
+from . import ai_io, ai_prompts, ai_prompts_process, cp_io, dfmea_io, pfmea_io  # noqa: E402,F401 (0.60.104, D-O-116)
 from . import actions, capability, char_export, characteristics, classes_api, company_pn, control_plans, impact, pfmea, pfmea_ai, pn_ai, prio, process, costs, costs_budget, costs_import, costs_prompt, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
 
 SCHEMA = ""
@@ -107,6 +108,9 @@ ROUTES = [
     ("PATCH", P + r"/cplans/items/(?P<iid>\d+)", control_plans.api_item_update, "user"),
     ("POST", P + r"/cplans/measures", capability.api_measures, "user"),
     ("GET", P + r"/cplans/measures/(?P<cid>\d+)", capability.api_get, "user"),
+    ("GET", P + r"/cplans/export\.csv", cp_io.api_export, "user"),  # 0.60.104 (D-O-116): spreadsheet and AI assistant, both ways
+    ("GET", P + r"/cplans/prompt", ai_prompts_process.api_cp_prompt, "user"),
+    ("POST", P + r"/cplans/import", cp_io.api_import, "user"),
     ("POST", P + r"/characteristics/(?P<cid>\d+)/reviewed", impact.api_reviewed, "user"),
     ("GET", P + r"/prio", prio.api_get, "user"),  # 0.60.103 (D-O-115): « Prioriser », waves of the actions
     ("POST", P + r"/prio/waves/init", prio.api_waves_init, "user"),
@@ -119,6 +123,8 @@ ROUTES = [
     ("POST", P + r"/pfmea/accept-all", pfmea.api_accept_all, "user"),
     ("GET", P + r"/pfmea/prompt", pfmea_ai.api_prompt, "user"),
     ("POST", P + r"/pfmea/ai", pfmea_ai.api_import, "user"),
+    ("GET", P + r"/pfmea/export\.csv", pfmea_io.api_export, "user"),  # 0.60.104 (D-O-116)
+    ("POST", P + r"/pfmea/import", pfmea_io.api_import, "user"),
     ("GET", P + r"/process", process.api_get, "user"),  # 0.60.103 (D-O-113): « Procédés », the assembly lines
     ("POST", P + r"/process/lines", process.api_line_create, "user"),
     ("PATCH", P + r"/process/lines/(?P<lid>\d+)", process.api_line_update, "user"),
@@ -148,6 +154,8 @@ ROUTES = [
     ("POST", P + r"/dfmea/rows/(?P<did>\d+)/class", classes_api.api_decide, "user"),
     ("POST", P + r"/dfmea/rows", dfmea.api_create, "user"),
     ("GET", P + r"/dfmea/export\.csv", dfmea.api_export, "user"),
+    ("GET", P + r"/dfmea/prompt", ai_prompts.api_dfmea_prompt, "user"),  # 0.60.104 (D-O-116): interview / review for an AI assistant
+    ("POST", P + r"/dfmea/import", dfmea_io.api_import, "user"),
     ("POST", P + r"/dfmea/from-tree", dfmea.api_from_tree, "user"),
     ("POST", P + r"/dfmea/from-risks", dfmea.api_from_risks, "user"),
     ("POST", P + r"/dfmea/complete", dfmea_complete.api_complete, "user"),
