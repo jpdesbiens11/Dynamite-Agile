@@ -180,15 +180,24 @@ def api_item_create(ctx):
     values = _item_fields(ctx.conn, pid, plan, ctx.body)
     if not values.get("characteristic_id") and not values.get("char_label"):
         raise ApiError(400, "Une ligne contrôle une caractéristique C-n, ou nomme la caractéristique de procédé. Correctif : choisissez la C-n.")
-    seq = ctx.conn.execute("SELECT COALESCE(MAX(seq), 0) + 1 FROM diamond_cp_items WHERE plan_id = ? AND operation_id IS ?",
-                           (plan["id"], values.get("operation_id"))).fetchone()[0]
-    now = db.utc_now()
-    cols = list(values)
-    iid = ctx.conn.execute("INSERT INTO diamond_cp_items (project_id, plan_id, seq, position, {}created_at, updated_at) VALUES (?, ?, ?, "
-                           "(SELECT COUNT(*) FROM diamond_cp_items WHERE plan_id = ?), {}?, ?)".format("".join(c + ", " for c in cols), "?, " * len(cols)),
-                           [pid, plan["id"], seq, plan["id"]] + [values[c] for c in cols] + [now, now]).lastrowid
+    iid = insert_item(ctx.conn, pid, plan, values)
     _log(ctx, "diamond_cp_item_create", "diamond_cp_items", iid, {"plan": plan["number"], "characteristic_id": values.get("characteristic_id")})
     return payload(ctx.conn, ctx.user, pid)
+
+
+def next_seq(conn, plan_id, operation_id):
+    return conn.execute("SELECT COALESCE(MAX(seq), 0) + 1 FROM diamond_cp_items WHERE plan_id = ? AND operation_id IS ?",
+                        (plan_id, operation_id)).fetchone()[0]
+
+
+def insert_item(conn, pid, plan, values):
+    """A row at the end of the plan, numbered after the last one of its operation (CP-30.2), or of the reception (CP-R.5)."""
+    now = db.utc_now()
+    cols = list(values)
+    return conn.execute("INSERT INTO diamond_cp_items (project_id, plan_id, seq, position, {}created_at, updated_at) VALUES (?, ?, ?, "
+                        "(SELECT COUNT(*) FROM diamond_cp_items WHERE plan_id = ?), {}?, ?)".format("".join(c + ", " for c in cols), "?, " * len(cols)),
+                        [pid, plan["id"], next_seq(conn, plan["id"], values.get("operation_id")), plan["id"]] + [values[c] for c in cols]
+                        + [now, now]).lastrowid
 
 
 def api_item_update(ctx):

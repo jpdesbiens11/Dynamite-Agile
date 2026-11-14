@@ -233,3 +233,14 @@ tr.dm-cp-review > td { background: color-mix(in srgb, var(--warn) 14%, transpare
 .dm-pz-top { display: flex; flex-wrap: wrap; gap: .3rem; align-items: center; }
 .dm-pz-meta { font-size: .78rem; }
 .dm-pz-card select { max-width: 100%; font-size: .8rem; }
+/* 0.60.104 (D-O-116): round trip with a spreadsheet or an AI assistant (ai_io.js) */
+.dm-ai-dialog fieldset { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 8px 12px; }
+.dm-ai-mode { display: flex; gap: 8px; align-items: flex-start; margin: 6px 0; }
+.dm-ai-mode input { margin-top: 3px; }
+.dm-ai-changes { margin: 0; padding-left: 16px; }
+.dm-ai-changes del { color: var(--muted); }
+.dm-ai-kind { font-size: 12px; font-weight: 600; white-space: nowrap; }
+.dm-ai-new .dm-ai-kind { color: var(--agile); }
+.dm-ai-update .dm-ai-kind { color: var(--warn); }
+.dm-ai-same { opacity: .65; }
+.dm-ai-refused .dm-ai-kind { color: var(--danger); }

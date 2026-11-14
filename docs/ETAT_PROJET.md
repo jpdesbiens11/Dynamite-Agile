@@ -1,7 +1,7 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-13 (v0.60.103)
-**Version :** 0.60.103 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Dernière mise à jour :** 2026-11-13 (v0.60.104)
+**Version :** 0.60.104 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
 **Chantier actif :** caractéristiques spéciales dans Diamond, six incréments (D-O-109, demande de JP du 2026-11-13) : livrés tous les six — 1 en 0.60.101 (D-O-108), 2 en 0.60.102 (D-O-110), 3 à 6 ensemble en 0.60.103 à la demande de JP (moins de relâches : D-O-112 à D-O-115), avec « Modules et fonctions » (D-O-111, lot noyau v0.37). Question ouverte : la boucle IA interne (modèle sur le serveur de l'entreprise), non construite
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
@@ -51,6 +51,7 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.101 | Diamond : classes CC / SC dans le DFMEA — proposées par la règle du Space, décidées par une personne avec sa justification, refus gardé ; règle et symboles du client par Space (AIAG, Ford, aéro) ; filtres, exports, démo Rover (D-O-108, D-O-109) | Livré (PR) |
 | 0.60.102 | Diamond : caractéristiques C-n (cote, pièce, plan, Cpk exigé, essai), sommaire des caractéristiques spéciales, colonnes Part / Characteristic du DFMEA, exports, démo Rover C-01 à C-21 (D-O-110) | Livré (PR) |
 | 0.60.103 | Diamond, incréments 3 à 6 de D-O-109 en une version : # de pièce de l'entreprise par l'IA (boucle externe), « Procédés » (configurations de ligne, accès par liste), PFMEA (S héritée et verrouillée, brouillons de l'IA), plans de contrôle (plusieurs par configuration de ligne), Cpk / Ppk, Prioriser en vagues, impact d'un ECN ; « Modules et fonctions » : Timesheet, évaluations, Procédés / PFMEA / plans de contrôle activables (D-O-111 à D-O-115) | Livré (PR) |
+| 0.60.104 | Diamond : DFMEA, PFMEA et plans de contrôle aller-retour avec un tableur ou un assistant IA — export CSV, modèles de prompt (entrevue guidée, révision), import avec aperçu ligne par ligne, rien d'effacé (D-O-116) | Livré (PR) |
 | 0.60.37 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
 
 ## Table 2 : Questions du brief §5 (toutes tranchées)
@@ -64,6 +65,12 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 5 | Profils d'études de l'équipe d'exemple | Confirmés (D-O-013) |
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
+
+## Relais (0.60.104)
+
+- Aller-retour IA (D-O-116) : un nouveau tableau qui veut le même aller-retour fournit son `plan(rows) -> entries` et son `apply(entries)`
+  à `ai_io.run`, son export CSV (`ai_io.csv_file`) et son prompt (`ai_prompts.intro`, `protocol`, `answer_format`) ; ses clés JSON sont
+  les en-têtes de son CSV ; il valide par les mêmes fonctions que son écran. `D.aiTools` (JS) donne les trois boutons.
 
 ## Relais (0.60.103)
 

@@ -73,9 +73,19 @@ def prompt(conn, user, pid, line):
 
 
 def api_prompt(ctx):
+    """?line=<n>&mode=generate (default) | interview | review -- 0.60.104 (D-O-116): the interview and the review of the PFMEA
+    (ai_prompts_process.py), answered in the keys of « Exporter (.csv) » and read back by « Importer » (pfmea_io.py)."""
     pid = PR.access(ctx)
     line = _line(ctx.conn, ctx.user, pid, ctx.query.get("line"))
-    return {"prompt": prompt(ctx.conn, ctx.user, pid, line), "line": line["code"], "operations": len(line["operations"])}
+    mode = ctx.query.get("mode") or "generate"
+    if mode != "generate":
+        from . import ai_prompts as AIP
+        from . import ai_prompts_process as APP
+        mode = AIP.mode_of(ctx)
+        return {"prompt": APP.pfmea_prompt(ctx.conn, ctx.user, pid, mode, line["number"]), "line": line["code"], "operations": len(line["operations"]),
+                "mode": mode, "mode_label": AIP.MODES[mode]}
+    return {"prompt": prompt(ctx.conn, ctx.user, pid, line), "line": line["code"], "operations": len(line["operations"]), "mode": "generate",
+            "mode_label": "Générer depuis le DFMEA et la ligne"}
 
 
 def _items(text):

@@ -173,6 +173,10 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.104** (2026-11-13) : **DFMEA, PFMEA et plans de contrôle ↔ tableur et assistant IA** (D-O-116) : Exporter (.csv), Prompt pour l'IA
+  (Entrevue guidée, Révision ; Générer pour le PFMEA ; `modules/diamond/ai_prompts.py`, `ai_prompts_process.py`), Importer… avec aperçu
+  ligne par ligne puis « Appliquer la sélection » (`ai_io.py`, `dfmea_io.py`, `pfmea_io.py`, `cp_io.py`, `static/js/diamond/ai_io.js`) ;
+  réponse = un bloc JSON dont les clés sont les en-têtes du CSV ; rien n'est effacé (`tests/test_diamond_ai_io.py`).
 - **0.60.103** (2026-11-13) : **incréments 3 à 6 de D-O-109 en une version, et « Modules et fonctions »** :
   lot noyau v0.37 (D-O-111, `core/features.py`, `static/js/admin_features.js`, ⚙ Admin → Plateforme → Modules et fonctions) : Timesheet,
   évaluations et profil, Diamond Procédés / PFMEA / Plans de contrôle activés ou désactivés (menus, routes 404, Dashboard, recherche ;

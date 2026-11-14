@@ -1,8 +1,9 @@
 /* Diamond · « PFMEA » (0.60.103, D-O-114), #/diamond/KEY/pfmea/<line>: the Process FMEA of one assembly line, as on page
    13 of the presentation -- Op. (PF-30.1), Process Step, product characteristic C-n, process characteristic, Failure Mode,
    effect, cause and its 5M class, prevention, detection, S inherited from the DFMEA and locked (🔒, its DFMEA line), O, D,
-   AP, the action and its follow-up. « Copier le prompt pour l'IA » assembles the final DFMEA extract and the line; the
-   answer comes back as drafts, accepted or rejected row by row, never straight into the validated PFMEA. */
+   AP, the action and its follow-up. 0.60.104 (D-O-116): « Exporter (.csv) », « Prompt pour l'IA » (generate from the final
+   DFMEA extract and the line, interview, review) and « Importer… » (ai_io.js); a new row comes back as a draft, accepted or
+   rejected row by row, never straight into the validated PFMEA. */
 (function () {
   "use strict";
 
@@ -47,32 +48,15 @@
       label, el("span", { class: "dm-fm-count" }, String(n(key))));
     holder.append(el("div", { class: "dm-actions" }, pick, tab("accepted", "Validées"), tab("draft", "Brouillons"), tab("rejected", "Rejetées"),
       state.editable ? el("button", { type: "button", class: "btn btn-small btn-primary", onclick: () => state.send("post", "/rows", { operation_id: line.operations[0] ? line.operations[0].id : null },
-        "Ligne ajoutée.") }, "Nouvelle ligne") : null));
+        "Ligne ajoutée.") }, "Nouvelle ligne") : null,
+      state.editable && n("draft") ? el("button", { type: "button", class: "btn btn-small", onclick: () => state.send("post", "/accept-all", {}, (r) => r.accepted + " brouillon(s) acceptés.") },
+        "Tout accepter (" + n("draft") + ")") : null,
+      ...D.aiTools({ base: state.base, title: "PFMEA · " + line.code, exportHref: state.base + "/export.csv", editable: state.editable, drafts: true,  // 0.60.104 (D-O-116)
+        modes: ["generate", "interview", "review"], query: () => "line=" + line.number,
+        onDone: (res) => { state.data = res.pfmea; state.show = res.applied.new ? "draft" : state.show; draw(state); } })));
     if (d.checks.length) holder.append(el("details", { class: "dm-advice", open: true }, el("summary", null, "Conseils de la méthode (" + d.checks.length + ")"), el("ul", null, d.checks.map((c) => el("li", null, c)))));
-    if (state.editable) holder.append(aiBox(state, line, n("draft")));
     const shown = rows.filter((r) => r.state === state.show);
     holder.append(shown.length ? table(state, shown, line) : el("p", { class: "muted" }, state.show === "draft" ? "Aucun brouillon à revoir." : "Aucune ligne."));
-  }
-
-  function aiBox(state, line, drafts) {
-    const area = el("textarea", { rows: 3, "aria-label": "Réponse de l'IA", placeholder: "Collez ici le tableau JSON rendu par l'assistant IA" });
-    const copy = async () => {
-      try {
-        const res = await api.get(state.base + "/prompt?line=" + line.number);
-        await navigator.clipboard.writeText(res.prompt);
-        toast("Prompt copié : l'extrait du DFMEA et " + res.operations + " opérations de " + res.line + ".", "success");
-      } catch (err) { toast(err.message, "error"); }
-    };
-    return el("details", { class: "dm-pf-ai", open: !drafts, "data-new": "0.60.103-pfmea-ai" }, el("summary", null, "PFMEA proposé par l'IA"),
-      el("p", { class: "muted" }, "Le prompt s'assemble tout seul : les lignes classées du DFMEA (effets, sévérités, causes de procédé, caractéristiques) "
-        + "et la ligne d'assemblage (opérations, équipements, points de contrôle). La réponse revient en brouillon."),
-      el("div", { class: "dm-actions" }, el("button", { type: "button", class: "btn btn-small", onclick: copy }, "Copier le prompt pour l'IA"),
-        drafts ? el("button", { type: "button", class: "btn btn-small", onclick: () => state.send("post", "/accept-all", {}, (r) => r.accepted + " brouillon(s) acceptés.") },
-          "Tout accepter (" + drafts + ")") : null), area,
-      el("button", { type: "button", class: "btn btn-small", onclick: async () => {
-        const res = await state.send("post", "/ai", { answer: area.value, line: line.number }, (r) => r.drafts + " ligne(s) en brouillon.");
-        if (res) { state.show = "draft"; draw(state); if (res.refused.length) toast(res.refused.join(" "), "error"); }
-      } }, "Importer en brouillon"));
   }
 
   function table(state, rows, line) {

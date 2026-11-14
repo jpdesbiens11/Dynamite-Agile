@@ -1,4 +1,12 @@
 {
+"Recherche plein texte": "Full-text search",
+"Recherche · Ctrl K · Mes éléments · Liste Audit · Audit · Help": "Search · Ctrl K · My items · Audit list · Audit · Help",
+"Recherche, palette et Audit": "Search, palette and Audit",
+"Rechercher": "Search",
+"Rechercher : référence, titre, système, auteur…": "Search: reference, title, system, author…",
+"Rechercher dans le registre": "Search the register",
+"Rechercher dans les titres et descriptions…": "Search titles and descriptions…",
+"Rechercher dans toute la plateforme": "Search the whole platform",
 "Rechercher partout…": "Search everywhere…",
 "Rechercher « ": "Search “ ",
 "Recherches récentes": "Recent searches",
@@ -262,6 +270,7 @@
 "Rien ici avec ces filtres.": "Nothing here with these filters.",
 "Rien n'a changé. Vous pourrez appliquer cette version, ou une plus récente, plus tard.": "Nothing has changed. You can apply this version, or a newer one, later.",
 "Rien n'est créé avant votre confirmation.": "Nothing is created before you confirm.",
+"Rien n'est effacé : une ligne absente de la réponse reste telle quelle. Dans le PFMEA, une nouvelle ligne arrive en brouillon et la S héritée du DFMEA reste verrouillée. Le prompt se copie et se colle : la plateforme n'appelle aucun service d'IA ; pour des données confidentielles, seulement un assistant approuvé.": "Nothing is deleted: a row absent from the answer stays as it is. In the PFMEA, a new row arrives as a draft and the S inherited from the DFMEA stays locked. The prompt is copied and pasted: the platform calls no AI service; for confidential data, only an approved assistant.",
 "Rien ne change.": "Nothing changes.",
 "Rien ne reste dans un carnet : le carnet est une boîte de réception à vider le jour même.": "Nothing stays in a notebook: the notebook is an inbox to empty the same day.",
 "Rien ne vous attend pour l'instant. ": "Nothing is waiting for you right now. ",
@@ -400,6 +409,7 @@
 "Réponse / suivi": "Reply / follow-up",
 "Réponse client à fermer": "Customer reply to close",
 "Réponse de l'IA": "AI answer",
+"Réponse de l'IA ou CSV": "AI answer or CSV",
 "Réponse de l'assistant IA": "AI assistant's answer",
 "Réponse de l'équipe au client…": "Team's reply to the customer…",
 "Réponse de l'équipe contestée par le client.": "Team answer challenged by the customer.",
@@ -472,6 +482,7 @@
 "Rôle minimal invalide.": "Invalid minimum role.",
 "Rôle mis à jour.": "Role updated.",
 "Rôle spécial": "Special role",
+"S # refusée : la sévérité vient du DFMEA (#) et le procédé ne peut pas rendre un effet moins grave. Correctif : laissez S vide (héritée) ou une valeur de # à 10.": "S # refused: the severity comes from the DFMEA (#) and the process cannot make an effect less severe. Fix: leave S empty (inherited) or a value from # to 10.",
 "S # · O # : sous les seuils": "S # · O #: below the thresholds",
 "S 9, O 4, D 1 ne donne que 36 — pourtant le second touche à la sécurité. L'AP lit d'abord la sévérité, puis l'occurrence, ": "S 9, O 4, D 1 gives only 36 — yet the second one affects safety. AP reads severity first, then occurrence, ",
 "S non cotée : aucune proposition": "S not rated: no proposal",
@@ -1190,7 +1201,5 @@
 "Un type ne peut pas être à la fois sous-ticket et requirement.": "A type cannot be both a sub-ticket and a requirement.",
 "Un type porte déjà ce nom.": "A type already has this name.",
 "Un type « Requirement » existe déjà sans être marqué requirement. Correctif : cochez « Rôle spécial » sur ce type dans Paramètres → Types, ou renommez-le.": "A “Requirement” type already exists without being marked as requirement. Fix: check “Special role” on that type in Settings → Types, or rename it.",
-"Un type « Requirement » peut être ciblé par un lien « implémente » ": "A “Requirement” type can be targeted by an “implements” link ",
-"Un type « Requirement » peut être ciblé par un lien « implémente » depuis n'importe quel autre projet.": "A “Requirement” type can be targeted by an “implements” link from any other project.",
-"Un ultrason : arrêt sous 30 cm": "An ultrasonic sensor: stop under 30 cm"
+"Un type « Requirement » peut être ciblé par un lien « implémente » ": "A “Requirement” type can be targeted by an “implements” link "
 }

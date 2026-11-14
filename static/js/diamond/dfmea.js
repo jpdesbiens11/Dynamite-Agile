@@ -87,7 +87,8 @@
     holder.append(A.pageHead(ctx, [el("span", null, "Diamond"), el("span", null, "DFMEA")], [
       el("a", { class: "btn btn-small", href: A.href(ctx, "dfmeaap"), "data-new": "0.60.15-ap-legend" }, "Légende AP"),
       el("a", { class: "btn btn-small", href: A.href(ctx, "dfmeaclass"), "data-new": "0.60.101-class-rules" }, "Classes CC / SC"),
-      data.rows.length ? el("a", { class: "btn btn-small", href: D.base(ctx) + "/dfmea/export.csv", download: "" }, "Exporter (.csv)") : null]),
+      ...D.aiTools({ base: D.base(ctx) + "/dfmea", title: "DFMEA", exportHref: D.base(ctx) + "/dfmea/export.csv", editable,  // 0.60.104 (D-O-116)
+        onDone: (res) => { state.data = res.dfmea; draw(holder, ctx, state, act); } })]),
     el("div", { class: "page-head dm-intro" }, el("h1", { "data-new": "0.60.15-dfmea" }, "DFMEA"),
       el("p", { class: "muted" }, "Design FMEA, structure AIAG-VDA, sur les fonctions de l'arbre fonctionnel : une ligne par chaîne de "
         + "défaillance — l'effet sur l'élément supérieur (S), le mode de défaillance de l'élément analysé, la cause dans l'élément "
