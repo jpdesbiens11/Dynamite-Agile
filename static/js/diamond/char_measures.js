@@ -27,7 +27,7 @@
     const load = async () => {
       try {
         const res = await api.get(D.base(state.ctx) + "/cplans/measures/" + c.id);
-        out.replaceChildren(table(res, c), state.editable ? entry(state, c, load) : null);
+        out.replaceChildren(...[table(res, c), state.editable ? entry(state, c, load) : null].filter(Boolean));
       } catch (err) { out.replaceChildren(el("p", { class: "muted" }, err.message)); }
     };
     load();
@@ -43,7 +43,7 @@
       el("span", null, "Ppk " + num(s.ppk, 2)), req != null ? el("span", { class: "muted" }, "exigé " + num(req, 2)) : null,
       s.n && s.short ? el("span", { class: "muted" }, "échantillon court (moins de 25 valeurs)") : null),
     res.measurements.length ? DA.table(["Valeur", "Date", "Lot · n° de série", "Saisie"], res.measurements.slice(0, 20).map((m) => el("tr", null,
-      el("td", { class: "dm-ch-spec" }, num(m.value, c.decimals || 1)), el("td", null, m.taken_at.slice(0, 16)), el("td", null, m.sample || "—"),
+      el("td", { class: "dm-ch-spec" }, String(m.value).replace(".", ",")), el("td", null, m.taken_at.slice(0, 16).replace("T", " ")), el("td", null, m.sample || "—"),
       el("td", { class: "muted" }, (m.source === "csv" ? "CSV · " : "") + (m.by_name || ""))))) : el("p", { class: "muted" }, "Aucune mesure : la caractéristique est « à mesurer »."));
   }
 

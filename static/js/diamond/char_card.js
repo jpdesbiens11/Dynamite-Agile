@@ -21,7 +21,7 @@
     const f = c.dfmea;
     const rows = [
       ["Fonction", f && f.function_number ? "F" + f.function_number + " " + f.function_text : "—"],
-      ["DFMEA", f ? el("a", { href: A.href(ctx, "dfmea") }, "ligne " + f.line + " · S " + (f.severity || "—") + " · O " + (f.occurrence || "—") + " · AP " + (f.ap || "—")) : "aucune ligne"],
+      ["DFMEA", f ? el("a", { href: A.href(ctx, "dfmea") }, el("span", null, "ligne " + f.line), " · S " + (f.severity || "—") + " · O " + (f.occurrence || "—") + " · AP " + (f.ap || "—")) : "aucune ligne"],
       ["Pièce Diamond", c.part ? c.part + " " + (c.part_name || "") : el("span", { class: "dm-ch-miss" }, "à préciser")],
       ["Interface", c.part2 ? c.part + " ↔ " + c.part2 + " " + (c.part2_name || "") : "—"],
       ["# entreprise", (c.pns || []).length ? el("span", { class: "dm-ch-spec" }, c.pns.join(" · "))  // 0.60.103 (D-O-112)
@@ -37,7 +37,7 @@
       el("h1", null, D.charChip(c), " " + c.code + " · " + c.label, c.archived ? el("span", { class: "badge badge-off" }, " retirée") : null),
       el("dl", { class: "dm-ch-dl" }, rows.flatMap(([k, v]) => [el("dt", null, k), el("dd", null, v)])),
       c.spec_text && c.spec ? el("p", { class: "muted" }, c.spec_text) : null, c.notes ? el("p", { class: "dm-ch-notes" }, c.notes) : null));
-    holder.append(D.charFlags(state, c), D.charMeasures(state, c));  // 0.60.103 (D-O-115): « à revoir », measurements and capability
+    holder.append(...[D.charFlags(state, c), D.charMeasures(state, c)].filter(Boolean));  // 0.60.103 (D-O-115): « à revoir », measurements and capability
     if (state.editable) holder.append(form(state, c));
     holder.append(el("div", { class: "dm-actions" }, el("a", { class: "btn", href: A.href(ctx, "chars") }, "← Sommaire"),
       el("a", { class: "btn", href: A.href(ctx, "chars") + "/all" }, "Toutes les caractéristiques")));

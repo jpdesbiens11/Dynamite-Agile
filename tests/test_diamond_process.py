@@ -258,6 +258,51 @@ class ProcessTest(unittest.TestCase):
             self.assertTrue(conn.execute("SELECT 1 FROM diamond_review_flags WHERE characteristic_id = ? AND reviewed_by IS NOT NULL",
                                          (c14["id"],)).fetchone())
 
+    def test_08_screens(self):
+        """DOM append / replaceChildren print « null » and « [object HTMLElement] »: never a bare null or an array as argument."""
+        names = ["diamond/" + n for n in ("pn", "process", "pfmea", "pfmea_edit", "cplans", "char_measures", "prio", "chars", "char_card")]
+        for name in names + ["admin_features"]:
+            text = (BASE_DIR / "static" / "js" / (name + ".js")).read_text("utf-8")
+            self.assertNotIn("innerHTML", text, name)
+            for call, args in dom_calls(text):
+                for arg in args:
+                    self.assertFalse(arg.startswith("[") or ".map(" in arg or arg.endswith(": null") or arg == "null",
+                                     "{} : {}({}…)".format(name, call, arg[:60]))
+
+
+def dom_calls(text):
+    """[(call, [top-level arguments with their nested parts removed])] of every .append( / .replaceChildren( of a script."""
+    import re
+    out = []
+    for m in re.finditer(r"\.(append|replaceChildren)\(", text):
+        i, depth, quote, args, cur = m.end(), 1, None, [], ""
+        while i < len(text) and depth:
+            ch = text[i]
+            if quote:
+                if ch == "\\":
+                    i += 1
+                elif ch == quote:
+                    quote = None
+            elif ch in "\"'`":
+                quote = ch
+            elif ch in "([{":
+                depth += 1
+                if depth == 2:
+                    cur += ch
+            elif ch in ")]}":
+                depth -= 1
+                if depth == 1:
+                    cur += ch
+            elif ch == "," and depth == 1:
+                args.append(cur.strip())
+                cur = ""
+            elif depth == 1:
+                cur += ch
+            i += 1
+        args.append(cur.strip())
+        out.append((m.group(1), [a for a in args if a and not a.startswith("...")]))
+    return out
+
 
 if __name__ == "__main__":
     unittest.main()

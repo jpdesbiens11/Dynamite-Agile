@@ -53,7 +53,8 @@
       el("div", { class: "dm-actions", role: "group", "aria-label": "Phase" }, Object.entries(d.labels.phases).map(([k, label]) => el("button", { type: "button",
         class: "btn btn-small", "aria-pressed": String(plan.phase === k), disabled: !state.editable,
         onclick: () => state.send("patch", "/plans/" + plan.id, { phase: k }, plan.code + " : " + label + ".") }, label)),
-      el("span", { class: "muted" }, d.labels.scopes[plan.scope] + (plan.line ? " · " + plan.line : "") + " · rév. " + plan.revision),
+      el("span", { class: "muted" }, el("span", null, d.labels.scopes[plan.scope]), plan.line ? " · " : null, plan.line ? el("span", null, plan.line) : null,
+        " · ", el("span", null, "rév."), " " + plan.revision),
       state.editable ? el("button", { type: "button", class: "link-btn", onclick: () => planDialog(state, plan) }, "modifier") : null)));
     holder.append(table(state, plan));
   }

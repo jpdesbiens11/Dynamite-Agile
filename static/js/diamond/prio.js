@@ -27,8 +27,10 @@
     const holder = state.holder, d = state.data;
     clear(holder);
     holder.append(el("div", { class: "page-head dm-intro" }, el("h1", { "data-new": "0.60.103-prio" }, "Prioriser"),
-      el("p", { class: "muted" }, "On ne peut pas tout faire en même temps : les lignes clés du DFMEA" + (d.pfmea ? " et du PFMEA" : "") + ", puis leurs actions "
-        + "rangées en vagues attachées aux jalons du projet. L'échéance d'une action, et celle de son ticket Agile, suivent sa vague.")));
+      el("p", { class: "muted" }, d.pfmea ? "On ne peut pas tout faire en même temps : les lignes clés du DFMEA et du PFMEA, puis leurs actions rangées "
+        + "en vagues attachées aux jalons du projet. L'échéance d'une action, et celle de son ticket Agile, suivent sa vague."
+        : "On ne peut pas tout faire en même temps : les lignes clés du DFMEA, puis leurs actions rangées en vagues attachées aux jalons du projet. "
+        + "L'échéance d'une action, et celle de son ticket Agile, suivent sa vague.")));
     const rows = d.rows.filter((r) => [...state.on].every((k) => FILTERS.find((f) => f[0] === k)[2](r)));
     holder.append(el("div", { class: "dm-fm-filters", role: "group", "aria-label": "Filtres" }, el("span", { class: "dm-fm-filters-h" }, "Filtres"),
       FILTERS.map(([k, label, test]) => el("button", { type: "button", class: "btn btn-small", "aria-pressed": String(state.on.has(k)),
@@ -55,8 +57,9 @@
     }
     const date = w.id && state.editable ? el("input", { type: "date", value: w.due_date || "", "aria-label": "Date de " + w.name }) : null;
     if (date) date.addEventListener("change", () => state.send("patch", "/waves/" + w.id, { due_date: date.value }, "Date de la vague enregistrée : les échéances suivent."));
-    col.append(el("h2", null, w.name), w.id ? el("p", { class: "muted dm-pz-date" }, date || (w.due_date || "sans date")) : null,
-      rows.length ? rows.map((r) => card(state, r, columns)) : el("p", { class: "muted" }, "—"));
+    // DOM append: no null and no array (a card list is spread)
+    col.append(...[el("h2", null, w.name), w.id ? el("p", { class: "muted dm-pz-date" }, date || (w.due_date || "sans date")) : null]
+      .concat(rows.length ? rows.map((r) => card(state, r, columns)) : [el("p", { class: "muted" }, "—")]).filter(Boolean));
     return col;
   }
 
@@ -65,7 +68,7 @@
       el("div", { class: "dm-pz-top" }, el("span", { class: "dm-code" }, (r.kind === "pfmea" ? "PFMEA " : "DFMEA ") + r.code),
         r.class_code ? el("span", { class: "dm-cls dm-cls-" + r.class_code }, r.class_code) : null, D.apBadge(r.ap, { H: "High", M: "Medium", L: "Low" }),
         r.s ? el("span", { class: "muted" }, "S " + r.s) : null, r.cpk_below ? el("span", { class: "dm-ch-miss" }, "Cpk < exigé") : null),
-      el("p", { class: "dm-pz-what" }, r.where ? r.where + " — " : "", r.failure_mode),
+      el("p", { class: "dm-pz-what" }, r.where ? el("span", null, r.where) : null, r.where ? " — " : null, el("span", null, r.failure_mode)),
       el("p", null, r.action ? r.action : el("span", { class: "dm-ch-miss" }, "aucune action")),
       el("p", { class: "muted dm-pz-meta" }, [r.owner, r.due ? (r.late ? "en retard · " : "") + r.due : "", r.ticket ? "🎫 " + r.ticket.key : ""].filter(Boolean).join(" · ")));
     if (state.editable) {

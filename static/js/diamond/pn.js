@@ -23,7 +23,7 @@
     clear(box);
     const d = s.data, c = d.counts;
     box.append(el("p", { class: "dm-ch-count" }, el("span", { class: "badge badge-neutral" }, c.linked + " / " + c.parts + " pièces reliées"),
-      " " + c.bom + " PN dans la nomenclature de l'ERP" + (c.todo ? " · " + c.todo + " pièce(s) à créer dans l'ERP" : "")));
+      " ", el("span", null, c.bom + " PN dans la nomenclature de l'ERP"), c.todo ? " · " : "", c.todo ? el("span", null, c.todo + " pièce(s) à créer dans l'ERP") : ""));
     if (s.editable) box.append(bomSection(s), aiSection(s));
     box.append(partsSection(s));
   }
@@ -38,11 +38,11 @@
         const res = await api.post(s.base + "/bom", { file: area.value, mode });
         if (mode === "apply") { s.data = res; toast(res.counts_import.new + " PN ajouté(s), " + res.counts_import.changed + " modifié(s).", "success"); s.redraw(); return; }
         clear(out);
-        out.append(el("p", null, res.counts.new + " nouveau(x), " + res.counts.changed + " modifié(s), " + res.counts.same + " inchangé(s)."),
+        out.append(...[el("p", null, res.counts.new + " nouveau(x), " + res.counts.changed + " modifié(s), " + res.counts.same + " inchangé(s)."),
           res.problems.length ? el("ul", { class: "dm-cls-err" }, res.problems.map((p) => el("li", null, p))) : null,
           DA.table(["Ligne", "PN", "Rév.", "Désignation", "Fournisseur", "Matière", "Statut"], res.plan.map((r) => el("tr", null,
             [r.line, r.pn, r.rev, r.designation, r.supplier, r.material, STATUS[r.status]].map((v) => el("td", null, String(v || "")))))),
-          el("button", { type: "button", class: "btn btn-primary", onclick: () => send("apply") }, "Appliquer"));
+          el("button", { type: "button", class: "btn btn-primary", onclick: () => send("apply") }, "Appliquer")].filter(Boolean));
       } catch (err) { toast(err.message, "error"); }
     };
     return el("section", { class: "dm-pn-step" }, el("h2", null, "1. Nomenclature de l'ERP"),

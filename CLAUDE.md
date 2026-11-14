@@ -173,6 +173,16 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.103** (2026-11-13) : **incréments 3 à 6 de D-O-109 en une version, et « Modules et fonctions »** :
+  lot noyau v0.37 (D-O-111, `core/features.py`, `static/js/admin_features.js`, ⚙ Admin → Plateforme → Modules et fonctions) : Timesheet,
+  évaluations et profil, Diamond Procédés / PFMEA / Plans de contrôle activés ou désactivés (menus, routes 404, Dashboard, recherche ;
+  données gardées) ; **# de pièce de l'entreprise** (D-O-112, `company_pn.py`, `pn_ai.py`, `static/js/diamond/pn.js`, migration diamond 12 :
+  BOM de l'ERP en CSV, IA en boucle externe, jamais un PN inventé) ; **Procédés** (D-O-113, `process.py`, `process.js`, migration 13 :
+  configurations de ligne, OP10…, points de contrôle, accès par une liste de membres) ; **PFMEA** (D-O-114, `pfmea.py`, `pfmea_ai.py`,
+  `pfmea.js`, `pfmea_edit.js`, migration 14 : S héritée du DFMEA et verrouillée, 5M, brouillons de l'IA) ; **plans de contrôle, Cpk / Ppk,
+  Prioriser, impact d'un ECN** (D-O-115, `control_plans.py`, `capability.py`, `prio.py`, `impact.py`, `char_status.py`, `cplans.js`,
+  `char_measures.js`, `prio.js`, migration 15 : plusieurs plans par configuration de ligne) ; démo Rover (`modules/help/demo_pn.py`,
+  `demo_process.py`, `demo_process_data.py`) (`tests/test_features.py`, `test_diamond_pn.py`, `test_diamond_process.py`).
 - **0.60.102** (2026-11-13) : **caractéristiques C-n et sommaire des caractéristiques spéciales** (D-O-110, incrément 2 de D-O-109) :
   `modules/diamond/characteristics.py`, `char_spec.py`, `char_links.py`, `char_export.py`, migration diamond 11 ; onglet Caractéristiques
   (`static/js/diamond/chars.js`, fiche `char_card.js`, `#/diamond/KEY/chars/C-14`) ; colonnes Part / Characteristic et « + Caractéristique »

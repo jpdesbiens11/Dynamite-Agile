@@ -1,4 +1,14 @@
 {
+"Prise en main en une semaine": "Getting started within a week",
+"Prise en main terminée": "Onboarding completed",
+"Prix acceptable pour l'école : 200 à 300 $": "Price acceptable to the school: $200 to $300",
+"Prix de 2026, taxes en sus. Prototype : achat à l'unité chez un distributeur ; 100 kits : tarifs par lots ; 1 000 et 10 000 kits : soumissions de deux fournisseurs, boîtier et pare-chocs moulés par injection.": "2026 prices, taxes extra. Prototype: bought individually from a distributor; 100 kits: batch pricing; 1,000 and 10,000 kits: quotes from two suppliers, enclosure and bumper injection-molded.",
+"Problème": "Problem",
+"Problème trouvé en essai ; voir le ticket relié.": "Problem found in testing; see the linked ticket.",
+"Problèmes et modifications (voir le guide Change Management).": "Problems and changes (see the Change Management guide).",
+"Processeur < 80 °C, sans baisse de fréquence.": "Processor < 80 °C, with no frequency throttling.",
+"Processus de développement de produit": "Product development process",
+"Processus de développement de produit (PDP)": "Product development process (PDP)",
 "Processus de développement de produit (Product Development Process)": "Product development process (PDP)",
 "Product Design and Development (7e éd.)": "Product Design and Development (7th ed.)",
 "Produire beaucoup d'idées sans effet de groupe : chacun écrit, puis enrichit les idées des autres. Dans l'outil, les participants connectés travaillent par paires qui changent à chaque tour : on voit en direct ce que son partenaire écrit, on rebondit dessus, et le tour suivant on change de partenaire.": "Produce many ideas without group effect: everyone writes, then builds on the ideas of others. In the tool, the connected participants work in pairs that change every round: you see live what your partner is writing, build on it, and the next round you change partner.",
@@ -89,6 +99,7 @@
 "Rampe moteur de 0,5 s et condensateur de 1 000 µF sur le 5 V": "0.5 s motor ramp and 1,000 µF capacitor on the 5 V",
 "Rapport de vérification et de validation": "Verification and validation report",
 "Raspberry Pi 4 (2 Go)": "Raspberry Pi 4 (2 GB)",
+"Raspberry Pi 4, 2 Go": "Raspberry Pi 4, 2 GB",
 "Raspberry Pi et carte microSD": "Raspberry Pi and microSD card",
 "Rassembler papiers, notes de réunion, courriels : tout ce qui n'est pas encore dans la plateforme.": "Gather papers, meeting notes, emails: everything that is not yet in the platform.",
 "Rattacher au financement —": "Attach to funding —",
@@ -170,6 +181,7 @@
 "Robustesse dehors (soleil, gazon)": "Robustness outdoors (sun, grass)",
 "Rotation « toutes rondes » (méthode du cercle) : avec n participants, chacun rencontre chacun en n − 1 tours ; au-delà, la rotation recommence.": "“All-play-all” rotation (circle method): with n participants, everyone meets everyone in n − 1 rounds; beyond that, the rotation starts over.",
 "Rotules serrées, butées\nBonnes pratiques (industrie) :\nStructure et mécanique :\n• Facteur de sécurité d'au moins 2 sur les pièces structurelles (3 pour un plastique chargé longtemps : fluage)\n• Calcul ou simulation par éléments finis des pièces chargées, cas de chute et de choc compris\n• Analyse de tolérances (pire cas ou RSS) sur chaque ajustement critique\n• Congés de raccordement, pas d'angle vif ni d'entaille dans une zone chargée (concentration de contraintes)\n• Pièces moulées : épaisseur de paroi uniforme, nervures, dépouilles, matière choisie avec sa fiche technique\n• Fixations : couple spécifié, frein-filet ou rondelle, inserts métalliques dans le plastique\n• Stabilité : centre de gravité bas, essai de basculement sur un plan incliné selon la norme du produit\nPour toute fonction :\n• Revue de conception par des pairs (PDR, CDR) avec cette ligne du DFMEA sous les yeux\n• Leçons apprises : DFMEA et retours terrain d'un produit semblable ou précédent\n• Solution éprouvée ou pièce du commerce qualifiée plutôt qu'une technologie nouvelle, sauf raison chiffrée\n• Exigence chiffrée et vérifiable dans le CdCF (Goldmine) pour cette fonction, avec sa tolérance": "Tight ball joints, stops\nBest practices (industry):\nStructure and mechanics:\n• Safety factor of at least 2 on structural parts (3 for a plastic loaded for a long time: creep)\n• Calculation or finite-element simulation of loaded parts, including drop and impact cases\n• Tolerance analysis (worst case or RSS) on every critical fit\n• Fillets, no sharp corner or notch in a loaded area (stress concentration)\n• Molded parts: uniform wall thickness, ribs, draft, material chosen with its datasheet\n• Fasteners: specified torque, thread-locker or washer, metal inserts in plastic\n• Stability: low center of gravity, tip-over test on an inclined plane per the product standard\nFor every function:\n• Peer design review (PDR, CDR) with this DFMEA line in front of the reviewers\n• Lessons learned: DFMEA and field feedback from a similar or previous product\n• Proven solution or qualified off-the-shelf part rather than a new technology, unless there is a quantified reason\n• Quantified, verifiable requirement in the CdCF (Goldmine) for this function, with its tolerance",
+"Roue perdue en marche": "Wheel lost while running",
 "Rouge sur fond jaune, sur le dessus du robot.": "Red on a yellow background, on top of the robot.",
 "Roule mal dehors ; aucune vraie direction": "Rides poorly outdoors; no real steering",
 "Rouler dehors, pas seulement sur une table": "Drive outdoors, not just on a table",
@@ -216,6 +228,7 @@
 "S'arrêter si la liaison est perdue": "Stop if the link is lost",
 "S'engager : la sub-task apparaît dans votre Dashboard ; filtre « Mes éléments » pour ne voir qu'elle.": "Commit: the sub-task appears in your Dashboard; use the “My items” filter to see only it.",
 "S'il y a un problème (version pas plus haute, erreur dans un fichier, tentative d'effacer des données, dossier data/ dans la boîte), il le dit en rouge avec la correction à demander à Claude. Rien n'est appliqué.": "If there is a problem (version not higher, error in a file, attempt to delete data, data/ folder in the package), it says so in red with the fix to ask Claude for. Nothing is applied.",
+"SPC + enregistrement": "SPC + recording",
 "Saisir la semaine —": "Enter the week —",
 "Sam allume le Rover et ouvre l'application sur son téléphone : il faut trouver le réseau du Rover et le démarrer.": "Sam turns on the Rover and opens the application on their phone: the Rover's network has to be found and started.",
 "Sam monte le Raspberry Pi, les capteurs et la batterie sur le châssis en suivant la notice, en deux soirées.": "Sam mounts the Raspberry Pi, the sensors and the battery on the chassis by following the instructions, over two evenings.",
@@ -433,7 +446,7 @@
 "Un requirement tiré d'une norme arrive « À vérifier » : on confirme l'édition et l'article.": "A requirement taken from a standard arrives “To verify”: confirm the edition and clause.",
 "Un seul Sprint actif à la fois par Space.": "Only one active Sprint at a time per Space.",
 "Un seul refus arrête tout : rien n'est appliqué, et le site écrit un « Retour pour Claude » (bouton « Copier le retour pour Claude »). Collez-le dans la conversation : Claude corrige ce qui a été refusé et garde le reste ; vérifiez ensuite le nouveau zip.": "A single refusal stops everything: nothing is applied, and the site writes a “Feedback for Claude” (button “Copy the feedback for Claude”). Paste it into the conversation: Claude fixes what was refused and keeps the rest; then check the new zip.",
+"Un seul robot au poste": "A single robot at the station",
 "Un seul tournevis cruciforme no 1 pour tout le robot.": "A single no. 1 Phillips screwdriver for the whole robot.",
-"Un seul ultrason sur un servo qui balaie": "A single ultrasonic sensor on a sweeping servo",
-"Un ticket clôturé avec le Sprint revient au Backlog même s'il était presque fini : c'est voulu, il sera replanifié.": "A ticket closed with the Sprint goes back to the Backlog even if it was almost finished: this is intended, it will be re-planned."
+"Un seul ultrason sur un servo qui balaie": "A single ultrasonic sensor on a sweeping servo"
 }

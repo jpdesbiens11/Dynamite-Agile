@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-13 (v0.60.102)
-**Version :** 0.60.102 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** caractéristiques spéciales dans Diamond, six incréments (D-O-109, demande de JP du 2026-11-13) : incrément 1, classes CC / SC, livré en 0.60.101 (D-O-108) ; incrément 2, caractéristiques C-n et sommaire, livré en 0.60.102 (D-O-110) ; suit l'incrément 3, numéros de pièce de l'entreprise par l'IA
+**Dernière mise à jour :** 2026-11-13 (v0.60.103)
+**Version :** 0.60.103 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** caractéristiques spéciales dans Diamond, six incréments (D-O-109, demande de JP du 2026-11-13) : livrés tous les six — 1 en 0.60.101 (D-O-108), 2 en 0.60.102 (D-O-110), 3 à 6 ensemble en 0.60.103 à la demande de JP (moins de relâches : D-O-112 à D-O-115), avec « Modules et fonctions » (D-O-111, lot noyau v0.37). Question ouverte : la boucle IA interne (modèle sur le serveur de l'entreprise), non construite
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -50,7 +50,7 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.36 | Mise à jour en ligne : vérifier, approuver, progression (D-O-045) | Livré |
 | 0.60.101 | Diamond : classes CC / SC dans le DFMEA — proposées par la règle du Space, décidées par une personne avec sa justification, refus gardé ; règle et symboles du client par Space (AIAG, Ford, aéro) ; filtres, exports, démo Rover (D-O-108, D-O-109) | Livré (PR) |
 | 0.60.102 | Diamond : caractéristiques C-n (cote, pièce, plan, Cpk exigé, essai), sommaire des caractéristiques spéciales, colonnes Part / Characteristic du DFMEA, exports, démo Rover C-01 à C-21 (D-O-110) | Livré (PR) |
-| 0.60.103 et suivantes | Diamond, suite de D-O-109 : (3) numéros de pièce de l'entreprise par l'IA (boucle externe) ; (4) « Procédés », la ligne d'assemblage ; (5) PFMEA généré en brouillon ; (6) plans de contrôle, Cpk, priorisation en vagues, impact d'un ECN | À faire, un incrément à la fois |
+| 0.60.103 | Diamond, incréments 3 à 6 de D-O-109 en une version : # de pièce de l'entreprise par l'IA (boucle externe), « Procédés » (configurations de ligne, accès par liste), PFMEA (S héritée et verrouillée, brouillons de l'IA), plans de contrôle (plusieurs par configuration de ligne), Cpk / Ppk, Prioriser en vagues, impact d'un ECN ; « Modules et fonctions » : Timesheet, évaluations, Procédés / PFMEA / plans de contrôle activables (D-O-111 à D-O-115) | Livré (PR) |
 | 0.60.37 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
 
 ## Table 2 : Questions du brief §5 (toutes tranchées)
@@ -64,6 +64,16 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 5 | Profils d'études de l'équipe d'exemple | Confirmés (D-O-013) |
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
+
+## Relais (0.60.103)
+
+- Modules et fonctions (D-O-111) : une partie optionnelle d'un module se déclare dans `FEATURES` de son `__init__.py` (clé, libellé,
+  routes, `requires`) ; `core/features.guard` la ferme pour toutes ses routes ; l'écran la cache par `DA.feature(clé)` /
+  `DA.session.features`. Ne jamais tester un interrupteur dans chaque route.
+- Côté procédé de Diamond (D-O-113 à D-O-115) : `process.access(ctx)` pour toute route de Procédés, PFMEA et plans de contrôle (liste
+  `diamond_process_access`) ; `char_status.apply` remplit les colonnes PFMEA, Control Plan, Cpk et le status du sommaire ; un
+  changement de cote passe par `impact.raise_for` (ne pas écrire `diamond_characteristics` sans lui). La boucle IA interne (D-O-112)
+  reste une question ouverte : ne pas la construire sans décision de JP.
 
 ## Relais (0.60.102)
 
