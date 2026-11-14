@@ -1,11 +1,22 @@
-# Journal de mise à jour — 0.60.102
+# Journal de mise à jour — 0.60.103
+
+- **Version :** 0.60.102 → 0.60.103 (2026-11-13)
+- **Changements :**
+  1. **Modules et fonctions : activer ou désactiver Timesheet, les évaluations, Procédés, PFMEA et plans de contrôle** (D-O-111, lot noyau v0.37).
+  2. **Diamond : # de pièce de l'entreprise, rapprochés par une IA** (D-O-112).
+  3. **Diamond : Procédés (configurations de la ligne d'assemblage) et PFMEA généré, S héritée du DFMEA** (D-O-113, D-O-114).
+  4. **Diamond : plans de contrôle (plusieurs par configuration de ligne), Cpk / Ppk, Prioriser en vagues, impact d'un ECN** (D-O-115).
+  5. **Aide et traductions anglaises des nouveautés.**
+- **Base de données :** ['Migrations diamond 12 à 15 (additives) : tables diamond_company_parts, diamond_part_pns, diamond_lines, diamond_operations, diamond_control_points, diamond_process_access, diamond_pfmea, diamond_control_plans, diamond_cp_items, diamond_measurements, diamond_waves, diamond_review_flags ; colonnes erp_todo de diamond_parts, wave_id de diamond_dfmea et de diamond_pfmea.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.102
 
 - **Version :** 0.60.101 → 0.60.102 (2026-11-13)
 - **Changements :**
   1. **Caractéristiques C-n et sommaire des caractéristiques spéciales dans Diamond** (D-O-110).
 - **Base de données :** ['Migration diamond 11 (additive) : table diamond_characteristics ; colonnes cc_cpk, sc_cpk de diamond_class_customers.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.101
 

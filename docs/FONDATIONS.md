@@ -526,6 +526,16 @@ crochet est idempotent (ajoute ce qui manque, ne touche jamais au contenu). `cor
 description seulement, la clé ne change jamais. Écran `static/js/admin_spacecard.js` ; `DA.spaces.startHere(titre, texte,
 actions)` (`static/js/tools/spaces.js`) pour l'état vide guidé « Commencer ici » d'un onglet. Aucune migration.
 
+**Lot noyau v0.37 (livré en 0.60.103, D-O-111) : parties de la plateforme activées ou désactivées.** `core/features.py` :
+`registry()` réunit les modules optionnels (`OPTIONAL_MODULES`), les fonctions du noyau (`CORE`, ex. « reviews ») et les `FEATURES`
+déclarées par un module (clé, libellé, description, motifs de routes, `requires`) ; `state(conn)` lit `app_settings` « features »
+(tout actif par défaut ; une partie dont le prérequis est éteint est éteinte) ; `guard(conn, path)`, appelé par `core/router.py`
+avant toute route d'un module, répond 404 « … désactivé … » ; `visible_modules()` filtre le manifeste de `/api/me`, qui donne aussi
+`features` ; le Dashboard et la recherche sautent un module éteint. `GET/PUT /api/admin/features` (administrateurs, journal
+« features_changed »). Écran : ⚙ Admin → Plateforme → Modules et fonctions (`static/js/admin_features.js`, `DA.feature(clé)`).
+Aucune donnée n'est effacée : rallumée, la partie est telle qu'elle était. Un module déclare ses parties optionnelles dans
+`FEATURES` de son `__init__.py`, jamais en touchant le noyau.
+
 ## 12. Versions officielles (0.60.12, D-O-024)
 
 - Chaque version publiée a sa fiche `docs/releases/<version>.json` (date, résumé FR / EN, changements et fichiers, comme

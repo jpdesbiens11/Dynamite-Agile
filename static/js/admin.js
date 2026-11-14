@@ -9,8 +9,8 @@
   const GROUPS = [["Comptes", [["users", "Utilisateurs"], ["rights", "Droits"], ["rules", "Règles d'accès"], ["guest", "Accès invité"]]],
     ["Spaces", [["start", "Commencer"], ["projects", "Spaces"], ["setup", "Setup des Spaces"]]],
     ["Plateforme", [["update", "Update et sauvegardes"], ["revisions", "Révisions"], ["transport", "Sécurité réseau"],
-      ["privacy", "Confidentialité"], ["audit", "Journal d'audit"], ["bob", "Bob (agent IA)"], ["mail", "Courriel"]]]];
-  const NEW = { start: "0.60.07-starter", update: "0.50.1-admin-maintenance", transport: "0.46.0-admin-transport", revisions: "0.50.11-admin-revisions", bob: "0.60.36-bob", guest: "0.60.63-guest", mail: "0.60.73-mail" };  // D-A-049 badges
+      ["features", "Modules et fonctions"], ["privacy", "Confidentialité"], ["audit", "Journal d'audit"], ["bob", "Bob (agent IA)"], ["mail", "Courriel"]]]];
+  const NEW = { start: "0.60.07-starter", update: "0.50.1-admin-maintenance", transport: "0.46.0-admin-transport", revisions: "0.50.11-admin-revisions", bob: "0.60.36-bob", guest: "0.60.63-guest", mail: "0.60.73-mail", features: "0.60.103-features" };  // D-A-049 badges
   const MOVED = { config: "config", backups: "data" };  // old addresses -> part of « Update et sauvegardes »
   const SECTIONS = GROUPS.flatMap(([, items]) => items);
 

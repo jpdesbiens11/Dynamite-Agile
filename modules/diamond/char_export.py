@@ -1,7 +1,7 @@
 """The summary of the special characteristics (0.60.102, D-O-110): one line per characteristic C-n whose DFMEA row has a
 confirmed class, read from the links -- class (the customer's process symbol), characteristic, specification, Diamond
-part, company PN, DFMEA line, PFMEA, Control Plan, required Cpk, Cpk, status. Company PN, PFMEA, Control Plan and the
-measured Cpk come with the next increments of D-O-109; until then their cells say so instead of staying blank.
+part, company PN, DFMEA line, PFMEA, Control Plan, required Cpk, Cpk, status. Company PN comes from the links of the part
+(0.60.103, company_pn.py), PFMEA, Control Plan, Cpk and status from the process side (char_status.py).
 GET …/characteristics/summary.xlsx and summary.docx (RawFile: the core stamps the revision); a sheet of the workbook of
 Diamond → Exporter and a section of its Word report.
 """
@@ -28,7 +28,7 @@ def cpk_req(c):
 
 
 def cpk(c):
-    return {"test100": "essai 100 %", "design": "—"}.get(c["control"], "à mesurer")
+    return c.get("cpk_text") or {"test100": "essai 100 %", "design": "—"}.get(c["control"], "à mesurer")
 
 
 def parts(c):
@@ -37,8 +37,9 @@ def parts(c):
 
 
 def line(c):
-    return [c["code"], c["class_symbol"], c["label"], c["spec"] or "à écrire", parts(c), "—",
-            "L{}".format(c["dfmea"]["line"]) if c["dfmea"] else "—", "—", "—", cpk_req(c), cpk(c), c["status_label"]]
+    return [c["code"], c["class_symbol"], c["label"], c["spec"] or "à écrire", parts(c), " · ".join(c.get("pns") or []) or "—",
+            "L{}".format(c["dfmea"]["line"]) if c["dfmea"] else "—", " · ".join(c.get("pfmea_refs") or []) or "—",
+            " · ".join(c.get("cp_refs") or []) or "—", cpk_req(c), cpk(c), c["status_label"]]
 
 
 def rows(data):
@@ -48,8 +49,8 @@ def rows(data):
 def note(data):
     cust = data["customer"]
     return ("Symboles du client « {} » : {} = {}, {} = {}. Une ligne par caractéristique dont la ligne du DFMEA a une classe confirmée ; "
-            "rien n'y est ressaisi. Company PN, PFMEA, Control Plan et Cpk mesuré : à venir (numéros de pièce de l'entreprise, procédés, "
-            "plans de contrôle).").format(cust["name"], cust["cc_symbol"], cust["cc_label"], cust["sc_symbol"], cust["sc_label"])
+            "rien n'y est ressaisi : le # de pièce vient de la pièce Diamond, PFMEA et Control Plan des lignes qui citent la caractéristique, "
+            "le Cpk des mesures (σ par l'étendue mobile, MR̄ / 1,128 ; unilatéral avec une seule limite).").format(cust["name"], cust["cc_symbol"], cust["cc_label"], cust["sc_symbol"], cust["sc_label"])
 
 
 def _project(conn, pid):

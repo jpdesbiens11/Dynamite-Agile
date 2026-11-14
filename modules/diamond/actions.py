@@ -18,8 +18,9 @@ from . import functions as F
 
 DFMEA_STATUSES = {"open": "À faire", "in_progress": "En cours", "done": "Fait"}
 FROM_CATEGORY = {"risk": {"todo": "open", "in_progress": "in_progress", "done": "closed"},
-                 "dfmea": {"todo": "open", "in_progress": "in_progress", "done": "done"}}
-CLOSED = {"risk": "closed", "dfmea": "done"}
+                 "dfmea": {"todo": "open", "in_progress": "in_progress", "done": "done"},
+                 "pfmea": {"todo": "open", "in_progress": "in_progress", "done": "done"}}  # 0.60.103 (D-O-114): the PFMEA too
+CLOSED = {"risk": "closed", "dfmea": "done", "pfmea": "done"}
 
 
 def today():
@@ -100,6 +101,13 @@ def _source(conn, pid, kind, oid):
             raise ApiError(404, "Risque introuvable dans ce Space (archivé ?). Correctif : rechargez la page.")
         code = "R-{}".format(row["number"])
         return row, code, row["action"], row["title"], row["owner_id"], row["due_date"], "prisk", "high" if row["score"] >= 15 else "medium"
+    if kind == "pfmea":  # 0.60.103 (D-O-114)
+        from . import pfmea
+        row = next((r for r in pfmea.rows(conn, pid) if r["id"] == oid), None)
+        if row is None:
+            raise ApiError(404, "Ligne du PFMEA introuvable. Correctif : rechargez la page.")
+        return (row, row["code"], row["action"], row["failure_mode"], row["action_owner_id"], row["action_due"], "pfmea",
+                "high" if row["ap"] == "H" else "medium")
     row = next((r for r in dfmea.rows(conn, pid) if r["id"] == oid), None)
     if row is None:
         raise ApiError(404, "Ligne du DFMEA introuvable (effacée ?). Correctif : rechargez la page.")
@@ -136,11 +144,23 @@ def api_track(ctx):
     finally:
         ctx.body = original
     issue = conn.execute("SELECT id FROM agile_issues WHERE project_id = ? AND number = ?", (pid, made["number"])).fetchone()
-    table = "diamond_risks" if kind == "risk" else "diamond_dfmea"
+    table = {"risk": "diamond_risks", "dfmea": "diamond_dfmea", "pfmea": "diamond_pfmea"}[kind]
     conn.execute("UPDATE {} SET issue_id = ? WHERE id = ?".format(table), (issue["id"], oid))
     audit.log_action(conn, ctx.user["id"], "diamond_action_tracked", table, oid, {"code": code, "ticket": made["key"]}, ctx.ip)
+    if kind == "pfmea":
+        from . import pfmea
+        return dict(pfmea.payload(conn, ctx.user, pid), tracked=made["key"])
     data = risks.payload(conn, pid) if kind == "risk" else dfmea.payload(conn, pid)
     return dict(data, tracked=made["key"])
+
+
+def api_track_pfmea(ctx):
+    """POST …/pfmea/rows/<id>/track (0.60.103, D-O-114): a PFMEA action becomes a ticket; the route sits under /pfmea so that
+    the « PFMEA » switch of ⚙ Admin covers it, and the process access list of the Space applies."""
+    from . import process
+    process.access(ctx, "editor")
+    ctx.params = dict(ctx.params, kind="pfmea")
+    return api_track(ctx)
 
 
 def validate_link(text):

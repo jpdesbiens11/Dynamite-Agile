@@ -23,327 +23,25 @@ Every table is tied to projects(id) (backup, restore, copy by the core); every w
 from .search import search  # noqa: F401  (core search hook, 0.60.36)
 from .bot import bot_summary  # noqa: F401  (Bob le mineur, core/bot.py, 0.60.36)
 from .actions import dashboard  # noqa: F401  (core dashboard hook, 0.60.38)
-from . import actions, char_export, characteristics, classes_api, costs, costs_budget, costs_import, costs_prompt, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
+from . import migrations_a, migrations_b  # noqa: E402
+from . import actions, capability, char_export, characteristics, classes_api, company_pn, control_plans, impact, pfmea, pfmea_ai, pn_ai, prio, process, costs, costs_budget, costs_import, costs_prompt, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
 
 SCHEMA = ""
 
-MIGRATIONS = [
-    (1, """
-        CREATE TABLE diamond_functions (
-            id          INTEGER PRIMARY KEY,
-            project_id  INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-            number      INTEGER NOT NULL,
-            text        TEXT NOT NULL,
-            ftype       TEXT NOT NULL DEFAULT 'usage',
-            kano        TEXT NOT NULL DEFAULT '',
-            importance  TEXT NOT NULL DEFAULT '',
-            notes       TEXT NOT NULL DEFAULT '',
-            parent_id   INTEGER REFERENCES diamond_functions(id) ON DELETE SET NULL,
-            position    INTEGER NOT NULL DEFAULT 0,
-            is_primary  INTEGER NOT NULL DEFAULT 0,
-            critical    INTEGER NOT NULL DEFAULT 0,
-            feedback_to INTEGER REFERENCES diamond_functions(id) ON DELETE SET NULL,
-            archived    INTEGER NOT NULL DEFAULT 0,
-            created_by  INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            created_at  TEXT NOT NULL,
-            updated_by  INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            updated_at  TEXT NOT NULL,
-            UNIQUE (project_id, number)
-        );
-        CREATE INDEX idx_diamond_functions_project ON diamond_functions(project_id);
-    """),
-    (2, """
-        -- 0.60.13 (D-O-025): the functional structure (boundary diagram)
-        CREATE TABLE diamond_ports (
-            id         INTEGER PRIMARY KEY,
-            project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-            side       TEXT NOT NULL CHECK (side IN ('in', 'out')),
-            label      TEXT NOT NULL,
-            kind       TEXT NOT NULL DEFAULT 'energy',
-            position   INTEGER NOT NULL DEFAULT 0,
-            created_at TEXT NOT NULL
-        );
-        CREATE TABLE diamond_flows (
-            id              INTEGER PRIMARY KEY,
-            project_id      INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-            view            TEXT NOT NULL CHECK (view IN ('general', 'detail')),
-            kind            TEXT NOT NULL CHECK (kind IN ('energy', 'material', 'information')),
-            label           TEXT NOT NULL DEFAULT '',
-            src_function_id INTEGER REFERENCES diamond_functions(id) ON DELETE CASCADE,
-            src_port_id     INTEGER REFERENCES diamond_ports(id) ON DELETE CASCADE,
-            dst_function_id INTEGER REFERENCES diamond_functions(id) ON DELETE CASCADE,
-            dst_port_id     INTEGER REFERENCES diamond_ports(id) ON DELETE CASCADE,
-            created_at      TEXT NOT NULL
-        );
-        CREATE TABLE diamond_positions (
-            id          INTEGER PRIMARY KEY,
-            project_id  INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-            view        TEXT NOT NULL,
-            function_id INTEGER REFERENCES diamond_functions(id) ON DELETE CASCADE,
-            port_id     INTEGER REFERENCES diamond_ports(id) ON DELETE CASCADE,
-            x           REAL NOT NULL,
-            y           REAL NOT NULL
-        );
-        CREATE INDEX idx_diamond_ports_project ON diamond_ports(project_id);
-        CREATE INDEX idx_diamond_flows_project ON diamond_flows(project_id);
-        CREATE INDEX idx_diamond_positions_project ON diamond_positions(project_id);
-    """),
-    (3, """
-        -- 0.60.14 (D-O-026): the project risk register
-        CREATE TABLE diamond_risks (
-            id          INTEGER PRIMARY KEY,
-            project_id  INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-            number      INTEGER NOT NULL,
-            title       TEXT NOT NULL,
-            cause       TEXT NOT NULL DEFAULT '',
-            consequence TEXT NOT NULL DEFAULT '',
-            category    TEXT NOT NULL DEFAULT 'technique',
-            phase       TEXT NOT NULL DEFAULT '',
-            probability INTEGER NOT NULL DEFAULT 3,
-            impact      INTEGER NOT NULL DEFAULT 3,
-            response    TEXT NOT NULL DEFAULT '',
-            action      TEXT NOT NULL DEFAULT '',
-            owner_id    INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            due_date    TEXT NOT NULL DEFAULT '',
-            status      TEXT NOT NULL DEFAULT 'open',
-            residual_p  INTEGER,
-            residual_i  INTEGER,
-            function_id INTEGER REFERENCES diamond_functions(id) ON DELETE SET NULL,
-            to_dfmea    INTEGER NOT NULL DEFAULT 0,
-            notes       TEXT NOT NULL DEFAULT '',
-            archived    INTEGER NOT NULL DEFAULT 0,
-            created_by  INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            created_at  TEXT NOT NULL,
-            updated_by  INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            updated_at  TEXT NOT NULL,
-            UNIQUE (project_id, number)
-        );
-        CREATE INDEX idx_diamond_risks_project ON diamond_risks(project_id);
-    """),
-    (4, """
-        -- 0.60.15 (D-O-027): the DFMEA, one row per failure chain
-        CREATE TABLE diamond_dfmea (
-            id             INTEGER PRIMARY KEY,
-            project_id     INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-            position       INTEGER NOT NULL DEFAULT 0,
-            higher         TEXT NOT NULL DEFAULT '',
-            focus          TEXT NOT NULL DEFAULT '',
-            lower          TEXT NOT NULL DEFAULT '',
-            function_id    INTEGER REFERENCES diamond_functions(id) ON DELETE SET NULL,
-            requirement    TEXT NOT NULL DEFAULT '',
-            failure_mode   TEXT NOT NULL DEFAULT '',
-            effect         TEXT NOT NULL DEFAULT '',
-            severity       INTEGER,
-            cause          TEXT NOT NULL DEFAULT '',
-            prevention     TEXT NOT NULL DEFAULT '',
-            occurrence     INTEGER,
-            detection_ctrl TEXT NOT NULL DEFAULT '',
-            detection      INTEGER,
-            action         TEXT NOT NULL DEFAULT '',
-            risk_id        INTEGER REFERENCES diamond_risks(id) ON DELETE SET NULL,
-            created_by     INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            created_at     TEXT NOT NULL,
-            updated_by     INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            updated_at     TEXT NOT NULL
-        );
-        CREATE INDEX idx_diamond_dfmea_project ON diamond_dfmea(project_id, position);
-    """),
-    (5, """
-        -- 0.60.20 (D-O-031): the parts and the functions each one carries out
-        CREATE TABLE diamond_parts (
-            id         INTEGER PRIMARY KEY,
-            project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-            number     INTEGER NOT NULL,
-            name       TEXT NOT NULL,
-            kind       TEXT NOT NULL DEFAULT 'designed',
-            notes      TEXT NOT NULL DEFAULT '',
-            position   INTEGER NOT NULL DEFAULT 0,
-            created_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            created_at TEXT NOT NULL,
-            updated_at TEXT NOT NULL,
-            UNIQUE (project_id, number)
-        );
-        CREATE TABLE diamond_part_functions (
-            id          INTEGER PRIMARY KEY,
-            project_id  INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-            part_id     INTEGER NOT NULL REFERENCES diamond_parts(id) ON DELETE CASCADE,
-            function_id INTEGER NOT NULL REFERENCES diamond_functions(id) ON DELETE CASCADE,
-            UNIQUE (part_id, function_id)
-        );
-        CREATE INDEX idx_diamond_parts_project ON diamond_parts(project_id);
-        CREATE INDEX idx_diamond_part_functions_project ON diamond_part_functions(project_id);
-    """),
-    (6, """
-        -- 0.60.24 (D-O-033): the key test of the Test Base that detects the failure, in « Detection Controls »
-        ALTER TABLE diamond_dfmea ADD COLUMN test_id INTEGER REFERENCES testing_tests(id) ON DELETE SET NULL;
-    """),
-    (7, """
-        -- 0.60.38 (D-O-047): who carries the action, by when, where it stands, and the Agile ticket that follows it
-        ALTER TABLE diamond_dfmea ADD COLUMN action_owner_id INTEGER REFERENCES users(id) ON DELETE SET NULL;
-        ALTER TABLE diamond_dfmea ADD COLUMN action_due TEXT NOT NULL DEFAULT '';
-        ALTER TABLE diamond_dfmea ADD COLUMN action_status TEXT NOT NULL DEFAULT 'open';
-        ALTER TABLE diamond_dfmea ADD COLUMN issue_id INTEGER REFERENCES agile_issues(id) ON DELETE SET NULL;
-        ALTER TABLE diamond_risks ADD COLUMN issue_id INTEGER REFERENCES agile_issues(id) ON DELETE SET NULL;
-    """),
-    (8, """
-        -- 0.60.51 (D-O-060): the Storyline, scene by scene, pictograms as JSON (key, x, y in %, size, mirror, label)
-        CREATE TABLE diamond_story_scenes (
-            id         INTEGER PRIMARY KEY,
-            project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-            position   REAL NOT NULL DEFAULT 0,
-            title      TEXT NOT NULL DEFAULT '',
-            caption    TEXT NOT NULL DEFAULT '',
-            notes      TEXT NOT NULL DEFAULT '',
-            items      TEXT NOT NULL DEFAULT '[]',
-            created_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            created_at TEXT NOT NULL,
-            updated_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            updated_at TEXT NOT NULL
-        );
-        CREATE INDEX idx_diamond_story_project ON diamond_story_scenes(project_id, position);
-    """),
-    (9, """
-        -- 0.60.61 (D-O-070): « Coûts et budget »
-        CREATE TABLE diamond_cost_settings (
-            project_id  INTEGER PRIMARY KEY REFERENCES projects(id) ON DELETE CASCADE,
-            currency    TEXT NOT NULL DEFAULT 'CAD',
-            proto_qty   INTEGER NOT NULL DEFAULT 3,
-            volumes     TEXT NOT NULL DEFAULT '[100, 1000, 10000]',
-            contingency REAL NOT NULL DEFAULT 15,
-            labour_rate REAL NOT NULL DEFAULT 0,
-            notes       TEXT NOT NULL DEFAULT '',
-            updated_by  INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            updated_at  TEXT NOT NULL
-        );
-        CREATE TABLE diamond_cost_nre (
-            id         INTEGER PRIMARY KEY,
-            project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-            number     INTEGER NOT NULL,
-            position   INTEGER NOT NULL DEFAULT 0,
-            title      TEXT NOT NULL,
-            category   TEXT NOT NULL DEFAULT 'ingenierie',
-            phase      TEXT NOT NULL DEFAULT '',
-            amount     REAL NOT NULL DEFAULT 0,
-            basis      TEXT NOT NULL DEFAULT 'estimation',
-            supplier   TEXT NOT NULL DEFAULT '',
-            notes      TEXT NOT NULL DEFAULT '',
-            created_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            created_at TEXT NOT NULL,
-            updated_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            updated_at TEXT NOT NULL,
-            UNIQUE (project_id, number)
-        );
-        CREATE TABLE diamond_cost_parts (
-            id         INTEGER PRIMARY KEY,
-            project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-            part_id    INTEGER UNIQUE REFERENCES diamond_parts(id) ON DELETE CASCADE,
-            position   INTEGER NOT NULL DEFAULT 0,
-            name       TEXT NOT NULL DEFAULT '',
-            qty        REAL NOT NULL DEFAULT 1,
-            proto_unit REAL,
-            prod_1     REAL,
-            prod_2     REAL,
-            prod_3     REAL,
-            supplier   TEXT NOT NULL DEFAULT '',
-            basis      TEXT NOT NULL DEFAULT 'estimation',
-            notes      TEXT NOT NULL DEFAULT '',
-            created_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            created_at TEXT NOT NULL,
-            updated_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            updated_at TEXT NOT NULL
-        );
-        CREATE INDEX idx_diamond_cost_nre_project ON diamond_cost_nre(project_id, position);
-        CREATE INDEX idx_diamond_cost_parts_project ON diamond_cost_parts(project_id, position);
-    """),
-    (10, """
-        -- 0.60.101 (D-O-108): the class CC / SC of a DFMEA row -- proposed by the rules, decided by a person (classes.py)
-        ALTER TABLE diamond_dfmea ADD COLUMN class_code TEXT NOT NULL DEFAULT '';
-        ALTER TABLE diamond_dfmea ADD COLUMN class_state TEXT NOT NULL DEFAULT '';
-        ALTER TABLE diamond_dfmea ADD COLUMN class_by INTEGER REFERENCES users(id) ON DELETE SET NULL;
-        ALTER TABLE diamond_dfmea ADD COLUMN class_at TEXT NOT NULL DEFAULT '';
-        ALTER TABLE diamond_dfmea ADD COLUMN class_reason TEXT NOT NULL DEFAULT '';
-        ALTER TABLE diamond_dfmea ADD COLUMN class_severity INTEGER;
-        ALTER TABLE diamond_dfmea ADD COLUMN class_occurrence INTEGER;
-        CREATE TABLE diamond_class_settings (
-            project_id    INTEGER PRIMARY KEY REFERENCES projects(id) ON DELETE CASCADE,
-            customer      TEXT NOT NULL DEFAULT 'aiag',
-            cc_severity   INTEGER NOT NULL DEFAULT 9,
-            sc_severity   INTEGER NOT NULL DEFAULT 5,
-            sc_occurrence INTEGER NOT NULL DEFAULT 4,
-            updated_by    INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            updated_at    TEXT NOT NULL
-        );
-        CREATE TABLE diamond_class_customers (
-            id         INTEGER PRIMARY KEY,
-            project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-            code       TEXT NOT NULL,
-            name       TEXT NOT NULL,
-            cc_dfmea   TEXT NOT NULL DEFAULT '',
-            sc_dfmea   TEXT NOT NULL DEFAULT '',
-            cc_symbol  TEXT NOT NULL DEFAULT '',
-            sc_symbol  TEXT NOT NULL DEFAULT '',
-            cc_label   TEXT NOT NULL DEFAULT '',
-            sc_label   TEXT NOT NULL DEFAULT '',
-            source     TEXT NOT NULL DEFAULT '',
-            updated_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            updated_at TEXT NOT NULL,
-            UNIQUE (project_id, code)
-        );
-        CREATE TABLE diamond_class_decisions (
-            id         INTEGER PRIMARY KEY,
-            project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-            dfmea_id   INTEGER NOT NULL REFERENCES diamond_dfmea(id) ON DELETE CASCADE,
-            class_code TEXT NOT NULL DEFAULT '',
-            state      TEXT NOT NULL,
-            severity   INTEGER,
-            occurrence INTEGER,
-            reason     TEXT NOT NULL DEFAULT '',
-            decided_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            decided_at TEXT NOT NULL
-        );
-        CREATE INDEX idx_diamond_class_customers_project ON diamond_class_customers(project_id);
-        CREATE INDEX idx_diamond_class_decisions_row ON diamond_class_decisions(dfmea_id, decided_at);
-    """),
-    (11, """
-        -- 0.60.102 (D-O-110): the characteristics C-n -- the exact dimension of the exact part that carries a class
-        CREATE TABLE diamond_characteristics (
-            id           INTEGER PRIMARY KEY,
-            project_id   INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-            number       INTEGER NOT NULL,
-            dfmea_id     INTEGER REFERENCES diamond_dfmea(id) ON DELETE SET NULL,
-            nature       TEXT NOT NULL DEFAULT 'product',
-            label        TEXT NOT NULL,
-            prefix       TEXT NOT NULL DEFAULT '',
-            nominal      REAL,
-            lsl          REAL,
-            usl          REAL,
-            decimals     INTEGER NOT NULL DEFAULT 1,
-            unit         TEXT NOT NULL DEFAULT '',
-            spec_text    TEXT NOT NULL DEFAULT '',
-            part_id      INTEGER REFERENCES diamond_parts(id) ON DELETE SET NULL,
-            part2_id     INTEGER REFERENCES diamond_parts(id) ON DELETE SET NULL,
-            drawing      TEXT NOT NULL DEFAULT '',
-            sheet        TEXT NOT NULL DEFAULT '',
-            zone         TEXT NOT NULL DEFAULT '',
-            datum        TEXT NOT NULL DEFAULT '',
-            control      TEXT NOT NULL DEFAULT 'spc',
-            cpk_required REAL,
-            test_id      INTEGER REFERENCES testing_tests(id) ON DELETE SET NULL,
-            notes        TEXT NOT NULL DEFAULT '',
-            archived     INTEGER NOT NULL DEFAULT 0,
-            created_by   INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            created_at   TEXT NOT NULL,
-            updated_by   INTEGER REFERENCES users(id) ON DELETE SET NULL,
-            updated_at   TEXT NOT NULL,
-            UNIQUE (project_id, number)
-        );
-        CREATE INDEX idx_diamond_characteristics_project ON diamond_characteristics(project_id, number);
-        CREATE INDEX idx_diamond_characteristics_dfmea ON diamond_characteristics(dfmea_id);
-        -- the Cpk a customer requires of a CC and of a SC (NULL: the start value, 1,67 and 1,33)
-        ALTER TABLE diamond_class_customers ADD COLUMN cc_cpk REAL;
-        ALTER TABLE diamond_class_customers ADD COLUMN sc_cpk REAL;
-    """),
-]
+# 0.60.103 (D-O-111): the parts of Diamond an administrator may turn off (core/features.py, ⚙ Admin → Modules et fonctions)
+FEATURES = {
+    "diamond_process": {"label": "Procédés (lignes d'assemblage)",
+                        "help": "Les configurations de ligne, leurs opérations OP10…, équipements et points de contrôle ; accès réservé aux "
+                                "membres choisis du Space.", "routes": [r"/api/diamond/p/\d+/process(/.*)?"]},
+    "diamond_pfmea": {"label": "PFMEA", "requires": "diamond_process",
+                      "help": "Le Process FMEA généré depuis le DFMEA final et la ligne d'assemblage, en brouillon puis validé.",
+                      "routes": [r"/api/diamond/p/\d+/pfmea(/.*)?"]},
+    "diamond_cplans": {"label": "Plans de contrôle", "requires": "diamond_process",
+                       "help": "Un ou plusieurs Control Plans par configuration de ligne et à la réception, trois phases, mesures et Cpk.",
+                       "routes": [r"/api/diamond/p/\d+/cplans(/.*)?"]},
+}
+
+MIGRATIONS = migrations_a.MIGRATIONS + migrations_b.MIGRATIONS  # 0.60.103: the SQL in two files (500-line rule)
 
 P = r"/api/diamond/p/(?P<pid>\d+)"
 FN = P + r"/functions/(?P<fid>\d+)"
@@ -400,7 +98,41 @@ ROUTES = [
     ("POST", P + r"/risks/(?P<rid>\d+)/duplicate", risks.api_duplicate, "user"),
     ("POST", P + r"/risks/(?P<rid>\d+)/archive", risks.api_archive, "user"),
     ("POST", P + r"/actions/(?P<kind>risk|dfmea)/(?P<oid>\d+)/track", actions.api_track, "user"),  # 0.60.38 (D-O-047)
+    ("POST", P + r"/pfmea/rows/(?P<oid>\d+)/track", actions.api_track_pfmea, "user"),  # 0.60.103 (D-O-114): behind the « PFMEA » switch
     ("GET", P + r"/dfmea", dfmea.api_list, "user"),
+    ("GET", P + r"/cplans", control_plans.api_get, "user"),  # 0.60.103 (D-O-115): control plans, measurements, capability
+    ("POST", P + r"/cplans/plans", control_plans.api_plan_create, "user"),
+    ("PATCH", P + r"/cplans/plans/(?P<planid>\d+)", control_plans.api_plan_update, "user"),
+    ("POST", P + r"/cplans/plans/(?P<planid>\d+)/items", control_plans.api_item_create, "user"),
+    ("PATCH", P + r"/cplans/items/(?P<iid>\d+)", control_plans.api_item_update, "user"),
+    ("POST", P + r"/cplans/measures", capability.api_measures, "user"),
+    ("GET", P + r"/cplans/measures/(?P<cid>\d+)", capability.api_get, "user"),
+    ("POST", P + r"/characteristics/(?P<cid>\d+)/reviewed", impact.api_reviewed, "user"),
+    ("GET", P + r"/prio", prio.api_get, "user"),  # 0.60.103 (D-O-115): « Prioriser », waves of the actions
+    ("POST", P + r"/prio/waves/init", prio.api_waves_init, "user"),
+    ("PATCH", P + r"/prio/waves/(?P<wid>\d+)", prio.api_wave_update, "user"),
+    ("POST", P + r"/prio/move", prio.api_move, "user"),
+    ("GET", P + r"/pfmea", pfmea.api_list, "user"),  # 0.60.103 (D-O-114): the PFMEA, AI drafts reviewed row by row
+    ("POST", P + r"/pfmea/rows", pfmea.api_create, "user"),
+    ("PATCH", P + r"/pfmea/rows/(?P<rid>\d+)", pfmea.api_update, "user"),
+    ("POST", P + r"/pfmea/rows/(?P<rid>\d+)/review", pfmea.api_review, "user"),
+    ("POST", P + r"/pfmea/accept-all", pfmea.api_accept_all, "user"),
+    ("GET", P + r"/pfmea/prompt", pfmea_ai.api_prompt, "user"),
+    ("POST", P + r"/pfmea/ai", pfmea_ai.api_import, "user"),
+    ("GET", P + r"/process", process.api_get, "user"),  # 0.60.103 (D-O-113): « Procédés », the assembly lines
+    ("POST", P + r"/process/lines", process.api_line_create, "user"),
+    ("PATCH", P + r"/process/lines/(?P<lid>\d+)", process.api_line_update, "user"),
+    ("POST", P + r"/process/lines/(?P<lid>\d+)/ops", process.api_op_create, "user"),
+    ("PATCH", P + r"/process/ops/(?P<oid>\d+)", process.api_op_update, "user"),
+    ("POST", P + r"/process/ops/(?P<oid>\d+)/delete", process.api_op_delete, "user"),
+    ("POST", P + r"/process/ops/(?P<oid>\d+)/points", process.api_point_create, "user"),
+    ("POST", P + r"/process/points/(?P<cpid>\d+)/delete", process.api_point_delete, "user"),
+    ("PUT", P + r"/process/access", process.api_access, "user"),
+    ("GET", P + r"/pn", company_pn.api_get, "user"),  # 0.60.103 (D-O-112): company part numbers, BOM of the ERP, AI matching
+    ("POST", P + r"/pn/bom", company_pn.api_bom, "user"),
+    ("PUT", P + r"/pn/parts/(?P<oid>\d+)", company_pn.api_part, "user"),
+    ("GET", P + r"/pn/prompt", pn_ai.api_prompt, "user"),
+    ("POST", P + r"/pn/ai", pn_ai.api_import, "user"),
     ("GET", P + r"/characteristics", characteristics.api_list, "user"),  # 0.60.102 (D-O-110): « Caractéristiques » C-n
     ("POST", P + r"/characteristics", characteristics.api_create, "user"),
     ("GET", P + r"/characteristics/summary\.xlsx", char_export.api_xlsx, "user"),

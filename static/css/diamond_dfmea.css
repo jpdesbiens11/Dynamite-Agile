@@ -170,3 +170,66 @@ td.dm-fm-special { background: color-mix(in srgb, var(--warn) 9%, transparent); 
 @media (max-width: 640px) { .dm-ch-dl { grid-template-columns: 1fr; } }
 .dm-ch-page .subtabs { overflow-y: hidden; }
 .dm-ch-row-f[hidden] { display: none; }
+
+/* 0.60.103 (D-O-112): # de pièce de l'entreprise */
+.dm-pn-step { margin: 1rem 0 1.4rem; max-width: 90rem; }
+.dm-pn-step textarea { width: 100%; font-family: var(--mono); font-size: .82rem; }
+.dm-pn-chips { display: flex; flex-wrap: wrap; gap: .3rem; align-items: center; }
+.dm-pn-chip { display: inline-flex; gap: .25rem; align-items: center; padding: .05rem .45rem; border: 1px solid var(--line);
+  border-radius: var(--radius-sm); font-family: var(--mono); font-size: .8rem; background: var(--surface-2); }
+.dm-pn-refused td { color: var(--muted); text-decoration: line-through; }
+.dm-pn-choose td:last-child { color: color-mix(in srgb, var(--warn) 70%, var(--ink)); }
+.dm-ch-pn { font-family: var(--mono); font-size: .82rem; }
+
+/* 0.60.103 (D-O-113): « Procédés » -- the operations in a row, their equipment, the control points by class */
+.dm-pr-flow { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(13rem, 1fr); gap: .8rem; overflow-x: auto; padding: .4rem 0 .8rem; }
+.dm-pr-op { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); padding: .6rem .7rem; display: flex;
+  flex-direction: column; gap: .4rem; }
+.dm-pr-op h3 { margin: 0; font-size: .98rem; }
+.dm-pr-eq { margin: 0; font-size: .82rem; color: var(--muted); }
+.dm-pr-trace { margin: 0; font-size: .78rem; font-weight: 600; color: var(--danger); }
+.dm-pr-pts { display: flex; flex-direction: column; gap: .3rem; }
+.dm-pr-pt { display: inline-flex; gap: .3rem; align-items: center; padding: .15rem .45rem; border: 1px solid var(--line); border-radius: var(--radius-sm);
+  font-size: .8rem; font-weight: 600; }
+.dm-pr-CC { color: var(--danger); border-color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, var(--surface)); }
+.dm-pr-SC { color: color-mix(in srgb, var(--dynamite) 70%, var(--ink)); border-color: var(--dynamite); background: color-mix(in srgb, var(--dynamite) 12%, var(--surface)); }
+.dm-pr-proc { color: color-mix(in srgb, var(--ok) 70%, var(--ink)); border-color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, var(--surface)); }
+.dm-pr-legend { display: flex; gap: .4rem; align-items: center; flex-wrap: wrap; color: var(--muted); }
+.dm-pr-line-head h2 { margin: .6rem 0 .2rem; }
+.dm-pr-access { margin-top: 1.2rem; max-width: 50rem; }
+.dm-pr-access .dm-check { margin: .2rem 0; }
+
+/* 0.60.103 (D-O-114): PFMEA -- drafts of the AI tinted until reviewed, the 5M class and the DFMEA line under their cell */
+tr.dm-pf-draft > td { background: color-mix(in srgb, var(--acc, var(--agile)) 7%, transparent); }
+.dm-pf-5m { font-size: .74rem; }
+.dm-pf-lock { font-size: .8em; }
+.dm-pf-ai { margin: .6rem 0; max-width: 80rem; }
+.dm-pf-ai textarea { width: 100%; font-family: var(--mono); font-size: .82rem; }
+.dm-pf-edit { padding: .4rem 0; }
+table.dm-pf td { min-width: 6rem; }
+
+/* 0.60.103 (D-O-115): control plans, measurements, « à revoir », Prioriser */
+tr.dm-cp-review > td { background: color-mix(in srgb, var(--warn) 14%, transparent); }
+.dm-cp-head { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin: .6rem 0; }
+.dm-cp-head h2 { margin: 0; }
+.dm-cp-head .btn[aria-pressed="true"], .dm-pz-page .btn[aria-pressed="true"] { border-color: var(--acc, var(--agile)); color: var(--acc, var(--agile)); font-weight: 700; }
+.dm-ch-flags { border: 1px solid var(--warn); border-radius: var(--radius-lg); padding: .5rem .9rem; margin: .6rem 0; max-width: 64rem;
+  background: color-mix(in srgb, var(--warn) 10%, var(--surface)); }
+.dm-ch-flags h2, .dm-ch-measures h2 { font-size: 1.05rem; margin: .2rem 0 .4rem; }
+.dm-ch-measures { margin: .8rem 0; max-width: 64rem; }
+.dm-ch-cap { display: flex; flex-wrap: wrap; gap: .4rem 1rem; font-variant-numeric: tabular-nums; }
+.dm-ch-entry { display: flex; flex-direction: column; gap: .4rem; max-width: 40rem; margin-top: .5rem; }
+.dm-ch-entry textarea { font-family: var(--mono); }
+.dm-pz-board { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(16rem, 1fr); gap: .8rem; overflow-x: auto; padding-bottom: .6rem; }
+.dm-pz-col { border: 1px dashed var(--line); border-radius: var(--radius-lg); padding: .5rem; min-height: 8rem; background: var(--surface-2); }
+.dm-pz-col.dm-pz-over { border-color: var(--acc, var(--agile)); background: color-mix(in srgb, var(--acc, var(--agile)) 8%, var(--surface)); }
+.dm-pz-col h2 { font-size: .98rem; margin: 0 0 .2rem; }
+.dm-pz-date { margin: 0 0 .5rem; }
+.dm-pz-card { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: .4rem .55rem; margin-bottom: .45rem;
+  box-shadow: inset 4px 0 0 var(--line); cursor: grab; }
+.dm-pz-card.dm-pz-CC { box-shadow: inset 4px 0 0 var(--danger); }
+.dm-pz-card.dm-pz-SC { box-shadow: inset 4px 0 0 var(--dynamite); }
+.dm-pz-card p { margin: .2rem 0; font-size: .85rem; }
+.dm-pz-top { display: flex; flex-wrap: wrap; gap: .3rem; align-items: center; }
+.dm-pz-meta { font-size: .78rem; }
+.dm-pz-card select { max-width: 100%; font-size: .8rem; }

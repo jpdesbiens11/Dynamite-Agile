@@ -8,7 +8,7 @@ Each module answers through a `dashboard(conn, user, projects)` hook
 The core adds the interface observations (Audit) assigned to the person.
 Only text is returned; the browser builds the page with textContent.
 """
-from . import audit, db, modules, permissions, prefs
+from . import audit, db, features, modules, permissions, prefs
 from .errors import ApiError
 
 MAX_ITEMS = 12
@@ -54,7 +54,10 @@ def api_dashboard(ctx):
         scope["space"] = default
     projects = {p["id"]: p["key"] for p in visible}
     sections = []
+    on = features.state(ctx.conn)  # 0.60.103 (D-O-111): a module turned off says nothing
     for key, hook in modules.dashboard_hooks():
+        if not on.get(key, True):
+            continue
         for section in hook(ctx.conn, target, projects) or []:
             section.setdefault("module", key)
             section["items"] = section.get("items", [])[:MAX_ITEMS]

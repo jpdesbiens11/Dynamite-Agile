@@ -14,6 +14,7 @@ from core.errors import ApiError
 from . import char_links as CHL
 from . import char_spec as SP
 from . import classes as CL
+from . import company_pn as PN
 from . import dfmea as DF
 from . import functions as F
 
@@ -53,7 +54,11 @@ def payload(conn, pid):
     rows = DF._rows(conn, pid)
     by_id = {r["id"]: r for r in rows}
     cust = CL.customer(conn, pid)
-    items = [enrich(c, by_id, cust) for c in _items(conn, pid)]
+    pns = PN.links(conn, pid)  # 0.60.103 (D-O-112): the company PNs of the part, and of the second part of an interface
+    items = [dict(enrich(c, by_id, cust), pns=[x["label"] for pid_ in (c["part_id"], c["part2_id"]) if pid_ for x in pns.get(pid_, [])])
+             for c in _items(conn, pid)]
+    from . import char_status  # 0.60.103 (D-O-115): PFMEA and control plan refs, Cpk, « à revoir », status
+    char_status.apply(conn, pid, items, rows)
     summary = sorted([c for c in items if c["class_code"] in CL.CLASSES], key=_order)
     parts = [dict(r) for r in conn.execute("SELECT id, number, name FROM diamond_parts WHERE project_id = ? ORDER BY number", (pid,))]
     return {"items": items, "summary": summary, "archived": [enrich(c, by_id, cust) for c in _items(conn, pid, 1)],
@@ -188,7 +193,9 @@ def api_update(ctx):
     if changes:
         ctx.conn.execute("UPDATE diamond_characteristics SET {}, updated_by = ?, updated_at = ? WHERE id = ?".format(
             ", ".join(k + " = ?" for k in changes)), list(changes.values()) + [ctx.user["id"], db.utc_now(), current["id"]])
-        _log(ctx, "diamond_characteristic_update", current["id"], dict(changes, code=CHL.code(current["number"])))
+        from . import impact  # 0.60.103 (D-O-115): a new dimension -- everything citing the C-n is « à revoir »
+        flagged = impact.raise_for(ctx.conn, ctx.user["id"], pid, current, dict(current, **changes))
+        _log(ctx, "diamond_characteristic_update", current["id"], dict(changes, code=CHL.code(current["number"]), flagged=flagged))
     return payload(ctx.conn, pid)
 
 

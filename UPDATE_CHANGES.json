@@ -2,28 +2,88 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Caractéristiques C-n et sommaire des caractéristiques spéciales dans Diamond",
-      "why": "Une classe CC ou SC confirmée dans le DFMEA restait une ligne de tableau. Maintenant, la caractéristique C-n porte la cote exacte de la pièce exacte : sa ligne du DFMEA (la classe vient de là, jamais ressaisie), la spécification (nominal et tolérance, ou limites LSL / USL, unilatérale permise), la pièce Diamond qui porte la cote et, pour une interface, la seconde pièce, le plan, la feuille, la zone et le datum, le contrôle (étude de capabilité, essai 100 %, vérifiée en conception), le Cpk exigé (le sien, sinon celui du client pour sa classe, 1,67 / 1,33 au départ) et l'essai de la Test Base. Nouvel onglet « Caractéristiques » : le sommaire des caractéristiques spéciales (Char., Class, Characteristic, Specification, Part, Company PN, DFMEA, PFMEA, Control Plan, Cpk req., Cpk, Status), toutes les caractéristiques, la fiche de chacune ; exports Excel et Word aux symboles du client, feuille du classeur et section du rapport de Diamond. Le DFMEA gagne les colonnes Part et Characteristic et « + Caractéristique » ; le filtre « SC sans caractéristique » compte les classes sans C-n. Numéro jamais redonné, une caractéristique se retire sans s'effacer. Démo Rover : C-01 à C-21, dont les 7 du sommaire de la présentation. Migration additive diamond 11 : une table, deux colonnes au dictionnaire des clients.",
+      "title": "Modules et fonctions : activer ou désactiver Timesheet, les évaluations, Procédés, PFMEA et plans de contrôle",
+      "why": "Des comptes d'étudiants du baccalauréat n'ont ni feuille de temps ni évaluation de rendement, et un Space peut ne pas vouloir le PFMEA ou les plans de contrôle. ⚙ Admin → Plateforme → Modules et fonctions : un interrupteur par partie optionnelle — Timesheet, Évaluations et profil (Mes objectifs, évaluation annuelle et de stage, profil, Mon équipe), Diamond Procédés, PFMEA et Plans de contrôle (ces deux derniers demandent les Procédés). Une partie désactivée disparaît des menus, de la recherche et du Dashboard ; ses adresses répondent « désactivé » ; ses données restent intactes et reviennent telles quelles quand on la rallume. Lot noyau v0.37 (core/features.py, une seule règle dans le routeur), journalisé. Aucune migration.",
       "files": [
         "core/__init__.py",
+        "core/dashboard.py",
+        "core/features.py",
+        "core/router.py",
+        "core/search.py",
+        "core/session_api.py",
+        "static/css/app.css",
+        "static/index.html",
+        "static/js/admin.js",
+        "static/js/admin_features.js",
+        "static/js/app.js",
+        "tests/test_features.py",
+        "tests/test_open_v060.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Diamond : # de pièce de l'entreprise, rapprochés par une IA",
+      "why": "Les pièces Diamond se relient aux numéros exacts de l'entreprise. La nomenclature de l'ERP s'importe en CSV (PN, révision, désignation, fournisseur, matière ; aperçu puis appliquer, rien n'est effacé, une ligne en défaut est nommée). « Copier le prompt » donne à un assistant IA les pièces, leurs fonctions et la nomenclature avec une règle stricte : ne jamais inventer un numéro. Sa réponse revient en aperçu : les correspondances sûres s'appliquent, les autres se choisissent à la main, un PN absent de la nomenclature est refusé, une pièce sans PN est marquée « à créer dans l'ERP ». Boucle externe seulement (copier, coller) : aucun appel réseau sortant. Le sommaire des caractéristiques spéciales remplit sa colonne Company PN. Démo Rover : 27 PN RVR-xxxx. Migration additive diamond 12 : deux tables, une colonne des pièces.",
+      "files": [
         "core/modules.py",
         "core/spacecopy.py",
         "modules/diamond/__init__.py",
-        "modules/diamond/char_export.py",
-        "modules/diamond/char_links.py",
-        "modules/diamond/char_spec.py",
-        "modules/diamond/characteristics.py",
-        "modules/diamond/classes.py",
-        "modules/diamond/classes_api.py",
-        "modules/diamond/dfmea.py",
-        "modules/diamond/export_data.py",
-        "modules/diamond/export_docx.py",
-        "modules/diamond/export_xlsx.py",
-        "modules/diamond/search.py",
-        "modules/help/__init__.py",
-        "modules/help/demo_characteristics.py",
-        "modules/help/module_docs_more.py",
+        "modules/diamond/company_pn.py",
+        "modules/diamond/migrations_a.py",
+        "modules/diamond/migrations_b.py",
+        "modules/diamond/pn_ai.py",
+        "modules/help/demo_pn.py",
         "static/css/diamond_dfmea.css",
+        "static/js/diamond/diamond.js",
+        "static/js/diamond/pn.js",
+        "tests/test_diamond_pn.py"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Diamond : Procédés (configurations de la ligne d'assemblage) et PFMEA généré, S héritée du DFMEA",
+      "why": "Nouvel onglet « Procédés » : une ou plusieurs configurations de ligne (ligne pilote, cellule prototypes…), leurs opérations OP10, OP20…, équipements et gabarits, la case « clôt la traçabilité des CC », et les points de contrôle — chacun nomme la caractéristique C-n qu'il protège. Accès réservé aux membres que l'Admin du Space coche (Procédés → Accès) ; dans DEMO, qui rejoint le Space l'a aussi. Nouvel onglet « PFMEA » (AIAG-VDA) : une ligne par chaîne de défaillance d'une opération, causes en 5M, S / O / D et AP ; la sévérité vient du DFMEA, héritée et verrouillée (une S plus basse est refusée). Un prompt automatique (DFMEA final + ligne) ; la réponse de l'IA arrive en brouillon, chaque ligne acceptée ou rejetée ; une action se suit dans Agile. Démo Rover : ligne OP10 à OP70, cellule prototypes, PFMEA de 14 lignes. Migrations additives diamond 13 et 14.",
+      "files": [
+        "modules/diamond/actions.py",
+        "modules/diamond/pfmea.py",
+        "modules/diamond/pfmea_ai.py",
+        "modules/diamond/process.py",
+        "modules/help/__init__.py",
+        "modules/help/demo_process.py",
+        "modules/help/demo_process_data.py",
+        "modules/help/headlamp.py",
+        "static/js/diamond/pfmea.js",
+        "static/js/diamond/pfmea_edit.js",
+        "static/js/diamond/process.js"
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Diamond : plans de contrôle (plusieurs par configuration de ligne), Cpk / Ppk, Prioriser en vagues, impact d'un ECN",
+      "why": "Nouvel onglet « Plans de contrôle » (AIAG) : un plan pour les pièces à la réception et un par configuration de ligne, en phase Prototype, Pré-lancement ou Production, avec sa révision ; chaque ligne lit la classe et la spécification de sa C-n ; une CC sans Reaction Plan est signalée. Mesures sur la fiche d'une C-n (saisie au poste ou CSV d'un logiciel de SPC) : le serveur calcule Cpk (σ = MR̄ / 1,128) et Ppk, unilatéral avec une seule limite, « échantillon court » sous 25 valeurs ; le sommaire montre Capable, Sous l'exigé (avec le ticket de l'action), Étude à faire, Essai 100 %. Nouvel onglet « Prioriser » : les lignes clés du DFMEA et du PFMEA, filtres AP High, CC · SC, Cpk sous l'exigé, S ≥ 9, sans détection, en retard, mes actions ; actions rangées en vagues datées — l'échéance de l'action et de son ticket Agile suit la vague. Un ECN qui change une cote marque « à revoir » tout ce qui cite la C-n (PFMEA, plan de contrôle, capabilité, essai) jusqu'à « Revu ». Démo Rover : 3 plans, Cpk de C-10, C-14, C-21, 3 vagues. Migration additive diamond 15.",
+      "files": [
+        "modules/diamond/capability.py",
+        "modules/diamond/char_export.py",
+        "modules/diamond/char_status.py",
+        "modules/diamond/characteristics.py",
+        "modules/diamond/control_plans.py",
+        "modules/diamond/impact.py",
+        "modules/diamond/prio.py",
+        "modules/help/demo_characteristics.py",
+        "static/js/diamond/char_card.js",
+        "static/js/diamond/char_measures.js",
+        "static/js/diamond/chars.js",
+        "static/js/diamond/cplans.js",
+        "static/js/diamond/prio.js",
+        "tests/test_diamond_process.py"
+      ]
+    },
+    {
+      "id": "C5",
+      "title": "Aide et traductions anglaises des nouveautés",
+      "why": "FAQ : désactiver Timesheet, les évaluations, le PFMEA ou les plans de contrôle ; relier les pièces aux # de l'entreprise ; de la ligne d'assemblage au PFMEA, aux plans de contrôle et au Cpk. Documentation de Diamond : Procédés, PFMEA, Plans de contrôle, Prioriser. Interface et contenu de la démo traduits en anglais (FR | EN).",
+      "files": [
+        "modules/help/module_docs_more.py",
         "static/i18n/demo_en_1.json",
         "static/i18n/demo_en_2.json",
         "static/i18n/demo_en_3.json",
@@ -36,17 +96,7 @@
         "static/i18n/en_4.json",
         "static/i18n/en_5.json",
         "static/i18n/en_6.json",
-        "static/js/diamond/char_card.js",
-        "static/js/diamond/chars.js",
-        "static/js/diamond/dfmea.js",
-        "static/js/diamond/dfmea_class.js",
-        "static/js/diamond/dfmea_classes.js",
-        "static/js/diamond/dfmea_table.js",
-        "static/js/diamond/diamond.js",
-        "static/js/help/content_faq.js",
-        "tests/test_diamond_characteristics.py",
-        "tests/test_diamond_classes.py",
-        "tests/test_open_v060.py"
+        "static/js/help/content_faq.js"
       ]
     }
   ]

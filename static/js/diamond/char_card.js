@@ -21,12 +21,14 @@
     const f = c.dfmea;
     const rows = [
       ["Fonction", f && f.function_number ? "F" + f.function_number + " " + f.function_text : "—"],
-      ["DFMEA", f ? el("a", { href: A.href(ctx, "dfmea") }, "ligne " + f.line + " · S " + (f.severity || "—") + " · O " + (f.occurrence || "—") + " · AP " + (f.ap || "—")) : "aucune ligne"],
+      ["DFMEA", f ? el("a", { href: A.href(ctx, "dfmea") }, el("span", null, "ligne " + f.line), " · S " + (f.severity || "—") + " · O " + (f.occurrence || "—") + " · AP " + (f.ap || "—")) : "aucune ligne"],
       ["Pièce Diamond", c.part ? c.part + " " + (c.part_name || "") : el("span", { class: "dm-ch-miss" }, "à préciser")],
       ["Interface", c.part2 ? c.part + " ↔ " + c.part2 + " " + (c.part2_name || "") : "—"],
-      ["# entreprise", el("span", { class: "muted" }, "— (numéros de pièce de l'entreprise : à venir)")],
+      ["# entreprise", (c.pns || []).length ? el("span", { class: "dm-ch-spec" }, c.pns.join(" · "))  // 0.60.103 (D-O-112)
+        : el("a", { href: A.href(ctx, "chars") + "/pn" }, "aucun # relié : # de pièce de l'entreprise")],
       ["Plan de la pièce", [c.drawing, c.sheet ? "feuille " + c.sheet : "", c.zone ? "zone " + c.zone : "", c.datum ? "datum " + c.datum : ""].filter(Boolean).join(" · ") || el("span", { class: "dm-ch-miss" }, "à préciser")],
       ["Cote", c.spec ? el("strong", { class: "dm-ch-spec" }, c.spec) : el("span", { class: "dm-ch-miss" }, "à écrire")],
+      ["PFMEA · Control Plan", [(c.pfmea_refs || []).join(" · "), (c.cp_refs || []).join(" · ")].filter(Boolean).join(" — ") || "—"],
       ["Cpk exigé", c.control === "test100" ? "100 % (essai 100 %)" : c.cpk_req == null ? "—" : num(c.cpk_req, 2)
         + (c.cpk_required != null ? " (propre à " + c.code + ")" : " (client, classe " + c.class_code + ")")],
       ["Essai", c.test_code ? el("a", { href: "#/testing/" + ctx.key }, c.test_code + " " + (c.test_title || "")) : "—"],
@@ -35,6 +37,7 @@
       el("h1", null, D.charChip(c), " " + c.code + " · " + c.label, c.archived ? el("span", { class: "badge badge-off" }, " retirée") : null),
       el("dl", { class: "dm-ch-dl" }, rows.flatMap(([k, v]) => [el("dt", null, k), el("dd", null, v)])),
       c.spec_text && c.spec ? el("p", { class: "muted" }, c.spec_text) : null, c.notes ? el("p", { class: "dm-ch-notes" }, c.notes) : null));
+    holder.append(...[D.charFlags(state, c), D.charMeasures(state, c)].filter(Boolean));  // 0.60.103 (D-O-115): « à revoir », measurements and capability
     if (state.editable) holder.append(form(state, c));
     holder.append(el("div", { class: "dm-actions" }, el("a", { class: "btn", href: A.href(ctx, "chars") }, "← Sommaire"),
       el("a", { class: "btn", href: A.href(ctx, "chars") + "/all" }, "Toutes les caractéristiques")));
