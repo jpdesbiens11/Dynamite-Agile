@@ -11,7 +11,7 @@
 
   const SHELL = {
     module: "diamond", title: "Diamond", home: "ftree", issueNav: "ftree", noCreate: true, mark,
-    nav: [["story", "Storyline"], ["ftree", "Arbre fonctionnel"], ["fstructure", "Structure fonctionnelle"], ["prisk", "Risques projet"], ["dfmea", "DFMEA"], ["costs", "Coûts et budget"], ["nuggets", "Golden Nuggets"], ["dexport", "Exporter"]],  // 0.60.13 to 0.60.16, 0.60.33; Storyline 0.60.51; Coûts et budget 0.60.61
+    nav: [["story", "Storyline"], ["ftree", "Arbre fonctionnel"], ["fstructure", "Structure fonctionnelle"], ["prisk", "Risques projet"], ["dfmea", "DFMEA"], ["chars", "Caractéristiques"], ["costs", "Coûts et budget"], ["nuggets", "Golden Nuggets"], ["dexport", "Exporter"]],  // 0.60.13 to 0.60.16, 0.60.33; Storyline 0.60.51; Coûts et budget 0.60.61; Caractéristiques 0.60.102
   };
 
   DA.diamond = Object.assign(DA.diamond || {}, {

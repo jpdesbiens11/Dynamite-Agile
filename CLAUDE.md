@@ -173,6 +173,11 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.102** (2026-11-13) : **caractéristiques C-n et sommaire des caractéristiques spéciales** (D-O-110, incrément 2 de D-O-109) :
+  `modules/diamond/characteristics.py`, `char_spec.py`, `char_links.py`, `char_export.py`, migration diamond 11 ; onglet Caractéristiques
+  (`static/js/diamond/chars.js`, fiche `char_card.js`, `#/diamond/KEY/chars/C-14`) ; colonnes Part / Characteristic et « + Caractéristique »
+  du DFMEA ; Cpk exigé par client ; exports Excel / Word du sommaire ; démo Rover C-01 à C-21 (`modules/help/demo_characteristics.py`)
+  (`tests/test_diamond_characteristics.py`).
 - **0.60.101** (2026-11-13) : **classes CC / SC dans le DFMEA** (D-O-108, incrément 1 de D-O-109 : caractéristiques spéciales
   jusqu'au poste en six incréments) : colonnes Class et Décision (`modules/diamond/classes.py`, `classes_api.py`,
   `static/js/diamond/dfmea_class.js`, migration diamond 10) — la règle du Space propose (S ≥ 9 → CC ; S 5 à 8 et O ≥ 4 → SC), une

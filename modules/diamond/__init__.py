@@ -14,14 +14,16 @@ Sub-modules, one per iteration:
   0.60.52  Storyline → IA (story_ai.py): the prompt built from the scenes, and the AI's answer imported into the Space.
   0.60.61  Coûts et budget (costs.py, costs_budget.py): NRE, unit cost of each part in prototype and at three volumes,
            the project budget for investors and the department.
-  0.60.101   Classes CC / SC du DFMEA (classes.py, classes_api.py): proposed by the rules of the Space, decided by a person,
+  0.60.101 Classes CC / SC du DFMEA (classes.py, classes_api.py): proposed by the rules of the Space, decided by a person,
            shown with the symbols of the Space's customer.
+  0.60.102 Caractéristiques C-n (characteristics.py, char_spec.py, char_links.py, char_export.py): the exact dimension of
+           the exact part, its drawing, its required Cpk, its test; the summary of the special characteristics.
 Every table is tied to projects(id) (backup, restore, copy by the core); every write is journalled.
 """
 from .search import search  # noqa: F401  (core search hook, 0.60.36)
 from .bot import bot_summary  # noqa: F401  (Bob le mineur, core/bot.py, 0.60.36)
 from .actions import dashboard  # noqa: F401  (core dashboard hook, 0.60.38)
-from . import actions, classes_api, costs, costs_budget, costs_import, costs_prompt, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
+from . import actions, char_export, characteristics, classes_api, costs, costs_budget, costs_import, costs_prompt, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
 
 SCHEMA = ""
 
@@ -302,6 +304,45 @@ MIGRATIONS = [
         CREATE INDEX idx_diamond_class_customers_project ON diamond_class_customers(project_id);
         CREATE INDEX idx_diamond_class_decisions_row ON diamond_class_decisions(dfmea_id, decided_at);
     """),
+    (11, """
+        -- 0.60.102 (D-O-110): the characteristics C-n -- the exact dimension of the exact part that carries a class
+        CREATE TABLE diamond_characteristics (
+            id           INTEGER PRIMARY KEY,
+            project_id   INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            number       INTEGER NOT NULL,
+            dfmea_id     INTEGER REFERENCES diamond_dfmea(id) ON DELETE SET NULL,
+            nature       TEXT NOT NULL DEFAULT 'product',
+            label        TEXT NOT NULL,
+            prefix       TEXT NOT NULL DEFAULT '',
+            nominal      REAL,
+            lsl          REAL,
+            usl          REAL,
+            decimals     INTEGER NOT NULL DEFAULT 1,
+            unit         TEXT NOT NULL DEFAULT '',
+            spec_text    TEXT NOT NULL DEFAULT '',
+            part_id      INTEGER REFERENCES diamond_parts(id) ON DELETE SET NULL,
+            part2_id     INTEGER REFERENCES diamond_parts(id) ON DELETE SET NULL,
+            drawing      TEXT NOT NULL DEFAULT '',
+            sheet        TEXT NOT NULL DEFAULT '',
+            zone         TEXT NOT NULL DEFAULT '',
+            datum        TEXT NOT NULL DEFAULT '',
+            control      TEXT NOT NULL DEFAULT 'spc',
+            cpk_required REAL,
+            test_id      INTEGER REFERENCES testing_tests(id) ON DELETE SET NULL,
+            notes        TEXT NOT NULL DEFAULT '',
+            archived     INTEGER NOT NULL DEFAULT 0,
+            created_by   INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            created_at   TEXT NOT NULL,
+            updated_by   INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            updated_at   TEXT NOT NULL,
+            UNIQUE (project_id, number)
+        );
+        CREATE INDEX idx_diamond_characteristics_project ON diamond_characteristics(project_id, number);
+        CREATE INDEX idx_diamond_characteristics_dfmea ON diamond_characteristics(dfmea_id);
+        -- the Cpk a customer requires of a CC and of a SC (NULL: the start value, 1,67 and 1,33)
+        ALTER TABLE diamond_class_customers ADD COLUMN cc_cpk REAL;
+        ALTER TABLE diamond_class_customers ADD COLUMN sc_cpk REAL;
+    """),
 ]
 
 P = r"/api/diamond/p/(?P<pid>\d+)"
@@ -360,6 +401,12 @@ ROUTES = [
     ("POST", P + r"/risks/(?P<rid>\d+)/archive", risks.api_archive, "user"),
     ("POST", P + r"/actions/(?P<kind>risk|dfmea)/(?P<oid>\d+)/track", actions.api_track, "user"),  # 0.60.38 (D-O-047)
     ("GET", P + r"/dfmea", dfmea.api_list, "user"),
+    ("GET", P + r"/characteristics", characteristics.api_list, "user"),  # 0.60.102 (D-O-110): « Caractéristiques » C-n
+    ("POST", P + r"/characteristics", characteristics.api_create, "user"),
+    ("GET", P + r"/characteristics/summary\.xlsx", char_export.api_xlsx, "user"),
+    ("GET", P + r"/characteristics/summary\.docx", char_export.api_docx, "user"),
+    ("PATCH", P + r"/characteristics/(?P<cid>\d+)", characteristics.api_update, "user"),
+    ("POST", P + r"/characteristics/(?P<cid>\d+)/archive", characteristics.api_archive, "user"),
     ("GET", P + r"/dfmea/classes", classes_api.api_get, "user"),  # 0.60.101 (D-O-108): classes CC / SC, rules and symbols
     ("PATCH", P + r"/dfmea/classes", classes_api.api_settings, "user"),
     ("POST", P + r"/dfmea/classes/customers", classes_api.api_customer_create, "user"),

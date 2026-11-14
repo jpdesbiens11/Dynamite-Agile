@@ -19,6 +19,9 @@
     // 0.60.101 (D-O-108): the class CC / SC, proposed by the rules of the Space, decided by a person (dfmea_class.js)
     { key: "class", label: "Class", group: "special", type: "class", fresh: "0.60.101-class-col", tip: "CC ou SC : proposée par la règle du Space (S, O), confirmée ou refusée par une personne" },
     { key: "class_decision", label: "Décision", group: "special", type: "decision", fresh: "0.60.101-class-decision-col", tip: "Qui a décidé la classe, quand et pourquoi ; un refus est gardé" },
+    // 0.60.102 (D-O-110): the characteristics C-n of the row -- the part that carries the dimension, and the dimension
+    { key: "char_part", label: "Part", group: "special", type: "charpart", fresh: "0.60.102-char-part-col", tip: "La pièce Diamond qui porte la cote (et la seconde pièce d'une interface)" },
+    { key: "chars", label: "Characteristic", group: "special", type: "chars", fresh: "0.60.102-chars-col", tip: "Les caractéristiques C-n de la ligne : la cote, le seuil ou le temps exact" },
     { key: "cause", label: "Failure Cause", group: "lower", type: "area", tip: "Pourquoi le mode de défaillance se produit" },
     { key: "prevention", label: "Prevention Controls", group: "lower", type: "area", tip: "Ce qui, en conception, empêche la cause" },
     { key: "occurrence", label: "O", group: "lower", type: "rating", tip: "Occurrence : probabilité de la cause, avec la prévention" },
@@ -46,7 +49,7 @@
       td.append(col.key === "ap" ? apBadge(row.ap, state.data.labels.ap) : el("span", { class: "dm-fm-rpn" }, row.rpn ? String(row.rpn) : "—"));
       return td;
     }
-    if (col.type === "class" || col.type === "decision") return DA.diamond.classCell(td, col, row, state, editable);  // 0.60.101
+    if (["class", "decision", "charpart", "chars"].includes(col.type)) return DA.diamond.classCell(td, col, row, state, editable);  // 0.60.101
     if (col.key === "detection_ctrl") td.append(keyTest(row, state, save, editable));  // 0.60.24 (D-O-033)
     if (["owner", "date", "status", "ticket"].includes(col.type)) return actionCell(td, col, row, state, save, editable);
     if (!editable) {

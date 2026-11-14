@@ -77,6 +77,7 @@ def api_decide(ctx):
 def settings_payload(conn, pid):
     rows = DF._rows(conn, pid)
     return {"rules": CL.rules(conn, pid), "customers": CL.customers(conn, pid), "fields": {k: v[0] for k, v in CL.CUSTOMER_FIELDS.items()},
+            "numbers": {k: v[0] for k, v in CL.CUSTOMER_NUMBERS.items()},
             "counts": CL.counts(rows, CL.rules(conn, pid)), "names": CL.CLASSES, "presets": CL.PRESET_CODES,
             "proposed": {k: sum(1 for r in rows if r["class_status"] == "proposed" and r["class_proposed"] == k) for k in CL.CLASSES}}
 
@@ -130,6 +131,15 @@ def _customer_fields(body, base):
             out[name] = " ".join(str(body.get(name) or "").split())
         if len(out.get(name, "")) > limit:
             raise ApiError(400, "{} : {} caractères au maximum (reçu {}).".format(label, limit, len(out[name])))
+    for name, (label, start) in CL.CUSTOMER_NUMBERS.items():  # 0.60.102 (D-O-110): the Cpk required by the customer
+        value = body.get(name, out.get(name, start))
+        try:
+            value = float(str(value if value not in (None, "") else start).replace(",", "."))
+        except ValueError:
+            value = -1
+        if not 0.5 <= value <= 5:
+            raise ApiError(400, "{} « {} » : un nombre de 0,5 à 5 (habituellement 1,67 pour une CC, 1,33 pour une SC).".format(label, body.get(name)))
+        out[name] = round(value, 2)
     missing = [CL.CUSTOMER_FIELDS[k][0] for k in ("name", "cc_dfmea", "sc_dfmea", "cc_symbol", "sc_symbol") if not out.get(k)]
     if missing:
         raise ApiError(400, "{} : obligatoire. Correctif : écrivez le symbole du client tel que ses CSR le donnent (ex. CC, SC).".format(
@@ -139,7 +149,7 @@ def _customer_fields(body, base):
 
 def _save_customer(conn, pid, user_id, code, fields):
     now = db.utc_now()
-    cols = list(CL.CUSTOMER_FIELDS)
+    cols = list(CL.CUSTOMER_FIELDS) + list(CL.CUSTOMER_NUMBERS)
     conn.execute("INSERT INTO diamond_class_customers (project_id, code, {}, updated_by, updated_at) VALUES (?, ?, {}, ?, ?) "
                  "ON CONFLICT(project_id, code) DO UPDATE SET {}, updated_by = excluded.updated_by, updated_at = excluded.updated_at".format(
                      ", ".join(cols), ", ".join("?" * len(cols)), ", ".join("{0} = excluded.{0}".format(c) for c in cols)),
@@ -152,7 +162,7 @@ def api_customer_create(ctx):
     items = CL.customers(ctx.conn, pid)
     if len(items) >= CL.MAX_CUSTOMERS:
         raise ApiError(409, "{} clients au plus par Space. Correctif : modifiez un client existant.".format(CL.MAX_CUSTOMERS))
-    fields = _customer_fields(ctx.body, {k: "" for k in CL.CUSTOMER_FIELDS})
+    fields = _customer_fields(ctx.body, dict({k: "" for k in CL.CUSTOMER_FIELDS}, **{k: v[1] for k, v in CL.CUSTOMER_NUMBERS.items()}))
     stem = re.sub(r"[^a-z0-9]+", "-", fields["name"].lower()).strip("-")[:24] or "client"
     code, n = stem, 1
     while code in {c["code"] for c in items}:
@@ -174,7 +184,7 @@ def _find(ctx, pid):
 def api_customer_update(ctx):
     pid = F.access(ctx, "editor")
     found = _find(ctx, pid)
-    fields = _customer_fields(ctx.body, {k: found[k] for k in CL.CUSTOMER_FIELDS})
+    fields = _customer_fields(ctx.body, {k: found[k] for k in list(CL.CUSTOMER_FIELDS) + list(CL.CUSTOMER_NUMBERS)})
     _save_customer(ctx.conn, pid, ctx.user["id"], found["code"], fields)
     _log(ctx, "diamond_class_customer_update", "diamond_class_customers", pid, dict(fields, code=found["code"]))
     return settings_payload(ctx.conn, pid)

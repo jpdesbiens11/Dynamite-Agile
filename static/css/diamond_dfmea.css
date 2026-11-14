@@ -134,3 +134,39 @@ td.dm-fm-special { background: color-mix(in srgb, var(--warn) 9%, transparent); 
 .dm-cls-source { min-width: 18rem; max-width: 28rem; font-size: .82rem; color: var(--muted); }
 .dm-cls-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: .2rem 1rem; }
 .dm-cls-form > .dm-cls-err, .dm-cls-form > .dm-actions { grid-column: 1 / -1; }
+
+/* 0.60.102 (D-O-110): « Caractéristiques » -- the summary, the list, the card of a C-n, the columns Part / Characteristic */
+.dm-ch-table td { vertical-align: top; }
+.dm-ch-row.dm-ch-CC > td:first-child { box-shadow: inset 5px 0 0 var(--danger); }
+.dm-ch-row.dm-ch-SC > td:first-child { box-shadow: inset 5px 0 0 var(--dynamite); }
+.dm-ch-spec { font-family: var(--mono); font-weight: 600; color: var(--agile-strong, var(--agile)); white-space: nowrap; }
+.dm-ch-miss { color: var(--danger); font-style: italic; }
+.dm-ch-ok { color: color-mix(in srgb, var(--ok) 80%, var(--ink)); }
+.dm-ch-st { display: inline-block; padding: .1rem .5rem; border-radius: var(--radius-sm); font-size: .82rem; font-weight: 600;
+  background: var(--surface-2); }
+.dm-ch-st-incomplete { background: color-mix(in srgb, var(--danger) 14%, var(--surface)); color: var(--danger); }
+.dm-ch-st-study { background: color-mix(in srgb, var(--warn) 22%, var(--surface)); }
+.dm-ch-st-test100, .dm-ch-st-design { background: color-mix(in srgb, var(--ok) 18%, var(--surface)); }
+.dm-ch-count { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; color: var(--muted); }
+.dm-ch-card { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); padding: .9rem 1.1rem;
+  max-width: 64rem; margin: .5rem 0 1rem; }
+.dm-ch-card h1 { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; font-size: 1.35rem; margin: 0 0 .6rem; }
+.dm-ch-dl { display: grid; grid-template-columns: minmax(8rem, 12rem) 1fr; gap: .35rem 1rem; margin: 0; }
+.dm-ch-dl dt { font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: .15rem; }
+.dm-ch-dl dd { margin: 0; }
+.dm-ch-notes { white-space: pre-wrap; }
+.dm-ch-form { max-width: 80rem; }
+.dm-ch-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); gap: .8rem; }
+.dm-ch-grid fieldset { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: .4rem .8rem .6rem; margin: 0; }
+.dm-ch-grid input[type="text"], .dm-ch-grid select, .dm-ch-grid textarea { width: 100%; }
+.dm-ch-row-f { display: flex; gap: .6rem; flex-wrap: wrap; }
+.dm-ch-row-f > * { flex: 1 1 6rem; }
+.dm-ch-grid input.dm-ch-short, input.dm-ch-short { max-width: 9rem; }
+.dm-fm-chars { display: flex; flex-direction: column; gap: .2rem; font-size: .85rem; }
+.dm-fm-char { text-decoration: none; color: inherit; }
+.dm-fm-char:hover .dm-code, .dm-fm-char:focus-visible .dm-code { text-decoration: underline; }
+.dm-fm-k-chars { min-width: 14rem; }
+.dm-ch-archived { margin-top: 1rem; }
+@media (max-width: 640px) { .dm-ch-dl { grid-template-columns: 1fr; } }
+.dm-ch-page .subtabs { overflow-y: hidden; }
+.dm-ch-row-f[hidden] { display: none; }

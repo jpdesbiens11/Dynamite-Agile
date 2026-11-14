@@ -311,4 +311,6 @@ def build(data, only=None):
         parts_sheet(book, kit, data)
         risks_sheet(book, kit, data)
         dfmea_sheet(book, kit, data)
+        from . import char_export  # 0.60.102 (D-O-110): the summary of the special characteristics
+        char_export.sheet(book, kit, data["characteristics"], data)
     return book.bytes(title="Diamond — {} ({})".format(data["project"]["name"], data["project"]["key"]))

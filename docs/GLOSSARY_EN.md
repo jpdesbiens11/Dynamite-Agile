@@ -58,3 +58,5 @@ Stored codes never change (CSV / Excel exports keep working); the import also ac
 | class state proposed / confirmed / refused | « Proposée », « Confirmée », « Refusée » | sentences of the DFMEA (« Confirmée par LEX · date · « reason » »), like the Diamond action statuses |
 | CSR | Customer-Specific Requirements | where a customer's symbols and rules come from |
 | fields | Function of Focus Element, Requirement / Characteristic, Failure Mode, Failure Effect, Failure Cause, Prevention Controls, Detection Controls, Higher-Level / Focus / Lower-Level Element, Action Priority (AP), RPN | AIAG-VDA |
+| characteristic C-n (0.60.102, D-O-110) | Characteristic, nature Product / Process, Specification (nominal ± tolerance, LSL, USL), Cpk req. | « Caractéristique » in sentences; the summary keeps the AIAG column names (Char., Class, Characteristic, Specification, Part, Company PN, DFMEA, PFMEA, Control Plan, Cpk req., Cpk, Status) |
+| control of a characteristic | « Étude de capabilité (Cpk) », « Essai 100 % », « Vérifiée en conception » | the status of the summary reads as a sentence (« Étude à faire », « À compléter : plan ») |

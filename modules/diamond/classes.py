@@ -20,6 +20,8 @@ RULES = {"customer": "aiag", "cc_severity": 9, "sc_severity": 5, "sc_occurrence"
 CUSTOMER_FIELDS = {"name": ("Nom du client", 80), "cc_dfmea": ("Symbole CC au DFMEA", 12), "sc_dfmea": ("Symbole SC au DFMEA", 12),
                    "cc_symbol": ("Symbole CC au procédé et à l'export", 12), "sc_symbol": ("Symbole SC au procédé et à l'export", 12),
                    "cc_label": ("Libellé CC", 80), "sc_label": ("Libellé SC", 80), "source": ("Source", 300)}
+# 0.60.102 (D-O-110): the Cpk a customer requires of a characteristic of each class (AIAG start values)
+CUSTOMER_NUMBERS = {"cc_cpk": ("Cpk exigé d'une CC", 1.67), "sc_cpk": ("Cpk exigé d'une SC", 1.33)}
 CSR = "À confirmer dans les CSR (Customer-Specific Requirements) du client avant une revue formelle."
 PRESETS = [
     {"code": "aiag", "name": "AIAG générique", "cc_dfmea": "CC", "sc_dfmea": "SC", "cc_symbol": "CC", "sc_symbol": "SC",
@@ -48,12 +50,18 @@ def customers(conn, pid):
     """The presets (with the Space's changes over them), then the customers the team added."""
     own = {r["code"]: dict(r) for r in conn.execute("SELECT * FROM diamond_class_customers WHERE project_id = ? ORDER BY id", (pid,))}
     out = []
+    starts = {k: v[1] for k, v in CUSTOMER_NUMBERS.items()}
     for p in PRESETS:
-        row = dict(p, preset=True, edited=p["code"] in own)
+        row = dict(starts, **p, preset=True, edited=p["code"] in own)
         if p["code"] in own:
             row.update({k: own[p["code"]][k] for k in CUSTOMER_FIELDS})
+            row.update({k: own[p["code"]][k] for k in CUSTOMER_NUMBERS if own[p["code"]][k] is not None})
         out.append(row)
-    out += [dict({k: r[k] for k in CUSTOMER_FIELDS}, code=code, preset=False, edited=True) for code, r in own.items() if code not in PRESET_CODES]
+    for code, r in own.items():
+        if code not in PRESET_CODES:
+            row = dict({k: r[k] for k in CUSTOMER_FIELDS}, code=code, preset=False, edited=True)
+            row.update({k: r[k] if r[k] is not None else starts[k] for k in CUSTOMER_NUMBERS})
+            out.append(row)
     return out
 
 
@@ -120,7 +128,7 @@ def enrich(conn, pid, rows):
 
 def counts(rows, r):
     """What the filters of the DFMEA show: every row, CC · SC confirmed, S >= the CC threshold, CC proposed, and the confirmed
-    classes whose Requirement / Characteristic is empty (0.60.101; from the characteristics C-n, increment 2)."""
+    classes that no characteristic C-n carries yet (0.60.102, D-O-110; char_links.attach)."""
     return {"all": len(rows), "special": sum(1 for x in rows if x["special"]),
             "severe": sum(1 for x in rows if (x["severity"] or 0) >= r["cc_severity"]),
             "cc_proposed": sum(1 for x in rows if x["class_status"] == "proposed" and x["class_proposed"] == "CC"),
@@ -128,7 +136,8 @@ def counts(rows, r):
 
 
 def no_characteristic(row):
-    return row["special"] and not str(row.get("requirement") or "").strip()
+    """0.60.102 (D-O-110): a confirmed class with no characteristic C-n (0.60.101: an empty Requirement / Characteristic)."""
+    return row["special"] and not row.get("characteristics")
 
 
 def checks(rows, r):
@@ -144,8 +153,8 @@ def checks(rows, r):
             lines(sc), r["sc_severity"], r["cc_severity"] - 1, r["sc_occurrence"]))
     blank = [x for x in rows if no_characteristic(x)]
     if blank:
-        out.append("Ligne(s) {} : CC ou SC confirmée sans Requirement / Characteristic — écrivez la caractéristique à tenir "
-                   "(la cote, le seuil ou le temps).".format(lines(blank)))
+        out.append("Ligne(s) {} : CC ou SC confirmée sans caractéristique C-n — « + Caractéristique » la crée : la cote, le seuil "
+                   "ou le temps exact, la pièce qui le porte, le plan.".format(lines(blank)))
     moved = [x for x in rows if x["class_status"] == "confirmed" and x["class_changed"] and x["class_proposed"] != x["class_code"]]
     if moved:
         out.append("Ligne(s) {} : S ou O a changé depuis la confirmation de la classe et la règle ne la propose plus — relisez "

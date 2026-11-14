@@ -152,6 +152,16 @@
           "« Classes CC / SC » (en haut du DFMEA) : la règle du Space et le client dont les symboles s'affichent et s'exportent (AIAG générique, Ford YC / YS, aéro CSC / KC)."]],
         ["warn", "Les symboles d'un autre donneur d'ordres ne sont pas fournis : ajoutez votre client à partir de ses CSR (Customer-Specific Requirements), sans les deviner."]] },
 
+    { q: "Une SC est confirmée : où écrire sa cote exacte ? (caractéristiques C-n, sommaire)", newTag: "0.60.102-faq-chars",
+      blocks: [
+        ["p", "Une caractéristique spéciale ne vit pas sur une ligne de tableau, mais sur une cote précise d'une pièce précise : c'est la **caractéristique C-n** (Diamond → **Caractéristiques**, D-O-110)."],
+        ["steps", [
+          "Dans le DFMEA, sur une ligne dont la classe est confirmée : « + Caractéristique ». La C-n reprend la ligne, son essai clé et, si la fonction n'a qu'une pièce, cette pièce.",
+          "Sur sa fiche : la cote (nominal et tolérance, ou limites LSL / USL ; une seule limite pour une caractéristique unilatérale), la pièce qui la porte et, pour une interface, la seconde pièce, le plan, la feuille, la zone et le datum, le contrôle (étude de capabilité, essai 100 % ou vérifiée en conception).",
+          "La classe vient toujours de la ligne du DFMEA : rien n'est ressaisi. Le Cpk exigé vient du client du Space (1,67 pour une CC, 1,33 pour une SC au départ), sauf si la caractéristique a le sien.",
+          "Le **Sommaire des caractéristiques spéciales** liste les CC et SC avec leur cote, leur pièce, leur ligne du DFMEA, leur Cpk exigé et leur status ; il part en Excel ou en Word, aux symboles du client."]],
+        ["warn", "Une caractéristique ne s'efface jamais : « Retirer » la sort du sommaire, et son numéro n'est jamais redonné."]] },
+
     { q: "Pourquoi Goldmine, Dynamite, Exploration… ? Les noms de la mine", newTag: "0.60.02-faq-mine",
       blocks: [
         ["p", "Concevoir un produit, c'est exploiter un gisement : on prospecte, on dégage la roche, on extrait ce qui a de la valeur, on en vérifie la teneur. Chaque module porte le nom de son geste."],

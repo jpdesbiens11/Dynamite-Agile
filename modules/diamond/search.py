@@ -30,4 +30,13 @@ def search(conn, projects, q):
                   r["updated_at"], extra="DFMEA")
         if h:
             hits.append(dict(h, focus=r["failure_mode"][:80]))
+    from . import char_spec as SP  # 0.60.102 (D-O-110): the characteristics C-n (« C-14 », a label, a drawing)
+    for r in conn.execute("SELECT * FROM diamond_characteristics WHERE archived = 0 AND project_id IN ({})".format(marks), ids):
+        key, code = projects[r["project_id"]], "C-{:02d}".format(r["number"])
+        spec = SP.spec(dict(r))
+        h = q.hit("function", q.score(code, r["label"], (spec, r["drawing"], r["notes"], r["spec_text"])), key,
+                  "{} {} · {}".format(code, r["label"], spec), "#/diamond/{}/chars/{}".format(key, code), r["notes"], r["updated_at"],
+                  extra="caractéristique")
+        if h:
+            hits.append(dict(h, focus=code))
     return hits

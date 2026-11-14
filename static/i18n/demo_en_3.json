@@ -1,7 +1,4 @@
 {
-"Exercice : Administrateurs : ouvrez Règles d'accès et exportez le texte ; Admin → Sécurité réseau ; Timesheet → Spaces et organismes ; Liste Audit : planifiez une observation dans une révision.": "Exercise: Administrators: open Access rules and export the text; Admin → Network security; Timesheet → Spaces and organizations; Audit list: schedule an observation in a review.",
-"Exercice : Agile → Change Management : ouvrez un PR de test, « Derive to ECN », ajoutez un Affected Item et lisez ce qui manque pour « Submit to CCB ».": "Exercise: Agile → Change Management: open a test PR, “Derive to ECN”, add an Affected Item and read what is missing for “Submit to CCB”.",
-"Exercice : Cherchez « DEMO » dans la barre du haut, puis retrouvez la même page avec Ctrl+K. Envoyez un Audit de test de type « Question » depuis n'importe quel écran.": "Exercise: Search for “DEMO” in the top bar, then find the same page again with Ctrl+K. Send a test Audit of type “Question” from any screen.",
 "Exercice : Créez « Mon premier ticket — <prénom> » ; sur le Board, faites-le avancer jusqu'à Done. Ajoutez un commentaire coché « Question ».": "Exercise: Create “My first ticket — <first name>”; on the Board, move it forward to Done. Add a comment ticked “Question”.",
 "Exercice : Exploration → DEMO : repérez les quatre semaines du parcours sur le Gantt, puis « Exporter Excel » et ouvrez le fichier (feuille « Lisez-moi »).": "Exercise: Exploration → DEMO: find the four weeks of the walkthrough on the Gantt, then “Export Excel” and open the file (“Read me” sheet).",
 "Exercice : Goldmine → DEMO : lisez les deux Requirements d'exemple, puis créez le vôtre (Statement vérifiable, Verification Method, Acceptance Criteria, Test Procedure) et faites-le passer « In Analysis ».": "Exercise: Goldmine → DEMO: read the two sample Requirements, then create your own (verifiable Statement, Verification Method, Acceptance Criteria, Test Procedure) and move it to “In Analysis”.",
@@ -240,11 +237,13 @@
 "L'étudiant veut le piloter et le surveiller depuis son téléphone, sans installer d'application.": "The student wants to drive it and monitor it from their phone, without installing an application.",
 "L'étudiant veut un robot qui roule seul sans foncer dans les obstacles.": "The student wants a robot that drives by itself without crashing into obstacles.",
 "LCV-46333-02048_1_DEMO Lean Canvas du Rover": "LCV-46333-02048_1_DEMO Lean Canvas of the Rover",
+"La CC proposée par la règle (S 9) attend sa décision.": "The CC proposed by the rule (S 9) awaits its decision.",
 "La Test Base complète, une procédure par essai, les premiers essais de sous-systèmes et la pré-conformité.": "The complete Test Base, one procedure per test, the first subsystem tests and pre-compliance.",
 "La Test Base du produit, ses procédures et ses plans qui prouvent chaque requirement.": "The product's Test Base, its procedures and the plans that prove each requirement.",
 "La batterie doit avoir passé les essais de transport des piles au lithium.": "The battery must have passed the lithium battery transport tests.",
 "La batterie lithium doit être conforme à la sécurité des accumulateurs portables.": "The lithium battery must comply with the safety of portable accumulators.",
 "La boucle Build-Measure-Learn, le MVP et la décision de pivoter ou de persévérer, par l'auteur.": "The Build-Measure-Learn loop, the MVP and the decision to pivot or persevere, by the author.",
+"La cote se porte sur le support du capteur ; l'arbre de roue (P-1) est cité.": "The dimension goes on the sensor bracket; the wheel shaft (P-1) is cited.",
 "La découverte": "Discovery",
 "La démarche complète, de la bête à cornes et de la pieuvre jusqu'au FAST et au CdCF, avec un cas pratique.": "The complete approach, from the bête à cornes and the octopus diagram to FAST and the CdCF, with a practical case.",
 "La démo et le rangement": "The demo and the put-away",
@@ -293,6 +292,7 @@
 "Lancement — ROVER — la démo : un projet complet, bac à sable et formation": "Launch — ROVER — the demo: a complete project, sandbox and training",
 "Lancer le kit pour les écoles (MVP 3)": "Launch the kit for schools (MVP 3)",
 "Latence de la boucle de 100 ms": "100 ms loop latency",
+"Latence des consignes du téléphone": "Latency of the phone's commands",
 "Le 250 $ comprend-il la batterie et le chargeur ?": "Does the $250 include the battery and the charger?",
 "Le CdCF : fonctions de service, critères, niveaux et flexibilité ; les normes applicables.": "The CdCF: service functions, criteria, levels and flexibility; the applicable standards.",
 "Le DFMEA a trouvé le démarrage intempestif du moteur avant qu'il arrive au labo.": "The DFMEA found the unintended motor start before it reached the lab.",
@@ -429,5 +429,11 @@
 "Les contraintes (F38, F39) et les fonctions d'estime (F36, F37) sont dans l'arbre, avec leur type.": "The constraints (F38, F39) and the esteem functions (F36, F37) are in the tree, with their type.",
 "Les critères de pièce minimale de Boothroyd-Dewhurst : la base de « la meilleure pièce est celle qu'on n'a pas ».": "The Boothroyd-Dewhurst minimum-part criteria: the basis of “the best part is the one you don't have”.",
 "Les données saisies (tickets, requirements, pages, heures, tests, plans…) : l'import ne touche pas au dossier data/.": "The entered data (tickets, requirements, pages, hours, tests, plans…): the import does not touch the data/ folder.",
-"Les définitions normalisées : fonction de service, fonction technique, valeur.": "The standardized definitions: service function, technical function, value."
+"Les définitions normalisées : fonction de service, fonction technique, valeur.": "The standardized definitions: service function, technical function, value.",
+"Les essais de sécurité et de CEM en pré-conformité avant le laboratoire reconnu.": "Safety and EMC tests as pre-compliance before the recognized laboratory.",
+"Les essais dehors trouvent ce que le banc ne voit pas (soleil, gazon).": "Outdoor tests find what the bench cannot see (sun, grass).",
+"Les essais du Space : sujet, catégorie, norme et article, méthode (T, A, I, D), objectif.": "The Space's tests: subject, category, standard and clause, method (T, A, I, D), objective.",
+"Les essais prouvent chaque requirement ; une autre équipe refait le projet à partir du wiki ; la décision de lancer le kit se prend sur les résultats.": "The tests prove each requirement; another team redoes the project from the wiki; the decision to launch the kit is taken on the results.",
+"Les facettes": "The facets",
+"Les fichiers joints (images, PDF) ne sont pas dans les points : ils restent sur le serveur. Ceux d'un Space supprimé sont dans sa sauvegarde « avant suppression » (volet Données → Sauvegardes des Spaces).": "Attached files (images, PDFs) are not in the restore points: they stay on the server. Those of a deleted Space are in its “before deletion” backup (Data pane → Space backups)."
 }
