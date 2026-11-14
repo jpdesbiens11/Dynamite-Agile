@@ -53,7 +53,8 @@ DIAMOND = ("diamond_functions", "diamond_ports", "diamond_flows", "diamond_posit
            "diamond_characteristics",  # 0.60.102 (D-O-110): characteristics C-n
            "diamond_company_parts", "diamond_part_pns",  # 0.60.103 (D-O-112): company part numbers
            "diamond_lines", "diamond_operations", "diamond_control_points", "diamond_process_access",  # 0.60.103 (D-O-113)
-           "diamond_pfmea")  # 0.60.103 (D-O-114)
+           "diamond_pfmea",  # 0.60.103 (D-O-114)
+           "diamond_control_plans", "diamond_cp_items", "diamond_measurements", "diamond_waves", "diamond_review_flags")  # 0.60.103 (D-O-115)
 
 
 def _tables_of(part, infra):

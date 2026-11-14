@@ -35,7 +35,10 @@ def rows(conn, pid):
     items = [dict(r) for r in conn.execute("SELECT p.*, u.display_name AS action_owner_name FROM diamond_pfmea p "
                                            "LEFT JOIN users u ON u.id = p.action_owner_id WHERE p.project_id = ? "
                                            "ORDER BY p.position, p.id", (pid,))]
+    from . import impact
+    review = impact.flagged(conn, pid, "pfmea")  # 0.60.103 (D-O-115): the dimension of its C-n changed
     for r in items:
+        r["review"] = r["id"] in review
         o, c = ops.get(r["operation_id"]), chars.get(r["characteristic_id"])
         inherited = c["dfmea"]["severity"] if c and c["dfmea"] else None
         s = max(x for x in (r["severity"], inherited) if x) if (r["severity"] or inherited) else None

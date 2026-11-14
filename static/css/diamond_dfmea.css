@@ -207,3 +207,29 @@ tr.dm-pf-draft > td { background: color-mix(in srgb, var(--acc, var(--agile)) 7%
 .dm-pf-ai textarea { width: 100%; font-family: var(--mono); font-size: .82rem; }
 .dm-pf-edit { padding: .4rem 0; }
 table.dm-pf td { min-width: 6rem; }
+
+/* 0.60.103 (D-O-115): control plans, measurements, « à revoir », Prioriser */
+tr.dm-cp-review > td { background: color-mix(in srgb, var(--warn) 14%, transparent); }
+.dm-cp-head { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin: .6rem 0; }
+.dm-cp-head h2 { margin: 0; }
+.dm-cp-head .btn[aria-pressed="true"], .dm-pz-page .btn[aria-pressed="true"] { border-color: var(--acc, var(--agile)); color: var(--acc, var(--agile)); font-weight: 700; }
+.dm-ch-flags { border: 1px solid var(--warn); border-radius: var(--radius-lg); padding: .5rem .9rem; margin: .6rem 0; max-width: 64rem;
+  background: color-mix(in srgb, var(--warn) 10%, var(--surface)); }
+.dm-ch-flags h2, .dm-ch-measures h2 { font-size: 1.05rem; margin: .2rem 0 .4rem; }
+.dm-ch-measures { margin: .8rem 0; max-width: 64rem; }
+.dm-ch-cap { display: flex; flex-wrap: wrap; gap: .4rem 1rem; font-variant-numeric: tabular-nums; }
+.dm-ch-entry { display: flex; flex-direction: column; gap: .4rem; max-width: 40rem; margin-top: .5rem; }
+.dm-ch-entry textarea { font-family: var(--mono); }
+.dm-pz-board { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(16rem, 1fr); gap: .8rem; overflow-x: auto; padding-bottom: .6rem; }
+.dm-pz-col { border: 1px dashed var(--line); border-radius: var(--radius-lg); padding: .5rem; min-height: 8rem; background: var(--surface-2); }
+.dm-pz-col.dm-pz-over { border-color: var(--acc, var(--agile)); background: color-mix(in srgb, var(--acc, var(--agile)) 8%, var(--surface)); }
+.dm-pz-col h2 { font-size: .98rem; margin: 0 0 .2rem; }
+.dm-pz-date { margin: 0 0 .5rem; }
+.dm-pz-card { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: .4rem .55rem; margin-bottom: .45rem;
+  box-shadow: inset 4px 0 0 var(--line); cursor: grab; }
+.dm-pz-card.dm-pz-CC { box-shadow: inset 4px 0 0 var(--danger); }
+.dm-pz-card.dm-pz-SC { box-shadow: inset 4px 0 0 var(--dynamite); }
+.dm-pz-card p { margin: .2rem 0; font-size: .85rem; }
+.dm-pz-top { display: flex; flex-wrap: wrap; gap: .3rem; align-items: center; }
+.dm-pz-meta { font-size: .78rem; }
+.dm-pz-card select { max-width: 100%; font-size: .8rem; }

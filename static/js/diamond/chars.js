@@ -18,7 +18,10 @@
   const parts = (c) => (c.part ? [el("span", { "data-tip": c.part_name || null }, c.part + (c.part_name ? " " + c.part_name : "")),
     c.part2 ? el("span", { class: "muted", "data-tip": c.part2_name || null }, " · " + c.part2) : null] : el("span", { class: "dm-ch-miss" }, "à préciser"));
   const cpkReq = (c) => (c.control === "test100" ? "100 %" : c.cpk_req != null ? String(c.cpk_req.toFixed(2)).replace(".", ",") : "—");
-  const cpk = (c) => (c.control === "test100" ? el("strong", { class: "dm-ch-ok" }, "essai 100 %") : c.control === "design" ? "—" : el("span", { class: "muted" }, "à mesurer"));
+  const cpk = (c) => (c.control === "test100" ? el("strong", { class: "dm-ch-ok" }, "essai 100 %") : c.control === "design" ? "—"  // 0.60.103: measured
+    : c.cpk == null ? el("span", { class: "muted" }, "à mesurer") : el("strong", { class: c.cpk_req != null && c.cpk < c.cpk_req ? "dm-ch-miss" : "dm-ch-ok",
+      "data-tip": "n = " + c.n + " · Ppk " + (c.ppk == null ? "—" : String(c.ppk).replace(".", ",")) + (c.short ? " · échantillon court" : "") }, String(c.cpk.toFixed(2)).replace(".", ",")));
+  const refs = (list, ctx, view, tip) => ((list || []).length ? el("a", { href: A.href(ctx, view) }, list.join(" · ")) : later(tip));
   const later = (tip) => el("span", { class: "muted", "data-tip": tip }, "—");
 
   async function view(page, ctx) {
@@ -74,8 +77,8 @@
       return;
     }
     const head = ["Char.", "Class", "Characteristic", "Specification", "Part (Diamond)", "Company PN", "DFMEA", "PFMEA", "Control Plan", "Cpk req.", "Cpk", "Status"];
-    const tips = { "Company PN": "Le # de pièce de l'entreprise, relié à la pièce Diamond (et à la seconde pièce d'une interface)", PFMEA: "La ligne du PFMEA qui protège la caractéristique (à venir)",
-      "Control Plan": "La ligne du plan de contrôle (à venir)", Cpk: "Le Cpk mesuré (à venir) ; « essai 100 % » pour une caractéristique testée à 100 %" };
+    const tips = { "Company PN": "Le # de pièce de l'entreprise, relié à la pièce Diamond (et à la seconde pièce d'une interface)", PFMEA: "Les lignes validées du PFMEA qui citent la caractéristique",
+      "Control Plan": "Les lignes des plans de contrôle qui la mesurent", Cpk: "Le Cpk des mesures (σ par l'étendue mobile) ; « essai 100 % » pour une caractéristique testée à 100 %" };
     holder.append(el("div", { class: "dm-scroll" }, el("table", { class: "data dm-ch-table", "data-new": "0.60.102-chars-summary" },
       el("thead", null, el("tr", null, head.map((h) => el("th", { scope: "col", "data-tip": tips[h] || null }, h)))),
       el("tbody", null, d.summary.map((c) => el("tr", { class: "dm-ch-row dm-ch-" + c.class_code },
@@ -83,7 +86,8 @@
         el("td", null, c.label), el("td", { class: "dm-ch-spec" }, c.spec || el("span", { class: "dm-ch-miss" }, "à écrire")),
         el("td", null, parts(c)), el("td", { class: "dm-ch-pn" }, (c.pns || []).length ? c.pns.join(" · ") : later("Aucun # d'entreprise relié à la pièce : onglet « # de pièce de l'entreprise »")),
         el("td", null, c.dfmea ? el("a", { class: "dm-code", href: A.href(ctx, "dfmea") }, "L" + c.dfmea.line) : "—"),
-        el("td", null, later("PFMEA (à venir)")), el("td", null, later("Plan de contrôle (à venir)")),
+        el("td", { class: "dm-ch-pn" }, refs(c.pfmea_refs, ctx, "pfmea", "Aucune ligne du PFMEA ne cite cette caractéristique")),
+        el("td", { class: "dm-ch-pn" }, refs(c.cp_refs, ctx, "cplans", "Aucun plan de contrôle ne cite cette caractéristique")),
         el("td", { class: "nowrap" }, cpkReq(c)), el("td", { class: "nowrap" }, cpk(c)), el("td", null, statusBadge(c))))))));
   }
 
