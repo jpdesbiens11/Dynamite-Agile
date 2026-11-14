@@ -13,6 +13,7 @@ import re
 
 from core import APP_VERSION
 
+from . import classes as CL
 from . import dfmea as DF
 from . import dfmea_complete as DC
 from . import functions as F
@@ -44,6 +45,7 @@ def gather(conn, pid):
             "tree": tree, "kids": kids, "by_id": by_id, "views": view_nodes, "structure": structure, "parts": parts,
             "part_stats": structure["part_stats"], "part_checks": structure["part_checks"], "risks": risks, "dfmea": dfmea,
             "story": ST.rows(conn, pid),  # the scenes of the Storyline: figures of the Word report (0.60.98)
+            "classes": CL.info(conn, pid, dfmea),  # 0.60.101 (D-O-108): rules, the customer's symbols, the counts
             "checks": {"tree": F.checks(F.rows(conn, pid)), "structure": structure["checks"], "risks": R.checks(risks),
                        "dfmea": DF.checks(conn, pid, dfmea)},
             "labels": {"types": F.TYPES, "kano": F.KANO, "importance": F.IMPORTANCE, "levels": F.LEVELS, "kinds": S.KINDS,
@@ -73,7 +75,10 @@ def summary(data):
             "flows": len(data["structure"]["flows"]), "parts": len(data["parts"]), "scenes": len(data["story"]),
             "risks": len(data["risks"]), "risks_high": sum(1 for r in data["risks"] if r["level"]["key"] in ("critique", "eleve")),
             "dfmea": len(rows), "ap": {k: sum(1 for r in rows if r["ap"] == k) for k in ("H", "M", "L")},
-            "dfmea_unrated": sum(1 for r in rows if not r["ap"]), "dfmea_tested": sum(1 for r in rows if r["test_id"])}
+            "dfmea_unrated": sum(1 for r in rows if not r["ap"]), "dfmea_tested": sum(1 for r in rows if r["test_id"]),
+            "classes": {k: sum(1 for r in rows if r["class_status"] == "confirmed" and r["class_code"] == k) for k in CL.CLASSES},
+            "class_proposed": sum(1 for r in rows if r["class_status"] == "proposed"),
+            "class_refused": sum(1 for r in rows if r["class_status"] == "refused")}
 
 
 def safe_name(data, kind, ext):

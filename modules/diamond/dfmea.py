@@ -19,6 +19,7 @@ from core.errors import ApiError
 from core.files import RawFile
 
 from . import actions as ACT
+from . import classes as CL
 from . import dfmea_ap as AP
 from . import dfmea_practices as GP
 from . import functions as F
@@ -46,6 +47,7 @@ def _rows(conn, pid):
         row["line"] = n
         row["rpn"] = AP.rpn(row["severity"], row["occurrence"], row["detection"])
         row["ap"] = AP.action_priority(row["severity"], row["occurrence"], row["detection"])
+    CL.enrich(conn, pid, items)  # 0.60.101 (D-O-108): the class CC / SC proposed by the rules, decided by a person
     return ACT.enrich(conn, items, "dfmea")  # 0.60.38 (D-O-047): owner, due date, status, Agile ticket
 
 
@@ -121,7 +123,7 @@ def checks(conn, pid, rows):
                          "(SELECT risk_id FROM diamond_dfmea WHERE project_id = ? AND risk_id IS NOT NULL)", (pid, pid)).fetchall()
     if risks:
         out.append("Risque(s) projet à détailler ici : {} — « Depuis les risques ».".format(", ".join("R-{}".format(r["number"]) for r in risks)))
-    return out
+    return out + CL.checks(rows, CL.rules(conn, pid))  # 0.60.101 (D-O-108)
 
 
 def payload(conn, pid):
@@ -133,7 +135,7 @@ def payload(conn, pid):
     return {"rows": rows, "functions": _tree_functions(conn, pid), "tests": tests(conn, pid), "suggest": suggest,
             "checks": checks(conn, pid, rows), "members": ACT.members(conn, pid),
             "labels": {"texts": {k: v[0] for k, v in TEXTS.items()}, "ratings": RATINGS, "ap": AP.AP_LABELS, "statuses": ACT.DFMEA_STATUSES},
-            "legend": AP.legend()}
+            "legend": AP.legend(), "classes": CL.info(conn, pid, rows)}
 
 
 def _log(ctx, action, oid, details=None):
@@ -328,13 +330,24 @@ def api_export(ctx):
     w.writerow(["Ligne", "Higher-Level Element", "Focus Element", "Lower-Level Element", "Function of Focus Element",
                 "Requirement / Characteristic", "Failure Mode", "Failure Effect", "S", "Failure Cause", "Prevention Controls", "O",
                 "Detection Controls", "Essai clé (Test Base)", "D", "RPN", "AP", "Actions", "Responsable", "Échéance", "Status de l'action",
-                "Ticket Agile", "Risque projet"])
+                "Ticket Agile", "Risque projet", "Class", "Class Status", "Décision de classe", "Justification de la classe"])
+    cust = CL.customer(ctx.conn, pid)  # 0.60.101 (D-O-108): the symbol of the Space's customer
     for r in _rows(ctx.conn, pid):
         w.writerow([r["line"], r["higher"], r["focus"], r["lower"],
                     "F{} {}".format(r["function_number"], r["function_text"]) if r["function_number"] else "", r["requirement"],
                     r["failure_mode"], r["effect"], r["severity"] or "", r["cause"], r["prevention"], r["occurrence"] or "",
                     r["detection_ctrl"], "{} {}".format(r["test_code"], r["test_title"]) if r["test_code"] else "", r["detection"] or "", r["rpn"] or "", AP.AP_LABELS.get(r["ap"], ""), r["action"],
                     r["action_owner_name"] or "", r["action_due"], ACT.DFMEA_STATUSES.get(r["action_status"], ""),
-                    r["ticket"]["key"] if r["ticket"] else "", "R-{}".format(r["risk_number"]) if r["risk_number"] else ""])
+                    r["ticket"]["key"] if r["ticket"] else "", "R-{}".format(r["risk_number"]) if r["risk_number"] else ""]
+                   + class_cells(r, cust))
     _log(ctx, "diamond_dfmea_export", pid)
     return RawFile(("﻿" + out.getvalue()).encode("utf-8"), "dfmea_{}.csv".format(key), "text/csv")
+
+
+def class_cells(r, cust):
+    """0.60.101 (D-O-108): Class (symbol of the customer), Class Status, who and when, why -- for the CSV and Excel exports."""
+    st = r["class_status"]
+    who = " · ".join(x for x in (r["class_by_initials"] or r["class_by_name"], r["class_at"][:10]) if x) if r["class_state"] else ""
+    return [CL.symbol(cust, r["class_shown"]) if st == "confirmed" else CL.symbol(cust, r["class_shown"]) + " ?" if st == "proposed" else "",
+            CL.STATES.get(st, "") + (" (" + CL.symbol(cust, r["class_code"]) + ")" if st == "refused" else ""), who,
+            r["class_reason"] if r["class_state"] else ""]

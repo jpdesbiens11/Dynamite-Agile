@@ -16,6 +16,9 @@
     { key: "failure_mode", label: "Failure Mode", group: "focus", type: "area", tip: "Comment la fonction peut ne pas être remplie" },
     { key: "effect", label: "Failure Effect", group: "higher", type: "area", tip: "La conséquence pour l'élément supérieur ou l'utilisateur" },
     { key: "severity", label: "S", group: "higher", type: "rating", tip: "Severity : gravité de l'effet, de 1 à 10" },
+    // 0.60.101 (D-O-108): the class CC / SC, proposed by the rules of the Space, decided by a person (dfmea_class.js)
+    { key: "class", label: "Class", group: "special", type: "class", fresh: "0.60.101-class-col", tip: "CC ou SC : proposée par la règle du Space (S, O), confirmée ou refusée par une personne" },
+    { key: "class_decision", label: "Décision", group: "special", type: "decision", fresh: "0.60.101-class-decision-col", tip: "Qui a décidé la classe, quand et pourquoi ; un refus est gardé" },
     { key: "cause", label: "Failure Cause", group: "lower", type: "area", tip: "Pourquoi le mode de défaillance se produit" },
     { key: "prevention", label: "Prevention Controls", group: "lower", type: "area", tip: "Ce qui, en conception, empêche la cause" },
     { key: "occurrence", label: "O", group: "lower", type: "rating", tip: "Occurrence : probabilité de la cause, avec la prévention" },
@@ -43,6 +46,7 @@
       td.append(col.key === "ap" ? apBadge(row.ap, state.data.labels.ap) : el("span", { class: "dm-fm-rpn" }, row.rpn ? String(row.rpn) : "—"));
       return td;
     }
+    if (col.type === "class" || col.type === "decision") return DA.diamond.classCell(td, col, row, state, editable);  // 0.60.101
     if (col.key === "detection_ctrl") td.append(keyTest(row, state, save, editable));  // 0.60.24 (D-O-033)
     if (["owner", "date", "status", "ticket"].includes(col.type)) return actionCell(td, col, row, state, save, editable);
     if (!editable) {
@@ -138,7 +142,7 @@
     const cols = COLS.filter((c) => visible.has(c.key));
     const head = el("tr", null, el("th", { class: "dm-fm-tools-h", scope: "col" }, "#"),
       cols.map((c) => el("th", { scope: "col", class: "dm-fm-h dm-fm-h-" + c.group + (c.type === "rating" || c.type === "calc" ? " dm-fm-narrow" : ""),
-        "data-tip": c.tip }, c.label)));
+        "data-tip": c.tip, "data-new": c.fresh || null }, c.label)));
     const rows = state.filtered;
     const body = el("tbody", null, rows.map((row, i) => {
       const prev = i > 0 ? rows[i - 1] : null;
@@ -155,7 +159,7 @@
           el("button", { type: "button", class: "dm-fm-btn dm-fm-del", "aria-label": "Effacer la ligne " + row.line, "data-tip": "Effacer",
             onclick: () => { if (window.confirm("Effacer la ligne " + row.line + " du DFMEA ? L'action est journalisée.")) opts.act("/rows/" + row.id + "/delete", {}); } }, "×"))
           : null);
-      return el("tr", { class: "dm-fm-row dm-fm-ap-row-" + (row.ap || "none"), "data-row": row.id }, tools,
+      return el("tr", { class: "dm-fm-row dm-fm-ap-row-" + (row.ap || "none") + DA.diamond.classRow(row), "data-row": row.id }, tools,
         cols.map((c) => cell(c, row, prev, state, opts.save, editable, opts.onKey)));
     }));
     const lists = ["higher", "focus", "lower"].map((k) => el("datalist", { id: "dm-fm-list-" + k },
@@ -163,11 +167,17 @@
     return el("div", { class: "dm-scroll dm-fm-scroll" }, el("table", { class: "data dm-fm" }, el("thead", null, head), body), lists);
   }
 
-  /* after a cell is saved: refresh the scores of its row without redrawing (the focus stays where it is) */
-  function refreshRow(holder, row, labels) {
+  /* after a cell is saved: refresh the scores of its row without redrawing (the focus stays where it is); 0.60.101: and its class */
+  function refreshRow(holder, row, labels, state) {
     const tr = holder.querySelector('tr[data-row="' + row.id + '"]');
     if (!tr) return;
-    tr.className = "dm-fm-row dm-fm-ap-row-" + (row.ap || "none");
+    tr.className = "dm-fm-row dm-fm-ap-row-" + (row.ap || "none") + DA.diamond.classRow(row);
+    if (state) {
+      COLS.filter((c) => c.group === "special").forEach((c) => {
+        const td = tr.querySelector(".dm-fm-k-" + c.key);
+        if (td) td.replaceWith(DA.diamond.classCell(el("td", { class: "dm-fm-c dm-fm-special dm-fm-k-" + c.key }), c, row, state, state.editable));
+      });
+    }
     const rpn = tr.querySelector(".dm-fm-k-rpn"), ap = tr.querySelector(".dm-fm-k-ap");
     if (rpn) { while (rpn.firstChild) rpn.removeChild(rpn.firstChild); rpn.append(el("span", { class: "dm-fm-rpn" }, row.rpn ? String(row.rpn) : "—")); }
     if (ap) { while (ap.firstChild) ap.removeChild(ap.firstChild); ap.append(apBadge(row.ap, labels)); }

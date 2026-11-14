@@ -14,12 +14,14 @@ Sub-modules, one per iteration:
   0.60.52  Storyline → IA (story_ai.py): the prompt built from the scenes, and the AI's answer imported into the Space.
   0.60.61  Coûts et budget (costs.py, costs_budget.py): NRE, unit cost of each part in prototype and at three volumes,
            the project budget for investors and the department.
+  0.60.101   Classes CC / SC du DFMEA (classes.py, classes_api.py): proposed by the rules of the Space, decided by a person,
+           shown with the symbols of the Space's customer.
 Every table is tied to projects(id) (backup, restore, copy by the core); every write is journalled.
 """
 from .search import search  # noqa: F401  (core search hook, 0.60.36)
 from .bot import bot_summary  # noqa: F401  (Bob le mineur, core/bot.py, 0.60.36)
 from .actions import dashboard  # noqa: F401  (core dashboard hook, 0.60.38)
-from . import actions, costs, costs_budget, costs_import, costs_prompt, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
+from . import actions, classes_api, costs, costs_budget, costs_import, costs_prompt, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
 
 SCHEMA = ""
 
@@ -251,12 +253,62 @@ MIGRATIONS = [
         CREATE INDEX idx_diamond_cost_nre_project ON diamond_cost_nre(project_id, position);
         CREATE INDEX idx_diamond_cost_parts_project ON diamond_cost_parts(project_id, position);
     """),
+    (10, """
+        -- 0.60.101 (D-O-108): the class CC / SC of a DFMEA row -- proposed by the rules, decided by a person (classes.py)
+        ALTER TABLE diamond_dfmea ADD COLUMN class_code TEXT NOT NULL DEFAULT '';
+        ALTER TABLE diamond_dfmea ADD COLUMN class_state TEXT NOT NULL DEFAULT '';
+        ALTER TABLE diamond_dfmea ADD COLUMN class_by INTEGER REFERENCES users(id) ON DELETE SET NULL;
+        ALTER TABLE diamond_dfmea ADD COLUMN class_at TEXT NOT NULL DEFAULT '';
+        ALTER TABLE diamond_dfmea ADD COLUMN class_reason TEXT NOT NULL DEFAULT '';
+        ALTER TABLE diamond_dfmea ADD COLUMN class_severity INTEGER;
+        ALTER TABLE diamond_dfmea ADD COLUMN class_occurrence INTEGER;
+        CREATE TABLE diamond_class_settings (
+            project_id    INTEGER PRIMARY KEY REFERENCES projects(id) ON DELETE CASCADE,
+            customer      TEXT NOT NULL DEFAULT 'aiag',
+            cc_severity   INTEGER NOT NULL DEFAULT 9,
+            sc_severity   INTEGER NOT NULL DEFAULT 5,
+            sc_occurrence INTEGER NOT NULL DEFAULT 4,
+            updated_by    INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            updated_at    TEXT NOT NULL
+        );
+        CREATE TABLE diamond_class_customers (
+            id         INTEGER PRIMARY KEY,
+            project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            code       TEXT NOT NULL,
+            name       TEXT NOT NULL,
+            cc_dfmea   TEXT NOT NULL DEFAULT '',
+            sc_dfmea   TEXT NOT NULL DEFAULT '',
+            cc_symbol  TEXT NOT NULL DEFAULT '',
+            sc_symbol  TEXT NOT NULL DEFAULT '',
+            cc_label   TEXT NOT NULL DEFAULT '',
+            sc_label   TEXT NOT NULL DEFAULT '',
+            source     TEXT NOT NULL DEFAULT '',
+            updated_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            updated_at TEXT NOT NULL,
+            UNIQUE (project_id, code)
+        );
+        CREATE TABLE diamond_class_decisions (
+            id         INTEGER PRIMARY KEY,
+            project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            dfmea_id   INTEGER NOT NULL REFERENCES diamond_dfmea(id) ON DELETE CASCADE,
+            class_code TEXT NOT NULL DEFAULT '',
+            state      TEXT NOT NULL,
+            severity   INTEGER,
+            occurrence INTEGER,
+            reason     TEXT NOT NULL DEFAULT '',
+            decided_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            decided_at TEXT NOT NULL
+        );
+        CREATE INDEX idx_diamond_class_customers_project ON diamond_class_customers(project_id);
+        CREATE INDEX idx_diamond_class_decisions_row ON diamond_class_decisions(dfmea_id, decided_at);
+    """),
 ]
 
 P = r"/api/diamond/p/(?P<pid>\d+)"
 FN = P + r"/functions/(?P<fid>\d+)"
 
 SC = P + r"/story/scenes/(?P<sid>\d+)"
+CUST = r"/dfmea/classes/customers/(?P<code>[a-z0-9-]{1,40})"
 
 ROUTES = [
     ("GET", P + r"/costs", costs.api_get, "user"),  # 0.60.61 (D-O-070): « Coûts et budget »
@@ -308,6 +360,13 @@ ROUTES = [
     ("POST", P + r"/risks/(?P<rid>\d+)/archive", risks.api_archive, "user"),
     ("POST", P + r"/actions/(?P<kind>risk|dfmea)/(?P<oid>\d+)/track", actions.api_track, "user"),  # 0.60.38 (D-O-047)
     ("GET", P + r"/dfmea", dfmea.api_list, "user"),
+    ("GET", P + r"/dfmea/classes", classes_api.api_get, "user"),  # 0.60.101 (D-O-108): classes CC / SC, rules and symbols
+    ("PATCH", P + r"/dfmea/classes", classes_api.api_settings, "user"),
+    ("POST", P + r"/dfmea/classes/customers", classes_api.api_customer_create, "user"),
+    ("PATCH", P + CUST, classes_api.api_customer_update, "user"),
+    ("POST", P + CUST + r"/delete", classes_api.api_customer_delete, "user"),
+    ("GET", P + r"/dfmea/rows/(?P<did>\d+)/class", classes_api.api_history, "user"),
+    ("POST", P + r"/dfmea/rows/(?P<did>\d+)/class", classes_api.api_decide, "user"),
     ("POST", P + r"/dfmea/rows", dfmea.api_create, "user"),
     ("GET", P + r"/dfmea/export\.csv", dfmea.api_export, "user"),
     ("POST", P + r"/dfmea/from-tree", dfmea.api_from_tree, "user"),

@@ -176,7 +176,27 @@ def section_dfmea(data):
                  aligns=["center", "left", "left", "left", "center", "left", "center", "center", "center", "left"]),
            _note("Les Prevention Controls (avec les bonnes pratiques de l'industrie), les Detection Controls et les actions sont dans le "
                  "classeur Excel, feuille DFMEA.")]
-    return "".join(out)
+    return "".join(out + section_classes(data))
+
+
+def section_classes(data):
+    """0.60.101 (D-O-108): the classes CC / SC -- the decided and the proposed rows, with the symbols of the Space's customer."""
+    from . import dfmea as DF
+    info, sm = data["classes"], data["summary"]
+    cust, r = info["customer"], info["rules"]
+    rows_in = [d for d in data["dfmea"] if d["class_status"]]
+    out = [WD.heading(2, "Caractéristiques spéciales (CC / SC)"),
+           _intro("La plateforme propose une classe à partir de S et O (CC si S ≥ {} ; SC si S de {} à {} et O ≥ {}) ; une personne la "
+                  "confirme ou la refuse avec sa justification. Confirmées : {} CC et {} SC ; {} proposée(s) à décider ; {} refusée(s). "
+                  "Symboles du client : {}.".format(r["cc_severity"], r["sc_severity"], r["cc_severity"] - 1, r["sc_occurrence"], sm["classes"]["CC"],
+                                                    sm["classes"]["SC"], sm["class_proposed"], sm["class_refused"], cust["name"]))]
+    if rows_in:
+        rows = [[d["line"], "F{} {}".format(d["function_number"], d["function_text"]) if d["function_number"] else "", d["failure_mode"],
+                 d["severity"] or "", d["occurrence"] or ""] + DF.class_cells(d, cust) for d in rows_in]
+        out.append(table(["#", "Fonction", "Failure Mode", "S", "O", "Class", "Status", "Décision", "Justification"], rows,
+                         [4, 15, 15, 3, 3, 5, 9, 9, 22], size=15,
+                         aligns=["center", "left", "left", "center", "center", "center", "left", "left", "left"]))
+    return out
 
 
 def section_review(data):
