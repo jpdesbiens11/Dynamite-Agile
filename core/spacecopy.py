@@ -51,7 +51,9 @@ DIAMOND = ("diamond_functions", "diamond_ports", "diamond_flows", "diamond_posit
            "diamond_risks", "diamond_dfmea", "diamond_story_scenes", "diamond_cost_settings", "diamond_cost_nre", "diamond_cost_parts",
            "diamond_class_settings", "diamond_class_customers", "diamond_class_decisions",  # 0.60.101 (D-O-108): classes CC / SC
            "diamond_characteristics",  # 0.60.102 (D-O-110): characteristics C-n
-           "diamond_company_parts", "diamond_part_pns")  # 0.60.103 (D-O-112): company part numbers
+           "diamond_company_parts", "diamond_part_pns",  # 0.60.103 (D-O-112): company part numbers
+           "diamond_lines", "diamond_operations", "diamond_control_points", "diamond_process_access",  # 0.60.103 (D-O-113)
+           "diamond_pfmea")  # 0.60.103 (D-O-114)
 
 
 def _tables_of(part, infra):

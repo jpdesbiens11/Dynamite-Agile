@@ -23,7 +23,7 @@ Every table is tied to projects(id) (backup, restore, copy by the core); every w
 from .search import search  # noqa: F401  (core search hook, 0.60.36)
 from .bot import bot_summary  # noqa: F401  (Bob le mineur, core/bot.py, 0.60.36)
 from .actions import dashboard  # noqa: F401  (core dashboard hook, 0.60.38)
-from . import actions, char_export, characteristics, classes_api, company_pn, pn_ai, costs, costs_budget, costs_import, costs_prompt, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
+from . import actions, char_export, characteristics, classes_api, company_pn, pfmea, pfmea_ai, pn_ai, process, costs, costs_budget, costs_import, costs_prompt, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
 
 SCHEMA = ""
 
@@ -388,6 +388,93 @@ MIGRATIONS = [
         CREATE INDEX idx_diamond_company_parts_project ON diamond_company_parts(project_id);
         CREATE INDEX idx_diamond_part_pns_part ON diamond_part_pns(part_id);
     """),
+    (13, """
+        -- 0.60.103 (D-O-113): « Procédés » -- the assembly line configurations, their operations, equipment and control
+        -- points (each tied to the characteristic C-n it protects), and who may see them
+        CREATE TABLE diamond_lines (
+            id          INTEGER PRIMARY KEY,
+            project_id  INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            number      INTEGER NOT NULL,
+            name        TEXT NOT NULL,
+            description TEXT NOT NULL DEFAULT '',
+            archived    INTEGER NOT NULL DEFAULT 0,
+            created_by  INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            created_at  TEXT NOT NULL,
+            updated_by  INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            updated_at  TEXT NOT NULL,
+            UNIQUE (project_id, number)
+        );
+        CREATE TABLE diamond_operations (
+            id          INTEGER PRIMARY KEY,
+            project_id  INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            line_id     INTEGER NOT NULL REFERENCES diamond_lines(id) ON DELETE CASCADE,
+            op          INTEGER NOT NULL,
+            name        TEXT NOT NULL,
+            description TEXT NOT NULL DEFAULT '',
+            equipment   TEXT NOT NULL DEFAULT '',
+            traceability INTEGER NOT NULL DEFAULT 0,
+            created_at  TEXT NOT NULL,
+            updated_at  TEXT NOT NULL,
+            UNIQUE (line_id, op)
+        );
+        CREATE TABLE diamond_control_points (
+            id                INTEGER PRIMARY KEY,
+            project_id        INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            operation_id      INTEGER NOT NULL REFERENCES diamond_operations(id) ON DELETE CASCADE,
+            characteristic_id INTEGER REFERENCES diamond_characteristics(id) ON DELETE SET NULL,
+            label             TEXT NOT NULL DEFAULT '',
+            method            TEXT NOT NULL DEFAULT '',
+            frequency         TEXT NOT NULL DEFAULT '',
+            position          INTEGER NOT NULL DEFAULT 0,
+            created_at        TEXT NOT NULL
+        );
+        CREATE TABLE diamond_process_access (
+            id         INTEGER PRIMARY KEY,
+            project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            user_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+            granted_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            granted_at TEXT NOT NULL,
+            UNIQUE (project_id, user_id)
+        );
+        CREATE INDEX idx_diamond_lines_project ON diamond_lines(project_id);
+        CREATE INDEX idx_diamond_operations_line ON diamond_operations(line_id, op);
+        CREATE INDEX idx_diamond_control_points_op ON diamond_control_points(operation_id);
+    """),
+    (14, """
+        -- 0.60.103 (D-O-114): the PFMEA, AIAG-VDA -- one row per process failure chain of an operation; S comes from the
+        -- DFMEA through the characteristic C-n and is never lowered; an AI draft is reviewed row by row
+        CREATE TABLE diamond_pfmea (
+            id                INTEGER PRIMARY KEY,
+            project_id        INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            operation_id      INTEGER REFERENCES diamond_operations(id) ON DELETE SET NULL,
+            number            INTEGER NOT NULL DEFAULT 1,
+            position          INTEGER NOT NULL DEFAULT 0,
+            process_step      TEXT NOT NULL DEFAULT '',
+            characteristic_id INTEGER REFERENCES diamond_characteristics(id) ON DELETE SET NULL,
+            process_char      TEXT NOT NULL DEFAULT '',
+            failure_mode      TEXT NOT NULL DEFAULT '',
+            effect            TEXT NOT NULL DEFAULT '',
+            severity          INTEGER,
+            cause             TEXT NOT NULL DEFAULT '',
+            cause_5m          TEXT NOT NULL DEFAULT '',
+            prevention        TEXT NOT NULL DEFAULT '',
+            occurrence        INTEGER,
+            detection_ctrl    TEXT NOT NULL DEFAULT '',
+            detection         INTEGER,
+            action            TEXT NOT NULL DEFAULT '',
+            action_owner_id   INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            action_due        TEXT NOT NULL DEFAULT '',
+            action_status     TEXT NOT NULL DEFAULT 'open',
+            issue_id          INTEGER REFERENCES agile_issues(id) ON DELETE SET NULL,
+            state             TEXT NOT NULL DEFAULT 'accepted',
+            source            TEXT NOT NULL DEFAULT 'manual',
+            created_by        INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            created_at        TEXT NOT NULL,
+            updated_by        INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            updated_at        TEXT NOT NULL
+        );
+        CREATE INDEX idx_diamond_pfmea_project ON diamond_pfmea(project_id, position);
+    """),
 ]
 
 P = r"/api/diamond/p/(?P<pid>\d+)"
@@ -445,7 +532,24 @@ ROUTES = [
     ("POST", P + r"/risks/(?P<rid>\d+)/duplicate", risks.api_duplicate, "user"),
     ("POST", P + r"/risks/(?P<rid>\d+)/archive", risks.api_archive, "user"),
     ("POST", P + r"/actions/(?P<kind>risk|dfmea)/(?P<oid>\d+)/track", actions.api_track, "user"),  # 0.60.38 (D-O-047)
+    ("POST", P + r"/pfmea/rows/(?P<oid>\d+)/track", actions.api_track_pfmea, "user"),  # 0.60.103 (D-O-114): behind the « PFMEA » switch
     ("GET", P + r"/dfmea", dfmea.api_list, "user"),
+    ("GET", P + r"/pfmea", pfmea.api_list, "user"),  # 0.60.103 (D-O-114): the PFMEA, AI drafts reviewed row by row
+    ("POST", P + r"/pfmea/rows", pfmea.api_create, "user"),
+    ("PATCH", P + r"/pfmea/rows/(?P<rid>\d+)", pfmea.api_update, "user"),
+    ("POST", P + r"/pfmea/rows/(?P<rid>\d+)/review", pfmea.api_review, "user"),
+    ("POST", P + r"/pfmea/accept-all", pfmea.api_accept_all, "user"),
+    ("GET", P + r"/pfmea/prompt", pfmea_ai.api_prompt, "user"),
+    ("POST", P + r"/pfmea/ai", pfmea_ai.api_import, "user"),
+    ("GET", P + r"/process", process.api_get, "user"),  # 0.60.103 (D-O-113): « Procédés », the assembly lines
+    ("POST", P + r"/process/lines", process.api_line_create, "user"),
+    ("PATCH", P + r"/process/lines/(?P<lid>\d+)", process.api_line_update, "user"),
+    ("POST", P + r"/process/lines/(?P<lid>\d+)/ops", process.api_op_create, "user"),
+    ("PATCH", P + r"/process/ops/(?P<oid>\d+)", process.api_op_update, "user"),
+    ("POST", P + r"/process/ops/(?P<oid>\d+)/delete", process.api_op_delete, "user"),
+    ("POST", P + r"/process/ops/(?P<oid>\d+)/points", process.api_point_create, "user"),
+    ("POST", P + r"/process/points/(?P<cpid>\d+)/delete", process.api_point_delete, "user"),
+    ("PUT", P + r"/process/access", process.api_access, "user"),
     ("GET", P + r"/pn", company_pn.api_get, "user"),  # 0.60.103 (D-O-112): company part numbers, BOM of the ERP, AI matching
     ("POST", P + r"/pn/bom", company_pn.api_bom, "user"),
     ("PUT", P + r"/pn/parts/(?P<oid>\d+)", company_pn.api_part, "user"),

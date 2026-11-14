@@ -11,7 +11,7 @@
 
   const SHELL = {
     module: "diamond", title: "Diamond", home: "ftree", issueNav: "ftree", noCreate: true, mark,
-    nav: [["story", "Storyline"], ["ftree", "Arbre fonctionnel"], ["fstructure", "Structure fonctionnelle"], ["prisk", "Risques projet"], ["dfmea", "DFMEA"], ["chars", "Caractéristiques"], ["costs", "Coûts et budget"], ["nuggets", "Golden Nuggets"], ["dexport", "Exporter"]],  // 0.60.13 to 0.60.16, 0.60.33; Storyline 0.60.51; Coûts et budget 0.60.61; Caractéristiques 0.60.102
+    nav: [["story", "Storyline"], ["ftree", "Arbre fonctionnel"], ["fstructure", "Structure fonctionnelle"], ["prisk", "Risques projet"], ["dfmea", "DFMEA"], ["chars", "Caractéristiques"], ["process", "Procédés"], ["pfmea", "PFMEA"], ["cplans", "Plans de contrôle"], ["prio", "Prioriser"], ["costs", "Coûts et budget"], ["nuggets", "Golden Nuggets"], ["dexport", "Exporter"]],  // 0.60.13 to 0.60.16, 0.60.33; Storyline 0.60.51; Coûts et budget 0.60.61; Caractéristiques 0.60.102; Procédés, PFMEA, Plans de contrôle, Prioriser 0.60.103
   };
 
   DA.diamond = Object.assign(DA.diamond || {}, {
@@ -21,5 +21,8 @@
     later: (fn) => setTimeout(() => DA.keepScroll(fn), 0),
   });
 
-  DA.registerModule("diamond", (main, parts) => DA.agile.render(main, parts, SHELL));
+  /* 0.60.103 (D-O-111): the parts an administrator turned off leave the left menu (⚙ Admin → Modules et fonctions) */
+  const PART = { process: "diamond_process", pfmea: "diamond_pfmea", cplans: "diamond_cplans" };
+  const on = (key) => !PART[key] || !DA.session.features || DA.session.features[PART[key]] !== false;
+  DA.registerModule("diamond", (main, parts) => DA.agile.render(main, parts, Object.assign({}, SHELL, { nav: SHELL.nav.filter(([k]) => on(k)) })));
 })();

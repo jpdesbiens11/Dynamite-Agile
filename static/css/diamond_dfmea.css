@@ -180,3 +180,30 @@ td.dm-fm-special { background: color-mix(in srgb, var(--warn) 9%, transparent); 
 .dm-pn-refused td { color: var(--muted); text-decoration: line-through; }
 .dm-pn-choose td:last-child { color: color-mix(in srgb, var(--warn) 70%, var(--ink)); }
 .dm-ch-pn { font-family: var(--mono); font-size: .82rem; }
+
+/* 0.60.103 (D-O-113): « Procédés » -- the operations in a row, their equipment, the control points by class */
+.dm-pr-flow { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(13rem, 1fr); gap: .8rem; overflow-x: auto; padding: .4rem 0 .8rem; }
+.dm-pr-op { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); padding: .6rem .7rem; display: flex;
+  flex-direction: column; gap: .4rem; }
+.dm-pr-op h3 { margin: 0; font-size: .98rem; }
+.dm-pr-eq { margin: 0; font-size: .82rem; color: var(--muted); }
+.dm-pr-trace { margin: 0; font-size: .78rem; font-weight: 600; color: var(--danger); }
+.dm-pr-pts { display: flex; flex-direction: column; gap: .3rem; }
+.dm-pr-pt { display: inline-flex; gap: .3rem; align-items: center; padding: .15rem .45rem; border: 1px solid var(--line); border-radius: var(--radius-sm);
+  font-size: .8rem; font-weight: 600; }
+.dm-pr-CC { color: var(--danger); border-color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, var(--surface)); }
+.dm-pr-SC { color: color-mix(in srgb, var(--dynamite) 70%, var(--ink)); border-color: var(--dynamite); background: color-mix(in srgb, var(--dynamite) 12%, var(--surface)); }
+.dm-pr-proc { color: color-mix(in srgb, var(--ok) 70%, var(--ink)); border-color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, var(--surface)); }
+.dm-pr-legend { display: flex; gap: .4rem; align-items: center; flex-wrap: wrap; color: var(--muted); }
+.dm-pr-line-head h2 { margin: .6rem 0 .2rem; }
+.dm-pr-access { margin-top: 1.2rem; max-width: 50rem; }
+.dm-pr-access .dm-check { margin: .2rem 0; }
+
+/* 0.60.103 (D-O-114): PFMEA -- drafts of the AI tinted until reviewed, the 5M class and the DFMEA line under their cell */
+tr.dm-pf-draft > td { background: color-mix(in srgb, var(--acc, var(--agile)) 7%, transparent); }
+.dm-pf-5m { font-size: .74rem; }
+.dm-pf-lock { font-size: .8em; }
+.dm-pf-ai { margin: .6rem 0; max-width: 80rem; }
+.dm-pf-ai textarea { width: 100%; font-family: var(--mono); font-size: .82rem; }
+.dm-pf-edit { padding: .4rem 0; }
+table.dm-pf td { min-width: 6rem; }

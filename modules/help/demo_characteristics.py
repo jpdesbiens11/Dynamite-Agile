@@ -46,7 +46,7 @@ ITEMS = [
      "design", ""),
     (16, 14, "Contact non détecté", "product", "Course d'enclenchement du pare-chocs", {"nominal": "1,0", "tol": "0,2", "unit": "mm"}, 16, 15,
      "RVR-3160-01 rév. A", "1", "C2", "B", "spc", ""),
-    (17, 23, "Pignon qui saute", "process", "Couple de serrage de la vis du pignon", {"nominal": "0,8", "tol": "0,1", "unit": "N·m"}, 2, 1,
+    (17, 23, "Pignon qui saute", "process", "Couple de serrage de la vis du pignon", {"nominal": "0,60", "tol": "0,06", "unit": "N·m"}, 2, 1,
      "RVR-1010-01 (gamme de montage)", "", "OP20", "", "spc", "Caractéristique de procédé : elle ira au PFMEA."),
     (18, 25, "Angle différent", "product", "Écart d'angle de braquage", {"usl": "3", "unit": "°"}, 4, None, SW, "", "§ 3.3", "", "design", ""),
     (19, 34, "Télémétrie trop lente", "product", "Rafraîchissement de la télémétrie", {"lsl": "5", "unit": "Hz"}, 5, None, SW, "", "§ 5.2", "",
