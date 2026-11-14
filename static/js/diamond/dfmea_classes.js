@@ -9,6 +9,7 @@
   const { api, el, clear, toast } = DA;
   const A = DA.agile;
   const D = DA.diamond;
+  const cpk = (x) => (x == null ? "—" : Number(x).toFixed(2).replace(".", ","));  // 0.60.102 (D-O-110)
   const COLS = [["cc_dfmea", "CC au DFMEA"], ["sc_dfmea", "SC au DFMEA"], ["cc_symbol", "CC au procédé"], ["sc_symbol", "SC au procédé"]];
 
   async function view(page, ctx) {
@@ -83,6 +84,7 @@
         el("td", null, radio), el("td", null, el("strong", null, c.name), c.edited && c.preset ? el("span", { class: "muted" }, " (modifié)") : null),
         COLS.map(([k]) => el("td", { class: "dm-cls-symcell" }, el("span", { class: "dm-cls dm-cls-" + k.slice(0, 2).toUpperCase() }, c[k]))),
         el("td", { class: "dm-cls-labels" }, el("div", null, "CC : " + c.cc_label), el("div", null, "SC : " + c.sc_label)),
+        el("td", { class: "nowrap", "data-new": "0.60.102-class-cpk" }, el("div", null, "CC " + cpk(c.cc_cpk)), el("div", null, "SC " + cpk(c.sc_cpk))),
         el("td", { class: "dm-cls-source" }, c.source),
         el("td", null, state.editable ? el("div", { class: "dm-actions" },
           el("button", { type: "button", class: "btn btn-small", onclick: () => edit(state, c) }, "Modifier"),
@@ -99,7 +101,8 @@
         + "pas fournis : ajoutez votre client à partir de ses CSR, sans les deviner."),
       el("div", { class: "dm-scroll" }, el("table", { class: "data dm-cls-table" },
         el("thead", null, el("tr", null, el("th", { scope: "col" }, "Space"), el("th", { scope: "col" }, "Client"),
-          COLS.map(([, t]) => el("th", { scope: "col" }, t)), el("th", { scope: "col" }, "Libellés"), el("th", { scope: "col" }, "Source"),
+          COLS.map(([, t]) => el("th", { scope: "col" }, t)), el("th", { scope: "col" }, "Libellés"), el("th", { scope: "col", "data-tip": "Le Cpk exigé d'une caractéristique de chaque classe" }, "Cpk exigé"),
+          el("th", { scope: "col" }, "Source"),
           el("th", { scope: "col" }, ""))), el("tbody", null, rows))),
       state.editable ? el("button", { type: "button", class: "btn btn-small", "data-new": "0.60.101-class-customer", onclick: () => edit(state, null) }, "+ Ajouter un client") : null);
   }
@@ -111,6 +114,9 @@
     const box = el("div", { class: "dm-cls-form" }, Object.keys(fields).map((k) => {
       inputs[k] = el("input", { type: "text", value: c ? c[k] : "", maxlength: k === "source" ? 300 : k.endsWith("label") || k === "name" ? 80 : 12 });
       return DA.field(fields[k], inputs[k], k === "source" ? "Le document du client : CSR, manuel qualité, révision." : null);
+    }), Object.keys(state.data.numbers || {}).map((k) => {  // 0.60.102 (D-O-110): the Cpk the customer requires
+      inputs[k] = el("input", { type: "text", inputmode: "decimal", value: c ? cpk(c[k]) : k === "cc_cpk" ? "1,67" : "1,33", class: "dm-ch-short" });
+      return DA.field(state.data.numbers[k], inputs[k], "Habituellement 1,67 pour une CC, 1,33 pour une SC");
     }));
     const err = el("p", { class: "dm-cls-err", role: "alert" });
     let close = () => {};

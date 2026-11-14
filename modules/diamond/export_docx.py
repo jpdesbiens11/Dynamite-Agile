@@ -199,6 +199,12 @@ def section_classes(data):
     return out
 
 
+def section_chars(data):
+    """0.60.102 (D-O-110): the summary of the special characteristics, after the DFMEA."""
+    from . import char_export
+    return char_export.section(data["characteristics"], 2)
+
+
 def section_review(data):
     names = {"tree": "Arbre fonctionnel", "structure": "Structure fonctionnelle", "risks": "Risques projet", "dfmea": "DFMEA"}
     items = ["{} : {}".format(names[k], c) for k in names for c in data["checks"][k]]
@@ -218,7 +224,8 @@ def section_files(data):
 def build(data, prepared, initials):
     figs = Figures()
     body = "".join([section_summary(data), RF.storyline(data, figs), section_tree(data, figs), section_structure(data, figs),
-                    section_parts(data), section_risks(data, figs), section_dfmea(data), section_review(data), section_files(data)])
+                    section_parts(data), section_risks(data, figs), section_dfmea(data), section_chars(data), section_review(data),
+                    section_files(data)])
     meta = {"title": "Diamond — Analyse fonctionnelle", "subject": "{} ({})".format(data["project"]["name"], data["project"]["key"])[:80],
             "prepared": prepared[:80], "docno": "DIA-{}".format(data["project"]["key"])[:40], "rev": "A", "doctype": "Rapport", "lang": "fr"}
     raw = WD.build(meta, body, "Export de Diamond", initials)

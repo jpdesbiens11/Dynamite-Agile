@@ -1,8 +1,8 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-13 (v0.60.101)
-**Version :** 0.60.101 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
-**Chantier actif :** caractéristiques spéciales dans Diamond, six incréments (D-O-109, demande de JP du 2026-11-13) : incrément 1, classes CC / SC dans le DFMEA, livré en 0.60.101 (D-O-108) ; suit l'incrément 2, caractéristiques C-n et sommaire des caractéristiques spéciales
+**Dernière mise à jour :** 2026-11-13 (v0.60.102)
+**Version :** 0.60.102 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Chantier actif :** caractéristiques spéciales dans Diamond, six incréments (D-O-109, demande de JP du 2026-11-13) : incrément 1, classes CC / SC, livré en 0.60.101 (D-O-108) ; incrément 2, caractéristiques C-n et sommaire, livré en 0.60.102 (D-O-110) ; suit l'incrément 3, numéros de pièce de l'entreprise par l'IA
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.
 
@@ -49,7 +49,8 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 0.60.35 | Le pointeur et Bob le mineur en lecture seule (D-O-043, D-O-044) | Livré |
 | 0.60.36 | Mise à jour en ligne : vérifier, approuver, progression (D-O-045) | Livré |
 | 0.60.101 | Diamond : classes CC / SC dans le DFMEA — proposées par la règle du Space, décidées par une personne avec sa justification, refus gardé ; règle et symboles du client par Space (AIAG, Ford, aéro) ; filtres, exports, démo Rover (D-O-108, D-O-109) | Livré (PR) |
-| 0.60.102 et suivantes | Diamond, suite de D-O-109 : (2) caractéristiques C-n et sommaire des SC ; (3) numéros de pièce de l'entreprise par l'IA (boucle externe) ; (4) « Procédés », la ligne d'assemblage ; (5) PFMEA généré en brouillon ; (6) plans de contrôle, Cpk, priorisation en vagues, impact d'un ECN | À faire, un incrément à la fois |
+| 0.60.102 | Diamond : caractéristiques C-n (cote, pièce, plan, Cpk exigé, essai), sommaire des caractéristiques spéciales, colonnes Part / Characteristic du DFMEA, exports, démo Rover C-01 à C-21 (D-O-110) | Livré (PR) |
+| 0.60.103 et suivantes | Diamond, suite de D-O-109 : (3) numéros de pièce de l'entreprise par l'IA (boucle externe) ; (4) « Procédés », la ligne d'assemblage ; (5) PFMEA généré en brouillon ; (6) plans de contrôle, Cpk, priorisation en vagues, impact d'un ECN | À faire, un incrément à la fois |
 | 0.60.37 et suivantes | Une à la fois : FR / EN étapes 2 à 4 (cadre de l'outil, modules, contenu) ; méthodes de recherche des fonctions et lien CdCF dans Diamond ; exemples remplis de Pugh et Kepner-Tregoe ; Storyline (outil) ; Spaces de référence réécrits (pistolet à colle, imprimante à jet d'encre, machine à commande numérique pour bois mou) ; notes de cours réécrites ; évaluation par les pairs ; captures du guide Agile sur l'équipe d'exemple | À faire |
 
 ## Table 2 : Questions du brief §5 (toutes tranchées)
@@ -63,6 +64,13 @@ Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dan
 | 5 | Profils d'études de l'équipe d'exemple | Confirmés (D-O-013) |
 | 6 | Langue : français seulement ou FR / EN | **FR / EN au moins** (D-O-017), par étapes : site, cadre de l'outil, modules, contenu ; noms des modules et contenu technique en anglais inchangés |
 | 7 | Règle A/B à tour de rôle pour cette branche | **Non** : un seul compte, un seul projet (D-O-018) |
+
+## Relais (0.60.102)
+
+- Caractéristiques C-n (D-O-110) : la classe se lit de la ligne du DFMEA (`characteristics.enrich`) ; `char_links.attach` donne au
+  DFMEA ses colonnes Part / Characteristic. Le sommaire laisse « — » dans Company PN (incrément 3), PFMEA (5), Control Plan et Cpk
+  mesuré (6) : chaque incrément remplit sa colonne dans `char_export.line` et `chars.js`. Les limites LSL / USL et le nombre de
+  décimales sont stockés : l'incrément 6 calcule Cpk / Ppk dessus (unilatéral si une seule limite).
 
 ## Relais (0.60.101)
 

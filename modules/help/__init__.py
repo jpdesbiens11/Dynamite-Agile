@@ -26,6 +26,8 @@ def on_startup(ctx):
     demo_costs.ensure_costs(ctx)
     from . import demo_classes  # 0.60.101 (D-O-108): the classes CC / SC decided at the Rover's CDR (once)
     demo_classes.ensure_classes(ctx)
+    from . import demo_characteristics  # 0.60.102 (D-O-110): the characteristics C-01 to C-21 of the Rover (once)
+    demo_characteristics.ensure_characteristics(ctx)
     gtd.ensure(ctx)  # D-B-033 / D-B-040: « Base de connaissances (BDC) », also for an existing DEMO
     from modules.testing import lists  # D-B-082: the product functions (central list of Testing) as a BDC page
     lists.ensure_bdc_page(ctx)

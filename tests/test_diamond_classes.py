@@ -134,11 +134,11 @@ class ClassApiTest(unittest.TestCase):
         data = self.admin.patch(self.base + "/rows/{}".format(row["id"]), {"severity": (row["severity"] % 10) + 1})
         got = next(r for r in data["rows"] if r["id"] == row["id"])
         self.assertEqual((got["class_status"], got["class_changed"]), ("confirmed", True))
-        # a confirmed class without its Requirement / Characteristic is flagged
+        # a confirmed class that no characteristic C-n carries is flagged (0.60.102, D-O-110)
         self.admin.patch(self.base + "/rows/{}".format(row["id"]), {"requirement": ""})
         data = self.admin.get(self.base)
         self.assertGreaterEqual(data["classes"]["counts"]["no_characteristic"], 1)
-        self.assertTrue(any("sans Requirement / Characteristic" in c for c in data["checks"]))
+        self.assertTrue(any("sans caractéristique C-n" in c for c in data["checks"]))
         # a duplicated row is a new failure chain: its class is decided again
         dup = self.admin.post(self.base + "/rows/{}/duplicate".format(row["id"]), {})
         copy = next(r for r in dup["rows"] if r["id"] == dup["created"])

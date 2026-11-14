@@ -19,6 +19,7 @@ from core.errors import ApiError
 from core.files import RawFile
 
 from . import actions as ACT
+from . import char_links as CHL
 from . import classes as CL
 from . import dfmea_ap as AP
 from . import dfmea_practices as GP
@@ -48,6 +49,7 @@ def _rows(conn, pid):
         row["rpn"] = AP.rpn(row["severity"], row["occurrence"], row["detection"])
         row["ap"] = AP.action_priority(row["severity"], row["occurrence"], row["detection"])
     CL.enrich(conn, pid, items)  # 0.60.101 (D-O-108): the class CC / SC proposed by the rules, decided by a person
+    CHL.attach(conn, pid, items)  # 0.60.102 (D-O-110): the characteristics C-n of the row
     return ACT.enrich(conn, items, "dfmea")  # 0.60.38 (D-O-047): owner, due date, status, Agile ticket
 
 

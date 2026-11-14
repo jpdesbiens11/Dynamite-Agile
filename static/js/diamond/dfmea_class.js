@@ -52,9 +52,37 @@
       " ", el("span", null, "par"), " " + who + " · " + day(row.class_at) + " · ", el("q", null, row.class_reason));  // « » or “ ” by the page's language
   }
 
+  /* 0.60.102 (D-O-110): « Part » and « Characteristic » -- the characteristics C-n of the row, their part and dimension */
+  function charCells(td, col, row, state, editable) {
+    const list = row.characteristics || [];
+    const href = (c) => "#/diamond/" + state.key + "/chars/" + c.code;
+    if (col.type === "charpart") {
+      const seen = new Set();
+      const parts = list.flatMap((c) => [[c.part, c.part_name], [c.part2, c.part2_name]]).filter(([p]) => p && !seen.has(p) && seen.add(p));
+      td.append(parts.length ? el("div", { class: "dm-fm-chars" }, parts.map(([p, name]) => el("span", { "data-tip": name || null }, p + (name ? " " + name : ""))))
+        : el("span", { class: "muted" }, "—"));
+      return td;
+    }
+    if (list.length) {
+      td.append(el("div", { class: "dm-fm-chars" }, list.map((c) => el("a", { class: "dm-fm-char", href: href(c) },
+        el("span", { class: "dm-code" }, c.code), " " + c.label, c.spec ? el("span", { class: "dm-ch-spec" }, " " + c.spec) : null))));
+    } else if (row.special && editable) {
+      td.append(el("button", { type: "button", class: "btn btn-small", "data-new": "0.60.102-char-from-row", onclick: async () => {
+        try {
+          const res = await api.post(D.base(state.ctx) + "/characteristics", { dfmea_id: row.id });
+          location.hash = href({ code: res.created });
+        } catch (err) { toast(err.message, "error"); }
+      } }, "+ Caractéristique"));
+    } else {
+      td.append(el("span", { class: row.special ? "dm-ch-miss" : "muted" }, row.special ? "à créer" : "—"));
+    }
+    return td;
+  }
+
   /* the cells « Class » and « Décision » */
   function cell(td, col, row, state, editable) {
     td.classList.add("dm-fm-special");
+    if (col.type === "charpart" || col.type === "chars") return charCells(td, col, row, state, editable);
     if (col.type === "class") { td.append(chip(row, state.data)); return td; }
     const box = el("div", { class: "dm-cls-dec" });
     const said = decisionText(row, state.data, "");
@@ -138,14 +166,14 @@
     ["no_characteristic", "SC sans caractéristique", "no_characteristic"]];
   const TIPS = { special: "Les lignes dont la classe CC ou SC est confirmée", severe: "Sévérité de sécurité ou de loi",
     cc_proposed: "Les CC que la règle propose et que personne n'a encore décidées",
-    no_characteristic: "Classe CC ou SC confirmée dont la Requirement / Characteristic est vide : aucune caractéristique à tenir" };
+    no_characteristic: "Classe CC ou SC confirmée qu'aucune caractéristique C-n ne porte encore : ni pièce, ni cote" };
 
   function keep(row, key, data) {
     if (!key) return true;
     if (key === "special") return row.special;
     if (key === "severe") return (row.severity || 0) >= cls(data).rules.cc_severity;
     if (key === "cc_proposed") return row.class_status === "proposed" && row.class_proposed === "CC";
-    if (key === "no_characteristic") return row.special && !String(row.requirement || "").trim();
+    if (key === "no_characteristic") return row.special && !(row.characteristics || []).length;  // 0.60.102: a C-n
     return true;
   }
 

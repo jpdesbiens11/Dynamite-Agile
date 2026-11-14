@@ -14,13 +14,13 @@
     ["Toutes", null],
     ["Structure et fonction", ["higher", "focus", "lower", "function_id", "requirement", "failure_mode"]],
     ["Chaîne de défaillance", ["focus", "function_id", "failure_mode", "effect", "severity", "class", "cause", "occurrence", "detection", "ap"]],
-    ["Classes CC / SC", ["function_id", "requirement", "failure_mode", "effect", "severity", "class", "class_decision", "occurrence", "ap"]],  // 0.60.101
+    ["Classes CC / SC", ["function_id", "failure_mode", "effect", "severity", "class", "class_decision", "char_part", "chars", "occurrence", "ap"]],  // 0.60.101
     ["Contrôles et cotation", ["failure_mode", "cause", "prevention", "occurrence", "detection_ctrl", "detection", "severity", "rpn", "ap", "action"]],
     ["Actions et suivi", ["function_id", "failure_mode", "ap", "action", "action_owner_id", "action_due", "action_status", "ticket"]],  // 0.60.38
   ];
   const LAMP = "Éclairer une surface de travail";
   // 0.60.101: a column added after a choice was kept in this browser is shown once (its choice did not know it)
-  const SEEN = STORE + ".seen", BEFORE = ["class", "class_decision"];
+  const SEEN = STORE + ".seen", BEFORE = ["class", "class_decision", "char_part", "chars"];
 
   function loadVisible() {
     try {

@@ -1,0 +1,59 @@
+{
+  "version": "0.60.102",
+  "date": "2026-11-13",
+  "summary": {
+    "fr": "Diamond → Caractéristiques : la cote exacte de la pièce exacte (C-n), le sommaire des caractéristiques spéciales en Excel et en Word, les colonnes Part et Characteristic du DFMEA ; démo Rover C-01 à C-21.",
+    "en": "Diamond → Characteristics: the exact dimension of the exact part (C-n), the summary of special characteristics in Excel and Word, the Part and Characteristic columns of the DFMEA; Rover demo C-01 to C-21."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Caractéristiques C-n et sommaire des caractéristiques spéciales dans Diamond",
+      "why": "Une classe CC ou SC confirmée dans le DFMEA restait une ligne de tableau. Maintenant, la caractéristique C-n porte la cote exacte de la pièce exacte : sa ligne du DFMEA (la classe vient de là, jamais ressaisie), la spécification (nominal et tolérance, ou limites LSL / USL, unilatérale permise), la pièce Diamond qui porte la cote et, pour une interface, la seconde pièce, le plan, la feuille, la zone et le datum, le contrôle (étude de capabilité, essai 100 %, vérifiée en conception), le Cpk exigé (le sien, sinon celui du client pour sa classe, 1,67 / 1,33 au départ) et l'essai de la Test Base. Nouvel onglet « Caractéristiques » : le sommaire des caractéristiques spéciales (Char., Class, Characteristic, Specification, Part, Company PN, DFMEA, PFMEA, Control Plan, Cpk req., Cpk, Status), toutes les caractéristiques, la fiche de chacune ; exports Excel et Word aux symboles du client, feuille du classeur et section du rapport de Diamond. Le DFMEA gagne les colonnes Part et Characteristic et « + Caractéristique » ; le filtre « SC sans caractéristique » compte les classes sans C-n. Numéro jamais redonné, une caractéristique se retire sans s'effacer. Démo Rover : C-01 à C-21, dont les 7 du sommaire de la présentation. Migration additive diamond 11 : une table, deux colonnes au dictionnaire des clients.",
+      "files": [
+        "core/__init__.py",
+        "core/modules.py",
+        "core/spacecopy.py",
+        "modules/diamond/__init__.py",
+        "modules/diamond/char_export.py",
+        "modules/diamond/char_links.py",
+        "modules/diamond/char_spec.py",
+        "modules/diamond/characteristics.py",
+        "modules/diamond/classes.py",
+        "modules/diamond/classes_api.py",
+        "modules/diamond/dfmea.py",
+        "modules/diamond/export_data.py",
+        "modules/diamond/export_docx.py",
+        "modules/diamond/export_xlsx.py",
+        "modules/diamond/search.py",
+        "modules/help/__init__.py",
+        "modules/help/demo_characteristics.py",
+        "modules/help/module_docs_more.py",
+        "static/css/diamond_dfmea.css",
+        "static/i18n/demo_en_1.json",
+        "static/i18n/demo_en_2.json",
+        "static/i18n/demo_en_3.json",
+        "static/i18n/demo_en_4.json",
+        "static/i18n/demo_en_5.json",
+        "static/i18n/demo_en_6.json",
+        "static/i18n/en_1.json",
+        "static/i18n/en_2.json",
+        "static/i18n/en_3.json",
+        "static/i18n/en_4.json",
+        "static/i18n/en_5.json",
+        "static/i18n/en_6.json",
+        "static/js/diamond/char_card.js",
+        "static/js/diamond/chars.js",
+        "static/js/diamond/dfmea.js",
+        "static/js/diamond/dfmea_class.js",
+        "static/js/diamond/dfmea_classes.js",
+        "static/js/diamond/dfmea_table.js",
+        "static/js/diamond/diamond.js",
+        "static/js/help/content_faq.js",
+        "tests/test_diamond_characteristics.py",
+        "tests/test_diamond_classes.py",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}

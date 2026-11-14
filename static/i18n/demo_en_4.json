@@ -1,10 +1,4 @@
 {
-"Les essais de sécurité et de CEM en pré-conformité avant le laboratoire reconnu.": "Safety and EMC tests as pre-compliance before the recognized laboratory.",
-"Les essais dehors trouvent ce que le banc ne voit pas (soleil, gazon).": "Outdoor tests find what the bench cannot see (sun, grass).",
-"Les essais du Space : sujet, catégorie, norme et article, méthode (T, A, I, D), objectif.": "The Space's tests: subject, category, standard and clause, method (T, A, I, D), objective.",
-"Les essais prouvent chaque requirement ; une autre équipe refait le projet à partir du wiki ; la décision de lancer le kit se prend sur les résultats.": "The tests prove each requirement; another team redoes the project from the wiki; the decision to launch the kit is taken on the results.",
-"Les facettes": "The facets",
-"Les fichiers joints (images, PDF) ne sont pas dans les points : ils restent sur le serveur. Ceux d'un Space supprimé sont dans sa sauvegarde « avant suppression » (volet Données → Sauvegardes des Spaces).": "Attached files (images, PDFs) are not in the restore points: they stay on the server. Those of a deleted Space are in its “before deletion” backup (Data pane → Space backups).",
 "Les fonctions de l'analyse fonctionnelle et leurs composants.": "The functions of the functional analysis and their components.",
 "Les heures de conception par sous-système ; la description prépare la preuve d'incertitude technologique (RS&DE).": "Design hours by subsystem; the description prepares the proof of technological uncertainty (SR&ED).",
 "Les heures de fabrication et d'essais ; la réclamation de fin de projet sort en un export.": "Manufacturing and testing hours; the end-of-project claim comes out as one export.",
@@ -184,6 +178,7 @@
 "Mesurer le temps entre la mise sous tension et « Prêt ».": "Measure the time between power-up and “Ready”.",
 "Mesurer les distances devant, à gauche et à droite": "Measure the distances ahead, left and right",
 "Mesurer les émissions en pré-conformité avant un laboratoire reconnu.": "Measure emissions in pre-compliance before a recognized lab.",
+"Mesuré sur chaque robot en fin de ligne (banc d'arrêt), journalisé avec le numéro de série.": "Measured on every robot at the end of the line (stop bench), logged with the serial number.",
 "Mettez sous tension, connectez le téléphone au Wi-Fi « ROVER-xx », attendez « Prêt ».": "Power on, connect the phone to the “ROVER-xx” Wi-Fi, wait for “Ready”.",
 "Mettre un souhait en DOIT : il élimine une bonne option à tort.": "Setting a want as a MUST: it wrongly eliminates a good option.",
 "Mettre à jour": "Update",
@@ -406,6 +401,8 @@
 "Pondérer en douce : Pugh classique ne pondère pas ; si des Criteria sont éliminatoires, passer à Kepner-Tregoe.": "Weighting on the sly: classic Pugh does not weight; if some Criteria are must-haves, switch to Kepner-Tregoe.",
 "Porter les modules sur le châssis": "Carry the modules on the chassis",
 "Portée": "Range",
+"Portée de détection d'un obstacle de 10 cm": "Detection range of a 10 cm obstacle",
+"Portée du capteur à temps de vol dans l'axe": "On-axis range of the ToF sensor",
 "Poser les questions —": "Ask the questions —",
 "Posez les trois ultrasons et le temps de vol dans le support avant ; branchez-les selon le schéma.": "Place the three ultrasonic sensors and the ToF sensor in the front bracket; wire them according to the schematic.",
 "Pot vibrant (sinus, aléatoire)": "Vibration shaker (sine, random)",
@@ -429,5 +426,14 @@
 "Primaire, secondaires, tertiaires et techniques ; comment · pourquoi · quand ; chemin critique ; numéros F gardés pour toujours.": "Primary, secondary, tertiary and technical; how · why · when; critical path; F numbers kept forever.",
 "Principes de chauffe et d'alimentation de la colle possibles": "Possible glue heating and feeding principles",
 "Priorise le Backlog (flèches ↑ ↓), écrit les Epics et Stories.": "Prioritizes the Backlog (↑ ↓ arrows), writes the Epics and Stories.",
-"Prise en main en une semaine": "Getting started within a week"
+"Prise en main en une semaine": "Getting started within a week",
+"Prise en main terminée": "Onboarding completed",
+"Prix acceptable pour l'école : 200 à 300 $": "Price acceptable to the school: $200 to $300",
+"Prix de 2026, taxes en sus. Prototype : achat à l'unité chez un distributeur ; 100 kits : tarifs par lots ; 1 000 et 10 000 kits : soumissions de deux fournisseurs, boîtier et pare-chocs moulés par injection.": "2026 prices, taxes extra. Prototype: bought individually from a distributor; 100 kits: batch pricing; 1,000 and 10,000 kits: quotes from two suppliers, enclosure and bumper injection-molded.",
+"Problème": "Problem",
+"Problème trouvé en essai ; voir le ticket relié.": "Problem found in testing; see the linked ticket.",
+"Problèmes et modifications (voir le guide Change Management).": "Problems and changes (see the Change Management guide).",
+"Processeur < 80 °C, sans baisse de fréquence.": "Processor < 80 °C, with no frequency throttling.",
+"Processus de développement de produit": "Product development process",
+"Processus de développement de produit (PDP)": "Product development process (PDP)"
 }

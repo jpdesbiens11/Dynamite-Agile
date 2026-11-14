@@ -126,6 +126,7 @@
 "; l'idéation qui a donné les concepts est dans": "; the ideation that produced the concepts is in",
 "; la Next Action (préparer l'analyse d'impact) devient une sub-task ECN assignée.": "; the Next Action (prepare the impact analysis) becomes an assigned ECN sub-task.",
 "> citation": "> quote",
+"A (semelle)": "A (base)",
 "A. Discovery · 1. Étude de marché et entrevues clients": "A. Discovery · 1. Market study and customer interviews",
 "A. Discovery · 2. Spécifications préliminaires du produit avec le client": "A. Discovery · 2. Preliminary product specifications with the customer",
 "A. Discovery · 3. Définition du projet et Lean Canvas": "A. Discovery · 3. Project definition and Lean Canvas",
@@ -249,7 +250,7 @@
 "Atelier partenaire": "Partner workshop",
 "Au Test Bench, au poste CAO, au laboratoire, au bureau, au téléphone : un label de contexte (@banc, @cao, @labo, @appel) sur les tickets et le filtre « Mes éléments » donnent la bonne liste, sur place, en un clic.": "At the Test Bench, at the CAD station, in the lab, at the office, on the phone: a context label (@bench, @cad, @lab, @call) on tickets and the “My items” filter give you the right list, on site, in one click.",
 "Au moins 50 pour 30 minutes à 6 personnes : la quantité fait émerger la qualité.": "At least 50 in 30 minutes with 6 people: quantity brings out quality.",
-"Aucun angle mort à ± 45° au-delà de 0,3 m": "No blind spot at ± 45° beyond 0.3 m",
+"Aucun angle mort à ± 45° au-delà de 0,3 m": "No blind spot within ± 45° beyond 0.3 m",
 "Aucun contact.": "No contact.",
 "Aucune action de plus : les causes sont traitées dans leurs lignes": "No further action: the causes are handled in their own lines",
 "Aucune eau sur le Raspberry Pi ; fonctionnement normal.": "No water on the Raspberry Pi; normal operation.",
@@ -397,6 +398,7 @@
 "Capteurs à ultrasons HC-SR04 (× 3)": "HC-SR04 ultrasonic sensors (× 3)",
 "Capturer tout ce qui surgit en moins de 2 minutes": "Capture everything that comes up in under 2 minutes",
 "Capturer, clarifier, faire : si la méthode demande un effort de plus que le travail lui-même, elle est trop lourde. Simplifiez les listes plutôt que d'ajouter des règles.": "Capture, clarify, do: if the method takes more effort than the work itself, it is too heavy. Simplify the lists rather than adding rules.",
+"Caractéristique de procédé : elle ira au PFMEA.": "Process characteristic: it will go to the PFMEA.",
 "Carrosserie, ergonomie, application, notice": "Bodywork, ergonomics, app, instructions",
 "Carte PWM PCA9685": "PCA9685 PWM board",
 "Carte d'alimentation": "Power board",
@@ -429,5 +431,9 @@
 "Centre « Fin de vie du produit » : démontage, tri des matériaux, électronique, emballage, logistique inverse… reliés entre eux (électronique ↔ logistique inverse : collecte des DEEE).": "“End of product life” center: disassembly, material sorting, electronics, packaging, reverse logistics… linked together (electronics ↔ reverse logistics: WEEE collection).",
 "Certificat du fournisseur au dossier ; batterie dans un sac ignifuge pendant la charge.": "Supplier certificate on file; battery in a fireproof bag during charging.",
 "Certifiée IEC 62133-2 et UN 38.3 ; environ 30 $.": "Certified IEC 62133-2 and UN 38.3; about $30.",
-"Ces pages : une par livrable, un registre des décisions": "These pages: one per deliverable, a decision register"
+"Ces pages : une par livrable, un registre des décisions": "These pages: one per deliverable, a decision register",
+"Cette bibliothèque : une page par module, avec ses références.": "This library: one page per module, with its references.",
+"Cette page porte vos principes sur les vacances et congés ; les valeurs entre crochets sont à confirmer avant diffusion.": "This page holds your principles on vacation and leave; the values in brackets are to be confirmed before distribution.",
+"Chacun fait le parcours guidé de DEMO et lit les pages Exploration, Goldmine et Dynamite.": "Everyone does the DEMO guided path and reads the Exploration, Goldmine and Dynamite pages.",
+"Chacun voit qui fait quoi (Board)": "Everyone sees who does what (Board)"
 }
