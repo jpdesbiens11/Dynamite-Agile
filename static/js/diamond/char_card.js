@@ -24,7 +24,8 @@
       ["DFMEA", f ? el("a", { href: A.href(ctx, "dfmea") }, "ligne " + f.line + " · S " + (f.severity || "—") + " · O " + (f.occurrence || "—") + " · AP " + (f.ap || "—")) : "aucune ligne"],
       ["Pièce Diamond", c.part ? c.part + " " + (c.part_name || "") : el("span", { class: "dm-ch-miss" }, "à préciser")],
       ["Interface", c.part2 ? c.part + " ↔ " + c.part2 + " " + (c.part2_name || "") : "—"],
-      ["# entreprise", el("span", { class: "muted" }, "— (numéros de pièce de l'entreprise : à venir)")],
+      ["# entreprise", (c.pns || []).length ? el("span", { class: "dm-ch-spec" }, c.pns.join(" · "))  // 0.60.103 (D-O-112)
+        : el("a", { href: A.href(ctx, "chars") + "/pn" }, "aucun # relié : # de pièce de l'entreprise")],
       ["Plan de la pièce", [c.drawing, c.sheet ? "feuille " + c.sheet : "", c.zone ? "zone " + c.zone : "", c.datum ? "datum " + c.datum : ""].filter(Boolean).join(" · ") || el("span", { class: "dm-ch-miss" }, "à préciser")],
       ["Cote", c.spec ? el("strong", { class: "dm-ch-spec" }, c.spec) : el("span", { class: "dm-ch-miss" }, "à écrire")],
       ["Cpk exigé", c.control === "test100" ? "100 % (essai 100 %)" : c.cpk_req == null ? "—" : num(c.cpk_req, 2)

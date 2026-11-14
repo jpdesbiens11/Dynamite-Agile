@@ -14,6 +14,7 @@ from core.errors import ApiError
 from . import char_links as CHL
 from . import char_spec as SP
 from . import classes as CL
+from . import company_pn as PN
 from . import dfmea as DF
 from . import functions as F
 
@@ -53,7 +54,9 @@ def payload(conn, pid):
     rows = DF._rows(conn, pid)
     by_id = {r["id"]: r for r in rows}
     cust = CL.customer(conn, pid)
-    items = [enrich(c, by_id, cust) for c in _items(conn, pid)]
+    pns = PN.links(conn, pid)  # 0.60.103 (D-O-112): the company PNs of the part, and of the second part of an interface
+    items = [dict(enrich(c, by_id, cust), pns=[x["label"] for pid_ in (c["part_id"], c["part2_id"]) if pid_ for x in pns.get(pid_, [])])
+             for c in _items(conn, pid)]
     summary = sorted([c for c in items if c["class_code"] in CL.CLASSES], key=_order)
     parts = [dict(r) for r in conn.execute("SELECT id, number, name FROM diamond_parts WHERE project_id = ? ORDER BY number", (pid,))]
     return {"items": items, "summary": summary, "archived": [enrich(c, by_id, cust) for c in _items(conn, pid, 1)],

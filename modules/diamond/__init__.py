@@ -23,7 +23,7 @@ Every table is tied to projects(id) (backup, restore, copy by the core); every w
 from .search import search  # noqa: F401  (core search hook, 0.60.36)
 from .bot import bot_summary  # noqa: F401  (Bob le mineur, core/bot.py, 0.60.36)
 from .actions import dashboard  # noqa: F401  (core dashboard hook, 0.60.38)
-from . import actions, char_export, characteristics, classes_api, costs, costs_budget, costs_import, costs_prompt, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
+from . import actions, char_export, characteristics, classes_api, company_pn, pn_ai, costs, costs_budget, costs_import, costs_prompt, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
 
 SCHEMA = ""
 
@@ -356,6 +356,38 @@ MIGRATIONS = [
         ALTER TABLE diamond_class_customers ADD COLUMN cc_cpk REAL;
         ALTER TABLE diamond_class_customers ADD COLUMN sc_cpk REAL;
     """),
+    (12, """
+        -- 0.60.103 (D-O-112): the company part numbers (the BOM of the ERP) and which ones each Diamond part covers
+        CREATE TABLE diamond_company_parts (
+            id          INTEGER PRIMARY KEY,
+            project_id  INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            pn          TEXT NOT NULL,
+            rev         TEXT NOT NULL DEFAULT '',
+            designation TEXT NOT NULL DEFAULT '',
+            supplier    TEXT NOT NULL DEFAULT '',
+            material    TEXT NOT NULL DEFAULT '',
+            created_by  INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            created_at  TEXT NOT NULL,
+            updated_by  INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            updated_at  TEXT NOT NULL,
+            UNIQUE (project_id, pn)
+        );
+        CREATE TABLE diamond_part_pns (
+            id              INTEGER PRIMARY KEY,
+            project_id      INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            part_id         INTEGER NOT NULL REFERENCES diamond_parts(id) ON DELETE CASCADE,
+            company_part_id INTEGER NOT NULL REFERENCES diamond_company_parts(id) ON DELETE CASCADE,
+            source          TEXT NOT NULL DEFAULT 'manual',
+            confidence      REAL,
+            reason          TEXT NOT NULL DEFAULT '',
+            created_by      INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            created_at      TEXT NOT NULL,
+            UNIQUE (part_id, company_part_id)
+        );
+        ALTER TABLE diamond_parts ADD COLUMN erp_todo INTEGER NOT NULL DEFAULT 0;
+        CREATE INDEX idx_diamond_company_parts_project ON diamond_company_parts(project_id);
+        CREATE INDEX idx_diamond_part_pns_part ON diamond_part_pns(part_id);
+    """),
 ]
 
 P = r"/api/diamond/p/(?P<pid>\d+)"
@@ -414,6 +446,11 @@ ROUTES = [
     ("POST", P + r"/risks/(?P<rid>\d+)/archive", risks.api_archive, "user"),
     ("POST", P + r"/actions/(?P<kind>risk|dfmea)/(?P<oid>\d+)/track", actions.api_track, "user"),  # 0.60.38 (D-O-047)
     ("GET", P + r"/dfmea", dfmea.api_list, "user"),
+    ("GET", P + r"/pn", company_pn.api_get, "user"),  # 0.60.103 (D-O-112): company part numbers, BOM of the ERP, AI matching
+    ("POST", P + r"/pn/bom", company_pn.api_bom, "user"),
+    ("PUT", P + r"/pn/parts/(?P<oid>\d+)", company_pn.api_part, "user"),
+    ("GET", P + r"/pn/prompt", pn_ai.api_prompt, "user"),
+    ("POST", P + r"/pn/ai", pn_ai.api_import, "user"),
     ("GET", P + r"/characteristics", characteristics.api_list, "user"),  # 0.60.102 (D-O-110): « Caractéristiques » C-n
     ("POST", P + r"/characteristics", characteristics.api_create, "user"),
     ("GET", P + r"/characteristics/summary\.xlsx", char_export.api_xlsx, "user"),

@@ -170,3 +170,13 @@ td.dm-fm-special { background: color-mix(in srgb, var(--warn) 9%, transparent); 
 @media (max-width: 640px) { .dm-ch-dl { grid-template-columns: 1fr; } }
 .dm-ch-page .subtabs { overflow-y: hidden; }
 .dm-ch-row-f[hidden] { display: none; }
+
+/* 0.60.103 (D-O-112): # de pièce de l'entreprise */
+.dm-pn-step { margin: 1rem 0 1.4rem; max-width: 90rem; }
+.dm-pn-step textarea { width: 100%; font-family: var(--mono); font-size: .82rem; }
+.dm-pn-chips { display: flex; flex-wrap: wrap; gap: .3rem; align-items: center; }
+.dm-pn-chip { display: inline-flex; gap: .25rem; align-items: center; padding: .05rem .45rem; border: 1px solid var(--line);
+  border-radius: var(--radius-sm); font-family: var(--mono); font-size: .8rem; background: var(--surface-2); }
+.dm-pn-refused td { color: var(--muted); text-decoration: line-through; }
+.dm-pn-choose td:last-child { color: color-mix(in srgb, var(--warn) 70%, var(--ink)); }
+.dm-ch-pn { font-family: var(--mono); font-size: .82rem; }
