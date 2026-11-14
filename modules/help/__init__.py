@@ -30,6 +30,8 @@ def on_startup(ctx):
     demo_characteristics.ensure_characteristics(ctx)
     from . import demo_pn  # 0.60.103 (D-O-112): the Rover's BOM and its company PNs (once)
     demo_pn.ensure_pn(ctx)
+    from . import demo_process  # 0.60.103 (D-O-113 to D-O-115): its lines, PFMEA, control plans, measurements, waves (once)
+    demo_process.ensure_process(ctx)
     gtd.ensure(ctx)  # D-B-033 / D-B-040: « Base de connaissances (BDC) », also for an existing DEMO
     from modules.testing import lists  # D-B-082: the product functions (central list of Testing) as a BDC page
     lists.ensure_bdc_page(ctx)

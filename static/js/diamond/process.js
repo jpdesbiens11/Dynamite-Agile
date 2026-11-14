@@ -143,7 +143,7 @@
     return el("details", { class: "dm-pr-access", "data-new": "0.60.103-process-access" }, el("summary", null, "Accès (Admin du Space)"),
       el("p", { class: "muted" }, "Qui voit Procédés, PFMEA et Plans de contrôle dans ce Space : l'Admin du Space et les administrateurs toujours, "
         + "plus les membres cochés."),
-      boxes.map(([m, box]) => el("label", { class: "dm-check" }, box, " " + m.name + (m.manager ? " (Admin du Space)" : ""))),
+      boxes.map(([m, box]) => el("label", { class: "dm-check" }, box, " " + m.name + (m.manager ? " (Admin du Space)" : "") + (m.active ? "" : " · compte inactif"))),
       el("button", { type: "button", class: "btn btn-small btn-primary", onclick: () => state.send("put", "/access",
         { user_ids: boxes.filter(([m, b]) => b.checked && !m.manager).map(([m]) => m.id) }, "Accès enregistrés.") }, "Enregistrer les accès"));
   }

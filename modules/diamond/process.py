@@ -81,10 +81,11 @@ def payload(conn, user, pid):
 
 def _access_list(conn, pid):
     granted = {r["user_id"] for r in conn.execute("SELECT user_id FROM diamond_process_access WHERE project_id = ?", (pid,))}
-    rows = conn.execute("SELECT u.id, u.display_name, m.role FROM memberships m JOIN users u ON u.id = m.user_id "
-                        "WHERE m.project_id = ? AND u.is_active = 1 ORDER BY u.display_name", (pid,)).fetchall()
+    # every member, an inactive account too (marked): the list says who has the access, even an account that cannot sign in today
+    rows = conn.execute("SELECT u.id, u.display_name, u.is_active, m.role FROM memberships m JOIN users u ON u.id = m.user_id "
+                        "WHERE m.project_id = ? ORDER BY u.is_active DESC, u.display_name", (pid,)).fetchall()
     return [{"id": r["id"], "name": r["display_name"], "role": r["role"], "granted": r["role"] == "manager" or r["id"] in granted,
-             "manager": r["role"] == "manager"} for r in rows]
+             "manager": r["role"] == "manager", "active": bool(r["is_active"])} for r in rows]
 
 
 def _log(ctx, action, table, oid, details=None):

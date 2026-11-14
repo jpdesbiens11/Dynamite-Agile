@@ -13,7 +13,7 @@ Created once at start-up, through the same API handlers a user would call
 Every active user becomes an editor at creation; later accounts join from
 the Help screen (« Rejoindre DEMO »).
 """
-from core import audit, permissions
+from core import audit, db, permissions
 from core.errors import ApiError
 
 from .local_api import LocalApi
@@ -279,5 +279,10 @@ def api_join(ctx):
     if permissions.project_role(ctx.conn, ctx.user, pid) is None:
         ctx.conn.execute("INSERT INTO memberships (user_id, project_id, role) VALUES (?, ?, 'editor')", (ctx.user["id"], pid))
         audit.log_action(ctx.conn, ctx.user["id"], "headlamp_joined", "project", pid, None, ctx.ip)
+        # 0.60.103 (D-O-113): DEMO is a learning Space -- whoever joins it also sees its process side (Procédés, PFMEA, plans de
+        # contrôle), which an ordinary Space shows only to the members its Admin lists
+        if ctx.conn.execute("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'diamond_process_access'").fetchone():
+            ctx.conn.execute("INSERT OR IGNORE INTO diamond_process_access (project_id, user_id, granted_by, granted_at) VALUES (?, ?, ?, ?)",
+                             (pid, ctx.user["id"], ctx.user["id"], db.utc_now()))
     return api_status(ctx)
 
