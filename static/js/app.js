@@ -38,7 +38,7 @@
     session.projects = visibleProjects("");
     session.modules = me.modules || [];
     session.prefs = me.prefs || {};
-    session.team = me.team || { size: 0, pending: 0 };  // D-B-112: « Mon équipe »
+    session.team = me.team || { size: 0, pending: 0 }; session.features = me.features || {};  // D-B-112; 0.60.103 (D-O-111) parts on / off
     DA.setCsrf(me.csrf);
     /* Core lot v0.10: personal settings (D-B-028) and content protection (D-B-029). */
     DA.applyPrefs(session.prefs);
@@ -237,12 +237,13 @@
       "aria-current": active === key ? "page" : null }, label);
     return el("nav", { class: "user-sections", "aria-label": "Section User" },
       link(t("menu.settings"), "#/settings", "settings"),
-      link(t("menu.objectives"), "#/objectives", "objectives"),
-      link("Profil et parcours", "#/profile", "profile"),  // D-B-111
-      session.team && session.team.size ? link("Mon équipe", "#/team", "team") : null,  // D-B-112
+      reviewsOn() ? link(t("menu.objectives"), "#/objectives", "objectives") : null,  // 0.60.103 (D-O-111): « reviews » may be off
+      reviewsOn() ? link("Profil et parcours", "#/profile", "profile") : null,  // D-B-111
+      reviewsOn() && session.team && session.team.size ? link("Mon équipe", "#/team", "team") : null,  // D-B-112
       manages ? link(t("menu.members"), "#/members", "members") : null, link("Révisions", "#/revisions", "revisions"));
   }
 
+  const reviewsOn = () => !session.features || session.features.reviews !== false;
   function menuItem(label, action) {
     return el("button", { type: "button", class: "menu-item", role: "menuitem", onclick: () => { closeMenus(); action(); } }, label);
   }
@@ -255,9 +256,9 @@
     const guest = !!user.is_guest;  // 0.60.63 (D-O-072): a guest has no personal pages and no password
     const menu = el("div", { class: "menu", role: "menu", hidden: true },
       guest ? null : menuItem(t("menu.settings"), () => { location.hash = "#/settings"; }),
-      guest ? null : menuItem(t("menu.objectives"), () => { location.hash = "#/objectives"; }),
+      guest || !reviewsOn() ? null : menuItem(t("menu.objectives"), () => { location.hash = "#/objectives"; }),
       menuItem("Training", () => { location.hash = "#/training"; }),  // D-A-045
-      session.team && session.team.size ? menuItem(DA.teamLabel(session.team), () => { location.hash = "#/team"; }) : null,  // D-B-112
+      reviewsOn() && session.team && session.team.size ? menuItem(DA.teamLabel(session.team), () => { location.hash = "#/team"; }) : null,  // D-B-112
       manages ? menuItem(t("menu.members"), () => { location.hash = "#/members"; }) : null,
       el("hr"),
       el("hr"),  // 0.60.48 (D-O-057): the themes are in Paramètres only

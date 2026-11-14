@@ -19,7 +19,7 @@ follows `href`.
 import re
 import unicodedata
 
-from . import modules, permissions
+from . import features, modules, permissions
 from .errors import ApiError
 
 MAX_QUERY = 200
@@ -167,7 +167,10 @@ def run(conn, user, q, space_keys=None):
                 if not space_keys or p["key"] in space_keys}
     results = []
     if projects:
+        on = features.state(conn)  # 0.60.103 (D-O-111): a module turned off is not searched
         for key, hook in modules.search_hooks():
+            if not on.get(key, True):
+                continue
             for hit in hook(conn, projects, q) or []:
                 results.append(dict(hit, module=key))
     if not space_keys:

@@ -1,7 +1,7 @@
 """API endpoints for the current user: login, logout, profile, password."""
 import datetime as dt
 
-from . import APP_DESCRIPTION, APP_NAME, APP_VERSION, audit, auth, devshare, guest, mail, modules, permissions, prefs, team
+from . import APP_DESCRIPTION, APP_NAME, APP_VERSION, audit, auth, devshare, features, guest, mail, modules, permissions, prefs, team
 from .errors import ApiError
 
 
@@ -11,7 +11,8 @@ def _me_payload(conn, user_row, csrf, ip=None):
         "user": auth.public_user(user_row),
         "csrf": csrf,
         "projects": permissions.visible_projects(conn, user_row),
-        "modules": modules.nav_manifest(),
+        "modules": features.visible_modules(conn, modules.nav_manifest()),  # 0.60.103 (D-O-111): without the modules turned off
+        "features": features.state(conn),
         "prefs": prefs.get(conn, user_row["id"]),  # core lot v0.10
         "policy": prefs.policy(conn),
         "client_ip": ip,  # shown in the named watermark (D-B-029)

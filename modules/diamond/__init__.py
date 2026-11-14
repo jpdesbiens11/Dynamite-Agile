@@ -27,6 +27,19 @@ from . import actions, char_export, characteristics, classes_api, costs, costs_b
 
 SCHEMA = ""
 
+# 0.60.103 (D-O-111): the parts of Diamond an administrator may turn off (core/features.py, ⚙ Admin → Modules et fonctions)
+FEATURES = {
+    "diamond_process": {"label": "Procédés (lignes d'assemblage)",
+                        "help": "Les configurations de ligne, leurs opérations OP10…, équipements et points de contrôle ; accès réservé aux "
+                                "membres choisis du Space.", "routes": [r"/api/diamond/p/\d+/process(/.*)?"]},
+    "diamond_pfmea": {"label": "PFMEA", "requires": "diamond_process",
+                      "help": "Le Process FMEA généré depuis le DFMEA final et la ligne d'assemblage, en brouillon puis validé.",
+                      "routes": [r"/api/diamond/p/\d+/pfmea(/.*)?"]},
+    "diamond_cplans": {"label": "Plans de contrôle", "requires": "diamond_process",
+                       "help": "Un ou plusieurs Control Plans par configuration de ligne et à la réception, trois phases, mesures et Cpk.",
+                       "routes": [r"/api/diamond/p/\d+/cplans(/.*)?"]},
+}
+
 MIGRATIONS = [
     (1, """
         CREATE TABLE diamond_functions (
