@@ -180,6 +180,11 @@
   Space (`#/diamond/KEY/dfmeaclass`, `dfmea_classes.js` : AIAG générique, Ford YC / YS · CC ∇ / SC, aéro CSC / KC) ; filtres CC · SC,
   S ≥ 9, CC proposées, SC sans caractéristique ; exports CSV / Excel / Word ; démo Rover : décisions de la CDR
   (`modules/help/demo_classes.py`) (`tests/test_diamond_classes.py`).
+- **0.60.100** (2026-11-13) : lot noyau — **un onglet ne charge que ses scripts** (D-O-107) : `DA.loadModuleAssets(modules, key)`
+  (le module ouvert et `core.modules.REQUIRES`, eux d'abord ; styles de tous les modules), les autres en arrière-plan
+  (`DA.prefetchModuleAssets`) ; adresses versionnées `?v=` (`nav_manifest()["v"]`, `static_cache.token`) gardées un an par
+  `core/router.py`. Premier Diamond : 1,9 s → 0,4 s (`tests/test_module_assets.py`). Un module qui utilise `DA.x` d'un autre
+  le déclare dans `REQUIRES`.
 - **0.60.99** (2026-11-13) : **la démo Rover tient devant une auditrice** (D-O-106, `modules/help/demo_evidence.py`, une fois par
   installation, journal `demo_evidence_coherent`) : bundle, résultats et rapport PDF en preuve pour les plans TP-ROVER fermé et reçu,
   statut « Verified » aligné sur le verdict calculé avec sa « Verification Ref. », champs CCB des ECN et PR fermé avec son ECN,

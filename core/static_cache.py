@@ -49,6 +49,12 @@ def get(target):
     return entry
 
 
+def token(entry):
+    """0.60.100 (D-O-107): the version token of a file, for its versioned address url?v=token (12 hex characters of
+    the content hash, the same as in its ETag)."""
+    return entry.etag.strip('"')[:12]
+
+
 def gzip_etag(etag):
     return etag[:-1] + '-gz"'
 

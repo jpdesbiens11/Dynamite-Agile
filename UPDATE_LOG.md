@@ -7,6 +7,13 @@
 
 ## Précédent
 
+### Journal de mise à jour — 0.60.100
+
+- **Version :** 0.60.99 → 0.60.100 (2026-11-13)
+- **Changements :**
+  1. **Un onglet ne charge que ses scripts, et le navigateur les garde** (D-O-107).
+- **Base de données :** ['Aucun changement de schéma.']
+
 ### Journal de mise à jour — 0.60.99
 
 - **Version :** 0.60.98 → 0.60.99 (2026-11-13)
