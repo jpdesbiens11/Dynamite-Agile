@@ -162,6 +162,15 @@
           "Le **Sommaire des caractéristiques spéciales** liste les CC et SC avec leur cote, leur pièce, leur ligne du DFMEA, leur Cpk exigé et leur status ; il part en Excel ou en Word, aux symboles du client."]],
         ["warn", "Une caractéristique ne s'efface jamais : « Retirer » la sort du sommaire, et son numéro n'est jamais redonné."]] },
 
+    { q: "Faire passer le DFMEA, le PFMEA ou un plan de contrôle par Claude ou Gemini, puis le recharger ?", newTag: "0.60.104-faq-ai-io",
+      blocks: [
+        ["p", "Diamond → **DFMEA**, **PFMEA** ou **Plans de contrôle** : trois boutons en haut de la page (D-O-116)."],
+        ["steps", [
+          "**Prompt pour l'IA** : choisissez le mode. **Entrevue guidée** : l'IA pose une question à la fois, dans l'ordre de la méthode, et rend le tableau quand vous écrivez « GÉNÈRE ». **Révision** : elle propose en une fois ses corrections et les lignes qui manquent. Pour le PFMEA, aussi **Générer** depuis le DFMEA et la ligne.",
+          "Collez le prompt dans Claude, Gemini ou un autre assistant : il contient le tableau actuel, les codes utilisables du Space (fonctions, essais, caractéristiques, opérations, plans, pièces), les échelles et le format de réponse exact.",
+          "**Importer…** : collez la réponse (son bloc JSON) ou choisissez le CSV de « Exporter (.csv) » retouché dans un tableur. L'aperçu dit, ligne par ligne, ce qui est nouveau, modifié (avant → après), identique ou refusé (avec la raison) ; décochez ce que vous ne voulez pas, puis « Appliquer la sélection »."]],
+        ["warn", "Rien n'est effacé : une ligne absente de la réponse reste telle quelle. Dans le PFMEA, une nouvelle ligne arrive en brouillon et la S héritée du DFMEA reste verrouillée. Le prompt se copie et se colle : la plateforme n'appelle aucun service d'IA ; pour des données confidentielles, seulement un assistant approuvé."]] },
+
     { q: "Désactiver Timesheet, les évaluations, le PFMEA ou les plans de contrôle (un cours, des étudiants) ?", newTag: "0.60.103-faq-features",
       blocks: [
         ["p", "⚙ Admin → Plateforme → **Modules et fonctions** (D-O-111) : un interrupteur par partie optionnelle. Une partie désactivée disparaît des menus, de la recherche et du Dashboard, et ses routes répondent « désactivé » ; ses données restent intactes."],

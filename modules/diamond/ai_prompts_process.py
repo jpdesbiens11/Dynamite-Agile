@@ -50,10 +50,9 @@ def _pfmea_row(r):
 def pfmea_prompt(conn, user, pid, mode, line=None):
     p = AIP.project(conn, pid)
     rows = [r for r in PF.rows(conn, pid) if r["state"] != "rejected" and (not line or r["line_number"] == line)]
-    out = ["# PFMEA — {} ({}){}".format(p["name"], p["key"], " — ligne L{}".format(line) if line else ""), "",
-           "Tu es un ingénieur méthodes et qualité qui maîtrise l'AMDEC de procédé (PFMEA, AIAG-VDA 2019). Tu travailles avec l'équipe du "
-           "produit « {} » dans l'outil Dynamite | Agile (module Diamond, onglet PFMEA). Ce que tu rends arrive en brouillon : l'équipe "
-           "accepte ou rejette chaque ligne.".format(p["name"]), ""]
+    out = ["# PFMEA — {} ({}){}".format(p["name"], p["key"], " — ligne L{}".format(line) if line else ""), ""] + AIP.intro(
+        p, "un ingénieur méthodes et qualité qui maîtrise l'AMDEC de procédé (PFMEA, AIAG-VDA 2019)", "module Diamond, onglet PFMEA")
+    out += ["Une nouvelle ligne arrive en brouillon : l'équipe accepte ou rejette chaque ligne.", ""]
     out += AIP.protocol(mode, "opération par opération (OP10, OP20…) : l'étape, la caractéristique produit (C-n) ou de procédé qu'elle "
                               "touche, les modes de défaillance, leurs effets, les causes classées en 5M, la prévention, la détection et D, "
                               "puis les actions pour les AP High ; les caractéristiques spéciales (CC, SC) d'abord.")
@@ -85,9 +84,8 @@ def cp_prompt(conn, user, pid, mode, only=None):
     p = AIP.project(conn, pid)
     d = CPL.payload(conn, user, pid)
     plans = [x for x in d["plans"] if not only or x["number"] == only]
-    out = ["# Plans de contrôle — {} ({})".format(p["name"], p["key"]), "",
-           "Tu es un ingénieur qualité qui maîtrise le plan de contrôle AIAG (APQP, IATF 16949). Tu travailles avec l'équipe du produit « {} » "
-           "dans l'outil Dynamite | Agile (module Diamond, onglet Plans de contrôle). Ce que tu rends est relu, puis importé.".format(p["name"]), ""]
+    out = ["# Plans de contrôle — {} ({})".format(p["name"], p["key"]), ""] + AIP.intro(
+        p, "un ingénieur qualité qui maîtrise le plan de contrôle AIAG (APQP, IATF 16949)", "module Diamond, onglet Plans de contrôle")
     out += AIP.protocol(mode, "plan par plan, puis opération par opération (ou pièce par pièce à la réception) : la caractéristique contrôlée "
                               "(C-n, ou de procédé), la machine ou le gabarit, la technique de mesure, l'échantillon et la fréquence, la "
                               "méthode de contrôle et le plan de réaction — toutes les caractéristiques spéciales (CC, SC) d'abord, et pour "

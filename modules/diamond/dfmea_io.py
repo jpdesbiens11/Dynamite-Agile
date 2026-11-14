@@ -13,6 +13,7 @@ from core import audit, db
 from . import actions as ACT
 from . import ai_io as IO
 from . import dfmea as DF
+from . import dfmea_practices as GP
 from . import functions as F
 
 # field: (header of the export, other accepted keys)
@@ -33,6 +34,13 @@ LABELS = dict({k: v[0] for k, v in TEXTS.items()}, severity="S", occurrence="O",
 
 class Refused(Exception):
     pass
+
+
+def split_practices(text):
+    """(the team's text, the « Bonnes pratiques (industrie) » block the tool appended, or "")."""
+    text = text or ""
+    at = text.find(GP.MARK)
+    return (text, "") if at < 0 else (text[:at].rstrip(), text[at:])
 
 
 def _context(conn, pid):
@@ -95,8 +103,17 @@ def _wanted(row, cur, ctx_data):
 
     for field, names in TEXTS.items():
         ok, v = IO.get(row, *names)
-        if ok:
-            put(field, v, cur.get(field))
+        if not ok:
+            continue
+        if field == "prevention" and GP.MARK not in v:
+            # the prompt gives the team's text only: compared with it, and the good practices of the tool kept after it
+            team, practices = split_practices(cur.get("prevention"))
+            if cur and IO.same(team, v):
+                continue
+            body["prevention"] = (v.rstrip() + "\n" + practices) if practices else v
+            changes.append([LABELS[field], team, v])
+            continue
+        put(field, v, cur.get(field))
     for field, names in RATINGS.items():
         ok, raw = IO.get(row, *names)
         if ok:

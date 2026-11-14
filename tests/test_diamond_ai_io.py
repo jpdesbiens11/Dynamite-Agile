@@ -122,10 +122,21 @@ class AiIoTest(unittest.TestCase):
         self.assertEqual(next(r for r in rows if r["id"] == gap["id"])["occurrence"], 3)
         new = next(r for r in rows if r["failure_mode"] == "Aimant décollé de l'arbre")
         self.assertEqual(new["line"], gap["line"] + 1)  # after the last row of its function
+        # « Prevention Controls » leaves without the good practices the tool appended, and they stay after a corrected text
+        line = next(x for x in interview["prompt"].splitlines() if x.startswith('{"Ligne": "L%d"' % gap["line"]))
+        team = json.loads(line)["Prevention Controls"]
+        self.assertNotIn("Bonnes pratiques (industrie)", interview["prompt"])
+        self.assertIn("Bonnes pratiques (industrie)", gap["prevention"])
+        kept = self.preview("/dfmea/import", answer([{"Ligne": "L%d" % gap["line"], "Prevention Controls": team}]))
+        self.assertEqual(kept["counts"]["same"], 1)
+        self.admin.post(self.base + "/dfmea/import", {"file": answer([{"Ligne": "L%d" % gap["line"], "Prevention Controls": team + " Gabarit G-30."}]),
+                                                      "mode": "apply"})
+        stored = next(r for r in self.admin.get(self.base + "/dfmea")["rows"] if r["id"] == gap["id"])["prevention"]
+        self.assertTrue(stored.startswith(team + " Gabarit G-30.\nBonnes pratiques (industrie)"), stored[:200])
         skipped = self.admin.post(self.base + "/dfmea/import", {"file": answer(items[1:2]), "mode": "apply", "skip": [1]})
         self.assertEqual(skipped["applied"], {"new": 0, "update": 0})
         with db.connect() as conn:
-            self.assertEqual(conn.execute("SELECT COUNT(*) FROM audit_log WHERE action = 'diamond_dfmea_import'").fetchone()[0], 2)
+            self.assertEqual(conn.execute("SELECT COUNT(*) FROM audit_log WHERE action = 'diamond_dfmea_import'").fetchone()[0], 3)
 
     def test_03_pfmea(self):
         gen = self.admin.get(self.base + "/pfmea/prompt?line=1")

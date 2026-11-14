@@ -36,8 +36,13 @@
       try { res = await api.get(o.base + "/prompt?mode=" + chosen + (o.query ? "&" + o.query() : "")); } catch (err) { toast(err.message, "error"); return; }
       const field = el("textarea", { rows: 12, readonly: true, class: "dm-story-ai-text", "aria-label": "Prompt" }, res.prompt);
       const copied = await toClipboard(res.prompt);
+      const again = el("button", { type: "button", class: "btn btn-small", onclick: () => {  // a page served without HTTPS: the selection, copied
+        field.select();
+        toast(document.execCommand && document.execCommand("copy") ? "Prompt copié." : "Copiez le texte sélectionné (Ctrl + C).", "success");
+      } }, "Copier");
       out.append(el("p", { class: copied ? "up-ok" : "muted" }, copied ? "✓ Prompt copié (" + res.prompt.length + " caractères) : collez-le dans "
-        + "Claude, Gemini ou un autre assistant. Sa réponse finale est un bloc JSON : « Importer » ici." : "Copiez ce texte (Ctrl + A, Ctrl + C)."), field);
+        + "Claude, Gemini ou un autre assistant. Sa réponse finale est un bloc JSON : « Importer » ici." : "Copiez ce texte (" + res.prompt.length
+        + " caractères) et collez-le dans Claude, Gemini ou un autre assistant. Sa réponse finale est un bloc JSON : « Importer » ici."), field, again);
       field.select();
     };
     modal("Prompt pour l'IA · " + o.title, el("div", { class: "form dm-ai-dialog", "data-new": "0.60.104-ai-prompt" },

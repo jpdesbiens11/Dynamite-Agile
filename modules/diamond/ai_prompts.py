@@ -86,10 +86,23 @@ DFMEA_KEYS = ["Ligne", "Function of Focus Element", "Requirement / Characteristi
 def dfmea_row(r):
     return {"Ligne": "L{}".format(r["line"]), "Function of Focus Element": "F{} {}".format(r["function_number"], r["function_text"]) if r["function_number"] else "",
             "Requirement / Characteristic": r["requirement"], "Failure Mode": r["failure_mode"], "Failure Effect": r["effect"], "S": r["severity"] or "",
-            "Failure Cause": r["cause"], "Prevention Controls": r["prevention"], "O": r["occurrence"] or "", "Detection Controls": r["detection_ctrl"],
+            "Failure Cause": r["cause"], "Prevention Controls": _team(r["prevention"]), "O": r["occurrence"] or "", "Detection Controls": r["detection_ctrl"],
             "Essai clé (Test Base)": r["test_code"] or "", "D": r["detection"] or "", "Actions": r["action"], "Responsable": r["action_owner_name"] or "",
             "Échéance": r["action_due"] or "", "Status de l'action": ACT.DFMEA_STATUSES.get(r["action_status"], ""),
             "AP": {"H": "High", "M": "Medium", "L": "Low"}.get(r["ap"], ""), "Class": r["class_code"] if r.get("special") else ""}
+
+
+def _team(text):
+    from .dfmea_io import split_practices
+    return split_practices(text)[0]
+
+
+def intro(p, role, where):
+    """« Tu es … » with the product; its description, when there is one, on its own line and kept short."""
+    description = " ".join((p["description"] or "").split())
+    return ["Tu es {}. Tu travailles avec l'équipe du produit « {} » dans l'outil Dynamite | Agile ({}). Ce que tu rends est relu par "
+            "l'équipe, puis importé.".format(role, p["name"], where)] + (["Le produit : " + description[:400] + ("…" if len(description) > 400 else "")]
+                                                                       if description else []) + [""]
 
 
 def dfmea_prompt(conn, pid, mode):
@@ -97,10 +110,8 @@ def dfmea_prompt(conn, pid, mode):
     rows = DF.rows(conn, pid)
     functions = F.rows(conn, pid)
     tests = DF.tests(conn, pid)
-    out = ["# DFMEA — {} ({})".format(p["name"], p["key"]), "",
-           "Tu es un ingénieur fiabilité qui maîtrise l'AMDEC de conception (DFMEA, AIAG-VDA 2019). Tu travailles avec l'équipe du produit "
-           "« {} »{} dans l'outil Dynamite | Agile (module Diamond). Ce que tu rends est relu par l'équipe, puis importé.".format(
-               p["name"], " : " + p["description"] if p["description"] else ""), ""]
+    out = ["# DFMEA — {} ({})".format(p["name"], p["key"]), ""] + intro(
+        p, "un ingénieur fiabilité qui maîtrise l'AMDEC de conception (DFMEA, AIAG-VDA 2019)", "module Diamond, onglet DFMEA")
     out += protocol(mode, "fonction par fonction (de l'arbre ci-dessous, les fonctions principales d'abord) : l'exigence, les modes de "
                           "défaillance (perte, partielle, intermittente, non voulue), leurs effets et S, les causes et O, la prévention, la "
                           "détection et D, l'essai clé de la Test Base, puis les actions pour les AP High.")
@@ -109,7 +120,8 @@ def dfmea_prompt(conn, pid, mode):
     out += ["", "## Essais de la Test Base (codes utilisables pour « Essai clé (Test Base) »)"]
     out += ["{} {}".format(t["code"], t["title"]) for t in tests[:150]] or ["(aucun essai)"]
     out += ["", "## Membres du Space (pour « Responsable »)", ", ".join(m["display_name"] for m in ACT.members(conn, pid)) or "—"]
-    out += ["", "## DFMEA actuel ({} lignes ; AP et Class sont calculées ou décidées dans l'outil)".format(len(rows)), json_lines(dfmea_row(r) for r in rows), ""]
+    out += ["", "## DFMEA actuel ({} lignes ; AP et Class sont calculées ou décidées dans l'outil ; « Prevention Controls » sans les bonnes "
+            "pratiques de l'industrie que l'outil ajoute et garde)".format(len(rows)), json_lines(dfmea_row(r) for r in rows), ""]
     example = {"Ligne": "", "Function of Focus Element": "F{} {}".format(functions[0]["number"], functions[0]["text"]) if functions else "F1 …",
                "Requirement / Characteristic": "…", "Failure Mode": "…", "Failure Effect": "…", "S": 7, "Failure Cause": "…",
                "Prevention Controls": "…", "O": 4, "Detection Controls": "…", "Essai clé (Test Base)": tests[0]["code"] if tests else "",

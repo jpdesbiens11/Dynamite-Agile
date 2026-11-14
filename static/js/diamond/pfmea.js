@@ -1,8 +1,9 @@
 /* Diamond · « PFMEA » (0.60.103, D-O-114), #/diamond/KEY/pfmea/<line>: the Process FMEA of one assembly line, as on page
    13 of the presentation -- Op. (PF-30.1), Process Step, product characteristic C-n, process characteristic, Failure Mode,
    effect, cause and its 5M class, prevention, detection, S inherited from the DFMEA and locked (🔒, its DFMEA line), O, D,
-   AP, the action and its follow-up. « Copier le prompt pour l'IA » assembles the final DFMEA extract and the line; the
-   answer comes back as drafts, accepted or rejected row by row, never straight into the validated PFMEA. */
+   AP, the action and its follow-up. 0.60.104 (D-O-116): « Exporter (.csv) », « Prompt pour l'IA » (generate from the final
+   DFMEA extract and the line, interview, review) and « Importer… » (ai_io.js); a new row comes back as a draft, accepted or
+   rejected row by row, never straight into the validated PFMEA. */
 (function () {
   "use strict";
 

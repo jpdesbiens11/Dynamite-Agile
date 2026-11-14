@@ -1,0 +1,43 @@
+{
+  "version": "0.60.104",
+  "date": "2026-11-13",
+  "summary": {
+    "fr": "Diamond : DFMEA, PFMEA et plans de contrôle aller-retour avec un tableur ou un assistant IA (Claude, Gemini) — export CSV, prompt d'entrevue guidée ou de révision, import avec aperçu ligne par ligne ; rien n'est effacé.",
+    "en": "Diamond: DFMEA, PFMEA and control plans to and from a spreadsheet or an AI assistant (Claude, Gemini) — CSV export, guided-interview or review prompt, import with a row-by-row preview; nothing is deleted."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Diamond : DFMEA, PFMEA et plans de contrôle aller-retour avec un tableur ou un assistant IA (Claude, Gemini)",
+      "why": "On peut maintenant faire passer le DFMEA, le PFMEA et les plans de contrôle par un assistant IA et recharger le résultat. Trois boutons en haut de chaque page : « Exporter (.csv) » pour un tableur ; « Prompt pour l'IA », un modèle prêt à coller dans Claude, Gemini ou un autre assistant, construit à partir du Space (le tableau actuel, les codes utilisables, les échelles S / O / D et le format de réponse exact), en deux modes — « Entrevue guidée » (l'IA pose une question à la fois, dans l'ordre de la méthode, puis rend le tableau quand on écrit « GÉNÈRE ») et « Révision » (corrections et lignes manquantes en une fois) ; le PFMEA garde « Générer depuis le DFMEA et la ligne » ; « Importer… » lit la réponse (un bloc JSON dont les clés sont les en-têtes du CSV) ou le CSV retouché et montre un aperçu ligne par ligne — nouvelle, modifiée (avant → après), identique, refusée avec sa raison — puis « Appliquer la sélection ». Rien n'est jamais effacé ; une nouvelle ligne du PFMEA arrive en brouillon et la S héritée du DFMEA reste verrouillée ; les bonnes pratiques ajoutées par l'outil à la prévention du DFMEA sont gardées. La plateforme n'appelle aucun service d'IA : on copie, on colle. Aucune migration.",
+      "files": [
+        "core/__init__.py",
+        "core/modules.py",
+        "modules/diamond/__init__.py",
+        "modules/diamond/ai_io.py",
+        "modules/diamond/ai_prompts.py",
+        "modules/diamond/ai_prompts_process.py",
+        "modules/diamond/control_plans.py",
+        "modules/diamond/cp_io.py",
+        "modules/diamond/dfmea_io.py",
+        "modules/diamond/pfmea_ai.py",
+        "modules/diamond/pfmea_io.py",
+        "modules/help/module_docs_more.py",
+        "static/css/diamond_dfmea.css",
+        "static/i18n/en_1.json",
+        "static/i18n/en_2.json",
+        "static/i18n/en_3.json",
+        "static/i18n/en_4.json",
+        "static/i18n/en_5.json",
+        "static/i18n/en_6.json",
+        "static/js/diamond/ai_io.js",
+        "static/js/diamond/cplans.js",
+        "static/js/diamond/dfmea.js",
+        "static/js/diamond/pfmea.js",
+        "static/js/help/content_faq.js",
+        "tests/test_diamond_ai_io.py",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}
