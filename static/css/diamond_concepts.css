@@ -61,7 +61,7 @@
 .pg-group th { text-align: left; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted);
   background: var(--surface-2); padding-top: .45rem; }
 .pg-group-need th { color: var(--brand-blue); }
-.pg-group-estime th, .pg-group-base th, .pg-group-performance th, .pg-group-innovation th, .pg-group-function th { color: var(--acc); }
+.pg-group-estime th, .pg-group-base th, .pg-group-performance th, .pg-group-innovation th, .pg-group-constraint th, .pg-group-function th { color: var(--acc); }
 .pg-sheets { display: block; font-family: var(--mono); font-size: .7rem; color: var(--muted); font-weight: 400; }
 .pg-scope { margin: 0; font-size: .9rem; }
 

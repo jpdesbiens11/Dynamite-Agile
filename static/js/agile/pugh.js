@@ -221,7 +221,7 @@
         el("button", { type: "button", class: "btn btn-small", onclick: () => {
           if (fn.value) run("post", "/criteria", { function_ids: [Number(fn.value)] }, "Fonction ajoutée.");
         } }, "Ajouter"),
-        el("button", { type: "button", class: "btn btn-small", "data-tip": "Besoins, fonctions des briques et d'estime, requirements A et B",
+        el("button", { type: "button", class: "btn btn-small", "data-tip": "Besoins, fonctions des briques, d'estime et contraintes, requirements A et B",
           onclick: () => run("post", "/criteria", { fill: true }, "Critères complétés.") }, "Remplir dans l'ordre")) : null,
       el("div", { class: "pg-tool" }, el("strong", null, "Concepts"), concept,
         el("button", { type: "button", class: "btn btn-small", onclick: () => {

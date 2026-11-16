@@ -37,7 +37,7 @@
       : el("p", { class: "muted" }, "Aucune brique à définir.")),
     field("Colonnes (options)", columns, "Écrivez les codes des feuilles (CB-3.1) : elles seront liées à la colonne et retenues quand la matrice sera décidée."),
     el("button", { type: "button", class: "btn btn-small", onclick: oneEach }, "Une colonne par feuille des briques cochées"),
-    el("p", { class: "muted" }, "Critères ajoutés dans l'ordre : besoins, fonctions (estime, base, performance), requirements de criticité A et B."),
+    el("p", { class: "muted" }, "Critères ajoutés dans l'ordre : besoins, fonctions (estime, base, performance, contraintes), requirements de criticité A et B."),
     error,
     el("div", { class: "form-actions" }, el("button", { type: "button", class: "btn", onclick: () => close() }, "Annuler"),
       el("button", { type: "submit", class: "btn btn-primary" }, "Créer la matrice")));

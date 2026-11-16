@@ -123,6 +123,7 @@ class ConceptsTest(unittest.TestCase):
         fn_ids = {k["function_id"] for k in m["criteria"] if k.get("fn")}
         self.assertTrue({f1["id"], f2["id"]} <= fn_ids)
         self.assertTrue({f["id"] for f in self.estime} <= fn_ids)
+        self.assertTrue(all(k["group"] == "constraint" for k in m["criteria"] if k.get("fn") and k["ftype"] == "contrainte"))
         fk = next(k for k in m["criteria"] if k.get("fn"))
         rk = next(k for k in m["criteria"] if not k.get("fn"))
         other = m["concepts"][1]["id"]

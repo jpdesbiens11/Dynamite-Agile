@@ -3,8 +3,9 @@ opened from Diamond, where it judges a group of bricks (diamond_pugh_scope) -- n
 often combinations of concept sheets written « CB-1.2 + CB-3.1 » (diamond_pugh_option_sheets) -- and where its criteria
 are, in this order:
     1. the needs of Goldmine (kind « need »),
-    2. the functions of the tree: estime, then base (Kano B), performance (P), innovation (I), the others,
-       (diamond_pugh_fcriteria / diamond_pugh_fscores: the functions of the bricks judged, and every estime function),
+    2. the functions of the tree: estime, then base (Kano B), performance (P), innovation (I), constraint (certifiable,
+       producible, maintainable…), the others (diamond_pugh_fcriteria / diamond_pugh_fscores: the functions of the bricks
+       judged, and every estime or constraint function),
     3. the requirements of Goldmine.
 Every Pugh route of Goldmine has its twin here: the twin calls Goldmine's handler, then answers the merged matrix (both
 kinds of criteria, totals over all of them). A criterion of a function has the id « f<n> ». Deciding the matrix selects
@@ -24,7 +25,8 @@ from . import functions as F
 
 GROUPS = {"need": "Besoins (needs)", "estime": "Fonctions d'estime", "base": "Fonctions de base (Kano B)",
           "performance": "Fonctions de performance (Kano P)", "innovation": "Fonctions d'innovation (Kano I)",
-          "function": "Autres fonctions", "requirement": "Requirements"}
+          "constraint": "Fonctions contraintes (certifiable, productible, maintenable…)", "function": "Autres fonctions",
+          "requirement": "Requirements"}
 ORDER = list(GROUPS)
 SHEET_RE = re.compile(r"CB-(\d+)\.(\d+)")
 TOP_CRITICALITY = ("A", "B")
@@ -33,6 +35,8 @@ TOP_CRITICALITY = ("A", "B")
 def _group(f):
     if f["ftype"] == "estime":
         return "estime"
+    if f["ftype"] == "contrainte" or f["kano"] == "C":
+        return "constraint"
     return {"B": "base", "P": "performance", "I": "innovation"}.get(f["kano"], "function")
 
 
@@ -103,7 +107,7 @@ def add_functions(conn, pid, mid, fids):
 
 
 def fill(conn, pid, mid):
-    """The criteria a matrix of bricks starts with: every need, the functions of the bricks judged and every estime function,
+    """The criteria a matrix of bricks starts with: every need, the functions of the bricks judged, every estime and constraint function,
     the requirements of criticality A or B. Returns how many were added (what is already there stays)."""
     base = ("SELECT i.id FROM agile_issues i JOIN agile_issue_types t ON t.id = i.type_id AND t.is_requirement = 1 "
             "JOIN agile_statuses s ON s.id = i.status_id LEFT JOIN agile_requirements r ON r.issue_id = i.id "
@@ -119,8 +123,8 @@ def fill(conn, pid, mid):
     fids = [r[0] for r in conn.execute(
         "SELECT l.function_id FROM diamond_concept_functions l JOIN diamond_pugh_scope s ON s.concept_id = l.concept_id "
         "JOIN diamond_functions f ON f.id = l.function_id WHERE s.pugh_id = ? AND f.archived = 0 ORDER BY f.position, f.number", (mid,))]
-    fids += [r[0] for r in conn.execute("SELECT id FROM diamond_functions WHERE project_id = ? AND archived = 0 AND ftype = 'estime' "
-                                        "ORDER BY number", (pid,))]
+    fids += [r[0] for r in conn.execute("SELECT id FROM diamond_functions WHERE project_id = ? AND archived = 0 "
+                                        "AND ftype IN ('estime', 'contrainte') ORDER BY number", (pid,))]
     return added + add_functions(conn, pid, mid, list(dict.fromkeys(fids)))
 
 
