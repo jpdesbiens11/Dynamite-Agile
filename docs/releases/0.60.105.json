@@ -1,0 +1,63 @@
+{
+  "version": "0.60.105",
+  "date": "2026-11-16",
+  "summary": {
+    "fr": "Diamond : la brique technologique de chaque fonction, son concept initial au nom qui parle, les feuilles de concept et les matrices de Pugh des groupes de briques ; menu en groupes repliables, outils Design dans Diamond.",
+    "en": "Diamond: the technology building block of each function, its initial concept with a name that speaks, concept sheets and Pugh matrices of groups of blocks; a menu in folding groups, Design tools inside Diamond."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Diamond : colonne Concept initial / Brique technologique, feuilles de concept et matrices de Pugh des briques",
+      "why": "Dans l'arbre fonctionnel de Diamond, une nouvelle colonne après les fonctions tertiaires, au-delà d'une ligne pointillée : la brique technologique (CB-1, CB-2…) qui réalise chaque fonction, avec son concept initial au nom qui parle. Plusieurs fonctions partagent une brique, dessinée une seule fois. Une page « Briques technologiques » les résume avec un tableau morphologique ; chaque brique à définir reçoit ses feuilles de concept (numériques, générées avec l'IA ou scannées) et se juge avec d'autres dans une matrice de Pugh dont les critères arrivent dans l'ordre : besoins, fonctions (estime, base, performance), requirements. Décider retient les feuilles choisies. L'IA (boucle externe, copier-coller) propose les briques et les feuilles ; le Project Starter accepte diamond.concepts. Le menu de Diamond passe en groupes repliables ; Idéation, Pugh et Kepner-Tregoe s'ouvrent maintenant dans Diamond. Migration diamond 16 (additive).",
+      "files": [
+        "CLAUDE.md",
+        "UPDATE_CHANGES.json",
+        "UPDATE_LOG.md",
+        "core/__init__.py",
+        "core/modules.py",
+        "core/starter_diamond.py",
+        "core/starter_prompt.py",
+        "deploy/starter_exemples/lampe_bureau.json",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/STARTER_FORMAT.md",
+        "docs/releases/0.60.105.json",
+        "modules/diamond/__init__.py",
+        "modules/diamond/concept_ai.py",
+        "modules/diamond/concept_pugh.py",
+        "modules/diamond/concept_sheets.py",
+        "modules/diamond/concepts.py",
+        "modules/diamond/example.py",
+        "modules/diamond/example_concepts.py",
+        "modules/diamond/import_merge.py",
+        "modules/diamond/migrations_b.py",
+        "modules/diamond/story_ai.py",
+        "site/en/starter.md",
+        "site/starter.md",
+        "static/css/agile.css",
+        "static/css/diamond_concepts.css",
+        "static/js/agile/agile.js",
+        "static/js/agile/pugh.js",
+        "static/js/diamond/concept_ai.js",
+        "static/js/diamond/concept_page.js",
+        "static/js/diamond/concept_panel.js",
+        "static/js/diamond/concept_pugh_new.js",
+        "static/js/diamond/concept_sheets.js",
+        "static/js/diamond/concepts.js",
+        "static/js/diamond/diamond.js",
+        "static/js/diamond/story_ai.js",
+        "static/js/diamond/tree.js",
+        "static/js/diamond/tree_concepts.js",
+        "static/js/diamond/tree_layout.js",
+        "static/js/diamond/tree_panel.js",
+        "static/js/toolbox/tools.js",
+        "tests/test_diamond_concepts.py",
+        "tests/test_module_assets.py",
+        "tests/test_open_v060.py",
+        "tests/test_story.py",
+        "tools/make_starter_diamond_example.py"
+      ]
+    }
+  ]
+}

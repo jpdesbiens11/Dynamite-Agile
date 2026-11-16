@@ -65,6 +65,9 @@ def api_example(ctx):
         example_risks.load(ctx.conn, ctx.user["id"], pid)  # 0.60.14: and its project risks
     if not ctx.conn.execute("SELECT 1 FROM diamond_dfmea WHERE project_id = ?", (pid,)).fetchone():
         example_dfmea.load(ctx.conn, ctx.user["id"], pid)  # 0.60.15: and its DFMEA
+    if not ctx.conn.execute("SELECT 1 FROM diamond_concepts WHERE project_id = ?", (pid,)).fetchone():
+        from . import example_concepts  # 0.60.105 (D-O-117): and its bricks, the column after the tertiary functions
+        example_concepts.load(ctx.conn, ctx.user["id"], pid, {row[2]: ids[row[0]] for row in items})
     audit.log_action(ctx.conn, ctx.user["id"], "diamond_example", "projects", pid, {"example": name, "functions": len(items)}, ctx.ip)
     return F.payload(ctx.conn, pid)
 

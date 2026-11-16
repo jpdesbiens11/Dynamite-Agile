@@ -11,9 +11,17 @@
   const KEYS = { ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right" };
 
   async function view(page, ctx) {
-    const state = { data: await api.get(D.base(ctx) + "/functions"), selected: null, list: false };
+    const [data, concepts] = await Promise.all([api.get(D.base(ctx) + "/functions"), api.get(D.base(ctx) + "/concepts")]);
+    const state = { data, concepts, selected: null, selectedConcept: null, list: false };
     const holder = el("div", { class: "dm-page" });
     page.append(holder);
+    state.crun = async (path, body, method) => {  // 0.60.105 (D-O-117): the bricks of the column
+      try {
+        state.concepts = await api[method || "post"](D.base(ctx) + path, body || {});
+        if (state.concepts.created) { state.selectedConcept = state.concepts.created; state.selected = null; }
+      } catch (err) { toast(err.message, "error"); }
+      D.later(() => draw(holder, ctx, state, run));
+    };
     const run = async (path, body, method) => {
       try {
         state.data = await api[method || "post"](D.base(ctx) + path, body || {});
@@ -32,6 +40,8 @@
     const items = state.data.functions;
     const editable = A.canEdit(ctx);
     if (!items.some((f) => f.id === state.selected)) state.selected = null;
+    const bricks = state.concepts.concepts;
+    if (!bricks.some((c) => c.id === state.selectedConcept)) state.selectedConcept = null;
     holder.append(A.pageHead(ctx, [el("span", null, "Diamond"), el("span", null, "Arbre fonctionnel")],
       items.length ? [D.exportMenu(ctx, "tree"), el("button", { type: "button", class: "btn btn-small", "aria-pressed": state.list ? "true" : "false",
         onclick: () => { state.list = !state.list; D.later(() => draw(holder, ctx, state, run)); } }, state.list ? "Vue arbre" : "Vue liste")] : null));
@@ -41,7 +51,8 @@
     if (!items.length) { holder.append(empty(ctx, run, editable)); return; }
     holder.append(legend(), advice(state.data.checks));
     if (state.list) { holder.append(listView(state, holder, ctx, run)); return; }
-    const select = (id) => { state.selected = state.selected === id ? null : id; D.later(() => draw(holder, ctx, state, run)); };
+    const select = (id) => { state.selected = state.selected === id ? null : id; state.selectedConcept = null; D.later(() => draw(holder, ctx, state, run)); };
+    const onConcept = (id) => { state.selectedConcept = state.selectedConcept === id ? null : id; state.selected = null; D.later(() => draw(holder, ctx, state, run)); };
     const onDrop = (dragged, target) => run("/functions/" + dragged + "/move", { parent_id: target });
     const onKey = (ev, f) => {
       if (!ev.altKey || !KEYS[ev.key] || !editable) return;
@@ -51,15 +62,17 @@
       if (move) run("/functions/" + f.id + "/move", move);
     };
     const hasPrimary = items.some((f) => f.is_primary);
-    const tree = hasPrimary ? D.drawTree({ items, selected: state.selected, editable, onSelect: select, onDrop, onKey })
+    const tree = hasPrimary ? D.drawTree({ items, selected: state.selected, editable, onSelect: select, onDrop, onKey,
+      concepts: bricks, selectedConcept: state.selectedConcept, onConcept })
       : el("div", { class: "empty" }, el("p", null, "Aucune fonction primaire. Choisissez-en une parmi les fonctions hors arbre "
         + "(« En faire la fonction primaire »), ou créez-la."), editable ? el("button", { type: "button", class: "btn btn-primary",
         onclick: () => ask("Fonction primaire", (text) => run("/functions", { text, primary: true }, "post")) }, "Créer la fonction primaire") : null);
     const chosen = items.find((f) => f.id === state.selected);
-    holder.append(el("div", { class: "dm-work" + (chosen ? " dm-with-panel" : "") }, tree,
-      chosen ? D.panel(state, chosen, run, editable) : el("aside", { class: "dm-panel dm-panel-idle" },
+    const brick = bricks.find((c) => c.id === state.selectedConcept);
+    holder.append(el("div", { class: "dm-work" + (chosen || brick ? " dm-with-panel" : "") }, tree,
+      brick ? D.conceptPanel(state, brick, state.crun, editable, ctx) : chosen ? D.panel(state, chosen, run, editable) : el("aside", { class: "dm-panel dm-panel-idle" },
         el("p", { class: "muted" }, "Cliquez une fonction pour la lire (pourquoi ? comment ? quand ?), la modifier, lui ajouter un "
-          + "« comment » ou la déplacer."))));
+          + "« comment », la déplacer ou lui donner sa brique technologique. Cliquez une brique (CB-n) pour la modifier."))));
     holder.append(outside(state, holder, ctx, run, editable, select));
   }
 
@@ -67,7 +80,8 @@
     return el("div", { class: "dm-legend", "aria-label": "Lecture de l'arbre" },
       el("span", { class: "dm-axis" }, "← Pourquoi ?"), el("span", { class: "dm-axis" }, "Comment ? →"), el("span", { class: "dm-axis" }, "Quand ? ↓"),
       el("span", { class: "dm-key dm-key-critical" }, "Chemin critique"), el("span", { class: "dm-key dm-key-feedback" }, "Rétroaction (contrôle)"),
-      el("span", { class: "dm-key dm-key-tech" }, "Fonction technique"));
+      el("span", { class: "dm-key dm-key-tech" }, "Fonction technique"),
+      el("span", { class: "dm-key dm-key-concept", "data-new": "0.60.105-concept-legend" }, "Brique technologique (après le pointillé)"));
   }
 
   function advice(checks) {
@@ -117,12 +131,13 @@
     const walk = (f) => { order.push(f); D.children(state.data.functions, f.id).forEach(walk); };
     state.data.functions.filter((f) => f.is_primary).forEach(walk);
     state.data.functions.filter((f) => !f.in_tree && f.level === 1).forEach(walk);
-    return DA.table(["Code", "Fonction", "Niveau", "Type", "Kano", "Importance", "Chemin critique"], order.map((f) => el("tr", null,
+    const brickOf = (f) => state.concepts.concepts.find((c) => c.function_ids.includes(f.id));
+    return DA.table(["Code", "Fonction", "Niveau", "Type", "Kano", "Importance", "Chemin critique", "Brique"], order.map((f) => el("tr", null,
       el("td", { class: "nowrap" }, el("span", { class: "dm-code" }, "F" + f.number)),
       el("td", { class: "dm-indent-" + Math.min(f.level, 4) }, f.text),
       el("td", null, f.in_tree ? L.levels[f.level] : "Hors arbre"), el("td", null, L.types[f.ftype]),
       el("td", null, L.kano[f.kano] || "—"), el("td", null, L.importance[f.importance] || "—"),
-      el("td", null, f.critical ? "Oui" : "—"))));
+      el("td", null, f.critical ? "Oui" : "—"), el("td", null, brickOf(f) ? brickOf(f).code + " " + brickOf(f).name : "—"))));
   }
 
   function ask(title, done) {

@@ -284,4 +284,87 @@ MIGRATIONS = [
         CREATE INDEX idx_diamond_measurements_char ON diamond_measurements(characteristic_id, taken_at);
         CREATE INDEX idx_diamond_review_flags_char ON diamond_review_flags(characteristic_id, reviewed_at);
     """),
+    (16, """
+        -- 0.60.105 (D-O-117): « Concept / Brique technologique », the column after the tertiary functions of the tree. A brick
+        -- (CB-n, kept for ever) carries one or several functions; its concept sheets (digital, AI or scanned paper) are its
+        -- candidate solutions; a Pugh matrix of Goldmine judges a group of bricks, its columns being combinations of sheets,
+        -- its criteria the needs, the functions of the tree (estime, base, performance) and the requirements.
+        CREATE TABLE diamond_concepts (
+            id          INTEGER PRIMARY KEY,
+            project_id  INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            number      INTEGER NOT NULL,
+            name        TEXT NOT NULL,
+            initial_name TEXT NOT NULL DEFAULT '',
+            pivot_note  TEXT NOT NULL DEFAULT '',
+            description TEXT NOT NULL DEFAULT '',
+            kind        TEXT NOT NULL DEFAULT 'to_define',
+            reference   TEXT NOT NULL DEFAULT '',
+            status      TEXT NOT NULL DEFAULT 'proposed',
+            source      TEXT NOT NULL DEFAULT 'team',
+            position    INTEGER NOT NULL DEFAULT 0,
+            archived    INTEGER NOT NULL DEFAULT 0,
+            created_by  INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            created_at  TEXT NOT NULL,
+            updated_by  INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            updated_at  TEXT NOT NULL,
+            UNIQUE (project_id, number)
+        );
+        CREATE TABLE diamond_concept_functions (
+            project_id  INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            concept_id  INTEGER NOT NULL REFERENCES diamond_concepts(id) ON DELETE CASCADE,
+            function_id INTEGER NOT NULL REFERENCES diamond_functions(id) ON DELETE CASCADE,
+            PRIMARY KEY (function_id)
+        );
+        CREATE TABLE diamond_concept_sheets (
+            id            INTEGER PRIMARY KEY,
+            project_id    INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            concept_id    INTEGER NOT NULL REFERENCES diamond_concepts(id) ON DELETE CASCADE,
+            number        INTEGER NOT NULL,
+            title         TEXT NOT NULL,
+            kind          TEXT NOT NULL DEFAULT 'digital',
+            principle     TEXT NOT NULL DEFAULT '',
+            description   TEXT NOT NULL DEFAULT '',
+            pros          TEXT NOT NULL DEFAULT '',
+            cons          TEXT NOT NULL DEFAULT '',
+            status        TEXT NOT NULL DEFAULT 'open',
+            attachment_id INTEGER REFERENCES attachments(id) ON DELETE SET NULL,
+            author_id     INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            archived      INTEGER NOT NULL DEFAULT 0,
+            created_at    TEXT NOT NULL,
+            updated_by    INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            updated_at    TEXT NOT NULL,
+            UNIQUE (concept_id, number)
+        );
+        CREATE TABLE diamond_pugh_scope (
+            project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            pugh_id    INTEGER NOT NULL REFERENCES goldmine_pugh(id) ON DELETE CASCADE,
+            concept_id INTEGER NOT NULL REFERENCES diamond_concepts(id) ON DELETE CASCADE,
+            PRIMARY KEY (pugh_id, concept_id)
+        );
+        CREATE TABLE diamond_pugh_option_sheets (
+            project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            option_id  INTEGER NOT NULL REFERENCES goldmine_pugh_concepts(id) ON DELETE CASCADE,
+            sheet_id   INTEGER NOT NULL REFERENCES diamond_concept_sheets(id) ON DELETE CASCADE,
+            PRIMARY KEY (option_id, sheet_id)
+        );
+        CREATE TABLE diamond_pugh_fcriteria (
+            id          INTEGER PRIMARY KEY,
+            project_id  INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            pugh_id     INTEGER NOT NULL REFERENCES goldmine_pugh(id) ON DELETE CASCADE,
+            function_id INTEGER NOT NULL REFERENCES diamond_functions(id) ON DELETE CASCADE,
+            position    INTEGER NOT NULL DEFAULT 0,
+            UNIQUE (pugh_id, function_id)
+        );
+        CREATE TABLE diamond_pugh_fscores (
+            project_id   INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            criterion_id INTEGER NOT NULL REFERENCES diamond_pugh_fcriteria(id) ON DELETE CASCADE,
+            option_id    INTEGER NOT NULL REFERENCES goldmine_pugh_concepts(id) ON DELETE CASCADE,
+            score        TEXT NOT NULL CHECK (score IN ('+', 'S', '-')),
+            note         TEXT NOT NULL DEFAULT '',
+            PRIMARY KEY (criterion_id, option_id)
+        );
+        CREATE INDEX idx_diamond_concepts_project ON diamond_concepts(project_id, position);
+        CREATE INDEX idx_diamond_concept_sheets_concept ON diamond_concept_sheets(concept_id, number);
+        CREATE INDEX idx_diamond_concept_functions_concept ON diamond_concept_functions(concept_id);
+    """),
 ]

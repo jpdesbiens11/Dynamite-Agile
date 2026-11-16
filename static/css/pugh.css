@@ -13,7 +13,7 @@
 .pg-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-sm); }
 .pg-matrix { width: 100%; border-collapse: collapse; }
 .pg-matrix th, .pg-matrix td { border-bottom: 1px solid var(--line); padding: .35rem .5rem; vertical-align: middle; }
-.pg-crit { text-align: left; font-weight: 400; min-width: 16rem; max-width: 34rem; padding-left: .8rem !important; }
+.pg-crit { text-align: left; font-weight: 400; min-width: 16rem; max-width: 34rem; padding-left: .8rem !important; white-space: normal; overflow-wrap: anywhere; }
 .pg-ext { font-size: .82rem; }
 .pg-concept { text-align: center; min-width: 6.5rem; max-width: 11rem; white-space: normal; }
 .pg-matrix .gm-phase { white-space: normal; font-size: .74rem; }

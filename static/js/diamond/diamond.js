@@ -11,7 +11,16 @@
 
   const SHELL = {
     module: "diamond", title: "Diamond", home: "ftree", issueNav: "ftree", noCreate: true, mark,
-    nav: [["story", "Storyline"], ["ftree", "Arbre fonctionnel"], ["fstructure", "Structure fonctionnelle"], ["prisk", "Risques projet"], ["dfmea", "DFMEA"], ["chars", "Caractéristiques"], ["process", "Procédés"], ["pfmea", "PFMEA"], ["cplans", "Plans de contrôle"], ["prio", "Prioriser"], ["costs", "Coûts et budget"], ["nuggets", "Golden Nuggets"], ["dexport", "Exporter"]],  // 0.60.13 to 0.60.16, 0.60.33; Storyline 0.60.51; Coûts et budget 0.60.61; Caractéristiques 0.60.102; Procédés, PFMEA, Plans de contrôle, Prioriser 0.60.103
+    /* 0.60.105 (D-O-117): pages in groups that fold; the Design tools of Tools (Idéation, Pugh, Kepner-Tregoe) now live under
+       « Concept / Brique technologique », right after the functional structure */
+    nav: [
+      { group: "analysis", label: "Analyse fonctionnelle", items: [["story", "Storyline"], ["ftree", "Arbre fonctionnel"], ["fstructure", "Structure fonctionnelle"]] },
+      { group: "concepts", label: "Concept / Brique technologique", items: [["concepts", "Briques technologiques"], ["csheets", "Feuilles de concept"],
+        ["ideation", "Idéation"], ["pugh", "Matrices de Pugh"], ["kt", "Kepner-Tregoe"]] },
+      { group: "risk", label: "Risques et conception", items: [["prisk", "Risques projet"], ["dfmea", "DFMEA"], ["chars", "Caractéristiques"]] },
+      { group: "industrial", label: "Industrialisation", open: false, items: [["process", "Procédés"], ["pfmea", "PFMEA"], ["cplans", "Plans de contrôle"], ["prio", "Prioriser"]] },
+      { group: "project", label: "Projet", open: false, items: [["costs", "Coûts et budget"], ["nuggets", "Golden Nuggets"], ["dexport", "Exporter"]] },
+    ],  // 0.60.13 to 0.60.16, 0.60.33; Storyline 0.60.51; Coûts 0.60.61; Caractéristiques 0.60.102; Procédés… 0.60.103; groups 0.60.105
   };
 
   DA.diamond = Object.assign(DA.diamond || {}, {
@@ -24,5 +33,6 @@
   /* 0.60.103 (D-O-111): the parts an administrator turned off leave the left menu (⚙ Admin → Modules et fonctions) */
   const PART = { process: "diamond_process", pfmea: "diamond_pfmea", cplans: "diamond_cplans" };
   const on = (key) => !PART[key] || !DA.session.features || DA.session.features[PART[key]] !== false;
-  DA.registerModule("diamond", (main, parts) => DA.agile.render(main, parts, Object.assign({}, SHELL, { nav: SHELL.nav.filter(([k]) => on(k)) })));
+  const nav = () => SHELL.nav.map((g) => Object.assign({}, g, { items: g.items.filter(([k]) => on(k)) })).filter((g) => g.items.length);
+  DA.registerModule("diamond", (main, parts) => DA.agile.render(main, parts, Object.assign({}, SHELL, { nav: nav() })));
 })();

@@ -121,7 +121,7 @@ class StoryTest(unittest.TestCase):
             self.assertIn("/js/diamond/" + name, manifest["scripts"])
             self.assertNotIn("innerHTML", (BASE_DIR / "static" / "js" / "diamond" / name).read_text("utf-8"))
         shell = (BASE_DIR / "static" / "js" / "diamond" / "diamond.js").read_text("utf-8")
-        self.assertIn('nav: [["story", "Storyline"], ["ftree"', shell)  # before the tree
+        self.assertIn('items: [["story", "Storyline"], ["ftree"', shell)  # before the tree
 
 
 if __name__ == "__main__":

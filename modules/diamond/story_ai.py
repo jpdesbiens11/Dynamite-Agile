@@ -44,11 +44,15 @@ du module Diamond, que l'équipe relira et corrigera.
    `detail` entre fonctions tertiaires sans les techniques), les pièces probables (`parts`, reliées seulement à des fonctions
    secondaires ou tertiaires, jamais à une technique ni à une fonction hors arbre), les risques projet (`risks`,
    P et I de 1 à 5) et une première ligne de DFMEA par fonction importante (`dfmea`, S, O, D de 1 à 10).
+7. Enfin, la colonne **Concept / Brique technologique** (`concepts`) : pour chaque fonction tertiaire (ou secondaire sans
+   tertiaire), la brique qui la réalise. Plusieurs fonctions partagent souvent une brique : une seule brique, avec la liste de
+   ses `functions` (une fonction dans une seule brique). `kind` : `existing` (concept existant, nommé dans `reference`) ou
+   `to_define` (à inventer avec des feuilles de concept et une matrice de Pugh).
 
 ## Le format exact
 
 Réponds **uniquement** par un bloc ```json contenant un objet `{{"diamond": {{…}}}}` avec les listes `functions`, `ports`,
-`flows`, `parts`, `risks` et `dfmea`. Les `ref` sont de courts identifiants uniques (F1, F2… ; E1, S1… pour les ports) ;
+`flows`, `parts`, `risks`, `dfmea` et `concepts`. Les `ref` sont de courts identifiants uniques (F1, F2… ; E1, S1… pour les ports) ;
 `parent` est la `ref` du parent (null pour la primaire et les fonctions hors arbre). N'écris pas `story`, ni `test`.
 {owners}Retire une clé plutôt que de la laisser vide.
 

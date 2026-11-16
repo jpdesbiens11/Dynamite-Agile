@@ -162,11 +162,30 @@
       el("div", { class: "ag-sidebar-mark" }, shell.mark()),
       DA.spaces.withStar(picker, ctx.key),
       el("nav", { class: "ag-nav", "aria-label": "Navigation " + shell.title },
-        shell.nav.map(([view, label]) => el("a", {
-          class: "ag-nav-item" + (view === active ? " active" : ""), href: href(ctx, view),
-          "aria-current": view === active ? "page" : null }, label)),
+        shell.nav.map((entry) => (Array.isArray(entry) ? navItem(ctx, entry, active) : navGroup(ctx, entry, active))),
         DA.adminNav(shell.adminNav || [], active, (view) => href(ctx, view))),
       DA.spaces.allLink(shell.module));  // D-B-098
+  }
+
+  function navItem(ctx, [view, label], active) {
+    return el("a", { class: "ag-nav-item" + (view === active ? " active" : ""), href: href(ctx, view),
+      "aria-current": view === active ? "page" : null }, label);
+  }
+
+  /* 0.60.105 (D-O-117): a group of pages that folds and unfolds, {group, label, items: [[view, label]…]}; it stays open while
+     one of its pages is shown, and remembers the reader's choice otherwise (this browser only). */
+  function navGroup(ctx, g, active) {
+    const store = "nav." + ctx.shell.module + "." + g.group;
+    let saved = null;
+    try { saved = localStorage.getItem(store); } catch (err) { /* private window */ }
+    const inside = g.items.some(([view]) => view === active);
+    const box = el("details", { class: "ag-nav-group" + (inside ? " ag-nav-group-active" : ""), "data-group": g.group },
+      el("summary", { class: "ag-nav-group-head" }, g.label), g.items.map((entry) => navItem(ctx, entry, active)));
+    box.open = inside || (saved === null ? g.open !== false : saved === "1");
+    box.addEventListener("toggle", () => {
+      try { localStorage.setItem(store, box.open ? "1" : "0"); } catch (err) { /* private window */ }
+    });
+    return box;
   }
 
   function pageHead(ctx, crumbs, actions) {

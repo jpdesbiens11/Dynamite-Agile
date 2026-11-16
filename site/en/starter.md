@@ -556,6 +556,28 @@ Rules that make a file refused:
     "detection_ctrl": "Essai de stabilité sur plan incliné",
     "detection": 3
    }
+  ],
+  "concepts": [
+   {
+    "name": "Socle lesté moulé",
+    "initial_name": "Presse-papier",
+    "kind": "existing",
+    "reference": "Base en zamak moulée sous pression (lampes d'architecte du marché)",
+    "description": "Le poids du socle tient la lampe stable.",
+    "functions": [
+     "F3"
+    ]
+   },
+   {
+    "name": "Bras articulé à friction",
+    "initial_name": "Bras d'architecte",
+    "kind": "existing",
+    "reference": "Rotules à friction réglables du commerce",
+    "description": "La tête reste où on la place.",
+    "functions": [
+     "F4"
+    ]
+   }
   ]
  },
  "backlog": [

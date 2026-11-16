@@ -67,7 +67,7 @@ class ManifestTest(unittest.TestCase):
     def test_03_session_manifest_tokens(self):
         nav = {m["key"]: m for m in modules.nav_manifest()}
         diamond = nav["diamond"]
-        self.assertEqual(diamond["requires"], ["agile"])
+        self.assertEqual(diamond["requires"], ["agile", "tools"])  # 0.60.105 (D-O-117): Idéation and Kepner-Tregoe open in Diamond
         self.assertIn("/js/diamond/diamond.js", diamond["scripts"])  # the plain addresses stay (other tests read them)
         for url in diamond["scripts"] + diamond["styles"]:
             entry = static_cache.get(STATIC / url.lstrip("/"))

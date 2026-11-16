@@ -8,7 +8,7 @@
   const { el } = DA;
   const NS = "http://www.w3.org/2000/svg";
   const W = 196, H = 62, COL = 248, ROW = 78, PAD = 18, TOP = 8;
-  const HEADS = ["Fonction primaire", "Secondaires", "Tertiaires", "Techniques"];
+  const HEADS = ["Fonction primaire", "Fonctions secondaires", "Fonctions tertiaires", "Fonctions techniques"];
 
   function children(items, id) {
     return items.filter((f) => f.parent_id === id && !f.is_primary).sort((a, b) => a.position - b.position || a.number - b.number);
@@ -62,13 +62,20 @@
     return g;
   }
 
-  /* opts: {items, selected, editable, onSelect(id), onDrop(dragId, targetId | null), onKey(ev, f)} */
+  /* opts: {items, selected, editable, onSelect(id), onDrop(dragId, targetId | null), onKey(ev, f),
+     concepts, selectedConcept, onConcept(id)} -- concepts: the « Concept / Brique technologique » column (0.60.105, tree_concepts.js) */
   function draw(opts) {
     const box = layout(opts.items);
+    const column = opts.concepts && DA.diamond.conceptColumn ? DA.diamond.conceptColumn(box, opts) : null;
     const canvas = el("div", { class: "dm-canvas", role: "group", "aria-label": "Arbre fonctionnel" });
     canvas.style.width = box.width + "px";
     canvas.style.height = box.height + "px";
     canvas.append(lines(box, opts.items));
+    if (column) {
+      canvas.style.width = column.width + "px";
+      canvas.style.height = column.height + "px";
+      canvas.append(column.svg);
+    }
     box.nodes.forEach(({ f, x, y }) => {
       const node = el("button", {
         type: "button", class: "dm-node dm-l" + f.level + (f.critical ? " dm-critical" : "") + (f.id === opts.selected ? " dm-selected" : "")
@@ -82,13 +89,15 @@
       if (opts.editable) dropTarget(node, f.id, opts.onDrop, !f.is_primary);
       canvas.append(node);
     });
+    if (column) column.nodes.forEach((n) => canvas.append(n));
     const heads = el("div", { class: "dm-heads", "aria-hidden": "true" });
-    heads.style.width = box.width + "px";
+    heads.style.width = (column ? column.width : box.width) + "px";
     HEADS.slice(0, Math.max(box.levels, 3)).forEach((label, i) => {
       const h = el("span", { class: "dm-head dm-head-" + (i + 1) }, label);
       h.style.left = (PAD + i * COL) + "px";
       heads.append(h);
     });
+    if (column) heads.append(column.head);
     return el("div", { class: "dm-scroll" }, heads, canvas);
   }
 
@@ -105,5 +114,5 @@
     });
   }
 
-  DA.diamond = Object.assign(DA.diamond || {}, { layout, drawTree: draw, dropTarget, children });
+  DA.diamond = Object.assign(DA.diamond || {}, { layout, drawTree: draw, dropTarget, children, TREE: { W, H, COL, ROW, PAD, TOP }, svg });
 })();

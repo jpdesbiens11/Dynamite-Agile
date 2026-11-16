@@ -10,7 +10,11 @@ the functions, the project risks and the first DFMEA rows.
                            owner, due}],
                 "dfmea": [{higher, focus, lower, function, requirement, failure_mode, effect, severity, cause, prevention,
                            occurrence, detection_ctrl, detection, action, owner, due}],
-                "story": [{title, caption, notes, items: [{p, x, y, s, f, t}]}]}
+                "story": [{title, caption, notes, items: [{p, x, y, s, f, t}]}],
+                "concepts": [{name, initial_name, kind: existing | to_define, reference, description, functions: [ref]}]}
+concepts (0.60.105, D-O-117): the « Concept / Brique technologique » column of the tree, proposed by the AI: one brick may
+carry several functions of the tree (a function belongs to one brick at most), and arrives as « Brouillon IA »; initial_name
+is the initial concept, a name that speaks (« Sandwich froid »).
 story (0.60.52, D-O-061): the Storyline, scene by scene; p = a pictogram key of modules/diamond/story.PICTOS, x / y in % of
 the scene, s = size 1 to 3, f = mirror 0 / 1, t = a short label. It may come without any function (a team that only told
 the story so far).
@@ -24,7 +28,7 @@ output. Every item arrives as an AI draft (« Brouillon IA » in its notes). par
 """
 from .errors import ApiError
 
-LIMITS = {"functions": 120, "ports": 40, "flows": 200, "parts": 80, "risks": 60, "dfmea": 120, "story": 40}
+LIMITS = {"functions": 120, "ports": 40, "flows": 200, "parts": 80, "risks": 60, "dfmea": 120, "story": 40, "concepts": 60}
 NOTE = {"fr": "Brouillon IA (Project Starter) : à relire par l'équipe.", "en": "AI draft (Project Starter): to be reviewed by the team."}
 
 
@@ -234,7 +238,28 @@ def parse(raw, language="fr", test_refs=(), usernames=()):
         row.update(_owner(d, path, usernames))
         dfmea.append(row)
     return {"functions": functions, "ports": ports, "flows": flows, "parts": parts, "risks": risks, "dfmea": dfmea,
-            "story": _story(raw), "note": NOTE[language]}
+            "story": _story(raw), "concepts": _concepts(raw, refs), "note": NOTE[language]}
+
+
+def _concepts(raw, refs):
+    """0.60.105 (D-O-117): the bricks of the tree; a function in two bricks is refused (it belongs to one at most)."""
+    from modules.diamond import concepts as C
+    out, used = [], set()
+    for i, c in enumerate(_list(raw, "concepts")):
+        path = "concepts[{}]".format(i)
+        fns = c.get("functions") or []
+        if not isinstance(fns, list) or any(f not in refs for f in fns):
+            _bad(path + ".functions", "fonction introuvable.", "des refs de fonctions de l'arbre (functions[].ref).")
+        twice = used & set(fns)
+        if twice:
+            _bad(path + ".functions", "« {} » déjà dans une autre brique.".format(sorted(twice)[0]),
+                 "une fonction appartient à une seule brique : regroupez les fonctions qui partagent une brique.")
+        used |= set(fns)
+        out.append({"name": _text(c, "name", path, C.LIMITS["name"], required=True),
+                    "initial_name": _text(c, "initial_name", path, C.LIMITS["initial_name"]), "kind": _choice(c, "kind", path, C.KINDS, "to_define"),
+                    "reference": _text(c, "reference", path, C.LIMITS["reference"]),
+                    "description": _text(c, "description", path, C.LIMITS["description"]), "functions": list(dict.fromkeys(fns))})
+    return out
 
 
 def _story(raw):
@@ -295,6 +320,9 @@ def apply(conn, user_id, pid, d, test_ids=None, known=None):
     from modules.diamond import story as ST  # 0.60.52 (D-O-061): the Storyline
     for scene in d.get("story") or []:
         ST.create(conn, user_id, pid, scene)
+    from modules.diamond import concepts as CB  # 0.60.105 (D-O-117): the bricks, « Brouillon IA »
+    for c in d.get("concepts") or []:
+        CB.add(conn, user_id, pid, {k: c[k] for k in ("name", "initial_name", "kind", "reference", "description")}, [ids[r] for r in c["functions"]], "ai")
     from modules.diamond import dfmea_complete  # 0.60.28 (D-O-037): every function, its key test, the good practices
     done = dfmea_complete.complete(conn, user_id, pid)
     return dict({k: len(d[k]) for k in LIMITS}, dfmea=len(d["dfmea"]) + done["added"], dfmea_tests=done["tested"])
