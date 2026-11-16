@@ -11,7 +11,10 @@
   const A = DA.agile;
   const SCORE_LABEL = { "+": "+ meilleur", S: "S pareil", "-": "− moins bon" };
 
-  function base(ctx) { return "/api/agile/p/" + ctx.pid + "/pugh"; }
+  /* 0.60.105 (D-O-117): opened from Diamond, the same matrix goes through Diamond's twin routes -- the bricks judged, the columns
+     made of concept sheets, and the criteria of the functions between the needs and the requirements (concept_pugh.py) */
+  const inDiamond = (ctx) => ctx.module === "diamond";
+  function base(ctx) { return inDiamond(ctx) ? "/api/diamond/p/" + ctx.pid + "/pugh" : "/api/agile/p/" + ctx.pid + "/pugh"; }
   const canWrite = (ctx, m) => A.canEdit(ctx) && m.status !== "decided";
 
   function wide() {
@@ -23,7 +26,7 @@
   async function listView(page, ctx) {
     const data = await api.get(base(ctx));
     page.append(A.pageHead(ctx, [el("span", null, "Matrices de Pugh")],
-      A.canEdit(ctx) ? el("button", { type: "button", class: "btn btn-primary", onclick: () => openCreate(ctx) },
+      A.canEdit(ctx) ? el("button", { type: "button", class: "btn btn-primary", onclick: () => (inDiamond(ctx) && A.pughCreate ? A.pughCreate(ctx) : openCreate(ctx)) },
         "Nouvelle matrice") : null));
     page.append(el("p", { class: "muted pg-intro" }, "Sélection de concepts selon Pugh : chaque concept est comparé à une "
       + "référence (datum) sur chaque requirement Goldmine choisie comme critère — + meilleur, S pareil, − moins bon. "
@@ -32,9 +35,10 @@
       page.append(el("div", { class: "empty" }, el("p", null, "Aucune matrice pour ce Space.")));
       return;
     }
-    page.append(DA.table(["Matrice", "Tour", "Concepts", "Critères", "Status", "Décision", "Modifiée"],
+    page.append(DA.table(["Matrice", inDiamond(ctx) ? "Briques" : null, "Tour", "Concepts", "Critères", "Status", "Décision", "Modifiée"].filter(Boolean),
       data.matrices.map((m) => el("tr", null,
         el("td", null, el("a", { href: A.href(ctx, "pugh/" + m.id) }, m.title)),
+        inDiamond(ctx) ? el("td", null, (m.scope || []).join(", ") || el("span", { class: "muted" }, "—")) : null,
         el("td", null, String(m.round)), el("td", null, String(m.n_concepts)), el("td", null, String(m.n_criteria)),
         el("td", null, el("span", { class: "badge pg-status-" + m.status }, m.status_label)),
         el("td", null, m.decision_name || el("span", { class: "muted" }, "—")),
@@ -64,8 +68,9 @@
 
   /* ---------- One matrix ---------- */
   async function matrixView(page, ctx) {
-    const [data, gm] = await Promise.all([api.get(base(ctx) + "/" + ctx.arg), api.get("/api/agile/p/" + ctx.pid + "/goldmine")]);
-    const state = { data, reqs: gm.requirements || [] };
+    const [data, gm, fns] = await Promise.all([api.get(base(ctx) + "/" + ctx.arg), api.get("/api/agile/p/" + ctx.pid + "/goldmine"),
+      inDiamond(ctx) ? api.get("/api/diamond/p/" + ctx.pid + "/concepts") : null]);
+    const state = { data, reqs: gm.requirements || [], functions: fns ? fns.functions : [] };
     const holder = el("div");
     page.append(holder);
     draw(holder, ctx, state);
@@ -103,6 +108,10 @@
       el("span", { class: "muted" }, "Modifiée " + DA.formatDate(m.updated_at) + (m.updated_by_name ? " par " + m.updated_by_name : "")),
       editable ? el("button", { type: "button", class: "link-btn", onclick: () => openEdit(holder, ctx, state) }, "Renommer / décrire") : null));
     if (m.description) holder.append(el("p", { class: "pg-description" }, m.description));
+    if (state.data.scope && state.data.scope.length) {
+      holder.append(el("p", { class: "pg-scope" }, el("strong", null, "Briques jugées : "), state.data.scope.flatMap((b, i) => [i ? ", " : "",
+        el("a", { href: A.href(ctx, "concepts/" + b.code) }, b.code + " " + (b.initial_name ? "« " + b.initial_name + " »" : b.name))])));
+    }
     if (m.status === "decided") {
       const chosen = concepts.find((c) => c.id === m.decision_concept_id);
       holder.append(el("div", { class: "ag-import-advice ag-import-advice-ok" }, el("strong", null, "Décision : " + (chosen ? chosen.name : "?")),
@@ -113,28 +122,41 @@
     if (!concepts.length || !criteria.length) {
       holder.append(el("div", { class: "empty" }, el("p", null, !concepts.length
         ? "Ajoutez au moins deux concepts (le premier devient la référence)."
-        : "Ajoutez des requirements comme critères : une à une, ou toute une life-cycle phase.")));
+        : "Ajoutez des critères : requirements une à une, toute une life-cycle phase" + (inDiamond(ctx) ? ", ou des fonctions de l'arbre." : "."))));
       if (!concepts.length || !criteria.length) return;
     }
     const best = Math.min(...concepts.filter((c) => c.id !== m.datum_id).map((c) => totals[c.id].rank));
-    const head = el("tr", null, el("th", { scope: "col" }, "Requirement (critère)"), el("th", { scope: "col" }, "Phase"),
+    const head = el("tr", null, el("th", { scope: "col" }, state.data.groups ? "Critère" : "Requirement (critère)"),
+      el("th", { scope: "col" }, state.data.groups ? "Phase / Kano" : "Phase"),
       concepts.map((c) => el("th", { scope: "col", class: "pg-concept" + (c.id === m.datum_id ? " pg-datum" : "") },
         el("span", { class: "pg-concept-name", title: c.description || "" }, c.name),
+        c.sheets && c.sheets.length ? el("span", { class: "pg-sheets" }, c.sheets.map((sh) => sh.code).join(" + ")) : null,
         c.id === m.datum_id ? el("span", { class: "pg-datum-tag" }, "Référence") : null,
         editable ? el("button", { type: "button", class: "link-btn pg-concept-edit", "aria-label": "Modifier " + c.name,
           onclick: () => openConcept(holder, ctx, state, c) }, "modifier") : null)),
       editable ? el("th", { scope: "col" }, "") : null);
-    const body = criteria.map((k) => el("tr", { class: k.lifecycle ? "gm-row-lc gm-lc-" + k.lifecycle : null },
+    const width = 2 + concepts.length + (editable ? 1 : 0);
+    const body = [];
+    criteria.forEach((k, i) => {
+      if (state.data.groups && (i === 0 || criteria[i - 1].group !== k.group)) {
+        body.push(el("tr", { class: "pg-group pg-group-" + k.group }, el("th", { scope: "rowgroup", colspan: width }, state.data.groups[k.group])));
+      }
+      body.push(row(k));
+    });
+    function row(k) {
+      return el("tr", { class: k.lifecycle ? "gm-row-lc gm-lc-" + k.lifecycle : k.fn ? "pg-fn-row" : null },
       el("th", { scope: "row", class: "pg-crit" },
-        el("a", { class: "ag-key", href: "#/goldmine/" + ctx.key + "/issue/" + k.number }, k.key), " ",
+        k.fn ? el("a", { class: "ag-key", href: A.href(ctx, "ftree") }, k.key)
+          : el("a", { class: "ag-key", href: "#/goldmine/" + ctx.key + "/issue/" + k.number }, k.key), " ",
         k.kind === "need" ? el("span", { class: "badge gm-need" }, "Need") : null,
         el("span", { title: k.statement || "" }, k.title),
         k.external_id ? el("span", { class: "muted pg-ext" }, " · " + k.external_id) : null),
       el("td", null, k.lifecycle ? el("span", { class: "gm-phase gm-lc-" + k.lifecycle }, labels.lifecycle[k.lifecycle] || k.lifecycle)
-        : el("span", { class: "muted" }, "—")),
+        : k.fn ? el("span", { class: "muted" }, k.ftype === "estime" ? "Estime" : k.kano_label || "Fonction") : el("span", { class: "muted" }, "—")),
       concepts.map((c) => cell(ctx, state, run, k, c, scores.get(k.id + ":" + c.id), editable, c.id === m.datum_id)),
       editable ? el("td", null, el("button", { type: "button", class: "icon-btn", "aria-label": "Retirer " + k.key,
-        title: "Retirer ce critère", onclick: () => run("del", "/criteria/" + k.id, undefined) }, "×")) : null));
+        title: "Retirer ce critère", onclick: () => run("del", "/criteria/" + k.id, undefined) }, "×")) : null);
+    }
     const foot = [["Σ +", "plus"], ["Σ S", "same"], ["Σ −", "minus"], ["Net (+ − −)", "net"], ["Rang", "rank"]].map(([label, k]) =>
       el("tr", { class: "pg-total pg-total-" + k }, el("th", { scope: "row", colspan: 2 }, label),
         concepts.map((c) => el("td", { class: "pg-num" + (k === "rank" && totals[c.id].rank === best && c.id !== m.datum_id ? " pg-best" : "") },
@@ -189,9 +211,18 @@
     const datum = el("select", { "aria-label": "Référence (datum)" },
       concepts.map((c) => el("option", { value: c.id, selected: c.id === m.datum_id }, c.name)));
     datum.addEventListener("change", () => run("patch", "", { datum_id: Number(datum.value) }, "Nouvelle référence."));
+    const usedFn = new Set(criteria.filter((k) => k.fn).map((k) => k.function_id));
+    const fn = inDiamond(ctx) ? el("select", { "aria-label": "Fonction à ajouter" }, el("option", { value: "" }, "— une fonction de l'arbre —"),
+      state.functions.filter((f) => !usedFn.has(f.id)).map((f) => el("option", { value: f.id }, "F" + f.number + " · " + f.text))) : null;
     return el("div", { class: "pg-toolbar" },
       el("div", { class: "pg-tool" }, el("strong", null, "Critères"), req, kind, phase, category,
         el("button", { type: "button", class: "btn btn-small btn-primary", onclick: addCrit }, "Ajouter")),
+      fn ? el("div", { class: "pg-tool", "data-new": "0.60.105-pugh-functions" }, el("strong", null, "Fonctions"), fn,
+        el("button", { type: "button", class: "btn btn-small", onclick: () => {
+          if (fn.value) run("post", "/criteria", { function_ids: [Number(fn.value)] }, "Fonction ajoutée.");
+        } }, "Ajouter"),
+        el("button", { type: "button", class: "btn btn-small", "data-tip": "Besoins, fonctions des briques et d'estime, requirements A et B",
+          onclick: () => run("post", "/criteria", { fill: true }, "Critères complétés.") }, "Remplir dans l'ordre")) : null,
       el("div", { class: "pg-tool" }, el("strong", null, "Concepts"), concept,
         el("button", { type: "button", class: "btn btn-small", onclick: () => {
           if (!concept.value.trim()) { concept.focus(); return; }

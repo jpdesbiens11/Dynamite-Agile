@@ -54,14 +54,15 @@ MODULE_MANIFEST = [
      "scripts": ["/js/goldmine/shell.js"], "styles": []},
     # 0.60.11 (D-O-023): functional analysis and design risk, right after the needs and requirements
     {"key": "diamond", "label": "Diamond", "phase": "0.60.11", "module": diamond,
-     "scripts": ["/js/diamond/diamond.js", "/js/diamond/export_menu.js", "/js/diamond/story_pictos.js", "/js/diamond/story_stage.js", "/js/diamond/story_ai.js", "/js/diamond/story.js", "/js/diamond/tree_layout.js", "/js/diamond/tree_panel.js", "/js/diamond/tree.js",
+     "scripts": ["/js/diamond/diamond.js", "/js/diamond/export_menu.js", "/js/diamond/story_pictos.js", "/js/diamond/story_stage.js", "/js/diamond/story_ai.js", "/js/diamond/story.js", "/js/diamond/tree_layout.js", "/js/diamond/tree_concepts.js", "/js/diamond/tree_panel.js", "/js/diamond/concept_panel.js", "/js/diamond/tree.js",
+                 "/js/diamond/concepts.js", "/js/diamond/concept_page.js", "/js/diamond/concept_sheets.js", "/js/diamond/concept_ai.js", "/js/diamond/concept_pugh_new.js",
                  "/js/diamond/structure_draw.js", "/js/diamond/structure_parts.js", "/js/diamond/structure_panel.js",
                  "/js/diamond/structure.js",
                  "/js/diamond/risks_panel.js", "/js/diamond/risks.js",
                  "/js/diamond/dfmea_class.js", "/js/diamond/dfmea_table.js", "/js/diamond/dfmea.js", "/js/diamond/dfmea_legend.js", "/js/diamond/dfmea_classes.js", "/js/diamond/chars.js", "/js/diamond/char_card.js", "/js/diamond/pn.js", "/js/diamond/process.js", "/js/diamond/pfmea_edit.js", "/js/diamond/pfmea.js", "/js/diamond/char_measures.js", "/js/diamond/ai_io.js", "/js/diamond/cplans.js", "/js/diamond/prio.js",
                  "/js/diamond/costs_tables.js", "/js/diamond/costs_io.js", "/js/diamond/costs.js",
                  "/js/diamond/nuggets_content.js", "/js/diamond/nuggets.js", "/js/diamond/export.js"],
-     "styles": ["/css/diamond.css", "/css/diamond_dfmea.css", "/css/diamond_costs.css"]},
+     "styles": ["/css/diamond.css", "/css/diamond_dfmea.css", "/css/diamond_costs.css", "/css/diamond_concepts.css"]},
     # D-B-079: the test team's portal, right after Goldmine (test base + procedures in the space TESTING)
     {"key": "testing", "label": "Testing", "phase": "3.9", "module": testing,
      "scripts": ["/js/testing/testing.js", "/js/testing/testing_record.js", "/js/testing/testing_lists.js", "/js/testing/testing_evidence.js", "/js/testing/testing_bundles.js", "/js/testing/testing_verify.js", "/js/testing/testing_plans.js"], "styles": ["/css/testing.css"]},
@@ -170,7 +171,7 @@ def registered_migrations():
 # 0.60.100 (D-O-107): the browser loads a module's scripts when its tab is first opened, no longer every module's at
 # once. A module whose scripts use another module's (DA.agile: the Agile shell, the Goldmine tests DA.gt, the ticket
 # badges of Dynamite) names it here; that one is loaded first. tests/test_module_assets.py checks the list is complete.
-REQUIRES = {"dynamite": ("agile",), "goldmine": ("agile",), "diamond": ("agile",), "testing": ("agile",), "tools": ("agile",)}
+REQUIRES = {"dynamite": ("agile",), "goldmine": ("agile",), "diamond": ("agile", "tools"), "testing": ("agile",), "tools": ("agile",)}
 STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
 
 

@@ -19,11 +19,12 @@ import re
 
 from core.errors import ApiError
 
-SECTIONS = ("functions", "ports", "flows", "parts", "risks", "dfmea", "story")
+SECTIONS = ("functions", "ports", "flows", "parts", "risks", "dfmea", "story", "concepts")
 AUTO_RE = re.compile(r"^Ne réalise pas « .* » : perte, réalisation partielle, intermittente ou non voulue \(à préciser\)\.$", re.S)
 BIG = {k: 10000 for k in ("functions", "ports", "flows", "parts", "risks", "dfmea")}
 # children first: the order in which the rows of a Space's Diamond are removed
-WIPE = ("diamond_part_functions", "diamond_positions", "diamond_flows", "diamond_ports", "diamond_parts", "diamond_dfmea",
+WIPE = ("diamond_pugh_fscores", "diamond_pugh_fcriteria", "diamond_pugh_option_sheets", "diamond_pugh_scope",
+        "diamond_concept_sheets", "diamond_concept_functions", "diamond_concepts", "diamond_part_functions", "diamond_positions", "diamond_flows", "diamond_ports", "diamond_parts", "diamond_dfmea",
         "diamond_risks", "diamond_functions")
 
 
@@ -40,7 +41,8 @@ def present(conn, pid):
             "parts": one("SELECT COUNT(*) FROM diamond_parts WHERE project_id = ?"),
             "risks": one("SELECT COUNT(*) FROM diamond_risks WHERE project_id = ? AND archived = 0"),
             "dfmea": one("SELECT COUNT(*) FROM diamond_dfmea WHERE project_id = ?"),
-            "story": one("SELECT COUNT(*) FROM diamond_story_scenes WHERE project_id = ?")}
+            "story": one("SELECT COUNT(*) FROM diamond_story_scenes WHERE project_id = ?"),
+            "concepts": one("SELECT COUNT(*) FROM diamond_concepts WHERE project_id = ? AND archived = 0")}
 
 
 def _existing(conn, pid):
@@ -114,6 +116,16 @@ def plan(conn, pid, raw, members, mode="add"):
                 p = dict(p, functions=good)
             parts.append(p)
         d["parts"] = parts
+        bricks = []  # 0.60.105 (D-O-117): the bricks hang on the existing functions, like the parts
+        for c in d.get("concepts") or []:
+            if isinstance(c, dict):
+                fns = [fn(r) for r in (c.get("functions") or []) if isinstance(r, str)]
+                good = [r for r in fns if r is not None]
+                if len(good) < len(fns):
+                    dropped["concept_links"] = dropped.get("concept_links", 0) + len(fns) - len(good)
+                c = dict(c, functions=good)
+            bricks.append(c)
+        d["concepts"] = bricks
         for name in ("risks", "dfmea"):
             rows = []
             for r in d.get(name) or []:
@@ -128,7 +140,7 @@ def plan(conn, pid, raw, members, mode="add"):
         if d.get("ports") or d.get("flows"):
             kept["structure"] = have["ports"] + have["flows"]
         d["ports"], d["flows"] = [], []
-    for name in ("parts", "risks", "story"):
+    for name in ("parts", "risks", "story", "concepts"):
         if have[name]:
             if d.get(name):
                 kept[name] = have[name]

@@ -63,6 +63,7 @@
       reading(items, f));
     if (!editable) {
       box.append(el("p", null, f.text), f.notes ? el("p", { class: "muted" }, f.notes) : null);
+      if (D.brickPicker && state.concepts) box.append(D.brickPicker(state, f, state.crun, false));
       return box;
     }
     const text = el("textarea", { rows: 2, maxlength: 160 }, f.text);
@@ -83,6 +84,7 @@
       field("Rétroaction vers (contrôle, flèche pointillée)", feedback),
       field("Notes à la conception", notes),
       el("div", { class: "form-actions" }, el("button", { type: "submit", class: "btn btn-primary btn-small" }, "Enregistrer"))));
+    if (D.brickPicker && state.concepts && state.crun) box.append(D.brickPicker(state, f, state.crun, editable));  // 0.60.105
     box.append(adder(state, f, run), mover(state, f, run));
     return box;
   }

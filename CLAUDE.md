@@ -173,6 +173,16 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.105** (2026-11-16) : **Diamond — Concept initial / Brique technologique** (D-O-117) : colonne après les fonctions tertiaires de
+  l'arbre, au-delà d'une ligne pointillée (`static/js/diamond/tree_concepts.js`) ; une brique CB-n pour une ou plusieurs fonctions (une
+  fonction dans une seule brique), dessinée une fois, son **concept initial au nom qui parle** (`initial_name`) et le pivot vers la feuille
+  retenue (`pivot_note`) ; page « Briques technologiques » avec tableau morphologique (`concepts.js`, `concept_page.js`), feuilles de
+  concept numériques, IA ou scannées (`concept_sheets.py`, image ou PDF), matrices de Pugh d'un groupe de briques avec les critères dans
+  l'ordre besoins → fonctions (estime, base, performance) → requirements, colonnes faites de feuilles, décision qui retient les feuilles
+  (`concept_pugh.py`, routes jumelles de Goldmine) ; prompts et import IA des briques et des feuilles (`concept_ai.py`), `diamond.concepts`
+  du Project Starter et de la Storyline → IA (`core/starter_diamond.py`) ; migration diamond 16 ; menu de gauche en groupes repliables
+  (`navGroup` d'`agile.js`) ; Idéation, Pugh et Kepner-Tregoe de Tools ouverts dans Diamond (`REQUIRES` diamond → tools, anciennes adresses
+  redirigées) ; exemple de la lampe avec 7 briques (`example_concepts.py`) (`tests/test_diamond_concepts.py`).
 - **0.60.104** (2026-11-13) : **DFMEA, PFMEA et plans de contrôle ↔ tableur et assistant IA** (D-O-116) : Exporter (.csv), Prompt pour l'IA
   (Entrevue guidée, Révision ; Générer pour le PFMEA ; `modules/diamond/ai_prompts.py`, `ai_prompts_process.py`), Importer… avec aperçu
   ligne par ligne puis « Appliquer la sélection » (`ai_io.py`, `dfmea_io.py`, `pfmea_io.py`, `cp_io.py`, `static/js/diamond/ai_io.js`) ;

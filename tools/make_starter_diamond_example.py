@@ -10,7 +10,7 @@ from pathlib import Path
 BASE = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(BASE))
 
-from modules.diamond import example, example_dfmea, example_parts, example_risks, example_structure  # noqa: E402
+from modules.diamond import example, example_concepts, example_dfmea, example_parts, example_risks, example_structure  # noqa: E402
 
 TARGET = BASE / "deploy" / "starter_exemples" / "lampe_bureau.json"
 KEY_TESTS = {"Chaleur mal dissipée": "ESSAI-3", "Contact thermique insuffisant": "ESSAI-3", "Scintillement à faible intensité": "ESSAI-2",
@@ -56,7 +56,9 @@ def build():
     for row in dfmea:  # 0.60.24 (D-O-033): the key test of the lamp's tests that detects the failure
         if row["failure_mode"] in KEY_TESTS:
             row["test"] = KEY_TESTS[row["failure_mode"]]
-    return {"functions": functions, "ports": ports, "flows": flows, "parts": parts, "risks": risks, "dfmea": dfmea}
+    concepts = [dict({"name": n, "initial_name": i, "kind": k}, **({"reference": r} if r else {}), description=d,
+                     functions=[text_ref[t] for t in fns]) for n, i, k, r, d, fns in example_concepts.BRICKS]  # 0.60.105 (D-O-117)
+    return {"functions": functions, "ports": ports, "flows": flows, "parts": parts, "risks": risks, "dfmea": dfmea, "concepts": concepts}
 
 
 def _block(diamond):
@@ -71,9 +73,12 @@ def _block(diamond):
 def main():
     text = TARGET.read_text(encoding="utf-8")
     data = json.loads(text)
-    data["diamond"] = build()
-    head = text[:text.index(',\n  "diamond"')] if '"diamond"' in text else text.rstrip().rstrip("}").rstrip()
-    TARGET.write_text(head + ",\n" + _block(data["diamond"]) + "\n}\n", encoding="utf-8")
+    data["diamond"] = dict(data.get("diamond") or {}, **build())  # keeps a "story" written by hand
+    if text.startswith('{\n "'):  # 0.60.105: the file is now written with an indent of one space
+        TARGET.write_text(json.dumps(data, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    else:
+        head = text[:text.index(',\n  "diamond"')] if '"diamond"' in text else text.rstrip().rstrip("}").rstrip()
+        TARGET.write_text(head + ",\n" + _block(data["diamond"]) + "\n}\n", encoding="utf-8")
     json.loads(TARGET.read_text(encoding="utf-8"))  # still valid JSON
     print("{} : {} fonctions, {} flux, {} pièces".format(TARGET.relative_to(BASE), len(data["diamond"]["functions"]),
                                                          len(data["diamond"]["flows"]), len(data["diamond"]["parts"])))

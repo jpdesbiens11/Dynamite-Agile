@@ -58,6 +58,10 @@ ligne du DFMEA peut nommer `owner` (le `username` d'une personne de `team`, qui 
 celles des écrans de Diamond (`core/starter_diamond.py` les lit dans `modules/diamond/`). L'exemple
 `deploy/starter_exemples/lampe_bureau.json` reprend l'exemple de Diamond (`tools/make_starter_diamond_example.py`).
 
+`diamond.concepts` (0.60.105, D-O-117) porte la colonne **Concept initial / Brique technologique** de l'arbre : `name` (la brique,
+en termes techniques), `initial_name` (le concept initial, un nom qui parle), `kind` (`existing` avec `reference`, ou `to_define`),
+`description` et `functions` (refs de l'arbre ; une fonction dans une seule brique, une brique pour plusieurs fonctions).
+
 `diamond.story` (0.60.52, D-O-061) porte la **Storyline**, scène par scène : `title`, `caption` (ce qui se passe), `notes`
 (idées, irritants, questions) et `items`, les pictogrammes de la scène : `p` (une clé de `modules/diamond/story.PICTOS`),
 `x` et `y` (position en % de la scène, de 0 à 100), `s` (taille 1 à 3), `f` (miroir 0 ou 1), `t` (étiquette, 40

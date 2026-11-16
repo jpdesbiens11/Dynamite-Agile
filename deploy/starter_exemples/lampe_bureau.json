@@ -1175,6 +1175,81 @@
     "action": "",
     "test": "ESSAI-6"
    }
+  ],
+  "concepts": [
+   {
+    "name": "Socle lesté moulé",
+    "initial_name": "Presse-papier",
+    "kind": "existing",
+    "reference": "Base en zamak moulée sous pression (lampes d'architecte du marché)",
+    "description": "Le poids du socle tient la lampe stable.",
+    "functions": [
+     "F3"
+    ]
+   },
+   {
+    "name": "Bras articulé à friction",
+    "initial_name": "Bras d'architecte",
+    "kind": "existing",
+    "reference": "Rotules à friction réglables du commerce",
+    "description": "La tête reste où on la place.",
+    "functions": [
+     "F4"
+    ]
+   },
+   {
+    "name": "Alimentation 12 V et distribution",
+    "initial_name": "Prise unique",
+    "kind": "existing",
+    "reference": "Bloc secteur 12 V certifié et régulateur de la carte",
+    "description": "L'énergie arrive par un bloc externe et se répartit sur la carte.",
+    "functions": [
+     "F6",
+     "F7"
+    ]
+   },
+   {
+    "name": "Interface de commande tactile et sans fil",
+    "initial_name": "Un doigt, une appli",
+    "kind": "to_define",
+    "description": "Toucher, application mobile et mémoire du réglage dans une seule carte de commande.",
+    "functions": [
+     "F9",
+     "F10",
+     "F11"
+    ]
+   },
+   {
+    "name": "Module DEL blanc réglable",
+    "initial_name": "Soleil de poche",
+    "kind": "to_define",
+    "description": "Deux canaux de DEL (blanc chaud, blanc froid) pilotés en courant.",
+    "functions": [
+     "F13",
+     "F14",
+     "F15"
+    ]
+   },
+   {
+    "name": "Gestion thermique de la tête",
+    "initial_name": "Tête-radiateur",
+    "kind": "to_define",
+    "description": "Évacuer la chaleur des DEL sans ventilateur ni surface trop chaude.",
+    "functions": [
+     "F18"
+    ]
+   },
+   {
+    "name": "Enveloppe isolante",
+    "initial_name": "Coquille fermée",
+    "kind": "existing",
+    "reference": "Boîtier en polycarbonate V-0 et passe-câble",
+    "description": "Isole et recouvre l'électronique.",
+    "functions": [
+     "F19",
+     "F20"
+    ]
+   }
   ]
  },
  "backlog": [

@@ -1,0 +1,71 @@
+/* Diamond · Concept initial / Brique technologique (0.60.105, D-O-117). Tokens only; --acc = Diamond's accent. */
+.dm-concept-sep { stroke: var(--muted); stroke-width: 2; stroke-dasharray: 7 6; }
+.dm-edge-concept { fill: none; stroke: color-mix(in srgb, var(--acc) 70%, var(--ink)); stroke-width: 1.6; stroke-dasharray: 4 3; }
+.dm-edge-concept-on { stroke-width: 2.6; stroke-dasharray: none; opacity: 1; }
+.dm-key-concept::before { border-top-style: dashed; border-color: var(--acc); }
+.dm-head-concept { color: var(--acc); }
+.dm-concept { gap: .15rem; border-style: solid; border-color: var(--acc); border-left-width: 6px;
+  background: color-mix(in srgb, var(--acc) 8%, var(--surface)); }
+.dm-concept-to_define { border-style: dashed; border-left-style: solid; }
+.dm-concept .dm-code { display: flex; gap: .4rem; align-items: baseline; white-space: nowrap; }
+.dm-concept-kind { font-family: var(--font); font-weight: 600; font-size: .7rem; color: var(--muted); }
+.dm-concept-initial { font-weight: 700; color: var(--ink); line-height: 1.15; }
+.dm-concept-brick { font-size: .76rem; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.dm-concept-landed { font-size: .76rem; font-weight: 600; color: var(--ok); }
+.dm-concept .dm-concept-landed, .dm-concept .dm-concept-initial { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.dm-panel-concept { border-top-color: var(--acc); }
+.dm-ai-note { margin: 0; font-size: .82rem; color: var(--warn); font-weight: 600; }
+.dm-brick-pick { display: flex; flex-direction: column; gap: .4rem; }
+.dm-brick-pick select, .dm-brick-pick input { width: 100%; }
+.dm-brick-fns { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: .25rem; font-size: .86rem; }
+.dm-brick-fns li { display: flex; gap: .35rem; align-items: baseline; }
+.dm-brick-fns .icon-btn { margin-left: auto; }
+
+/* overview */
+.dm-cb-counters { display: flex; flex-wrap: wrap; gap: .4rem; }
+.dm-cb-board { display: flex; flex-direction: column; gap: 1rem; }
+.dm-cb-group h2, .dm-cb-section h2, .dm-cb-morpho h2 { font-size: 1rem; margin: 0 0 .5rem; }
+.dm-cb-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: .7rem; }
+.dm-cb-card { display: flex; flex-direction: column; gap: .3rem; padding: .7rem .8rem; color: var(--ink); text-decoration: none;
+  background: var(--surface); border: 1.5px solid var(--line); border-left: 6px solid var(--acc); border-radius: var(--radius-sm);
+  box-shadow: var(--shadow); transition: transform .12s ease, border-color .12s ease; }
+.dm-cb-card:hover { transform: translateY(-1px); border-color: var(--acc); }
+.dm-cb-card:focus-visible { outline: 3px solid var(--acc); outline-offset: 2px; }
+.dm-cb-to_define { border-left-style: dashed; }
+.dm-cb-selected { box-shadow: 0 0 0 2px var(--ok), var(--shadow); }
+.dm-cb-top { display: flex; flex-wrap: wrap; gap: .3rem; align-items: center; }
+.dm-cb-name { font-size: .92rem; }
+.dm-cb-ref, .dm-cb-foot { font-size: .8rem; }
+.dm-cb-fns { display: flex; flex-wrap: wrap; gap: .25rem; }
+.dm-chip { font-family: var(--mono); font-size: .72rem; padding: .05rem .35rem; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); }
+.dm-cb-pick { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: .2rem .8rem; }
+.dm-morpho td, .dm-morpho th { vertical-align: top; font-size: .86rem; }
+.dm-morpho-on { background: color-mix(in srgb, var(--ok) 18%, var(--surface)); font-weight: 600; }
+.dm-morpho-off { color: var(--muted); text-decoration: line-through; }
+
+/* sheets */
+.dm-cb-section { display: flex; flex-direction: column; gap: .5rem; }
+.dm-sheets { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: .7rem; }
+.dm-sheet { display: flex; flex-direction: column; gap: .3rem; padding: .7rem .8rem; background: var(--surface); border: 1px solid var(--line);
+  border-top: 4px solid var(--acc); border-radius: var(--radius-sm); box-shadow: var(--shadow); font-size: .86rem; }
+.dm-sheet h3 { margin: 0; font-size: .95rem; }
+.dm-sheet p { margin: 0; }
+.dm-sheet-ai { border-top-style: dashed; }
+.dm-sheet-scan { max-width: 100%; max-height: 220px; object-fit: contain; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-2); }
+.dm-sheet-st-selected { border-top-color: var(--ok); box-shadow: 0 0 0 2px var(--ok), var(--shadow); }
+.dm-sheet-st-dropped { opacity: .65; }
+.dm-sheet-desc { white-space: pre-line; }
+.dm-sheet-by { font-size: .78rem; }
+
+/* Pugh opened from Diamond */
+.pg-group th { text-align: left; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted);
+  background: var(--surface-2); padding-top: .45rem; }
+.pg-group-need th { color: var(--brand-blue); }
+.pg-group-estime th, .pg-group-base th, .pg-group-performance th, .pg-group-innovation th, .pg-group-function th { color: var(--acc); }
+.pg-sheets { display: block; font-family: var(--mono); font-size: .7rem; color: var(--muted); font-weight: 400; }
+.pg-scope { margin: 0; font-size: .9rem; }
+
+html[data-sketch] .dm-concept, html[data-sketch] .dm-cb-card, html[data-sketch] .dm-sheet { border-radius: var(--r-hand); box-shadow: var(--shadow-sketch); }
+html[data-term] .dm-concept, html[data-term] .dm-cb-card, html[data-term] .dm-sheet { font-family: var(--mono); box-shadow: none; }
+html[data-term] .dm-concept-initial { color: var(--acc); }
+@media (prefers-reduced-motion: reduce) { .dm-cb-card { transition: none; } .dm-cb-card:hover { transform: none; } }

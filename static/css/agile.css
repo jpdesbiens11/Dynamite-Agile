@@ -20,6 +20,18 @@
 }
 .ag-nav-item:hover { background: var(--surface-2); }
 .ag-nav-item.active { background: var(--surface-2); border-left-color: var(--agile); font-weight: 600; }
+/* 0.60.105 (D-O-117): groups of pages that fold and unfold */
+.ag-nav-group { display: flex; flex-direction: column; gap: .1rem; margin-top: .35rem; }
+.ag-nav-group-head { cursor: pointer; list-style: none; display: flex; align-items: center; gap: .35rem; padding: .25rem .5rem;
+  font-size: .72rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); border-radius: var(--radius-sm); }
+.ag-nav-group-head::-webkit-details-marker { display: none; }
+.ag-nav-group-head::before { content: "▸"; display: inline-block; transition: transform .12s ease; }
+.ag-nav-group[open] > .ag-nav-group-head::before { transform: rotate(90deg); }
+.ag-nav-group-head:hover { color: var(--ink); background: var(--surface-2); }
+.ag-nav-group-head:focus-visible { outline: 3px solid var(--acc, var(--agile)); outline-offset: 1px; }
+.ag-nav-group-active > .ag-nav-group-head { color: var(--ink); }
+.ag-nav-group > .ag-nav-item { display: block; margin-left: .6rem; }
+@media (prefers-reduced-motion: reduce) { .ag-nav-group-head::before { transition: none; } }
 .ag-page { padding: 1.25rem 1.5rem 3rem; min-width: 0; }
 
 .ag-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; margin-bottom: .5rem; }

@@ -72,7 +72,8 @@ def example():
                                   {"view": "detail", "kind": "energy", "label": "force", "src": d["ports"][3]["ref"], "dst": "F4"}],
                         "parts": [p for p in d["parts"] if set(p["functions"]) <= keep and p["functions"]][:2],
                         "risks": [r for r in d["risks"] if r.get("function") in keep][:1],
-                        "dfmea": [r for r in d["dfmea"] if r["function"] in keep][:1]}
+                        "dfmea": [r for r in d["dfmea"] if r["function"] in keep][:1],
+                        "concepts": [c for c in d.get("concepts", []) if c["functions"] and set(c["functions"]) <= keep][:2]}  # 0.60.105
     port = dict(d["ports"][3], ref="E1")
     short["diamond"]["ports"] = [port]
     for fl in short["diamond"]["flows"]:

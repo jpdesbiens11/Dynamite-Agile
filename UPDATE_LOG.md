@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.104
+# Journal de mise à jour — 0.60.105
+
+- **Version :** 0.60.104 → 0.60.105 (2026-11-16)
+- **Changements :**
+  1. **Diamond : colonne Concept initial / Brique technologique, feuilles de concept et matrices de Pugh des briques** (D-O-117).
+- **Base de données :** ['Migration diamond 16 (additive) : tables diamond_concepts, diamond_concept_functions, diamond_concept_sheets, diamond_pugh_scope, diamond_pugh_option_sheets, diamond_pugh_fcriteria, diamond_pugh_fscores.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.104
 
 - **Version :** 0.60.103 → 0.60.104 (2026-11-13)
 - **Changements :**
   1. **Diamond : DFMEA, PFMEA et plans de contrôle aller-retour avec un tableur ou un assistant IA (Claude, Gemini)** (D-O-116).
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.103
 

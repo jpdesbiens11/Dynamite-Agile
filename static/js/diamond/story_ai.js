@@ -39,17 +39,18 @@
   }
 
   const LABELS = { functions: "fonctions", ports: "entrées et sorties", flows: "flux", parts: "pièces", risks: "risques projet",
-    dfmea: "lignes de DFMEA", story: "scènes", dfmea_tests: "essais clés reliés" };
+    dfmea: "lignes de DFMEA", story: "scènes", dfmea_tests: "essais clés reliés", concepts: "briques technologiques" };
 
   function summary(counts) {
     return Object.keys(LABELS).filter((k) => counts[k]).map((k) => counts[k] + " " + LABELS[k]).join(", ") || "rien";
   }
 
   const KEPT = { functions: "l'arbre fonctionnel", structure: "la structure", parts: "les pièces", risks: "les risques projet",
-    story: "la Storyline" };
+    story: "la Storyline", concepts: "les briques technologiques" };
   const DROPPED = { functions: "fonction(s) du fichier absente(s) de l'arbre", flows: "flux sans fonction correspondante",
     part_links: "lien(s) de pièce sans fonction correspondante", risks_links: "risque(s) détaché(s) d'une fonction absente",
-    dfmea_links: "ligne(s) de DFMEA détachée(s) d'une fonction absente", dfmea_rows: "ligne(s) de DFMEA déjà écrite(s) par l'équipe" };
+    dfmea_links: "ligne(s) de DFMEA détachée(s) d'une fonction absente", dfmea_rows: "ligne(s) de DFMEA déjà écrite(s) par l'équipe",
+    concept_links: "lien(s) de brique sans fonction correspondante" };
 
   function report(data) {
     const lines = [];

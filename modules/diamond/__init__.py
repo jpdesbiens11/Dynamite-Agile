@@ -18,6 +18,9 @@ Sub-modules, one per iteration:
            shown with the symbols of the Space's customer.
   0.60.102 Caractéristiques C-n (characteristics.py, char_spec.py, char_links.py, char_export.py): the exact dimension of
            the exact part, its drawing, its required Cpk, its test; the summary of the special characteristics.
+  0.60.105 Concept / Brique technologique (concepts.py, concept_sheets.py, concept_pugh.py, concept_ai.py): the column after
+           the tertiary functions, the concept sheets of a brick, the Pugh matrices of groups of bricks; Idéation, Pugh and
+           Kepner-Tregoe of Tools now open here.
 Every table is tied to projects(id) (backup, restore, copy by the core); every write is journalled.
 """
 from .search import search  # noqa: F401  (core search hook, 0.60.36)
@@ -25,6 +28,7 @@ from .bot import bot_summary  # noqa: F401  (Bob le mineur, core/bot.py, 0.60.36
 from .actions import dashboard  # noqa: F401  (core dashboard hook, 0.60.38)
 from . import migrations_a, migrations_b  # noqa: E402
 from . import ai_io, ai_prompts, ai_prompts_process, cp_io, dfmea_io, pfmea_io  # noqa: E402,F401 (0.60.104, D-O-116)
+from . import concept_ai, concept_pugh, concept_sheets, concepts  # noqa: E402 (0.60.105, D-O-117)
 from . import actions, capability, char_export, characteristics, classes_api, company_pn, control_plans, impact, pfmea, pfmea_ai, pn_ai, prio, process, costs, costs_budget, costs_import, costs_prompt, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
 
 SCHEMA = ""
@@ -48,9 +52,40 @@ P = r"/api/diamond/p/(?P<pid>\d+)"
 FN = P + r"/functions/(?P<fid>\d+)"
 
 SC = P + r"/story/scenes/(?P<sid>\d+)"
+CB = P + r"/concepts/(?P<cid>\d+)"
+SH = P + r"/sheets/(?P<sid>\d+)"
+PG = P + r"/pugh/(?P<mid>\d+)"
 CUST = r"/dfmea/classes/customers/(?P<code>[a-z0-9-]{1,40})"
 
 ROUTES = [
+    ("GET", P + r"/concepts", concepts.api_list, "user"),  # 0.60.105 (D-O-117): « Concept / Brique technologique »
+    ("POST", P + r"/concepts", concepts.api_create, "user"),
+    ("POST", P + r"/concepts/link", concepts.api_link, "user"),
+    ("POST", P + r"/concepts/order", concepts.api_move, "user"),
+    ("GET", P + r"/concepts/prompt", concept_ai.api_prompt, "user"),
+    ("POST", P + r"/concepts/ai", concept_ai.api_import, "user"),
+    ("GET", CB, concepts.api_get, "user"),
+    ("PATCH", CB, concepts.api_update, "user"),
+    ("POST", CB + r"/archive", concepts.api_archive, "user"),
+    ("GET", CB + r"/prompt", concept_ai.api_sheet_prompt, "user"),
+    ("POST", CB + r"/sheets", concept_sheets.api_create, "user"),
+    ("GET", P + r"/sheets", concept_sheets.api_list, "user"),
+    ("POST", P + r"/sheets/upload", concept_sheets.api_upload, "user"),
+    ("PATCH", SH, concept_sheets.api_update, "user"),
+    ("POST", SH + r"/archive", concept_sheets.api_archive, "user"),
+    ("GET", SH + r"/file", concept_sheets.api_file, "user"),
+    ("GET", P + r"/pugh", concept_pugh.api_list, "user"),  # Goldmine's Pugh matrix, with the bricks and the functions
+    ("POST", P + r"/pugh", concept_pugh.api_create, "user"),
+    ("GET", PG, concept_pugh.api_get, "user"),
+    ("PATCH", PG, concept_pugh.api_update, "user"),
+    ("DELETE", PG, concept_pugh.api_delete, "user"),
+    ("POST", PG + r"/concepts", concept_pugh.api_concept_add, "user"),
+    ("PATCH", PG + r"/concepts/(?P<cid>\d+)", concept_pugh.api_concept_update, "user"),
+    ("POST", PG + r"/criteria", concept_pugh.api_criteria_add, "user"),
+    ("DELETE", PG + r"/criteria/(?P<kid>f?\d+)", concept_pugh.api_criterion_delete, "user"),
+    ("PUT", PG + r"/score", concept_pugh.api_score, "user"),
+    ("POST", PG + r"/round", concept_pugh.api_round, "user"),
+    ("GET", PG + r"/export\.xlsx", concept_pugh.api_export, "user"),
     ("GET", P + r"/costs", costs.api_get, "user"),  # 0.60.61 (D-O-070): « Coûts et budget »
     ("GET", P + r"/costs/export\.csv", costs_budget.api_export, "user"),
     ("POST", P + r"/costs/import", costs_import.api_import, "user"),  # 0.60.66 (D-O-075): the CSV of the export, back in

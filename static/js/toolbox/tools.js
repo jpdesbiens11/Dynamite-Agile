@@ -80,7 +80,8 @@
     picker.addEventListener("change", draw);
     main.append(key === "design"
       ? head("Tools · Design", "Diverger d'abord (beaucoup d'idées, sans juger), puis converger (évaluer et choisir avec les "
-        + "needs et requirements Goldmine). Chaque méthode a sa page et sa FAQ, modifiables comme un wiki.")
+        + "needs, les fonctions et les requirements). Les outils s'ouvrent maintenant dans Diamond → Concept / Brique technologique, "
+        + "à côté des briques qu'ils servent à définir. Chaque méthode a sa page et sa FAQ, modifiables comme un wiki.")
       : head("Tools · Generator", "Références documentaires : numéroter et classer les documents du PDP (Lean "
         + "Canvas, Concept Review, CdCF, PDR / CDR, Validation Report…). Le registre est tenu par Space."),
     el("div", { class: "tl-bar" }, el("label", null, "Space de travail ", picker),
@@ -91,7 +92,7 @@
 
   function card(m, space) {
     const toolHref = m.tool === "codex" ? "#/codex/" + space
-      : "#/tools/" + space + "/" + TOOL_VIEW[m.tool] + (m.tool === "ideation" ? "/new-" + m.key : "");
+      : "#/diamond/" + space + "/" + TOOL_VIEW[m.tool] + (m.tool === "ideation" ? "/new-" + m.key : "");  // 0.60.105
     return el("article", { class: "tl-card tl-card-" + m.family },
       el("div", { class: "tl-card-top" }, el("h3", null, m.name), el("span", { class: "badge tl-badge-" + m.family }, BADGE[m.family])),
       el("p", { class: "muted" }, m.tagline),
@@ -101,10 +102,16 @@
         m.faq_id ? el("a", { class: "btn btn-small", href: "#/dynamite/TOOLS/page/" + m.faq_id }, "FAQ") : null));
   }
 
+  /* 0.60.105 (D-O-117): the Design tools (Idéation, Pugh, Kepner-Tregoe) open in Diamond → Concept / Brique technologique;
+     an old address #/tools/KEY/<tool>[/id] goes there. The Design section stays: the catalogue, the method pages and the FAQ. */
   function render(main, parts) {
     const first = parts[0] || "design";
     if (SECTIONS.some(([key]) => key === first)) { section(main, first); return; }
     remember(first.toUpperCase());
+    if (TOOL_VIEW[parts[1]] || !parts[1]) {
+      location.replace("#/diamond/" + first.toUpperCase() + "/" + (parts.slice(1).join("/") || "ideation"));
+      return;
+    }
     A.render(main, parts, TOOLS_SHELL);
   }
 
