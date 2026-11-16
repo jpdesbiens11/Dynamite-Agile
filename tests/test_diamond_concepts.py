@@ -198,6 +198,9 @@ class ConceptsTest(unittest.TestCase):
         bricks = self.admin.get("/api/diamond/p/{}/concepts".format(pid))["concepts"]
         self.assertEqual({c["source"] for c in bricks}, {"ai"})
         self.assertEqual(max(len(c["function_ids"]) for c in bricks), 3)
+        exported = self.admin.get("/api/starter/export?space=LMP")  # and they come back out in the Project Starter format
+        back = (exported.get("file") or exported)["diamond"]["concepts"]
+        self.assertEqual(sorted(c["initial_name"] for c in back), sorted(c["initial_name"] for c in bricks))
 
     def test_07_menu_in_groups_and_tools_moved(self):
         js = (BASE_DIR / "static" / "js" / "diamond" / "diamond.js").read_text("utf-8")

@@ -130,7 +130,9 @@
       el("th", { scope: "col" }, state.data.groups ? "Phase / Kano" : "Phase"),
       concepts.map((c) => el("th", { scope: "col", class: "pg-concept" + (c.id === m.datum_id ? " pg-datum" : "") },
         el("span", { class: "pg-concept-name", title: c.description || "" }, c.name),
-        c.sheets && c.sheets.length ? el("span", { class: "pg-sheets" }, c.sheets.map((sh) => sh.code).join(" + ")) : null,
+        c.sheets && c.sheets.length && !c.sheets.every((sh) => c.name.includes(sh.code))
+          ? el("span", { class: "pg-sheets" }, c.sheets.map((sh) => sh.code).join(" + ")) : null,  // the codes, when the name does not say them
+        c.sheets && c.sheets.length ? el("span", { class: "pg-sheets" }, c.sheets.map((sh) => sh.title).join(" + ")) : null,
         c.id === m.datum_id ? el("span", { class: "pg-datum-tag" }, "Référence") : null,
         editable ? el("button", { type: "button", class: "link-btn pg-concept-edit", "aria-label": "Modifier " + c.name,
           onclick: () => openConcept(holder, ctx, state, c) }, "modifier") : null)),
