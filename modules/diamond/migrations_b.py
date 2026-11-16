@@ -367,4 +367,8 @@ MIGRATIONS = [
         CREATE INDEX idx_diamond_concept_sheets_concept ON diamond_concept_sheets(concept_id, number);
         CREATE INDEX idx_diamond_concept_functions_concept ON diamond_concept_functions(concept_id);
     """),
+    (17, """
+        -- 0.60.106 (D-O-118): the person responsible for a brick -- the team splits the bricks of the global concept
+        ALTER TABLE diamond_concepts ADD COLUMN owner_id INTEGER REFERENCES users(id) ON DELETE SET NULL;
+    """),
 ]

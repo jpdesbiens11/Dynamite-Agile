@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.105
+# Journal de mise à jour — 0.60.106
+
+- **Version :** 0.60.105 → 0.60.106 (2026-11-16)
+- **Changements :**
+  1. **Diamond : le responsable de chaque brique technologique** (D-O-118).
+- **Base de données :** ['Migration diamond 17 (additive) : colonne owner_id de diamond_concepts.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.105
 
 - **Version :** 0.60.104 → 0.60.105 (2026-11-16)
 - **Changements :**
   1. **Diamond : colonne Concept initial / Brique technologique, feuilles de concept et matrices de Pugh des briques** (D-O-117).
 - **Base de données :** ['Migration diamond 16 (additive) : tables diamond_concepts, diamond_concept_functions, diamond_concept_sheets, diamond_pugh_scope, diamond_pugh_option_sheets, diamond_pugh_fcriteria, diamond_pugh_fscores.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.104
 

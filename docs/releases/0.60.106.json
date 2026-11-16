@@ -1,0 +1,35 @@
+{
+  "version": "0.60.106",
+  "date": "2026-11-16",
+  "summary": {
+    "fr": "Diamond : chaque brique technologique a son responsable dans l'équipe.",
+    "en": "Diamond: every technology building block has its owner in the team."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Diamond : le responsable de chaque brique technologique",
+      "why": "Chaque brique technologique a maintenant un responsable, un membre du Space : ses initiales dans l'arbre, « Qui porte quoi » sur la page des briques, le choix dans le panneau de la brique. Le Project Starter et son export transportent le responsable. Migration diamond 17 (additive).",
+      "files": [
+        "CLAUDE.md",
+        "UPDATE_CHANGES.json",
+        "UPDATE_LOG.md",
+        "core/__init__.py",
+        "core/starter_diamond.py",
+        "core/starter_export_more.py",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.106.json",
+        "modules/diamond/concepts.py",
+        "modules/diamond/migrations_b.py",
+        "static/css/diamond_concepts.css",
+        "static/js/diamond/concept_page.js",
+        "static/js/diamond/concept_panel.js",
+        "static/js/diamond/concepts.js",
+        "static/js/diamond/tree_concepts.js",
+        "tests/test_diamond_concepts.py",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}

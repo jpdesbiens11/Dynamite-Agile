@@ -11,7 +11,7 @@ the functions, the project risks and the first DFMEA rows.
                 "dfmea": [{higher, focus, lower, function, requirement, failure_mode, effect, severity, cause, prevention,
                            occurrence, detection_ctrl, detection, action, owner, due}],
                 "story": [{title, caption, notes, items: [{p, x, y, s, f, t}]}],
-                "concepts": [{name, initial_name, kind: existing | to_define, reference, description, functions: [ref]}]}
+                "concepts": [{name, initial_name, kind: existing | to_define, reference, description, functions: [ref], owner}]}
 concepts (0.60.105, D-O-117): the « Concept / Brique technologique » column of the tree, proposed by the AI: one brick may
 carry several functions of the tree (a function belongs to one brick at most), and arrives as « Brouillon IA »; initial_name
 is the initial concept, a name that speaks (« Sandwich froid »).
@@ -238,10 +238,10 @@ def parse(raw, language="fr", test_refs=(), usernames=()):
         row.update(_owner(d, path, usernames))
         dfmea.append(row)
     return {"functions": functions, "ports": ports, "flows": flows, "parts": parts, "risks": risks, "dfmea": dfmea,
-            "story": _story(raw), "concepts": _concepts(raw, refs), "note": NOTE[language]}
+            "story": _story(raw), "concepts": _concepts(raw, refs, usernames), "note": NOTE[language]}
 
 
-def _concepts(raw, refs):
+def _concepts(raw, refs, usernames=()):
     """0.60.105 (D-O-117): the bricks of the tree; a function in two bricks is refused (it belongs to one at most)."""
     from modules.diamond import concepts as C
     out, used = [], set()
@@ -258,7 +258,8 @@ def _concepts(raw, refs):
         out.append({"name": _text(c, "name", path, C.LIMITS["name"], required=True),
                     "initial_name": _text(c, "initial_name", path, C.LIMITS["initial_name"]), "kind": _choice(c, "kind", path, C.KINDS, "to_define"),
                     "reference": _text(c, "reference", path, C.LIMITS["reference"]),
-                    "description": _text(c, "description", path, C.LIMITS["description"]), "functions": list(dict.fromkeys(fns))})
+                    "description": _text(c, "description", path, C.LIMITS["description"]), "functions": list(dict.fromkeys(fns)),
+                    "owner": _owner(c, path, usernames)["owner"]})  # 0.60.106 (D-O-118): who carries the brick
     return out
 
 
@@ -322,7 +323,8 @@ def apply(conn, user_id, pid, d, test_ids=None, known=None):
         ST.create(conn, user_id, pid, scene)
     from modules.diamond import concepts as CB  # 0.60.105 (D-O-117): the bricks, « Brouillon IA »
     for c in d.get("concepts") or []:
-        CB.add(conn, user_id, pid, {k: c[k] for k in ("name", "initial_name", "kind", "reference", "description")}, [ids[r] for r in c["functions"]], "ai")
+        CB.add(conn, user_id, pid, dict({k: c[k] for k in ("name", "initial_name", "kind", "reference", "description")}, owner_id=user_of(c.get("owner"))),
+               [ids[r] for r in c["functions"]], "ai")
     from modules.diamond import dfmea_complete  # 0.60.28 (D-O-037): every function, its key test, the good practices
     done = dfmea_complete.complete(conn, user_id, pid)
     return dict({k: len(d[k]) for k in LIMITS}, dfmea=len(d["dfmea"]) + done["added"], dfmea_tests=done["tested"])
