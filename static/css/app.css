@@ -638,3 +638,9 @@ html.da-phone .sh-cols { grid-template-columns: 1fr; }
 .ft-group h2 { font-size: 1.05rem; margin: 0 0 .4rem; }
 .ft-item { display: flex; gap: .55rem; align-items: flex-start; margin: .35rem 0; max-width: 72ch; }
 .ft-item.ft-sub { margin-left: 1.6rem; }
+/* 0.60.108 (D-O-120): Fiche d'un Space → « Contenu en anglais (FR | EN) » */
+.si-box { margin: 1.4rem 0; padding: .8rem 1rem; border: 1px solid var(--line); border-radius: var(--radius-sm); }
+.si-box h3 { margin: 0 0 .3rem; }
+.si-area { width: 100%; font-family: var(--mono); font-size: .85rem; }
+.si-preview { margin-top: .6rem; }
+.si-examples { margin: .3rem 0 0; padding-left: 1.2rem; font-size: .88rem; }

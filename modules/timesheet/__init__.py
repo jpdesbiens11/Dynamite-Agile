@@ -138,3 +138,11 @@ ROUTES = [
     ("POST", W + r"/budget/import", budget_xlsx.api_import, "user"),
     ("POST", W + r"/budget/import/(?P<token>[a-f0-9]{32})", budget_xlsx.api_apply, "user"),
 ]
+
+
+def i18n_texts(conn, project_id):
+    """0.60.108 (D-O-120): the labels of the Budget Lines a Space offers (its Funding Space), for « Contenu en anglais »
+    of the Space's card: they live in the Space TOOLS (D-A-010), not among the Space's own rows."""
+    rows = conn.execute("SELECT l.label FROM timesheet_budget_lines l JOIN timesheet_budget_sets s ON s.id = l.set_id "
+                        "JOIN timesheet_projects t ON t.task_set = s.key WHERE t.project_id = ?", (project_id,)).fetchall()
+    return [r["label"] for r in rows]

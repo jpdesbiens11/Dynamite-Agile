@@ -1,11 +1,19 @@
-# Journal de mise à jour — 0.60.107
+# Journal de mise à jour — 0.60.108
+
+- **Version :** 0.60.107 → 0.60.108 (2026-11-16)
+- **Changements :**
+  1. **FR | EN du contenu d'un Space : un dictionnaire par Space, dans la base** (D-O-120).
+  2. **Termes techniques en anglais partout, dans tout contenu** (D-O-121).
+- **Base de données :** ['Migration core 20 (additive) : table space_i18n.']
+
+## Précédent
+
+### Journal de mise à jour — 0.60.107
 
 - **Version :** 0.60.106 → 0.60.107 (2026-11-16)
 - **Changements :**
   1. **Timesheet : Budget Lines repliables par Funding Space et par sous-projet** (D-O-119).
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.106
 

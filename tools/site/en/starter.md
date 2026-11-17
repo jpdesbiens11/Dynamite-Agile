@@ -49,7 +49,8 @@ Concept Review), **C. Design** (functional specification, PDR / CDR, DFMEA, draw
    person confirms each standard before a requirement is approved. Tell the person once.
 9. **Stay modest** for a first project: 8 to 15 needs, 15 to 40 requirements, 10 to 30 tests, 5 to 12 pages. The
    person can add more in the tool.
-10. Write in the language chosen at question 1, simply, as to someone discovering the subject.
+10. Write in the language chosen at question 1, simply, as to someone discovering the subject. **Technical terms always in
+    English**, never translated, in the whole file, even when the project is written in French: only the sentences follow its language.
 
 ## Block 1 — The project (questions 1 to 9)
 

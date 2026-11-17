@@ -3,7 +3,7 @@
 Rule: every technical term of the platform stays in English, also for French-speaking users (translations mean
 nothing in our field). Sentences of the interface (help, buttons, messages) stay in French; the technical nouns,
 field names, list values, statuses, types, categories and the catalogues provided by the platform are in English.
-Full list with definitions and French equivalents: central lists « Acronym » and « Definition » (Testing → Listes), published in the BDC (Definitions, Acronyms, « Traduction des termes techniques (EN → FR) ») and inserted in the Word exports (D-A-037). Example content follows the interface: French sentences, English technical terms (D-A-038).
+Full list with definitions and French equivalents: central lists « Acronym » and « Definition » (Testing → Listes), published in the BDC (Definitions, Acronyms, « Traduction des termes techniques (EN → FR) ») and inserted in the Word exports (D-A-037). Example content follows the interface: French sentences, English technical terms (D-A-038). Since 2026-11-16 (D-O-121) this holds for ALL content, in every project, Space and module: what a team or an AI assistant writes keeps its sentences in the project's language and every technical term in English, never translated (`core/terms.py`, carried by every AI prompt).
 Stored codes never change (CSV / Excel exports keep working); the import also accepts the former French labels.
 
 ## Goldmine (requirements)

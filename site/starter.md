@@ -51,7 +51,9 @@ concepts, matrice de Pugh, Concept Review), **C. Design** (CdCF, PDR / CDR, DFME
    l'outil et une personne confirme chaque norme avant qu'un requis soit approuvé. Dites-le une fois à la personne.
 9. **Restez modeste** pour un premier projet : 8 à 15 besoins, 15 à 40 requis, 10 à 30 essais, 5 à 12 pages. La
    personne pourra en ajouter dans l'outil.
-10. Écrivez dans la langue choisie à la question 1, simplement, comme à quelqu'un qui découvre le sujet.
+10. Écrivez dans la langue choisie à la question 1, simplement, comme à quelqu'un qui découvre le sujet. **Termes techniques
+    toujours en anglais**, jamais traduits, dans tout le fichier (fonctions, requirements, essais, briques, pièces, risques,
+    pages, codes de temps) : « thermal runaway », « cold plate », « contactor », « State of Charge », « failure mode », « test bench ».
 
 ## Bloc 1 — Le projet (questions 1 à 9)
 

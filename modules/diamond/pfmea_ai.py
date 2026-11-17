@@ -10,7 +10,7 @@ reason, never written.
 import json
 import re
 
-from core import audit
+from core import audit, terms
 from core.errors import ApiError
 
 from . import pfmea as PF
@@ -51,7 +51,8 @@ def prompt(conn, user, pid, line):
            "caractéristique de procédé sans C-n.",
            "3. Classe chaque cause en 5M : main-d'œuvre, méthode, matière, machine, mesure.",
            "4. Commence par les caractéristiques spéciales (CC, SC) et par les causes de procédé que le DFMEA renvoie au PFMEA.",
-           "5. N'invente ni opération ni C-n : utilise seulement celles données ci-dessous.", "",
+           "5. N'invente ni opération ni C-n : utilise seulement celles données ci-dessous.",
+           "6. " + terms.RULE_FR, "",
            "RÉPONSE : uniquement un tableau JSON, sans texte autour :",
            '[{"op": "OP30", "step": "Poser le capteur à l\'entrefer", "char": "C-14", "process_char": "Hauteur de cale, serrage", '
            '"failure_mode": "Entrefer > 2,3 mm", "effect": "Impulsions manquées", "cause": "Cale oubliée", "cause_5m": "main-d\'œuvre", '
