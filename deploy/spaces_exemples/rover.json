@@ -7,9 +7,9 @@
  "project": {
   "key": "ROVER",
   "name": "Rover — véhicule autonome d'apprentissage",
-  "description": "Petit véhicule autonome bâti sur le châssis d'une auto téléguidée tout-terrain au 1:16 : un Raspberry Pi lit des capteurs abordables (ultrasons, temps de vol, centrale inertielle, encodeur de roue, pare-chocs), ralentit à l'approche d'un obstacle et le contourne lentement. Une application web sur le téléphone le démarre, l'arrête et affiche ce qu'il perçoit. Projet académique pour apprendre la mécanique, l'électronique, le logiciel embarqué et la méthode de développement de produit, de MVP 0 à MVP 3.",
+  "description": "Petit véhicule autonome bâti sur le chassis d'une RC car tout-terrain au 1:16 : un Raspberry Pi lit des sensors abordables (ultrasons, temps de vol, IMU, encoder de roue, bumper), ralentit à l'approche d'un obstacle et le contourne lentement. Une application web sur le téléphone le démarre, l'arrête et affiche ce qu'il perçoit. Projet académique pour apprendre la mécanique, l'électronique, le software embarqué et la méthode de développement de produit, de MVP 0 à MVP 3.",
   "industry": "Éducation et robotique grand public",
-  "product_type": "Robot mobile mécatronique avec liaison Wi-Fi",
+  "product_type": "Robot mobile mécatronique avec Wi-Fi link",
   "weeks": 15,
   "markets": [
    "CA",
@@ -21,14 +21,14 @@
    "username": "nina",
    "display_name": "Nina",
    "study_profile": "Génie mécanique",
-   "title": "Châssis, traction et direction",
+   "title": "Chassis, traction et direction",
    "role": "manager"
   },
   {
    "username": "lea",
    "display_name": "Léa",
    "study_profile": "Génie électrique",
-   "title": "Alimentation, capteurs et câblage",
+   "title": "Alimentation, sensors et wiring",
    "role": "editor"
   },
   {
@@ -42,7 +42,7 @@
    "username": "alexis",
    "display_name": "Alexis",
    "study_profile": "Génie informatique",
-   "title": "Logiciel embarqué et évitement",
+   "title": "Software embarqué et évitement",
    "role": "editor"
   }
  ],
@@ -67,7 +67,7 @@
    "kind": "need",
    "category": "functional",
    "stakeholder": "client",
-   "statement": "L'enseignant veut un projet qui touche à la mécanique, à l'électronique et au logiciel.",
+   "statement": "L'enseignant veut un projet qui touche à la mécanique, à l'électronique et au software.",
    "rationale": "Le cours de conception de produit réunit des équipes multidisciplinaires."
   },
   {
@@ -119,7 +119,7 @@
    "category": "functional",
    "stakeholder": "user",
    "statement": "Le robot doit détecter un obstacle de 10 cm de haut ou plus devant lui, de 0,05 m à 2 m.",
-   "rationale": "Trois ultrasons couvrent ± 45° ; un capteur à temps de vol couvre l'axe à courte distance.",
+   "rationale": "Trois ultrasons couvrent ± 45° ; un sensor à temps de vol couvre l'axe à courte distance.",
    "verification_method": "T",
    "acceptance_criteria": "Détection dans 95 % des 200 essais (boîte, chaise, jambe, mur) à 0,1 / 0,5 / 1 / 2 m.",
    "criticality": "A",
@@ -152,7 +152,7 @@
    "statement": "La vitesse doit diminuer avec la distance de l'obstacle : 1,0 m/s au plus à plus de 1,2 m, 0,3 m/s au plus sous 1,2 m.",
    "rationale": "Le contournement « lent » est ce que les étudiants veulent observer (BES-7) et il réduit l'énergie d'un choc.",
    "verification_method": "T",
-   "acceptance_criteria": "Vitesse mesurée par l'encodeur ≤ consigne + 10 %.",
+   "acceptance_criteria": "Vitesse mesurée par l'encoder ≤ consigne + 10 %.",
    "criticality": "B",
    "source": "client",
    "derived_from": [
@@ -182,7 +182,7 @@
    "statement": "L'application doit s'ouvrir dans le navigateur du téléphone (iOS et Android) sans installation.",
    "rationale": "Le Raspberry Pi crée son propre point d'accès Wi-Fi et sert une page web.",
    "verification_method": "D",
-   "acceptance_criteria": "Démarrage, arrêt et télémétrie sur 2 iPhone et 2 Android récents.",
+   "acceptance_criteria": "Démarrage, arrêt et telemetry sur 2 iPhone et 2 Android récents.",
    "criticality": "B",
    "source": "client",
    "derived_from": [
@@ -195,7 +195,7 @@
    "category": "safety",
    "stakeholder": "safety",
    "statement": "Le robot doit s'arrêter en 0,5 s au plus si la liaison avec le téléphone est perdue.",
-   "rationale": "Chien de garde : sans message de l'application pendant 300 ms, les moteurs sont coupés.",
+   "rationale": "Watchdog : sans message de l'application pendant 300 ms, les motors sont coupés.",
    "verification_method": "T",
    "acceptance_criteria": "Arrêt complet ≤ 0,5 s après la coupure du Wi-Fi, 20 essais sur 20.",
    "criticality": "A",
@@ -210,7 +210,7 @@
    "kind": "requirement",
    "category": "safety",
    "stakeholder": "safety",
-   "statement": "Un bouton d'arrêt d'urgence doit couper la traction, sur le robot et dans l'application.",
+   "statement": "Un emergency stop button doit couper la traction, sur le robot et dans l'application.",
    "verification_method": "T",
    "acceptance_criteria": "Traction coupée ≤ 0,2 s, 20 essais sur 20 pour chacun des deux boutons.",
    "criticality": "A",
@@ -225,9 +225,9 @@
    "category": "performance",
    "stakeholder": "user",
    "statement": "L'autonomie doit être d'au moins 30 minutes de roulage continu.",
-   "rationale": "Bilan de puissance : 16 W moyens, batterie LiPo 2S de 2 200 mAh, 80 % utilisable : environ 48 minutes.",
+   "rationale": "Power budget : 16 W moyens, battery LiPo 2S de 2 200 mAh, 80 % utilisable : environ 48 minutes.",
    "verification_method": "T",
-   "acceptance_criteria": "≥ 30 min sur le parcours A jusqu'à la coupure basse tension.",
+   "acceptance_criteria": "≥ 30 min sur le parcours A jusqu'à la low-voltage cut-off.",
    "criticality": "B",
    "source": "client",
    "derived_from": [
@@ -287,7 +287,7 @@
    "statement": "Le coût des pièces doit rester sous 250 $ par robot (prix de 2026, sans taxes).",
    "lifecycle": "cost",
    "verification_method": "A",
-   "acceptance_criteria": "Nomenclature chiffrée ≤ 250 $.",
+   "acceptance_criteria": "BOM chiffrée ≤ 250 $.",
    "criticality": "B",
    "source": "client",
    "derived_from": [
@@ -299,7 +299,7 @@
    "kind": "requirement",
    "category": "functional",
    "stakeholder": "repair",
-   "statement": "Les capteurs, la batterie et le Raspberry Pi doivent se remplacer avec un seul tournevis, sans soudure.",
+   "statement": "Les sensors, la battery et le Raspberry Pi doivent se remplacer avec un seul tournevis, sans soudure.",
    "lifecycle": "maintenance",
    "verification_method": "D",
    "acceptance_criteria": "Remplacement de chaque module en ≤ 10 min par un étudiant qui ne l'a jamais fait.",
@@ -363,9 +363,9 @@
    "kind": "requirement",
    "category": "safety",
    "stakeholder": "safety",
-   "statement": "La batterie lithium doit être conforme à la sécurité des accumulateurs portables.",
+   "statement": "La battery lithium doit être conforme à la sécurité des accumulateurs portables.",
    "verification_method": "I",
-   "acceptance_criteria": "Certificat du fournisseur au dossier ; batterie dans un sac ignifuge pendant la charge.",
+   "acceptance_criteria": "Certificat du fournisseur au dossier ; battery dans un sac ignifuge pendant la charge.",
    "criticality": "A",
    "source": "standard",
    "standard": "IEC 62133-2",
@@ -381,7 +381,7 @@
    "kind": "requirement",
    "category": "regulatory",
    "stakeholder": "logistics",
-   "statement": "La batterie doit avoir passé les essais de transport des piles au lithium.",
+   "statement": "La battery doit avoir passé les essais de transport des piles au lithium.",
    "lifecycle": "transport",
    "verification_method": "I",
    "acceptance_criteria": "Résumé d'essai UN 38.3 du fournisseur au dossier.",
@@ -399,7 +399,7 @@
    "kind": "requirement",
    "category": "safety",
    "stakeholder": "safety",
-   "statement": "La tension de la batterie doit être surveillée ; sous 3,4 V par élément, le robot rentre et s'arrête.",
+   "statement": "La voltage de la battery doit être surveillée ; sous 3,4 V par élément, le robot rentre et s'arrête.",
    "verification_method": "T",
    "acceptance_criteria": "Arrêt à 6,8 V ± 0,1 V, alerte dans l'application 2 min avant.",
    "criticality": "A",
@@ -444,7 +444,7 @@
    "kind": "requirement",
    "category": "functional",
    "stakeholder": "user",
-   "statement": "Le robot doit être prêt à rouler 60 s au plus après la mise sous tension.",
+   "statement": "Le robot doit être prêt à rouler 60 s au plus après la power-on.",
    "verification_method": "T",
    "acceptance_criteria": "Médiane de 10 démarrages ≤ 60 s jusqu'au « Prêt » dans l'application.",
    "criticality": "C",
@@ -493,7 +493,7 @@
    "method": "T",
    "objective": "Mesurer le taux de détection et la distance lue par obstacle.",
    "acceptance": "≥ 95 % de détection de 0,05 à 2 m.",
-   "means": "Boîte, chaise, jambe en mousse, mur ; ruban gradué ; journal des capteurs.",
+   "means": "Boîte, chaise, jambe en mousse, mur ; ruban gradué ; journal des sensors.",
    "verifies": [
     "REQ-1"
    ]
@@ -507,7 +507,7 @@
    "method": "T",
    "objective": "Vérifier qu'aucune approche de face ne touche l'obstacle.",
    "acceptance": "0 contact.",
-   "means": "Obstacle en mousse sur une balance (détecte le contact) ; caméra du téléphone au ralenti.",
+   "means": "Obstacle en mousse sur une balance (détecte le contact) ; camera du téléphone au ralenti.",
    "verifies": [
     "REQ-2"
    ]
@@ -519,9 +519,9 @@
    "category": "custom",
    "level": "Product",
    "method": "T",
-   "objective": "Comparer la vitesse de l'encodeur à la consigne de la loi d'approche.",
+   "objective": "Comparer la vitesse de l'encoder à la consigne de la loi d'approche.",
    "acceptance": "Écart ≤ 10 % sur toute la plage.",
-   "means": "Encodeur de roue, journal à 50 Hz, couloir de 10 m.",
+   "means": "Encoder de roue, journal à 50 Hz, couloir de 10 m.",
    "verifies": [
     "REQ-3"
    ]
@@ -535,7 +535,7 @@
    "method": "T",
    "objective": "Mesurer le taux de réussite et l'écart de cap après contournement.",
    "acceptance": "9 réussites sur 10 ; cap à ± 15°.",
-   "means": "Parcours B (un obstacle de 40 cm), centrale inertielle, rapporteur au sol.",
+   "means": "Parcours B (un obstacle de 40 cm), IMU, rapporteur au sol.",
    "verifies": [
     "REQ-4"
    ]
@@ -547,9 +547,9 @@
    "category": "custom",
    "level": "Product in Use",
    "method": "D",
-   "objective": "Démarrer, arrêter, lire la télémétrie sur iOS et Android.",
+   "objective": "Démarrer, arrêter, lire la telemetry sur iOS et Android.",
    "acceptance": "Toutes les fonctions sur les 4 téléphones ; ≥ 5 Hz.",
-   "means": "2 iPhone, 2 Android ; chronomètre ; 3 étudiants qui ne connaissent pas le projet.",
+   "means": "2 iPhone, 2 Android ; stopwatch ; 3 étudiants qui ne connaissent pas le projet.",
    "verifies": [
     "REQ-5",
     "REQ-9"
@@ -557,7 +557,7 @@
   },
   {
    "ref": "ESSAI-6",
-   "title": "Perte de liaison — chien de garde",
+   "title": "Perte de liaison — watchdog",
    "subject": "sw",
    "category": "custom",
    "level": "Product",
@@ -571,14 +571,14 @@
   },
   {
    "ref": "ESSAI-7",
-   "title": "Arrêts d'urgence",
+   "title": "Emergency stops",
    "subject": "func",
    "category": "custom",
    "level": "Product",
    "method": "T",
    "objective": "Mesurer le temps de coupure de la traction par chaque bouton.",
    "acceptance": "≤ 0,2 s, 20 sur 20 par bouton.",
-   "means": "Oscilloscope sur la commande du variateur ; vidéo.",
+   "means": "Oscilloscope sur la commande de l'ESC ; vidéo.",
    "verifies": [
     "REQ-7"
    ]
@@ -590,9 +590,9 @@
    "category": "custom",
    "level": "Product",
    "method": "T",
-   "objective": "Rouler en continu jusqu'à la coupure basse tension.",
+   "objective": "Rouler en continu jusqu'à la low-voltage cut-off.",
    "acceptance": "≥ 30 min ; coupure à 6,8 V ± 0,1 V ; alerte 2 min avant.",
-   "means": "Parcours A en boucle, wattmètre, multimètre, chronomètre.",
+   "means": "Parcours A en boucle, wattmètre, multimeter, stopwatch.",
    "verifies": [
     "REQ-8",
     "REQ-19"
@@ -647,7 +647,7 @@
   },
   {
    "ref": "ESSAI-12",
-   "title": "Dossier radio, batterie et RoHS",
+   "title": "Dossier radio, battery et RoHS",
    "subject": "ver",
    "category": "industry",
    "level": "Component",
@@ -678,14 +678,14 @@
   },
   {
    "ref": "ESSAI-14",
-   "title": "Coût de la nomenclature",
+   "title": "Coût de la BOM",
    "subject": "prod",
    "category": "custom",
    "level": "Product",
    "method": "A",
    "objective": "Chiffrer chaque pièce chez deux fournisseurs.",
    "acceptance": "≤ 250 $ par robot.",
-   "means": "Nomenclature dans Diamond (pièces), tableur des prix.",
+   "means": "BOM dans Diamond (pièces), tableur des prix.",
    "verifies": [
     "REQ-12"
    ]
@@ -699,7 +699,7 @@
    "method": "D",
    "objective": "Faire remplacer chaque module par un étudiant novice.",
    "acceptance": "≤ 10 min par module, un seul tournevis.",
-   "means": "Chronomètre, tournevis cruciforme no 1.",
+   "means": "Stopwatch, tournevis cruciforme no 1.",
    "verifies": [
     "REQ-13"
    ]
@@ -711,9 +711,9 @@
    "category": "custom",
    "level": "Product",
    "method": "T",
-   "objective": "Mesurer le temps entre la mise sous tension et « Prêt ».",
+   "objective": "Mesurer le temps entre la power-on et « Prêt ».",
    "acceptance": "Médiane ≤ 60 s.",
-   "means": "Chronomètre, 10 démarrages à froid.",
+   "means": "Stopwatch, 10 démarrages à froid.",
    "verifies": [
     "REQ-22"
    ]
@@ -748,27 +748,27 @@
   },
   {
    "ref": "ESSAI-19",
-   "title": "Couverture des capteurs (banc)",
+   "title": "Couverture des sensors (bench)",
    "subject": "func",
    "category": "custom",
    "level": "Subsystem",
    "method": "T",
-   "objective": "Cartographier le cône de chaque capteur sur une grille au sol.",
+   "objective": "Cartographier le cône de chaque sensor sur une grille au sol.",
    "acceptance": "Pas d'angle mort entre ± 45° à 0,3 m et plus.",
-   "means": "Grille de 10 cm au sol, cylindre de 5 cm, journal des capteurs.",
+   "means": "Grille de 10 cm au sol, cylindre de 5 cm, journal des sensors.",
    "verifies": [
     "REQ-1"
    ]
   },
   {
    "ref": "ESSAI-20",
-   "title": "Échauffement du boîtier électronique",
+   "title": "Échauffement de l'electronics enclosure",
    "subject": "therm",
    "category": "custom",
    "level": "Subsystem",
    "method": "T",
-   "objective": "Mesurer la température du processeur après 30 min au soleil.",
-   "acceptance": "Processeur < 80 °C, sans baisse de fréquence.",
+   "objective": "Mesurer la température du processor après 30 min au soleil.",
+   "acceptance": "Processor < 80 °C, sans baisse de fréquence.",
    "means": "Journal de température du Pi, thermomètre, 30 °C à l'ombre.",
    "verifies": [
     "REQ-8"
@@ -810,7 +810,7 @@
        },
        {
         "type": "text",
-        "text": " Un petit véhicule autonome bâti sur une auto téléguidée tout-terrain au 1:16. Un Raspberry Pi lit des capteurs abordables, ralentit à l'approche d'un obstacle et le contourne lentement ; une application web sur le téléphone le démarre, l'arrête et montre ce qu'il perçoit."
+        "text": " Un petit véhicule autonome bâti sur une RC car tout-terrain au 1:16. Un Raspberry Pi lit des sensors abordables, ralentit à l'approche d'un obstacle et le contourne lentement ; une application web sur le téléphone le démarre, l'arrête et montre ce qu'il perçoit."
        }
       ]
      },
@@ -1006,7 +1006,7 @@
         [
          {
           "type": "text",
-          "text": "Châssis, traction, direction ; revues et plan"
+          "text": "Chassis, traction, direction ; revues et plan"
          }
         ]
        ],
@@ -1026,7 +1026,7 @@
         [
          {
           "type": "text",
-          "text": "Alimentation, capteurs, câblage, essais"
+          "text": "Alimentation, sensors, wiring, essais"
          }
         ]
        ],
@@ -1066,7 +1066,7 @@
         [
          {
           "type": "text",
-          "text": "Logiciel embarqué, carte locale, évitement"
+          "text": "Software embarqué, local map, évitement"
          }
         ]
        ]
@@ -1138,7 +1138,7 @@
         [
          {
           "type": "text",
-          "text": "Plan du PDP sur 15 semaines, jalons des revues"
+          "text": "Plan du PDP sur 15 semaines, milestones des revues"
          }
         ],
         [
@@ -1158,7 +1158,7 @@
         [
          {
           "type": "text",
-          "text": "Ces pages : une par livrable, un registre des décisions"
+          "text": "Ces pages : une par deliverable, un registre des décisions"
          }
         ],
         [
@@ -1198,13 +1198,13 @@
         [
          {
           "type": "text",
-          "text": "Idéation, Kepner-Tregoe (Tools) et Pugh (Goldmine) remplis ; 21 références de livrables"
+          "text": "Idéation, Kepner-Tregoe (Tools) et Pugh (Goldmine) remplis ; 21 références de deliverables"
          }
         ],
         [
          {
           "type": "text",
-          "text": "Choisir de façon défendable ; nommer chaque livrable"
+          "text": "Choisir de façon défendable ; nommer chaque deliverable"
          }
         ]
        ],
@@ -1238,7 +1238,7 @@
         [
          {
           "type": "text",
-          "text": "20 essais ESSAI-1 à ESSAI-20, du banc au parcours"
+          "text": "20 essais ESSAI-1 à ESSAI-20, du bench au parcours"
          }
         ],
         [
@@ -1284,7 +1284,7 @@
         [
          {
           "type": "text",
-          "text": "Concevoir des fonctions avant des pièces ; prévoir les défaillances"
+          "text": "Concevoir des fonctions avant des pièces ; prévoir les failures"
          }
         ]
        ]
@@ -1423,7 +1423,7 @@
         [
          {
           "type": "text",
-          "text": "Garder le châssis d'auto téléguidée"
+          "text": "Garder le chassis de RC car"
          }
         ],
         [
@@ -1455,7 +1455,7 @@
         [
          {
           "type": "text",
-          "text": "Concept C4 : ultrasons + temps de vol + pare-chocs"
+          "text": "Concept C4 : ultrasons + temps de vol + bumper"
          }
         ],
         [
@@ -1467,7 +1467,7 @@
         [
          {
           "type": "text",
-          "text": "Pas de lidar ni de caméra au MVP 2"
+          "text": "Pas de lidar ni de camera au MVP 2"
          }
         ]
        ],
@@ -1551,19 +1551,19 @@
         [
          {
           "type": "text",
-          "text": "Coupure matérielle de la traction en plus du logiciel"
+          "text": "Coupure matérielle de la traction en plus du software"
          }
         ],
         [
          {
           "type": "text",
-          "text": "DFMEA : sévérité 10 sur l'arrêt d'urgence"
+          "text": "DFMEA : sévérité 10 sur l'emergency stop"
          }
         ],
         [
          {
           "type": "text",
-          "text": "MOSFET ouvert par défaut, autotest au démarrage"
+          "text": "MOSFET ouvert par défaut, self-test au démarrage"
          }
         ]
        ],
@@ -1615,7 +1615,7 @@
         [
          {
           "type": "text",
-          "text": "Rampe de démarrage du moteur de 0,5 s"
+          "text": "Rampe de démarrage du motor de 0,5 s"
          }
         ],
         [
@@ -1691,7 +1691,7 @@
         [
          {
           "type": "text",
-          "text": "Notice et nomenclature publiées"
+          "text": "Notice et BOM publiées"
          }
         ]
        ]
@@ -1774,7 +1774,7 @@
          "content": [
           {
            "type": "text",
-           "text": "La matrice de Pugh a surtout servi à éliminer la caméra ; Kepner-Tregoe a départagé les deux finalistes."
+           "text": "La matrice de Pugh a surtout servi à éliminer la camera ; Kepner-Tregoe a départagé les deux finalistes."
           }
          ]
         }
@@ -1800,7 +1800,7 @@
          "content": [
           {
            "type": "text",
-           "text": "Le DFMEA a trouvé le démarrage intempestif du moteur avant qu'il arrive au labo."
+           "text": "Le DFMEA a trouvé le démarrage intempestif du motor avant qu'il arrive au labo."
           }
          ]
         }
@@ -1811,7 +1811,7 @@
          "content": [
           {
            "type": "text",
-           "text": "Une page de calcul par revue (puissance, distance d'arrêt) évite de refaire la discussion."
+           "text": "Une page de calcul par revue (power, distance d'arrêt) évite de refaire la discussion."
           }
          ]
         }
@@ -1837,7 +1837,7 @@
          "content": [
           {
            "type": "text",
-           "text": "Les essais dehors trouvent ce que le banc ne voit pas (soleil, gazon)."
+           "text": "Les essais dehors trouvent ce que le bench ne voit pas (soleil, gazon)."
           }
          ]
         }
@@ -1923,7 +1923,7 @@
          "content": [
           {
            "type": "text",
-           "text": "MVP 0 : maquette papier et essai « magicien d'Oz » (A-05)."
+           "text": "MVP 0 : mock-up papier et essai « magicien d'Oz » (A-05)."
           }
          ]
         }
@@ -2024,7 +2024,7 @@
         [
          {
           "type": "text",
-          "text": "Châssis d'auto téléguidée, Raspberry Pi, capteurs abordables, application web sans installation."
+          "text": "Chassis de RC car, Raspberry Pi, sensors abordables, application web sans installation."
          }
         ]
        ],
@@ -2066,7 +2066,7 @@
         [
          {
           "type": "text",
-          "text": "Pièces (< 250 $), assemblage, notice, support."
+          "text": "Pièces (< 250 $), assembly, notice, support."
          }
         ]
        ],
@@ -2495,7 +2495,7 @@
         [
          {
           "type": "text",
-          "text": "Capteurs"
+          "text": "Sensors"
          }
         ],
         [
@@ -2573,7 +2573,7 @@
         [
          {
           "type": "text",
-          "text": "Lidar, caméra"
+          "text": "Lidar, camera"
          }
         ],
         [
@@ -2587,7 +2587,7 @@
         [
          {
           "type": "text",
-          "text": "Auto téléguidée tout-terrain"
+          "text": "RC car tout-terrain"
          }
         ],
         [
@@ -2605,7 +2605,7 @@
         [
          {
           "type": "text",
-          "text": "Pas d'autonomie ; mais châssis, traction et direction excellents"
+          "text": "Pas d'autonomie ; mais chassis, traction et direction excellents"
          }
         ]
        ]
@@ -2620,7 +2620,7 @@
         "content": [
          {
           "type": "text",
-          "text": "Fonctions trouvées par cette méthode : « Protéger les personnes et le robot » (toute auto téléguidée a une coupure) et « Montrer les capteurs et le câblage » (ce que les boîtes fermées ne font pas)."
+          "text": "Fonctions trouvées par cette méthode : « Protéger les personnes et le robot » (toute RC car a une coupure) et « Montrer les sensors et le wiring » (ce que les boîtes fermées ne font pas)."
          }
         ]
        }
@@ -2648,7 +2648,7 @@
        },
        {
         "type": "text",
-        "text": " Une auto téléguidée du commerce, pilotée en cachette par Alexis, joue le robot autonome devant 10 étudiants ; une maquette papier montre l'application."
+        "text": " Une RC car du commerce, pilotée en cachette par Alexis, joue le robot autonome devant 10 étudiants ; une mock-up papier montre l'application."
        }
       ]
      },
@@ -2732,7 +2732,7 @@
         [
          {
           "type": "text",
-          "text": "REQ-9 : télémétrie à 5 Hz"
+          "text": "REQ-9 : telemetry à 5 Hz"
          }
         ]
        ],
@@ -2807,7 +2807,7 @@
   },
   {
    "ref": "PB1",
-   "title": "Analyse fonctionnelle : comment l'arbre a été trouvé",
+   "title": "Functional analysis : comment l'arbre a été trouvé",
    "parent": "PB",
    "body": {
     "type": "doc",
@@ -2874,7 +2874,7 @@
         [
          {
           "type": "text",
-          "text": "L'utilisateur et son téléphone (F6), le chargeur (F3), le sol (F21, F24), l'eau et la poussière (F32)"
+          "text": "L'utilisateur et son téléphone (F6), le charger (F3), le sol (F21, F24), l'eau et la poussière (F32)"
          }
         ]
        ],
@@ -2888,7 +2888,7 @@
         [
          {
           "type": "text",
-          "text": "Les obstacles mous, le soleil, la pluie fine : F9 à F14 et le capteur à temps de vol"
+          "text": "Les obstacles mous, le soleil, la pluie fine : F9 à F14 et le sensor à temps de vol"
          }
         ]
        ],
@@ -3226,7 +3226,7 @@
         [
          {
           "type": "text",
-          "text": "F27 Arrêt d'urgence"
+          "text": "F27 Emergency stop"
          }
         ],
         [
@@ -3290,7 +3290,7 @@
         [
          {
           "type": "text",
-          "text": "F34 Télémétrie"
+          "text": "F34 Telemetry"
          }
         ],
         [
@@ -3444,13 +3444,13 @@
         [
          {
           "type": "text",
-          "text": "Caméra et vision"
+          "text": "Camera et vision"
          }
         ],
         [
          {
           "type": "text",
-          "text": "Ultrasons + temps de vol + pare-chocs"
+          "text": "Ultrasons + temps de vol + bumper"
          }
         ]
        ],
@@ -3608,7 +3608,7 @@
         [
          {
           "type": "text",
-          "text": "Caméra · réseau de neurones · native · LiPo"
+          "text": "Camera · réseau de neurones · native · LiPo"
          }
         ]
        ],
@@ -3622,7 +3622,7 @@
         [
          {
           "type": "text",
-          "text": "Ultrasons + temps de vol + pare-chocs · règles · web · LiPo"
+          "text": "Ultrasons + temps de vol + bumper · règles · web · LiPo"
          }
         ]
        ]
@@ -3701,7 +3701,7 @@
         [
          {
           "type": "text",
-          "text": "C3 caméra"
+          "text": "C3 camera"
          }
         ],
         [
@@ -4036,7 +4036,7 @@
         "content": [
          {
           "type": "text",
-          "text": "C3 (caméra) est éliminé. C4 et C2 passent à l'analyse Kepner-Tregoe : la matrice de Pugh trie, elle ne décide pas seule."
+          "text": "C3 (camera) est éliminé. C4 et C2 passent à l'analyse Kepner-Tregoe : la matrice de Pugh trie, elle ne décide pas seule."
          }
         ]
        }
@@ -4238,7 +4238,7 @@
         [
          {
           "type": "text",
-          "text": "Apprendre par étapes (un capteur à la fois)"
+          "text": "Apprendre par étapes (un sensor à la fois)"
          }
         ],
         [
@@ -4541,7 +4541,7 @@
        },
        {
         "type": "text",
-        "text": " le châssis piloté par le téléphone (application web du Pi) et un seul ultrason qui l'arrête sous 30 cm. Démonstration à 10 étudiants et à l'enseignant."
+        "text": " le chassis piloté par le téléphone (application web du Pi) et un seul ultrason qui l'arrête sous 30 cm. Démonstration à 10 étudiants et à l'enseignant."
        }
       ]
      },
@@ -4587,7 +4587,7 @@
         [
          {
           "type": "text",
-          "text": "Télémétrie et vue radar (REQ-9)"
+          "text": "Telemetry et vue radar (REQ-9)"
          }
         ]
        ],
@@ -4615,7 +4615,7 @@
         [
          {
           "type": "text",
-          "text": "Chien de garde de 300 ms (REQ-6, F28)"
+          "text": "Watchdog de 300 ms (REQ-6, F28)"
          }
         ]
        ]
@@ -4747,7 +4747,7 @@
         [
          {
           "type": "text",
-          "text": "7,4 V au variateur ; 5 V au Pi et aux capteurs ; I2C (INA219)"
+          "text": "7,4 V à l'ESC ; 5 V au Pi et aux sensors ; I2C (INA219)"
          }
         ]
        ],
@@ -4773,7 +4773,7 @@
         [
          {
           "type": "text",
-          "text": "GPIO (ultrasons), I2C (temps de vol, centrale inertielle), GPIO (Hall, pare-chocs)"
+          "text": "GPIO (ultrasons), I2C (temps de vol, IMU), GPIO (Hall, bumper)"
          }
         ]
        ],
@@ -4799,7 +4799,7 @@
         [
          {
           "type": "text",
-          "text": "Logiciel Python sur le Pi, boucle de 20 Hz"
+          "text": "Software Python sur le Pi, boucle de 20 Hz"
          }
         ]
        ],
@@ -4825,7 +4825,7 @@
         [
          {
           "type": "text",
-          "text": "PWM 50 Hz par la carte PCA9685"
+          "text": "PWM 50 Hz par la PCA9685 board"
          }
         ]
        ],
@@ -4851,7 +4851,7 @@
         [
          {
           "type": "text",
-          "text": "MOSFET de coupure en série ; chien de garde matériel du Pi"
+          "text": "MOSFET de coupure en série ; watchdog matériel du Pi"
          }
         ]
        ],
@@ -4877,7 +4877,7 @@
         [
          {
           "type": "text",
-          "text": "Plaque porte-modules, boîtier, pare-chocs"
+          "text": "Plaque porte-modules, enclosure, bumper"
          }
         ]
        ],
@@ -4914,7 +4914,7 @@
   },
   {
    "ref": "PC2",
-   "title": "Capteurs : choix et couverture",
+   "title": "Sensors : choix et couverture",
    "parent": "PC",
    "body": {
     "type": "doc",
@@ -4927,7 +4927,7 @@
         [
          {
           "type": "text",
-          "text": "Capteur"
+          "text": "Sensor"
          }
         ],
         [
@@ -5023,7 +5023,7 @@
         [
          {
           "type": "text",
-          "text": "Centrale inertielle ICM-20948"
+          "text": "IMU ICM-20948"
          }
         ],
         [
@@ -5087,7 +5087,7 @@
         [
          {
           "type": "text",
-          "text": "2 microrupteurs de pare-chocs"
+          "text": "2 microswitches de bumper"
          }
         ],
         [
@@ -5142,7 +5142,7 @@
         "content": [
          {
           "type": "text",
-          "text": "Les échos des HC-SR04 sont en 5 V : un diviseur de tension les ramène à 3,3 V pour le Pi (fonction technique F15)."
+          "text": "Les échos des HC-SR04 sont en 5 V : un voltage divider les ramène à 3,3 V pour le Pi (fonction technique F15)."
          }
         ]
        }
@@ -5153,7 +5153,7 @@
   },
   {
    "ref": "PC3",
-   "title": "Bilan de puissance et autonomie",
+   "title": "Power budget et autonomie",
    "parent": "PC",
    "body": {
     "type": "doc",
@@ -5172,7 +5172,7 @@
         [
          {
           "type": "text",
-          "text": "Puissance moyenne"
+          "text": "Power moyenne"
          }
         ]
        ],
@@ -5194,7 +5194,7 @@
         [
          {
           "type": "text",
-          "text": "Capteurs"
+          "text": "Sensors"
          }
         ],
         [
@@ -5222,7 +5222,7 @@
         [
          {
           "type": "text",
-          "text": "Moteur de traction à vitesse lente"
+          "text": "Drive motor à vitesse lente"
          }
         ],
         [
@@ -5236,7 +5236,7 @@
         [
          {
           "type": "text",
-          "text": "Pertes du convertisseur 5 V"
+          "text": "Pertes du converter 5 V"
          }
         ],
         [
@@ -5287,7 +5287,7 @@
       "content": [
        {
         "type": "text",
-        "text": "Batterie LiPo 2S : 7,4 V × 2,2 Ah = 16,3 Wh ; 80 % utilisables = 13,0 Wh. "
+        "text": "Battery LiPo 2S : 7,4 V × 2,2 Ah = 16,3 Wh ; 80 % utilisables = 13,0 Wh. "
        },
        {
         "type": "text",
@@ -5332,7 +5332,7 @@
       "content": [
        {
         "type": "text",
-        "text": "Distance d'arrêt = vitesse × latence + vitesse² / (2 × décélération), avec une latence de 0,1 s (boucle de 20 Hz et variateur) et une décélération mesurée de 2 m/s² sur le béton."
+        "text": "Distance d'arrêt = vitesse × latency + vitesse² / (2 × décélération), avec une latency de 0,1 s (boucle de 20 Hz et ESC) et une décélération mesurée de 2 m/s² sur le béton."
        }
       ]
      },
@@ -5534,7 +5534,7 @@
      },
      {
       "type": "code",
-      "text": "# Boucle de décision à 20 Hz (machine à états)\nd = carte.distance_min()                 # fusion : la plus courte distance plausible\nsi arret_urgence ou liaison_perdue: etat = ARRET\nsi pare_chocs: etat = RECUL               # recule de 0,3 m, puis CHOIX\nselon etat:\n  ROULE    : vitesse = 1.0 si d > 1.2 sinon (etat = APPROCHE)\n  APPROCHE : vitesse = 0.3 si d > 0.6 sinon 0.1 + 0.2 * (d - 0.30) / 0.30\n             si d <= 0.30: etat = CHOIX\n  CHOIX    : cote = gauche si carte.gauche > carte.droite + 0.10 sinon droite   # hystérésis 10 cm\n             cap_initial = imu.cap(); etat = ECARTE\n  ECARTE   : braque vers cote à 0,15 m/s jusqu'à carte.centre > 0.8 ; etat = LONGE\n  LONGE    : avance 1 s à 0,3 m/s en gardant l'obstacle de côté ; etat = REVIENT\n  REVIENT  : braque vers cap_initial jusqu'à |imu.cap() - cap_initial| < 15° ; etat = ROULE",
+      "text": "# Boucle de décision à 20 Hz (machine à états)\nd = carte.distance_min()                 # fusion : la plus courte distance plausible\nsi arret_urgence ou liaison_perdue: etat = ARRET\nsi pare_chocs: etat = RECUL               # recule de 0,3 m, puis CHOIX\nselon etat:\n  ROULE    : vitesse = 1.0 si d > 1.2 sinon (etat = APPROCHE)\n  APPROCHE : vitesse = 0.3 si d > 0.6 sinon 0.1 + 0.2 * (d - 0.30) / 0.30\n             si d <= 0.30: etat = CHOIX\n  CHOIX    : cote = gauche si carte.gauche > carte.droite + 0.10 sinon droite   # hysteresis 10 cm\n             cap_initial = imu.cap(); etat = ECARTE\n  ECARTE   : braque vers cote à 0,15 m/s jusqu'à carte.centre > 0.8 ; etat = LONGE\n  LONGE    : avance 1 s à 0,3 m/s en gardant l'obstacle de côté ; etat = REVIENT\n  REVIENT  : braque vers cap_initial jusqu'à |imu.cap() - cap_initial| < 15° ; etat = ROULE",
       "lang": "text"
      },
      {
@@ -5546,7 +5546,7 @@
          "content": [
           {
            "type": "text",
-           "text": "L'hystérésis de 10 cm sur le choix du côté corrige le bug B2 (oscillation devant un mur)."
+           "text": "La hysteresis de 10 cm sur le choix du côté corrige le bug B2 (oscillation devant un mur)."
           }
          ]
         }
@@ -5568,7 +5568,7 @@
          "content": [
           {
            "type": "text",
-           "text": "Simulation sur ordinateur avant le robot : même code, capteurs simulés (risque « équipe en retard »)."
+           "text": "Simulation sur ordinateur avant le robot : même code, sensors simulés (risque « équipe en retard »)."
           }
          ]
         }
@@ -5616,7 +5616,7 @@
          "content": [
           {
            "type": "text",
-           "text": "« Démarrer » n'est actif qu'après l'autotest : coupure de traction vérifiée, capteurs lus, batterie au-dessus de 3,6 V par élément."
+           "text": "« Démarrer » n'est actif qu'après le self-test : coupure de traction vérifiée, sensors lus, battery au-dessus de 3,6 V par élément."
           }
          ]
         }
@@ -5627,7 +5627,7 @@
          "content": [
           {
            "type": "text",
-           "text": "Pendant le roulage : vue radar (trois ultrasons et temps de vol), vitesse, état de la machine, batterie, à 5 Hz ou plus."
+           "text": "Pendant le roulage : vue radar (trois ultrasons et temps de vol), vitesse, état de la machine, battery, à 5 Hz ou plus."
           }
          ]
         }
@@ -5638,7 +5638,7 @@
          "content": [
           {
            "type": "text",
-           "text": "Le bouton d'arrêt d'urgence occupe le bas de l'écran ; un deuxième bouton est sur le robot."
+           "text": "L'emergency stop button occupe le bas de l'écran ; un deuxième bouton est sur le robot."
           }
          ]
         }
@@ -5653,7 +5653,7 @@
         [
          {
           "type": "text",
-          "text": "Défaillance"
+          "text": "Failure"
          }
         ],
         [
@@ -5693,13 +5693,13 @@
         [
          {
           "type": "text",
-          "text": "Logiciel bloqué"
+          "text": "Software bloqué"
          }
         ],
         [
          {
           "type": "text",
-          "text": "Chien de garde matériel : redémarrage, traction coupée"
+          "text": "Watchdog matériel : redémarrage, traction coupée"
          }
         ],
         [
@@ -5713,7 +5713,7 @@
         [
          {
           "type": "text",
-          "text": "Arrêt d'urgence (téléphone ou robot)"
+          "text": "Emergency stop (téléphone ou robot)"
          }
         ],
         [
@@ -5733,7 +5733,7 @@
         [
          {
           "type": "text",
-          "text": "Batterie sous 3,4 V par élément"
+          "text": "Battery sous 3,4 V par élément"
          }
         ],
         [
@@ -5780,7 +5780,7 @@
          "content": [
           {
            "type": "text",
-           "text": "Présentés : architecture, bilan de puissance, distance d'arrêt, registre des risques, DFMEA préliminaire."
+           "text": "Présentés : architecture, power budget, distance d'arrêt, registre des risques, DFMEA préliminaire."
           }
          ]
         }
@@ -5791,7 +5791,7 @@
          "content": [
           {
            "type": "text",
-           "text": "Décisions : vitesse limitée à 0,3 m/s sous 1,2 m (D-7) ; coupure matérielle en plus du logiciel (D-6)."
+           "text": "Décisions : vitesse limitée à 0,3 m/s sous 1,2 m (D-7) ; coupure matérielle en plus du software (D-6)."
           }
          ]
         }
@@ -5802,7 +5802,7 @@
          "content": [
           {
            "type": "text",
-           "text": "Actions : rampe de démarrage du moteur (Léa), séquenceur des ultrasons (Alexis)."
+           "text": "Actions : rampe de démarrage du motor (Léa), séquenceur des ultrasons (Alexis)."
           }
          ]
         }
@@ -5828,7 +5828,7 @@
          "content": [
           {
            "type": "text",
-           "text": "Design figé : nomenclature de 23 pièces dans Diamond, environ 210 $ par robot."
+           "text": "Design figé : BOM de 23 pièces dans Diamond, environ 210 $ par robot."
           }
          ]
         }
@@ -6009,7 +6009,7 @@
        },
        {
         "type": "text",
-        "text": " (ESSAI-1 à ESSAI-20), chacun relié aux requirements qu'il prouve. Ordre d'exécution : banc (couverture, détection), sécurité (arrêts d'urgence, chien de garde), parcours, puis essais de normes en pré-conformité."
+        "text": " (ESSAI-1 à ESSAI-20), chacun relié aux requirements qu'il prouve. Ordre d'exécution : bench (couverture, détection), sécurité (emergency stops, watchdog), parcours, puis essais de normes en pré-conformité."
        }
       ]
      }
@@ -6358,7 +6358,7 @@
         [
          {
           "type": "text",
-          "text": "Justifié : ferrite sur le câble moteur, à confirmer au laboratoire"
+          "text": "Justifié : ferrite sur le motor cable, à confirmer au laboratoire"
          }
         ]
        ],
@@ -6405,7 +6405,7 @@
         "content": [
          {
           "type": "text",
-          "text": "Décision D-10 : lancer le kit pour les écoles. Action ouverte : essai CEM au laboratoire reconnu avec la ferrite."
+          "text": "Décision D-10 : lancer le kit pour les écoles. Action ouverte : essai EMC au laboratoire reconnu avec la ferrite."
          }
         ]
        }
@@ -6416,7 +6416,7 @@
   },
   {
    "ref": "PD3",
-   "title": "Notice de montage et sécurité de la batterie",
+   "title": "Notice de montage et sécurité de la battery",
    "parent": "PD",
    "body": {
     "type": "doc",
@@ -6430,7 +6430,7 @@
          "content": [
           {
            "type": "text",
-           "text": "Vérifiez le contenu du kit avec la nomenclature (Diamond → Pièces)."
+           "text": "Vérifiez le contenu du kit avec la BOM (Diamond → Pièces)."
           }
          ]
         }
@@ -6441,7 +6441,7 @@
          "content": [
           {
            "type": "text",
-           "text": "Vissez la plaque porte-modules sur le châssis (4 entretoises M3)."
+           "text": "Vissez la plaque porte-modules sur le chassis (4 standoffs M3)."
           }
          ]
         }
@@ -6463,7 +6463,7 @@
          "content": [
           {
            "type": "text",
-           "text": "Branchez le variateur et le servo sur la carte PCA9685, puis la coupure de traction."
+           "text": "Branchez l'ESC et le servo sur la PCA9685 board, puis la coupure de traction."
           }
          ]
         }
@@ -6474,7 +6474,7 @@
          "content": [
           {
            "type": "text",
-           "text": "Insérez la carte microSD préparée, fermez le boîtier électronique avec son joint."
+           "text": "Insérez la microSD card préparée, fermez l'electronics enclosure avec son joint."
           }
          ]
         }
@@ -6485,7 +6485,7 @@
          "content": [
           {
            "type": "text",
-           "text": "Chargez la batterie dans son sac ignifuge, sous surveillance, avec un chargeur LiPo certifié."
+           "text": "Chargez la battery dans son sac ignifuge, sous surveillance, avec un charger LiPo certifié."
           }
          ]
         }
@@ -6512,7 +6512,7 @@
         "content": [
          {
           "type": "text",
-          "text": "Batterie LiPo : jamais de charge sans surveillance ni hors du sac ignifuge ; une batterie gonflée ou percée ne se recharge plus et se rapporte à un point de collecte. Kit destiné aux 14 ans et plus."
+          "text": "Battery LiPo : jamais de charge sans surveillance ni hors du sac ignifuge ; une battery gonflée ou percée ne se recharge plus et se rapporte à un point de collecte. Kit destiné aux 14 ans et plus."
          }
         ]
        }
@@ -6541,11 +6541,11 @@
     "parent": "F1",
     "kano": "B",
     "importance": "indispensable",
-    "notes": "Première branche dans le temps (« quand ») : de la mise sous tension au « Prêt »."
+    "notes": "Première branche dans le temps (« quand ») : de la power-on au « Prêt »."
    },
    {
     "ref": "F3",
-    "text": "Recevoir l'énergie de la batterie",
+    "text": "Recevoir l'énergie de la battery",
     "type": "usage",
     "parent": "F2",
     "kano": "B",
@@ -6553,7 +6553,7 @@
    },
    {
     "ref": "F4",
-    "text": "Démarrer le logiciel et le point d'accès Wi-Fi",
+    "text": "Démarrer le software et le point d'accès Wi-Fi",
     "type": "usage",
     "parent": "F2",
     "kano": "B",
@@ -6652,7 +6652,7 @@
     "parent": "F10",
     "kano": "",
     "importance": "",
-    "notes": "Fonction technique : elle n'existe qu'à cause du choix des capteurs à ultrasons 5 V."
+    "notes": "Fonction technique : elle n'existe qu'à cause du choix des ultrasonic sensors 5 V."
    },
    {
     "ref": "F16",
@@ -6666,7 +6666,7 @@
    },
    {
     "ref": "F17",
-    "text": "Fusionner les mesures en une carte locale",
+    "text": "Fusionner les mesures en une local map",
     "type": "usage",
     "parent": "F16",
     "kano": "B",
@@ -6709,7 +6709,7 @@
    },
    {
     "ref": "F22",
-    "text": "Commander le moteur de traction",
+    "text": "Commander le drive motor",
     "type": "usage",
     "parent": "F21",
     "kano": "B",
@@ -6747,11 +6747,11 @@
     "kano": "B",
     "importance": "indispensable",
     "critical": true,
-    "notes": "Trouvée par le produit de référence : toute auto téléguidée a une coupure."
+    "notes": "Trouvée par le produit de référence : toute RC car a une coupure."
    },
    {
     "ref": "F27",
-    "text": "Couper la traction sur arrêt d'urgence",
+    "text": "Couper la traction sur emergency stop",
     "type": "usage",
     "parent": "F26",
     "kano": "B",
@@ -6769,7 +6769,7 @@
    },
    {
     "ref": "F29",
-    "text": "Surveiller la tension de la batterie",
+    "text": "Surveiller la voltage de la battery",
     "type": "usage",
     "parent": "F26",
     "kano": "B",
@@ -6785,7 +6785,7 @@
    },
    {
     "ref": "F31",
-    "text": "Porter les modules sur le châssis",
+    "text": "Porter les modules sur le chassis",
     "type": "usage",
     "parent": "F30",
     "kano": "B",
@@ -6809,7 +6809,7 @@
    },
    {
     "ref": "F34",
-    "text": "Envoyer la télémétrie au téléphone",
+    "text": "Envoyer la telemetry au téléphone",
     "type": "usage",
     "parent": "F33",
     "kano": "P",
@@ -6817,7 +6817,7 @@
    },
    {
     "ref": "F35",
-    "text": "Signaler l'état par une DEL",
+    "text": "Signaler l'état par une LED",
     "type": "usage",
     "parent": "F33",
     "kano": "B",
@@ -6830,11 +6830,11 @@
     "parent": "F1",
     "kano": "I",
     "importance": "importante",
-    "notes": "Fonction d'estime : le robot montre ses capteurs et son câblage au lieu de les cacher."
+    "notes": "Fonction d'estime : le robot montre ses sensors et son wiring au lieu de les cacher."
    },
    {
     "ref": "F37",
-    "text": "Montrer les capteurs et le câblage",
+    "text": "Montrer les sensors et le wiring",
     "type": "estime",
     "parent": "F36",
     "kano": "I",
@@ -6842,7 +6842,7 @@
    },
    {
     "ref": "F38",
-    "text": "Utiliser le châssis d'une auto téléguidée tout-terrain",
+    "text": "Utiliser le chassis d'une RC car tout-terrain",
     "type": "contrainte",
     "parent": "F1",
     "kano": "C",
@@ -6862,7 +6862,7 @@
    {
     "ref": "E1",
     "side": "in",
-    "label": "Charge de la batterie (chargeur externe)",
+    "label": "Charge de la battery (charger externe)",
     "kind": "energy"
    },
    {
@@ -6898,13 +6898,13 @@
    {
     "ref": "S2",
     "side": "out",
-    "label": "Télémétrie vers le téléphone",
+    "label": "Telemetry vers le téléphone",
     "kind": "information"
    },
    {
     "ref": "S3",
     "side": "out",
-    "label": "Chaleur du moteur et du processeur",
+    "label": "Chaleur du motor et du processor",
     "kind": "energy"
    },
    {
@@ -6960,21 +6960,21 @@
    {
     "view": "general",
     "kind": "information",
-    "label": "consignes",
+    "label": "setpoints",
     "src": "F6",
     "dst": "F16"
    },
    {
     "view": "general",
     "kind": "information",
-    "label": "arrêt d'urgence",
+    "label": "emergency stop",
     "src": "F6",
     "dst": "F26"
    },
    {
     "view": "general",
     "kind": "information",
-    "label": "échos",
+    "label": "echoes",
     "src": "E3",
     "dst": "F9"
    },
@@ -6988,21 +6988,21 @@
    {
     "view": "general",
     "kind": "information",
-    "label": "distances, cap, vitesse",
+    "label": "distances, heading, vitesse",
     "src": "F9",
     "dst": "F16"
    },
    {
     "view": "general",
     "kind": "information",
-    "label": "consigne de vitesse",
+    "label": "speed setpoint",
     "src": "F16",
     "dst": "F21"
    },
    {
     "view": "general",
     "kind": "information",
-    "label": "angle de braquage",
+    "label": "steering angle",
     "src": "F16",
     "dst": "F24"
    },
@@ -7016,7 +7016,7 @@
    {
     "view": "general",
     "kind": "information",
-    "label": "tension",
+    "label": "voltage",
     "src": "F2",
     "dst": "F26"
    },
@@ -7030,7 +7030,7 @@
    {
     "view": "general",
     "kind": "energy",
-    "label": "braquage",
+    "label": "steering",
     "src": "F24",
     "dst": "S1"
    },
@@ -7051,14 +7051,14 @@
    {
     "view": "general",
     "kind": "information",
-    "label": "télémétrie",
+    "label": "telemetry",
     "src": "F33",
     "dst": "S2"
    },
    {
     "view": "general",
     "kind": "information",
-    "label": "DEL",
+    "label": "LED",
     "src": "F33",
     "dst": "S4"
    },
@@ -7086,14 +7086,14 @@
    {
     "view": "detail",
     "kind": "information",
-    "label": "point d'accès",
+    "label": "access point",
     "src": "F4",
     "dst": "F5"
    },
    {
     "view": "detail",
     "kind": "information",
-    "label": "page web",
+    "label": "web page",
     "src": "E2",
     "dst": "F7"
    },
@@ -7107,21 +7107,21 @@
    {
     "view": "detail",
     "kind": "information",
-    "label": "vitesse max",
+    "label": "max speed",
     "src": "F8",
     "dst": "F18"
    },
    {
     "view": "detail",
     "kind": "information",
-    "label": "arrêt d'urgence",
+    "label": "emergency stop",
     "src": "F8",
     "dst": "F27"
    },
    {
     "view": "detail",
     "kind": "information",
-    "label": "écho",
+    "label": "echo",
     "src": "E3",
     "dst": "F10"
    },
@@ -7156,7 +7156,7 @@
    {
     "view": "detail",
     "kind": "information",
-    "label": "cap",
+    "label": "heading",
     "src": "F12",
     "dst": "F17"
    },
@@ -7170,21 +7170,21 @@
    {
     "view": "detail",
     "kind": "information",
-    "label": "distance mini",
+    "label": "distance min",
     "src": "F17",
     "dst": "F18"
    },
    {
     "view": "detail",
     "kind": "information",
-    "label": "carte locale",
+    "label": "local map",
     "src": "F17",
     "dst": "F19"
    },
    {
     "view": "detail",
     "kind": "information",
-    "label": "cap",
+    "label": "heading",
     "src": "F12",
     "dst": "F20"
    },
@@ -7205,7 +7205,7 @@
    {
     "view": "detail",
     "kind": "information",
-    "label": "consigne",
+    "label": "setpoint",
     "src": "F18",
     "dst": "F22"
    },
@@ -7226,7 +7226,7 @@
    {
     "view": "detail",
     "kind": "information",
-    "label": "battement 10 Hz",
+    "label": "heartbeat 10 Hz",
     "src": "F5",
     "dst": "F28"
    },
@@ -7240,7 +7240,7 @@
    {
     "view": "detail",
     "kind": "energy",
-    "label": "couple",
+    "label": "torque",
     "src": "F22",
     "dst": "F23"
    },
@@ -7254,7 +7254,7 @@
    {
     "view": "detail",
     "kind": "energy",
-    "label": "braquage",
+    "label": "steering",
     "src": "F25",
     "dst": "S1"
    },
@@ -7268,14 +7268,14 @@
    {
     "view": "detail",
     "kind": "information",
-    "label": "tension",
+    "label": "voltage",
     "src": "F3",
     "dst": "F29"
    },
    {
     "view": "detail",
     "kind": "information",
-    "label": "niveau batterie",
+    "label": "battery level",
     "src": "F29",
     "dst": "F34"
    },
@@ -7289,7 +7289,7 @@
    {
     "view": "detail",
     "kind": "information",
-    "label": "télémétrie",
+    "label": "telemetry",
     "src": "F34",
     "dst": "S2"
    },
@@ -7352,25 +7352,25 @@
   ],
   "parts": [
    {
-    "name": "Châssis d'auto téléguidée tout-terrain 1:16",
+    "name": "Chassis de RC car tout-terrain 1:16",
     "kind": "bought",
     "functions": [
      "F31",
      "F23",
      "F25"
     ],
-    "notes": "4 × 4, suspensions ; environ 80 $ avec moteur et servo."
+    "notes": "4 × 4, suspensions ; environ 80 $ avec motor et servo."
    },
    {
-    "name": "Moteur de traction à balais (type 390)",
+    "name": "Drive motor à balais (type 390)",
     "kind": "bought",
     "functions": [
      "F23"
     ],
-    "notes": "Fourni avec le châssis ; réduction par pignons."
+    "notes": "Fourni avec le chassis ; réduction par pinions."
    },
    {
-    "name": "Variateur à balais 20 A",
+    "name": "Brushed ESC 20 A",
     "kind": "bought",
     "functions": [
      "F22"
@@ -7383,7 +7383,7 @@
     "functions": [
      "F25"
     ],
-    "notes": "Fourni avec le châssis ; ± 30° de braquage."
+    "notes": "Fourni avec le chassis ; ± 30° de braquage."
    },
    {
     "name": "Raspberry Pi 4 (2 Go)",
@@ -7400,7 +7400,7 @@
     "notes": "Wi-Fi intégré déjà certifié (IC / FCC ID) ; environ 60 $."
    },
    {
-    "name": "Carte microSD 32 Go",
+    "name": "MicroSD card 32 Go",
     "kind": "bought",
     "functions": [
      "F4"
@@ -7408,7 +7408,7 @@
     "notes": "Image du système préparée et copiée pour chaque robot."
    },
    {
-    "name": "Batterie LiPo 2S 2 200 mAh, connecteur XT60",
+    "name": "Battery LiPo 2S 2 200 mAh, connector XT60",
     "kind": "bought",
     "functions": [
      "F3"
@@ -7416,23 +7416,23 @@
     "notes": "Certifiée IEC 62133-2 et UN 38.3 ; environ 30 $."
    },
    {
-    "name": "Convertisseur abaisseur 5 V 5 A",
+    "name": "Buck converter 5 V 5 A",
     "kind": "bought",
     "functions": [
      "F3"
     ],
-    "notes": "Alimente le Pi et les capteurs ; le moteur reste sur 7,4 V."
+    "notes": "Alimente le Pi et les sensors ; le motor reste sur 7,4 V."
    },
    {
-    "name": "Moniteur de tension et courant INA219",
+    "name": "Voltage and current monitor INA219",
     "kind": "bought",
     "functions": [
      "F29"
     ],
-    "notes": "Bus I2C ; mesure la tension de la batterie."
+    "notes": "Bus I2C ; mesure la voltage de la battery."
    },
    {
-    "name": "Capteurs à ultrasons HC-SR04 (× 3)",
+    "name": "Ultrasonic sensors HC-SR04 (× 3)",
     "kind": "bought",
     "functions": [
      "F10"
@@ -7440,7 +7440,7 @@
     "notes": "Gauche, centre, droite à ± 45° ; environ 4 $ chacun."
    },
    {
-    "name": "Diviseurs de tension de l'écho (× 3)",
+    "name": "Voltage dividers de l'écho (× 3)",
     "kind": "standard",
     "functions": [
      "F10"
@@ -7448,7 +7448,7 @@
     "notes": "Deux résistances : 5 V → 3,3 V pour les entrées du Pi (fonction technique F15)."
    },
    {
-    "name": "Capteur à temps de vol VL53L1X",
+    "name": "Sensor à temps de vol VL53L1X",
     "kind": "bought",
     "functions": [
      "F11"
@@ -7456,7 +7456,7 @@
     "notes": "Axe avant, 4 cm à 4 m ; voit les obstacles mous que les ultrasons ratent."
    },
    {
-    "name": "Centrale inertielle ICM-20948",
+    "name": "IMU ICM-20948",
     "kind": "bought",
     "functions": [
      "F12"
@@ -7464,7 +7464,7 @@
     "notes": "Gyroscope pour le cap pendant le contournement."
    },
    {
-    "name": "Capteur à effet Hall et aimant sur l'arbre",
+    "name": "Sensor à effet Hall et aimant sur l'arbre",
     "kind": "bought",
     "functions": [
      "F13"
@@ -7472,30 +7472,30 @@
     "notes": "Une impulsion par tour d'arbre : la vitesse des roues."
    },
    {
-    "name": "Microrupteurs de pare-chocs (× 2)",
+    "name": "Microswitches de bumper (× 2)",
     "kind": "standard",
     "functions": [
      "F14"
     ],
-    "notes": "Contact franc, câblés en série avec l'arrêt d'urgence."
+    "notes": "Contact franc, câblés en série avec l'emergency stop."
    },
    {
-    "name": "Pare-chocs avant en PETG",
+    "name": "Bumper avant en PETG",
     "kind": "designed",
     "functions": [
      "F14",
      "F32"
     ],
-    "notes": "Imprimé en 3D, pivote sur deux tiges et appuie sur les microrupteurs."
+    "notes": "Imprimé en 3D, pivote sur deux tiges et appuie sur les microswitches."
    },
    {
-    "name": "Carte PWM PCA9685",
+    "name": "PWM board PCA9685",
     "kind": "bought",
     "functions": [
      "F22",
      "F25"
     ],
-    "notes": "16 canaux en I2C : variateur et servo sans charger le processeur."
+    "notes": "16 canaux en I2C : ESC et servo sans charger le processor."
    },
    {
     "name": "MOSFET de coupure de la traction",
@@ -7504,10 +7504,10 @@
      "F27",
      "F28"
     ],
-    "notes": "Coupe le signal et l'alimentation du variateur ; ouvert par défaut."
+    "notes": "Coupe le signal et l'alimentation de l'ESC ; ouvert par défaut."
    },
    {
-    "name": "Bouton d'arrêt d'urgence à verrouillage 16 mm",
+    "name": "Emergency stop button à verrouillage 16 mm",
     "kind": "standard",
     "functions": [
      "F27"
@@ -7515,16 +7515,16 @@
     "notes": "Rouge sur fond jaune, sur le dessus du robot."
    },
    {
-    "name": "Plaque porte-modules en acrylique",
+    "name": "Plaque porte-modules en acrylic",
     "kind": "designed",
     "functions": [
      "F31",
      "F37"
     ],
-    "notes": "Découpée au laser, transparente : on voit le câblage (fonction d'estime)."
+    "notes": "Découpée au laser, transparente : on voit le wiring (fonction d'estime)."
    },
    {
-    "name": "Boîtier électronique avec joint",
+    "name": "Electronics enclosure avec joint",
     "kind": "designed",
     "functions": [
      "F32"
@@ -7532,15 +7532,15 @@
     "notes": "Imprimé en PETG ; joint en mousse ; ouvert vers le bas pour l'air."
    },
    {
-    "name": "DEL RGB d'état",
+    "name": "LED RGB d'état",
     "kind": "standard",
     "functions": [
      "F35"
     ],
-    "notes": "Vert : prêt ; bleu : roule ; ambre : contourne ; rouge : arrêt ou batterie basse."
+    "notes": "Vert : prêt ; bleu : roule ; ambre : contourne ; rouge : arrêt ou battery basse."
    },
    {
-    "name": "Visserie M3 et entretoises",
+    "name": "Fasteners M3 et standoffs",
     "kind": "standard",
     "functions": [
      "F31"
@@ -7558,28 +7558,28 @@
     "probability": 4,
     "impact": 4,
     "response": "reduire",
-    "action": "Ajouter un capteur à temps de vol dans l'axe et des pare-chocs ; essai de couverture sur grille",
+    "action": "Ajouter un sensor à temps de vol dans l'axe et des bumper ; essai de couverture sur grille",
     "owner": "lea",
     "due": "2026-12-04",
     "function": "F10"
    },
    {
     "title": "Interférence entre les trois ultrasons",
-    "cause": "un capteur entend l'écho d'un autre",
+    "cause": "un sensor entend l'écho d'un autre",
     "consequence": "fausses distances, arrêts inutiles",
     "category": "technique",
     "phase": "C",
     "probability": 3,
     "impact": 3,
     "response": "reduire",
-    "action": "Déclencher les capteurs à tour de rôle, 25 ms d'écart",
+    "action": "Déclencher les sensors à tour de rôle, 25 ms d'écart",
     "owner": "alexis",
     "due": "2026-12-18",
     "function": "F10"
    },
    {
     "title": "Distance d'arrêt trop longue à pleine vitesse",
-    "cause": "inertie, latence de 100 ms de la boucle",
+    "cause": "inertie, latency de 100 ms de la boucle",
     "consequence": "contact avec l'obstacle",
     "category": "securite",
     "phase": "C",
@@ -7592,9 +7592,9 @@
     "function": "F18"
    },
    {
-    "title": "Batterie LiPo endommagée ou trop déchargée",
+    "title": "Battery LiPo endommagée ou trop déchargée",
     "cause": "chute, perforation, décharge sous 3,0 V par élément",
-    "consequence": "incendie, batterie perdue",
+    "consequence": "incendie, battery perdue",
     "category": "securite",
     "phase": "C",
     "probability": 2,
@@ -7614,7 +7614,7 @@
     "probability": 3,
     "impact": 4,
     "response": "reduire",
-    "action": "Chien de garde de 300 ms ; canal Wi-Fi choisi au démarrage",
+    "action": "Watchdog de 300 ms ; canal Wi-Fi choisi au démarrage",
     "owner": "alexis",
     "due": "2026-12-18",
     "function": "F28"
@@ -7641,13 +7641,13 @@
     "probability": 3,
     "impact": 3,
     "response": "reduire",
-    "action": "Nomenclature chiffrée à chaque revue ; achats groupés",
+    "action": "BOM chiffrée à chaque revue ; achats groupés",
     "owner": "nina",
     "due": "2027-01-15",
     "function": "F39"
    },
    {
-    "title": "Équipe en retard sur le logiciel d'évitement",
+    "title": "Équipe en retard sur le software d'évitement",
     "cause": "un seul informaticien dans l'équipe",
     "consequence": "MVP 2 incomplet à la CDR",
     "category": "equipe",
@@ -7655,7 +7655,7 @@
     "probability": 3,
     "impact": 4,
     "response": "reduire",
-    "action": "Binôme Alexis–Léa sur le logiciel ; simulation sur ordinateur avant le robot",
+    "action": "Binôme Alexis–Léa sur le software ; simulation sur ordinateur avant le robot",
     "owner": "alexis",
     "due": "2027-01-08",
     "function": "F16"
@@ -7682,7 +7682,7 @@
     "probability": 2,
     "impact": 3,
     "response": "reduire",
-    "action": "Télémétrie et carte locale dans l'application ; plaque transparente",
+    "action": "Telemetry et local map dans l'application ; plaque transparente",
     "owner": "hugo",
     "due": "2026-11-20",
     "function": "F36"
@@ -7699,7 +7699,7 @@
     "effect": "Collision",
     "severity": 8,
     "cause": "Surface molle ou en biais qui absorbe l'écho",
-    "prevention": "Trois capteurs à ± 45°, temps de vol dans l'axe",
+    "prevention": "Trois sensors à ± 45°, temps de vol dans l'axe",
     "occurrence": 5,
     "detection_ctrl": "Essai de couverture sur grille, 200 essais de détection",
     "detection": 3,
@@ -7717,10 +7717,10 @@
     "failure_mode": "Distance fausse (écho croisé)",
     "effect": "Arrêts inutiles, contournement raté",
     "severity": 5,
-    "cause": "Deux capteurs émettent en même temps",
+    "cause": "Deux sensors émettent en même temps",
     "prevention": "Déclenchement à tour de rôle",
     "occurrence": 4,
-    "detection_ctrl": "Journal des distances sur le banc",
+    "detection_ctrl": "Journal des distances sur le bench",
     "detection": 4,
     "action": "Séquenceur de 25 ms dans le pilote",
     "test": "ESSAI-1",
@@ -7730,7 +7730,7 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Perception",
-    "lower": "Capteur à temps de vol",
+    "lower": "Sensor à temps de vol",
     "function": "F11",
     "requirement": "Distance dans l'axe de 0,04 à 2 m",
     "failure_mode": "Mesure saturée au soleil",
@@ -7755,12 +7755,12 @@
     "failure_mode": "Vitesse trop élevée près de l'obstacle",
     "effect": "Contact, robot ou obstacle abîmé",
     "severity": 8,
-    "cause": "Encodeur qui manque des impulsions",
-    "prevention": "Comparer encodeur et consigne ; limite logicielle",
+    "cause": "Encoder qui manque des impulsions",
+    "prevention": "Comparer encoder et consigne ; limite logicielle",
     "occurrence": 3,
     "detection_ctrl": "Essai de vitesse selon la distance",
     "detection": 3,
-    "action": "Limiter la commande du variateur à 30 % sous 1,2 m",
+    "action": "Limiter la commande de l'ESC à 30 % sous 1,2 m",
     "test": "ESSAI-3",
     "owner": "alexis",
     "due": "2026-12-18"
@@ -7774,7 +7774,7 @@
     "failure_mode": "Arrêt trop tardif",
     "effect": "Collision avec une personne",
     "severity": 9,
-    "cause": "Latence de la boucle de 100 ms",
+    "cause": "Latency de la boucle de 100 ms",
     "prevention": "Boucle à 20 Hz, calcul de la distance d'arrêt",
     "occurrence": 3,
     "detection_ctrl": "50 approches de face",
@@ -7791,14 +7791,14 @@
     "function": "F19",
     "requirement": "Contourner et reprendre le cap (REQ-4)",
     "failure_mode": "Oscillation gauche-droite devant l'obstacle",
-    "effect": "Robot bloqué, batterie gaspillée",
+    "effect": "Robot bloqué, battery gaspillée",
     "severity": 4,
     "cause": "Distances gauche et droite presque égales",
-    "prevention": "Hystérésis de 10 cm et côté gardé 2 s",
+    "prevention": "Hysteresis de 10 cm et côté gardé 2 s",
     "occurrence": 5,
     "detection_ctrl": "Parcours B, 10 essais",
     "detection": 4,
-    "action": "Ajouter l'hystérésis au choix du côté",
+    "action": "Ajouter la hysteresis au choix du côté",
     "test": "ESSAI-4",
     "owner": "alexis",
     "due": "2027-01-15"
@@ -7825,18 +7825,18 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Sécurité",
-    "lower": "Arrêt d'urgence",
+    "lower": "Emergency stop",
     "function": "F27",
     "requirement": "Couper la traction en ≤ 0,2 s (REQ-7)",
     "failure_mode": "La traction n'est pas coupée",
     "effect": "Blessure, chute du robot",
     "severity": 10,
-    "cause": "MOSFET en court-circuit",
+    "cause": "MOSFET en short circuit",
     "prevention": "Coupure matérielle en série, MOSFET ouvert par défaut",
     "occurrence": 2,
     "detection_ctrl": "Essai à l'oscilloscope des deux boutons",
     "detection": 2,
-    "action": "Vérifier la coupure à chaque démarrage (autotest)",
+    "action": "Vérifier la coupure à chaque démarrage (self-test)",
     "test": "ESSAI-7",
     "owner": "lea",
     "due": "2026-12-11"
@@ -7844,18 +7844,18 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Sécurité",
-    "lower": "Chien de garde",
+    "lower": "Watchdog",
     "function": "F28",
     "requirement": "Arrêt en ≤ 0,5 s sans liaison (REQ-6)",
     "failure_mode": "Le robot continue sans liaison",
     "effect": "Robot hors contrôle",
     "severity": 9,
-    "cause": "Fil d'exécution du chien de garde bloqué",
-    "prevention": "Chien de garde matériel du Pi en plus du logiciel",
+    "cause": "Fil d'exécution du watchdog bloqué",
+    "prevention": "Watchdog matériel du Pi en plus du software",
     "occurrence": 3,
     "detection_ctrl": "Coupure du Wi-Fi en roulant, 20 essais",
     "detection": 2,
-    "action": "Activer le chien de garde matériel",
+    "action": "Activer le watchdog matériel",
     "test": "ESSAI-6",
     "owner": "alexis",
     "due": "2026-12-18"
@@ -7863,14 +7863,14 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Énergie",
-    "lower": "Batterie LiPo",
+    "lower": "Battery LiPo",
     "function": "F29",
     "requirement": "Arrêt à 3,4 V par élément (REQ-19)",
     "failure_mode": "Décharge profonde",
-    "effect": "Batterie gonflée, risque d'incendie",
+    "effect": "Battery gonflée, risque d'incendie",
     "severity": 9,
-    "cause": "Lecture de tension absente ou fausse",
-    "prevention": "INA219 étalonné, seuil logiciel et alarme du variateur",
+    "cause": "Lecture de voltage absente ou fausse",
+    "prevention": "INA219 étalonné, seuil software et alarme de l'ESC",
     "occurrence": 3,
     "detection_ctrl": "Essai d'autonomie jusqu'à la coupure",
     "detection": 3,
@@ -7882,18 +7882,18 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Énergie",
-    "lower": "Convertisseur 5 V",
+    "lower": "Converter 5 V",
     "function": "F3",
     "requirement": "5 V stable sous 3 A",
-    "failure_mode": "Chute de tension au démarrage du moteur",
+    "failure_mode": "Voltage drop au démarrage du motor",
     "effect": "Redémarrage du Pi en roulant",
     "severity": 6,
-    "cause": "Pic de courant du moteur sur la même batterie",
-    "prevention": "Condensateur de 1 000 µF, câbles séparés",
+    "cause": "Current peak du motor sur la même battery",
+    "prevention": "Capacitor de 1 000 µF, cables séparés",
     "occurrence": 4,
     "detection_ctrl": "Oscilloscope sur le 5 V au démarrage",
     "detection": 4,
-    "action": "Démarrage progressif du moteur (rampe de 0,5 s)",
+    "action": "Soft start du motor (rampe de 0,5 s)",
     "test": "ESSAI-8",
     "owner": "lea",
     "due": "2026-12-18"
@@ -7901,13 +7901,13 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Structure",
-    "lower": "Boîtier électronique",
+    "lower": "Electronics enclosure",
     "function": "F32",
     "requirement": "IPX4 (REQ-11)",
     "failure_mode": "Eau sur le Raspberry Pi",
-    "effect": "Court-circuit, robot arrêté",
+    "effect": "Short circuit, robot arrêté",
     "severity": 6,
-    "cause": "Joint mal posé, ouverture de câbles vers le haut",
+    "cause": "Joint mal posé, ouverture de cables vers le haut",
     "prevention": "Passe-câbles par le bas, joint en mousse",
     "occurrence": 4,
     "detection_ctrl": "Essai IPX4",
@@ -7923,15 +7923,15 @@
     "lower": "Plaque porte-modules",
     "function": "F31",
     "requirement": "Résister à une chute de 0,5 m (REQ-23)",
-    "failure_mode": "Plaque fissurée, capteur décroché",
+    "failure_mode": "Plaque fissurée, sensor décroché",
     "effect": "Perception perdue d'un côté",
     "severity": 6,
-    "cause": "Acrylique cassant aux coins",
+    "cause": "Acrylic cassant aux coins",
     "prevention": "Rayons de 3 mm aux coins, rondelles en caoutchouc",
     "occurrence": 4,
     "detection_ctrl": "Six chutes de 0,5 m",
     "detection": 3,
-    "action": "Essayer le PETG si l'acrylique casse",
+    "action": "Essayer le PETG si l'acrylic casse",
     "test": "ESSAI-17",
     "owner": "nina",
     "due": "2027-01-22"
@@ -7939,18 +7939,18 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Propulsion",
-    "lower": "Variateur et moteur",
+    "lower": "ESC et motor",
     "function": "F22",
     "requirement": "Vitesse commandée à ± 10 %",
     "failure_mode": "Le robot démarre seul",
     "effect": "Robot qui part sans consigne",
     "severity": 8,
     "cause": "Signal PWM flottant au démarrage du Pi",
-    "prevention": "Résistance de rappel, MOSFET ouvert tant que le logiciel n'est pas prêt",
+    "prevention": "Résistance de rappel, MOSFET ouvert tant que le software n'est pas prêt",
     "occurrence": 3,
     "detection_ctrl": "Démarrages à froid, 10 essais",
     "detection": 3,
-    "action": "Autotest au démarrage avant d'ouvrir la coupure",
+    "action": "Self-test au démarrage avant d'ouvrir la coupure",
     "test": "ESSAI-16",
     "owner": "lea",
     "due": "2026-12-11"
@@ -7965,7 +7965,7 @@
     "effect": "Robot, obstacle ou personne heurtés",
     "severity": 9,
     "cause": "Perception, décision ou coupure défaillante (voir les lignes F10 à F28)",
-    "prevention": "Architecture à trois barrières : distance, pare-chocs, arrêt d'urgence",
+    "prevention": "Architecture à trois barrières : distance, bumper, emergency stop",
     "occurrence": 3,
     "detection_ctrl": "Parcours A, B et C ; 50 approches de face",
     "detection": 2,
@@ -7984,7 +7984,7 @@
     "effect": "L'utilisateur attend ou abandonne",
     "severity": 4,
     "cause": "Système de fichiers corrompu par une coupure brutale",
-    "prevention": "Arrêt propre depuis l'application ; carte microSD en lecture seule",
+    "prevention": "Arrêt propre depuis l'application ; microSD card en lecture seule",
     "occurrence": 4,
     "detection_ctrl": "10 démarrages à froid chronométrés",
     "detection": 3,
@@ -7995,8 +7995,8 @@
    },
    {
     "higher": "Rover et son utilisateur",
-    "focus": "Logiciel",
-    "lower": "Raspberry Pi et carte microSD",
+    "focus": "Software",
+    "lower": "Raspberry Pi et microSD card",
     "function": "F4",
     "requirement": "Point d'accès actif au démarrage",
     "failure_mode": "Le point d'accès ne démarre pas",
@@ -8007,7 +8007,7 @@
     "occurrence": 3,
     "detection_ctrl": "Démarrages à froid, 10 essais",
     "detection": 3,
-    "action": "Autotest qui fait clignoter la DEL en rouge si le Wi-Fi manque",
+    "action": "Self-test qui fait clignoter la LED en rouge si le Wi-Fi manque",
     "test": "ESSAI-16",
     "owner": "alexis",
     "due": "2026-12-18"
@@ -8043,9 +8043,9 @@
     "cause": "Wi-Fi encombré",
     "prevention": "Canal choisi au démarrage ; messages courts par WebSocket",
     "occurrence": 4,
-    "detection_ctrl": "Mesure de latence aller-retour dans l'application",
+    "detection_ctrl": "Mesure de latency aller-retour dans l'application",
     "detection": 4,
-    "action": "Afficher la latence dans l'application",
+    "action": "Afficher la latency dans l'application",
     "test": "ESSAI-5",
     "owner": "hugo",
     "due": "2027-01-08"
@@ -8091,13 +8091,13 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Perception",
-    "lower": "Ensemble des capteurs",
+    "lower": "Ensemble des sensors",
     "function": "F9",
     "requirement": "Aucun angle mort à ± 45° au-delà de 0,3 m",
-    "failure_mode": "Angle mort entre deux capteurs",
+    "failure_mode": "Angle mort entre deux sensors",
     "effect": "Obstacle en biais non vu",
     "severity": 7,
-    "cause": "Cônes des capteurs mal orientés",
+    "cause": "Cônes des sensors mal orientés",
     "prevention": "Support imprimé avec angles fixes à ± 45°",
     "occurrence": 3,
     "detection_ctrl": "Essai de couverture sur grille",
@@ -8110,7 +8110,7 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Perception",
-    "lower": "Centrale inertielle",
+    "lower": "IMU",
     "function": "F12",
     "requirement": "Cap à ± 2° pendant 30 s",
     "failure_mode": "Mesure du cap bruitée par les vibrations",
@@ -8129,13 +8129,13 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Perception",
-    "lower": "Capteur à effet Hall",
+    "lower": "Sensor à effet Hall",
     "function": "F13",
     "requirement": "Vitesse à ± 5 %",
     "failure_mode": "Impulsions manquées",
     "effect": "Vitesse réelle plus haute que la vitesse lue",
     "severity": 7,
-    "cause": "Aimant trop loin du capteur",
+    "cause": "Aimant trop loin du sensor",
     "prevention": "Support à 2 mm de l'aimant",
     "occurrence": 4,
     "detection_ctrl": "Comparaison avec la vidéo sur 10 m",
@@ -8148,18 +8148,18 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Perception",
-    "lower": "Pare-chocs et microrupteurs",
+    "lower": "Bumper et microswitches",
     "function": "F14",
-    "requirement": "Contact détecté à toute position du pare-chocs",
+    "requirement": "Contact détecté à toute position du bumper",
     "failure_mode": "Contact non détecté sur un coin",
     "effect": "Le robot pousse l'obstacle",
     "severity": 6,
-    "cause": "Pare-chocs qui pivote sans appuyer sur le rupteur",
+    "cause": "Bumper qui pivote sans appuyer sur le rupteur",
     "prevention": "Deux rupteurs et pivot central",
     "occurrence": 4,
-    "detection_ctrl": "Chocs sur 5 points du pare-chocs",
+    "detection_ctrl": "Chocs sur 5 points du bumper",
     "detection": 3,
-    "action": "Ressort de rappel plus rigide",
+    "action": "Spring de rappel plus rigide",
     "test": "ESSAI-2",
     "owner": "nina",
     "due": "2026-12-18"
@@ -8167,18 +8167,18 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Perception",
-    "lower": "Diviseurs de tension",
+    "lower": "Voltage dividers",
     "function": "F15",
     "requirement": "Écho ramené à 3,3 V au plus",
-    "failure_mode": "Tension trop haute sur l'entrée du Pi",
+    "failure_mode": "Voltage trop haute sur l'entrée du Pi",
     "effect": "Entrée du Pi abîmée",
     "severity": 6,
-    "cause": "Résistances inversées au câblage",
+    "cause": "Résistances inversées au wiring",
     "prevention": "Diviseur sur une petite carte, sérigraphiée",
     "occurrence": 3,
-    "detection_ctrl": "Mesure au multimètre avant la mise sous tension",
+    "detection_ctrl": "Mesure au multimeter avant la power-on",
     "detection": 2,
-    "action": "Contrôle au multimètre dans la notice de montage",
+    "action": "Contrôle au multimeter dans la notice de montage",
     "test": "ESSAI-19",
     "owner": "lea",
     "due": "2026-12-04"
@@ -8186,13 +8186,13 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Décision",
-    "lower": "Logiciel de décision",
+    "lower": "Software de décision",
     "function": "F16",
     "requirement": "Décision à 20 Hz",
     "failure_mode": "Boucle de décision ralentie",
     "effect": "Réaction tardive",
     "severity": 8,
-    "cause": "Télémétrie ou journal qui bloquent la boucle",
+    "cause": "Telemetry ou journal qui bloquent la boucle",
     "prevention": "Boucle prioritaire, journal dans un autre fil",
     "occurrence": 3,
     "detection_ctrl": "Mesure de la période de boucle en roulant",
@@ -8205,7 +8205,7 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Décision",
-    "lower": "Carte locale",
+    "lower": "Local map",
     "function": "F17",
     "requirement": "Distance minimale juste",
     "failure_mode": "Mesure aberrante prise pour un obstacle",
@@ -8216,7 +8216,7 @@
     "occurrence": 5,
     "detection_ctrl": "Journal des distances sur le parcours A",
     "detection": 4,
-    "action": "Filtre médian et plausibilité entre capteurs",
+    "action": "Filtre médian et plausibilité entre sensors",
     "test": "ESSAI-1",
     "owner": "alexis",
     "due": "2026-12-18"
@@ -8224,14 +8224,14 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Propulsion",
-    "lower": "Châssis et moteur",
+    "lower": "Chassis et motor",
     "function": "F21",
     "requirement": "Vitesse jusqu'à 1,0 m/s sur le béton",
     "failure_mode": "Le robot n'avance plus",
     "effect": "Mission interrompue",
     "severity": 5,
-    "cause": "Moteur ou variateur surchauffé dans le gazon",
-    "prevention": "Vitesse limitée dehors ; variateur ventilé",
+    "cause": "Motor ou ESC surchauffé dans le gazon",
+    "prevention": "Vitesse limitée dehors ; ESC ventilé",
     "occurrence": 3,
     "detection_ctrl": "Parcours C",
     "detection": 3,
@@ -8246,15 +8246,15 @@
     "lower": "Transmission",
     "function": "F23",
     "requirement": "Couple transmis sans glisser",
-    "failure_mode": "Pignon qui saute",
+    "failure_mode": "Pinion qui saute",
     "effect": "Robot arrêté, bruit",
     "severity": 5,
-    "cause": "Vis du pignon desserrée",
-    "prevention": "Frein-filet sur la vis",
+    "cause": "Vis du pinion desserrée",
+    "prevention": "Threadlocker sur la vis",
     "occurrence": 3,
     "detection_ctrl": "Inspection après le parcours C",
     "detection": 4,
-    "action": "Frein-filet dans la notice",
+    "action": "Threadlocker dans la notice",
     "test": "ESSAI-9",
     "owner": "nina",
     "due": "2027-01-22"
@@ -8269,11 +8269,11 @@
     "effect": "Contournement impossible",
     "severity": 6,
     "cause": "Biellette déboîtée par un choc",
-    "prevention": "Rotules serrées, butées",
+    "prevention": "Ball joints serrées, butées",
     "occurrence": 3,
     "detection_ctrl": "Six chutes de 0,5 m",
     "detection": 3,
-    "action": "Vérifier les rotules après chaque chute",
+    "action": "Vérifier les ball joints après chaque chute",
     "test": "ESSAI-17",
     "owner": "nina",
     "due": "2027-01-22"
@@ -8288,7 +8288,7 @@
     "effect": "Trajectoire qui dérive",
     "severity": 4,
     "cause": "Servo mal centré au montage",
-    "prevention": "Centrage logiciel au démarrage",
+    "prevention": "Centrage software au démarrage",
     "occurrence": 4,
     "detection_ctrl": "Rouler droit sur 10 m",
     "detection": 4,
@@ -8302,14 +8302,14 @@
     "focus": "Sécurité",
     "lower": "Fonctions de sécurité",
     "function": "F26",
-    "requirement": "Toute défaillance mène à l'arrêt",
-    "failure_mode": "Défaillance qui laisse la traction active",
+    "requirement": "Toute failure mène à l'arrêt",
+    "failure_mode": "Failure qui laisse la traction active",
     "effect": "Robot hors contrôle",
     "severity": 10,
-    "cause": "Défaillance commune de la coupure et du logiciel",
-    "prevention": "Coupure matérielle indépendante du logiciel, ouverte par défaut",
+    "cause": "Failure commune de la coupure et du software",
+    "prevention": "Coupure matérielle indépendante du software, ouverte par défaut",
     "occurrence": 2,
-    "detection_ctrl": "Essais d'arrêt d'urgence et de chien de garde",
+    "detection_ctrl": "Essais d'emergency stop et de watchdog",
     "detection": 2,
     "action": "Revue de sécurité à la CDR",
     "test": "ESSAI-7",
@@ -8319,7 +8319,7 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Structure",
-    "lower": "Châssis et plaque",
+    "lower": "Chassis et plaque",
     "function": "F30",
     "requirement": "Tenir les modules sur tout terrain",
     "failure_mode": "Module qui se détache en roulant",
@@ -8338,7 +8338,7 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Interface",
-    "lower": "Télémétrie et DEL",
+    "lower": "Telemetry et LED",
     "function": "F33",
     "requirement": "L'utilisateur sait ce que fait le robot",
     "failure_mode": "État affiché faux",
@@ -8357,10 +8357,10 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Interface",
-    "lower": "Télémétrie",
+    "lower": "Telemetry",
     "function": "F34",
     "requirement": "Rafraîchissement ≥ 5 Hz (REQ-9)",
-    "failure_mode": "Télémétrie trop lente",
+    "failure_mode": "Telemetry trop lente",
     "effect": "Vue radar en retard",
     "severity": 3,
     "cause": "Messages trop gros",
@@ -8376,14 +8376,14 @@
    {
     "higher": "Rover et son utilisateur",
     "focus": "Interface",
-    "lower": "DEL d'état",
+    "lower": "LED d'état",
     "function": "F35",
     "requirement": "Couleur selon l'état",
-    "failure_mode": "DEL éteinte",
+    "failure_mode": "LED éteinte",
     "effect": "État invisible sur le robot",
     "severity": 3,
-    "cause": "DEL débranchée",
-    "prevention": "Connecteur avec détrompeur",
+    "cause": "LED débranchée",
+    "prevention": "Connector avec détrompeur",
     "occurrence": 3,
     "detection_ctrl": "Inspection au démarrage",
     "detection": 3,
@@ -8414,7 +8414,7 @@
     "lower": "—",
     "function": "F38",
     "failure_mode": "RAS",
-    "effect": "Contrainte de conception : elle ne « fonctionne » pas ; les défaillances du châssis sont dans les lignes F21 à F25."
+    "effect": "Contrainte de conception : elle ne « fonctionne » pas ; les failures du chassis sont dans les lignes F21 à F25."
    },
    {
     "higher": "Rover et son utilisateur",
@@ -8422,7 +8422,7 @@
     "lower": "—",
     "function": "F39",
     "failure_mode": "RAS",
-    "effect": "Contrainte de coût : suivie dans le registre des risques (dépassement du budget), pas comme un mode de défaillance."
+    "effect": "Contrainte de coût : suivie dans le registre des risques (dépassement du budget), pas comme un failure mode."
    }
   ],
   "story": [
@@ -8468,9 +8468,9 @@
     ]
    },
    {
-    "title": "L'assemblage",
-    "caption": "Sam monte le Raspberry Pi, les capteurs et la batterie sur le châssis en suivant la notice, en deux soirées.",
-    "notes": "Les vis se perdent. Le câblage doit être impossible à inverser. Combien de temps ? Viser moins de 4 heures.",
+    "title": "L'assembly",
+    "caption": "Sam monte le Raspberry Pi, les sensors et la battery sur le chassis en suivant la notice, en deux soirées.",
+    "notes": "Les vis se perdent. Le wiring doit être impossible à inverser. Combien de temps ? Viser moins de 4 heures.",
     "items": [
      {
       "p": "adulte",
@@ -8497,7 +8497,7 @@
       "x": 75,
       "y": 62,
       "s": 2,
-      "t": "Châssis"
+      "t": "Chassis"
      },
      {
       "p": "batterie",
@@ -8597,7 +8597,7 @@
    {
     "title": "L'obstacle",
     "caption": "Une chaise et une marche : le Rover s'arrête, recule un peu et contourne lentement par la droite.",
-    "notes": "Et s'il ne voit pas une patte de chaise mince ? Pare-chocs en dernier recours. La marche : il ne doit jamais tomber. Poussière sur les capteurs.",
+    "notes": "Et s'il ne voit pas une patte de chaise mince ? Bumper en dernier recours. La marche : il ne doit jamais tomber. Poussière sur les sensors.",
     "items": [
      {
       "p": "produit",
@@ -8636,15 +8636,15 @@
    },
    {
     "title": "La pile faible",
-    "caption": "Après 40 minutes, le Rover ralentit ; l'application avertit que la batterie est faible et Sam le recharge.",
-    "notes": "Prévenir avant qu'il s'arrête au milieu du corridor. Recharge simple, sans retirer la batterie ? Ne jamais charger sans surveillance.",
+    "caption": "Après 40 minutes, le Rover ralentit ; l'application avertit que la battery est faible et Sam le recharge.",
+    "notes": "Prévenir avant qu'il s'arrête au milieu du corridor. Recharge simple, sans retirer la battery ? Ne jamais charger sans surveillance.",
     "items": [
      {
       "p": "batterie",
       "x": 30,
       "y": 55,
       "s": 3,
-      "t": "Batterie faible"
+      "t": "Battery faible"
      },
      {
       "p": "horloge",
@@ -8721,7 +8721,7 @@
    "type": "epic",
    "mvp": "MVP0",
    "title": "MVP 0 — Le problème existe-t-il ?",
-   "description": "Hypothèse : des étudiants veulent apprendre la robotique sur un vrai véhicule autonome, à moins de 250 $. MVP 0 : entrevues, maquette papier de l'application et une auto téléguidée du commerce poussée à la main devant des obstacles.",
+   "description": "Hypothèse : des étudiants veulent apprendre la robotique sur un vrai véhicule autonome, à moins de 250 $. MVP 0 : entrevues, mock-up papier de l'application et une RC car du commerce poussée à la main devant des obstacles.",
    "priority": "high"
   },
   {
@@ -8750,7 +8750,7 @@
    "type": "story",
    "parent": "E0",
    "mvp": "MVP0",
-   "title": "Étude des kits de référence (prix, capteurs, ce qui manque)",
+   "title": "Étude des kits de référence (prix, sensors, ce qui manque)",
    "assignee": "lea",
    "points": 3,
    "priority": "medium"
@@ -8760,7 +8760,7 @@
    "type": "story",
    "parent": "E0",
    "mvp": "MVP0",
-   "title": "Maquette papier de l'application, testée avec 5 étudiants",
+   "title": "Mock-up papier de l'application, testée avec 5 étudiants",
    "assignee": "hugo",
    "points": 2,
    "priority": "medium"
@@ -8791,7 +8791,7 @@
    "type": "epic",
    "mvp": "MVP1",
    "title": "MVP 1 — Le concept plaît-il ?",
-   "description": "Concept retenu par Pugh et Kepner-Tregoe ; MVP 1 : le châssis télécommandé par le téléphone, avec un seul ultrason qui l'arrête.",
+   "description": "Concept retenu par Pugh et Kepner-Tregoe ; MVP 1 : le chassis télécommandé par le téléphone, avec un seul ultrason qui l'arrête.",
    "priority": "high"
   },
   {
@@ -8819,7 +8819,7 @@
    "type": "story",
    "parent": "E1",
    "mvp": "MVP1",
-   "title": "Idéation et matrice morphologique des capteurs et de la commande",
+   "title": "Idéation et matrice morphologique des sensors et de la commande",
    "assignee": "hugo",
    "points": 3,
    "priority": "medium"
@@ -8879,7 +8879,7 @@
    "type": "epic",
    "mvp": "MVP2",
    "title": "MVP 2 — Ça fonctionne ?",
-   "description": "Tous les sous-systèmes : trois ultrasons, temps de vol, centrale inertielle, encodeur, pare-chocs, arrêts d'urgence, loi d'approche lente et contournement. Revues PDR puis CDR.",
+   "description": "Tous les sous-systèmes : trois ultrasons, temps de vol, IMU, encoder, bumper, emergency stops, loi d'approche lente et contournement. Revues PDR puis CDR.",
    "priority": "high"
   },
   {
@@ -8887,7 +8887,7 @@
    "type": "story",
    "parent": "E2",
    "mvp": "MVP2",
-   "title": "Plaque porte-modules et support des capteurs",
+   "title": "Plaque porte-modules et support des sensors",
    "assignee": "nina",
    "points": 5,
    "priority": "medium"
@@ -8897,7 +8897,7 @@
    "type": "story",
    "parent": "E2",
    "mvp": "MVP2",
-   "title": "Alimentation : batterie, 5 V, INA219, coupure de traction",
+   "title": "Alimentation : battery, 5 V, INA219, coupure de traction",
    "assignee": "lea",
    "points": 5,
    "priority": "high"
@@ -8907,7 +8907,7 @@
    "type": "story",
    "parent": "E2",
    "mvp": "MVP2",
-   "title": "Pilotes des capteurs et séquenceur des ultrasons",
+   "title": "Pilotes des sensors et séquenceur des ultrasons",
    "assignee": "alexis",
    "points": 5,
    "priority": "medium"
@@ -8917,7 +8917,7 @@
    "type": "story",
    "parent": "E2",
    "mvp": "MVP2",
-   "title": "Carte locale et loi d'approche lente",
+   "title": "Local map et loi d'approche lente",
    "assignee": "alexis",
    "points": 8,
    "priority": "high"
@@ -8937,7 +8937,7 @@
    "type": "story",
    "parent": "E2",
    "mvp": "MVP2",
-   "title": "Chien de garde et arrêt d'urgence dans l'application",
+   "title": "Watchdog et emergency stop dans l'application",
    "assignee": "lea",
    "points": 3,
    "priority": "high"
@@ -8947,7 +8947,7 @@
    "type": "story",
    "parent": "E2",
    "mvp": "MVP2",
-   "title": "Télémétrie et vue radar dans l'application",
+   "title": "Telemetry et vue radar dans l'application",
    "assignee": "hugo",
    "points": 5,
    "priority": "medium"
@@ -8957,7 +8957,7 @@
    "type": "story",
    "parent": "E2",
    "mvp": "MVP2",
-   "title": "Boîtier électronique et pare-chocs imprimés",
+   "title": "Electronics enclosure et bumper imprimés",
    "assignee": "hugo",
    "points": 5,
    "priority": "medium"
@@ -8987,7 +8987,7 @@
    "type": "task",
    "parent": "E2",
    "mvp": "MVP2",
-   "title": "CDR : design figé, nomenclature, plan d'essais",
+   "title": "CDR : design figé, BOM, plan d'essais",
    "assignee": "nina",
    "points": 2,
    "priority": "high"
@@ -8997,11 +8997,11 @@
    "type": "bug",
    "parent": "E2",
    "mvp": "MVP2",
-   "title": "Le Pi redémarre quand le moteur démarre",
+   "title": "Le Pi redémarre quand le motor démarre",
    "assignee": "lea",
    "points": 2,
    "priority": "high",
-   "description": "Chute du 5 V au démarrage du moteur (DFMEA). Correctif : rampe de 0,5 s et condensateur de 1 000 µF."
+   "description": "Chute du 5 V au démarrage du motor (DFMEA). Correctif : rampe de 0,5 s et capacitor de 1 000 µF."
   },
   {
    "ref": "B2",
@@ -9012,7 +9012,7 @@
    "assignee": "alexis",
    "points": 2,
    "priority": "medium",
-   "description": "Distances gauche et droite presque égales. Correctif : hystérésis de 10 cm, côté gardé 2 s."
+   "description": "Distances gauche et droite presque égales. Correctif : hysteresis de 10 cm, côté gardé 2 s."
   },
   {
    "ref": "E3",
@@ -9037,7 +9037,7 @@
    "type": "story",
    "parent": "E3",
    "mvp": "MVP3",
-   "title": "Pré-balayage CEM et dossier radio, batterie et RoHS",
+   "title": "Pré-balayage EMC et dossier radio, battery et RoHS",
    "assignee": "lea",
    "points": 3,
    "priority": "medium"
@@ -9047,7 +9047,7 @@
    "type": "story",
    "parent": "E3",
    "mvp": "MVP3",
-   "title": "Notice de montage et consignes de sécurité de la batterie",
+   "title": "Notice de montage et consignes de sécurité de la battery",
    "assignee": "hugo",
    "points": 3,
    "priority": "medium"
@@ -9067,7 +9067,7 @@
    "type": "story",
    "parent": "E3",
    "mvp": "MVP3",
-   "title": "Nomenclature finale et coût par robot",
+   "title": "BOM finale et coût par robot",
    "assignee": "nina",
    "points": 2,
    "priority": "medium"
@@ -9118,7 +9118,7 @@
   },
   {
    "doc_type": "AF",
-   "title": "Analyse fonctionnelle du Rover"
+   "title": "Functional analysis du Rover"
   },
   {
    "doc_type": "CDCF",
@@ -9126,7 +9126,7 @@
   },
   {
    "doc_type": "MMO",
-   "title": "Matrice morphologique des capteurs et de la commande"
+   "title": "Matrice morphologique des sensors et de la commande"
   },
   {
    "doc_type": "PUGH",
@@ -9138,7 +9138,7 @@
   },
   {
    "doc_type": "MVP",
-   "title": "MVP 1 — châssis piloté par le téléphone",
+   "title": "MVP 1 — chassis piloté par le téléphone",
    "step": "12"
   },
   {
@@ -9147,7 +9147,7 @@
   },
   {
    "doc_type": "CALC",
-   "title": "Bilan de puissance et distance d'arrêt"
+   "title": "Power budget et distance d'arrêt"
   },
   {
    "doc_type": "AMDEC",
@@ -9159,7 +9159,7 @@
   },
   {
    "doc_type": "BOM",
-   "title": "Nomenclature du Rover"
+   "title": "BOM du Rover"
   },
   {
    "doc_type": "MVP",
@@ -9192,9 +9192,9 @@
      "Trois ultrasons en éventail",
      "Un seul ultrason sur un servo qui balaie",
      "Lidar rotatif 360°",
-     "Caméra et détection d'objets",
-     "Capteur à temps de vol dans l'axe",
-     "Pare-chocs avec microrupteurs",
+     "Camera et détection d'objets",
+     "Sensor à temps de vol dans l'axe",
+     "Bumper avec microswitches",
      "Moustaches en fil d'acier comme un chat",
      "Infrarouge analogique (Sharp)",
      "Suivre le mur à droite (règle de la main droite)",
@@ -9222,12 +9222,12 @@
       "description": "Lidar 2D, champ de potentiel, application web, LiPo."
      },
      {
-      "name": "C3 · Caméra et vision",
-      "description": "Caméra du Pi, réseau de neurones, application native, LiPo."
+      "name": "C3 · Camera et vision",
+      "description": "Camera du Pi, réseau de neurones, application native, LiPo."
      },
      {
-      "name": "C4 · Ultrasons + temps de vol + pare-chocs",
-      "description": "Trois ultrasons, temps de vol dans l'axe, pare-chocs, règles, application web, LiPo."
+      "name": "C4 · Ultrasons + temps de vol + bumper",
+      "description": "Trois ultrasons, temps de vol dans l'axe, bumper, règles, application web, LiPo."
      }
     ],
     "criteria": [
@@ -9235,86 +9235,86 @@
       "requirement": "REQ-1",
       "scores": {
        "C2 · Lidar rotatif 360°": "+",
-       "C3 · Caméra et vision": "+",
-       "C4 · Ultrasons + temps de vol + pare-chocs": "+"
+       "C3 · Camera et vision": "+",
+       "C4 · Ultrasons + temps de vol + bumper": "+"
       }
      },
      {
       "requirement": "REQ-2",
       "scores": {
        "C2 · Lidar rotatif 360°": "+",
-       "C3 · Caméra et vision": "S",
-       "C4 · Ultrasons + temps de vol + pare-chocs": "+"
+       "C3 · Camera et vision": "S",
+       "C4 · Ultrasons + temps de vol + bumper": "+"
       }
      },
      {
       "requirement": "REQ-3",
       "scores": {
        "C2 · Lidar rotatif 360°": "S",
-       "C3 · Caméra et vision": "-",
-       "C4 · Ultrasons + temps de vol + pare-chocs": "S"
+       "C3 · Camera et vision": "-",
+       "C4 · Ultrasons + temps de vol + bumper": "S"
       }
      },
      {
       "requirement": "REQ-8",
       "scores": {
        "C2 · Lidar rotatif 360°": "-",
-       "C3 · Caméra et vision": "-",
-       "C4 · Ultrasons + temps de vol + pare-chocs": "S"
+       "C3 · Camera et vision": "-",
+       "C4 · Ultrasons + temps de vol + bumper": "S"
       }
      },
      {
       "requirement": "REQ-10",
       "scores": {
        "C2 · Lidar rotatif 360°": "+",
-       "C3 · Caméra et vision": "-",
-       "C4 · Ultrasons + temps de vol + pare-chocs": "S"
+       "C3 · Camera et vision": "-",
+       "C4 · Ultrasons + temps de vol + bumper": "S"
       }
      },
      {
       "requirement": "REQ-12",
       "scores": {
        "C2 · Lidar rotatif 360°": "-",
-       "C3 · Caméra et vision": "S",
-       "C4 · Ultrasons + temps de vol + pare-chocs": "-"
+       "C3 · Camera et vision": "S",
+       "C4 · Ultrasons + temps de vol + bumper": "-"
       }
      },
      {
       "requirement": "REQ-13",
       "scores": {
        "C2 · Lidar rotatif 360°": "-",
-       "C3 · Caméra et vision": "S",
-       "C4 · Ultrasons + temps de vol + pare-chocs": "S"
+       "C3 · Camera et vision": "S",
+       "C4 · Ultrasons + temps de vol + bumper": "S"
       }
      },
      {
       "requirement": "REQ-23",
       "scores": {
        "C2 · Lidar rotatif 360°": "-",
-       "C3 · Caméra et vision": "S",
-       "C4 · Ultrasons + temps de vol + pare-chocs": "+"
+       "C3 · Camera et vision": "S",
+       "C4 · Ultrasons + temps de vol + bumper": "+"
       }
      },
      {
       "requirement": "BES-7",
       "scores": {
        "C2 · Lidar rotatif 360°": "+",
-       "C3 · Caméra et vision": "+",
-       "C4 · Ultrasons + temps de vol + pare-chocs": "+"
+       "C3 · Camera et vision": "+",
+       "C4 · Ultrasons + temps de vol + bumper": "+"
       }
      }
     ],
-    "decision": "C4 · Ultrasons + temps de vol + pare-chocs",
+    "decision": "C4 · Ultrasons + temps de vol + bumper",
     "note": "C4 et C2 ont le plus de « + » ; C3 est éliminé (vision trop lourde pour un premier projet, consommation). Kepner-Tregoe départage C4 et C2 (décision D-3)."
    }
   ],
   "kt": [
    {
-    "title": "Choix final : fusion de capteurs ou lidar",
+    "title": "Choix final : fusion de sensors ou lidar",
     "statement": "Choisir le concept de perception et de décision du Rover pour le MVP 2.",
     "alternatives": [
      {
-      "name": "C4 · Ultrasons + temps de vol + pare-chocs",
+      "name": "C4 · Ultrasons + temps de vol + bumper",
       "description": "Environ 210 $ par robot."
      },
      {
@@ -9328,7 +9328,7 @@
       "text": "Pièces à 250 $ ou moins par robot",
       "requirement": "REQ-12",
       "scores": {
-       "C4 · Ultrasons + temps de vol + pare-chocs": 1,
+       "C4 · Ultrasons + temps de vol + bumper": 1,
        "C2 · Lidar rotatif 360°": 1
       }
      },
@@ -9337,7 +9337,7 @@
       "text": "Arrêt avant contact possible",
       "requirement": "REQ-2",
       "scores": {
-       "C4 · Ultrasons + temps de vol + pare-chocs": 1,
+       "C4 · Ultrasons + temps de vol + bumper": 1,
        "C2 · Lidar rotatif 360°": 1
       }
      },
@@ -9345,7 +9345,7 @@
       "kind": "must",
       "text": "Pièces disponibles chez deux fournisseurs",
       "scores": {
-       "C4 · Ultrasons + temps de vol + pare-chocs": 1,
+       "C4 · Ultrasons + temps de vol + bumper": 1,
        "C2 · Lidar rotatif 360°": 1
       }
      },
@@ -9355,16 +9355,16 @@
       "weight": 10,
       "requirement": "REQ-1",
       "scores": {
-       "C4 · Ultrasons + temps de vol + pare-chocs": 8,
+       "C4 · Ultrasons + temps de vol + bumper": 8,
        "C2 · Lidar rotatif 360°": 7
       }
      },
      {
       "kind": "want",
-      "text": "Apprendre par étapes, un capteur à la fois",
+      "text": "Apprendre par étapes, un sensor à la fois",
       "weight": 9,
       "scores": {
-       "C4 · Ultrasons + temps de vol + pare-chocs": 9,
+       "C4 · Ultrasons + temps de vol + bumper": 9,
        "C2 · Lidar rotatif 360°": 6
       }
      },
@@ -9373,7 +9373,7 @@
       "text": "Coût",
       "weight": 8,
       "scores": {
-       "C4 · Ultrasons + temps de vol + pare-chocs": 8,
+       "C4 · Ultrasons + temps de vol + bumper": 8,
        "C2 · Lidar rotatif 360°": 5
       }
      },
@@ -9383,7 +9383,7 @@
       "weight": 7,
       "requirement": "REQ-23",
       "scores": {
-       "C4 · Ultrasons + temps de vol + pare-chocs": 8,
+       "C4 · Ultrasons + temps de vol + bumper": 8,
        "C2 · Lidar rotatif 360°": 5
       }
      },
@@ -9393,7 +9393,7 @@
       "weight": 5,
       "requirement": "REQ-8",
       "scores": {
-       "C4 · Ultrasons + temps de vol + pare-chocs": 8,
+       "C4 · Ultrasons + temps de vol + bumper": 8,
        "C2 · Lidar rotatif 360°": 6
       }
      },
@@ -9403,14 +9403,14 @@
       "weight": 4,
       "requirement": "BES-7",
       "scores": {
-       "C4 · Ultrasons + temps de vol + pare-chocs": 6,
+       "C4 · Ultrasons + temps de vol + bumper": 6,
        "C2 · Lidar rotatif 360°": 9
       }
      }
     ],
     "risks": [
      {
-      "alternative": "C4 · Ultrasons + temps de vol + pare-chocs",
+      "alternative": "C4 · Ultrasons + temps de vol + bumper",
       "text": "Interférence entre les ultrasons",
       "probability": 2,
       "seriousness": 1
@@ -9428,7 +9428,7 @@
       "seriousness": 2
      }
     ],
-    "decision": "C4 · Ultrasons + temps de vol + pare-chocs",
+    "decision": "C4 · Ultrasons + temps de vol + bumper",
     "note": "C4 : 345 points contre 265, et des risques plus faibles. Le lidar reste une idée pour un MVP x (décision D-3)."
    }
   ]

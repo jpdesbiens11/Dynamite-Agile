@@ -25,7 +25,7 @@ MORE = [
                   ("Changer proprement", "Change Management : la demande (PR, bug, ECN), son impact, l'approbation du CCB.")],
         "mvps": ["Un Sprint d'entrevues et de maquettes papier ; le backlog de MVP 0 tient sur une page.",
                  "Les Sprints d'idéation et de prototypes de concept ; MVP 1 se ferme avec la Concept Review.",
-                 "Les Sprints matériels et logiciels par sous-système ; les premiers ECN après la PDR.",
+                 "Les Sprints matériels et software par sous-système ; les premiers ECN après la PDR.",
                  "Les Sprints de fabrication et d'essais ; chaque bug d'essai devient un ticket, chaque correction un ECN."]}, en={
         "role": "Backlog, Sprints and Board from one MVP to the next; Change Management when the design changes.",
         "why": "A six-month plan is always somewhat wrong. Scrum cuts the work into short Sprints that deliver something visible; "
@@ -47,15 +47,15 @@ MORE = [
         "role": "La Test Base du produit, ses procédures et ses plans qui prouvent chaque requirement.",
         "why": "Un requirement sans essai est une promesse. La vérification prouve qu'on a bien construit le produit (selon les "
                "requirements) ; la validation, qu'on a construit le bon produit (pour le client). Au Canada et aux États-Unis, un "
-               "produit électrique grand public doit aussi passer la sécurité (CSA, UL) et la CEM (ICES-003, FCC Part 15).",
+               "produit électrique grand public doit aussi passer la sécurité (CSA, UL) et l'EMC (ICES-003, FCC Part 15).",
         "need": "Savoir quel essai prouve quoi, avec quel critère et quel moyen, et arriver au laboratoire de certification sans surprise.",
         "steps": [("Bâtir la Test Base", "Les essais du Space : sujet, catégorie, norme et article, méthode (T, A, I, D), objectif."),
                   ("Écrire la procédure", "Le moyen d'essai, les étapes et le critère d'acceptation, dans Testing ou une page Dynamite."),
                   ("Générer le Test Plan", "Choisir les essais d'un jalon : le plan liste requirements, échantillons et critères."),
                   ("Joindre le résultat", "Le rapport et les mesures ; le requirement relié passe « Verified »."),
-                  ("Préparer la certification", "Les essais de sécurité et de CEM en pré-conformité avant le laboratoire reconnu.")],
+                  ("Préparer la certification", "Les essais de sécurité et d'EMC en pré-conformité avant le laboratoire reconnu.")],
         "mvps": ["Pas encore d'essai du produit : on mesure les hypothèses (entrevues, page d'essai).",
-                 "Des essais rapides de concept (maquette, banc) et la liste des normes applicables.",
+                 "Des essais rapides de concept (maquette, bench) et la liste des normes applicables.",
                  "La Test Base complète, une procédure par essai, les premiers essais de sous-systèmes et la pré-conformité.",
                  "Le Test Plan de validation, les essais sur prototypes de série, le rapport pour la certification."]}, en={
         "role": "The product's Test Base, its procedures and plans that prove each requirement.",

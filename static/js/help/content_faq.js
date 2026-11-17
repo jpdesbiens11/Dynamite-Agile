@@ -173,7 +173,7 @@
 
     { q: "Désactiver Timesheet, les évaluations, le PFMEA ou les plans de contrôle (un cours, des étudiants) ?", newTag: "0.60.103-faq-features",
       blocks: [
-        ["p", "⚙ Admin → Plateforme → **Modules et fonctions** (D-O-111) : un interrupteur par partie optionnelle. Une partie désactivée disparaît des menus, de la recherche et du Dashboard, et ses routes répondent « désactivé » ; ses données restent intactes."],
+        ["p", "⚙ Admin → Plateforme → **Modules et fonctions** (D-O-111) : un switch par partie optionnelle. Une partie désactivée disparaît des menus, de la recherche et du Dashboard, et ses routes répondent « désactivé » ; ses données restent intactes."],
         ["steps", [
           "**Timesheet** et **Évaluation, objectifs et profil** (Mes objectifs, évaluation annuelle, profil, Mon équipe) : à couper pour des comptes d'étudiants du baccalauréat, qui n'ont ni feuille de temps ni évaluation.",
           "Diamond → **Procédés**, **PFMEA**, **Plans de contrôle** : le PFMEA et les plans de contrôle demandent les Procédés ; couper les Procédés les coupe aussi.",
@@ -195,7 +195,7 @@
           "**Procédés** : une ou plusieurs configurations de ligne (ligne pilote, cellule prototypes…), leurs opérations OP10, OP20…, les équipements et les points de contrôle ; chaque point nomme la caractéristique C-n qu'il protège.",
           "**PFMEA** : écrit à la main ou proposé par l'IA à partir du DFMEA final et de la ligne (brouillons à accepter ou rejeter un par un). La sévérité S vient du DFMEA, héritée et verrouillée ; les causes se classent en 5M.",
           "**Plans de contrôle** : un plan pour la réception des pièces et un par configuration de ligne, en phase Prototype, Pré-lancement ou Production. Une CC a toujours un Reaction Plan.",
-          "**Mesures** (fiche de la C-n) : saisies au poste ou CSV d'un logiciel de SPC ; Cpk (σ = MR̄ / 1,128) et Ppk calculés par le serveur, « échantillon court » sous 25 valeurs.",
+          "**Mesures** (fiche de la C-n) : saisies au poste ou CSV d'un software de SPC ; Cpk (σ = MR̄ / 1,128) et Ppk calculés par le serveur, « échantillon court » sous 25 valeurs.",
           "**Prioriser** : les lignes clés du DFMEA et du PFMEA, filtrées, puis rangées en vagues datées ; l'échéance de l'action et de son ticket Agile suit la vague.",
           "Un **ECN** change une cote : tout ce qui cite la C-n (PFMEA, plan de contrôle, étude de capabilité, essai) passe « à revoir » jusqu'à « Revu »."]],
         ["warn", "Dans DEMO, le Rover montre tout cela ; PF-60.1 (AP High) est laissée en vague 3 : le filtre « AP High » montre l'erreur, un glisser la remonte."]] },

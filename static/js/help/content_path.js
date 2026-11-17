@@ -25,7 +25,7 @@
           ["", "Exploration", "Plan sur plusieurs mois (Gantt)"],
           ["", "Agile", "Backlog, Sprints, Board ; Change Management (PR, bugs, ECN)"],
           ["", "Dynamite", "Wiki : pages, procédures, Base de connaissances (BDC)"],
-          ["", "Testing", "Test Base (sécurité électrique, CEM, IP, chute, durée de vie…), procédures, Test Plans fournisseurs, listes centrales"],
+          ["", "Testing", "Test Base (sécurité électrique, EMC, IP, chute, service life…), procédures, Test Plans fournisseurs, listes centrales"],
           ["Soutien", "Tools", "Design (idéation, Pugh, Kepner-Tregoe…) et Generator (références de documents)"],
           ["", "Training", "Topics de formation, votre plan de l'année, tests"],
           ["", "Timesheet", "Feuille de temps hebdomadaire, approbations, exports"],
@@ -134,7 +134,7 @@
       summary: "Du problème à l'ECN approuvé par le CCB.",
       blocks: [
         ["steps", [
-          "Un problème (PR) ou un bug logiciel s'ouvre dans Agile → « Change Management ».",
+          "Un problème (PR) ou un bug software s'ouvre dans Agile → « Change Management ».",
           "Analysez-le (sévérité, confinement, cause racine), puis « Derive to ECN » si un changement est nécessaire.",
           "L'ECN décrit le changement (classe, raison, impacts forme-ajustement-fonction, certification, sécurité) et ses **Affected Items** (révision actuelle → nouvelle).",
           "« Submit to CCB » ; un administrateur du Space approuve ou rejette (approbateurs nommés).",

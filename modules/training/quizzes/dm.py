@@ -69,7 +69,7 @@ pass: 80
 - [ ] Des fonctions techniques
 ## Quels sont les trois types de flux de la légende ?
 - [x] Énergie, matière, information
-- [ ] Électrique, mécanique, logiciel
+- [ ] Électrique, mécanique, software
 - [ ] Principal, secondaire, rétroaction
 ## Que montre la vue détaillée ?
 - [ ] Les fonctions techniques de chaque tertiaire
@@ -155,7 +155,7 @@ DM_04 = """# Quiz : Diamond — le DFMEA (AIAG-VDA)
 pass: 80
 ## Quels sont les trois niveaux de la structure d'un DFMEA AIAG-VDA ?
 - [x] Higher-Level Element, Focus Element, Lower-Level Element
-- [ ] Système, logiciel, matériel
+- [ ] Système, software, matériel
 - [ ] Besoin, requirement, essai
 ## Sur quel niveau se lit le Failure Effect, coté par la sévérité (S) ?
 - [x] Higher-Level Element : l'utilisateur, le produit ou le système
@@ -225,19 +225,19 @@ pass: 80
 - [x] Un mode de défaillance disparaît pour de bon quand la pièce disparaît
 - [ ] Il faut ajouter un contrôle de détection par pièce
 - [ ] La sévérité baisse automatiquement
-## Le bloc d'alimentation externe de la lampe applique quel principe ?
+## Le power supply externe de la lampe applique quel principe ?
 - [x] Sortir la partie gênante (extraction)
 - [ ] Inverser
 - [ ] Agir par impulsions
 ## Une pièce qui ne se monte que dans le bon sens applique quel principe ?
-- [x] L'asymétrie (détrompage)
+- [x] L'asymétrie (poka-yoke)
 - [ ] La segmentation
 - [ ] La copie bon marché
-## Que montre l'exemple du coût des matières d'une batterie ?
+## Que montre l'exemple du coût des matières d'une battery ?
 - [x] L'écart entre le prix et les matières vient de la fabrication, donc il peut se réduire
 - [ ] Les batteries ne peuvent pas coûter moins cher
 - [ ] Il faut toujours acheter le moins cher
-## La gradation des DEL par MLI applique quel principe ?
+## La gradation des LED par PWM applique quel principe ?
 - [x] Agir par impulsions (action périodique)
 - [ ] Qualité locale
 - [ ] Intermédiaire

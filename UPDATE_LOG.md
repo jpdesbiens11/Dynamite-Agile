@@ -1,12 +1,21 @@
-# Journal de mise à jour — 0.60.108
+# Journal de mise à jour — 0.60.109
+
+- **Version :** 0.60.108 → 0.60.109 (2026-11-16)
+- **Changements :**
+  1. **Bonnes pratiques (industrie) du DFMEA : termes techniques en anglais** (D-O-122).
+  2. **Help, Training, Testing et contenu d'exemple : termes techniques en anglais** (D-O-122).
+  3. **Affichage EN : clés ajoutées pour chaque texte changé** (D-O-122).
+- **Base de données :** aucune migration. Les lignes déjà enregistrées gardent leur texte.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.108
 
 - **Version :** 0.60.107 → 0.60.108 (2026-11-16)
 - **Changements :**
   1. **FR | EN du contenu d'un Space : un dictionnaire par Space, dans la base** (D-O-120).
   2. **Termes techniques en anglais partout, dans tout contenu** (D-O-121).
 - **Base de données :** ['Migration core 20 (additive) : table space_i18n.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.107
 

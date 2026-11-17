@@ -179,7 +179,7 @@ REFS = {
                  "La version anglaise de référence."),
     "kanban": ("Le guide Kanban", "Kanban Guides", "2020", "https://kanbanguides.org/francais", "FR/EN", FREE,
                "Visualiser, limiter le travail en cours, gérer le flux."),
-    "manifesto": ("Manifeste pour le développement Agile de logiciels", "agilemanifesto.org", "2001",
+    "manifesto": ("Manifeste pour le développement Agile de software", "agilemanifesto.org", "2001",
                   "https://agilemanifesto.org/iso/fr/manifesto.html", "FR", FREE, "Les 4 valeurs et 12 principes d'origine."),
     "arena_ecr": ("Engineering Change Requests: Process", "Arena (PTC)", "",
                   "https://www.arenasolutions.com/blog/engineering-change-requests-process/", "EN", FREE,
