@@ -1,4 +1,15 @@
-# Journal de mise à jour — 0.60.109
+# Journal de mise à jour — 0.60.110
+
+- **Version :** 0.60.109 → 0.60.110 (2026-11-17)
+- **Changements :**
+  1. **DFMEA : lignes compactes, chevron par ligne, Tout déplier / Tout replier** (D-O-123).
+  2. **DFMEA : barre de défilement collée au bas de la fenêtre, colonnes gardées à gauche, Shift + molette ; aussi au PFMEA et aux plans de contrôle** (D-O-123).
+  3. **DFMEA : Plein écran, Loupe, Essentiel** (D-O-123).
+- **Base de données :** aucune migration. L'état d'affichage reste dans le navigateur.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.109
 
 - **Version :** 0.60.108 → 0.60.109 (2026-11-16)
 - **Changements :**
@@ -6,8 +17,6 @@
   2. **Help, Training, Testing et contenu d'exemple : termes techniques en anglais** (D-O-122).
   3. **Affichage EN : clés ajoutées pour chaque texte changé** (D-O-122).
 - **Base de données :** aucune migration. Les lignes déjà enregistrées gardent leur texte.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.108
 

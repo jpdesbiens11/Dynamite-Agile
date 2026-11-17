@@ -10,8 +10,11 @@
   const A = DA.agile;
   const D = DA.diamond;
   const STORE = "diamond.dfmea.columns";
+  // 0.60.110 (D-O-123): the failure chain only -- one click in the view tools, or here (fm_view.js)
+  const ESSENTIAL = ["function_id", "failure_mode", "effect", "severity", "cause", "occurrence", "prevention", "detection_ctrl", "detection", "ap", "action"];
   const PRESETS = [
     ["Toutes", null],
+    ["Essentiel", ESSENTIAL, "0.60.110-fm-preset"],
     ["Structure et fonction", ["higher", "focus", "lower", "function_id", "requirement", "failure_mode"]],
     ["Chaîne de défaillance", ["focus", "function_id", "failure_mode", "effect", "severity", "class", "cause", "occurrence", "detection", "ap"]],
     ["Classes CC / SC", ["function_id", "failure_mode", "effect", "severity", "class", "class_decision", "char_part", "chars", "occurrence", "ap"]],  // 0.60.101
@@ -69,6 +72,12 @@
       },
     };
     state.redraw = redraw;
+    state.essential = ESSENTIAL;
+    state.setColumns = (keys) => {  // 0.60.110: « Essentiel » of the view tools; null = every column
+      state.visible = new Set(keys || D.DFMEA_COLS.map((c) => c.key));
+      saveVisible(state.visible);
+      redraw();
+    };
     state.track = async (id) => {  // 0.60.38 (D-O-047): « Suivre dans Agile »
       try {
         const res = await api.post(D.base(ctx) + "/actions/dfmea/" + id + "/track", {});
@@ -124,6 +133,7 @@
       act.act("/rows/" + row.id + "/move", { direction: ev.key === "ArrowUp" ? "up" : "down" });
     };
     holder.append(D.classFilters(state), D.dfmeaTable({ state, visible: state.visible, editable, save: act.save, act: act.act, onKey }));  // 0.60.101
+    D.fmView(holder, state);  // 0.60.110 (D-O-123): fold, pinned scroll bar, full screen, magnifier
     if (!state.filtered.length) holder.append(el("p", { class: "muted dm-fm-nomatch" }, "Aucune ligne ne correspond aux filtres : choisissez « Toutes »."));
     if (state.focus) {
       const f = state.focus;
@@ -145,7 +155,7 @@
   function toolbar(ctx, state, act, editable) {
     const hidden = D.DFMEA_COLS.length - state.visible.size;
     const chooser = el("details", { class: "dm-fm-cols", "data-new": "0.60.15-columns" }, el("summary", null, "Colonnes" + (hidden ? " (" + hidden + " masquée(s))" : "")),
-      el("div", { class: "dm-actions" }, PRESETS.map(([label, keys]) => el("button", { type: "button", class: "btn btn-small", onclick: () => {
+      el("div", { class: "dm-actions" }, PRESETS.map(([label, keys, fresh]) => el("button", { type: "button", class: "btn btn-small", "data-new": fresh || null, onclick: () => {
         state.visible = new Set(keys || D.DFMEA_COLS.map((c) => c.key));
         saveVisible(state.visible);
         state.redraw();

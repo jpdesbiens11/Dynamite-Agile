@@ -79,8 +79,8 @@
         el("td", { class: "nowrap" }, rowTools(state, r))));
       if (state.open === r.id) body.push(el("tr", null, el("td", { colspan: head.length }, D.pfmeaEditor(state, r, line))));
     });
-    return el("div", { class: "dm-scroll dm-fm-scroll" }, el("table", { class: "data dm-fm dm-pf" },
-      el("thead", null, el("tr", null, head.map((h) => el("th", { scope: "col", class: "dm-fm-h" + (h === "Product Char." ? " dm-fm-h-special" : "") }, h)))), el("tbody", null, body)));
+    return D.fmScroller(el("div", { class: "dm-scroll dm-fm-scroll" }, el("table", { class: "data dm-fm dm-pf" },
+      el("thead", null, el("tr", null, head.map((h) => el("th", { scope: "col", class: "dm-fm-h" + (h === "Product Char." ? " dm-fm-h-special" : "") }, h)))), el("tbody", null, body))));
   }
 
   function rowTools(state, r) {

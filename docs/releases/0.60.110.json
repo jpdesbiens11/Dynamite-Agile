@@ -1,0 +1,67 @@
+{
+  "version": "0.60.110",
+  "date": "2026-11-17",
+  "summary": {
+    "fr": "DFMEA lisible dans le navigateur : lignes compactes et dépliables, barre de défilement collée, colonnes gardées à gauche, plein écran, loupe, « Essentiel ».",
+    "en": "A readable DFMEA in the browser: compact rows that unfold, a pinned scroll bar, columns kept on the left, full screen, a magnifier, « Essential »."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "DFMEA : lignes compactes, chevron par ligne, Tout déplier / Tout replier",
+      "why": "Une cellule longue du DFMEA montre 2 lignes au lieu de grandir jusqu'à 12 : la hauteur moyenne d'une ligne du DFMEA d'exemple passe de 204 px à 73 px. Le chevron ▸ / ▾ de la ligne la déplie en entier, « Tout déplier » / « Tout replier » font toutes les lignes ; une cellule pliée grandit le temps qu'on l'édite. L'état est gardé par Space dans le navigateur, jamais envoyé au serveur. La saisie et les enregistrements ne changent pas.",
+      "files": [
+        "CLAUDE.md",
+        "UPDATE_CHANGES.json",
+        "UPDATE_LOG.md",
+        "core/__init__.py",
+        "core/modules.py",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.110.json",
+        "static/css/diamond_fmview.css",
+        "static/js/diamond/fm_view.js",
+        "static/js/diamond/dfmea.js",
+        "tests/js/dfmea_view.js",
+        "tests/test_dfmea_view.py",
+        "tests/test_open_v060.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Barre de défilement collée au bas de la fenêtre, colonnes gardées à gauche, Shift + molette",
+      "why": "La barre horizontale n'est plus perdue au bas d'une boîte haute : une barre fine, synchronisée, reste collée au bas de la fenêtre tant que le tableau est à l'écran ; #, Function et Failure Mode restent à gauche quand on défile vers la droite ; Shift + molette défile de côté. La barre collée sert aussi au PFMEA et aux plans de contrôle.",
+      "files": [
+        "static/js/diamond/fm_scroll.js",
+        "static/js/diamond/pfmea.js",
+        "static/js/diamond/cplans.js"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Plein écran, Loupe et « Essentiel »",
+      "why": "« Plein écran » montre le DFMEA seul dans la fenêtre (Esc pour revenir ; les dialogues restent visibles). « Loupe », éteinte par défaut : la cellule sous le pointeur s'affiche en grand avec sa colonne, sans prendre les clics ; au clavier, Tab jusqu'à la cellule puis Entrée. « Essentiel » ne garde que la chaîne de défaillance (Function, Failure Mode, Effect, S, Cause, O, Prevention, Detection, D, AP, Actions), aussi comme préréglage du menu « Colonnes ». Libellés traduits pour l'affichage EN ; site public reconstruit.",
+      "files": [
+        "static/i18n/en_1.json",
+        "static/i18n/en_2.json",
+        "static/i18n/en_3.json",
+        "static/i18n/en_4.json",
+        "static/i18n/en_5.json",
+        "static/i18n/en_6.json",
+        "site/en/guide.html",
+        "site/en/home.html",
+        "site/en/index.html",
+        "site/en/installation.html",
+        "site/en/modules.html",
+        "site/en/versions.html",
+        "site/guide.html",
+        "site/home.html",
+        "site/index.html",
+        "site/installation.html",
+        "site/modules.html",
+        "site/versions.html",
+        "static/apps/vitrine/index.html"
+      ]
+    }
+  ]
+}

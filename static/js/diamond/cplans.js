@@ -80,8 +80,8 @@
     });
     if (state.editable) body.push(el("tr", null, el("td", { colspan: head.length }, state.open === "new" ? editor(state, plan, null)
       : el("button", { type: "button", class: "btn btn-small", onclick: () => { state.open = "new"; draw(state); } }, "+ Ligne du plan"))));
-    return el("div", { class: "dm-scroll dm-fm-scroll" }, el("table", { class: "data dm-fm dm-cp" }, el("thead", null, el("tr", null, head.map((h) => el("th", { scope: "col", class: "dm-fm-h" }, h)))),
-      el("tbody", null, body)));
+    return D.fmScroller(el("div", { class: "dm-scroll dm-fm-scroll" }, el("table", { class: "data dm-fm dm-cp" }, el("thead", null, el("tr", null, head.map((h) => el("th", { scope: "col", class: "dm-fm-h" }, h)))),
+      el("tbody", null, body))));
   }
 
   function editor(state, plan, r) {
