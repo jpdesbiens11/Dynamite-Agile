@@ -67,7 +67,7 @@ pass: 80
 
 HL_07 = """# Quiz : Change Management — PR, bugs, ECN
 pass: 80
-## Où ouvre-t-on un problème (PR) ou un bug logiciel ?
+## Où ouvre-t-on un problème (PR) ou un bug software ?
 - [ ] Dans Goldmine → Q&A, comme question à l'équipe
 - [x] Dans Agile → « Change Management »
 - [ ] Dans la Liste Audit, comme observation

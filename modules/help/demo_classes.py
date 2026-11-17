@@ -15,19 +15,19 @@ LOADED = "demo_classes_loaded"
 # (function number, start of the failure mode, decision CC | SC | refused, who, day of week 12, reason)
 DECISIONS = [
     (18, "Arrêt trop tardif", "CC", "alexis", 1, "Peut blesser une personne : l'arrêt avant le contact est la fonction de sécurité du robot (REQ-2)."),
-    (27, "La traction n'est pas coupée", "CC", "lea", 1, "Sécurité des personnes : l'arrêt d'urgence doit couper la traction en 0,2 s au plus (REQ-7)."),
-    (29, "Décharge profonde", "CC", "lea", 1, "Batterie LiPo gonflée, risque d'incendie : la coupure à 3,4 V par élément est une exigence de sécurité (REQ-19)."),
-    (32, "Eau sur le Raspberry Pi", "SC", "hugo", 1, "Fonction IPX4 (REQ-11) : la gorge du joint du boîtier est une cote à tenir en fabrication."),
+    (27, "La traction n'est pas coupée", "CC", "lea", 1, "Sécurité des personnes : l'emergency stop doit couper la traction en 0,2 s au plus (REQ-7)."),
+    (29, "Décharge profonde", "CC", "lea", 1, "Battery LiPo gonflée, risque d'incendie : la coupure à 3,4 V par élément est une requirement de sécurité (REQ-19)."),
+    (32, "Eau sur le Raspberry Pi", "SC", "hugo", 1, "Fonction IPX4 (REQ-11) : la gorge du joint de l'enclosure est une cote à tenir en fabrication."),
     (31, "Plaque fissurée", "SC", "nina", 1, "Tenue à la chute de 0,5 m (REQ-23) : le rayon des coins de la plaque se tient à la découpe."),
-    (13, "Impulsions manquées", "SC", "lea", 2, "Fonction de vitesse : l'entrefer entre l'aimant et le capteur à effet Hall décide si les impulsions sont lues."),
-    (14, "Contact non détecté", "SC", "hugo", 2, "Le pare-chocs est la dernière protection avant un contact : sa course d'enclenchement se règle au montage."),
+    (13, "Impulsions manquées", "SC", "lea", 2, "Fonction de vitesse : l'entrefer entre l'aimant et le sensor à effet Hall décide si les impulsions sont lues."),
+    (14, "Contact non détecté", "SC", "hugo", 2, "Le bumper est la dernière protection avant un contact : sa course d'enclenchement se règle au montage."),
     (10, "Obstacle non détecté", "refused", "alexis", 2, "La détection dépend de la surface de l'obstacle, pas d'une cote qu'on fabrique : couverte par l'arrêt "
-     "avant le contact (F18, CC) et par le pare-chocs (F14, SC)."),
-    (10, "Distance fausse", "refused", "alexis", 2, "Cause logicielle (deux capteurs émettent en même temps), corrigée par le séquencement des mesures : "
+     "avant le contact (F18, CC) et par le bumper (F14, SC)."),
+    (10, "Distance fausse", "refused", "alexis", 2, "Cause logicielle (deux sensors émettent en même temps), corrigée par le séquencement des mesures : "
      "rien à contrôler en fabrication."),
-    (11, "Mesure saturée", "refused", "lea", 2, "Limite d'environnement du capteur à temps de vol, couverte par les ultrasons : aucune caractéristique "
+    (11, "Mesure saturée", "refused", "lea", 2, "Limite d'environnement du sensor à temps de vol, couverte par les ultrasons : aucune caractéristique "
      "de produit à tenir."),
-    (3, "Chute de tension", "refused", "lea", 2, "Corrigé en conception (rampe de 0,5 s, condensateur de 1 000 µF, ECN du sprint 5) et vérifié par essai : "
+    (3, "Voltage drop", "refused", "lea", 2, "Corrigé en conception (rampe de 0,5 s, capacitor de 1 000 µF, ECN du sprint 5) et vérifié par essai : "
      "aucune cote qui varie en production."),
     (6, "Consigne reçue en retard", "refused", "alexis", 2, "Dépend de l'encombrement Wi-Fi du lieu, pas d'une caractéristique du produit ; l'arrêt sur "
      "perte de liaison (F28) protège."),

@@ -27,8 +27,8 @@ class PracticesTest(unittest.TestCase):
     def test_02_block(self):
         text = GP.block(["elec"], {"bought"})
         self.assertTrue(text.startswith(GP.MARK))
-        self.assertIn("lignes de fuite", text)
-        self.assertIn("deuxième source", text)
+        self.assertIn("surface distances", text)  # 0.60.109 (D-O-122): technical terms in English
+        self.assertIn("second source", text)
         for p in GP.GENERAL:
             self.assertIn(p, text)
 
@@ -74,7 +74,7 @@ class CompleteTest(unittest.TestCase):
         self.assertTrue(all(GP.MARK in r["prevention"] for r in rows))
         self.assertFalse(any("sans ligne" in c or "sans essai" in c for c in res["checks"]))
         heat = next(r for r in rows if r["function_text"] == "Isoler les parties sous tension")
-        self.assertIn("lignes de fuite", heat["prevention"])
+        self.assertIn("surface distances", heat["prevention"])
         again = self.admin.post(self.base + "/complete", {})["completed"]
         self.assertEqual(again, {"added": 0, "tested": 0, "practices": 0})  # idempotent: rows already complete stay
 

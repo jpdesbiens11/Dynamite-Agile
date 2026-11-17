@@ -74,7 +74,7 @@ pass: 80
 - [ ] 50
 ## Comment avoir la bonne liste au Test Bench ?
 - [x] Un label de contexte (@banc) et le filtre « Mes éléments »
-- [ ] Un sprint Agile dédié aux essais au banc
+- [ ] Un sprint Agile dédié aux essais au bench
 - [ ] Une page Dynamite « À faire au banc » mise à jour chaque matin
 ## Vous ne savez pas quoi faire. Dans quel ordre choisir, selon David Allen ?
 - [x] Contexte, temps disponible, énergie, puis priority

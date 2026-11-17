@@ -285,9 +285,9 @@ Rules that make a file refused:
  "project": {
   "key": "LAMPE",
   "name": "Lampe de bureau connectée",
-  "description": "Lampe de bureau à DEL à intensité et température de couleur réglables, commandée par un bouton tactile et par une application mobile (Bluetooth Low Energy). Alimentée par un bloc d'alimentation externe 12 V.",
+  "description": "Lampe de bureau à LED à intensité et température de couleur réglables, commandée par un touch button et par une application mobile (Bluetooth Low Energy). Alimentée par un power supply externe 12 V.",
   "industry": "Produits grand public",
-  "product_type": "Appareil grand public mécatronique avec liaison radio",
+  "product_type": "Appareil grand public mécatronique avec radio link",
   "markets": [
    "CA",
    "US"
@@ -298,7 +298,7 @@ Rules that make a file refused:
    "username": "maya",
    "display_name": "Maya",
    "study_profile": "Génie mécanique",
-   "title": "Responsable mécanique et boîtier",
+   "title": "Responsable mécanique et enclosure",
    "role": "manager"
   }
  ],
@@ -308,7 +308,7 @@ Rules that make a file refused:
    "kind": "need",
    "stakeholder": "user",
    "category": "functional",
-   "statement": "L'utilisateur veut régler la lumière sans se lever ni chercher un interrupteur."
+   "statement": "L'utilisateur veut régler la lumière sans se lever ni chercher un switch."
   },
   {
    "ref": "REQ-1",
@@ -332,7 +332,7 @@ Rules that make a file refused:
    "category": "industry",
    "level": "Product",
    "method": "T",
-   "objective": "Mesurer le flux et la puissance absorbée à 100 %.",
+   "objective": "Mesurer le flux et la power absorbée à 100 %.",
    "acceptance": "≥ 600 lm.",
    "means": "Sphère intégrante, wattmètre.",
    "verifies": [
@@ -369,7 +369,7 @@ Rules that make a file refused:
       "content": [
        {
         "type": "text",
-        "text": "Page d'accueil du projet : objectif, équipe et liens vers les livrables."
+        "text": "Page d'accueil du projet : objectif, équipe et liens vers les deliverables."
        }
       ]
      },
@@ -520,7 +520,7 @@ Rules that make a file refused:
    {
     "name": "Bras articulé à friction",
     "kind": "designed",
-    "notes": "Deux rotules à friction : la tête reste où on la place.",
+    "notes": "Deux ball joints à friction : la tête reste où on la place.",
     "functions": [
      "F4"
     ]
@@ -573,7 +573,7 @@ Rules that make a file refused:
     "name": "Bras articulé à friction",
     "initial_name": "Bras d'architecte",
     "kind": "existing",
-    "reference": "Rotules à friction réglables du commerce",
+    "reference": "Ball joints à friction réglables du commerce",
     "description": "La tête reste où on la place.",
     "functions": [
      "F4"
@@ -585,7 +585,7 @@ Rules that make a file refused:
   {
    "ref": "E0",
    "type": "epic",
-   "title": "MVP0 — vérifier le besoin : lampe en carton et DEL de table",
+   "title": "MVP0 — vérifier le besoin : lampe en carton et LED de table",
    "mvp": "MVP0",
    "priority": "high"
   },

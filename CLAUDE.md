@@ -173,6 +173,10 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.109** (2026-11-16) : **termes techniques en anglais dans le texte livré par la plateforme** (D-O-122, suite de D-O-121) :
+  Bonnes pratiques (industrie) du DFMEA (`modules/diamond/dfmea_practices.py`, marqueur inchangé, lignes déjà enregistrées
+  gardées), Help, Training, catalogues Testing, starters `deploy/starter_exemples/`, Rover (`tools/rover/`, `rover.json`) ;
+  clés EN ajoutées à côté des anciennes (`static/i18n/en_*.json`, `demo_en_*.json`) (`tests/test_english_terms.py`).
 - **0.60.108** (2026-11-16) : lot noyau v0.38 — **FR | EN du contenu d'un Space** (D-O-120) : dictionnaire français → anglais par
   Space dans la base (`core/space_i18n.py`, migration core 20 `space_i18n`, crochet de module `i18n_texts`), chargé par
   `static/js/tools/i18n_dom.js` en EN, géré dans la fiche du Space (`static/js/admin_space_i18n.js` : Copier pour l'IA, Importer,

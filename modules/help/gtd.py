@@ -69,7 +69,7 @@ def main_page():
         _nugget(_b("Des tasks assez petites pour se fermer vite. "),
                 "C'est la discrétisation du travail : une task dure une demi-journée au plus, idéalement moins de 2 heures, "
                 "et disparaît vite de la liste. « Qualifier l'élément chauffant » est un projet ; « Écrire la Test Procedure "
-                "de rigidité diélectrique » est une task."),
+                "de dielectric strength » est une task."),
         _nugget(_b("Un flux naturel. "),
                 "Capturer, clarifier, faire : si la méthode demande un effort de plus que le travail lui-même, elle est trop "
                 "lourde. Simplifiez les listes plutôt que d'ajouter des règles."),
@@ -112,10 +112,10 @@ def main_page():
 def applied_page():
     return _doc(
         _panel("info", _p("Des situations réelles d'un produit mécatronique (mécanique, électronique, "
-                          "logiciel embarqué, design), traitées avec GTD et les outils de la plateforme. "
+                          "software embarqué, design), traitées avec GTD et les outils de la plateforme. "
                           "Objectif : exécuter comme un dirigeant — peu de choses en tête, tout en mouvement.")),
         {"type": "toc"},
-        _h(1, "1. Un Test échoue au banc d'essai (capturer, clarifier)"),
+        _h(1, "1. Un Test échoue au test bench (capturer, clarifier)"),
         _p("L'élément chauffant dépasse sa température limite pendant le test d'endurance."),
         _ol(("Capturer ", _b("tout de suite"), " : Agile → Change Management → « Signaler un problème (PR) », "
              "avec la photo et la mesure. Deux minutes, pas plus."),

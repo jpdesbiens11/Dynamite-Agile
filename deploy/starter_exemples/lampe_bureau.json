@@ -7,9 +7,9 @@
  "project": {
   "key": "LAMPE",
   "name": "Lampe de bureau connectée",
-  "description": "Lampe de bureau à DEL à intensité et température de couleur réglables, commandée par un bouton tactile et par une application mobile (Bluetooth Low Energy). Alimentée par un bloc d'alimentation externe 12 V.",
+  "description": "Lampe de bureau à LED à intensité et température de couleur réglables, commandée par un touch button et par une application mobile (Bluetooth Low Energy). Alimentée par un power supply externe 12 V.",
   "industry": "Produits grand public",
-  "product_type": "Appareil grand public mécatronique avec liaison radio",
+  "product_type": "Appareil grand public mécatronique avec radio link",
   "markets": [
    "CA",
    "US"
@@ -20,7 +20,7 @@
    "username": "maya",
    "display_name": "Maya",
    "study_profile": "Génie mécanique",
-   "title": "Responsable mécanique et boîtier",
+   "title": "Responsable mécanique et enclosure",
    "role": "manager"
   },
   {
@@ -39,7 +39,7 @@
    "username": "theo",
    "display_name": "Théo",
    "study_profile": "Génie informatique",
-   "title": "Responsable micrologiciel et application"
+   "title": "Responsable firmware et application"
   }
  ],
  "requirements": [
@@ -48,7 +48,7 @@
    "kind": "need",
    "stakeholder": "user",
    "category": "functional",
-   "statement": "L'utilisateur veut régler la lumière sans se lever ni chercher un interrupteur."
+   "statement": "L'utilisateur veut régler la lumière sans se lever ni chercher un switch."
   },
   {
    "ref": "BES-2",
@@ -85,7 +85,7 @@
   },
   {
    "ref": "REQ-3",
-   "statement": "Le produit doit satisfaire aux exigences de sécurité des équipements audio/vidéo, TI et de communication.",
+   "statement": "Le produit doit satisfaire aux requirements de sécurité des équipements audio/vidéo, TI et de communication.",
    "category": "safety",
    "source": "standard",
    "standard": "CSA C22.2 No. 62368-1 / UL 62368-1",
@@ -109,7 +109,7 @@
   },
   {
    "ref": "REQ-5",
-   "statement": "L'émetteur radio doit être conforme aux règles d'homologation des appareils à faible puissance.",
+   "statement": "L'émetteur radio doit être conforme aux règles d'homologation des appareils à faible power.",
    "category": "regulatory",
    "source": "standard",
    "standard": "ISED RSS-247 ; FCC Part 15 Subpart C",
@@ -138,7 +138,7 @@
    "category": "industry",
    "level": "Product",
    "method": "T",
-   "objective": "Mesurer le flux et la puissance absorbée à 100 %.",
+   "objective": "Mesurer le flux et la power absorbée à 100 %.",
    "acceptance": "≥ 600 lm.",
    "means": "Sphère intégrante, wattmètre.",
    "verifies": [
@@ -234,11 +234,11 @@
     },
     {
      "key": "LB-ELE",
-     "label": "Pilote DEL et alimentation"
+     "label": "Pilote LED et alimentation"
     },
     {
      "key": "LB-APP",
-     "label": "Application mobile et micrologiciel"
+     "label": "Application mobile et firmware"
     }
    ]
   },
@@ -270,7 +270,7 @@
       "content": [
        {
         "type": "text",
-        "text": "Page d'accueil du projet : objectif, équipe et liens vers les livrables."
+        "text": "Page d'accueil du projet : objectif, équipe et liens vers les deliverables."
        }
       ]
      },
@@ -462,7 +462,7 @@
    },
    {
     "ref": "F6",
-    "text": "Utiliser un bloc d'alimentation externe 12 V",
+    "text": "Utiliser un power supply externe 12 V",
     "type": "contrainte",
     "parent": "F5",
     "kano": "C",
@@ -544,7 +544,7 @@
    },
    {
     "ref": "F16",
-    "text": "Piloter le courant des DEL par MLI",
+    "text": "Piloter le courant des LED par PWM",
     "type": "technique",
     "parent": "F14"
    },
@@ -559,7 +559,7 @@
    },
    {
     "ref": "F18",
-    "text": "Dissiper la chaleur des DEL",
+    "text": "Dissiper la chaleur des LED",
     "type": "usage",
     "parent": "F17",
     "kano": "B",
@@ -595,7 +595,7 @@
    {
     "ref": "E1",
     "side": "in",
-    "label": "Courant 12 V du bloc d'alimentation",
+    "label": "Courant 12 V du power supply",
     "kind": "energy"
    },
    {
@@ -696,7 +696,7 @@
    {
     "view": "general",
     "kind": "energy",
-    "label": "chaleur des DEL",
+    "label": "chaleur des LED",
     "src": "F12",
     "dst": "F17"
    },
@@ -724,7 +724,7 @@
    {
     "view": "detail",
     "kind": "energy",
-    "label": "courant des DEL",
+    "label": "courant des LED",
     "src": "F7",
     "dst": "F13"
    },
@@ -822,7 +822,7 @@
    {
     "view": "detail",
     "kind": "material",
-    "label": "boîtier",
+    "label": "enclosure",
     "src": "F3",
     "dst": "F20"
    },
@@ -867,7 +867,7 @@
    {
     "name": "Bras articulé à friction",
     "kind": "designed",
-    "notes": "Deux rotules à friction : la tête reste où on la place.",
+    "notes": "Deux ball joints à friction : la tête reste où on la place.",
     "functions": [
      "F4"
     ]
@@ -875,7 +875,7 @@
    {
     "name": "Tête en aluminium extrudé",
     "kind": "designed",
-    "notes": "Boîtier de la tête et radiateur des DEL en une seule pièce.",
+    "notes": "Enclosure de la tête et radiateur des LED en une seule pièce.",
     "functions": [
      "F18",
      "F20",
@@ -883,9 +883,9 @@
     ]
    },
    {
-    "name": "Carte DEL et pilote MLI",
+    "name": "LED board et pilote PWM",
     "kind": "designed",
-    "notes": "DEL blanc chaud et blanc froid, pilote de courant.",
+    "notes": "LED blanc chaud et blanc froid, pilote de courant.",
     "functions": [
      "F13",
      "F14",
@@ -893,7 +893,7 @@
     ]
    },
    {
-    "name": "Carte de commande BLE",
+    "name": "Controller board BLE",
     "kind": "designed",
     "notes": "Microcontrôleur avec radio Bluetooth Low Energy, mémoire du réglage.",
     "functions": [
@@ -911,7 +911,7 @@
     ]
    },
    {
-    "name": "Bloc d'alimentation 12 V",
+    "name": "Power supply 12 V",
     "kind": "bought",
     "notes": "Homologué (acheté) : la lampe ne touche jamais au 120 V.",
     "functions": [
@@ -919,7 +919,7 @@
     ]
    },
    {
-    "name": "Câble et connecteur",
+    "name": "Cable et connector",
     "kind": "bought",
     "notes": "Du jack 12 V aux cartes, par le bras.",
     "functions": [
@@ -937,7 +937,7 @@
    {
     "name": "Couvercle isolant de la base",
     "kind": "designed",
-    "notes": "Isole la carte de commande ; ferme la base.",
+    "notes": "Isole la controller board ; ferme la base.",
     "functions": [
      "F19",
      "F20"
@@ -952,9 +952,9 @@
   ],
   "risks": [
    {
-    "title": "Surchauffe des DEL dans la tête",
-    "cause": "le dissipateur est trop petit pour 10 W de DEL",
-    "consequence": "baisse du flux lumineux, durée de vie réduite, boîtier trop chaud au toucher",
+    "title": "Surchauffe des LED dans la tête",
+    "cause": "le heat sink est trop petit pour 10 W de LED",
+    "consequence": "baisse du flux lumineux, service life réduite, enclosure trop chaud au toucher",
     "category": "technique",
     "phase": "C",
     "probability": 4,
@@ -976,7 +976,7 @@
     "function": "F10"
    },
    {
-    "title": "Retard du fournisseur de bloc d'alimentation",
+    "title": "Retard du fournisseur de power supply",
     "cause": "un seul fournisseur homologué pour le 12 V",
     "consequence": "prototype D en retard de 4 semaines",
     "category": "fournisseurs",
@@ -984,7 +984,7 @@
     "probability": 3,
     "impact": 4,
     "response": "reduire",
-    "action": "Qualifier un deuxième bloc d'alimentation déjà certifié",
+    "action": "Qualifier un deuxième power supply déjà certifié",
     "function": "F6"
    },
    {
@@ -996,7 +996,7 @@
     "probability": 3,
     "impact": 5,
     "response": "reduire",
-    "action": "Réserver le laboratoire dès la PDR ; pré-essais CEM chez nous"
+    "action": "Réserver le laboratoire dès la PDR ; pré-essais EMC chez nous"
    },
    {
     "title": "Coût des pièces au-dessus de la cible",
@@ -1041,7 +1041,7 @@
     "probability": 2,
     "impact": 3,
     "response": "accepter",
-    "action": "Garder le bouton tactile comme commande principale ; revoir au MVP 1"
+    "action": "Garder le touch button comme commande principale ; revoir au MVP 1"
    },
    {
     "title": "Brûlure en touchant la tête",
@@ -1060,18 +1060,18 @@
    {
     "higher": "Utilisateur et lampe de bureau",
     "focus": "Tête d'éclairage",
-    "lower": "Dissipateur en aluminium",
+    "lower": "Heat sink en aluminium",
     "function": "F18",
-    "requirement": "Jonction des DEL ≤ 85 °C à 25 °C ambiant",
+    "requirement": "Jonction des LED ≤ 85 °C à 25 °C ambiant",
     "failure_mode": "Chaleur mal dissipée",
-    "effect": "Flux lumineux réduit, durée de vie raccourcie, tête chaude",
+    "effect": "Flux lumineux réduit, service life raccourcie, tête chaude",
     "severity": 7,
     "cause": "Surface d'ailettes trop petite",
     "prevention": "Calcul thermique, règle de conception de 1 cm² par watt",
     "occurrence": 5,
     "detection_ctrl": "Prototype instrumenté (thermocouples), essai d'échauffement",
     "detection": 4,
-    "action": "Agrandir le dissipateur de 30 %, puis refaire l'essai",
+    "action": "Agrandir le heat sink de 30 %, puis refaire l'essai",
     "test": "ESSAI-3"
    },
    {
@@ -1081,9 +1081,9 @@
     "function": "F18",
     "requirement": "Résistance thermique ≤ 1 K/W",
     "failure_mode": "Contact thermique insuffisant",
-    "effect": "Surchauffe locale des DEL, perte de flux",
+    "effect": "Surchauffe locale des LED, perte de flux",
     "severity": 7,
-    "cause": "Pâte thermique mal appliquée au montage",
+    "cause": "Thermal paste mal appliquée au montage",
     "prevention": "Instruction de montage",
     "occurrence": 4,
     "detection_ctrl": "Inspection visuelle",
@@ -1093,24 +1093,24 @@
    },
    {
     "higher": "Utilisateur et lampe de bureau",
-    "focus": "Carte de commande",
-    "lower": "Pilote des DEL (MLI)",
+    "focus": "Controller board",
+    "lower": "Pilote des LED (PWM)",
     "function": "F14",
     "requirement": "Intensité de 5 à 100 % sans scintillement visible",
     "failure_mode": "Scintillement à faible intensité",
     "effect": "Fatigue visuelle de l'utilisateur",
     "severity": 5,
-    "cause": "Fréquence MLI trop basse (< 1 kHz)",
+    "cause": "Fréquence PWM trop basse (< 1 kHz)",
     "prevention": "Pilote choisi à 20 kHz ou plus",
     "occurrence": 3,
-    "detection_ctrl": "Mesure à l'oscilloscope et à la caméra",
+    "detection_ctrl": "Mesure à l'oscilloscope et à la camera",
     "detection": 3,
     "action": "",
     "test": "ESSAI-2"
    },
    {
     "higher": "Utilisateur et lampe de bureau",
-    "focus": "Carte de commande",
+    "focus": "Controller board",
     "lower": "Module Bluetooth",
     "function": "F10",
     "requirement": "Commande reçue en moins de 300 ms à 10 m",
@@ -1127,8 +1127,8 @@
    },
    {
     "higher": "Utilisateur et lampe de bureau",
-    "focus": "Bloc d'alimentation",
-    "lower": "Connecteur 12 V",
+    "focus": "Power supply",
+    "lower": "Connector 12 V",
     "function": "F6",
     "requirement": "Fiche bien tenue, 12 V ± 5 %",
     "failure_mode": "Contact intermittent",
@@ -1143,15 +1143,15 @@
    },
    {
     "higher": "Utilisateur et lampe de bureau",
-    "focus": "Boîtier",
+    "focus": "Enclosure",
     "lower": "Surface extérieure de la tête",
     "function": "F17",
     "requirement": "Température des surfaces accessibles sous la limite de la norme (IEC 62368-1)",
     "failure_mode": "Surface trop chaude",
     "effect": "Brûlure de l'utilisateur",
     "severity": 9,
-    "cause": "Dissipateur exposé sans écran",
-    "prevention": "Écran isolant, distance minimale aux DEL",
+    "cause": "Heat sink exposé sans écran",
+    "prevention": "Écran isolant, distance minimale aux LED",
     "occurrence": 3,
     "detection_ctrl": "Essai d'échauffement selon IEC 62368-1",
     "detection": 3,
@@ -1191,7 +1191,7 @@
     "name": "Bras articulé à friction",
     "initial_name": "Bras d'architecte",
     "kind": "existing",
-    "reference": "Rotules à friction réglables du commerce",
+    "reference": "Ball joints à friction réglables du commerce",
     "description": "La tête reste où on la place.",
     "functions": [
      "F4"
@@ -1201,7 +1201,7 @@
     "name": "Alimentation 12 V et distribution",
     "initial_name": "Prise unique",
     "kind": "existing",
-    "reference": "Bloc secteur 12 V certifié et régulateur de la carte",
+    "reference": "Bloc secteur 12 V certifié et regulator de la carte",
     "description": "L'énergie arrive par un bloc externe et se répartit sur la carte.",
     "functions": [
      "F6",
@@ -1212,7 +1212,7 @@
     "name": "Interface de commande tactile et sans fil",
     "initial_name": "Un doigt, une appli",
     "kind": "to_define",
-    "description": "Toucher, application mobile et mémoire du réglage dans une seule carte de commande.",
+    "description": "Toucher, application mobile et mémoire du réglage dans une seule controller board.",
     "functions": [
      "F9",
      "F10",
@@ -1220,10 +1220,10 @@
     ]
    },
    {
-    "name": "Module DEL blanc réglable",
+    "name": "Module LED blanc réglable",
     "initial_name": "Soleil de poche",
     "kind": "to_define",
-    "description": "Deux canaux de DEL (blanc chaud, blanc froid) pilotés en courant.",
+    "description": "Deux canaux de LED (blanc chaud, blanc froid) pilotés en courant.",
     "functions": [
      "F13",
      "F14",
@@ -1234,7 +1234,7 @@
     "name": "Gestion thermique de la tête",
     "initial_name": "Tête-radiateur",
     "kind": "to_define",
-    "description": "Évacuer la chaleur des DEL sans ventilateur ni surface trop chaude.",
+    "description": "Évacuer la chaleur des LED sans fan ni surface trop chaude.",
     "functions": [
      "F18"
     ]
@@ -1243,7 +1243,7 @@
     "name": "Enveloppe isolante",
     "initial_name": "Coquille fermée",
     "kind": "existing",
-    "reference": "Boîtier en polycarbonate V-0 et passe-câble",
+    "reference": "Enclosure en polycarbonate V-0 et passe-câble",
     "description": "Isole et recouvre l'électronique.",
     "functions": [
      "F19",
@@ -1256,7 +1256,7 @@
   {
    "ref": "E0",
    "type": "epic",
-   "title": "MVP0 — vérifier le besoin : lampe en carton et DEL de table",
+   "title": "MVP0 — vérifier le besoin : lampe en carton et LED de table",
    "mvp": "MVP0",
    "priority": "high"
   },
@@ -1333,7 +1333,7 @@
   },
   {
    "doc_type": "PDR",
-   "title": "Revue de conception préliminaire"
+   "title": "Design review préliminaire"
   }
  ]
 }

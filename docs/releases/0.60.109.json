@@ -1,0 +1,98 @@
+{
+  "version": "0.60.109",
+  "date": "2026-11-16",
+  "summary": {
+    "fr": "Termes techniques en anglais dans le texte livré par la plateforme : Bonnes pratiques du DFMEA, aide, formation, Testing, exemples.",
+    "en": "Technical terms in English in the text the platform ships: DFMEA good practices, Help, Training, Testing, examples."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Bonnes pratiques (industrie) du DFMEA : termes techniques en anglais",
+      "why": "Les bonnes pratiques ajoutées à « Prevention Controls » gardent leurs phrases en français, chaque terme technique passe en anglais (watchdog, poka-yoke, conformal coating, heat sink, derating, end-of-line test…) ; les thèmes prennent le nom anglais des sujets Testing (Electrical Safety, Thermal…). Le marqueur « Bonnes pratiques (industrie) : » ne change pas : une ligne DFMEA déjà enregistrée garde son texte, rien ne la resynchronise.",
+      "files": [
+        "CLAUDE.md",
+        "UPDATE_CHANGES.json",
+        "UPDATE_LOG.md",
+        "core/__init__.py",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.109.json",
+        "tests/test_english_terms.py",
+        "tests/test_open_v060.py",
+        "modules/diamond/dfmea_practices.py",
+        "tests/test_english_terms.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Help, Training, Testing et contenu d'exemple : termes techniques en anglais",
+      "why": "Même règle (D-O-121) pour l'aide, les topics et tests Training, les catalogues Testing, les starters d'exemple (lampe, convoyeur, tensiomètre) et le Rover : capteur → sensor, boîtier → enclosure, variateur → ESC, arrêt d'urgence → emergency stop… Codes stockés inchangés ; l'aide qui décrit un écran garde les mots que l'écran montre encore en français. Les essais du catalogue non modifiés et les pages de procédure se mettent à jour seuls ; les topics, tests déjà distribués et le DEMO déjà chargé gardent leur texte.",
+      "files": [
+        "deploy/spaces_exemples/rover.json",
+        "deploy/starter_exemples/convoyeur.json",
+        "deploy/starter_exemples/lampe_bureau.json",
+        "deploy/starter_exemples/tensiometre.json",
+        "modules/help/demo_characteristics.py",
+        "modules/help/demo_classes.py",
+        "modules/help/demo_costs.py",
+        "modules/help/demo_evidence.py",
+        "modules/help/demo_life_data.py",
+        "modules/help/demo_pn.py",
+        "modules/help/demo_process_data.py",
+        "modules/help/gtd.py",
+        "modules/help/module_docs_more.py",
+        "modules/help/module_docs_refs.py",
+        "modules/training/quizzes/dm.py",
+        "modules/training/quizzes/hl_b.py",
+        "modules/training/quizzes/kb.py",
+        "site/en/guide.html",
+        "site/en/home.html",
+        "site/en/index.html",
+        "site/en/installation.html",
+        "site/en/modules.html",
+        "site/en/starter.md",
+        "site/en/versions.html",
+        "site/guide.html",
+        "site/home.html",
+        "site/index.html",
+        "site/installation.html",
+        "site/modules.html",
+        "site/starter.md",
+        "site/versions.html",
+        "static/apps/vitrine/index.html",
+        "static/js/help/content_faq.js",
+        "static/js/help/content_path.js",
+        "static/js/help/content_path2.js",
+        "tests/test_dfmea_complete.py",
+        "tools/rover/agile.py",
+        "tools/rover/base.py",
+        "tools/rover/dfmea_more.py",
+        "tools/rover/diamond.py",
+        "tools/rover/methods.py",
+        "tools/rover/pages_ab.py",
+        "tools/rover/pages_cd.py",
+        "tools/rover/story.py"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Affichage EN : clés ajoutées pour chaque texte changé",
+      "why": "Chaque texte français changé reçoit sa clé dans le dictionnaire d'affichage, avec la traduction de l'ancien texte ; les anciennes clés restent pour les données déjà enregistrées dans un site.",
+      "files": [
+        "static/i18n/demo_en_1.json",
+        "static/i18n/demo_en_2.json",
+        "static/i18n/demo_en_3.json",
+        "static/i18n/demo_en_4.json",
+        "static/i18n/demo_en_5.json",
+        "static/i18n/demo_en_6.json",
+        "static/i18n/en_1.json",
+        "static/i18n/en_2.json",
+        "static/i18n/en_3.json",
+        "static/i18n/en_4.json",
+        "static/i18n/en_5.json",
+        "static/i18n/en_6.json"
+      ]
+    }
+  ]
+}

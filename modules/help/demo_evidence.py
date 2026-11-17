@@ -29,12 +29,12 @@ from .headlamp import project_id
 DONE = "demo_evidence_coherent"
 PROTOS = {"closed": ("Rover MVP 2", "RVR-02"), "results": ("Rover MVP 3", "RVR-03")}
 HEADLAMP_IDS = ("HL-001", "HL-002")
-REJECT_NOTE = ("Exemple de l'ancien parcours HeadLamp, retiré de la démo (0.60.99). Une exigence ne s'efface jamais : "
+REJECT_NOTE = ("Exemple de l'ancien parcours HeadLamp, retiré de la démo (0.60.99). Une requirement ne s'efface jamais : "
                "elle reste ici, « Rejected », avec son historique.")
 CCB = "Nina (exemple), Alexis (exemple)"
 # closed ECN -> (ECN task that re-ran the test, title of that test in the Test Base)
-VERIFIED_BY = {"Rampe moteur de 0,5 s et condensateur de 1 000 µF sur le 5 V": ("Refaire l'essai des arrêts d'urgence",
-                                                                               "Arrêts d'urgence")}
+VERIFIED_BY = {"Rampe motor de 0,5 s et capacitor de 1 000 µF sur le 5 V": ("Refaire l'essai des emergency stops",
+                                                                               "Emergency stops")}
 TO_VERIFIED = ("Implemented", "In Verification")
 
 
@@ -210,4 +210,4 @@ def _verified_by(conn, pid, ecn):
     key = conn.execute("SELECT key FROM projects WHERE id = ?", (pid,)).fetchone()["key"]
     if task is None or test is None:
         return "Sous-tâches de vérification de l'ECN terminées"
-    return "{}-{} · {} refait au banc : {}".format(key, task["number"], test["test_id"], L.RESULTS.get(test_title, ("réussi",))[0])
+    return "{}-{} · {} refait au bench : {}".format(key, task["number"], test["test_id"], L.RESULTS.get(test_title, ("réussi",))[0])

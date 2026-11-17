@@ -8,7 +8,7 @@
     { id: "testing", isNew: true, title: "Testing : tests, procédures et Test Plans", tool: "Testing",
       summary: "La Test Base, les procédures, les plans pour un fournisseur, les listes centrales.",
       blocks: [
-        ["p", "**Testing** (après Dynamite) : tous les tests possibles d'un produit grand public mécatronique, par sujet — performance fonctionnelle, sécurité électrique, CEM, thermique, environnement, indice de protection (IP), mécanique et chute, durée de vie, matériaux (RoHS), électronique et logiciel, ergonomie, production, vérification sans test."],
+        ["p", "**Testing** (après Dynamite) : tous les tests possibles d'un produit grand public mécatronique, par sujet — performance fonctionnelle, sécurité électrique, EMC, thermique, environnement, indice de protection (IP), mécanique et chute, service life, matériaux (RoHS), électronique et software, ergonomie, production, vérification sans test."],
         ["tip", "Une **Test Base par Space** : TESTING est le catalogue de référence ; chaque Space en reçoit sa propre copie à sa première ouverture (Testing → Space), modifiable sans toucher les autres. Les requirements d'un Space citent les tests de sa propre base ; les listes centrales et les procédures (wiki TESTING) restent communes. La liste déroulante en haut de la marge gauche, comme dans Goldmine et Dynamite, dit toujours dans quel Space vous êtes et change de Space en gardant la même vue."],
         ["steps", [
           "**Test Base** : filtrez (texte, Subject, standard, category **Standard** / **Industry Practice** / **Custom Test**, status, niveau, méthode, cité ou non par un requirement). « Exporter la sélection » n'envoie que les lignes affichées ; « Importer (CSV) » montre un aperçu avant d'écrire.",
