@@ -173,6 +173,11 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.111** (2026-11-17) : **« ↔ IA » sur chaque page de Diamond** (D-O-124) : bouton en haut à droite (`SHELL.headTools`) ;
+  vers l'IA (page, tout Diamond ou au choix ; Révision, Entrevue guidée, Atelier tableau blanc ; prompt ou .json, codes stables) ;
+  import de la réponse : nouveau / modifié / retiré / refusé, essai à blanc par les routes des pages (SAVEPOINT), retraits décochés
+  si la réponse est tronquée, sauvegarde du Space puis une seule transaction ; 18 sections (`modules/diamond/rt.py`,
+  `rt_prompt.py`, `rt_sections_a/b/c/c2.py`, `static/js/diamond/rt.js`) (`tests/test_diamond_rt*.py`).
 - **0.60.110** (2026-11-17) : **DFMEA lisible dans le navigateur** (D-O-123) : lignes compactes (2 lignes par cellule, chevron
   ▸ / ▾ par ligne, « Tout déplier / Tout replier », état par navigateur), barre de défilement horizontale collée au bas de la
   fenêtre, colonnes #, Function et Failure Mode gardées à gauche, Shift + molette, « Plein écran » (Esc), « Loupe » (cellule en

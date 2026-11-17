@@ -1,4 +1,15 @@
-# Journal de mise à jour — 0.60.110
+# Journal de mise à jour — 0.60.111
+
+- **Version :** 0.60.110 → 0.60.111 (2026-11-17)
+- **Changements :**
+  1. **« ↔ IA » en haut à droite de chaque page de Diamond : vers l'IA (Révision, Entrevue guidée, Atelier)** (D-O-124).
+  2. **Importer la réponse : nouveau, modifié, retiré, refusé — essai à blanc par la page, sauvegarde, une seule transaction** (D-O-124).
+  3. **Les 18 sections de Diamond** (D-O-124).
+- **Base de données :** aucune migration. Chaque import écrit une sauvegarde du Space (⚙ Admin → Spaces → Sauvegardes).
+
+## Précédent
+
+### Journal de mise à jour — 0.60.110
 
 - **Version :** 0.60.109 → 0.60.110 (2026-11-17)
 - **Changements :**
@@ -7,7 +18,6 @@
   3. **DFMEA : Plein écran, Loupe, Essentiel** (D-O-123).
 - **Base de données :** aucune migration. L'état d'affichage reste dans le navigateur.
 
-## Précédent
 
 ### Journal de mise à jour — 0.60.109
 

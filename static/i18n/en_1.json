@@ -540,6 +540,7 @@
 "0 à 100. « Done » vaut 100.": "0 to 100. “Done” counts as 100.",
 "1 (faible), 2 (moyenne) ou 3 (élevée).": "1 (low), 2 (medium) or 3 (high).",
 "1 · Négligeable": "1 · Negligible",
+"1 · Vers l'IA": "1 · To the AI",
 "1 · À améliorer": "1 · To improve",
 "1 à 10": "1 to 10",
 "1 à 16 lettres, chiffres, / & . - sans espace (ex. RoHS, CdCF, IEC)": "1 to 16 letters, digits, / & . - without spaces (e.g. RoHS, CdCF, IEC)",
@@ -567,6 +568,7 @@
 "1 230 $ engagés ou payés": "$1,230 committed or paid",
 "2 / 3, puis 3 / 3 après le correctif du temps de vol": "2 / 3, then 3 / 3 after the ToF fix",
 "2 lignes par cellule : plus de lignes à l'écran": "2 lines per cell: more rows on screen",
+"2 · Importer la réponse": "2 · Import the answer",
 "2 · Mineur": "2 · Minor",
 "2 · Peu probable": "2 · Unlikely",
 "2 à 10 majuscules ou chiffres, commençant par une lettre ; ex. LAMPE.": "2 to 10 uppercase letters or digits, starting with a letter; e.g. LAMP.",
@@ -903,6 +905,7 @@
 "Alimentation et coupure de traction": "Power supply and traction cutoff",
 "Aller à la Test Base": "Go to the Test Base",
 "Aller à la semaine du": "Go to the week of",
+"Aller-retour avec un assistant IA : exporter cette page ou tout Diamond, importer la réponse, tout reste synchronisé": "Round trip with an AI assistant: export this page or all of Diamond, import the answer, everything stays in sync",
 "Allez plus vite — mais pas avant d'avoir fait les trois premières étapes : sinon, on accélère un mauvais procédé.": "Go faster — but not before doing the first three steps: otherwise, you speed up a bad process.",
 "Allouer à un sous-système": "Allocate to a subsystem",
 "Allouez chaque Requirement « Accepted » à un ticket de travail (lien « implements ») : c'est la Next Action.": "Allocate each “Accepted” Requirement to a work ticket (“implements” link): that is the Next Action.",
@@ -1046,6 +1049,7 @@
 "Astuce : proposez une valeur que le client n'a qu'à confirmer, ex. « 180 °C ± 10 °C à la buse ? »": "Tip: propose a value the customer only has to confirm, e.g. “180 °C ± 10 °C at the nozzle?”",
 "Astuce · ": "Tip · ",
 "Atelier": "Workshop",
+"Atelier (tableau blanc)": "Workshop (whiteboard)",
 "Atelier de conception de produit : besoins, fonctions, requirements, essais.": "Product design workshop: needs, functions, requirements, tests.",
 "Atelier de l'école": "School workshop",
 "Atelier libre de conception de produit : requirements, wiki Dynamite, tickets Agile, essais. Hébergé par l'équipe sur son propre serveur, sans aucun service externe.": "Open product-design workshop: requirements, Dynamite wiki, Agile tickets, tests. Hosted by the team on its own server, with no external service.",
@@ -1332,5 +1336,7 @@
 "Battery LiPo gonflée, risque d'incendie : la coupure à 3,4 V par élément est une requirement de sécurité (REQ-19).": "Swollen LiPo battery, fire risk: the 3.4 V per cell cut-off is a safety requirement (REQ-19).",
 "Battery module de cylindrical cells en parallèle": "Battery module of cylindrical cells in parallel",
 "Before drawing a single part, the team tells how the product is used, scene by scene: Sam opens the box, builds, codes, drives. « Copier pour l'IA » sends this story to an AI assistant, which drafts a first function tree in seconds.": "Before drawing a single part, the team tells how the product is used, scene by scene: Sam opens the box, builds, codes, drives. “Copy for AI” sends this story to an AI assistant, which drafts a first function tree in seconds.",
-"Bench B-60 et alimentation de référence": "Bench B-60 and reference power supply"
+"Bench B-60 et alimentation de référence": "Bench B-60 and reference power supply",
+"Bench B-60, référence": "Bench B-60, reference",
+"Besoins (Needs)": "Needs"
 }

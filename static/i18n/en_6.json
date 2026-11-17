@@ -1,4 +1,5 @@
 {
+"Un nombre impair de participants : l'outil forme alors un trio à chaque tour, c'est normal.": "An odd number of participants: the tool then forms a trio at each round, this is normal.",
 "Un nouveau membre de l'équipe doit pouvoir réaliser les étapes du parcours DEMO (hors Admin) en moins de 5 jours ouvrables.": "A new team member must be able to complete the steps of the DEMO path (outside Admin) in under 5 working days.",
 "Un ordinateur n'envoie pas de texto : scannez le code QR à droite avec votre téléphone.": "A computer can't send a text message: scan the QR code on the right with your phone.",
 "Un ou plusieurs Control Plans par configuration de ligne et à la réception, trois phases, mesures et Cpk.": "One or more Control Plans per line configuration and at reception, three phases, measurements and Cpk.",
@@ -110,6 +111,7 @@
 "Une plage par travail, sur le code de l'étape du PDP, avec une courte description.": "One range per piece of work, on the PDP step code, with a short description.",
 "Une période fixe (ex. 2 semaines) avec un objectif et une sélection de tickets.": "A fixed period (e.g. 2 weeks) with a goal and a selection of tickets.",
 "Une question sans réponse → commentaire « Question » sur le ticket concerné, adressé à la bonne personne.": "An unanswered question → “Question” comment on the relevant ticket, addressed to the right person.",
+"Une question à la fois dans l'ordre de la méthode ; le document quand vous écrivez « GÉNÈRE ».": "One question at a time in the order of the method; the document when you write « GÉNÈRE ».",
 "Une référence peut-elle être réutilisée ?": "Can a reference be reused?",
 "Une réponse à « comment ? »": "An answer to “how?”",
 "Une rétroaction relie deux fonctions différentes. Correctif : choisissez une autre fonction.": "A feedback loop links two different functions. Fix: choose another function.",
@@ -307,6 +309,7 @@
 "Véhicules électriques qui récupèrent l'énergie au freinage ; chaleur des composants utilisée pour chauffer la batterie par temps froid.": "Electric cars that recover energy when braking; heat from components used to warm the battery in cold weather.",
 "Vérification (le produit respecte les requirements) et validation (il répond au besoin des utilisateurs pilotes), écarts et décision de lancement, exportables en Word et en PDF.": "Verification (the product meets the requirements) and validation (it meets the needs of the pilot users), deviations and launch decision, exportable to Word and PDF.",
 "Vérification : ": "Check: ",
+"Vérification contre le Space…": "Checking against the Space…",
 "Vérification de l'empreinte": "Footprint verification",
 "Vérification de « ": "Checking “",
 "Vérification des requirements": "Requirements verification",
@@ -321,7 +324,7 @@
 "Vérification à blanc : rien n'est encore enregistré. Chaque ligne appliquée sera datée ": "Dry run: nothing is saved yet. Each applied row will be dated ",
 "Vérification…": "Checking…",
 "Vérifie": "Verifies",
-"Vérifier": "Verify",
+"Vérifier": "Check",
 "Vérifier en ligne si un projet est admissible.": "Check online whether a project is eligible.",
 "Vérifier la coupure à chaque démarrage (autotest)": "Check the cut-off at every startup (self-test)",
 "Vérifier la coupure à chaque démarrage (self-test)": "Check the cut-off at every startup (self-test)",
@@ -1279,6 +1282,8 @@
 "→ Synthèse": "→ Summary",
 "→ retenu : ": "→ kept: ",
 "↓ Plus tard": "↓ Later",
+"↔ IA": "↔ AI",
+"↔ IA · aller-retour de Diamond": "↔ AI · Diamond round trip",
 "↳ Le bouton Arrêter doit rester visible même quand on fait défiler la page, c'est ce que les testeurs ont demandé.": "↳ The Stop button must stay visible even when the page is scrolled, which is what the testers asked for.",
 "↳ OK pour la rampe de 0,5 s et le capacitor de 1 000 µF ; Léa met à jour le schéma et la BOM.": "↳ OK for the 0.5 s ramp and the 1,000 µF capacitor; Léa updates the schematic and the bill of materials.",
 "↳ OK pour la rampe de 0,5 s et le condensateur de 1 000 µF ; Léa met à jour le schéma et la nomenclature.": "↳ OK for the 0.5 s ramp and the 1,000 µF capacitor; Léa updates the schematic and the bill of materials.",
@@ -1313,6 +1318,7 @@
 "✓ Copié": "✓ Copied",
 "✓ Import terminé : ": "✓ Import complete: ",
 "✓ Le serveur a redémarré avec la nouvelle version. La page se recharge…": "✓ The server restarted with the new version. The page is reloading…",
+"✓ Prompt copié": "✓ Prompt copied",
 "✓ Prompt copié (# caractères) : collez-le dans Claude, Gemini ou un autre assistant. Sa réponse finale est un bloc JSON : « Importer » ici.": "✓ Prompt copied (# characters): paste it into Claude, Gemini or another assistant. Its final answer is a JSON block: “Import” it here.",
 "✓ Réservée dans ": "✓ Reserved in ",
 "✓ Réussie": "✓ Passed",
@@ -1331,7 +1337,5 @@
 "🔒 Révision ": "🔒 Revision ",
 "🗄 Archives des échanges": "🗄 Exchange archives",
 "🧪 TST-FUN-# · Détection des obstacles — # essais": "🧪 TST-FUN-# · Obstacle detection — # trials",
-"🧪 TST-FUN-04 · Détection des obstacles — 200 essais": "🧪 TST-FUN-04 · Obstacle detection — 200 trials",
-"Revenir à la page (Esc)": "Back to the page (Esc)",
-"Le tableau seul dans la fenêtre ; Esc pour revenir": "The table alone in the window; Esc to come back"
+"🧪 TST-FUN-04 · Détection des obstacles — 200 essais": "🧪 TST-FUN-04 · Obstacle detection — 200 trials"
 }

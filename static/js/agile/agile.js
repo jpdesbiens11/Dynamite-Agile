@@ -195,6 +195,7 @@
     return el("div", { class: "ag-head" }, trail,
       el("div", { class: "ag-head-actions" },
         actions || null,
+        ctx.shell.headTools ? ctx.shell.headTools(ctx) : null,  // 0.60.111 (D-O-124): a module's tools on every page, top right
         canEdit(ctx) && !ctx.shell.noCreate && ctx.module !== "goldmine" ? el("button", { class: "btn btn-primary", type: "button",
           onclick: () => DA.agile.openCreate(ctx) }, "Créer un ticket") : null));
   }

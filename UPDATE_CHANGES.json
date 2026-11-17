@@ -2,8 +2,8 @@
   "changes": [
     {
       "id": "C1",
-      "title": "DFMEA : lignes compactes, chevron par ligne, Tout déplier / Tout replier",
-      "why": "Une cellule longue du DFMEA montre 2 lignes au lieu de grandir jusqu'à 12 : la hauteur moyenne d'une ligne du DFMEA d'exemple passe de 204 px à 73 px. Le chevron ▸ / ▾ de la ligne la déplie en entier, « Tout déplier » / « Tout replier » font toutes les lignes ; une cellule pliée grandit le temps qu'on l'édite. L'état est gardé par Space dans le navigateur, jamais envoyé au serveur. La saisie et les enregistrements ne changent pas.",
+      "title": "« ↔ IA » en haut à droite de chaque page de Diamond : vers l'IA (Révision, Entrevue guidée, Atelier)",
+      "why": "L'équipe travaille comme sur un tableau blanc avec des post-it, l'IA servant de tableau, et les vrais artéfacts restent dans le Space. La page (ou tout Diamond, ou des sections au choix) part en un seul document JSON où chaque élément porte son code stable (F12, P-3, CB-4, R-2, D-<id>, C-01, L1-OP10, PC-2…) et ses liens écrits en codes, dans un prompt (méthode de chaque section, champs et valeurs permises, règle D-O-121 des termes techniques en anglais, contexte en lecture seule) ou en .json. Trois modes : Révision (en une fois), Entrevue guidée (une question à la fois), Atelier (l'équipe dicte les post-it, l'IA rend le document à chaque « GÉNÈRE »). Lecteur : export et prompt seulement.",
       "files": [
         "CLAUDE.md",
         "UPDATE_CHANGES.json",
@@ -12,49 +12,57 @@
         "core/modules.py",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.110.json",
-        "static/css/diamond_fmview.css",
-        "static/js/diamond/fm_view.js",
-        "static/js/diamond/dfmea.js",
-        "tests/js/dfmea_view.js",
-        "tests/test_dfmea_view.py",
-        "tests/test_open_v060.py"
-      ]
-    },
-    {
-      "id": "C2",
-      "title": "Barre de défilement collée au bas de la fenêtre, colonnes gardées à gauche, Shift + molette",
-      "why": "La barre horizontale n'est plus perdue au bas d'une boîte haute : une barre fine, synchronisée, reste collée au bas de la fenêtre tant que le tableau est à l'écran ; #, Function et Failure Mode restent à gauche quand on défile vers la droite ; Shift + molette défile de côté. La barre collée sert aussi au PFMEA et aux plans de contrôle.",
-      "files": [
-        "static/js/diamond/fm_scroll.js",
-        "static/js/diamond/pfmea.js",
-        "static/js/diamond/cplans.js"
-      ]
-    },
-    {
-      "id": "C3",
-      "title": "Plein écran, Loupe et « Essentiel »",
-      "why": "« Plein écran » montre le DFMEA seul dans la fenêtre (Esc pour revenir ; les dialogues restent visibles). « Loupe », éteinte par défaut : la cellule sous le pointeur s'affiche en grand avec sa colonne, sans prendre les clics ; au clavier, Tab jusqu'à la cellule puis Entrée. « Essentiel » ne garde que la chaîne de défaillance (Function, Failure Mode, Effect, S, Cause, O, Prevention, Detection, D, AP, Actions), aussi comme préréglage du menu « Colonnes ». Libellés traduits pour l'affichage EN ; site public reconstruit.",
-      "files": [
-        "static/i18n/en_1.json",
-        "static/i18n/en_2.json",
-        "static/i18n/en_3.json",
-        "static/i18n/en_4.json",
-        "static/i18n/en_5.json",
-        "static/i18n/en_6.json",
-        "site/en/guide.html",
-        "site/en/home.html",
-        "site/en/index.html",
-        "site/en/installation.html",
-        "site/en/modules.html",
-        "site/en/versions.html",
+        "docs/releases/0.60.111.json",
+        "tests/test_open_v060.py",
         "site/guide.html",
         "site/home.html",
         "site/index.html",
         "site/installation.html",
         "site/modules.html",
         "site/versions.html",
-        "static/apps/vitrine/index.html"
+        "site/en/guide.html",
+        "site/en/home.html",
+        "site/en/index.html",
+        "site/en/installation.html",
+        "site/en/modules.html",
+        "site/en/versions.html",
+        "static/apps/vitrine/index.html",
+        "modules/diamond/__init__.py",
+        "modules/diamond/rt.py",
+        "modules/diamond/rt_prompt.py",
+        "static/js/diamond/rt.js",
+        "static/css/diamond_rt.css",
+        "static/js/diamond/diamond.js",
+        "static/js/agile/agile.js",
+        "static/i18n/en_1.json",
+        "static/i18n/en_2.json",
+        "static/i18n/en_3.json",
+        "static/i18n/en_4.json",
+        "static/i18n/en_5.json",
+        "static/i18n/en_6.json",
+        "tests/test_diamond_rt.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Importer la réponse : nouveau, modifié, retiré, refusé — essai à blanc par la page, sauvegarde, une seule transaction",
+      "why": "La réponse de l'IA est comparée au Space section par section : nouveau (sans code, ou code temporaire « +… » que d'autres nouveaux éléments peuvent pointer), modifié (champ : avant → après), identique, retiré (absent d'une section rendue : archivé là où la page archive, supprimé sinon ; une section non rendue n'est pas touchée), refusé (code inconnu, lien vers rien, valeur hors liste). L'aperçu rejoue toute l'application à blanc : ce que la route de la page refuserait est montré refusé avec son message. Une réponse tronquée (moins de la moitié d'une section) a ses retraits décochés. Appliquer : sauvegarde complète du Space, puis chaque écriture par la route de la page (mêmes droits, contrôles, numérotation, journal), retraits en dernier, une seule transaction ; toutes les pages relisent le Space.",
+      "files": [
+        "modules/diamond/rt.py",
+        "tests/test_diamond_rt.py"
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Les 18 sections de Diamond",
+      "why": "Analyse fonctionnelle : Storyline, arbre fonctionnel, entrées / sorties, pièces, flux. Concept : briques technologiques, feuilles de concept, matrices de Pugh (briques, colonnes, datum, décision ; critères et notes restent dans la page). Risques et conception : risques projet, DFMEA, caractéristiques. Industrialisation : lignes d'assemblage, opérations et points de contrôle, PFMEA (nouvelles lignes en brouillon), plans de contrôle et leurs lignes. Projet : NRE et coûts par pièce. Idéation et Kepner-Tregoe (Tools) ne sont pas des données de Diamond. Les boutons CSV / prompt du DFMEA, du PFMEA et des plans de contrôle (D-O-116) restent pour le tableur.",
+      "files": [
+        "modules/diamond/rt_sections_a.py",
+        "modules/diamond/rt_sections_b.py",
+        "modules/diamond/rt_sections_c.py",
+        "modules/diamond/rt_sections_c2.py",
+        "tests/test_diamond_rt_b.py",
+        "tests/test_diamond_rt_c.py"
       ]
     }
   ]

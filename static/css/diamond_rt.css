@@ -1,0 +1,15 @@
+/* Diamond · « ↔ IA » (0.60.111, D-O-124): the round-trip dialog. Tokens only: every theme, dark and high contrast. */
+.dm-rt-btn { font-weight: 600; }
+.dm-rt-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+.modal .dm-rt .dm-rt-tabs .btn[aria-selected="true"] { background: var(--agile); border-color: var(--agile); color: #fff; }
+.dm-rt-pane { display: flex; flex-direction: column; gap: 10px; }
+.dm-rt-scope { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 8px 12px; }
+.dm-rt-scope-head { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
+.dm-rt-secs { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 2px 14px; }
+.dm-rt-sec { display: flex; gap: 6px; align-items: baseline; font-size: .9rem; }
+.dm-rt-sec .muted { white-space: nowrap; }
+.dm-rt-block { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 6px 10px; margin: 6px 0; }
+.dm-rt-block > summary { cursor: pointer; }
+.dm-ai-remove .dm-ai-kind { color: var(--danger); }
+.dm-ai-remove td { text-decoration-color: var(--danger); }
+.dm-ai-remove td:nth-child(4) { text-decoration: line-through; }

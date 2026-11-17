@@ -1,4 +1,7 @@
 {
+"Light and Optics": "Light and optics",
+"Ligne": "Row",
+"Ligne ": "Line ",
 "Ligne Excel": "Excel row",
 "Ligne ajoutée.": "Row added.",
 "Ligne créée.": "Line created.",
@@ -639,6 +642,8 @@
 "Objectif clair et mesurable": "Clear and measurable objective",
 "Objectif concerné": "Related objective",
 "Objectif de développement": "Development objective",
+"Objectif de la séance": "Goal of the session",
+"Objectif de la séance (facultatif)": "Goal of the session (optional)",
 "Objectif et déroulement": "Objective and procedure",
 "Objectif introuvable pour cette année.": "Objective not found for this year.",
 "Objectifs annuels": "Annual objectives",
@@ -1008,6 +1013,7 @@
 "Planifiée du ": "Scheduled from ",
 "Plans de contrôle": "Control plans",
 "Plans de contrôle réservés": "Control plans reserved",
+"Plans de contrôle · lignes": "Control plans · rows",
 "Plaque fissurée": "Cracked plate",
 "Plaque porte-modules découpée laser": "Laser-cut module plate",
 "Plastics UL 94 V-0 près des sources de chaleur et d'énergie, flammability class exigée par la norme ailleurs": "UL 94 V-0 plastics near heat and power sources, class required by the standard elsewhere",
@@ -1165,6 +1171,8 @@
 "Procédés": "Process",
 "Procédés (lignes d'assemblage)": "Process (assembly lines)",
 "Procédés réservés": "Process reserved",
+"Procédés · lignes d'assemblage": "Processes · assembly lines",
+"Procédés · opérations": "Processes · operations",
 "Procédés, PFMEA et plans de contrôle : réservés aux membres que l'Admin du Space a choisis. Correctif : demandez-lui l'accès (Diamond → Procédés → Accès).": "Process, PFMEA and control plans: reserved to the members the Space Admin chose. Fix: ask them for access (Diamond → Process → Access).",
 "Product Design and Development (7e éd.)": "Product Design and Development (7th ed.)",
 "Produire beaucoup d'idées sans effet de groupe : chacun écrit, puis enrichit les idées des autres. Dans l'outil, les participants connectés travaillent par paires qui changent à chaque tour : on voit en direct ce que son partenaire écrit, on rebondit dessus, et le tour suivant on change de partenaire.": "Produce many ideas without group effect: everyone writes, then builds on the others' ideas. In the tool, connected participants work in pairs that change every round: you see live what your partner writes, build on it, and in the next round you switch partners.",
@@ -1330,7 +1338,5 @@
 "Racontez l'utilisation du produit, scène par scène : qui, où, avec quoi, ce qui se passe et ce qu'on ressent. On diverge en équipe, sans bonne ni mauvaise réponse, avant l'arbre fonctionnel. Un assistant IA s'en servira ensuite pour proposer l'arbre et le reste de Diamond.": "Tell the story of using the product, scene by scene: who, where, with what, what happens and how it feels. Diverge as a team, with no right or wrong answer, before the functional tree. An AI assistant will then use it to propose the tree and the rest of Diamond.",
 "Radio module pre-certified ISED / FCC avec l'antenna et le placement de son integration guide": "ISED / FCC pre-certified radio module with the antenna and the placement from its integration sheet",
 "Rafraîchissement de la telemetry": "Telemetry refresh",
-"Rafraîchissement de la télémétrie": "Telemetry refresh",
-"Raison": "Reason",
-"Raison d'être": "Purpose"
+"Rafraîchissement de la télémétrie": "Telemetry refresh"
 }
