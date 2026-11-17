@@ -1,4 +1,15 @@
-# Journal de mise à jour — 0.60.111
+# Journal de mise à jour — 0.60.112
+
+- **Version :** 0.60.111 → 0.60.112 (2026-11-17)
+- **Changements :**
+  1. **Atelier « ↔ IA » : tableau global de post-it en couleurs dans l'assistant IA, groupes proposés, Diamond touché seulement à « GÉNÈRE »** (D-O-125).
+  2. **Idéation : « IA : proposer des groupes » sur le tableau de la séance** (D-O-125).
+  3. **Le tableau d'Idéation part vers Diamond par « ↔ IA »** (D-O-125).
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.111
 
 - **Version :** 0.60.110 → 0.60.111 (2026-11-17)
 - **Changements :**
@@ -7,7 +18,6 @@
   3. **Les 18 sections de Diamond** (D-O-124).
 - **Base de données :** aucune migration. Chaque import écrit une sauvegarde du Space (⚙ Admin → Spaces → Sauvegardes).
 
-## Précédent
 
 ### Journal de mise à jour — 0.60.110
 

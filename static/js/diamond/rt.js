@@ -13,7 +13,8 @@
   const MODES = {
     review: ["Révision", "L'IA lit les artéfacts, corrige, complète et retire ce qui est en double ; elle rend le document en une fois."],
     interview: ["Entrevue guidée", "Une question à la fois dans l'ordre de la méthode ; le document quand vous écrivez « GÉNÈRE »."],
-    workshop: ["Atelier (tableau blanc)", "L'équipe dicte les post-its de la séance ; l'IA tient le document à jour et le rend à chaque « GÉNÈRE »."]};
+    workshop: ["Atelier (tableau blanc)", "L'équipe écrit ou dicte ses post-it ; l'IA dessine le tableau global en couleurs, propose des "
+      + "groupes à « REGROUPE », et ne rend le document qu'à « GÉNÈRE »."]};
   let cache = null;  // {pid, sections}
 
   async function sections(ctx) {
@@ -45,15 +46,17 @@
 
   function outPane(ctx, all) {
     const scope = scopePicker(all, ctx.view);
-    let mode = "review";
+    let mode = /^\d+$/.test(ctx.view === "ideation" ? ctx.arg || "" : "") ? "workshop" : "review";
     const radios = Object.keys(MODES).map((m) => {
       const r = el("input", { type: "radio", name: "dm-rt-mode", value: m, checked: m === mode });
       r.addEventListener("change", () => { mode = m; });
       return el("label", { class: "dm-ai-mode" }, r, el("span", null, el("strong", null, MODES[m][0]), el("span", { class: "muted" }, " — " + MODES[m][1])));
     });
+    const sid = ctx.view === "ideation" && /^\d+$/.test(ctx.arg || "") ? ctx.arg : null;  // 0.60.112 (D-O-125): an Idéation board
+    const board = sid ? el("input", { type: "checkbox", checked: true }) : null;
     const goal = el("input", { type: "text", maxlength: 300, placeholder: "Ex. : boucler l'arbre fonctionnel avant la revue de vendredi", "aria-label": "Objectif de la séance" });
     const out = el("div");
-    const query = () => "sections=" + encodeURIComponent(scope.keys().join(","));
+    const query = () => "sections=" + encodeURIComponent(scope.keys().join(",")) + (board && board.checked ? "&ideation=" + sid : "");
     const prompt = async () => {
       DA.clear(out);
       if (!scope.keys().length) { toast("Cochez au moins une section.", "error"); return; }
@@ -71,6 +74,8 @@
       field.select();
     };
     return el("div", { class: "dm-rt-pane" }, scope.node,
+      board ? el("label", { class: "check", "data-new": "0.60.112-rt-board" }, board, " Joindre les post-it de cette séance d'Idéation "
+        + "(par groupe, avec leurs étoiles) comme matière première") : null,
       el("fieldset", null, el("legend", null, "Mode"), radios),
       DA.field("Objectif de la séance (facultatif)", goal),
       el("div", { class: "form-actions" },

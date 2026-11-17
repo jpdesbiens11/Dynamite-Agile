@@ -5,7 +5,7 @@ modules/agile/pugh.py, and Kepner-Tregoe, kt.py) and Generator (modules/codex).
 Every method has a wiki page and a FAQ in the Dynamite space TOOLS
 (catalog.py), created at start-up.
 """
-from . import catalog, ideation, kt
+from . import catalog, ideation, ideation_ai, kt
 from .search import search  # noqa: F401  (core search hook, D-B-076)
 
 SCHEMA = ""
@@ -156,6 +156,8 @@ ROUTES = [
     ("POST", S + r"/links", ideation.api_link, "user"),
     ("DELETE", S + r"/links/(?P<lid>\d+)", ideation.api_unlink, "user"),
     ("GET", S + r"/export\.csv", ideation.api_export, "user"),
+    ("GET", S + r"/ai/prompt", ideation_ai.api_prompt, "user"),  # 0.60.112 (D-O-125): the AI proposes the groups of the board
+    ("POST", S + r"/ai/import", ideation_ai.api_import, "user"),
     ("GET", P + r"/kt", kt.api_list, "user"),
     ("POST", P + r"/kt", kt.api_create, "user"),
     ("GET", K, kt.api_get, "user"),

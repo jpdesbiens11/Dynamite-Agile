@@ -2,8 +2,8 @@
   "changes": [
     {
       "id": "C1",
-      "title": "« ↔ IA » en haut à droite de chaque page de Diamond : vers l'IA (Révision, Entrevue guidée, Atelier)",
-      "why": "L'équipe travaille comme sur un tableau blanc avec des post-it, l'IA servant de tableau, et les vrais artéfacts restent dans le Space. La page (ou tout Diamond, ou des sections au choix) part en un seul document JSON où chaque élément porte son code stable (F12, P-3, CB-4, R-2, D-<id>, C-01, L1-OP10, PC-2…) et ses liens écrits en codes, dans un prompt (méthode de chaque section, champs et valeurs permises, règle D-O-121 des termes techniques en anglais, contexte en lecture seule) ou en .json. Trois modes : Révision (en une fois), Entrevue guidée (une question à la fois), Atelier (l'équipe dicte les post-it, l'IA rend le document à chaque « GÉNÈRE »). Lecteur : export et prompt seulement.",
+      "title": "Atelier « ↔ IA » : l'IA tient un tableau global de post-it en couleurs, propose des groupes, ne touche Diamond qu'à « GÉNÈRE »",
+      "why": "Le brainstorm se fait directement dans l'assistant IA (Claude, Gemini) : l'équipe tape ou dicte ses post-it un à un ; l'IA les numérote P1, P2… et redessine à chaque message un seul tableau global (dans Claude, un artefact HTML mis à jour) en post-it de couleur selon leur nature, légende fixe : jaune idée / solution, bleu besoin / fonction, rouge risque / problème, violet question, gris contrainte, vert décision, pointillé pour ceux de l'IA ; « REGROUPE » : groupes G1, G2… nommés et justifiés, que l'équipe corrige à la voix ; « GÉNÈRE » seulement : les groupes deviennent des artéfacts de Diamond (la couleur guide : bleu → fonction, rouge → risque ou DFMEA…), revus dans l'aperçu de « ↔ IA » avant d'être appliqués.",
       "files": [
         "CLAUDE.md",
         "UPDATE_CHANGES.json",
@@ -12,7 +12,7 @@
         "core/modules.py",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.111.json",
+        "docs/releases/0.60.112.json",
         "tests/test_open_v060.py",
         "site/guide.html",
         "site/home.html",
@@ -27,42 +27,37 @@
         "site/en/modules.html",
         "site/en/versions.html",
         "static/apps/vitrine/index.html",
-        "modules/diamond/__init__.py",
-        "modules/diamond/rt.py",
-        "modules/diamond/rt_prompt.py",
-        "static/js/diamond/rt.js",
-        "static/css/diamond_rt.css",
-        "static/js/diamond/diamond.js",
-        "static/js/agile/agile.js",
         "static/i18n/en_1.json",
         "static/i18n/en_2.json",
         "static/i18n/en_3.json",
         "static/i18n/en_4.json",
         "static/i18n/en_5.json",
         "static/i18n/en_6.json",
-        "tests/test_diamond_rt.py"
+        "modules/diamond/rt_prompt.py",
+        "static/js/diamond/rt.js",
+        "tests/test_ideation_ai.py"
       ]
     },
     {
       "id": "C2",
-      "title": "Importer la réponse : nouveau, modifié, retiré, refusé — essai à blanc par la page, sauvegarde, une seule transaction",
-      "why": "La réponse de l'IA est comparée au Space section par section : nouveau (sans code, ou code temporaire « +… » que d'autres nouveaux éléments peuvent pointer), modifié (champ : avant → après), identique, retiré (absent d'une section rendue : archivé là où la page archive, supprimé sinon ; une section non rendue n'est pas touchée), refusé (code inconnu, lien vers rien, valeur hors liste). L'aperçu rejoue toute l'application à blanc : ce que la route de la page refuserait est montré refusé avec son message. Une réponse tronquée (moins de la moitié d'une section) a ses retraits décochés. Appliquer : sauvegarde complète du Space, puis chaque écriture par la route de la page (mêmes droits, contrôles, numérotation, journal), retraits en dernier, une seule transaction ; toutes les pages relisent le Space.",
+      "title": "Idéation : « IA : proposer des groupes » sur le tableau de la séance",
+      "why": "Le tableau d'Idéation (post-it partagés en direct, toutes les 4 secondes) reçoit un bouton « IA : proposer des groupes » : un prompt avec les post-it (I<id>, texte, groupe, étoiles) ; la réponse de l'IA revient en aperçu, groupe par groupe — post-it qui changent de groupe (avant → après), post-it suggérés par l'IA (décochés, marqués « IA »), refus (post-it inconnu ou en double, nom trop long) ; l'équipe décoche ce qu'elle refuse, puis applique (journal ideation_ai_groups). Astuce de dictée sous la carte : Win + H, la dictée du Mac ou du téléphone (la voix ne passe pas par la plateforme).",
       "files": [
-        "modules/diamond/rt.py",
-        "tests/test_diamond_rt.py"
+        "modules/toolbox/__init__.py",
+        "modules/toolbox/ideation_ai.py",
+        "static/js/toolbox/ideation_ai.js",
+        "static/js/toolbox/ideation.js",
+        "tests/test_ideation_ai.py"
       ]
     },
     {
       "id": "C3",
-      "title": "Les 18 sections de Diamond",
-      "why": "Analyse fonctionnelle : Storyline, arbre fonctionnel, entrées / sorties, pièces, flux. Concept : briques technologiques, feuilles de concept, matrices de Pugh (briques, colonnes, datum, décision ; critères et notes restent dans la page). Risques et conception : risques projet, DFMEA, caractéristiques. Industrialisation : lignes d'assemblage, opérations et points de contrôle, PFMEA (nouvelles lignes en brouillon), plans de contrôle et leurs lignes. Projet : NRE et coûts par pièce. Idéation et Kepner-Tregoe (Tools) ne sont pas des données de Diamond. Les boutons CSV / prompt du DFMEA, du PFMEA et des plans de contrôle (D-O-116) restent pour le tableur.",
+      "title": "Le tableau d'Idéation part vers Diamond par « ↔ IA »",
+      "why": "Ouverte depuis une séance d'Idéation, la fenêtre « ↔ IA » de Diamond propose « Joindre les post-it de cette séance » (cochée) et le mode Atelier : le prompt porte les post-it par groupe, avec leurs étoiles, comme matière première ; les groupes retenus deviennent des fonctions, briques, risques ou lignes DFMEA, revus dans l'aperçu avant d'être appliqués.",
       "files": [
-        "modules/diamond/rt_sections_a.py",
-        "modules/diamond/rt_sections_b.py",
-        "modules/diamond/rt_sections_c.py",
-        "modules/diamond/rt_sections_c2.py",
-        "tests/test_diamond_rt_b.py",
-        "tests/test_diamond_rt_c.py"
+        "modules/diamond/rt.py",
+        "modules/diamond/rt_prompt.py",
+        "static/js/diamond/rt.js"
       ]
     }
   ]

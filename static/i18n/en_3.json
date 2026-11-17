@@ -1,4 +1,6 @@
 {
+"Enceinte de poussière (IP5X / IP6X)": "Dust chamber (IP5X / IP6X)",
+"Enclosure de la tête et radiateur des LED en une seule pièce.": "Head housing and LED heat sink in a single part.",
 "Enclosure en polycarbonate V-0 et passe-câble": "V-0 polycarbonate enclosure and cable gland",
 "Enclosure et bumper imprimés": "Printed enclosure and bumper",
 "Enclosure, joint, Raspberry Pi": "Enclosure, gasket, Raspberry Pi",
@@ -580,6 +582,7 @@
 "I inspection, A analyse, D démonstration, T essai": "I inspection, A analysis, D demonstration, T test",
 "I rés.": "Res. I",
 "I résiduel": "Residual I",
+"IA : proposer des groupes": "AI: suggest groups",
 "ID des tasks qui doivent être finies avant de commencer, séparés par des virgules (fin → début). Pas de boucle.": "IDs of the tasks that must be finished before starting, separated by commas (finish → start). No loops.",
 "ID ou clé des needs, séparés par des virgules": "IDs or keys of the needs, separated by commas",
 "IEC 60730-1 annexe H (Class B) si le software assure une safety function": "IEC 60730-1 annex H (class B) if the software performs a safety function",
@@ -801,6 +804,7 @@
 "L'IA lit le tableau actuel et propose en une fois ses corrections et les lignes qui manquent.": "The AI reads the current table and proposes its corrections and the missing rows at once.",
 "L'IA lit les artéfacts, corrige, complète et retire ce qui est en double ; elle rend le document en une fois.": "The AI reads the artefacts, corrects, completes and removes duplicates; it returns the document in one go.",
 "L'IA pose une question à la fois, dans l'ordre de la méthode, puis rend le tableau quand vous écrivez « GÉNÈRE ».": "The AI asks one question at a time, in the order of the method, then returns the table when you write “GÉNÈRE”.",
+"L'IA propose des groupes de post-it ; l'équipe décide": "The AI suggests groups of post-its; the team decides",
 "L'IA propose le PFMEA à partir des lignes classées du DFMEA et des opérations de la ligne.": "The AI proposes the PFMEA from the classified rows of the DFMEA and the operations of the line.",
 "L'IA prépare, **vous vérifiez et vous importez**. Elle ne se connecte jamais à la plateforme.": "The AI prepares, **you check and import**. It never connects to the platform.",
 "L'accès invité n'est pas ouvert sur ce serveur.": "Guest access is not open on this server.",
@@ -843,6 +847,7 @@
 "L'équipe 3 a remonté le MVP 2 avec le wiki en 3 h 40. Deux étapes de la notice à clarifier (photos).": "Team 3 reassembled MVP 2 with the wiki in 3 h 40. Two steps of the instructions to clarify (photos).",
 "L'équipe a choisi ce Space, déjà mené à bien dans l'outil, comme modèle : suivez sa façon de faire (niveau de détail, style des requis, essais, arbre fonctionnel, backlog par MVP), mais pour le **nouveau** produit, avec une **nouvelle** `project.key`, de nouveaux codes de temps et le contenu tiré de l'entrevue. Ne recopiez rien qui ne s'applique pas.": "The team chose this Space, already completed in the tool, as a model: follow its way of doing things (level of detail, style of requirements, tests, functional tree, backlog by MVP), but for the **new** product, with a **new** `project.key`, new time codes and the content drawn from the interview. Do not copy anything that does not apply.",
 "L'équipe dicte les post-its de la séance ; l'IA tient le document à jour et le rend à chaque « GÉNÈRE ».": "The team dictates the session's post-its; the AI keeps the document up to date and returns it at each « GÉNÈRE ».",
+"L'équipe écrit ou dicte ses post-it ; l'IA dessine le tableau global en couleurs, propose des groupes à « REGROUPE », et ne rend le document qu'à « GÉNÈRE ».": "The team types or dictates its post-its; the AI draws the whole board in colours, suggests groups at « REGROUPE », and returns the document only at « GÉNÈRE ».",
 "L'étape du workflow : To Do → In Progress → In Review → Done.": "The workflow step: To Do → In Progress → In Review → Done.",
 "L'évaluation de l'année se fait dans « Mes objectifs » (lien dans le panneau de gauche) : les topics du plan de formation y sont commentés à mi-année et reçoivent un verdict en fin d'année, comme les objectifs.": "The year's evaluation is done in “My objectives” (link in the left panel): the topics of the training plan are commented on at mid-year and receive a verdict at year-end, like the objectives.",
 "L'évaluation est écrite par le gestionnaire seulement.": "The evaluation is written by the manager only.",
@@ -1335,8 +1340,5 @@
 "Lien réseau enregistré.": "Network link saved.",
 "Lien trop long pour un code QR : copiez-le.": "Link too long for a QR code: copy it.",
 "Lien trop long pour un code QR.": "Link too long for a QR code.",
-"Liens vidés": "Links cleared",
-"Lier": "Link",
-"Lieu à planifier": "Location to schedule",
-"Lieux": "Locations"
+"Liens vidés": "Links cleared"
 }
