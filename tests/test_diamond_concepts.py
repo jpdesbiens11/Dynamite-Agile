@@ -202,6 +202,25 @@ class ConceptsTest(unittest.TestCase):
         back = (exported.get("file") or exported)["diamond"]["concepts"]
         self.assertEqual(sorted(c["initial_name"] for c in back), sorted(c["initial_name"] for c in bricks))
 
+    def test_08_owner_of_a_brick(self):
+        """0.60.106 (D-O-118): a brick is carried by a member of the Space."""
+        brick = self.brick("Brique portée", [])
+        me = self.admin.get("/api/me")["user"]["id"]
+        data = self.admin.patch(self.base + "/concepts/{}".format(brick["id"]), {"owner_id": me})
+        mine = next(c for c in data["concepts"] if c["id"] == brick["id"])
+        self.assertEqual((mine["owner_id"], bool(mine["owner_name"])), (me, True))
+        self.assertTrue(any(m["id"] == me for m in data["members"]))
+        self.assertIn("Correctif", self.fails(400, self.admin.patch, self.base + "/concepts/{}".format(brick["id"]), {"owner_id": 999999}))
+        data = self.admin.patch(self.base + "/concepts/{}".format(brick["id"]), {"owner_id": None})
+        self.assertIsNone(next(c for c in data["concepts"] if c["id"] == brick["id"])["owner_id"])
+        lamp = json.loads(json.dumps(LAMPE))
+        lamp["diamond"]["concepts"][0]["owner"] = lamp["team"][0]["username"]
+        clean = starter_diamond.parse(lamp, "fr", {t["ref"] for t in lamp["tests"]}, {m["username"] for m in lamp["team"]})
+        self.assertEqual(clean["concepts"][0]["owner"], lamp["team"][0]["username"])
+        lamp["diamond"]["concepts"][0]["owner"] = "inconnu"
+        with self.assertRaises(ApiError):
+            starter_diamond.parse(lamp, "fr", {t["ref"] for t in lamp["tests"]}, {m["username"] for m in lamp["team"]})
+
     def test_07_menu_in_groups_and_tools_moved(self):
         js = (BASE_DIR / "static" / "js" / "diamond" / "diamond.js").read_text("utf-8")
         for name in ("Concept / Brique technologique", '["concepts"', '["pugh"', '["kt"', '["ideation"'):

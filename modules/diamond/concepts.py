@@ -18,6 +18,7 @@ edits them. Every write is journalled.
 from core import audit, db, validate
 from core.errors import ApiError
 
+from . import actions as ACT
 from . import functions as F
 
 KINDS = {"existing": "Concept existant", "to_define": "À définir"}
@@ -50,7 +51,8 @@ def _choice(body, name, options, label, default):
 
 def rows(conn, pid):
     items = [dict(r) for r in conn.execute(
-        "SELECT * FROM diamond_concepts WHERE project_id = ? AND archived = 0 ORDER BY position, number", (pid,))]
+        "SELECT c.*, u.display_name AS owner_name FROM diamond_concepts c LEFT JOIN users u ON u.id = c.owner_id "
+        "WHERE c.project_id = ? AND c.archived = 0 ORDER BY c.position, c.number", (pid,))]
     links = {}
     for r in conn.execute("SELECT l.concept_id, l.function_id FROM diamond_concept_functions l JOIN diamond_functions f "
                           "ON f.id = l.function_id AND f.archived = 0 WHERE l.project_id = ? ORDER BY f.position, f.number", (pid,)):
@@ -80,7 +82,7 @@ def rows(conn, pid):
 def payload(conn, pid):
     fns = F.rows(conn, pid)
     lv, tree = F.levels(fns), F.in_tree(fns)
-    return {"concepts": rows(conn, pid),
+    return {"concepts": rows(conn, pid), "members": ACT.members(conn, pid),  # 0.60.106 (D-O-118): who may carry a brick
             "functions": [{"id": f["id"], "number": f["number"], "text": f["text"], "level": lv[f["id"]], "kano": f["kano"],
                            "ftype": f["ftype"], "in_tree": f["id"] in tree, "parent_id": f["parent_id"]} for f in fns],
             "labels": {"kinds": KINDS, "status": STATUS, "sources": SOURCES, "kano": F.KANO, "types": F.TYPES}}
@@ -122,15 +124,17 @@ def add(conn, user_id, pid, fields, fids=(), source="team"):
     now = db.utc_now()
     cid = conn.execute(
         "INSERT INTO diamond_concepts (project_id, number, name, initial_name, description, kind, reference, status, source, position, "
-        "created_by, created_at, updated_by, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "owner_id, created_by, created_at, updated_by, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         (pid, number, fields["name"], fields.get("initial_name", ""), fields.get("description", ""), fields.get("kind", "to_define"), fields.get("reference", ""),
-         fields.get("status", "proposed"), source, number, user_id, now, user_id, now)).lastrowid
+         fields.get("status", "proposed"), source, number, fields.get("owner_id"), user_id, now, user_id, now)).lastrowid
     link(conn, pid, cid, fids)
     return cid
 
 
-def _fields(body, partial=False):
+def _fields(body, partial=False, conn=None, pid=None):
     out = {}
+    if conn is not None and "owner_id" in body:  # 0.60.106 (D-O-118): a member of the Space, or nobody
+        out["owner_id"] = ACT.owner(conn, pid, body.get("owner_id"))
     if not partial or "name" in body:
         out["name"] = _clean(body, "name", "Nom de la brique", required=True)
     for name, label in (("initial_name", "Concept initial"), ("pivot_note", "Pivot"), ("description", "Description"), ("reference", "Référence")):
@@ -163,7 +167,7 @@ def api_get(ctx):
 
 def api_create(ctx):
     pid = F.access(ctx, "editor")
-    fields = _fields(ctx.body)
+    fields = _fields(ctx.body, conn=ctx.conn, pid=pid)
     fids = _functions_of(ctx.conn, pid, ctx.body.get("function_ids") or [])
     cid = add(ctx.conn, ctx.user["id"], pid, fields, fids)
     audit.log_action(ctx.conn, ctx.user["id"], "diamond_concept_create", "diamond_concept", cid,
@@ -177,7 +181,7 @@ def api_update(ctx):
     """Fields, and function_ids (the full list of the brick's functions) when given."""
     pid = F.access(ctx, "editor")
     c = _concept(ctx.conn, pid, validate.int_param(ctx.params, "cid"))
-    fields = _fields(ctx.body, partial=True)
+    fields = _fields(ctx.body, partial=True, conn=ctx.conn, pid=pid)
     if fields:
         sets = ", ".join("{} = ?".format(k) for k in fields)
         ctx.conn.execute("UPDATE diamond_concepts SET {}, updated_by = ?, updated_at = ? WHERE id = ?".format(sets),

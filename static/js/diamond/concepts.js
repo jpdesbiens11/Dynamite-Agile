@@ -40,7 +40,7 @@
         + "concept existant ; une brique à définir s'invente avec des feuilles de concept (numériques, avec l'IA ou scannées), puis se "
         + "juge avec d'autres dans une matrice de Pugh, sur les besoins, les fonctions et les requirements.")));
     if (!concepts.length) { holder.append(empty(ctx, state, editable, reload, functions.length > 0)); return; }
-    holder.append(counters(concepts), board(ctx, state), morpho(ctx, state));
+    holder.append(counters(concepts), owners(concepts), board(ctx, state), morpho(ctx, state));
   }
 
   function counters(concepts) {
@@ -50,6 +50,15 @@
       el("span", { class: "badge badge-ok" }, n((c) => c.kind === "existing") + " concepts existants"),
       el("span", { class: "badge badge-warn" }, n((c) => c.kind === "to_define") + " à définir"),
       el("span", { class: "badge badge-info" }, n((c) => c.status === "selected") + " Selected"));
+  }
+
+  /* 0.60.106 (D-O-118): who carries which bricks -- how the team splits the global concept */
+  function owners(concepts) {
+    const by = new Map();
+    concepts.forEach((c) => { const k = c.owner_name || "Sans responsable"; if (!by.has(k)) by.set(k, []); by.get(k).push(c); });
+    return el("div", { class: "dm-cb-owners", "data-new": "0.60.106-brick-owners" }, [...by.entries()].map(([who, list]) =>
+      el("div", { class: "dm-cb-owners-row" + (who === "Sans responsable" ? " muted" : "") }, el("strong", null, who),
+        list.map((c) => el("span", { class: "dm-chip", "data-tip": c.name }, c.code + (c.initial_name ? " « " + c.initial_name + " »" : ""))))));
   }
 
   /* the bricks grouped by sub-system: the secondary function above their functions */
@@ -80,6 +89,7 @@
         el("div", { class: "dm-cb-cards" }, list.map((c) => el("a", { class: "dm-cb-card dm-cb-" + c.kind + (c.status === "selected" ? " dm-cb-selected" : ""),
           href: A.href(ctx, "concepts/" + c.code) },
         el("div", { class: "dm-cb-top" }, el("span", { class: "dm-code" }, c.code),
+          c.owner_name ? el("span", { class: "badge badge-info dm-cb-owner" }, c.owner_name) : null,
           el("span", { class: "badge " + (c.kind === "existing" ? "badge-ok" : "badge-warn") }, L.kinds[c.kind]),
           el("span", { class: "badge badge-neutral" }, L.status[c.status]), c.source === "ai" ? el("span", { class: "badge badge-info" }, "IA") : null),
         c.initial_name ? el("strong", { class: "dm-concept-initial" }, "« " + c.initial_name + " »") : null,

@@ -4,7 +4,7 @@
 .dm-edge-concept-on { stroke-width: 2.6; stroke-dasharray: none; opacity: 1; }
 .dm-key-concept::before { border-top-style: dashed; border-color: var(--acc); }
 .dm-head-concept { color: var(--acc); }
-.dm-concept { gap: .15rem; border-style: solid; border-color: var(--acc); border-left-width: 6px;
+.dm-concept { gap: .15rem; padding-right: 34px; border-style: solid; border-color: var(--acc); border-left-width: 6px;
   background: color-mix(in srgb, var(--acc) 8%, var(--surface)); }
 .dm-concept-to_define { border-style: dashed; border-left-style: solid; }
 .dm-concept .dm-code { display: flex; gap: .4rem; align-items: baseline; white-space: nowrap; }
@@ -20,6 +20,12 @@
 .dm-brick-fns { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: .25rem; font-size: .86rem; }
 .dm-brick-fns li { display: flex; gap: .35rem; align-items: baseline; }
 .dm-brick-fns .icon-btn { margin-left: auto; }
+
+.dm-concept-owner { position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center;
+  font-size: .68rem; font-weight: 700; color: var(--surface); background: var(--acc); }  /* 0.60.106 (D-O-118) */
+.dm-cb-owners { display: flex; flex-direction: column; gap: .3rem; padding: .6rem .8rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); }
+.dm-cb-owners-row { display: flex; flex-wrap: wrap; gap: .35rem; align-items: center; font-size: .86rem; }
+.dm-cb-owners-row strong { min-width: 11rem; }
 
 /* overview */
 .dm-cb-counters { display: flex; flex-wrap: wrap; gap: .4rem; }

@@ -8,6 +8,9 @@
   const { el } = DA;
   const GAP = 64, SPACE = 10, CH = 86;  // a brick box is taller: its initial concept, its brick, and where it landed
 
+  /* 0.60.106 (D-O-118): the person who carries the brick, as initials on the box */
+  const initials = (name) => name.split(/[\s-]+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join("");
+
   function conceptColumn(box, opts) {
     const D = DA.diamond, T = D.TREE, svg = D.svg;
     const levels = Math.max(box.levels, 3);
@@ -38,6 +41,7 @@
         "data-tip": (p.c.initial_name ? "Concept initial « " + p.c.initial_name + " » — " : "") + p.c.name
           + (p.c.reference ? " — " + p.c.reference : "") + (p.c.selected_sheet ? " — retenu : " + p.c.selected_sheet.title : ""), "aria-pressed": p.c.id === opts.selectedConcept ? "true" : "false",
         onclick: () => opts.onConcept(p.c.id) },
+      p.c.owner_name ? el("span", { class: "dm-concept-owner", "data-tip": "Responsable : " + p.c.owner_name }, initials(p.c.owner_name)) : null,
       el("span", { class: "dm-code" }, p.c.code, el("span", { class: "dm-concept-kind" },
         (p.c.kind === "existing" ? "Existant" : "À définir") + shared + (p.c.source === "ai" ? " · IA" : ""))),
       el("strong", { class: "dm-concept-initial" }, p.c.initial_name ? "« " + p.c.initial_name + " »" : p.c.name),

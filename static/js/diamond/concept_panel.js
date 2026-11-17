@@ -52,7 +52,8 @@
       editable ? el("button", { type: "button", class: "icon-btn", "aria-label": "Retirer F" + f.number + " de " + c.code,
         onclick: () => crun("/concepts/link", { function_id: f.id, concept_id: null }) }, "×") : null)));
     if (!editable) {
-      box.append(c.initial_name ? el("p", { class: "dm-concept-initial" }, "« " + c.initial_name + " »") : null,
+      box.append(c.owner_name ? el("p", { class: "muted" }, "Responsable : " + c.owner_name) : null,
+        c.initial_name ? el("p", { class: "dm-concept-initial" }, "« " + c.initial_name + " »") : null,
         el("p", null, el("strong", null, c.name)), c.pivot_note ? el("p", null, el("strong", null, "Pivot : "), c.pivot_note) : null, c.reference ? el("p", { class: "muted" }, c.reference) : null,
         c.description ? el("p", null, c.description) : null, el("h3", null, "Fonctions"), list);
     } else {
@@ -61,14 +62,18 @@
       const pivot = el("textarea", { rows: 2, maxlength: 1000, placeholder: "Ce qui a changé depuis l'idée de départ, et pourquoi" }, c.pivot_note || "");
       const kind = el("select", null, options(L.kinds, c.kind));
       const status = el("select", null, options(L.status, c.status));
+      const owner = el("select", { "data-new": "0.60.106-brick-owner" }, el("option", { value: "" }, "— personne —"),  // 0.60.106 (D-O-118)
+        (state.concepts.members || []).map((m) => el("option", { value: m.id, selected: m.id === c.owner_id }, m.display_name)));
       const reference = el("input", { type: "text", maxlength: 300, value: c.reference, placeholder: "Concept existant, composant du marché…" });
       const description = el("textarea", { rows: 3, maxlength: 2000 }, c.description || "");
       box.append(el("form", { class: "ag-form dm-form", onsubmit: (ev) => {
         ev.preventDefault();
-        crun("/concepts/" + c.id, { name: name.value, initial_name: initial.value, pivot_note: pivot.value, kind: kind.value, status: status.value, reference: reference.value,
+        crun("/concepts/" + c.id, { name: name.value, initial_name: initial.value, pivot_note: pivot.value, kind: kind.value,
+          owner_id: owner.value ? Number(owner.value) : null, status: status.value, reference: reference.value,
           description: description.value }, "patch");
       } }, field("Concept initial : un nom qui parle", initial, "L'idée qui rallie l'équipe ; elle pourra pivoter après la divergence et la convergence."),
-      field("Brique technologique (ce qu'elle est)", name), el("div", { class: "dm-row" }, field("Nature", kind), field("Status", status)),
+      field("Brique technologique (ce qu'elle est)", name), field("Responsable de la brique", owner, "La personne qui la porte, de ses feuilles de concept au prototype."),
+      el("div", { class: "dm-row" }, field("Nature", kind), field("Status", status)),
       field("Référence", reference), field("Description", description),
       c.selected_sheet || c.pivot_note ? field("Pivot", pivot) : null,
       el("div", { class: "form-actions" }, el("button", { type: "submit", class: "btn btn-primary btn-small" }, "Enregistrer"))),

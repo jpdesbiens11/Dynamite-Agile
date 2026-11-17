@@ -44,6 +44,7 @@
         + (c.pivot_note ? ". Pivot : " + c.pivot_note : "")) : null,
       el("div", { class: "dm-cb-top" }, el("span", { class: "badge " + (c.kind === "existing" ? "badge-ok" : "badge-warn") }, labels.kinds[c.kind]),
         el("span", { class: "badge badge-neutral" }, labels.status[c.status]),
+        c.owner_name ? el("span", { class: "badge badge-info" }, "Responsable : " + c.owner_name) : null,
         c.source === "ai" ? el("span", { class: "badge badge-info" }, "Brouillon IA") : null),
       c.reference ? el("p", { class: "muted" }, "Concept existant : " + c.reference) : null,
       c.description ? el("p", null, c.description) : null));

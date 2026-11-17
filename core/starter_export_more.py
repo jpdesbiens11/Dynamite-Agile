@@ -85,7 +85,8 @@ def diamond(conn, pid, test_refs, usernames, MAX):
     out["story"] = [{k: s[k] for k in ("title", "caption", "notes", "items")} for s in story.rows(conn, pid)][:story.MAX_SCENES]
     from modules.diamond import concepts as CB  # 0.60.105 (D-O-117): the bricks travel too (their sheets and matrices do not)
     out["concepts"] = [dict({"name": _cut(c["name"], CB.LIMITS["name"]), "kind": c["kind"], "functions": [ref[f] for f in c["function_ids"] if f in ref]},
-                            **{k: _cut(c[k], CB.LIMITS[k]) for k in ("initial_name", "reference", "description") if c[k]})
+                            **{k: _cut(c[k], CB.LIMITS[k]) for k in ("initial_name", "reference", "description") if c[k]},
+                            **({"owner": owner(c["owner_id"])} if owner(c.get("owner_id")) else {}))
                        for c in CB.rows(conn, pid)][:60]
     return out
 

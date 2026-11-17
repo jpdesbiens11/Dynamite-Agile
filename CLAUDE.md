@@ -173,6 +173,9 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.106** (2026-11-16) : **responsable d'une brique** (D-O-118) : `diamond_concepts.owner_id` (migration diamond 17), un membre du Space
+  (`actions.owner`) ; initiales sur la brique dans l'arbre, « Qui porte quoi » sur la page des briques, choix dans le panneau ; `owner` dans
+  `diamond.concepts` du Project Starter et de son export (`tests/test_diamond_concepts.py`).
 - **0.60.105** (2026-11-16) : **Diamond — Concept initial / Brique technologique** (D-O-117) : colonne après les fonctions tertiaires de
   l'arbre, au-delà d'une ligne pointillée (`static/js/diamond/tree_concepts.js`) ; une brique CB-n pour une ou plusieurs fonctions (une
   fonction dans une seule brique), dessinée une fois, son **concept initial au nom qui parle** (`initial_name`) et le pivot vers la feuille
