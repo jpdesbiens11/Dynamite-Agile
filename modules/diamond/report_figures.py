@@ -43,7 +43,7 @@ def comic(scenes, figs):
     panel), what happens and the notes at the bottom. Used by the report of Diamond and by « Export .docx » of the Storyline."""
     out = []
     for k, scene in enumerate(scenes, 1):
-        title = "Scène {} — {}".format(k, scene["title"] or "sans titre")
+        title = "Scène {} : {}".format(k, scene["title"] or "sans titre")
         out += [PAGE_BREAK, WD.heading(2, title), figs.figure(story_figure.render(scene, fit=True), title),
                 WD.para([WD.run(scene["caption"] or "Ce qui se passe n'est pas encore écrit.", italic=not scene["caption"],
                                 size=24)], space_after=160)]
