@@ -29,6 +29,7 @@ from .actions import dashboard  # noqa: F401  (core dashboard hook, 0.60.38)
 from . import migrations_a, migrations_b  # noqa: E402
 from . import ai_io, ai_prompts, ai_prompts_process, cp_io, dfmea_io, pfmea_io  # noqa: E402,F401 (0.60.104, D-O-116)
 from . import concept_ai, concept_pugh, concept_sheets, concepts  # noqa: E402 (0.60.105, D-O-117)
+from . import rt  # noqa: E402 (0.60.111, D-O-124: « ↔ IA », the round trip of every page)
 from . import actions, capability, char_export, characteristics, classes_api, company_pn, control_plans, impact, pfmea, pfmea_ai, pn_ai, prio, process, costs, costs_budget, costs_import, costs_prompt, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
 
 SCHEMA = ""
@@ -191,6 +192,10 @@ ROUTES = [
     ("GET", P + r"/dfmea/export\.csv", dfmea.api_export, "user"),
     ("GET", P + r"/dfmea/prompt", ai_prompts.api_dfmea_prompt, "user"),  # 0.60.104 (D-O-116): interview / review for an AI assistant
     ("POST", P + r"/dfmea/import", dfmea_io.api_import, "user"),
+    ("GET", P + r"/rt/sections", rt.api_sections, "user"),  # 0.60.111 (D-O-124): « ↔ IA » on every Diamond page
+    ("GET", P + r"/rt/prompt", rt.api_prompt, "user"),
+    ("GET", P + r"/rt/export\.json", rt.api_export, "user"),
+    ("POST", P + r"/rt/import", rt.api_import, "user"),
     ("POST", P + r"/dfmea/from-tree", dfmea.api_from_tree, "user"),
     ("POST", P + r"/dfmea/from-risks", dfmea.api_from_risks, "user"),
     ("POST", P + r"/dfmea/complete", dfmea_complete.api_complete, "user"),

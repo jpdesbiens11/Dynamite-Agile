@@ -1,4 +1,6 @@
 {
+"Raison": "Reason",
+"Raison d'être": "Purpose",
 "Raison du refus": "Reason for refusal",
 "Raisonner depuis la physique, pas par analogie": "Reason from physics, not by analogy",
 "Rallumer une partie la remet telle qu'elle était : rien n'est effacé.": "Turning a part back on restores it as it was: nothing is deleted.",
@@ -282,6 +284,7 @@
 "Revenir à cette version…": "Revert to this version…",
 "Revenir à la ": "Revert to ",
 "Revenir à la base courante": "Return to the current base",
+"Revenir à la page (Esc)": "Back to the page (Esc)",
 "Revenir à la v": "Revert to v",
 "Revenir à mon Dashboard": "Back to my Dashboard",
 "Revenir à toutes les colonnes": "Back to all the columns",
@@ -320,7 +323,9 @@
 "Rien n'a changé. Vous pourrez appliquer cette version, ou une plus récente, plus tard.": "Nothing has changed. You can apply this version, or a newer one, later.",
 "Rien n'est créé avant votre confirmation.": "Nothing is created before you confirm.",
 "Rien n'est effacé : une ligne absente de la réponse reste telle quelle. Dans le PFMEA, une nouvelle ligne arrive en brouillon et la S héritée du DFMEA reste verrouillée. Le prompt se copie et se colle : la plateforme n'appelle aucun service d'IA ; pour des données confidentielles, seulement un assistant approuvé.": "Nothing is deleted: a row absent from the answer stays as it is. In the PFMEA, a new row arrives as a draft and the S inherited from the DFMEA stays locked. The prompt is copied and pasted: the platform calls no AI service; for confidential data, only an approved assistant.",
+"Rien ne change dans cette section.": "Nothing changes in this section.",
 "Rien ne change.": "Nothing changes.",
+"Rien ne quitte la plateforme par elle-même : vous copiez, vous collez. Le document porte les codes (F12, CB-4, D-37…) qui ramènent chaque changement au bon artéfact.": "Nothing leaves the platform by itself: you copy, you paste. The document carries the codes (F12, CB-4, D-37…) that bring every change back to the right artefact.",
 "Rien ne reste dans un carnet : le carnet est une boîte de réception à vider le jour même.": "Nothing stays in a notebook: the notebook is an inbox to empty the same day.",
 "Rien ne vous attend pour l'instant. ": "Nothing is waiting for you right now. ",
 "Rien pour l'instant.": "Nothing for now.",
@@ -531,7 +536,7 @@
 "Rév. actuelle": "Current rev.",
 "Rév. à la question": "Rev. at the question",
 "Réviser ou annuler depuis le registre (jamais effacer).": "Revise or cancel from the register (never erase).",
-"Révision": "Revision",
+"Révision": "Review",
 "Révision cible": "Target revision",
 "Révision figée le": "Revision frozen on",
 "Révision introuvable.": "Revision not found.",
@@ -1151,6 +1156,7 @@
 "Tous les utilisateurs sont déjà membres": "All users are already members",
 "Tous vos Spaces. ": "All your Spaces. ",
 "Tout ": "All ",
+"Tout Diamond": "All of Diamond",
 "Tout Diamond…": "All of Diamond…",
 "Tout accepter (": "Accept all (",
 "Tout au long du projet": "Throughout the project",
@@ -1275,6 +1281,7 @@
 "Téléchargement du paquet": "Package download",
 "Télécharger": "Download",
 "Télécharger ": "Download ",
+"Télécharger le .json": "Download the .json",
 "Télécharger le fichier Excel": "Download the Excel file",
 "Télécharger une sauvegarde complète (une copie reste aussi sur le serveur)": "Download a full backup (a copy also stays on the server)",
 "Téléchargée": "Downloaded",
@@ -1331,6 +1338,5 @@
 "Un label porte déjà ce nom.": "A label already has this name.",
 "Un membre de l'équipe, en rotation": "A team member, in rotation",
 "Un morceau de travail réalisable dans un Sprint ; Story = valeur pour l'utilisateur, Task = travail technique.": "A piece of work achievable within a Sprint; Story = value for the user, Task = technical work.",
-"Un mot-clé ou une courte phrase": "A keyword or a short phrase",
-"Un nombre impair de participants : l'outil forme alors un trio à chaque tour, c'est normal.": "An odd number of participants: the tool then forms a trio at each round, this is normal."
+"Un mot-clé ou une courte phrase": "A keyword or a short phrase"
 }
