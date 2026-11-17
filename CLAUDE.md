@@ -173,6 +173,9 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.112** (2026-11-17) : **brainstorm numérique** (D-O-125) : mode Atelier de « ↔ IA » = tableau global de post-it en couleurs
+  tenu par l'IA (P1…, « REGROUPE », « GÉNÈRE ») ; Idéation : « IA : proposer des groupes » (`modules/toolbox/ideation_ai.py`,
+  `static/js/toolbox/ideation_ai.js`), post-it de la séance joints au prompt de « ↔ IA » (`?ideation=`) (`tests/test_ideation_ai.py`).
 - **0.60.111** (2026-11-17) : **« ↔ IA » sur chaque page de Diamond** (D-O-124) : bouton en haut à droite (`SHELL.headTools`) ;
   vers l'IA (page, tout Diamond ou au choix ; Révision, Entrevue guidée, Atelier tableau blanc ; prompt ou .json, codes stables) ;
   import de la réponse : nouveau / modifié / retiré / refusé, essai à blanc par les routes des pages (SAVEPOINT), retraits décochés

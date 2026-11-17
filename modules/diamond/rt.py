@@ -458,7 +458,11 @@ def api_prompt(ctx):
     rt = RoundTrip(ctx, pid)
     keys = _keys(rt, ctx.query.get("sections"))
     mode = ctx.query.get("mode") if ctx.query.get("mode") in rt_prompt.MODES else "review"
-    return {"prompt": rt_prompt.build(rt, keys, mode, ctx.query.get("goal", "")), "sections": keys}
+    board = None
+    if str(ctx.query.get("ideation") or "").isdigit():  # 0.60.112 (D-O-125): the post-its of an Idéation session as source
+        from modules.toolbox import ideation_ai
+        board = ideation_ai.board(ctx.conn, pid, int(ctx.query["ideation"]))
+    return {"prompt": rt_prompt.build(rt, keys, mode, ctx.query.get("goal", ""), board), "sections": keys}
 
 
 def api_import(ctx):

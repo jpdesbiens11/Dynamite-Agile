@@ -71,7 +71,7 @@ MODULE_MANIFEST = [
      "styles": ["/css/exploration.css"]},
     # D-B-065: « Tools » takes Generator's place in the top bar; Generator lives inside it (placement "tools").
     {"key": "tools", "label": "Tools", "phase": "3.8", "module": toolbox,
-     "scripts": ["/js/toolbox/tools.js", "/js/toolbox/ideation.js",
+     "scripts": ["/js/toolbox/tools.js", "/js/toolbox/ideation.js", "/js/toolbox/ideation_ai.js",
                  "/js/toolbox/brainwriting.js", "/js/toolbox/mindmap.js", "/js/toolbox/kt.js"], "styles": ["/css/toolbox.css"]},
     # D-A-045: Training, right after Tools
     {"key": "training", "label": "Training", "phase": "3.10", "module": training,

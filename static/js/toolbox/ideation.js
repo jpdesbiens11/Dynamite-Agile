@@ -89,6 +89,7 @@
     const open = s.status !== "closed";
     return [A.pageHead(ctx, [el("a", { href: A.href(ctx, "ideation") }, "Idéation"), el("span", null, s.title)], [
       el("a", { class: "btn", href: base(ctx) + "/" + s.id + "/export.csv", download: "" }, "Exporter (CSV)"),
+      ...(DA.tools.ideationAi ? DA.tools.ideationAi.buttons(ctx, state) : []),  // 0.60.112 (D-O-125): the AI's groups, towards Diamond
       A.canEdit(ctx) ? el("button", { type: "button", class: "btn", onclick: () => I.act(state, "patch", "", { status: open ? "closed" : "open" }) },
         open ? "Clore la séance" : "Rouvrir") : null]),
     s.prompt ? el("p", { class: "tl-prompt" }, s.prompt) : null];
@@ -198,7 +199,9 @@
     text.addEventListener("keydown", (ev) => { if (ev.key === "Enter" && (ev.ctrlKey || ev.metaKey)) submit(); });
     const box = el("div", { class: "tl-add" }, rebound, text,
       el("div", { class: "tl-add-row" }, tag, el("button", { type: "button", class: "btn btn-primary", onclick: submit }, "Ajouter l'idée"),
-        el("span", { class: "muted" }, "Ctrl + Entrée")));
+        el("span", { class: "muted" }, "Ctrl + Entrée"),
+        el("span", { class: "muted tl-dictate", "data-new": "0.60.112-ideation-dictate" }, "· dictée : Win + H (Windows), la dictée du Mac ou du "
+          + "téléphone : la voix s'écrit dans la carte")));
     box.refresh = () => {
       clear(rebound);
       if (state.parent) rebound.append("Rebond sur : « " + state.parent.text.slice(0, 90) + " » ",

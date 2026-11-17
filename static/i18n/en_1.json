@@ -81,6 +81,7 @@
 " Importer comme nouveau Space, clé ": " Import as new Space, key ",
 " J'ai compris que les saisies faites depuis le ": " I understand that entries made from the ",
 " Jamais vérifié.": " Never checked.",
+" Joindre les post-it de cette séance d'Idéation (par groupe, avec leurs étoiles) comme matière première": " Attach the post-its of this Ideation session (by group, with their stars) as source material",
 " La fermeture exige le PDF des résultats.": " Closing requires the results PDF.",
 " Mo : réduisez-la ou exportez-la en JPEG.": " MB: reduce it or export it as JPEG.",
 " Modification réservée aux Admin du Space ": " Editing is restricted to Space Admins ",
@@ -540,6 +541,7 @@
 "0 à 100. « Done » vaut 100.": "0 to 100. “Done” counts as 100.",
 "1 (faible), 2 (moyenne) ou 3 (élevée).": "1 (low), 2 (medium) or 3 (high).",
 "1 · Négligeable": "1 · Negligible",
+"1 · Préparer et copier le prompt": "1 · Prepare and copy the prompt",
 "1 · Vers l'IA": "1 · To the AI",
 "1 · À améliorer": "1 · To improve",
 "1 à 10": "1 to 10",
@@ -569,6 +571,7 @@
 "2 / 3, puis 3 / 3 après le correctif du temps de vol": "2 / 3, then 3 / 3 after the ToF fix",
 "2 lignes par cellule : plus de lignes à l'écran": "2 lines per cell: more rows on screen",
 "2 · Importer la réponse": "2 · Import the answer",
+"2 · La réponse de l'IA": "2 · The AI's answer",
 "2 · Mineur": "2 · Minor",
 "2 · Peu probable": "2 · Unlikely",
 "2 à 10 majuscules ou chiffres, commençant par une lettre ; ex. LAMPE.": "2 to 10 uppercase letters or digits, starting with a letter; e.g. LAMP.",
@@ -1337,6 +1340,5 @@
 "Battery module de cylindrical cells en parallèle": "Battery module of cylindrical cells in parallel",
 "Before drawing a single part, the team tells how the product is used, scene by scene: Sam opens the box, builds, codes, drives. « Copier pour l'IA » sends this story to an AI assistant, which drafts a first function tree in seconds.": "Before drawing a single part, the team tells how the product is used, scene by scene: Sam opens the box, builds, codes, drives. “Copy for AI” sends this story to an AI assistant, which drafts a first function tree in seconds.",
 "Bench B-60 et alimentation de référence": "Bench B-60 and reference power supply",
-"Bench B-60, référence": "Bench B-60, reference",
-"Besoins (Needs)": "Needs"
+"Bench B-60, référence": "Bench B-60, reference"
 }
