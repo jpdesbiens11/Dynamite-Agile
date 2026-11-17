@@ -123,21 +123,45 @@ def _item(item):
             "f": bool(item.get("f")), "t": " ".join(str(item.get("t") or "").split())}
 
 
-def render(scene):
-    """A scene -> (emf bytes, width px, height px)."""
-    pic = emf.Picture(STAGE_W, STAGE_H)
-    pic.rect(1, 1, STAGE_W - 2, STAGE_H - 2, fill="F6F7F9", stroke="9AA5B1", width=1.5, radius=10)
-    items = scene.get("items") if isinstance(scene.get("items"), list) else []
-    for item in filter(None, map(_item, items)):
-        size = SIZES.get(item["s"], 0.13) * STAGE_W
-        label = _fit(item["t"], LABEL, 220)
-        height = size + (LABEL * 1.5 + 4 if label else 0)
-        cx, cy = item["x"] / 100 * STAGE_W, item["y"] / 100 * STAGE_H
+COMIC_H, BOOST = 720, 1.3  # the comic panel (0.60.113): 4:3, the pictograms 1.3x larger than on the 16:9 stage
+
+
+def _zoom(items, w, h, boost):
+    """(k, dx, dy) that brings the group of pictograms to fill the panel like a comic (0.60.113, D-O-126): the group's box
+    (pictograms and labels) centred and enlarged up to 1.6x (or drawn in a little), never cut by the frame."""
+    if not items:
+        return 1.0, 0.0, 0.0
+    boxes = []
+    for it in items:
+        size = SIZES.get(it["s"], 0.13) * STAGE_W * boost
+        bh = size + (LABEL * 1.5 + 4 if it["t"] else 0)
+        bw = max(size, min(220, emf.measure(it["t"], LABEL)) + 12) if it["t"] else size
+        cx, cy = it["x"] / 100 * w, it["y"] / 100 * h
+        boxes.append((cx - bw / 2, cy - bh / 2, cx + bw / 2, cy + bh / 2))
+    x0, y0 = min(b[0] for b in boxes), min(b[1] for b in boxes)
+    x1, y1 = max(b[2] for b in boxes), max(b[3] for b in boxes)
+    k = max(0.7, min(1.6, w * 0.92 / max(1.0, x1 - x0), h * 0.9 / max(1.0, y1 - y0)))
+    return k, w / 2 - (x0 + x1) / 2 * k, h / 2 - (y0 + y1) / 2 * k
+
+
+def render(scene, fit=False):
+    """A scene -> (emf bytes, width px, height px); fit: a comic panel, 4:3, the group enlarged to fill it."""
+    w, h, boost = (STAGE_W, COMIC_H, BOOST) if fit else (STAGE_W, STAGE_H, 1.0)
+    pic = emf.Picture(w, h)
+    pic.rect(1, 1, w - 2, h - 2, fill="F6F7F9", stroke="9AA5B1", width=1.5, radius=10)
+    items = list(filter(None, map(_item, scene.get("items") if isinstance(scene.get("items"), list) else [])))
+    k, dx, dy = _zoom(items, w, h, boost) if fit else (1.0, 0.0, 0.0)
+    font = round(LABEL * min(max(k, 1.0), 1.3))
+    for item in items:
+        size = SIZES.get(item["s"], 0.13) * STAGE_W * boost * k
+        label = _fit(item["t"], font, 220 * max(k, 1.0))
+        height = size + (font * 1.5 + 4 if label else 0)
+        cx, cy = item["x"] / 100 * w * k + dx, item["y"] / 100 * h * k + dy
         top = cy - height / 2
         _draw_picto(pic, item["p"], cx - size / 2, top, size, item["f"])
         if label:
-            lw = emf.measure(label, LABEL)
+            lw = emf.measure(label, font)
             ly = top + size + 4
-            pic.rect(cx - lw / 2 - 6, ly, lw + 12, LABEL * 1.5, fill="FFFFFF", stroke="C9D1DB", width=1, radius=5)
-            pic.text(cx - lw / 2, ly + LABEL * 1.08, label, LABEL, "1F2933")
-    return pic.data(), STAGE_W, STAGE_H
+            pic.rect(cx - lw / 2 - 6, ly, lw + 12, font * 1.5, fill="FFFFFF", stroke="C9D1DB", width=1, radius=5)
+            pic.text(cx - lw / 2, ly + font * 1.08, label, font, "1F2933")
+    return pic.data(), w, h

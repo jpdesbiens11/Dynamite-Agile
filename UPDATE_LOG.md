@@ -1,4 +1,16 @@
-# Journal de mise à jour — 0.60.112
+# Journal de mise à jour — 0.60.113
+
+- **Version :** 0.60.112 → 0.60.113 (2026-11-17)
+- **Changements :**
+  1. **Storyline : les scènes écrites par l'IA arrivent dessinées — catalogue des pictogrammes dans les prompts, noms reconnus, positions posées** (D-O-126).
+  2. **17 pictogrammes de référence militaires et de terrain dans la bibliothèque de base** (D-O-126).
+  3. **Storyline : « Export .docx » en haut à gauche — une scène par page, comme une bande dessinée ; feuille Storyline dans l'Excel de Diamond** (D-O-126).
+  4. **Boutons IA en double retirés : « ↔ IA » fait l'aller-retour** (D-O-126).
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.112
 
 - **Version :** 0.60.111 → 0.60.112 (2026-11-17)
 - **Changements :**
@@ -6,8 +18,6 @@
   2. **Idéation : « IA : proposer des groupes » sur le tableau de la séance** (D-O-125).
   3. **Le tableau d'Idéation part vers Diamond par « ↔ IA »** (D-O-125).
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.111
 

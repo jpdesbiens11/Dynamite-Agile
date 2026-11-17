@@ -58,12 +58,12 @@ class DiamondExportTest(unittest.TestCase):
             if name.endswith(".xml") or name.endswith(".rels"):
                 ET.fromstring(z.read(name))  # every part is well-formed
         book = z.read("xl/workbook.xml").decode("utf-8")
-        for sheet in ("Synthèse", "Arbre fonctionnel", "Structure", "Pièces × fonctions", "Risques projet", "DFMEA", "Révision"):
+        for sheet in ("Synthèse", "Storyline", "Arbre fonctionnel", "Structure", "Pièces × fonctions", "Risques projet", "DFMEA", "Révision"):
             self.assertIn('name="{}"'.format(sheet), book)  # « Révision »: the stamp of the core
         first = z.read("xl/worksheets/sheet1.xml").decode("utf-8")
         self.assertIn("Co-Intelligence WorkFlow™", first)
         self.assertIn("&amp;KE0602FDynamite&amp;K0E9A9AAgile", first)  # the brand in the printed header
-        dfmea = z.read("xl/worksheets/sheet6.xml").decode("utf-8")
+        dfmea = z.read("xl/worksheets/sheet7.xml").decode("utf-8")  # the Storyline is sheet 2 since 0.60.113
         self.assertIn("Prevention Controls", dfmea)
         self.assertIn("Bonnes pratiques (industrie)", dfmea)
         self.assertIn("_xlnm.Print_Titles", book)

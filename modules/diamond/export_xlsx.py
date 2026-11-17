@@ -98,7 +98,8 @@ def synthese(book, kit, data):
     _frame(s, data, "Diamond — synthèse de l'analyse fonctionnelle", [44, 16, 60], kit, X.NAVY)
     s.line(["Les chiffres", "", ""], kit.section, height=22)
     lv = sm["by_level"]
-    figures = [("Fonctions de l'arbre", sm["functions"], "{} primaire, {} secondaires, {} tertiaires, {} techniques".format(lv[1], lv[2], lv[3], lv[4])),
+    figures = [("Scènes de la Storyline", sm["scenes"], "l'usage raconté avant l'arbre"),  # 0.60.113 (D-O-126)
+               ("Fonctions de l'arbre", sm["functions"], "{} primaire, {} secondaires, {} tertiaires, {} techniques".format(lv[1], lv[2], lv[3], lv[4])),
                ("Fonctions hors arbre (estime…)", sm["outside"], ""), ("Fonctions critiques", sm["critical"], "le chemin critique de l'arbre"),
                ("Entrées / sorties du système", "{} / {}".format(sm["inputs"], sm["outputs"]), "frontière du produit (boundary diagram)"),
                ("Flux de la structure", sm["flows"], "énergie, matière, information"),
@@ -125,7 +126,8 @@ def synthese(book, kit, data):
         s.line(["Rien à signaler : chaque section est complète.", "", ""], kit.note)
     s.skip()
     s.line(["Les feuilles", "", ""], kit.section, height=22)
-    for name, what in (("Arbre fonctionnel", "les fonctions par niveau, type, Kano, importance, pièces"),
+    for name, what in (("Storyline", "les scènes : titre, ce qui se passe, pictogrammes, notes"),
+                       ("Arbre fonctionnel", "les fonctions par niveau, type, Kano, importance, pièces"),
                        ("Structure", "entrées, sorties et flux des deux vues"), ("Pièces × fonctions", "qui réalise quoi : intégration et simplification"),
                        ("Risques projet", "le registre et la carte P × I"), ("DFMEA", "AIAG-VDA : trois niveaux, S / O / D, RPN, AP, essai clé")):
         r = s.line([name, "", what], [kit.bold, kit.empty, kit.wrap])
@@ -133,6 +135,21 @@ def synthese(book, kit, data):
     s.skip()
     r = s.line(["Les diagrammes (arbre, structure, carte des risques) sont dans le fichier draw.io ; le rapport, dans le fichier Word.", "", ""], kit.sub)
     s.merge(r, 0, r, 2)
+
+
+def story_sheet(book, kit, data):
+    """0.60.113 (D-O-126): the Storyline, one row per scene; its drawings are in the Word report and « Export .docx »."""
+    from .story_catalog import NAMES
+    s = book.sheet("Storyline")
+    widths = [8, 34, 60, 50, 50]
+    _frame(s, data, "Storyline", widths, kit, "9B7BFF")
+    rows = []
+    for k, sc in enumerate(data["story"], 1):
+        items = sc["items"] if isinstance(sc["items"], list) else []
+        seen = ", ".join(NAMES.get(i.get("p"), str(i.get("p"))) + (" « {} »".format(i["t"]) if i.get("t") else "")
+                         for i in items if isinstance(i, dict))
+        rows.append([k, sc["title"], sc["caption"], seen, " ".join((sc["notes"] or "").split())])
+    _table(s, kit, ["Scène", "Titre", "Ce qui se passe", "Pictogrammes", "Idées, irritants, questions"], rows, widths)
 
 
 def tree_sheet(book, kit, data):
@@ -306,6 +323,7 @@ def build(data, only=None):
             parts_sheet(book, kit, data)
     else:
         synthese(book, kit, data)
+        story_sheet(book, kit, data)
         tree_sheet(book, kit, data)
         structure_sheet(book, kit, data)
         parts_sheet(book, kit, data)

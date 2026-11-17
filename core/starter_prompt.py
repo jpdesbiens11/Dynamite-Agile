@@ -111,7 +111,9 @@ def render(lang="fr", site_url=SITE_URL, repo=REPO, proven=None):
     """`proven`: a Project Starter file read back from a Space (core/starter_export.py), added as the worked example."""
     src = SRC if lang == "fr" else SRC / "en"
     text = (src / "starter.md").read_text(encoding="utf-8")
-    for key, value in (("VALUES", values_table(lang)), ("EXAMPLE", example()), ("SITE_URL", site_url), ("REPO", repo)):
+    from modules.diamond import story_catalog  # 0.60.113 (D-O-126): the scenes of the Storyline drawn with the pictograms
+    for key, value in (("VALUES", values_table(lang)), ("EXAMPLE", example()), ("SITE_URL", site_url), ("REPO", repo),
+                       ("PICTOS", story_catalog.prompt_text())):
         text = text.replace("{{" + key + "}}", value)
     if proven:
         body = json.dumps(proven, ensure_ascii=False, indent=1)

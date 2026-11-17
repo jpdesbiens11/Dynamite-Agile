@@ -52,7 +52,7 @@
       state.editable && n("draft") ? el("button", { type: "button", class: "btn btn-small", onclick: () => state.send("post", "/accept-all", {}, (r) => r.accepted + " brouillon(s) acceptés.") },
         "Tout accepter (" + n("draft") + ")") : null,
       ...D.aiTools({ base: state.base, title: "PFMEA · " + line.code, exportHref: state.base + "/export.csv", editable: state.editable, drafts: true,  // 0.60.104 (D-O-116)
-        modes: ["generate", "interview", "review"], query: () => "line=" + line.number,
+        modes: ["generate"], promptLabel: "Générer avec l'IA", query: () => "line=" + line.number,
         onDone: (res) => { state.data = res.pfmea; state.show = res.applied.new ? "draft" : state.show; draw(state); } })));
     if (d.checks.length) holder.append(el("details", { class: "dm-advice", open: true }, el("summary", null, "Conseils de la méthode (" + d.checks.length + ")"), el("ul", null, d.checks.map((c) => el("li", null, c)))));
     const shown = rows.filter((r) => r.state === state.show);

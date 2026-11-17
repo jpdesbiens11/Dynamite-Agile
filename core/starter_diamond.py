@@ -269,7 +269,7 @@ def _story(raw):
     for i, scene in enumerate(_list(raw, "story")):
         path = "story[{}]".format(i)
         try:
-            items = story.clean_items(scene.get("items") or [])
+            items = story.ai_items(scene.get("items") or [])  # 0.60.113 (D-O-126): names, layout
         except ApiError as err:
             _bad(path + ".items", err.message.split(" Correctif")[0], "des clés de pictogrammes de la liste, x et y de 0 à 100, "
                  "30 pictogrammes au plus par scène.")

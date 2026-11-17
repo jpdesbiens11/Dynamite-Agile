@@ -87,7 +87,7 @@
     return el("aside", { class: "dm-story-palette", "aria-label": "Pictogrammes", "data-new": "0.60.51-story-palette" },
       el("h2", null, "Pictogrammes"),
       el("p", { class: "muted" }, "Un clic l'ajoute au centre ; glissez-le ensuite où il va."),
-      D.PICTO_GROUPS.map(([group, items]) => el("section", { class: "dm-story-group" }, el("h3", null, group),
+      D.PICTO_GROUPS.map(([group, items]) => el("section", { class: "dm-story-group" }, el("h3", group === "Militaire et terrain" ? { "data-new": "0.60.113-pictos-military" } : null, group),
         el("div", { class: "dm-story-grid" }, items.map(([key, name]) => el("button", { type: "button", class: "dm-story-pick",
           "data-tip": name, "aria-label": "Ajouter : " + name, onclick: () => onAdd(key) }, D.picto(key)))))));
   }

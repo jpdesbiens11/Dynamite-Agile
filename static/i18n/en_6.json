@@ -1,5 +1,4 @@
 {
-"Un nombre impair de participants : l'outil forme alors un trio à chaque tour, c'est normal.": "An odd number of participants: the tool then forms a trio at each round, this is normal.",
 "Un nouveau membre de l'équipe doit pouvoir réaliser les étapes du parcours DEMO (hors Admin) en moins de 5 jours ouvrables.": "A new team member must be able to complete the steps of the DEMO path (outside Admin) in under 5 working days.",
 "Un ordinateur n'envoie pas de texto : scannez le code QR à droite avec votre téléphone.": "A computer can't send a text message: scan the QR code on the right with your phone.",
 "Un ou plusieurs Control Plans par configuration de ligne et à la réception, trois phases, mesures et Cpk.": "One or more Control Plans per line configuration and at reception, three phases, measurements and Cpk.",
@@ -307,6 +306,7 @@
 "Vues": "Views",
 "Vues Audit": "Audit views",
 "Vues des caractéristiques": "Views of the characteristics",
+"Véhicule blindé": "Armoured carrier",
 "Véhicules électriques qui récupèrent l'énergie au freinage ; chaleur des composants utilisée pour chauffer la batterie par temps froid.": "Electric cars that recover energy when braking; heat from components used to warm the battery in cold weather.",
 "Vérification (le produit respecte les requirements) et validation (il répond au besoin des utilisateurs pilotes), écarts et décision de lancement, exportables en Word et en PDF.": "Verification (the product meets the requirements) and validation (it meets the needs of the pilot users), deviations and launch decision, exportable to Word and PDF.",
 "Vérification : ": "Check: ",

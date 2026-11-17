@@ -12,11 +12,9 @@ from core import audit, db, validate
 from core.errors import ApiError
 
 from . import functions as F
+from . import story_catalog
 
-PICTOS = ("adulte", "enfant", "aine", "technicien", "groupe", "main", "maison", "cuisine", "atelier", "bureau", "exterieur",
-          "route", "magasin", "produit", "telephone", "ordinateur", "batterie", "prise", "outil", "colis", "voiture", "panier",
-          "argent", "horloge", "notice", "soleil", "pluie", "froid", "nuit", "bruit", "eau", "poussiere", "idee", "question",
-          "danger", "content", "frustre", "coeur", "mouvement")
+PICTOS = story_catalog.KEYS  # 56 keys since 0.60.113 (D-O-126): the military and field group
 MAX_SCENES = 40
 MAX_ITEMS = 30
 LIMITS = {"title": 80, "caption": 600, "notes": 2000}
@@ -49,6 +47,7 @@ def clean_items(items):
     for item in items:
         item = item if isinstance(item, dict) else {}
         key = str(item.get("p") or "")
+        key = key if key in PICTOS else (story_catalog.resolve(key) or key)  # « Batterie », « battery » (0.60.113)
         if key not in PICTOS:
             raise ApiError(400, "Pictogramme « {} » inconnu. Correctif : choisissez-le dans la palette.".format(key[:30]))
         label = " ".join(str(item.get("t") or "").split())
@@ -58,6 +57,13 @@ def clean_items(items):
         out.append({"p": key, "x": _num(item.get("x"), 0, 100, 50), "y": _num(item.get("y"), 0, 100, 50), "s": size,
                     "f": 1 if item.get("f") else 0, "t": label})
     return out
+
+
+def ai_items(items):
+    """The pictograms of a scene written by an AI assistant (0.60.113, D-O-126): names resolved, an unknown one shown as a
+    « question » with its word, missing positions laid out, then checked like the palette's."""
+    laid, _unknown = story_catalog.ai_items(items)
+    return clean_items(laid[:MAX_ITEMS])
 
 
 def rows(conn, pid):

@@ -136,6 +136,9 @@ n'ont pas encore d'essai.
 
 Expliquez une fois : c'est une **version préliminaire** que l'équipe reprendra dans Diamond ; chaque élément arrive
 marqué « Brouillon IA ». Montrez chaque proposition en tableau ou en liste indentée, et faites-la corriger.
+Racontez d'abord l'usage en **Storyline** (`diamond.story`) : une scène par étape de l'usage, de la fabrication à la fin de
+vie, chacune **dessinée** avec 3 à 8 pictogrammes du catalogue (qui, où, avec quoi, l'environnement, les irritants) ;
+l'arbre fonctionnel en découle.
 
 20. **L'arbre fonctionnel** : proposez la **fonction primaire** (un verbe + un complément : « Éclairer une surface de
     travail »), puis 4 à 6 **fonctions secondaires** dans l'ordre chronologique de l'usage (du déballage à l'usage, la
@@ -214,7 +217,7 @@ Puis produisez le fichier :
 
 Clés de premier niveau, dans cet ordre : `format` (`"dynamite-project-starter"`), `format_version` (`1`), `language`
 (`fr` ou `en`), `generated_by` (le nom de l'assistant), `generated_at` (date `AAAA-MM-JJ`), `project`, `team`,
-`requirements`, `tests`, `time_codes` (facultatif), `pages`, `diamond` (objet : `functions`, `ports`, `flows`, `parts`, `risks`, `dfmea`),
+`requirements`, `tests`, `time_codes` (facultatif), `pages`, `diamond` (objet : `functions`, `ports`, `flows`, `parts`, `risks`, `dfmea`, `story`),
 `backlog`, `deliverables`, `tools` (facultatif : `ideation`, `pugh`, `kt`).
 
 | Objet | Champs (en **gras** : obligatoires ; les autres peuvent être retirés) |
@@ -232,10 +235,12 @@ Clés de premier niveau, dans cet ordre : `format` (`"dynamite-project-starter"`
 | `diamond.parts[]` (80 au plus) | **`name`**, `kind` (défaut `designed`), `notes`, `functions` (refs de fonctions secondaires ou tertiaires) |
 | `diamond.risks[]` (60 au plus) | **`title`**, **`probability`** et **`impact`** (entiers 1 à 5), `cause`, `consequence`, `category`, `phase`, `response`, `action`, `function` (ref) |
 | `diamond.dfmea[]` (120 au plus) | `higher`, `focus`, `lower`, `function` (ref), `requirement`, **`failure_mode`**, `effect`, `severity`, `cause`, `prevention`, `occurrence`, `detection_ctrl`, `test` (la ref de l'**essai clé** qui détecte la défaillance, un seul par ligne, pris dans `tests`), `detection` (S, O, D : entiers 1 à 10), `action` |
-
+| `diamond.story[]` (40 scènes au plus, facultatif) | **`title`**, `caption` (ce qui se passe), `notes` (idées, irritants, questions), **`items`** : 3 à 8 pictogrammes `{p, x, y, s, f, t}` par scène — `p` une clé du catalogue des pictogrammes ci-dessous, `t` une étiquette courte, `x` / `y` le centre en % de la scène, `s` taille 1 à 3, `f` 1 = retourné |
 | `backlog[]` (150 au plus) | **`ref`** (unique, ex. `E0`, `S1`), **`title`**, `type` (`epic`, `story`, `task`, `bug` ; défaut `story`), `description`, `parent` (la ref d'un **epic plus haut**), `mvp` (`MVP0` à `MVP9`), `assignee` (un `username` de `team`), `priority` (`lowest`, `low`, `medium`, `high`, `highest`), `points` (0 à 100) |
 | `deliverables[]` (40 au plus) | **`doc_type`** (code du Generator : `LCV`, `CRV`, `CDCF`, `PUGH`, `PDR`, `CDR`, `VVR`, `MVP`, `BML`…), **`title`**, `step` (étape du PDP `01` à `21` ; défaut : celle du type), `sub` |
 | `tools` (facultatif) | `ideation[]` : **`title`**, `prompt`, `ideas` (textes) ; `pugh[]` : **`title`**, `description`, **`concepts`** (`{name, description}`, le premier est la référence), `criteria` (`{requirement: ref d'un requis ou besoin, scores: {nom d'un concept: "+", "S" ou "-"}}`), `decision` (nom d'un concept), `note` ; `kt[]` : **`title`**, `statement`, **`alternatives`** (`{name, description}`), `criteria` (`{kind: must ou want, text, weight 1 à 10 pour un want, requirement, scores: {nom d'une alternative: 0 ou 1 pour un must, 1 à 10 pour un want}}`), `risks` (`{alternative, text, probability, seriousness}` de 1 à 3), `decision`, `note` |
+
+{{PICTOS}}
 
 Attention aux noms voisins : un requis a `clause` et `acceptance_criteria` ; un essai a `section` et `acceptance`.
 

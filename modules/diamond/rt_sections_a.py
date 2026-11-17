@@ -3,9 +3,12 @@ fonctionnelle (inputs / outputs, flows, parts). See rt.py for the engine.
 
 Codes: a function is F<number>; a part P-<number>; a scene S-<id>, an input or output IO-<id>, a flow FX-<id> (these have no
 number: their id, stable while the team keeps working)."""
+from core.errors import ApiError
+
 from . import functions as FN
 from . import parts as PA
 from . import story as ST
+from . import story_catalog as SC
 from . import structure as SR
 from .rt import Field, Section
 
@@ -35,6 +38,10 @@ FUNCTIONS = Section(
             Field("critical", kind="bool"), Field("notes"), Field("level", kind="int", ro=True, note="1 primaire … 4 technique")],
     create="/functions", update=_function_update, remove="/functions/{id}/archive", removes="archive",
     guide="L'arbre fonctionnel (FAST / APTE) : une primaire, des secondaires, des tertiaires, des techniques au niveau 4. "
+          "Depuis la Storyline : la primaire dit ce que le produit réalise (verbe à l'infinitif + complément) ; les secondaires "
+          "sont les grandes étapes de l'usage dans l'ordre des scènes, la dernière protège la personne et le produit ; les "
+          "tertiaires disent « comment » ; chaque irritant, question ou idée d'une scène se retrouve dans une fonction, un risque "
+          "ou une ligne du DFMEA. "
           "Un retrait archive la fonction : ses sous-fonctions remontent sous son parent, son numéro reste pris.")
 
 
@@ -52,15 +59,25 @@ def _scene_create(rt, body):
     return created
 
 
+def _scene_items(value):
+    """The pictograms an assistant wrote for a scene (0.60.113, D-O-126): names resolved, positions laid out where missing."""
+    try:
+        return ST.ai_items(value), ""
+    except ApiError as err:
+        return None, "items : " + err.message
+
+
 STORY = Section(
     "story", "Storyline", ["story"], order=5, table="diamond_story_scenes",
     items=_scenes, code=lambda r: "S-{}".format(r["id"]),
     fields=[Field("title", note="80 caractères au plus"), Field("caption", note="ce qui se passe, 600 caractères au plus"),
             Field("notes", note="questions, irritants, 2000 caractères au plus"),
-            Field("items", kind="json", note="pictogrammes [{p, x, y, s, f, t}] : p parmi " + ", ".join(ST.PICTOS[:12]) + "…, "
-                  "laisser tels quels si vous ne les changez pas")],
+            Field("items", kind="json", check=lambda rt, value, temps: _scene_items(value),
+                  note="les pictogrammes qui dessinent la scène [{p, x, y, s, f, t}], 3 à 8 par scène, p une clé du catalogue "
+                       "ci-dessous ; une scène sans pictogramme reste vide à l'écran")],
     create=_scene_create, update="/story/scenes/{id}", remove="/story/scenes/{id}/delete",
-    guide="La Storyline : les scènes de l'usage du produit, dans l'ordre, celles d'où sortent les besoins et les fonctions.")
+    guide="La Storyline : les scènes de l'usage du produit, dans l'ordre, celles d'où sortent les besoins et les fonctions. "
+          "Chaque scène, nouvelle ou existante, est DESSINÉE : complétez les items d'une scène qui n'en a pas.\n" + SC.prompt_text())
 
 
 # ---------------------------------------------------------------- structure

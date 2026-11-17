@@ -1007,6 +1007,7 @@
 "Tenir les modules sur tout terrain": "Keep the modules in place on any terrain",
 "Tenir un cahier de conception daté et utile : idées, calculs, décisions.": "Keep a dated, useful design notebook: ideas, calculations, decisions.",
 "Tension trop haute sur l'entrée du Pi": "Voltage too high on the Pi input",
+"Tente, bivouac": "Tent, bivouac",
 "Tenue à la chute de 0,5 m (REQ-23) : le rayon des coins de la plaque se tient à la découpe.": "0.5 m drop resistance (REQ-23): the plate corner radius is held at cutting.",
 "Terminer ce tour": "End this round",
 "Terminer et passer à la revue": "End and move to review",
@@ -1340,5 +1341,6 @@
 "Un label porte déjà ce nom.": "A label already has this name.",
 "Un membre de l'équipe, en rotation": "A team member, in rotation",
 "Un morceau de travail réalisable dans un Sprint ; Story = valeur pour l'utilisateur, Task = travail technique.": "A piece of work achievable within a Sprint; Story = value for the user, Task = technical work.",
-"Un mot-clé ou une courte phrase": "A keyword or a short phrase"
+"Un mot-clé ou une courte phrase": "A keyword or a short phrase",
+"Un nombre impair de participants : l'outil forme alors un trio à chaque tour, c'est normal.": "An odd number of participants: the tool then forms a trio at each round, this is normal."
 }
