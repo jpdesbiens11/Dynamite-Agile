@@ -13,7 +13,6 @@ sys.path.insert(0, str(BASE_DIR))
 
 from core import auth, db, modules, router, starter_diamond, startup  # noqa: E402
 from core.config import load_config  # noqa: E402
-from core.errors import ApiError  # noqa: E402
 from modules.toolbox import ideation, methods_divergent  # noqa: E402
 from tools.api_client import ApiFailure, Client  # noqa: E402
 
@@ -103,9 +102,8 @@ class StoryAiTest(unittest.TestCase):
         clean = starter_diamond.parse({"diamond": {"story": ROVER["diamond"]["story"]}})
         self.assertEqual(len(clean["story"]), 7)
         self.assertEqual(starter_diamond.counts({"diamond": clean})["story"], 7)
-        with self.assertRaises(ApiError) as err:
-            starter_diamond.parse({"diamond": {"story": [{"title": "x", "items": [{"p": "licorne"}]}]}})
-        self.assertIn("diamond.story[0].items", err.exception.message)
+        odd = starter_diamond.parse({"diamond": {"story": [{"title": "x", "items": [{"p": "licorne"}]}]}})  # 0.60.113: kept visible
+        self.assertEqual([(i["p"], i["t"]) for i in odd["story"][0]["items"]], [("question", "licorne")])
         exported = self.admin.get("/api/starter/export?space=DEMO")
         exported = exported.get("file", exported)
         self.assertEqual([s["title"] for s in exported["diamond"]["story"]], [s["title"] for s in ROVER["diamond"]["story"]])

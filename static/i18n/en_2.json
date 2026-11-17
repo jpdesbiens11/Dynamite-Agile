@@ -192,6 +192,7 @@
 "Carte des risques — maintenant": "Risk map — now",
 "Carte des risques — résiduelle (après les actions)": "Risk map — residual (after the actions)",
 "Carte microSD 32 Go avec image du logiciel": "32 GB microSD card with the software image",
+"Carte, GPS": "Map, GPS",
 "Catalogue": "Catalog",
 "Catalogue, modifié par l'équipe": "Catalog, edited by the team",
 "Category de ": "Category of ",
@@ -1340,5 +1341,6 @@
 "En-tête Content-Length invalide.": "Invalid Content-Length header.",
 "En-tête oui / non": "Header on / off",
 "En-têtes « ID » et « Task » introuvables dans les 10 premières lignes. Correctif : partez d'un export (bouton « Exporter Excel ») et gardez la première ligne.": "“ID” and “Task” headers not found in the first 10 rows. Fix: start from an export (“Export Excel” button) and keep the first row.",
-"Enceinte climatique (température, humidité)": "Climatic chamber (temperature, humidity)"
+"Enceinte climatique (température, humidité)": "Climatic chamber (temperature, humidity)",
+"Enceinte de poussière (IP5X / IP6X)": "Dust chamber (IP5X / IP6X)"
 }

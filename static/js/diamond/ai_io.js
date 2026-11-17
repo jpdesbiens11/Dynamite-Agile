@@ -107,11 +107,13 @@
     if (m) m.classList.add("dm-cls-modal");
   }
 
-  /** The buttons of a page head. o: {base, title, exportHref, query?, modes?, editable, drafts?, onDone(res)}. */
+  /** The buttons of a page head. o: {base, title, exportHref, query?, modes?, prompt?, promptLabel?,
+      editable, drafts?, onDone(res)}; prompt: false when « ↔ IA » of the page does the same (0.60.113). */
   D.aiTools = function (o) {
     return [
       el("a", { class: "btn btn-small", href: o.exportHref, download: "", "data-new": "0.60.104-ai-export" }, "Exporter (.csv)"),
-      el("button", { type: "button", class: "btn btn-small", "data-new": "0.60.104-ai-prompt", onclick: () => promptDialog(o) }, "Prompt pour l'IA"),
+      o.prompt === false ? null : el("button", { type: "button", class: "btn btn-small", "data-new": "0.60.104-ai-prompt",
+        onclick: () => promptDialog(o) }, o.promptLabel || "Prompt pour l'IA"),  // 0.60.113 (D-O-126): « ↔ IA » covers interview / review
       o.editable ? el("button", { type: "button", class: "btn btn-small", "data-new": "0.60.104-ai-import", onclick: () => importDialog(o) }, "Importer…") : null
     ].filter(Boolean);
   };

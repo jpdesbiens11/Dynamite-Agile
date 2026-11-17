@@ -1,6 +1,7 @@
 /* Diamond · « Storyline » (0.60.51, D-O-060): #/diamond/KEY/story. The use of the product told scene by scene, before
    the functional tree: who, where, with what, what happens, what one feels. A free team exercise in divergence -- no
-   link to the functions; an AI assistant reads it later to propose the tree (« Copier pour l'IA », 0.60.52).
+   link to the functions; an AI assistant reads it and draws it through « ↔ IA » (rt.js; the page's own « Copier pour l'IA » /
+   « Importer » went in 0.60.113, D-O-126).
    The board (one card per scene, in order) above the scene being edited: its stage (story_stage.js), its title, what
    happens, loose notes, and the pictogram palette (story_pictos.js). Pictograms are saved when dropped. */
 (function () {
@@ -34,12 +35,15 @@
     const list = scenes(state);
     if (!list.some((s) => s.id === state.current)) state.current = list.length ? list[0].id : null;
     holder.append(A.pageHead(ctx, [el("span", null, "Diamond"), el("span", null, "Storyline")],
-      [...D.storyAiButtons(ctx, editable, list.length > 0), editable && list.length ? el("button", { type: "button", class: "btn btn-primary btn-small",
+      [editable && list.length ? el("button", { type: "button", class: "btn btn-primary btn-small",
         "data-new": "0.60.51-story-new", onclick: () => state.run("/story/scenes", {}) }, "Nouvelle scène") : null]),
-      el("div", { class: "page-head dm-intro" }, el("h1", { "data-new": "0.60.51-story" }, "Storyline"),
+      el("div", { class: "page-head dm-intro" }, el("div", { class: "dm-story-headline" },
+        list.length ? el("a", { class: "btn btn-small", href: D.base(ctx) + "/story/export.docx", download: "", "data-new": "0.60.113-story-docx",
+          title: "Les scènes en Word, une par page comme une bande dessinée : titre, scène, texte" }, "Export .docx") : null,
+        el("h1", { "data-new": "0.60.51-story" }, "Storyline")),
         el("p", { class: "muted" }, "Racontez l'utilisation du produit, scène par scène : qui, où, avec quoi, ce qui se passe et ce "
           + "qu'on ressent. On diverge en équipe, sans bonne ni mauvaise réponse, avant l'arbre fonctionnel. Un assistant IA s'en "
-          + "servira ensuite pour proposer l'arbre et le reste de Diamond.")));
+          + "servira ensuite pour proposer l'arbre et le reste de Diamond (« ↔ IA », en haut à droite).")));
     if (!list.length) {
       holder.append(DA.spaces.startHere("La Storyline de " + ctx.meta.project.name,
         "Prenez 30 minutes en équipe. Suivez une personne du jour où elle découvre le produit jusqu'au jour où elle s'en "

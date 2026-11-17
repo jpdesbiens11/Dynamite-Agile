@@ -164,9 +164,9 @@
 
     { q: "Faire passer le DFMEA, le PFMEA ou un plan de contrôle par Claude ou Gemini, puis le recharger ?", newTag: "0.60.104-faq-ai-io",
       blocks: [
-        ["p", "Diamond → **DFMEA**, **PFMEA** ou **Plans de contrôle** : trois boutons en haut de la page (D-O-116)."],
+        ["p", "Diamond → **DFMEA**, **PFMEA** ou **Plans de contrôle** : « Exporter (.csv) », « Importer… » et « ↔ IA » en haut de la page (D-O-116, D-O-126)."],
         ["steps", [
-          "**Prompt pour l'IA** : choisissez le mode. **Entrevue guidée** : l'IA pose une question à la fois, dans l'ordre de la méthode, et rend le tableau quand vous écrivez « GÉNÈRE ». **Révision** : elle propose en une fois ses corrections et les lignes qui manquent. Pour le PFMEA, aussi **Générer** depuis le DFMEA et la ligne.",
+          "**Avec un assistant IA** : « ↔ IA », en haut à droite de la page (Entrevue guidée, Révision ou Atelier). Pour le PFMEA, **Générer avec l'IA** le propose aussi à partir du DFMEA et de la ligne.",
           "Collez le prompt dans Claude, Gemini ou un autre assistant : il contient le tableau actuel, les codes utilisables du Space (fonctions, essais, caractéristiques, opérations, plans, pièces), les échelles et le format de réponse exact.",
           "**Importer…** : collez la réponse (son bloc JSON) ou choisissez le CSV de « Exporter (.csv) » retouché dans un tableur. L'aperçu dit, ligne par ligne, ce qui est nouveau, modifié (avant → après), identique ou refusé (avec la raison) ; décochez ce que vous ne voulez pas, puis « Appliquer la sélection »."]],
         ["warn", "Rien n'est effacé : une ligne absente de la réponse reste telle quelle. Dans le PFMEA, une nouvelle ligne arrive en brouillon et la S héritée du DFMEA reste verrouillée. Le prompt se copie et se colle : la plateforme n'appelle aucun service d'IA ; pour des données confidentielles, seulement un assistant approuvé."]] },

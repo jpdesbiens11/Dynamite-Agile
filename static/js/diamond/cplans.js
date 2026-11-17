@@ -43,7 +43,7 @@
     pick.addEventListener("change", () => { location.hash = A.href(ctx, "cplans") + "/" + pick.value; });
     holder.append(el("div", { class: "dm-actions" }, d.plans.length ? pick : null,
       state.editable ? el("button", { type: "button", class: "btn btn-small", "data-new": "0.60.103-cplan-new", onclick: () => planDialog(state, null) }, "Nouveau plan de contrôle") : null,
-      ...D.aiTools({ base: state.base, title: "Plans de contrôle", exportHref: state.base + "/export.csv", editable: state.editable,  // 0.60.104 (D-O-116)
+      ...D.aiTools({ base: state.base, title: "Plans de contrôle", exportHref: state.base + "/export.csv", editable: state.editable, prompt: false,  // 0.60.104, 0.60.113
         query: () => (plan ? "plan=" + plan.number : ""), onDone: (res) => { state.data = res.cplans; draw(state); } })));
     if (d.checks.length) holder.append(el("details", { class: "dm-advice", open: true }, el("summary", null, "Conseils de la méthode (" + d.checks.length + ")"), el("ul", null, d.checks.map((c) => el("li", null, c)))));
     if (!plan) {

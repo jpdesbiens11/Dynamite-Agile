@@ -1,4 +1,4 @@
-/* Diamond · Storyline (0.60.51, D-O-060): the pictogram palette -- the French names and the groups of the 39 pictograms
+/* Diamond · Storyline (0.60.51, D-O-060): the pictogram palette -- the French names and the groups of the 56 pictograms (17 military and field ones since 0.60.113)
    drawn by tools/story_pictos.py (sprites /img/story.svg and /img/story-term.svg, same keys; tests/test_story.py checks
    both lists). D.picto(key) returns the <svg><use> of the current theme. */
 (function () {
@@ -16,6 +16,11 @@
       ["eau", "Eau"], ["poussiere", "Poussière"]]],
     ["Idées et ressentis", [["idee", "Idée"], ["question", "Question"], ["danger", "Danger"], ["content", "Content"],
       ["frustre", "Frustré"], ["coeur", "J'aime"], ["mouvement", "Mouvement"]]],
+    ["Militaire et terrain", [["soldat", "Soldat"], ["blinde", "Véhicule blindé"], ["camion", "Camion"], ["helicoptere", "Hélicoptère"],
+      ["quadrirotor", "Quadrirotor"], ["tente", "Tente, bivouac"], ["drapeau", "Base, poste"], ["radio", "Radio"],
+      ["generatrice", "Génératrice"], ["conteneur", "Conteneur"], ["carte", "Carte, GPS"], ["cible", "Objectif"],
+      ["jumelles", "Jumelles"], ["parachute", "Parachute"], ["bouclier", "Protection"], ["montagne", "Montagne, terrain"],
+      ["feu", "Feu"]]],  // 0.60.113 (D-O-126)
   ];
   const NAMES = {};
   GROUPS.forEach(([, items]) => items.forEach(([key, name]) => { NAMES[key] = name; }));

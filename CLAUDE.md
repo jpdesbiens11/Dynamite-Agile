@@ -173,6 +173,10 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.113** (2026-11-17) : **Storyline dessinée par l'IA** (D-O-126) : catalogue des 56 pictogrammes dans les prompts
+  (`modules/diamond/story_catalog.py`, `story.ai_items`), 17 pictogrammes « Militaire et terrain », « Export .docx » une scène par page
+  (`story_docx.py`, `report_figures.comic`), feuille Storyline dans l'Excel ; boutons IA en double retirés (`story_ai.js` supprimé)
+  (`tests/test_story_pictos_ai.py`).
 - **0.60.112** (2026-11-17) : **brainstorm numérique** (D-O-125) : mode Atelier de « ↔ IA » = tableau global de post-it en couleurs
   tenu par l'IA (P1…, « REGROUPE », « GÉNÈRE ») ; Idéation : « IA : proposer des groupes » (`modules/toolbox/ideation_ai.py`,
   `static/js/toolbox/ideation_ai.js`), post-it de la séance joints au prompt de « ↔ IA » (`?ideation=`) (`tests/test_ideation_ai.py`).

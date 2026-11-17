@@ -12,7 +12,6 @@ from . import figures, story_figure
 from .docx_figures import scale
 from .export_pptx import tree_pages
 
-STORY_H = int(3.0 * 914400)   # two scenes per page with their text
 MUTED_SIZE = 18
 
 
@@ -30,16 +29,27 @@ def storyline(data, figs):
                            "l'arbre, la structure et les risques en découlent ensuite.")], space_after=120)]
     if not scenes:
         return "".join(out) + WD.para([WD.run("Aucune scène : la Storyline de ce Space est vide.", italic=True, color=X.MUTED)])
-    out.append(WD.para([WD.run("Ce Space compte {} scène(s), dans l'ordre de l'usage ; chacune est une figure, avec ce qui s'y passe "
-                               "et les notes de l'équipe (idées, irritants, questions).".format(len(scenes)))], space_after=120))
+    out.append(WD.para([WD.run("Ce Space compte {} scène(s), dans l'ordre de l'usage ; chacune tient sur sa page, comme une "
+                               "planche de bande dessinée : son titre, la scène dessinée, puis ce qui s'y passe et les notes de "
+                               "l'équipe (idées, irritants, questions).".format(len(scenes)))], space_after=120))
+    return "".join(out) + comic(scenes, figs)
+
+
+PAGE_BREAK = '<w:p><w:r><w:br w:type="page"/></w:r></w:p>'
+
+
+def comic(scenes, figs):
+    """One scene per page (0.60.113, D-O-126): the title on top, the scene in the middle (its pictograms enlarged to fill the
+    panel), what happens and the notes at the bottom. Used by the report of Diamond and by « Export .docx » of the Storyline."""
+    out = []
     for k, scene in enumerate(scenes, 1):
         title = "Scène {} : {}".format(k, scene["title"] or "sans titre")
-        lead = ("Scène {}.".format(k), scene["caption"] or "Ce qui se passe n'est pas encore écrit.")
-        after = []
+        out += [PAGE_BREAK, WD.heading(2, title), figs.figure(story_figure.render(scene, fit=True), title),
+                WD.para([WD.run(scene["caption"] or "Ce qui se passe n'est pas encore écrit.", italic=not scene["caption"],
+                                size=24)], space_after=160)]
         notes = [n.strip() for n in (scene["notes"] or "").splitlines() if n.strip()]
         if notes:
-            after.append(_small("Notes : ", " · ".join(notes)))
-        out.append(figs.figure(story_figure.render(scene), title, lead, after, max_h=STORY_H))
+            out.append(_small("Idées, irritants, questions : ", " · ".join(notes)))
     return "".join(out)
 
 

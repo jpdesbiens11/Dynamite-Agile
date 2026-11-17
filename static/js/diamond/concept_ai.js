@@ -53,13 +53,6 @@
     area.focus();
   }
 
-  function conceptAiButtons(ctx, editable, hasTree, done) {
-    return [hasTree ? el("button", { type: "button", class: "btn btn-small", "data-new": "0.60.105-concepts-ai",
-      "data-tip": "Le prompt qui demande à un assistant IA les briques de chaque fonction, à partir de l'arbre",
-      onclick: () => copyPrompt(ctx, "/concepts/prompt", "les briques") }, "Copier pour l'IA") : null,
-    editable ? el("button", { type: "button", class: "btn btn-small", onclick: () => importDialog(ctx, done) }, "Importer la réponse de l'IA") : null];
-  }
-
   function sheetAiButtons(ctx, c, editable, done) {
     return [el("button", { type: "button", class: "btn btn-small", "data-new": "0.60.105-sheets-ai",
       "data-tip": "Le prompt qui demande des feuilles de concept pour cette brique : ses fonctions, les besoins et requirements",
@@ -67,6 +60,5 @@
     editable ? el("button", { type: "button", class: "btn btn-small", onclick: () => importDialog(ctx, done) }, "Importer la réponse de l'IA") : null];
   }
 
-  D.conceptAiButtons = conceptAiButtons;
   D.sheetAiButtons = sheetAiButtons;
 })();

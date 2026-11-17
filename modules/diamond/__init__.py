@@ -30,7 +30,7 @@ from . import migrations_a, migrations_b  # noqa: E402
 from . import ai_io, ai_prompts, ai_prompts_process, cp_io, dfmea_io, pfmea_io  # noqa: E402,F401 (0.60.104, D-O-116)
 from . import concept_ai, concept_pugh, concept_sheets, concepts  # noqa: E402 (0.60.105, D-O-117)
 from . import rt  # noqa: E402 (0.60.111, D-O-124: « ↔ IA », the round trip of every page)
-from . import actions, capability, char_export, characteristics, classes_api, company_pn, control_plans, impact, pfmea, pfmea_ai, pn_ai, prio, process, costs, costs_budget, costs_import, costs_prompt, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, structure
+from . import actions, capability, char_export, characteristics, classes_api, company_pn, control_plans, impact, pfmea, pfmea_ai, pn_ai, prio, process, costs, costs_budget, costs_import, costs_prompt, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, story_docx, structure
 
 SCHEMA = ""
 
@@ -99,6 +99,7 @@ ROUTES = [
     ("PATCH", P + r"/costs/lines/(?P<oid>\d+)", costs.api_line_update, "user"),
     ("POST", P + r"/costs/lines/(?P<oid>\d+)/delete", costs.api_line_delete, "user"),
     ("GET", P + r"/story", story.api_list, "user"),  # 0.60.51 (D-O-060): the Storyline
+    ("GET", P + r"/story/export\.docx", story_docx.api_docx, "user"),  # 0.60.113 (D-O-126): one scene per page
     ("POST", P + r"/story/scenes", story.api_create, "user"),
     ("PATCH", SC, story.api_update, "user"),
     ("POST", SC + r"/move", story.api_move, "user"),

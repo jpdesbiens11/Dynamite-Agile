@@ -132,6 +132,9 @@ that still have no test.
 
 Explain once: this is a **preliminary version** the team will take up in Diamond; each item arrives marked "AI draft".
 Show each proposal as a table or an indented list, and have it corrected.
+Tell the use first as a **Storyline** (`diamond.story`): one scene per step of the use, from manufacturing to end of life,
+each **drawn** with 3 to 8 pictograms of the catalogue (who, where, with what, the surroundings, the irritants); the
+functional tree follows from it.
 
 20. **The functional tree**: suggest the **primary function** (a verb + a complement: "Light a work surface"), then 4 to 6
     **secondary functions** in the chronological order of use (from unpacking to use, protection last), then 2 to 4
@@ -206,7 +209,7 @@ Then produce the file:
 
 Top-level keys, in this order: `format` (`"dynamite-project-starter"`), `format_version` (`1`), `language` (`fr` or
 `en`), `generated_by` (the name of the assistant), `generated_at` (date `YYYY-MM-DD`), `project`, `team`,
-`requirements`, `tests`, `time_codes` (optional), `pages`, `diamond` (object: `functions`, `ports`, `flows`, `parts`, `risks`, `dfmea`),
+`requirements`, `tests`, `time_codes` (optional), `pages`, `diamond` (object: `functions`, `ports`, `flows`, `parts`, `risks`, `dfmea`, `story`),
 `backlog`, `deliverables`, `tools` (optional: `ideation`, `pugh`, `kt`).
 
 | Object | Fields (in **bold**: required; the others may be removed) |
@@ -224,9 +227,12 @@ Top-level keys, in this order: `format` (`"dynamite-project-starter"`), `format_
 | `diamond.parts[]` (80 at most) | **`name`**, `kind` (default `designed`), `notes`, `functions` (refs of secondary or tertiary functions) |
 | `diamond.risks[]` (60 at most) | **`title`**, **`probability`** and **`impact`** (integers 1 to 5), `cause`, `consequence`, `category`, `phase`, `response`, `action`, `function` (ref) |
 | `diamond.dfmea[]` (120 at most) | `higher`, `focus`, `lower`, `function` (ref), `requirement`, **`failure_mode`**, `effect`, `severity`, `cause`, `prevention`, `occurrence`, `detection_ctrl`, `test` (the ref of the **key test** that detects the failure, one per row, taken from `tests`), `detection` (S, O, D: integers 1 to 10), `action` |
+| `diamond.story[]` (40 scenes at most, optional) | **`title`**, `caption` (what happens), `notes` (ideas, irritants, questions), **`items`**: 3 to 8 pictograms `{p, x, y, s, f, t}` per scene — `p` a key of the pictogram catalogue below, `t` a short label, `x` / `y` the centre in % of the scene, `s` size 1 to 3, `f` 1 = mirrored |
 | `backlog[]` (150 at most) | **`ref`** (unique, e.g. `E0`, `S1`), **`title`**, `type` (`epic`, `story`, `task`, `bug`; default `story`), `description`, `parent` (the ref of an **epic above**), `mvp` (`MVP0` to `MVP9`), `assignee` (a `username` of `team`), `priority` (`lowest`, `low`, `medium`, `high`, `highest`), `points` (0 to 100) |
 | `deliverables[]` (40 at most) | **`doc_type`** (Generator code: `LCV`, `CRV`, `CDCF`, `PUGH`, `PDR`, `CDR`, `VVR`, `MVP`, `BML`…), **`title`**, `step` (PDP step `01` to `21`; default: the type's), `sub` |
 | `tools` (optional) | `ideation[]`: **`title`**, `prompt`, `ideas` (texts); `pugh[]`: **`title`**, `description`, **`concepts`** (`{name, description}`, the first is the reference), `criteria` (`{requirement: ref of a requirement or need, scores: {concept name: "+", "S" or "-"}}`), `decision` (a concept name), `note`; `kt[]`: **`title`**, `statement`, **`alternatives`** (`{name, description}`), `criteria` (`{kind: must or want, text, weight 1 to 10 for a want, requirement, scores: {alternative name: 0 or 1 for a must, 1 to 10 for a want}}`), `risks` (`{alternative, text, probability, seriousness}` from 1 to 3), `decision`, `note` |
+
+{{PICTOS}}
 
 Mind the similar names: a requirement has `clause` and `acceptance_criteria`; a test has `section` and `acceptance`.
 

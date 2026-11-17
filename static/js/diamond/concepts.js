@@ -30,7 +30,6 @@
       D.later(() => draw(holder, ctx, state));
     };
     holder.append(A.pageHead(ctx, [el("span", null, "Diamond"), el("span", null, "Briques technologiques")], [
-      ...D.conceptAiButtons(ctx, editable, functions.length > 0, reload),
       editable ? el("button", { type: "button", class: "btn btn-small", onclick: () => openCreate(ctx, state, reload) }, "Nouvelle brique") : null,
       concepts.some((c) => c.kind === "to_define") && editable ? el("button", { type: "button", class: "btn btn-small btn-primary",
         onclick: () => D.openPughCreate(ctx, state.data, state.sheets) }, "Nouvelle matrice de Pugh") : null]));
@@ -158,8 +157,8 @@
 
   function empty(ctx, state, editable, reload, hasTree) {
     return DA.spaces.startHere("Briques technologiques de " + ctx.meta.project.name,
-      hasTree ? "Pour chaque fonction tertiaire de l'arbre, la brique qui la réalise. Demandez-les à un assistant IA (le prompt part de "
-        + "votre arbre), ou créez-les une à une ; dans l'arbre, le panneau d'une fonction propose aussi sa brique."
+      hasTree ? "Pour chaque fonction tertiaire de l'arbre, la brique qui la réalise. Demandez-les à un assistant IA avec « ↔ IA » "
+        + "(en haut à droite), ou créez-les une à une ; dans l'arbre, le panneau d'une fonction propose aussi sa brique."
         : "Les briques se rattachent aux fonctions de l'arbre fonctionnel : commencez par l'arbre.",
       editable ? (hasTree ? [["Créer une brique", () => openCreate(ctx, state, reload), true],
         ["Ouvrir l'arbre fonctionnel", () => { location.hash = A.href(ctx, "ftree"); }]]

@@ -24,7 +24,7 @@
       "Les vues denses se lisent en zoomant (vectoriel)"], "0.60.50"],
     ["docx", "Rapport", "Word (.docx)", "Le rapport de l'analyse fonctionnelle : page de titre, table des matières, synthèse, Storyline, "
       + "arbre, structure, pièces, risques, DFMEA, ce qu'une revue demanderait, et les fichiers joints. Les diagrammes et les scènes "
-      + "y sont en figures numérotées.",
+      + "y sont en figures numérotées ; la Storyline, une scène par page comme une bande dessinée.",
     ["Figures : scènes, arbre par branche, structure, cartes des risques", "Gabarit de la plateforme, en-tête et pied de page",
       "Fichier → Enregistrer sous → PDF", "Mettre à jour la table des matières (F9)"], "0.60.98"],
   ];

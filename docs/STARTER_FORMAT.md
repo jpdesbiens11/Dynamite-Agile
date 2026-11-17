@@ -66,8 +66,10 @@ en termes techniques), `initial_name` (le concept initial, un nom qui parle), `k
 (idées, irritants, questions) et `items`, les pictogrammes de la scène : `p` (une clé de `modules/diamond/story.PICTOS`),
 `x` et `y` (position en % de la scène, de 0 à 100), `s` (taille 1 à 3), `f` (miroir 0 ou 1), `t` (étiquette, 40
 caractères). 40 scènes et 30 pictogrammes par scène au plus. Elle peut venir seule, sans fonction. Dans Diamond →
-Storyline, « Copier pour l'IA » donne le prompt qui demande à un assistant IA l'arbre et le reste de Diamond à partir
-des scènes ; « Importer la réponse de l'IA » applique le fichier rendu à un Space dont l'arbre est vide.
+Storyline, « ↔ IA » (en haut à droite) envoie les scènes à un assistant IA et en rapporte l'arbre et le reste de Diamond
+(0.60.113, D-O-126). `p` accepte aussi le nom français ou anglais d'un pictogramme (« Batterie », « battery ») ; un mot
+inconnu devient le pictogramme « question » avec ce mot pour étiquette ; sans `x` / `y`, le pictogramme est posé dans la
+scène. Le catalogue des 56 pictogrammes (dont 17 « Militaire et terrain ») est écrit dans le prompt du Project Starter.
 
 Le Space reçoit aussi un **plan de référence** dans Exploration (`modules/exploration/reference.py`) : les 19 étapes du
 PDP (mêmes codes que Timesheet), les revues Lean Canvas, Concept Review, PDR, CDR et Validation Report en jalons, les

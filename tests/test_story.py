@@ -1,6 +1,6 @@
 """0.60.51 (D-O-060): the Storyline of Diamond -- scenes with pictograms, before the functional tree.
 
-The 39 pictograms have the same keys in the generator, both sprites, the server list and the palette; a scene keeps only
+The 56 pictograms (39, then 17 military and field ones in 0.60.113) have the same keys in the generator, both sprites, the server list and the palette; a scene keeps only
 known pictograms inside its frame; scenes are created, reordered, duplicated, removed, journalled; a reader cannot write;
 copying a Space carries the Storyline."""
 import re
@@ -62,7 +62,7 @@ class StoryTest(unittest.TestCase):
 
     def test_01_same_pictograms_everywhere(self):
         keys = list(story_pictos.PICTOS)
-        self.assertEqual(len(keys), 39)
+        self.assertEqual(len(keys), 56)
         self.assertEqual(keys, list(story.PICTOS))
         palette = (BASE_DIR / "static" / "js" / "diamond" / "story_pictos.js").read_text("utf-8")
         self.assertEqual(sorted(re.findall(r'\["([a-z]+)", "[^"]+"\]', palette)), sorted(keys))
