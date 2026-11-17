@@ -1,0 +1,95 @@
+/* Diamond · reading the wide FMEA tables (0.60.110, D-O-123): compact rows and their chevron, the scroll bar pinned to
+   the bottom of the window, the columns kept on the left, full screen, the magnifier. Tokens only; the Carnet and
+   Terminal themes and the dark themes below. */
+
+/* the box fills the window when the table is reached; the pinned bar below covers the time before */
+.dm-fv-wrap { position: relative; }
+.dm-fv-wrap > .dm-fm-scroll { max-height: calc(100vh - 6rem); }
+.dm-fv-hbar { position: sticky; bottom: 0; z-index: 4; height: 16px; overflow-x: auto; overflow-y: hidden; margin-top: -1px;
+  background: color-mix(in srgb, var(--surface-2) 92%, transparent); border: 1px solid var(--line); border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  scrollbar-width: thin; scrollbar-color: var(--acc, var(--agile)) transparent; }
+.dm-fv-hbar[hidden] { display: none; }
+.dm-fv-hbar.dm-fv-idle { visibility: hidden; }
+.dm-fv-hbar-in { height: 1px; }
+
+/* the columns kept on the left (the tools column is already sticky in diamond_dfmea.css) */
+table.dm-fm :is(td, th).dm-fv-stick { position: sticky; z-index: 1; }
+table.dm-fm td.dm-fv-stick { background: var(--surface); }
+table.dm-fm thead th.dm-fv-stick { z-index: 3; }
+table.dm-fm .dm-fv-stick-last::after { content: ""; position: absolute; top: 0; bottom: 0; right: -6px; width: 6px; pointer-events: none;
+  background: linear-gradient(to right, color-mix(in srgb, var(--ink) 14%, transparent), transparent); }
+
+/* compact rows: 2 lines per cell until the row is unfolded (▾) or the cell is edited */
+table.dm-fv-compact td.dm-fm-c textarea { line-height: 1.35; }
+/* no bottom padding while folded: overflow clips at the padding edge, so a 3rd line would peek through it */
+table.dm-fv-compact tr.dm-fm-row:not([data-fold]) td.dm-fm-c textarea:not(:focus) { height: calc(2.7em + .2rem + 2px); padding-bottom: 0;
+  overflow: hidden; resize: none; }
+table.dm-fv-compact tr.dm-fm-row:not([data-fold]) td.dm-fm-k-detection_ctrl textarea:not(:focus) { height: calc(1.35em + .2rem + 2px); }
+table.dm-fv-compact tr.dm-fm-row:not([data-fold]) .dm-fm-chars { max-height: 2.8em; overflow: hidden; }
+table.dm-fv-compact tr.dm-fm-row:not([data-fold]) td.dm-fm-c > span:not([class]) { display: -webkit-box; -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+table.dm-fv-compact tr.dm-fm-row:not([data-fold]) .dm-cls-who { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1;
+  line-clamp: 1; overflow: hidden; }
+table.dm-fv-compact tr.dm-fm-row[data-fold] td.dm-fm-c > span:not([class]) { white-space: pre-line; }
+table.dm-fv-compact tr.dm-fm-row[data-fold] > td { background-image: linear-gradient(color-mix(in srgb, var(--acc, var(--agile)) 5%, transparent),
+  color-mix(in srgb, var(--acc, var(--agile)) 5%, transparent)); }
+.dm-fv-line { display: flex; align-items: center; gap: .25rem; }
+.dm-fv-fold { width: 1.45rem; height: 1.45rem; padding: 0; border: 1px solid var(--line); border-radius: 4px; background: var(--surface);
+  color: var(--ink); font: 700 .8rem var(--font); line-height: 1; cursor: pointer; }
+.dm-fv-fold:hover { border-color: var(--acc, var(--agile)); color: var(--acc, var(--agile)); transform: translateY(-1px); }
+.dm-fv-fold:focus-visible, table.dm-fm td.dm-fm-c:focus-visible { outline: 2px solid var(--acc, var(--agile)); outline-offset: -2px; }
+.dm-fv-fold[aria-expanded="true"] { background: color-mix(in srgb, var(--acc, var(--agile)) 18%, var(--surface)); }
+
+/* the view tools in the toolbar */
+.dm-fv-tools { margin-left: auto; align-items: center; }
+.dm-fv-tools .btn[aria-pressed="true"] { border-color: var(--acc, var(--agile)); color: var(--acc, var(--agile)); font-weight: 700;
+  background: color-mix(in srgb, var(--acc, var(--agile)) 12%, var(--surface)); }
+.dm-fv-lens svg { width: 1em; height: 1em; vertical-align: -.15em; margin-right: .25rem; }
+table.dm-fv-loupe-on td.dm-fm-c { cursor: zoom-in; }
+table.dm-fv-loupe-on td.dm-fm-c :is(input, textarea, select) { cursor: auto; }
+
+/* full screen: the table alone over the whole window (dialogs z 100 and toasts z 200 stay above) */
+html.dm-fv-lock, html.dm-fv-lock body { overflow: hidden; }
+.dm-page.dm-fv-full { position: fixed; inset: 0; z-index: 90; display: flex; flex-direction: column; gap: .45rem; margin: 0; padding: .6rem 1rem .8rem;
+  background: var(--bg); overflow: hidden; }
+.dm-page.dm-fv-full > :not(.dm-fm-toolbar, .dm-fm-filters, .dm-fv-wrap, .dm-fm-nomatch) { display: none; }
+.dm-page.dm-fv-full > .dm-fm-filters { margin: 0; }
+.dm-page.dm-fv-full > .dm-fv-wrap { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.dm-page.dm-fv-full .dm-fm-scroll { flex: 1 1 auto; min-height: 0; max-height: none; }
+.dm-page.dm-fv-full .dm-fv-hbar { display: none; }
+
+/* the magnifier: follows the pointer, never catches a click */
+.dm-fv-loupe { position: fixed; z-index: 95; max-width: min(38rem, calc(100vw - 16px)); max-height: 70vh; overflow: hidden; pointer-events: none;
+  padding: .55rem .8rem .7rem; border: 1px solid var(--line); border-left: 4px solid var(--acc, var(--agile)); border-radius: var(--radius-sm);
+  background: var(--surface); color: var(--ink); box-shadow: var(--shadow, 0 10px 30px rgba(0, 0, 0, .2)); }
+.dm-fv-loupe[hidden] { display: none; }
+.dm-fv-loupe-h { font-size: .74rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-bottom: .25rem; }
+.dm-fv-loupe-t { font-size: 1.08rem; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* Carnet: the hand-drawn card and its offset shadow */
+html[data-sketch] .dm-fv-loupe { border-radius: var(--r-card, var(--radius-sm)); box-shadow: var(--shadow-sketch, var(--shadow)); background: var(--paper, var(--surface)); }
+html[data-sketch] .dm-fv-loupe-h { font-family: var(--hand, var(--font)); font-size: .95rem; letter-spacing: 0; text-transform: none; color: var(--graphite, var(--muted)); }
+html[data-sketch] .dm-page.dm-fv-full { background: var(--paper, var(--bg)); }
+html[data-sketch] .dm-fv-fold { border-radius: var(--r-hand, 4px); }
+
+/* Terminal: dark surfaces, mono text, the glow of the accent */
+html[data-term] .dm-fv-hbar { background: #0d1117; border-color: #30363d; }
+html[data-term] table.dm-fm td.dm-fv-stick { background: #0d1117; }
+html[data-term] .dm-fv-loupe { background: #161b22; color: #e6edf3; border-color: #30363d; border-left-color: var(--acc);
+  box-shadow: 0 0 0 1px var(--acc-glow, transparent), 0 12px 32px rgba(0, 0, 0, .55); }
+html[data-term] .dm-fv-loupe-t { font-family: var(--mono); font-size: .98rem; }
+html[data-term] .dm-page.dm-fv-full { background: #010409; }
+html[data-term] table.dm-fm .dm-fv-stick-last::after { background: linear-gradient(to right, rgba(0, 0, 0, .55), transparent); }
+
+/* dark and high-contrast themes (themes.css) */
+html[data-theme="dark"]:not([data-term]) .dm-fv-loupe, html[data-theme="contrast"] .dm-fv-loupe { box-shadow: 0 12px 32px rgba(0, 0, 0, .6); }
+html[data-theme="contrast"] .dm-fv-loupe { border-width: 2px; }
+
+@media (prefers-reduced-motion: reduce) { .dm-fv-fold:hover { transform: none; } }
+@media print { .dm-fv-hbar, .dm-fv-tools, .dm-fv-fold, .dm-fv-loupe { display: none !important; }
+  table.dm-fv-compact tr.dm-fm-row:not([data-fold]) td.dm-fm-c textarea:not(:focus) { height: auto; overflow: visible; } }
+
+/* compact tools: the chevron and the number on one line, the five buttons on the next */
+table.dm-fv-compact .dm-fm-btns { grid-template-columns: repeat(5, 1.35rem); }
+table.dm-fv-compact .dm-fm-btn { height: 1.35rem; }
+table.dm-fv-compact .dm-fm-k-function_id select { max-width: 16rem; }

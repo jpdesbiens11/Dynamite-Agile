@@ -173,6 +173,12 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.110** (2026-11-17) : **DFMEA lisible dans le navigateur** (D-O-123) : lignes compactes (2 lignes par cellule, chevron
+  ▸ / ▾ par ligne, « Tout déplier / Tout replier », état par navigateur), barre de défilement horizontale collée au bas de la
+  fenêtre, colonnes #, Function et Failure Mode gardées à gauche, Shift + molette, « Plein écran » (Esc), « Loupe » (cellule en
+  grand sous le pointeur ; Tab + Entrée au clavier), « Essentiel » (`static/js/diamond/fm_view.js`, `fm_scroll.js`,
+  `static/css/diamond_fmview.css`) ; barre collée aussi au PFMEA et aux plans de contrôle (`tests/test_dfmea_view.py`,
+  `node tests/js/dfmea_view.js`).
 - **0.60.109** (2026-11-16) : **termes techniques en anglais dans le texte livré par la plateforme** (D-O-122, suite de D-O-121) :
   Bonnes pratiques (industrie) du DFMEA (`modules/diamond/dfmea_practices.py`, marqueur inchangé, lignes déjà enregistrées
   gardées), Help, Training, catalogues Testing, starters `deploy/starter_exemples/`, Rover (`tools/rover/`, `rover.json`) ;
