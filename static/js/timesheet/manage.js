@@ -185,8 +185,9 @@
   /* ---------- Budget lines of a claim (D-B-036): « x » on task codes and projects ---------- */
   TS.budgetPicker = function (data, onChange) {
     const taskBoxes = [];
+    const folds = [];
     const groups = Object.entries(data.meta.task_sets).map(([setKey, set]) => {
-      const boxes = set.tasks.map((t) => {
+      const boxOf = (t, text) => {
         /* D-B-084: « réclamable » lines are checked by default; a deactivated line stays claimable for its past hours */
         const box = el("input", { type: "checkbox", value: t.key, checked: t.claimable !== false && t.active !== false });
         box.dataset.set = setKey;
@@ -194,18 +195,43 @@
         box.addEventListener("change", () => { sync(); onChange(); });
         taskBoxes.push(box);
         return el("label", { class: "tt-x" + (t.active === false ? " tt-x-off" : ""), title: t.label }, box, el("span", { class: "tt-x-code" }, t.key),
-          el("span", { class: "tt-x-label" }, t.label + (t.claimable === false ? " (non réclamable)" : "") + (t.active === false ? " (inactif)" : "")));
+          el("span", { class: "tt-x-label" }, text + (t.claimable === false ? " (non réclamable)" : "") + (t.active === false ? " (inactif)" : "")));
+      };
+      const boxes = [];
+      const subs = [];
+      /* 0.60.107 (D-O-119): the sub-projects of a set (label prefix before « · ») each fold, with their own « all » box */
+      const parts = TS.groupTasks(set.tasks).map((g) => {
+        const nodes = g.tasks.map((t) => boxOf(t, g.name ? TS.splitLabel(t.label)[1] : t.label));
+        boxes.push(...nodes);
+        const grid = el("div", { class: "tt-x-grid" }, nodes);
+        if (!g.name) return grid;
+        const all = el("input", { type: "checkbox", "aria-label": "Tout " + g.name });
+        all.addEventListener("change", () => { nodes.forEach((b) => { b.querySelector("input").checked = all.checked; }); sync(); onChange(); });
+        const count = el("span", { class: "muted tt-x-count" });
+        const fold = TS.foldButton("x." + setKey + "." + g.name, g.name, [grid]);
+        folds.push(fold);
+        subs.push({ all, nodes, count });
+        return el("div", { class: "tt-x-sub" }, el("div", { class: "tt-x-subhead" }, fold, el("label", { class: "tt-x-all" }, all, g.name), count), grid);
       });
+      const body = el("div", { class: "tt-x-body" }, parts);
       const all = el("input", { type: "checkbox", "aria-label": "Tout " + set.label });
-      all.addEventListener("change", () => { boxes.forEach((b) => { b.querySelector("input").checked = all.checked; }); onChange(); });
-      return { all, boxes, node: el("fieldset", { class: "tt-x-group" },
-        el("legend", null, el("label", { class: "tt-x-all" }, all, set.label)), el("div", { class: "tt-x-grid" }, boxes)) };
+      all.addEventListener("change", () => { boxes.forEach((b) => { b.querySelector("input").checked = all.checked; }); sync(); onChange(); });
+      const count = el("span", { class: "muted tt-x-count" });
+      const fold = TS.foldButton("x." + setKey, set.label, [body]);
+      folds.push(fold);
+      return { all, boxes, subs, count, node: el("fieldset", { class: "tt-x-group" },
+        el("legend", null, fold, el("label", { class: "tt-x-all" }, all, set.label), count), body) };
     });
+    const tick = (all, nodes, count) => {
+      const n = nodes.filter((b) => b.querySelector("input").checked).length;
+      all.checked = n === nodes.length;
+      all.indeterminate = n > 0 && n < nodes.length;
+      count.textContent = n + " / " + nodes.length;
+    };
     function sync() {
       groups.forEach((g) => {
-        const n = g.boxes.filter((b) => b.querySelector("input").checked).length;
-        g.all.checked = n === g.boxes.length;
-        g.all.indeterminate = n > 0 && n < g.boxes.length;
+        tick(g.all, g.boxes, g.count);
+        g.subs.forEach((s) => tick(s.all, s.nodes, s.count));
       });
       count.textContent = taskBoxes.filter((b) => b.checked).length + " Budget Line(s) cochée(s)";
     }
@@ -222,6 +248,7 @@
         taskBoxes.forEach((b) => { b.checked = fn(b); }); sync(); onChange();
       } }, label));
     sync();
+    folds.forEach((f) => f.init());
     const node = el("div", { class: "tt-budget" },
       el("h2", null, "Budget Lines à réclamer"),
       el("p", { class: "muted" }, "Cochez (« x ») une Budget Line précise ou une combinaison ; seules leurs heures, avec leur justification, "

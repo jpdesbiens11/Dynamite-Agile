@@ -2,27 +2,26 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Diamond : le responsable de chaque brique technologique",
-      "why": "Chaque brique technologique a maintenant un responsable, un membre du Space : ses initiales dans l'arbre, « Qui porte quoi » sur la page des briques, le choix dans le panneau de la brique. Le Project Starter et son export transportent le responsable. Migration diamond 17 (additive).",
+      "title": "Timesheet : Budget Lines repliables par Funding Space et par sous-projet",
+      "why": "Dans Timesheet, chaque Funding Space et chacun de ses sous-projets (la partie du libellé avant « · ») se replient avec un chevron : la liste des Budget Lines à réclamer (Export et rapport Word), « Spaces et organismes » (une ligne d'en-tête par sous-projet, le libellé sans son préfixe) et la liste des Budget Lines de la semaine (un groupe par sous-projet). Chaque sous-projet a sa case « tout » et son compte de lignes cochées. L'état replié reste dans le navigateur. L'export Project Starter d'un Space rend ses codes regroupés par sous-projet : réimportés, ils gardent les mêmes libellés (avant, ils prenaient le préfixe « Codes du Space · »). Aucune migration.",
       "files": [
         "CLAUDE.md",
         "UPDATE_CHANGES.json",
         "UPDATE_LOG.md",
         "core/__init__.py",
-        "core/starter_diamond.py",
-        "core/starter_export_more.py",
+        "core/modules.py",
+        "core/starter_export.py",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.106.json",
-        "modules/diamond/concepts.py",
-        "modules/diamond/migrations_b.py",
-        "static/css/diamond_concepts.css",
-        "static/js/diamond/concept_page.js",
-        "static/js/diamond/concept_panel.js",
-        "static/js/diamond/concepts.js",
-        "static/js/diamond/tree_concepts.js",
-        "tests/test_diamond_concepts.py",
-        "tests/test_open_v060.py"
+        "docs/releases/0.60.107.json",
+        "static/css/timesheet.css",
+        "static/js/timesheet/budget.js",
+        "static/js/timesheet/fold.js",
+        "static/js/timesheet/manage.js",
+        "static/js/timesheet/timesheet.js",
+        "tests/js/timesheet_fold.js",
+        "tests/test_open_v060.py",
+        "tests/test_timesheet_fold.py"
       ]
     }
   ]

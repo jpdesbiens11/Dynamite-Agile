@@ -99,7 +99,24 @@ def _time_codes(conn, key):
         return []
     lines = conn.execute("SELECT code, label FROM timesheet_budget_lines WHERE set_id = ? AND active = 1 ORDER BY position",
                          (row["id"],)).fetchall()
-    return [{"key": l["code"], "label": _cut(l["label"], 120)} for l in lines[:40]]
+    return _code_groups([(l["code"], l["label"]) for l in lines[:40]])
+
+
+def _code_groups(lines):
+    """0.60.107 (D-O-119): the Budget Lines back into the groups of the format, one per sub-project (the label before
+    « · »), so that the import, which writes « group · code », gives back the same labels. A line without a sub-project
+    is a code of its own. Group keys G1, G2… never look like a code (no dash)."""
+    out, groups = [], {}
+    for code, label in lines:
+        head, sep, tail = (label or "").partition(" · ")
+        if not (sep and head.strip() and tail.strip()):
+            out.append({"key": code, "label": _cut(label, 120) or code})
+            continue
+        if head not in groups:
+            groups[head] = {"key": "G{}".format(len(groups) + 1), "label": _cut(head, 120), "codes": []}
+            out.append(groups[head])
+        groups[head]["codes"].append({"key": code, "label": _cut(tail, 120)})
+    return out
 
 
 def _pages(conn, pid):
@@ -140,7 +157,7 @@ def build(conn, row):
             "project": {"key": key, "name": _cut(row["name"], 120), "description": _cut(row["description"], 4000)},
             "team": team, "requirements": [{k: x for k, x in r.items() if not k.startswith("_")} for r in requirements],
             "tests": [{k: x for k, x in t.items() if not k.startswith("_")} for t in tests],
-            "time_codes": [{"key": "CODES", "label": "Codes du Space", "codes": codes}] if codes else [],
+            "time_codes": codes,
             "pages": _pages(conn, pid)}
     usernames = {m["username"] for m in team}
     data["diamond"] = more.diamond(conn, pid, {t["_code"]: t["ref"] for t in tests}, usernames, MAX)

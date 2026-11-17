@@ -62,12 +62,16 @@
       name.addEventListener("change", () => save("/api/timesheet/budget/sets/" + set.id, { label: name.value }, "Funding Space"));
       const on = el("input", { type: "checkbox", checked: set.active, "aria-label": "Funding Space actif" });
       on.addEventListener("change", async () => { await save("/api/timesheet/budget/sets/" + set.id, { active: on.checked }, "Funding Space"); reload(); });
-      const rows = set.tasks.map((t) => {
-        const label = el("input", { type: "text", value: t.label, maxlength: 120, "aria-label": "Libellé de " + t.key });
+      const folds = [];
+      /* 0.60.107: under a sub-project the field shows the task only and keeps the prefix on save; a label typed with
+         its own « · » is taken whole (it moves the line to that sub-project) */
+      const rowOf = (t, text, group) => {
+        const label = el("input", { type: "text", value: text, maxlength: 120, "aria-label": "Libellé de " + t.key, title: t.label });
         const claim = el("input", { type: "checkbox", checked: t.claimable, "aria-label": "Réclamable " + t.key });
         const act = el("input", { type: "checkbox", checked: t.active, "aria-label": "Actif " + t.key });
         const url = "/api/timesheet/budget/lines/" + t.id;
-        label.addEventListener("change", () => save(url, { label: label.value }, t.key));
+        label.addEventListener("change", () => save(url, { label: !group || label.value.includes(" · ") ? label.value
+          : (label.value.trim() ? group + " · " + label.value.trim() : "") }, t.key));  // empty: the server refuses it
         claim.addEventListener("change", () => save(url, { claimable: claim.checked }, t.key));
         act.addEventListener("change", () => save(url, { active: act.checked }, t.key));
         return el("tr", { class: t.active ? null : "tt-archived" }, el("td", null, el("strong", null, t.key)), el("td", null, label),
@@ -76,14 +80,32 @@
           el("td", null, t.ranges ? null : el("button", { type: "button", class: "link-btn", onclick: async () => {
             try { await api.del(url); toast(t.key + " supprimé.", "success"); reload(); } catch (err) { toast(err.message, "error"); }
           } }, "Supprimer")));
+      };
+      /* 0.60.107 (D-O-119): one folding header row per sub-project (label prefix before « · ») */
+      const rows = [];
+      TS.groupTasks(set.tasks).forEach((g) => {
+        const own = g.tasks.map((t) => rowOf(t, g.name ? TS.splitLabel(t.label)[1] : t.label, g.name));
+        if (g.name) {
+          const h = g.tasks.reduce((sum, t) => sum + (t.hours || 0), 0);
+          const fold = TS.foldButton("b." + key + "." + g.name, g.name, own);
+          folds.push(fold);
+          rows.push(el("tr", { class: "tt-subrow" }, el("td", { colspan: 6 }, fold, el("strong", null, g.name),
+            el("span", { class: "muted tt-small" }, " · " + g.tasks.length + " Budget Line(s)" + (h ? " · " + fmtH(h) : "")))));
+        }
+        rows.push(...own);
       });
+      const table = DA.table(["Code", "Libellé", "Réclamable", "Actif", "Heures saisies", ""], rows);
+      const setFold = TS.foldButton("b." + key, set.label, [table]);
+      folds.forEach((f) => f.init());
+      setFold.init();
       page.append(el("section", { class: "tt-set" + (set.active ? "" : " tt-archived") },
-        el("div", { class: "tt-set-head" }, name, el("label", { class: "check" }, on, "Actif"),
+        el("div", { class: "tt-set-head" }, el("span", { class: "tt-set-title" }, setFold, name), el("label", { class: "check" }, on, "Actif"),
+          el("span", { class: "muted tt-small" }, set.tasks.length + " Budget Line(s)"),
           el("span", { class: "muted tt-small" }, set.spaces.length ? "Spaces : " + set.spaces.join(", ") : "Aucun Space rattaché"),
           el("span", { class: "tt-spacer" }),
           el("a", { class: "btn btn-small", href: "/api/timesheet/budget/sets/" + set.id + "/export.xlsx", download: "" }, "Exporter (.xlsx)"),
           el("button", { type: "button", class: "btn btn-small", onclick: () => lineDialog(set, reload) }, "+ Ajouter une Budget Line")),
-        DA.table(["Code", "Libellé", "Réclamable", "Actif", "Heures saisies", ""], rows)));
+        table));
     });
   };
 })();

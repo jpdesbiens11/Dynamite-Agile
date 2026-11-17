@@ -173,6 +173,10 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.107** (2026-11-16) : **Timesheet — Budget Lines repliables** (D-O-119) : chevron par Funding Space et par sous-projet
+  (libellé « <sous-projet> · <tâche> ») dans l'export, « Spaces et organismes » et la semaine (`static/js/timesheet/fold.js`,
+  état dans le navigateur) ; export Project Starter des codes par sous-projet (`starter_export._code_groups`)
+  (`tests/test_timesheet_fold.py`, `tests/js/timesheet_fold.js`).
 - **0.60.106** (2026-11-16) : **responsable d'une brique** (D-O-118) : `diamond_concepts.owner_id` (migration diamond 17), un membre du Space
   (`actions.owner`) ; initiales sur la brique dans l'arbre, « Qui porte quoi » sur la page des briques, choix dans le panneau ; `owner` dans
   `diamond.concepts` du Project Starter et de son export (`tests/test_diamond_concepts.py`).

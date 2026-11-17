@@ -136,8 +136,8 @@
         el("option", { value: p.id, selected: p.id === e.project_id }, p.key + " · " + p.name)));
       if (!projects[e.project_id]) project.prepend(el("option", { value: e.project_id, selected: true }, e.project_key + " (fermé)"));
       const offered = tasksOf(e.project_id).filter((t) => t.active !== false || t.key === e.task_key);
-      const task = el("select", { "aria-label": "Budget Line" }, offered
-        .map((t) => el("option", { value: t.key, selected: t.key === e.task_key }, t.key + " · " + t.label + (t.active === false ? " (inactif)" : ""))));
+      const task = el("select", { "aria-label": "Budget Line" }, TS.taskOptions(offered,  // 0.60.107 (D-O-119): one group per sub-project
+        (t, text) => el("option", { value: t.key, selected: t.key === e.task_key, title: t.label }, t.key + " · " + text + (t.active === false ? " (inactif)" : ""))));
       /* 0.60.20: a code that is no longer in the Funding Space of the Space (changed after the range was entered) is shown
          as it is, and flagged -- the list no longer shows the first code instead, which made it look saved */
       if (!offered.some((t) => t.key === e.task_key)) {

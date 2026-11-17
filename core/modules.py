@@ -79,7 +79,7 @@ MODULE_MANIFEST = [
     {"key": "codex", "label": "Generator", "phase": "3.5", "module": codex, "placement": "tools",  # ex-Codex (D-B-022)
      "scripts": ["/js/codex/registry.js", "/js/codex/codex.js"], "styles": ["/css/codex.css"]},
     {"key": "timesheet", "label": "Timesheet", "phase": "3.6", "module": timesheet,
-     "scripts": ["/js/timesheet/manage.js", "/js/timesheet/budget_io.js", "/js/timesheet/budget.js", "/js/timesheet/copy.js", "/js/timesheet/timesheet.js"], "styles": ["/css/timesheet.css"]},
+     "scripts": ["/js/timesheet/fold.js", "/js/timesheet/manage.js", "/js/timesheet/budget_io.js", "/js/timesheet/budget.js", "/js/timesheet/copy.js", "/js/timesheet/timesheet.js"], "styles": ["/css/timesheet.css"]},
     {"key": "help", "label": "Help", "phase": "3.7", "module": help_module, "placement": "end",
      "scripts": ["/js/help/content_path.js", "/js/help/content_path2.js", "/js/help/content_faq.js",
                  "/js/help/help.js"], "styles": ["/css/help.css"]},

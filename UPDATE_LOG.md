@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.106
+# Journal de mise à jour — 0.60.107
+
+- **Version :** 0.60.106 → 0.60.107 (2026-11-16)
+- **Changements :**
+  1. **Timesheet : Budget Lines repliables par Funding Space et par sous-projet** (D-O-119).
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.106
 
 - **Version :** 0.60.105 → 0.60.106 (2026-11-16)
 - **Changements :**
   1. **Diamond : le responsable de chaque brique technologique** (D-O-118).
 - **Base de données :** ['Migration diamond 17 (additive) : colonne owner_id de diamond_concepts.']
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.105
 
