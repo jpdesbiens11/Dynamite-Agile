@@ -13,18 +13,18 @@ IA » (source « ai », kind « ai » for a sheet), for the team to review.
 import json
 import re
 
-from core import audit
+from core import audit, terms
 from core.errors import ApiError
 
 from . import concept_sheets as S
 from . import concepts as C
 from . import functions as F
 
-ANSWER = {"concepts": [{"name": "Module de cellules cylindriques en parallèle", "initial_name": "Nid d'abeilles", "kind": "existing",
-                        "reference": "Architecture de module du marché (cellules 21700, busbars soudés laser)",
+ANSWER = {"concepts": [{"name": "Battery module de cylindrical cells en parallèle", "initial_name": "Honeycomb", "kind": "existing",
+                        "reference": "Architecture de battery module du marché (21700 cells, laser-welded busbars)",
                         "description": "Porte les fonctions de stockage de l'énergie.", "functions": ["F12", "F13"]}],
-          "sheets": [{"concept": "CB-3", "title": "Plaque froide sous les cellules",
-                      "principle": "Un liquide caloporteur circule dans une plaque d'aluminium collée sous le module.",
+          "sheets": [{"concept": "CB-3", "title": "Cold plate sous les cells",
+                      "principle": "Un coolant circule dans une cold plate en aluminium collée sous le module.",
                       "description": "…", "pros": "…", "cons": "…"}]}
 
 GUIDE_BRICKS = """Tu es ingénieur(e) produit dans l'équipe du projet « {name} »{description}. Voici l'arbre fonctionnel du produit (F-n :
@@ -34,13 +34,13 @@ fonction ; le retrait montre le niveau : primaire, secondaires, tertiaires ; [Ka
 
 {existing}Pour chaque fonction tertiaire (ou secondaire sans tertiaire), propose la **brique technologique** qui la réalise, avec son
 **concept initial** : une idée de départ portée par un **nom qui parle** (`initial_name`, deux à quatre mots imagés, ex.
-« Sandwich froid », « Tête-radiateur »), que l'équipe retiendra facilement en séance. Ce n'est pas la solution finale : la
+« Cold sandwich », « Radiator head »), que l'équipe retiendra facilement en séance. Ce n'est pas la solution finale : la
 divergence (feuilles de concept) et la convergence (Pugh) la feront sans doute pivoter. Plusieurs fonctions partagent souvent
 la même brique : regroupe-les dans une seule brique (`name` : ce que la brique est, en termes techniques). Indique pour chaque brique
 si elle renvoie à un **concept existant** (`"kind": "existing"`, et `reference` : la technologie, le composant du marché ou le
 produit connu) ou si elle est **à définir** (`"kind": "to_define"` : il faudra des feuilles de concept et une matrice de Pugh).
 Pose-moi d'abord les questions qui te manquent, puis rends un seul bloc JSON de cette forme (clés en anglais, textes en
-français, les fonctions par leur numéro F-n) :
+français, les fonctions par leur numéro F-n). {terms}
 
 ```json
 {answer}
@@ -54,7 +54,7 @@ Elle réalise ces fonctions de l'arbre fonctionnel :
 variantes de détail), en partant du concept initial puis en osant t'en éloigner : un pivot est bienvenu s'il sert mieux les
 besoins. Pour chacune : un titre court qui parle, le principe de fonctionnement en une phrase, une description (ce qu'on
 dessinerait sur la feuille : architecture, matériaux, ordres de grandeur), les avantages et les inconvénients face aux besoins et
-requirements ci-dessus. Nous allons ensuite les comparer en équipe dans une matrice de Pugh. Rends un seul bloc JSON :
+requirements ci-dessus. Nous allons ensuite les comparer en équipe dans une matrice de Pugh. {terms} Rends un seul bloc JSON :
 
 ```json
 {answer}
@@ -108,7 +108,7 @@ def api_prompt(ctx):
         "- {} {} : {}".format(c["code"], c["name"], ", ".join("F{}".format(n) for n in _numbers(ctx.conn, c["function_ids"])) or "—")
         for c in have) + "\n\n") if have else ""
     text = GUIDE_BRICKS.format(name=p["name"], description=(" — " + " ".join(p["description"].split())) if p["description"] else "",
-                               tree=_tree_text(ctx.conn, pid), existing=existing,
+                               tree=_tree_text(ctx.conn, pid), existing=existing, terms=terms.RULE_FR,
                                answer=json.dumps({"concepts": ANSWER["concepts"]}, ensure_ascii=False, indent=1))
     return {"prompt": text}
 
@@ -127,7 +127,7 @@ def api_sheet_prompt(ctx):
     have = S.rows(ctx.conn, pid, c["id"])
     reqs = _requirements(ctx.conn, pid) if common.is_enabled(ctx.conn, pid) else []
     text = GUIDE_SHEETS.format(
-        name=_project(ctx.conn, pid)["name"], code=C.code(c["number"]), brick=c["name"],
+        terms=terms.RULE_FR, name=_project(ctx.conn, pid)["name"], code=C.code(c["number"]), brick=c["name"],
         functions="\n".join("- F{} {}".format(fns[i]["number"], fns[i]["text"]) for i in fids if i in fns) or "- (aucune fonction liée)",
         reference=("Description de la brique : {}\n".format(c["description"]) if c["description"] else ""),
         initial=("Concept initial de l'équipe : « {} ».\n".format(c["initial_name"]) if c["initial_name"] else ""),

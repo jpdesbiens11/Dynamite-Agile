@@ -27,6 +27,9 @@
       const get = (name) => fetch("/i18n/" + name, { credentials: "same-origin" }).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
       for (let n = 1; n <= FILES; n += 1) parts.push(get("en_" + n + ".json"));
       for (let n = 1; n <= DEMO_FILES; n += 1) parts.push(get("demo_en_" + n + ".json"));
+      /* 0.60.108 (D-O-120): the English of the content of the Spaces this person opens, kept in the database (never in a file) */
+      parts.push(fetch("/api/i18n/spaces", { credentials: "same-origin" }).then((r) => (r.ok ? r.json() : {})).then((d) => d.pairs || {})
+        .catch(() => ({})));
       loading = Promise.all(parts).then((list) => {
         dict = new Map();
         list.forEach((part) => Object.keys(part).forEach((fr) => { if (part[fr] && norm(fr)) dict.set(norm(fr), part[fr]); }));
@@ -59,7 +62,7 @@
     }
     /* « F10 Mesurer les distances », « 🧪 TST-FUN-07 · Contournement… », « DEMO · ROVER — la démo… »: a code, then a known text;
        or pieces joined by « · » / « — » of which at least one is known */
-    const coded = key.match(/^(\S*?(?:[A-Z]{1,5}-?\d+[A-Z]?|DEMO)(?:\s*[·:—-])?\s+)(.+)$/);
+    const coded = key.match(/^((?:[^\sA-Za-zÀ-ÿ0-9]+\s+)?\S*?(?:[A-Z]{1,5}-?\d+(?:\.\d+)?[A-Z]?|DEMO)(?:\s*[·:—-])?\s+)(.+)$/);  // 0.60.108: « → CB-4.4 … »
     if (coded && dict.get(norm(coded[2]))) return lead + coded[1] + norm(dict.get(norm(coded[2]))) + trail;
     if (/ [·—] /.test(key)) {
       let any = false;
@@ -164,6 +167,13 @@
       out.push([(done.get(n) || [n.nodeValue])[0].trim(), n.nodeValue.trim()]);
     }
     return out;
+  };
+  /** 0.60.108: a Space's translations changed -- read the dictionary again and translate the screen with it. */
+  DA.i18nReload = function () {
+    dict = null; loading = null;
+    if (!on) return Promise.resolve();
+    stop(); on = true;
+    return load().then(() => { if (on && document.body) start(); });
   };
   DA.translateText = (text) => (dict && on ? translate(text) || text : text);  // for a script that builds text itself
 })();

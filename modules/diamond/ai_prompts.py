@@ -13,6 +13,7 @@ only (copy, paste): the platform calls no AI service.
 """
 import json
 
+from core import terms
 from core.errors import ApiError
 
 from . import actions as ACT
@@ -101,7 +102,7 @@ def intro(p, role, where):
     """« Tu es … » with the product; its description, when there is one, on its own line and kept short."""
     description = " ".join((p["description"] or "").split())
     return ["Tu es {}. Tu travailles avec l'équipe du produit « {} » dans l'outil Dynamite | Agile ({}). Ce que tu rends est relu par "
-            "l'équipe, puis importé.".format(role, p["name"], where)] + (["Le produit : " + description[:400] + ("…" if len(description) > 400 else "")]
+            "l'équipe, puis importé.".format(role, p["name"], where), terms.RULE_FR] + (["Le produit : " + description[:400] + ("…" if len(description) > 400 else "")]
                                                                        if description else []) + [""]
 
 

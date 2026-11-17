@@ -6,6 +6,8 @@ each one carries), the project risks and the DFMEA tests (certification, essais)
 current CSV. The assistant answers with the same CSV, which « Importer » (costs_import.py) reads back: a dry run first,
 then « Appliquer ». The prompt is in French (the content of the Space is), the CSV headers are those of the export.
 """
+from core import terms
+
 from . import costs as C
 from . import costs_budget as B
 from . import functions as F
@@ -32,6 +34,7 @@ Base, une de : {bases}. Une valeur estimée par toi est « Estimation » ; dis d
 ## Règles
 - Couvre chaque pièce de Diamond et chaque fonction : une fonction sans pièce coûteuse peut demander une ligne libre (assemblage, câblage, logiciel).
 - Pense aux essais et à la certification qu'exigent les essais clés et les risques ci-dessous (laboratoire accrédité, CEM, sécurité électrique, transport des piles…).
+- {terms}
 - Pas de taxes. Prix de l'année en cours. Reste réaliste pour une équipe de {team} personne(s) et {proto_qty} prototype(s).
 - Ne recopie pas le tableau de synthèse : la page calcule seule le budget, le coût par unité et la contingence ({contingency} %).
 
@@ -117,7 +120,7 @@ def prompt(conn, pid):
         name=project["name"], description=" — " + " ".join(project["description"].split()).rstrip(".") if project["description"] else "",
         categories=", ".join(C.CATEGORIES.values()), phases=", ".join(v for k, v in C.PHASES.items() if k),
         bases=", ".join(C.BASES.values()), currency=s["currency"], v1=v1, v2=v2, v3=v3, team=team or "quelques",
-        proto_qty=s["proto_qty"], contingency=s["contingency"], rate=s["labour_rate"], hours=C.labour_hours(conn, pid),
+        terms=terms.RULE_FR, proto_qty=s["proto_qty"], contingency=s["contingency"], rate=s["labour_rate"], hours=C.labour_hours(conn, pid),
         notes=" ".join((s["notes"] or "—").split()), count=len(scenes),
         scenes="\n\n".join(story_ai._scene_text(i, sc) for i, sc in enumerate(scenes)) or "(aucune scène)",
         tree=_tree(conn, pid), parts=_parts(conn, pid), risks=_risks(conn, pid), tests=_tests(conn, pid),

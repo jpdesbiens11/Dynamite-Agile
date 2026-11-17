@@ -173,6 +173,11 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.108** (2026-11-16) : lot noyau v0.38 — **FR | EN du contenu d'un Space** (D-O-120) : dictionnaire français → anglais par
+  Space dans la base (`core/space_i18n.py`, migration core 20 `space_i18n`, crochet de module `i18n_texts`), chargé par
+  `static/js/tools/i18n_dom.js` en EN, géré dans la fiche du Space (`static/js/admin_space_i18n.js` : Copier pour l'IA, Importer,
+  Exporter) ; **termes techniques en anglais dans tout contenu** (D-O-121, `core/terms.py` dans chaque prompt IA)
+  (`tests/test_space_i18n.py`).
 - **0.60.107** (2026-11-16) : **Timesheet — Budget Lines repliables** (D-O-119) : chevron par Funding Space et par sous-projet
   (libellé « <sous-projet> · <tâche> ») dans l'export, « Spaces et organismes » et la semaine (`static/js/timesheet/fold.js`,
   état dans le navigateur) ; export Project Starter des codes par sous-projet (`starter_export._code_groups`)

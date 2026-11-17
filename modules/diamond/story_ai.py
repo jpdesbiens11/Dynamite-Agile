@@ -12,7 +12,7 @@ POST …/import        that file, checked by core/starter_diamond.py (the same r
 import json
 import re
 
-from core import audit
+from core import audit, terms
 from core.errors import ApiError
 
 from . import functions as F
@@ -54,7 +54,7 @@ du module Diamond, que l'équipe relira et corrigera.
 Réponds **uniquement** par un bloc ```json contenant un objet `{{"diamond": {{…}}}}` avec les listes `functions`, `ports`,
 `flows`, `parts`, `risks`, `dfmea` et `concepts`. Les `ref` sont de courts identifiants uniques (F1, F2… ; E1, S1… pour les ports) ;
 `parent` est la `ref` du parent (null pour la primaire et les fonctions hors arbre). N'écris pas `story`, ni `test`.
-{owners}Retire une clé plutôt que de la laisser vide.
+{owners}Retire une clé plutôt que de la laisser vide. {terms}
 
 {values}
 
@@ -106,7 +106,7 @@ def prompt(conn, pid):
     description = " — " + " ".join(project["description"].split()) if project["description"] else ""
     return GUIDE.format(name=project["name"], description=description, count=len(scenes),
                         scenes="\n\n".join(_scene_text(i, s) for i, s in enumerate(scenes)) or "(aucune scène pour l'instant)",
-                        owners=owners, values=values, example=json.dumps({"diamond": example}, ensure_ascii=False, indent=1))
+                        owners=owners, terms=terms.RULE_FR, values=values, example=json.dumps({"diamond": example}, ensure_ascii=False, indent=1))
 
 
 def api_prompt(ctx):

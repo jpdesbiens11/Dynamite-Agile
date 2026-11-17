@@ -107,6 +107,7 @@
     body.append(el("h3", null, "Contenu par onglet"),
       table(["Onglet", "Contenu"], card.content.map((c) => el("tr", null, el("td", null, c.tab),
         el("td", null, c.count ? c.count + " " + c.unit : el("span", { class: "muted" }, "vide — structure prête"))))));
+    if (DA.spaceI18n) body.append(DA.spaceI18n.section(p));  // 0.60.108 (D-O-120): FR | EN of the Space's content
     const members = el("div");
     body.append(members);
     if (DA.adminMembersPanel) members.append(await DA.adminMembersPanel(p, reload));
