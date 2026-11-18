@@ -1,4 +1,5 @@
 {
+"Bilan de puissance avec une marge d'au moins 20 % sur chaque rail d'alimentation": "Power budget with a margin of at least 20% on each supply rail",
 "Bilan du MVP 0 : persévérer ou pivoter": "MVP 0 review: persevere or pivot",
 "Bilan du MVP 1 : persévérer ou pivoter": "MVP 1 review: persevere or pivot",
 "Bilan du MVP 2": "MVP 2 review",
@@ -1373,6 +1374,5 @@
 "En faire la fonction primaire": "Make it the primary function",
 "En retard": "Overdue",
 "En service : ": "In service: ",
-"En une phrase :": "In one sentence:",
-"En vrac": "Loose"
+"En une phrase :": "In one sentence:"
 }

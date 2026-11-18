@@ -222,6 +222,7 @@
 " ne sera jamais redonné.": " will never be shown again.",
 " ne sera jamais redonné. L'action est journalisée.": " will never be given again. The action is logged.",
 " non attribuée(s)": " unassigned",
+" notée": " rated",
 " nouveau(x)": " new",
 " on met le site dans une boîte (un fichier zip), on donne la boîte à Claude avec une lettre qui dit quoi changer, Claude rend une boîte neuve, et on la remet dans le site. Tout ce que les gens ont écrit dans le site reste à sa place : seule la « mécanique » change.": " you put the site in a box (a zip file), give the box to Claude with a letter saying what to change, Claude returns a new box, and you put it back into the site. Everything people wrote in the site stays in place: only the “mechanics” change.",
 " opérations de ": " operations of ",
@@ -1373,6 +1374,5 @@
 "Bienvenue dans la mine": "Welcome to the mine",
 "Bienvenue, barre du haut et réglages": "Welcome, top bar and settings",
 "Bilan Build-Measure-Learn (persévérer ou pivoter)": "Build-Measure-Learn review (persevere or pivot)",
-"Bilan d'ensemble, points forts, axes de progrès…": "Overall review, strengths, areas for improvement…",
-"Bilan de puissance avec une marge d'au moins 20 % sur chaque rail d'alimentation": "Power budget with a margin of at least 20% on each supply rail"
+"Bilan d'ensemble, points forts, axes de progrès…": "Overall review, strengths, areas for improvement…"
 }

@@ -215,6 +215,28 @@ class CompetenciesTest(unittest.TestCase):
         finally:
             self.admin.put("/api/admin/features", {"features": {"diamond_competencies": True}})
 
+    def test_10_columns_of_the_space(self):
+        """0.60.117 (D-O-130): a Space keeps the 4 or 5 competencies it needs as columns of its grid."""
+        data = self.data()
+        rated = {c for ln in data["lines"] for c in ln["ratings"]}
+        self.assertEqual(set(data["columns"]), rated)  # by default: what the lines rate
+        data = self.editor.post(self.base + "/competencies/columns", {"code": "CFD"})
+        self.assertEqual(data["columns"][-1], "CFD")  # a column added stays before any rating
+        self.assertNotIn("CFD", rated)
+        line = data["lines"][0]
+        self.editor.put(self.base + "/competencies/rating", {"function_id": line["function_id"], "code": "THERM", "rating": 3})
+        before = sum(1 for ln in self.data()["lines"] if "THERM" in ln["ratings"])
+        data = self.editor.post(self.base + "/competencies/columns/THERM/remove", {})
+        self.assertNotIn("THERM", data["columns"])
+        self.assertFalse(any("THERM" in ln["ratings"] for ln in data["lines"]))
+        with db.connect() as conn:
+            row = conn.execute("SELECT details FROM audit_log WHERE action = 'diamond_competency_column_remove' ORDER BY id DESC").fetchone()
+        self.assertIn('"ratings": {}'.format(before), row["details"])
+        self.fails(404, self.editor.post, self.base + "/competencies/columns/THERM/remove", {})
+        data = self.editor.post(self.base + "/competencies/columns", {"code": "THERM"})
+        self.assertEqual(data["columns"][-1], "THERM")
+        self.assertIn("inconnue", self.fails(400, self.editor.post, self.base + "/competencies/columns", {"code": "NOPE"}))
+
     def test_08_turned_off_like_the_pfmea(self):
         self.admin.put("/api/admin/features", {"features": {"diamond_competencies": False}})
         try:

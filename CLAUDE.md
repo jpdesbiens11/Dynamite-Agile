@@ -173,6 +173,8 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.117** (2026-11-18) : colonnes de la grille des compétences choisies par Space (`diamond_competency_columns`, migration diamond 19,
+  « + » / « Retirer de la grille »), l'arbre défile dans sa boîte avec les titres des colonnes collés en haut (`.dm-tree-scroll`) (D-O-130).
 - **0.60.116** (2026-11-17) : **Compétences et équipe** dans Diamond (D-O-129) : grille 1 à 5 par ligne fonction → brique dans l'arbre
   (`static/js/diamond/competency_grid.js`), page de synthèse et personnes à embaucher (`competencies.js`, `modules/diamond/competencies.py`),
   catalogue de plateforme et pages BDC (`competency_catalog.py`, `competency_bdc.py`, `data_competencies.py`, icônes `tools/competency_icons.py`),

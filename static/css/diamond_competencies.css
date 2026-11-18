@@ -12,9 +12,19 @@
 .dm-tree-work:not(.dm-with-panel) { grid-template-columns: minmax(0, 1fr); }
 
 /* the grid of the tree */
-.dm-heads:has(.dm-cg-head) { height: 2.1rem; }
-.dm-cg-head { position: absolute; top: 0; display: flex; align-items: center; }
-.dm-cg-icon { width: 34px; display: grid; place-items: center; }
+/* 0.60.117 (D-O-130): the tree scrolls in its own box, the titles of its columns (functions, bricks, competencies) stay on top */
+.dm-tree-scroll { max-height: calc(100vh - 7rem); overflow: auto; }
+.dm-tree-scroll > .dm-heads { position: sticky; top: 0; z-index: 6; background: var(--surface); border-bottom: 1px solid var(--line); }
+.dm-heads:has(.dm-cg-head) { height: 2.9rem; }
+.dm-heads:has(.dm-cg-head) .dm-head { top: .35rem; }
+.dm-cg-head { position: absolute; top: .15rem; display: flex; align-items: flex-start; }
+.dm-cg-icon { width: 34px; display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 0; border: 0; background: transparent;
+  color: var(--ink); cursor: pointer; border-radius: var(--radius-sm); }
+.dm-cg-icon:disabled { cursor: default; }
+.dm-cg-icon:not(:disabled):hover { background: color-mix(in srgb, var(--acc) 16%, transparent); }
+.dm-cg-icon:focus-visible { outline: 3px solid var(--acc); outline-offset: -2px; }
+.dm-cg-code { font-family: var(--mono); font-size: .62rem; font-weight: 700; line-height: 1; color: var(--muted); letter-spacing: -.02em; }
+.dm-cg-colmenu { height: auto; gap: .4rem; }
 .dm-cg-add { width: 34px; height: 28px; margin-left: 6px; padding: 0 .2rem; font-weight: 700; text-align: center; cursor: pointer; }
 .dm-edge-comp { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 3 4; }
 .dm-cg-row { position: absolute; display: flex; height: 30px; border: 1.5px dashed var(--muted); border-radius: var(--radius-sm);
@@ -81,4 +91,4 @@ p.dm-frozen-note { display: block; }
 .dm-cc-icons button { padding: .25rem; border: 1.5px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); cursor: pointer; }
 .dm-cc-icons button[aria-checked="true"] { border-color: var(--acc); background: color-mix(in srgb, var(--acc) 16%, var(--surface)); }
 @media (max-width: 760px) { .dm-cc-cols { grid-template-columns: 1fr; } .dm-cg-scale { margin-left: 0; } }
-.dm-heads:has(.dm-cg-head) .dm-head-concept { max-width: 196px; top: 0; line-height: 1.15; }
+.dm-heads:has(.dm-cg-head) .dm-head-concept { max-width: 196px; top: .2rem; line-height: 1.15; }

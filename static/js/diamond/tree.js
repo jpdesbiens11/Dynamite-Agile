@@ -14,7 +14,7 @@
     const compOn = D.partOn("competencies");  // 0.60.116: « Compétences et équipe » may be turned off (⚙ Admin → Modules et fonctions)
     const [data, concepts, comp] = await Promise.all([api.get(D.base(ctx) + "/functions"), api.get(D.base(ctx) + "/concepts"),
       compOn ? api.get(D.base(ctx) + "/competencies") : null]);
-    const state = { data, concepts, comp, compCols: [], selected: null, selectedConcept: null, list: false };
+    const state = { data, concepts, comp, selected: null, selectedConcept: null, list: false };
     const holder = el("div", { class: "dm-page" });
     page.append(holder);
     const lines = async () => { if (compOn) state.comp = await api.get(D.base(ctx) + "/competencies"); };  // 0.60.116: the lines follow the bricks
@@ -26,11 +26,13 @@
       } catch (err) { toast(err.message, "error"); }
       D.later(() => draw(holder, ctx, state, run));
     };
-    state.rate = async (fid, code, rating) => {  // 0.60.116 (D-O-129): one cell of the grid of the competencies
-      try { state.comp = await api.put(D.base(ctx) + "/competencies/rating", { function_id: fid, code, rating }); }
-      catch (err) { toast(err.message, "error"); }
+    const gridCall = async (call) => {  // 0.60.116 (D-O-129): the grid of the competencies; 0.60.117 (D-O-130): its columns
+      try { state.comp = await call(); } catch (err) { toast(err.message, "error"); }
       D.later(() => draw(holder, ctx, state, run));
     };
+    state.rate = (fid, code, rating) => gridCall(() => api.put(D.base(ctx) + "/competencies/rating", { function_id: fid, code, rating }));
+    state.addCol = (code) => gridCall(() => api.post(D.base(ctx) + "/competencies/columns", { code }));
+    state.removeCol = (code) => gridCall(() => api.post(D.base(ctx) + "/competencies/columns/" + code + "/remove", {}));
     const run = async (path, body, method) => {
       try {
         state.data = await api[method || "post"](D.base(ctx) + path, body || {});
@@ -73,8 +75,8 @@
     };
     const hasPrimary = items.some((f) => f.is_primary);
     const tree = hasPrimary ? D.drawTree({ items, selected: state.selected, editable, onSelect: select, onDrop, onKey,
-      concepts: bricks, selectedConcept: state.selectedConcept, onConcept, comp: state.comp, compCols: state.compCols,
-      onRate: state.rate, onAddCol: (code) => { state.compCols.push(code); D.later(() => draw(holder, ctx, state, run)); } })
+      concepts: bricks, selectedConcept: state.selectedConcept, onConcept, comp: state.comp,
+      onRate: state.rate, onAddCol: state.addCol, onRemoveCol: state.removeCol })
       : el("div", { class: "empty" }, el("p", null, "Aucune fonction primaire. Choisissez-en une parmi les fonctions hors arbre "
         + "(« En faire la fonction primaire »), ou créez-la."), editable ? el("button", { type: "button", class: "btn btn-primary",
         onclick: () => ask("Fonction primaire", (text) => run("/functions", { text, primary: true }, "post")) }, "Créer la fonction primaire") : null);
@@ -82,7 +84,7 @@
     const brick = bricks.find((c) => c.id === state.selectedConcept);
     holder.append(el("div", { class: "dm-work dm-tree-work" + (chosen || brick ? " dm-with-panel" : "") }, tree,
       brick ? D.conceptPanel(state, brick, state.crun, editable, ctx) : chosen ? D.panel(state, chosen, run, editable) : null));
-    if (hasPrimary && state.comp) holder.append(D.competencyLegend(ctx, state.comp, D.competencyColumns(state.comp, state.compCols)));
+    if (hasPrimary && state.comp) holder.append(D.competencyLegend(ctx, state.comp, D.competencyColumns(state.comp)));
     holder.append(outside(state, holder, ctx, run, editable, select));
   }
 
@@ -107,7 +109,7 @@
           + "la recherche s'arrête (« Défiger » avec une raison pour la reprendre)."),
         withGrid ? el("li", null, "À droite, chaque ligne fonction → brique note les compétences nécessaires de 1 (presque pas) à 5 (au cœur "
           + "du développement) : un clic sur une case, ou les touches 1 à 5. « + » ajoute une compétence ; « ↔ IA » remplit la "
-          + "grille d'un coup. La somme est dans « Compétences et équipe ».") : null));
+          + "grille d'un coup. Gardez les 4 ou 5 compétences utiles : cliquez une icône du haut pour la retirer. La somme est dans « Compétences et équipe ».") : null));
   }
 
   function advice(checks) {

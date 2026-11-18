@@ -1,4 +1,14 @@
-# Journal de mise à jour — 0.60.116
+# Journal de mise à jour — 0.60.117
+
+- **Version :** 0.60.116 → 0.60.117 (2026-11-18)
+- **Changements :**
+  1. **Diamond : chaque Space choisit les colonnes de sa grille de compétences** (D-O-130).
+  2. **Diamond : les titres des colonnes de l'arbre restent visibles en descendant** (D-O-130).
+- **Base de données :** migration diamond 19 (additive : une table).
+
+## Précédent
+
+### Journal de mise à jour — 0.60.116
 
 - **Version :** 0.60.115 → 0.60.116 (2026-11-17)
 - **Changements :**
@@ -8,8 +18,6 @@
   4. **Diamond : aide de l'arbre dans une bulle, au-dessus de l'arbre** (D-O-129).
   5. **Diamond : export Excel et Word de la synthèse des compétences** (D-O-129).
 - **Base de données :** migration diamond 18 (additive : trois tables, quatre colonnes de `diamond_concepts`).
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.115
 

@@ -24,7 +24,7 @@ AUTO_RE = re.compile(r"^Ne réalise pas « .* » : perte, réalisation partielle
 BIG = {k: 10000 for k in ("functions", "ports", "flows", "parts", "risks", "dfmea")}
 # children first: the order in which the rows of a Space's Diamond are removed
 WIPE = ("diamond_pugh_fscores", "diamond_pugh_fcriteria", "diamond_pugh_option_sheets", "diamond_pugh_scope",
-        "diamond_concept_sheets", "diamond_concept_functions", "diamond_concepts", "diamond_competency_ratings", "diamond_part_functions", "diamond_positions", "diamond_flows", "diamond_ports", "diamond_parts", "diamond_dfmea",
+        "diamond_concept_sheets", "diamond_concept_functions", "diamond_concepts", "diamond_competency_ratings", "diamond_competency_columns", "diamond_part_functions", "diamond_positions", "diamond_flows", "diamond_ports", "diamond_parts", "diamond_dfmea",
         "diamond_risks", "diamond_functions")
 
 
