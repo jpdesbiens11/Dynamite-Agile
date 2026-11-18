@@ -1,0 +1,55 @@
+/* Diamond · Golden Nuggets (0.60.16, D-O-028; one layout for the four parts, 0.60.121, D-O-134) -- tokens only. A card takes
+   its colour family from .dm-c1 … .dm-c8: the highlighters of the Carnet theme, the state colours elsewhere. */
+.dm-c1 { --fam: var(--hl-yellow, var(--warn)); }
+.dm-c2 { --fam: var(--hl-violet, var(--exploration)); }
+.dm-c3 { --fam: var(--hl-cyan, var(--agile)); }
+.dm-c4 { --fam: var(--hl-orange, var(--dynamite)); }
+.dm-c5 { --fam: var(--hl-green, var(--ok)); }
+.dm-c6 { --fam: var(--hl-pink, var(--danger)); }
+.dm-c7 { --fam: var(--hl-blue, var(--agile-strong)); }
+.dm-c8 { --fam: var(--hl-teal, var(--acc)); }
+
+.dm-nug-page { display: flex; flex-direction: column; gap: 1rem; }
+.dm-nug-page .subtabs { overflow-y: hidden; }
+.dm-nug-count { margin-left: .4rem; padding: 0 .4rem; line-height: 1.3; border-radius: 999px; font-size: .75rem; background: var(--surface-2); color: var(--muted); }
+.dm-nug-lead { max-width: 95ch; }
+.dm-nug-lead h2 { margin: 0 0 .3rem; font-size: 1.2rem; }
+.dm-nug-lead p { margin: 0 0 .3rem; line-height: 1.5; }
+.dm-nug-source { font-size: .82rem; color: var(--muted); }
+.dm-nug-bar { align-items: center; gap: .6rem 1rem; }
+.dm-nug-bar input[type=search] { min-width: 16rem; flex: 1 1 16rem; max-width: 26rem; }
+.dm-nug-tags { display: flex; flex-wrap: wrap; gap: .35rem; }
+.dm-nug-tag { display: inline-flex; align-items: center; gap: .35rem; padding: .2rem .65rem; border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface); color: var(--ink); font: inherit; font-size: .8rem; cursor: pointer; }
+.dm-nug-tag:hover, .dm-nug-tag:focus-visible { border-color: var(--fam, var(--acc)); }
+.dm-nug-tag.active { border-color: var(--fam, var(--acc)); background: color-mix(in srgb, var(--fam, var(--acc)) 26%, var(--surface)); font-weight: 650; }
+.dm-nug-n { font-size: .72rem; color: var(--muted); }
+.dm-nug-dot { width: .65rem; height: .65rem; border-radius: 50%; background: var(--fam, var(--acc)); flex: none; }
+
+.dm-nug-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr)); gap: 1rem; align-items: start; }
+.dm-nug { display: flex; flex-direction: column; gap: .45rem; padding: .85rem 1rem .9rem; background: var(--surface); border: 1px solid var(--line);
+  border-left: 6px solid var(--fam, var(--acc)); border-radius: var(--radius-lg); box-shadow: var(--shadow); }
+.dm-nug h3 { margin: 0; font-size: 1rem; line-height: 1.3; }
+.dm-nug h4 { margin: .4rem 0 0; font-size: .85rem; }
+.dm-nug p { margin: 0; font-size: .9rem; line-height: 1.45; }
+.dm-nug-top { display: flex; align-items: center; flex-wrap: wrap; gap: .45rem; }
+.dm-nug-fam { display: inline-flex; align-items: center; gap: .35rem; padding: .05rem .5rem; border-radius: 999px; font-size: .74rem; font-weight: 600;
+  background: color-mix(in srgb, var(--fam, var(--acc)) 20%, var(--surface)); color: var(--ink); }
+.dm-nug-idea { color: var(--ink); }
+.dm-nug-more summary { cursor: pointer; font-size: .82rem; font-weight: 600; color: var(--agile); width: fit-content; }
+.dm-nug-more summary:focus-visible { outline: 2px solid var(--fam, var(--acc)); outline-offset: 2px; }
+.dm-nug-more[open] summary { margin-bottom: .45rem; }
+.dm-nug-more p + p { margin-top: .45rem; }
+.dm-nug-ex { color: var(--muted); }
+.dm-nug-apply { padding: .45rem .6rem; border-radius: var(--radius-sm); background: color-mix(in srgb, var(--fam, var(--acc)) 13%, var(--surface-2)); }
+.dm-nug-h2 { margin: .6rem 0 0; font-size: 1.1rem; }
+.dm-nug-book-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); gap: 1rem; margin-top: .6rem; }
+.dm-nug-cite { font-style: italic; }
+.dm-nug-refs { margin: .2rem 0 0; padding-left: 1.1rem; font-size: .85rem; line-height: 1.45; }
+.dm-nug-refs li + li { margin-top: .25rem; }
+html[data-sketch] .dm-nug { border-radius: var(--r-card); border-color: var(--graphite); border-left-color: var(--fam, var(--acc)); box-shadow: var(--shadow-sketch); }
+html[data-term] .dm-nug-fam { background: color-mix(in srgb, var(--fam, var(--acc)) 28%, var(--surface)); }
+@media (max-width: 640px) {
+  .dm-nug-bar input[type=search] { min-width: 0; max-width: none; }
+  .dm-nug-book-grid { grid-template-columns: minmax(0, 1fr); }
+}

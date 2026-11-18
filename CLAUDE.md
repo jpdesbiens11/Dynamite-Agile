@@ -173,6 +173,9 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.121** (2026-11-18) : Golden Nuggets — 4e partie « Disruptive Innovation » (Christensen : 20 concepts et pratiques, le
+  livre et ses suites, 12 études de cas ; `static/js/diamond/nuggets_disruption.js`) et une grille de cartes colorées commune aux
+  quatre parties (`nuggets.js`, `static/css/diamond_nuggets.css`) (D-O-134).
 - **0.60.120** (2026-11-18) : lot noyau v0.39 — **« Changements » d'un Space** (`core/changes.py`, `core/changes_api.py`,
   `#/changes/<SPACE>`, `static/js/tools/changes.js`, `changes_link.js`) : chaque changement à la main ou par une IA, avec son lien, les
   initiales et la source gardées par le journal (migration core 21, `audit.source("ai")`), crochet de module `change_link`, section
