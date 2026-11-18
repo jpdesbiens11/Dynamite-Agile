@@ -1,4 +1,5 @@
 {
+"Liens vidés": "Links cleared",
 "Lier": "Link",
 "Lieu à planifier": "Location to schedule",
 "Lieux": "Locations",
@@ -944,6 +945,7 @@
 "Phrase de passe, de nouveau": "Passphrase, again",
 "Pi en point d'accès et page web": "Pi as access point and web page",
 "Pic de courant du moteur sur la même batterie": "Motor current peak on the same battery",
+"Pictogramme inconnu « ": "Unknown pictogram « ",
 "Pictogrammes : une liste est attendue. Correctif : rechargez la page.": "Pictograms: a list is expected. Fix: reload the page.",
 "Pied à coulisse\nJauge de rayon": "Caliper\nRadius gauge",
 "Pilote choisi à 20 kHz ou plus": "Driver chosen at 20 kHz or higher",
@@ -1340,7 +1342,5 @@
 "RVR-3160-01 rév. A": "RVR-3160-01 rev. A",
 "RVR-5000 rév. D (schéma électrique)": "RVR-5000 rev. D (wiring diagram)",
 "RVR-SW-001 v1.4 (spécification logicielle)": "RVR-SW-001 v1.4 (software specification)",
-"Racontez l'utilisation du produit, scène par scène : qui, où, avec quoi, ce qui se passe et ce ": "Tell how the product is used, scene by scene: who, where, with what, what happens and what ",
-"Racontez l'utilisation du produit, scène par scène : qui, où, avec quoi, ce qui se passe et ce qu'on ressent. On diverge en équipe, sans bonne ni mauvaise réponse, avant l'arbre fonctionnel. Un assistant IA s'en servira ensuite pour proposer l'arbre et le reste de Diamond.": "Tell the story of using the product, scene by scene: who, where, with what, what happens and how it feels. Diverge as a team, with no right or wrong answer, before the functional tree. An AI assistant will then use it to propose the tree and the rest of Diamond.",
-"Radio module pre-certified ISED / FCC avec l'antenna et le placement de son integration guide": "ISED / FCC pre-certified radio module with the antenna and the placement from its integration sheet"
+"Racontez l'utilisation du produit, scène par scène : qui, où, avec quoi, ce qui se passe et ce ": "Tell how the product is used, scene by scene: who, where, with what, what happens and what "
 }

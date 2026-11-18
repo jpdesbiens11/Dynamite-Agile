@@ -74,7 +74,8 @@
       "aria-label": "Étiquette du pictogramme" });
     label.addEventListener("change", () => { item.t = label.value.trim(); onChange(); });
     return el("div", { class: "dm-story-tools", "data-new": "0.60.51-story-tools" },
-      el("span", { class: "dm-story-tools-name" }, D.picto(item.p), D.PICTO_NAMES[item.p] || item.p),
+      el("span", { class: "dm-story-tools-name" }, D.picto(item.p),
+        D.PICTO_NAMES[item.p] || "Pictogramme inconnu « " + item.p + " » : retirez-le et choisissez-en un dans la palette"),
       el("label", { class: "dm-story-tools-label" }, "Étiquette ", label),
       el("div", { class: "dm-story-sizes", role: "group", "aria-label": "Taille" }, SIZES.map(([s, name]) => el("button", {
         type: "button", class: "btn btn-small", "aria-pressed": String(item.s === s), onclick: () => { item.s = s; onChange(); } }, name))),

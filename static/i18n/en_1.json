@@ -313,6 +313,7 @@
 " · symboles : ": " · symbols: ",
 " · échantillon court": " · short sample",
 " » : Completed.": " ”: Completed.",
+" » : retirez-le et choisissez-en un dans la palette": " »: remove it and pick one from the palette",
 " » ? Bob ne pourra plus lire l'outil avec cette clé.": " ”? Bob will no longer be able to read the tool with this key.",
 " » ? L'action est journalisée.": " ” ? The action is logged.",
 " » ? La pièce reste dans Diamond.": " ”? The part stays in Diamond.",
@@ -1341,6 +1342,5 @@
 "Battery LiPo gonflée, risque d'incendie : la coupure à 3,4 V par élément est une requirement de sécurité (REQ-19).": "Swollen LiPo battery, fire risk: the 3.4 V per cell cut-off is a safety requirement (REQ-19).",
 "Battery module de cylindrical cells en parallèle": "Battery module of cylindrical cells in parallel",
 "Before drawing a single part, the team tells how the product is used, scene by scene: Sam opens the box, builds, codes, drives. « Copier pour l'IA » sends this story to an AI assistant, which drafts a first function tree in seconds.": "Before drawing a single part, the team tells how the product is used, scene by scene: Sam opens the box, builds, codes, drives. “Copy for AI” sends this story to an AI assistant, which drafts a first function tree in seconds.",
-"Bench B-60 et alimentation de référence": "Bench B-60 and reference power supply",
-"Bench B-60, référence": "Bench B-60, reference"
+"Bench B-60 et alimentation de référence": "Bench B-60 and reference power supply"
 }

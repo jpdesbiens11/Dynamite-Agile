@@ -53,7 +53,7 @@ class StoryPictosAiTest(unittest.TestCase):
 
     def test_01_catalogue_names_and_military_group(self):
         from modules.diamond import story, story_catalog as C
-        self.assertEqual(len(C.KEYS), 56)
+        self.assertEqual(len(C.KEYS), 57)
         self.assertEqual(tuple(story.PICTOS), C.KEYS)
         for key in MILITARY:
             self.assertIn(key, C.KEYS)
@@ -109,6 +109,27 @@ class StoryPictosAiTest(unittest.TestCase):
             self.assertIn("`diamond.story[]`", text)
         clean = starter_diamond._story({"story": [{"title": "Expédition", "items": ["crate", {"p": "Camion"}]}]})
         self.assertEqual([i["p"] for i in clean[0]["items"]], ["colis", "camion"])
+
+    def test_06_fixed_wing_and_keys_kept_from_another_install(self):
+        """0.60.115 (D-O-128): « aile » (Voilure fixe) joins the library; a stored key the library does not have shows « ? »
+        with its word instead of an empty spot -- on screen, in Word, and the scene can still be saved."""
+        from core import db
+        from modules.diamond import story, story_catalog as C, story_figure
+        self.assertIn("aile", C.KEYS)
+        self.assertEqual([C.resolve(w) for w in ("fixed-wing", "UAV", "Voilure fixe", "ailes")], ["aile"] * 4)
+        self.assertIn("aile — Voilure fixe", self.admin.get(self.base + "/rt/prompt?sections=story&mode=review")["prompt"])
+        self.assertIn("aile", story_figure.pictos())
+        sid = self.admin.post(self.base + "/story/scenes", {"title": "Autre installation"})["created"]
+        items = [{"p": "zz-engin", "t": "Cruise ~2 h", "x": 50, "y": 50, "s": 2, "f": 0},
+                 {"p": "zz-retour", "t": "", "x": 20, "y": 60, "s": 2, "f": 0}, {"p": "fixed-wing", "t": "", "x": 80, "y": 30, "s": 2, "f": 0}]
+        with db.connect() as conn:
+            conn.execute("UPDATE diamond_story_scenes SET items = ? WHERE id = ?", (json.dumps(items), sid))
+        scene = next(s for s in self.admin.get(self.base + "/story")["scenes"] if s["id"] == sid)
+        self.assertEqual([(i["p"], i["t"]) for i in scene["items"]], [("question", "Cruise ~2 h"), ("question", "zz-retour"), ("aile", "")])
+        self.admin.patch(self.base + "/story/scenes/{}".format(sid), {"items": scene["items"]})  # saved again, no refusal
+        self.assertTrue(story_figure.render(dict(scene, items=items), fit=True))  # unknown keys drawn as « ? »
+        js = (BASE_DIR / "static/js/diamond/story_pictos.js").read_text("utf-8")
+        self.assertIn('NAMES[key] ? key : "question"', js)
 
     def test_05_buttons_that_rt_already_does_are_gone(self):
         js = BASE_DIR / "static/js/diamond"
