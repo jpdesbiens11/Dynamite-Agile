@@ -31,6 +31,7 @@ from .bot import bot_summary  # noqa: F401  (Bob le mineur, core/bot.py, 0.60.36
 from .actions import dashboard  # noqa: F401  (core dashboard hook, 0.60.38)
 from .change_link import change_link  # noqa: F401  (« Changements », core lot v0.39, 0.60.120)
 from . import migrations_a, migrations_b  # noqa: E402
+from . import pdf_pages  # noqa: E402  (0.60.123, D-O-136)
 from . import ai_io, ai_prompts, ai_prompts_process, cp_io, dfmea_io, pfmea_io  # noqa: E402,F401 (0.60.104, D-O-116)
 from . import concept_ai, concept_pugh, concept_sheets, concepts  # noqa: E402 (0.60.105, D-O-117)
 from . import rt  # noqa: E402 (0.60.111, D-O-124: « ↔ IA », the round trip of every page)
@@ -219,6 +220,7 @@ ROUTES = [
     ("GET", P + r"/rt/sections", rt.api_sections, "user"),  # 0.60.111 (D-O-124): « ↔ IA » on every Diamond page
     ("GET", P + r"/rt/prompt", rt.api_prompt, "user"),
     ("GET", P + r"/rt/export\.json", rt.api_export, "user"),
+    ("POST", P + r"/pdf", pdf_pages.api_pdf, "user"),  # 0.60.123 (D-O-136): « PDF » next to « ↔ IA »
     ("POST", P + r"/rt/import", rt.api_import, "user"),
     ("POST", P + r"/dfmea/from-tree", dfmea.api_from_tree, "user"),
     ("POST", P + r"/dfmea/from-risks", dfmea.api_from_risks, "user"),

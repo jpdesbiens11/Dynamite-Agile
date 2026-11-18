@@ -11,7 +11,8 @@
 
   const SHELL = {
     module: "diamond", title: "Diamond", home: "ftree", issueNav: "ftree", noCreate: true, mark,
-    headTools: (ctx) => (DA.diamond.rtButton ? DA.diamond.rtButton(ctx) : null),  // 0.60.111 (D-O-124): « ↔ IA » on every page
+    // 0.60.111 (D-O-124): « ↔ IA » on every page; 0.60.123 (D-O-136): « PDF » right next to it
+    headTools: (ctx) => [DA.diamond.rtButton ? DA.diamond.rtButton(ctx) : null, DA.diamond.pdfButton ? DA.diamond.pdfButton(ctx) : null],
     /* 0.60.105 (D-O-117): pages in groups that fold; the Design tools of Tools (Idéation, Pugh, Kepner-Tregoe) now live under
        « Concept / Brique technologique », right after the functional structure */
     nav: [

@@ -123,5 +123,32 @@
           el("h3", null, "Le livre en bref"), book.summary.map((s) => el("p", null, s)))));
   };
 
+  /* 0.60.121 → PDF (0.60.123, D-O-136): the four parts as one document -- the same cards, colours and families, then the book
+     and its case studies (pdf.js sends it; modules/diamond/pdf_pages.py checks and lays it out) */
+  D.pdfBuilders = D.pdfBuilders || {};
+  D.pdfBuilders.nuggets = () => {
+    const N = D.NUGGETS;
+    const blocks = [{ type: "p", text: "Les grands principes à appliquer pour concevoir et innover : penser à partir des premiers principes, "
+      + "l'algorithme de conception et les règles de SpaceX et Tesla, et la disruptive innovation de Clayton Christensen." }];
+    const cardOf = (part, item, i, labels) => {
+      const fam = part.fams.find(([k]) => k === part.fam(item, i)) || part.fams[0];
+      return { type: "card", code: part.code + (i + 1), title: item.title.replace(/^\d+\.\s*/, ""), tag: fam[1], color: fam[2], idea: item.idea || "",
+        details: [[labels[0], item.example || ""], [labels[1], item.apply || ""]].filter((d) => d[1]) };
+    };
+    parts().forEach((part) => {
+      blocks.push({ type: "h", level: 1, text: part.title }, { type: "p", text: part.lead }, { type: "note", text: part.source });
+      part.items.forEach((item, i) => blocks.push(cardOf(part, item, i, part.labels)));
+      if (part.key !== "disruption") return;
+      const B = N.BOOK;
+      blocks.push({ type: "h", level: 2, text: "Le livre et ses suites" }, { type: "p", text: B.reference }, { type: "note", text: B.author },
+        { type: "h", level: 3, text: "Pour aller plus loin" }, { type: "ul", items: B.more }, { type: "h", level: 3, text: "Le livre en bref" });
+      B.summary.forEach((t) => blocks.push({ type: "p", text: t }));
+      blocks.push({ type: "h", level: 2, text: "Les études de cas du livre (" + N.CASES.length + ")" });
+      N.CASES.forEach((c, i) => blocks.push({ type: "card", code: "C" + (i + 1), title: c.title, tag: c.sector, color: 8, idea: c.apply,
+        details: [["Ce qui s'est passé", c.example]] }));
+    });
+    return blocks;
+  };
+
   A.views.nuggets = view;
 })();
