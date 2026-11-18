@@ -16,3 +16,10 @@ def search(conn, projects, q):
         if h:
             hits.append(h)
     return hits
+
+
+def change_link(conn, entry, row, key):
+    """« Changements » (core lot v0.39, 0.60.120): a test of the Test Base opens on its card."""
+    if entry["object_type"] != "testing_test" or not row or not key:
+        return None
+    return {"tab": "testing", "code": row["test_id"], "title": row["title"], "href": "#/testing/{}/test/{}".format(key, row["test_id"])}

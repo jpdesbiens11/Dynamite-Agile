@@ -173,6 +173,10 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.120** (2026-11-18) : lot noyau v0.39 — **« Changements » d'un Space** (`core/changes.py`, `core/changes_api.py`,
+  `#/changes/<SPACE>`, `static/js/tools/changes.js`, `changes_link.js`) : chaque changement à la main ou par une IA, avec son lien, les
+  initiales et la source gardées par le journal (migration core 21, `audit.source("ai")`), crochet de module `change_link`, section
+  Dashboard, lien « Changements (n) » dans la marge gauche (D-O-133).
 - **0.60.119** (2026-11-18) : profils de grille des compétences (`modules/diamond/competency_profiles.py`, `PROFILES`,
   `POST …/competencies/profile`, `static/js/diamond/competency_profiles.js`) : « Profil de grille ▾ » sous l'arbre et en haut de
   « Compétences et équipe » remplace les colonnes d'un coup (D-O-132).

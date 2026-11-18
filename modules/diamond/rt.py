@@ -490,9 +490,10 @@ def api_import(ctx):
         raise ApiError(400, "Rien à appliquer : toutes les lignes sont identiques, refusées ou décochées.")
     from .import_merge import backup
     saved = backup(ctx, pid)
-    done = apply(RoundTrip(ctx, pid), entries, skip)  # a fresh view of the Space: the rehearsal's ids are gone
-    counts = Counter(e["kind"] for e in entries)
-    audit.log_action(ctx.conn, ctx.user["id"], "diamond_rt_import", "project", pid,
-                     dict(done, refused=counts.get("refused", 0), sections=sorted(labels), backup=saved), ctx.ip)
+    with audit.source("ai"):  # 0.60.120 (D-O-133): « Changements » shows these lines as written by the AI
+        done = apply(RoundTrip(ctx, pid), entries, skip)  # a fresh view of the Space: the rehearsal's ids are gone
+        counts = Counter(e["kind"] for e in entries)
+        audit.log_action(ctx.conn, ctx.user["id"], "diamond_rt_import", "project", pid,
+                         dict(done, refused=counts.get("refused", 0), sections=sorted(labels), backup=saved), ctx.ip)
     return {"mode": "apply", "applied": {k: done.get(k, 0) for k in ("new", "update", "remove")},
             "refused": counts.get("refused", 0), "backup": saved}

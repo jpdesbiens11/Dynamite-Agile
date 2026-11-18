@@ -5,6 +5,7 @@ checks the project role itself through modules.agile.common.access().
 """
 from .dashboard import dashboard  # noqa: F401  (core lot v0.10 hook)
 from .search import search  # noqa: F401  (core lot v0.7 hook)
+from .change_link import change_link  # noqa: F401  (core lot v0.39 hook, D-O-133)
 from . import changes, common, csv_io, goldmine, goldmine_csv, goldmine_review, issues, planning, qa, qa_register, qa_xlsx, summary, workflow
 
 

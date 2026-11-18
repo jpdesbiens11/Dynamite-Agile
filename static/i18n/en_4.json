@@ -1,4 +1,5 @@
 {
+"Lien copié aussi : si ": "Link also copied: if ",
 "Lien copié. ": "Link copied. ",
 "Lien de la page": "Page link",
 "Lien expiré": "Link expired",
@@ -206,6 +207,7 @@
 "Marge CEM de 4 dB à 120 MHz au pré-balayage": "4 dB EMC margin at 120 MHz in the pre-scan",
 "Marge EMC de 4 dB à 120 MHz au pré-balayage": "4 dB EMC margin at 120 MHz in the pre-scan",
 "Markdown d'exemple à importer": "Sample Markdown to import",
+"Marquer cette ligne vue": "Mark this line seen",
 "Marquer comme lu": "Mark as read",
 "Marquer complété": "Mark completed",
 "Masquer le mot de passe": "Hide password",
@@ -618,6 +620,8 @@
 "Nouveau tour": "New round",
 "Nouveau tour avec le meilleur concept comme référence, jusqu'à ce qu'un concept domine ; « Décider » et justifier.": "New round with the best concept as the reference, until one concept dominates; “Decide” and justify.",
 "Nouveau type": "New type",
+"Nouveautés": "New items",
+"Nouveautés dans mes Spaces": "New in my Spaces",
 "Nouvel ECN": "New ECN",
 "Nouvel NRE": "New NRE",
 "Nouvelle": "New",
@@ -1379,5 +1383,6 @@
 "Qui et combien de temps": "Who and for how long",
 "Qui fait quoi, maintenant ?": "Who does what, now?",
 "Qui mesure quoi, comment, et que faire si ça sort. Un plan pour les pièces à la réception et un par configuration de ligne ; il passe de Prototype à Pré-lancement puis à Production sans être recopié.": "Who measures what, how, and what to do if it goes out. One plan for the parts at reception and one per line configuration; it moves from Prototype to Pre-launch then to Production without being copied.",
-"Qui porte quoi": "Who carries what"
+"Qui porte quoi": "Who carries what",
+"Qui voit Procédés, PFMEA et Plans de contrôle dans ce Space : l'Admin du Space et les administrateurs toujours, plus les membres cochés.": "Who sees Process, PFMEA and Control plans in this Space: the Space Admin and the administrators always, plus the members ticked."
 }

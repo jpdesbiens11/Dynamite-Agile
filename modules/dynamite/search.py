@@ -39,3 +39,10 @@ def search(conn, projects, q):
             if h:
                 hits.append(h)
     return hits
+
+
+def change_link(conn, entry, row, key):
+    """« Changements » (core lot v0.39, 0.60.120): a page opens on itself."""
+    if entry["object_type"] != "dynamite_page" or not row or not key:
+        return None
+    return {"tab": "dynamite", "code": "", "title": row["title"], "href": "#/dynamite/{}/page/{}".format(key, row["id"])}

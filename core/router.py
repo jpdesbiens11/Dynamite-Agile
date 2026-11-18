@@ -15,7 +15,7 @@ from http import cookies
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, unquote, urlsplit
 
-from . import access_rules, admin, auth, contact, features, guest, mail, password_reset, backup, bot, bot_admin, update_online, proxy, static_cache, baseline_view, baselines, dashboard, datapack, db, devshare, members, mentions, modules, objectives, platform_config, prefs, profile, restorepoints, reviews, team, search, session_api, sitemove, space_i18n, spacecard, spacecopy, stamp, starter_apply, tls, ui_audit, update
+from . import access_rules, admin, auth, changes_api, contact, features, guest, mail, password_reset, backup, bot, bot_admin, update_online, proxy, static_cache, baseline_view, baselines, dashboard, datapack, db, devshare, members, mentions, modules, objectives, platform_config, prefs, profile, restorepoints, reviews, team, search, session_api, sitemove, space_i18n, spacecard, spacecopy, stamp, starter_apply, tls, ui_audit, update
 from .errors import ApiError
 
 # D-B-058: no write without the person's 3-letter traceability key, except to set it (and privacy events).
@@ -105,6 +105,7 @@ ROUTES = [(method, re.compile(pattern), handler, access)
           + contact.ROUTES  # 0.60.74 (D-O-080)
           + features.ROUTES  # 0.60.103 (D-O-111): « Modules et fonctions »
           + space_i18n.ROUTES  # 0.60.108 (D-O-120): FR | EN of a Space's content
+          + changes_api.ROUTES  # 0.60.120 (D-O-133): « Changements » of a Space
           + modules.registered_routes()]
 
 

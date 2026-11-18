@@ -6,7 +6,7 @@ engineering), step of the PDP, unique Excel serial date-time number,
 revision, system code, title -> file name and deliverables folder. Each
 reservation is kept in the project's registry (who, when, never reused).
 """
-from .search import search  # noqa: F401  (core lot v0.7 hook)
+from .search import search, change_link  # noqa: F401  (core lot v0.7 hook)
 from . import catalog, registry  # noqa: F401  (catalog is used by tests and tools)
 
 SCHEMA = ""  # tables come from MIGRATIONS

@@ -130,10 +130,12 @@ def run(ctx, pid, planner, applier, action):
         return {"mode": "preview", "format": fmt, "entries": public, "counts": summary}
     skip = {int(x) for x in ctx.body.get("skip") or [] if str(x).isdigit()}
     todo = [e for e in entries if e["kind"] in ("new", "update") and e["n"] not in skip]
-    applier(todo)
-    done = {"new": sum(1 for e in todo if e["kind"] == "new"), "update": sum(1 for e in todo if e["kind"] == "update")}
-    audit.log_action(ctx.conn, ctx.user["id"], action, "project", pid,
-                     dict(done, refused=summary["refused"], skipped=summary["new"] + summary["update"] - done["new"] - done["update"], format=fmt), ctx.ip)
+    with audit.source("ai" if fmt == "json" else "import"):  # 0.60.120: the answer of an AI, or a CSV of a spreadsheet
+        applier(todo)
+        done = {"new": sum(1 for e in todo if e["kind"] == "new"), "update": sum(1 for e in todo if e["kind"] == "update")}
+        audit.log_action(ctx.conn, ctx.user["id"], action, "project", pid,
+                         dict(done, refused=summary["refused"], skipped=summary["new"] + summary["update"] - done["new"] - done["update"],
+                              format=fmt), ctx.ip)
     return {"mode": "apply", "format": fmt, "applied": done, "counts": summary}
 
 

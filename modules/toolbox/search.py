@@ -39,3 +39,12 @@ def search(conn, projects, q):
             if h:
                 hits.append(h)
     return hits
+
+
+def change_link(conn, entry, row, key):
+    """« Changements » (core lot v0.39, 0.60.120): an ideation session or a Kepner-Tregoe analysis opens on itself."""
+    pages = {"tools_ideation": ("ideation", "Idéation"), "tools_kt": ("kt", "Kepner-Tregoe")}
+    if entry["object_type"] not in pages or not row or not key:
+        return None
+    page, code = pages[entry["object_type"]]
+    return {"tab": "tools", "code": code, "title": row["title"], "href": "#/tools/{}/{}/{}".format(key, page, row["id"])}

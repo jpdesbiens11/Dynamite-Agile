@@ -43,7 +43,7 @@ MAX_TEXT = 4000       # characters, French or English
 MAX_EXPORT = 2500     # French texts handed to the AI at once
 STATIC = Path(__file__).resolve().parent.parent / "static" / "i18n"
 SKIP_TABLE = re.compile(r"^(space_i18n|audit|sessions|memberships|search|exports|timesheet_entries|timesheet_weeks|"
-                        r"attachments|uploads|baseline|stamp)")
+                        r"attachments|uploads|baseline|stamp|change_)")
 SKIP_COLUMN = {"created_at", "updated_at", "key", "status", "username", "password_hash", "icon_key", "color", "code", "test_id",
                "sent_at", "closed_at", "decided_at", "resolved_at", "due_date", "start_date", "work_date", "week_start", "date",
                "sha256", "mime", "filename", "kind", "type", "view", "side", "role", "source", "ftype", "task_set", "lang"}

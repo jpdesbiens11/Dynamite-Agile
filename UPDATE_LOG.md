@@ -1,11 +1,18 @@
-# Journal de mise à jour — 0.60.119
+# Journal de mise à jour — 0.60.120
+
+- **Version :** 0.60.119 → 0.60.120 (2026-11-18)
+- **Changements :**
+  1. **« Changements » d'un Space : tout ce qui a changé, où, et qui** (D-O-133, lot noyau v0.39).
+- **Base de données :** migration core 21 (additive : trois colonnes de `audit_log`, deux tables).
+
+## Précédent
+
+### Journal de mise à jour — 0.60.119
 
 - **Version :** 0.60.118 → 0.60.119 (2026-11-18)
 - **Changements :**
   1. **Diamond : profils de grille des compétences** (D-O-132).
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.118
 

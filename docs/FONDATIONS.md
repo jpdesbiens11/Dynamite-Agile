@@ -579,3 +579,13 @@ Aucune donnée n'est effacée : rallumée, la partie est telle qu'elle était. U
   puis vit seule ; le DFMEA ne propose que ses essais ; les codes de congé (INT-VAC, INT-SAN) s'offrent dans chaque Space.
 - Aucun Space d'exemple : `--exemple` (ou `example_space` dans la config) recrée EQP et ses quatre étudiants pour le
   développement seulement.
+
+## 16. Changements d'un Space (0.60.120, lot noyau v0.39, D-O-133)
+
+- Le journal d'audit est la seule source : `audit.log_action` garde au moment de l'écriture les initiales de l'auteur, la source
+  (`audit.source("ai")` autour d'une réponse d'IA appliquée, `"import"` pour un fichier) et le Space de l'objet (ligne d'une table
+  liée à `projects(id)`). Un module n'écrit rien de plus ; un aller-retour avec une IA entoure son application de `audit.source`.
+- Un module dit où vit un objet qu'il journalise par le crochet `change_link(conn, entry, row, key)` → `{tab, code, title, href,
+  project_id?}` (`modules.change_hooks()`) ; sans crochet, le noyau lit la ligne (numéro, code, titre) et l'onglet du préfixe.
+- `#/changes/<SPACE>` montre ces lignes aux membres du Space ; l'état lu (dernière visite, « Vu ») est personnel et ne part
+  jamais avec un Space (`backup.SKIP`). Les exports, vues et lectures ne sont pas des changements.

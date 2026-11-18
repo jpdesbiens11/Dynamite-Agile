@@ -4,7 +4,7 @@ Increment 1: page tree, versions with restore, edit lock, JSON page bodies
 (D-A-035) and the live "Ticket Agile" block (D-A-036). Every route is
 declared "user"; each handler checks the project role itself.
 """
-from .search import search  # noqa: F401  (core lot v0.7 hook)
+from .search import search, change_link  # noqa: F401  (core lot v0.7 hook)
 from . import comments, export, export_mermaid, images, pages, templates, transfer
 from .restore import on_restore  # noqa: F401  (core lot v0.10 hook)
 
