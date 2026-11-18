@@ -1402,5 +1402,6 @@
 "En une phrase :": "In one sentence:",
 "En vrac": "Loose",
 "En vrac : tout ce que la scène fait penser, sans filtrer.": "Brain dump: everything the scene makes you think of, unfiltered.",
-"En vérification": "Under verification"
+"En vérification": "Under verification",
+"En-tête Content-Length invalide.": "Invalid Content-Length header."
 }

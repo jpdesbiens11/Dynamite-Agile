@@ -183,6 +183,12 @@ a { color: var(--agile); }
 .btn:disabled { opacity: .45; cursor: not-allowed; }
 .btn-primary { background: var(--agile); border-color: var(--agile); color: #fff; font-weight: 600; }
 .btn-primary:hover:not(:disabled) { background: var(--agile-strong); border-color: var(--agile-strong); }
+/* 0.60.122 (D-O-135): the shortcut to the updates of Admin, large and orange */
+.admin-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.btn-update { display: inline-flex; align-items: center; gap: .6rem; padding: .6rem 1.2rem; background: var(--dynamite); border-color: var(--dynamite);
+  color: #fff; font-size: 1rem; font-weight: 700; text-decoration: none; }
+.btn-update:hover, .btn-update:focus-visible { filter: brightness(1.08); color: #fff; text-decoration: none; }
+.admin-update-count { padding: .05rem .5rem; border-radius: 999px; background: #fff; color: var(--dynamite); font-size: .78rem; font-weight: 700; }
 .btn-danger { color: var(--danger); }
 .btn-danger:hover:not(:disabled) { border-color: var(--danger); }
 .btn-small { padding: .2rem .55rem; font-size: .8rem; }

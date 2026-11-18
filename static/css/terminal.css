@@ -152,6 +152,7 @@ html[data-term] table.data tbody tr:hover { background: var(--sel); box-shadow: 
 html[data-term] .btn { background: #21262d; color: var(--ink); border: 1px solid rgba(240, 246, 252, .1); border-radius: 6px;
   font-family: var(--mono); font-size: .86rem; transition: border-color .12s ease, background .12s ease; }
 html[data-term] .btn:hover:not(:disabled) { background: #30363d; border-color: var(--muted); }
+html[data-term] .btn-update, html[data-term] .btn-update:hover:not(:disabled) { background: #d2691e; border-color: rgba(240, 246, 252, .15); color: #fff; }  /* 0.60.122 */
 html[data-term] .btn-primary { background: #238636; border-color: rgba(240, 246, 252, .1); color: #fff; }
 html[data-term] .btn-primary:hover:not(:disabled) { background: #2ea043; }
 html[data-term] .btn-primary::before { content: "❯ "; opacity: .7; }
