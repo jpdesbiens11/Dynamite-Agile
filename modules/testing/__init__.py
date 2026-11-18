@@ -9,7 +9,7 @@ calls catalog.check_refs), and each test record lists the requirements that
 cite it.
 """
 from . import bundles, catalog, docx_tests, evidence, lists, plans, results_docx, review, tests_api, verification
-from .search import search  # noqa: F401  (core search hook, D-B-076)
+from .search import search, change_link  # noqa: F401  (core search hook, D-B-076)
 from .evidence import on_restore  # noqa: F401  (core lot v0.10 hook; 0.60.94, D-O-100)
 
 SCHEMA = ""

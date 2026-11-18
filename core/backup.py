@@ -41,7 +41,7 @@ MIGRATIONS = [
 FORMAT = "dynamite-project-backup"
 FORMAT_VERSION = 1
 SKIP = {"users", "sessions", "audit_log", "schema_migrations", "meta", "ui_audits", "user_prefs", "app_settings",
-        "timesheet_weeks"}
+        "timesheet_weeks", "change_seen", "change_acks"}  # 0.60.120: the read state of « Changements » is personal
 NAME_RE = re.compile(r"^[A-Z0-9]{2,10}_\d{8}-\d{6}(_[a-z-]+)?\.zip$")
 MAX_UPLOAD = 500 * 1024 * 1024
 

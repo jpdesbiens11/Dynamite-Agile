@@ -6,7 +6,7 @@ and reviewed in Excel (often with an AI agent), loaded here, then followed
 up by the owners. Deliberately not linked to Agile tickets.
 """
 from .dashboard import dashboard  # noqa: F401  (core lot v0.10 hook)
-from .search import search  # noqa: F401  (core lot v0.7 hook)
+from .search import search, change_link  # noqa: F401  (core lot v0.7 hook)
 from . import plan, transfer
 
 SCHEMA = ""  # tables come from MIGRATIONS

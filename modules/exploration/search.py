@@ -19,3 +19,22 @@ def search(conn, projects, q):
         if h:
             hits.append(h)
     return hits
+
+
+def change_link(conn, entry, row, key):
+    """« Changements » (core lot v0.39, 0.60.120): a task (its code) or the plan of the Space; both open the plan."""
+    if entry["object_type"] != "exploration" or not str(entry["object_id"] or "").isdigit():
+        return None
+    oid = int(entry["object_id"])
+    if "_task_" in entry["action"]:
+        task = conn.execute("SELECT project_id, code, title FROM exploration_tasks WHERE id = ?", (oid,)).fetchone()
+        pid = task["project_id"] if task else entry["project_id"]
+        if pid is None:
+            return None
+        code, title = (task["code"], task["title"]) if task else (entry["_details"].get("code", ""), entry["_details"].get("title", ""))
+    else:
+        pid, code, title = oid, "Plan", "Plan d'exploration"
+    k = key or (conn.execute("SELECT key FROM projects WHERE id = ?", (pid,)).fetchone() or {"key": ""})["key"]
+    href = "#/exploration/{}/plan".format(k)
+    return {"project_id": pid, "tab": "exploration", "code": code or "", "title": title or "",
+            "href": "/?focus={}{}".format(code, href) if code and code != "Plan" else href}

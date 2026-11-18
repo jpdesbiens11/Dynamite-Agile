@@ -29,6 +29,7 @@ Every table is tied to projects(id) (backup, restore, copy by the core); every w
 from .search import search  # noqa: F401  (core search hook, 0.60.36)
 from .bot import bot_summary  # noqa: F401  (Bob le mineur, core/bot.py, 0.60.36)
 from .actions import dashboard  # noqa: F401  (core dashboard hook, 0.60.38)
+from .change_link import change_link  # noqa: F401  (« Changements », core lot v0.39, 0.60.120)
 from . import migrations_a, migrations_b  # noqa: E402
 from . import ai_io, ai_prompts, ai_prompts_process, cp_io, dfmea_io, pfmea_io  # noqa: E402,F401 (0.60.104, D-O-116)
 from . import concept_ai, concept_pugh, concept_sheets, concepts  # noqa: E402 (0.60.105, D-O-117)

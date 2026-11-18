@@ -6,7 +6,7 @@ Every method has a wiki page and a FAQ in the Dynamite space TOOLS
 (catalog.py), created at start-up.
 """
 from . import catalog, ideation, ideation_ai, kt
-from .search import search  # noqa: F401  (core search hook, D-B-076)
+from .search import search, change_link  # noqa: F401  (core search hook, D-B-076)
 
 SCHEMA = ""
 

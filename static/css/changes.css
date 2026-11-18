@@ -1,0 +1,20 @@
+/* « Changements » of a Space (core lot v0.39, 0.60.120, D-O-133) -- tokens only, so every theme follows */
+.chg-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.chg-head > div:first-child { flex: 1 1 28rem; }
+.chg-actions { display: flex; gap: .5rem; align-items: center; }
+.chg-filters { display: flex; flex-wrap: wrap; gap: .75rem 1rem; align-items: flex-end; margin: 0 0 1rem; }
+.chg-filter { display: flex; flex-direction: column; gap: .2rem; font-size: .85rem; }
+.chg-check { flex-direction: row; align-items: center; gap: .4rem; padding-bottom: .35rem; }
+.chg-count { margin: 0 0 .5rem; }
+.chg-table td { vertical-align: top; }
+.chg-when { white-space: nowrap; color: var(--muted); }
+.chg-who { font-family: var(--mono); font-weight: 700; letter-spacing: .04em; }
+.chg-item { font-weight: 600; }
+.chg-fields { font-size: .8rem; margin-top: .15rem; }
+.chg-state { white-space: nowrap; }
+.chg-state .btn { margin-left: .35rem; }
+.chg-new td:first-child { box-shadow: inset 3px 0 0 var(--acc, var(--agile)); }
+.chg-spaces { line-height: 1.9; }
+.chg-side { display: flex; align-items: center; gap: .4rem; margin: .35rem 0 .5rem; font-size: .9rem; color: var(--agile); text-decoration: none; }
+.chg-side:hover, .chg-side:focus-visible { text-decoration: underline; }
+.chg-side-count { font-size: .72rem; }

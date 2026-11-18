@@ -1,4 +1,9 @@
 {
+"En service : ": "In service: ",
+"En une phrase :": "In one sentence:",
+"En vrac": "Loose",
+"En vrac : tout ce que la scène fait penser, sans filtrer.": "Brain dump: everything the scene makes you think of, unfiltered.",
+"En vérification": "Under verification",
 "En-tête Content-Length invalide.": "Invalid Content-Length header.",
 "En-tête oui / non": "Header on / off",
 "En-têtes « ID » et « Task » introuvables dans les 10 premières lignes. Correctif : partez d'un export (bouton « Exporter Excel ») et gardez la première ligne.": "“ID” and “Task” headers not found in the first 10 rows. Fix: start from an export (“Export Excel” button) and keep the first row.",
@@ -1243,6 +1248,7 @@
 "Les 30 minutes se mesurent-elles sur le parcours A ou en ligne droite ?": "Are the 30 minutes measured on course A or in a straight line?",
 "Les 4 valeurs et 12 principes d'origine.": "The original 4 values and 12 principles.",
 "Les 5 étapes dans l'ordre : questionner, supprimer, simplifier, accélérer, automatiser.": "The 5 steps in order: question, delete, simplify, accelerate, automate.",
+"Les 7 derniers jours": "The last 7 days",
 "Les 7 questions pour transformer un produit existant.": "The 7 questions to transform an existing product.",
 "Les 7 règles d'un brainstorm productif.": "The 7 rules of a productive brainstorm.",
 "Les 7 étapes : planification, structure, fonctions, défaillances, risque, optimisation, documentation.": "The 7 steps: planning, structure, functions, failures, risk, optimization, documentation.",
@@ -1378,6 +1384,5 @@
 "Libellés": "Labels",
 "Libellés des flux (sinon : ceux du bloc choisi)": "Flow labels (otherwise: those of the chosen block)",
 "Libre : 2 à 10 lettres majuscules ou chiffres.": "Free: 2 to 10 uppercase letters or digits.",
-"Lien": "Link",
-"Lien copié aussi : si ": "Link also copied: if "
+"Lien": "Link"
 }

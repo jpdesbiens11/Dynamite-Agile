@@ -143,6 +143,15 @@ def dashboard_hooks():
             if entry["module"] is not None and hasattr(entry["module"], "dashboard")]
 
 
+def change_hooks():
+    """change_link(conn, entry, row, key) of every built module (core lot v0.39, D-O-133): where an audited object lives
+    -- {tab, code, title, href, project_id?} -- or None when it is not the module's. entry: the audit line (action,
+    object_type, object_id, project_id when known, _details); row: the object's row when the core could read it; key: the
+    Space key (None while the Space is unknown: the module then gives project_id)."""
+    return [entry["module"].change_link for entry in MODULE_MANIFEST
+            if entry["module"] is not None and hasattr(entry["module"], "change_link")]
+
+
 def review_hooks():
     """(module_key, review_items(conn, user_id, year)) -- items a module adds to the annual review (core lot v0.30)."""
     return [(entry["key"], entry["module"].review_items) for entry in MODULE_MANIFEST
@@ -157,11 +166,12 @@ def registered_schema():
 
 def registered_migrations():
     """(module_key, version, sql) for the core (key "core") and every built module."""
-    from . import access_rules, backup, bot, mail, members, mentions, objectives, platform_config, prefs, profile, reviews, space_i18n, tls, ui_audit, uploads  # core tables added after 0.1 live in versioned lots too
+    from . import access_rules, backup, bot, changes, mail, members, mentions, objectives, platform_config, prefs, profile, reviews, space_i18n, tls, ui_audit, uploads  # core tables added after 0.1 live in versioned lots too
     result = [("core", version, sql) for version, sql
               in uploads.MIGRATIONS + access_rules.MIGRATIONS + ui_audit.MIGRATIONS + prefs.MIGRATIONS + members.MIGRATIONS + platform_config.MIGRATIONS
               + objectives.MIGRATIONS + backup.MIGRATIONS + mentions.MIGRATIONS + tls.MIGRATIONS
-              + profile.MIGRATIONS + reviews.MIGRATIONS + bot.MIGRATIONS + mail.MIGRATIONS + space_i18n.MIGRATIONS]
+              + profile.MIGRATIONS + reviews.MIGRATIONS + bot.MIGRATIONS + mail.MIGRATIONS + space_i18n.MIGRATIONS
+              + changes.MIGRATIONS]
     for entry in MODULE_MANIFEST:
         if entry["module"] is not None:
             for version, sql in getattr(entry["module"], "MIGRATIONS", ()):

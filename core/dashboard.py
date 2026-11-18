@@ -8,7 +8,7 @@ Each module answers through a `dashboard(conn, user, projects)` hook
 The core adds the interface observations (Audit) assigned to the person.
 Only text is returned; the browser builds the page with textContent.
 """
-from . import audit, db, features, modules, permissions, prefs
+from . import audit, changes_api, db, features, modules, permissions, prefs
 from .errors import ApiError
 
 MAX_ITEMS = 12
@@ -62,6 +62,7 @@ def api_dashboard(ctx):
             section.setdefault("module", key)
             section["items"] = section.get("items", [])[:MAX_ITEMS]
             sections.append(section)
+    sections.insert(0, changes_api.dashboard_section(ctx.conn, target, projects))  # 0.60.120 (D-O-133)
     sections.append(_audit_section(ctx.conn, target))
     if viewing:  # audit mode: nothing can be changed from here
         for section in sections:

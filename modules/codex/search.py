@@ -20,3 +20,11 @@ def search(conn, projects, q):
         if h:
             hits.append(h)
     return hits
+
+
+def change_link(conn, entry, row, key):
+    """« Changements » (core lot v0.39, 0.60.120): a Generator reference opens on its line of the register."""
+    if entry["object_type"] != "codex_ref" or not row or not key:
+        return None
+    return {"tab": "codex", "code": row["reference"], "title": row["title"] or "",
+            "href": "#/codex/{}/registre/{}".format(key, quote(row["reference"]))}
