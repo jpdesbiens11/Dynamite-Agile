@@ -1,0 +1,41 @@
+{
+  "version": "0.60.114",
+  "date": "2026-11-17",
+  "summary": {
+    "fr": "Storyline : « Export .docx » rejoint les boutons de la page, en haut à droite, avant « ↔ IA ».",
+    "en": "Storyline: « Export .docx » joins the page's buttons, top right, before « ↔ IA »."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Storyline : « Export .docx » en haut à droite, avec les autres boutons de la page, avant « ↔ IA »",
+      "why": "Dans l'interface, tous les boutons d'une page sont en haut à droite, sur la ligne du fil d'Ariane. La 0.60.113 avait mis « Export .docx » en haut à gauche, à côté du titre ; il est maintenant entre « Nouvelle scène » et « ↔ IA ». Le fichier Word ne change pas.",
+      "files": [
+        "CLAUDE.md",
+        "UPDATE_CHANGES.json",
+        "UPDATE_LOG.md",
+        "core/__init__.py",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.114.json",
+        "site/en/guide.html",
+        "site/en/home.html",
+        "site/en/index.html",
+        "site/en/installation.html",
+        "site/en/modules.html",
+        "site/en/versions.html",
+        "site/guide.html",
+        "site/home.html",
+        "site/index.html",
+        "site/installation.html",
+        "site/modules.html",
+        "site/versions.html",
+        "static/apps/vitrine/index.html",
+        "static/css/diamond.css",
+        "static/js/diamond/story.js",
+        "tests/test_open_v060.py",
+        "tests/test_story_pictos_ai.py"
+      ]
+    }
+  ]
+}

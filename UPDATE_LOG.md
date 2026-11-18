@@ -1,4 +1,13 @@
-# Journal de mise à jour — 0.60.113
+# Journal de mise à jour — 0.60.114
+
+- **Version :** 0.60.113 → 0.60.114 (2026-11-17)
+- **Changements :**
+  1. **Storyline : « Export .docx » en haut à droite, avec les autres boutons de la page, avant « ↔ IA »** (D-O-127).
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.113
 
 - **Version :** 0.60.112 → 0.60.113 (2026-11-17)
 - **Changements :**
@@ -7,8 +16,6 @@
   3. **Storyline : « Export .docx » en haut à gauche — une scène par page, comme une bande dessinée ; feuille Storyline dans l'Excel de Diamond** (D-O-126).
   4. **Boutons IA en double retirés : « ↔ IA » fait l'aller-retour** (D-O-126).
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.112
 
