@@ -1,8 +1,4 @@
 {
-"En une phrase :": "In one sentence:",
-"En vrac": "Loose",
-"En vrac : tout ce que la scène fait penser, sans filtrer.": "Brain dump: everything the scene makes you think of, unfiltered.",
-"En vérification": "Under verification",
 "En-tête Content-Length invalide.": "Invalid Content-Length header.",
 "En-tête oui / non": "Header on / off",
 "En-têtes « ID » et « Task » introuvables dans les 10 premières lignes. Correctif : partez d'un export (bouton « Exporter Excel ») et gardez la première ligne.": "“ID” and “Task” headers not found in the first 10 rows. Fix: start from an export (“Export Excel” button) and keep the first row.",
@@ -1153,6 +1149,7 @@
 "Le principe en une phrase (facultatif)": "The principle in one sentence (optional)",
 "Le prix d'un produit n'est pas une loi de la nature : décomposez-le en matières premières, aux cours du marché, puis demandez d'où vient l'écart.": "A product's price is not a law of nature: break it down into raw materials at market prices, then ask where the gap comes from.",
 "Le produit": "The product",
+"Le produit est surtout du firmware et son architecture.": "The product is mostly firmware and its architecture.",
 "Le produit ne rend pas son service à l'utilisateur (à préciser).": "The product does not deliver its service to the user (to be specified).",
 "Le produit, son environnement ou ses pertes peuvent faire une partie du travail.": "The product, its environment or its losses can do part of the work.",
 "Le programme de la personne : il aide à former une équipe multidisciplinaire.": "The person's program: it helps build a multidisciplinary team.",
@@ -1375,5 +1372,12 @@
 "Libellé": "Label",
 "Libellé CC": "CC label",
 "Libellé SC": "SC label",
-"Libellé de ": "Label of "
+"Libellé de ": "Label of ",
+"Libellé du flux": "Flow label",
+"Libellé obligatoire.": "Label required.",
+"Libellés": "Labels",
+"Libellés des flux (sinon : ceux du bloc choisi)": "Flow labels (otherwise: those of the chosen block)",
+"Libre : 2 à 10 lettres majuscules ou chiffres.": "Free: 2 to 10 uppercase letters or digits.",
+"Lien": "Link",
+"Lien copié aussi : si ": "Link also copied: if "
 }

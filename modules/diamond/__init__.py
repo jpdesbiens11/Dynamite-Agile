@@ -33,7 +33,7 @@ from . import migrations_a, migrations_b  # noqa: E402
 from . import ai_io, ai_prompts, ai_prompts_process, cp_io, dfmea_io, pfmea_io  # noqa: E402,F401 (0.60.104, D-O-116)
 from . import concept_ai, concept_pugh, concept_sheets, concepts  # noqa: E402 (0.60.105, D-O-117)
 from . import rt  # noqa: E402 (0.60.111, D-O-124: « ↔ IA », the round trip of every page)
-from . import competencies, competency_catalog, competency_export, concept_freeze  # noqa: E402 (0.60.116, D-O-129: competencies, frozen bricks)
+from . import competencies, competency_catalog, competency_export, competency_profiles, concept_freeze  # noqa: E402 (0.60.116, D-O-129: competencies, frozen bricks)
 from . import actions, capability, char_export, characteristics, classes_api, company_pn, control_plans, impact, pfmea, pfmea_ai, pn_ai, prio, process, costs, costs_budget, costs_import, costs_prompt, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, story_docx, structure
 
 SCHEMA = ""
@@ -74,6 +74,7 @@ ROUTES = [
     ("PUT", P + r"/competencies/staff", competencies.api_staff, "user"),
     ("POST", P + r"/competencies/columns", competencies.api_column_add, "user"),  # 0.60.117 (D-O-130): the columns of the grid
     ("POST", P + r"/competencies/columns/(?P<code>[A-Z][A-Z0-9]{1,7})/remove", competencies.api_column_remove, "user"),
+    ("POST", P + r"/competencies/profile", competency_profiles.api_apply, "user"),  # 0.60.119 (D-O-132): a profile of columns
     ("GET", P + r"/competencies/summary\.xlsx", competency_export.api_xlsx, "user"),
     ("GET", P + r"/competencies/summary\.docx", competency_export.api_docx, "user"),
     ("POST", r"/api/diamond/competencies", competency_catalog.api_create, "user"),

@@ -118,12 +118,12 @@ def lines(conn, pid):
     return out
 
 
-COLUMN_ACTIONS = ("diamond_competency_column_add", "diamond_competency_column_remove")
+COLUMN_ACTIONS = ("diamond_competency_column_add", "diamond_competency_column_remove", "diamond_competency_profile")
 
 
 def customized(conn, pid):
     """True once the team added or removed a column of this Space (an empty grid then stays empty)."""
-    return conn.execute("SELECT 1 FROM audit_log WHERE action IN (?, ?) AND object_type = 'project' AND object_id = ? LIMIT 1",
+    return conn.execute("SELECT 1 FROM audit_log WHERE action IN (?, ?, ?) AND object_type = 'project' AND object_id = ? LIMIT 1",
                         COLUMN_ACTIONS + (str(pid),)).fetchone() is not None
 
 
@@ -177,7 +177,9 @@ def payload(conn, pid, user=None):
     links = competency_bdc.page_links(conn)
     for c in cat:
         c["bdc"] = links.get(c["code"])
-    return {"catalog": cat, "lines": rows, "columns": columns(conn, pid, rows), "summary": rows_summary, "total_points": total,
+    from .competency_profiles import profiles
+    cols = columns(conn, pid, rows)
+    return {"catalog": cat, "lines": rows, "columns": cols, "profiles": profiles(conn, cols), "summary": rows_summary, "total_points": total,
             "people_total": round(sum(s["people"] for s in rows_summary), 1),
             "can_manage": bool(user) and can_manage(conn, user), "icons": list(DC.ICONS), "detail_labels": DC.DETAIL_LABELS,
             "bdc_hub": links.get("_hub")}
@@ -296,7 +298,7 @@ def api_column_add(ctx):
     current = columns(ctx.conn, pid)
     if code not in current:
         current.append(code)
-    _save_columns(ctx.conn, pid, current)
+    save_columns(ctx.conn, pid, current)
     audit.log_action(ctx.conn, ctx.user["id"], "diamond_competency_column_add", "project", pid, {"code": code}, ctx.ip)
     return payload(ctx.conn, pid, ctx.user)
 
@@ -309,12 +311,12 @@ def api_column_remove(ctx):
     if code not in current:
         raise ApiError(404, "{} n'est pas une colonne de la grille de ce Space. Correctif : rechargez la page.".format(code[:12]))
     removed = ctx.conn.execute("DELETE FROM diamond_competency_ratings WHERE project_id = ? AND code = ?", (pid, code)).rowcount
-    _save_columns(ctx.conn, pid, [c for c in current if c != code])
+    save_columns(ctx.conn, pid, [c for c in current if c != code])
     audit.log_action(ctx.conn, ctx.user["id"], "diamond_competency_column_remove", "project", pid, {"code": code, "ratings": removed}, ctx.ip)
     return payload(ctx.conn, pid, ctx.user)
 
 
-def _save_columns(conn, pid, codes):
+def save_columns(conn, pid, codes):
     conn.execute("DELETE FROM diamond_competency_columns WHERE project_id = ?", (pid,))
     for i, code in enumerate(codes):
         conn.execute("INSERT INTO diamond_competency_columns (project_id, code, position) VALUES (?, ?, ?)", (pid, code, i + 1))

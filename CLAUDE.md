@@ -173,6 +173,9 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.119** (2026-11-18) : profils de grille des compétences (`modules/diamond/competency_profiles.py`, `PROFILES`,
+  `POST …/competencies/profile`, `static/js/diamond/competency_profiles.js`) : « Profil de grille ▾ » sous l'arbre et en haut de
+  « Compétences et équipe » remplace les colonnes d'un coup (D-O-132).
 - **0.60.118** (2026-11-18) : grille de départ des compétences = la base de la mécatronique (MECH, PCB, FW, PWR, TEST ;
   `data_competencies.STARTER`, case « Colonne de départ » du catalogue, migration diamond 20), Rover de DEMO réduit à ces cinq colonnes une
   fois (`demo_competencies.trim_competencies`), l'IA note d'abord les colonnes de la grille (D-O-131).

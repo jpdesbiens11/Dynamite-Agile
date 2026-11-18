@@ -92,3 +92,8 @@ p.dm-frozen-note { display: block; }
 .dm-cc-icons button[aria-checked="true"] { border-color: var(--acc); background: color-mix(in srgb, var(--acc) 16%, var(--surface)); }
 @media (max-width: 760px) { .dm-cc-cols { grid-template-columns: 1fr; } .dm-cg-scale { margin-left: 0; } }
 .dm-heads:has(.dm-cg-head) .dm-head-concept { max-width: 196px; top: .2rem; line-height: 1.15; }
+
+/* 0.60.119 (D-O-132): « Profil de grille ▾ » under the tree and at the top of « Compétences et équipe » */
+.dm-cg-profile { max-width: 22rem; padding: .2rem .4rem; border: 1.5px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--surface); color: var(--ink); font: inherit; font-size: .84rem; }
+.dm-cg-profile:hover, .dm-cg-profile:focus-visible { border-color: var(--acc, var(--agile)); }

@@ -20,6 +20,11 @@
       catch (err) { toast(err.message, "error"); }
       state.redraw();
     };
+    state.profile = async (key) => {  // 0.60.119 (D-O-132): a profile of columns
+      try { state.comp = await api.post(D.base(ctx) + "/competencies/profile", { profile: key }); toast("Profil appliqué.", "success"); }
+      catch (err) { toast(err.message, "error"); }
+      state.redraw();
+    };
     state.reload = async () => { state.comp = await api.get(D.base(ctx) + "/competencies"); state.redraw(); };
     draw(holder, ctx, state);
   }
@@ -29,7 +34,8 @@
     const comp = state.comp;
     const editable = A.canEdit(ctx);
     holder.append(A.pageHead(ctx, [el("span", null, "Diamond"), el("span", null, "Compétences et équipe")],
-      [el("a", { class: "btn btn-small", href: A.href(ctx, "ftree") }, "Noter dans l'arbre"),
+      [editable ? D.profilePicker(comp, state.profile) : null,
+        el("a", { class: "btn btn-small", href: A.href(ctx, "ftree") }, "Noter dans l'arbre"),
         el("a", { class: "btn btn-small", href: D.base(ctx) + "/competencies/summary.xlsx", download: "", "data-new": "0.60.116-competencies-xlsx" }, "Excel"),
         el("a", { class: "btn btn-small", href: D.base(ctx) + "/competencies/summary.docx", download: "", "data-new": "0.60.116-competencies-docx" }, "Word")]));
     holder.append(el("div", { class: "page-head dm-intro" }, el("h1", { "data-new": "0.60.116-competencies" }, "Compétences et équipe"),
