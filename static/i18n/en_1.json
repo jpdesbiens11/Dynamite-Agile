@@ -22,6 +22,7 @@
 " (désactivé)": " (disabled)",
 " (fermé)": " (closed)",
 " (fiche de la C-n) : saisies au poste ou CSV d'un logiciel de SPC ; Cpk (σ = MR̄ / 1,128) et Ppk calculés par le serveur, « échantillon court » sous 25 valeurs.": " (card of the C-n): entered at the station or a CSV from an SPC software; Cpk (σ = MR̄ / 1.128) and Ppk computed by the server, “short sample” under 25 values.",
+" (figée)": " (frozen)",
 " (fonction archivée : un numéro n'est jamais redonné)": " (archived function: a number is never reissued)",
 " (inactif)": " (inactive)",
 " (le code : fonctions, menus, options — cette page, étapes 1 à 6), ": " (the code: functions, menus, options — this page, steps 1 to 6), ",
@@ -1191,6 +1192,7 @@
 "Aucune caractéristique n'a encore de classe confirmée dans le DFMEA.": "No characteristic has a confirmed class in the DFMEA yet.",
 "Aucune caractéristique spéciale": "No special characteristic",
 "Aucune clé encore.": "No key yet.",
+"Aucune compétence n'est encore notée dans l'arbre fonctionnel.": "No competency is rated in the functional tree yet.",
 "Aucune compétence notée : notez-les dans l'arbre, ou avec « ↔ IA ».": "No competency rated: rate them in the tree, or with « ↔ AI ».",
 "Aucune copie du code pour l'instant : la première est faite à la prochaine mise à jour ": "No code copy yet: the first one is made at the next update ",
 "Aucune description.": "No description.",
@@ -1372,6 +1374,5 @@
 "Bienvenue, barre du haut et réglages": "Welcome, top bar and settings",
 "Bilan Build-Measure-Learn (persévérer ou pivoter)": "Build-Measure-Learn review (persevere or pivot)",
 "Bilan d'ensemble, points forts, axes de progrès…": "Overall review, strengths, areas for improvement…",
-"Bilan de puissance avec une marge d'au moins 20 % sur chaque rail d'alimentation": "Power budget with a margin of at least 20% on each supply rail",
-"Bilan du MVP 0 : persévérer ou pivoter": "MVP 0 review: persevere or pivot"
+"Bilan de puissance avec une marge d'au moins 20 % sur chaque rail d'alimentation": "Power budget with a margin of at least 20% on each supply rail"
 }

@@ -1,4 +1,5 @@
 {
+"Bilan du MVP 0 : persévérer ou pivoter": "MVP 0 review: persevere or pivot",
 "Bilan du MVP 1 : persévérer ou pivoter": "MVP 1 review: persevere or pivot",
 "Bilan du MVP 2": "MVP 2 review",
 "Bilan du MVP 2 : persévérer ou pivoter": "MVP 2 review: persevere or pivot",
@@ -604,9 +605,13 @@
 "Compétences de ": "Competencies of ",
 "Compétences de l'équipe (Diamond)": "Team competencies (Diamond)",
 "Compétences et équipe": "Competencies and team",
+"Compétences et équipe — synthèse": "Competencies and team — summary",
 "Compétences et équipe →": "Competencies and team →",
 "Compétences par ligne": "Competencies per line",
+"Compétences par ligne fonction → brique": "Competencies per function → brick line",
 "Compétences sollicitées": "Competencies involved",
+"Compétences — par ligne": "Competencies — per line",
+"Compétences — synthèse": "Competencies — summary",
 "Concept / Brique technologique": "Concept / Technology building block",
 "Concept Review et PDR repoussées": "Concept Review and PDR postponed",
 "Concept ajouté.": "Concept added.",
@@ -1369,9 +1374,5 @@
 "En retard": "Overdue",
 "En service : ": "In service: ",
 "En une phrase :": "In one sentence:",
-"En vrac": "Loose",
-"En vrac : tout ce que la scène fait penser, sans filtrer.": "Brain dump: everything the scene makes you think of, unfiltered.",
-"En vérification": "Under verification",
-"En-tête Content-Length invalide.": "Invalid Content-Length header.",
-"En-tête oui / non": "Header on / off"
+"En vrac": "Loose"
 }

@@ -6,6 +6,7 @@
   2. **Diamond : catalogue des compétences de la plateforme et une page BDC par compétence** (D-O-129).
   3. **Diamond : figer une brique technologique quand son concept est choisi** (D-O-129).
   4. **Diamond : aide de l'arbre dans une bulle, au-dessus de l'arbre** (D-O-129).
+  5. **Diamond : export Excel et Word de la synthèse des compétences** (D-O-129).
 - **Base de données :** migration diamond 18 (additive : trois tables, quatre colonnes de `diamond_concepts`).
 
 ## Précédent

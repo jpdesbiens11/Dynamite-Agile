@@ -29,7 +29,9 @@
     const comp = state.comp;
     const editable = A.canEdit(ctx);
     holder.append(A.pageHead(ctx, [el("span", null, "Diamond"), el("span", null, "Compétences et équipe")],
-      [el("a", { class: "btn btn-small", href: A.href(ctx, "ftree") }, "Noter dans l'arbre")]));
+      [el("a", { class: "btn btn-small", href: A.href(ctx, "ftree") }, "Noter dans l'arbre"),
+        el("a", { class: "btn btn-small", href: D.base(ctx) + "/competencies/summary.xlsx", download: "", "data-new": "0.60.116-competencies-xlsx" }, "Excel"),
+        el("a", { class: "btn btn-small", href: D.base(ctx) + "/competencies/summary.docx", download: "", "data-new": "0.60.116-competencies-docx" }, "Word")]));
     holder.append(el("div", { class: "page-head dm-intro" }, el("h1", { "data-new": "0.60.116-competencies" }, "Compétences et équipe"),
       el("p", { class: "muted" }, "Les compétences qu'il faut pour développer les briques du produit, lues dans l'arbre fonctionnel : "
         + "chaque ligne fonction → brique note les compétences de 1 à 5. La part de chaque compétence dit quelle équipe bâtir ; "

@@ -190,6 +190,31 @@ class CompetenciesTest(unittest.TestCase):
             row = conn.execute("SELECT details FROM audit_log WHERE action = 'diamond_concept_unfreeze' ORDER BY id DESC").fetchone()
         self.assertIn("Nouvelle cellule", row["details"])
 
+    def test_09_exports(self):
+        import io
+        import zipfile
+        for ext in ("xlsx", "docx"):
+            status, headers, body = self.admin.raw_get(self.base + "/competencies/summary." + ext)
+            self.assertEqual((status, body[:2]), (200, b"PK"), ext)
+            self.assertIn("Competences_et_equipe", headers.get("Content-Disposition", ""))
+            with zipfile.ZipFile(io.BytesIO(body)) as z:
+                text = " ".join(z.read(n).decode("utf-8", "replace") for n in z.namelist() if n.endswith(".xml"))
+            self.assertIn("Thermal analysis", text)
+            self.assertIn("À embaucher / réunir", text)
+        status, _h, body = self.admin.raw_get(self.base + "/export.xlsx")
+        with zipfile.ZipFile(io.BytesIO(body)) as z:
+            self.assertIn("Compétences — synthèse", z.read("xl/workbook.xml").decode("utf-8"))
+        status, _h, body = self.admin.raw_get(self.base + "/export.docx")
+        with zipfile.ZipFile(io.BytesIO(body)) as z:
+            self.assertIn("Compétences et équipe", z.read("word/document.xml").decode("utf-8"))
+        self.admin.put("/api/admin/features", {"features": {"diamond_competencies": False}})
+        try:
+            status, _h, body = self.admin.raw_get(self.base + "/export.xlsx")
+            with zipfile.ZipFile(io.BytesIO(body)) as z:
+                self.assertNotIn("Compétences — synthèse", z.read("xl/workbook.xml").decode("utf-8"))
+        finally:
+            self.admin.put("/api/admin/features", {"features": {"diamond_competencies": True}})
+
     def test_08_turned_off_like_the_pfmea(self):
         self.admin.put("/api/admin/features", {"features": {"diamond_competencies": False}})
         try:

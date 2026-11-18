@@ -1,4 +1,8 @@
 {
+"En vrac : tout ce que la scène fait penser, sans filtrer.": "Brain dump: everything the scene makes you think of, unfiltered.",
+"En vérification": "Under verification",
+"En-tête Content-Length invalide.": "Invalid Content-Length header.",
+"En-tête oui / non": "Header on / off",
 "En-têtes « ID » et « Task » introuvables dans les 10 premières lignes. Correctif : partez d'un export (bouton « Exporter Excel ») et gardez la première ligne.": "“ID” and “Task” headers not found in the first 10 rows. Fix: start from an export (“Export Excel” button) and keep the first row.",
 "Enceinte climatique (température, humidité)": "Climatic chamber (temperature, humidity)",
 "Enceinte de poussière (IP5X / IP6X)": "Dust chamber (IP5X / IP6X)",
@@ -1370,8 +1374,5 @@
 "Libellé CC": "CC label",
 "Libellé SC": "SC label",
 "Libellé de ": "Label of ",
-"Libellé du flux": "Flow label",
-"Libellé obligatoire.": "Label required.",
-"Libellés": "Labels",
-"Libellés des flux (sinon : ceux du bloc choisi)": "Flow labels (otherwise: those of the chosen block)"
+"Libellé du flux": "Flow label"
 }

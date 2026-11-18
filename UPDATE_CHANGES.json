@@ -17,6 +17,7 @@
         "modules/diamond/competencies.py",
         "modules/diamond/competency_bdc.py",
         "modules/diamond/competency_catalog.py",
+        "modules/diamond/competency_export.py",
         "modules/diamond/data_competencies.py",
         "modules/diamond/import_merge.py",
         "modules/diamond/rt.py",
@@ -54,6 +55,7 @@
         "static/js/diamond/tree_concepts.js",
         "static/js/diamond/tree_layout.js",
         "tests/test_diamond_competencies.py",
+        "tests/test_features.py",
         "tests/test_open_v060.py",
         "tools/competency_icons.py"
       ]
@@ -142,6 +144,7 @@
         "static/js/diamond/concept_panel.js",
         "static/js/diamond/tree_concepts.js",
         "tests/test_diamond_concepts.py",
+        "tests/test_diamond_rt_b.py",
         "tests/test_open_v060.py"
       ]
     },
@@ -178,6 +181,47 @@
         "static/i18n/en_5.json",
         "static/i18n/en_6.json",
         "static/js/diamond/tree.js",
+        "tests/test_open_v060.py"
+      ]
+    },
+    {
+      "id": "C5",
+      "title": "Diamond : export Excel et Word de la synthèse des compétences",
+      "why": "Les boutons Excel et Word de « Compétences et équipe » donnent la synthèse par compétence (avec le total et les personnes à embaucher ou réunir) puis les notes ligne par ligne, avec la légende des codes. Les mêmes tableaux entrent dans le classeur et le rapport de Diamond → Exporter quand la partie est active.",
+      "files": [
+        "CLAUDE.md",
+        "UPDATE_CHANGES.json",
+        "UPDATE_LOG.md",
+        "core/__init__.py",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.116.json",
+        "modules/diamond/competency_export.py",
+        "modules/diamond/export_data.py",
+        "modules/diamond/export_docx.py",
+        "modules/diamond/export_xlsx.py",
+        "site/en/guide.html",
+        "site/en/home.html",
+        "site/en/index.html",
+        "site/en/installation.html",
+        "site/en/modules.html",
+        "site/en/versions.html",
+        "site/guide.html",
+        "site/home.html",
+        "site/index.html",
+        "site/installation.html",
+        "site/modules.html",
+        "site/versions.html",
+        "static/apps/vitrine/index.html",
+        "static/i18n/en_1.json",
+        "static/i18n/en_2.json",
+        "static/i18n/en_3.json",
+        "static/i18n/en_4.json",
+        "static/i18n/en_5.json",
+        "static/i18n/en_6.json",
+        "static/js/diamond/competencies.js",
+        "tests/test_diamond_competencies.py",
+        "tests/test_features.py",
         "tests/test_open_v060.py"
       ]
     }

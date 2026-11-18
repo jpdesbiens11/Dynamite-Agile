@@ -1,4 +1,7 @@
 {
+"Libellé obligatoire.": "Label required.",
+"Libellés": "Labels",
+"Libellés des flux (sinon : ceux du bloc choisi)": "Flow labels (otherwise: those of the chosen block)",
 "Libre : 2 à 10 lettres majuscules ou chiffres.": "Free: 2 to 10 uppercase letters or digits.",
 "Lien": "Link",
 "Lien copié aussi : si ": "Link also copied: if ",
@@ -1371,7 +1374,5 @@
 "Qui dans l'équipe": "Who in the team",
 "Qui et combien de temps": "Who and for how long",
 "Qui fait quoi, maintenant ?": "Who does what, now?",
-"Qui mesure quoi, comment, et que faire si ça sort. Un plan pour les pièces à la réception et un par configuration de ligne ; il passe de Prototype à Pré-lancement puis à Production sans être recopié.": "Who measures what, how, and what to do if it goes out. One plan for the parts at reception and one per line configuration; it moves from Prototype to Pre-launch then to Production without being copied.",
-"Qui porte quoi": "Who carries what",
-"Qui voit Procédés, PFMEA et Plans de contrôle dans ce Space : l'Admin du Space et les administrateurs toujours, plus les membres cochés.": "Who sees Process, PFMEA and Control plans in this Space: the Space Admin and the administrators always, plus the members ticked."
+"Qui mesure quoi, comment, et que faire si ça sort. Un plan pour les pièces à la réception et un par configuration de ligne ; il passe de Prototype à Pré-lancement puis à Production sans être recopié.": "Who measures what, how, and what to do if it goes out. One plan for the parts at reception and one per line configuration; it moves from Prototype to Pre-launch then to Production without being copied."
 }
