@@ -113,7 +113,11 @@ class StoryPictosAiTest(unittest.TestCase):
     def test_05_buttons_that_rt_already_does_are_gone(self):
         js = BASE_DIR / "static/js/diamond"
         self.assertFalse((js / "story_ai.js").exists())
-        self.assertNotIn("storyAiButtons", (js / "story.js").read_text("utf-8"))
+        story_js = (js / "story.js").read_text("utf-8")
+        self.assertNotIn("storyAiButtons", story_js)
+        # 0.60.114 (D-O-127): « Export .docx » with the page's buttons, top right (pageHead actions, before « ↔ IA »)
+        self.assertLess(story_js.index('"Export .docx"'), story_js.index('class: "page-head dm-intro"'))
+        self.assertNotIn("dm-story-headline", story_js)
         self.assertNotIn("conceptAiButtons", (js / "concepts.js").read_text("utf-8"))
         self.assertIn("sheetAiButtons", (js / "concept_page.js").read_text("utf-8"))  # one brick's sheets: kept
         self.assertIn("prompt: false", (js / "dfmea.js").read_text("utf-8"))

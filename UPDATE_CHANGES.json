@@ -2,8 +2,8 @@
   "changes": [
     {
       "id": "C1",
-      "title": "Storyline : les scènes écrites par l'IA arrivent dessinées — catalogue des pictogrammes dans les prompts, noms reconnus, positions posées",
-      "why": "Une Storyline créée ou mise à jour par un assistant IA restait vide à l'écran : le prompt ne donnait que 12 clés de pictogrammes sur 39, sans dire comment composer une scène. Le catalogue complet (clé, nom, quand l'utiliser) et la façon de dessiner une scène (3 à 8 pictogrammes, étiquette, position, taille) sont maintenant dans le prompt de « ↔ IA » et dans celui du Project Starter (`diamond.story`). À l'import, un nom (« battery », « Soldat ») devient la bonne clé, un mot inconnu reste visible en « Question » avec son mot, et un pictogramme sans position est posé (au sol, dans le ciel, les idées en haut à droite).",
+      "title": "Storyline : « Export .docx » en haut à droite, avec les autres boutons de la page, avant « ↔ IA »",
+      "why": "Dans l'interface, tous les boutons d'une page sont en haut à droite, sur la ligne du fil d'Ariane. La 0.60.113 avait mis « Export .docx » en haut à gauche, à côté du titre ; il est maintenant entre « Nouvelle scène » et « ↔ IA ». Le fichier Word ne change pas.",
       "files": [
         "CLAUDE.md",
         "UPDATE_CHANGES.json",
@@ -11,88 +11,24 @@
         "core/__init__.py",
         "docs/DECISIONS.md",
         "docs/ETAT_PROJET.md",
-        "docs/releases/0.60.113.json",
-        "tests/test_open_v060.py",
+        "docs/releases/0.60.114.json",
         "site/en/guide.html",
         "site/en/home.html",
         "site/en/index.html",
         "site/en/installation.html",
         "site/en/modules.html",
-        "site/en/starter.md",
         "site/en/versions.html",
         "site/guide.html",
         "site/home.html",
         "site/index.html",
         "site/installation.html",
         "site/modules.html",
-        "site/starter.md",
         "site/versions.html",
         "static/apps/vitrine/index.html",
-        "modules/diamond/story_catalog.py",
-        "modules/diamond/story.py",
-        "modules/diamond/rt_sections_a.py",
-        "core/starter_diamond.py",
-        "core/starter_prompt.py",
-        "tools/site/starter.md",
-        "tools/site/en/starter.md",
-        "docs/STARTER_FORMAT.md",
-        "tests/test_story_pictos_ai.py",
-        "tests/test_story.py",
-        "tests/test_story_ai.py"
-      ]
-    },
-    {
-      "id": "C2",
-      "title": "17 pictogrammes de référence militaires et de terrain dans la bibliothèque de base",
-      "why": "Pour les utilisateurs de la défense et les sites isolés : soldat, véhicule blindé, camion, hélicoptère, quadrirotor, tente / bivouac, base / poste, radio, génératrice, conteneur, carte / GPS, objectif, jumelles, parachute, protection, montagne / terrain, feu — groupe « Militaire et terrain » de la palette, dans les deux thèmes, dans les figures Word.",
-      "files": [
-        "tools/story_pictos.py",
-        "static/img/story.svg",
-        "static/img/story-term.svg",
-        "static/js/diamond/story_pictos.js",
-        "static/js/diamond/story_stage.js",
-        "modules/diamond/story_catalog.py",
-        "static/i18n/en_1.json",
-        "static/i18n/en_2.json",
-        "static/i18n/en_3.json",
-        "static/i18n/en_4.json",
-        "static/i18n/en_5.json",
-        "static/i18n/en_6.json"
-      ]
-    },
-    {
-      "id": "C3",
-      "title": "Storyline : « Export .docx » en haut à gauche — une scène par page, comme une bande dessinée",
-      "why": "Le gabarit Word de la plateforme (logo DynamiteAgile, en-tête avec numéro de document et révision, journal des révisions, marque au pied de page) ; chaque scène sur sa page : titre en haut, scène au milieu (cadre 4:3, groupe de pictogrammes agrandi pour remplir la case), ce qui se passe et les notes en bas. La section Storyline du rapport Word de Diamond prend les mêmes pages ; l'Excel de l'Export de Diamond a maintenant une feuille « Storyline ».",
-      "files": [
-        "modules/diamond/story_docx.py",
-        "modules/diamond/report_figures.py",
-        "modules/diamond/story_figure.py",
-        "modules/diamond/export_xlsx.py",
-        "modules/diamond/__init__.py",
-        "static/js/diamond/story.js",
-        "static/js/diamond/export.js",
         "static/css/diamond.css",
-        "tests/test_diamond_export.py"
-      ]
-    },
-    {
-      "id": "C4",
-      "title": "Boutons IA en double retirés : « ↔ IA » fait l'aller-retour",
-      "why": "Pour éviter la confusion : « Copier pour l'IA » et « Importer la réponse de l'IA » quittent la Storyline et la page des briques, « Prompt pour l'IA » quitte le DFMEA et les plans de contrôle — « ↔ IA », en haut à droite, fait la même chose sur toutes les sections. Restent ce que « ↔ IA » ne fait pas : Exporter (.csv) / Importer… (tableur), « Générer avec l'IA » du PFMEA (depuis le DFMEA et la ligne) et des feuilles d'une brique, les coûts et les PN. La méthode de l'arbre à partir des scènes passe dans le prompt de « ↔ IA ».",
-      "files": [
-        "static/js/diamond/story_ai.js",
-        "static/js/diamond/concept_ai.js",
-        "static/js/diamond/concepts.js",
-        "static/js/diamond/ai_io.js",
-        "static/js/diamond/dfmea.js",
-        "static/js/diamond/cplans.js",
-        "static/js/diamond/pfmea.js",
-        "static/js/diamond/tree.js",
-        "static/js/help/content_faq.js",
-        "static/js/tools/guest_tour_steps.js",
-        "core/modules.py",
-        "modules/diamond/rt_sections_a.py"
+        "static/js/diamond/story.js",
+        "tests/test_open_v060.py",
+        "tests/test_story_pictos_ai.py"
       ]
     }
   ]

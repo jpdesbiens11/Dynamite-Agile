@@ -173,6 +173,7 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.114** (2026-11-17) : « Export .docx » de la Storyline en haut à droite avec les autres boutons de la page, avant « ↔ IA » (D-O-127).
 - **0.60.113** (2026-11-17) : **Storyline dessinée par l'IA** (D-O-126) : catalogue des 56 pictogrammes dans les prompts
   (`modules/diamond/story_catalog.py`, `story.ai_items`), 17 pictogrammes « Militaire et terrain », « Export .docx » une scène par page
   (`story_docx.py`, `report_figures.comic`), feuille Storyline dans l'Excel ; boutons IA en double retirés (`story_ai.js` supprimé)

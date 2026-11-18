@@ -36,11 +36,11 @@
     if (!list.some((s) => s.id === state.current)) state.current = list.length ? list[0].id : null;
     holder.append(A.pageHead(ctx, [el("span", null, "Diamond"), el("span", null, "Storyline")],
       [editable && list.length ? el("button", { type: "button", class: "btn btn-primary btn-small",
-        "data-new": "0.60.51-story-new", onclick: () => state.run("/story/scenes", {}) }, "Nouvelle scène") : null]),
-      el("div", { class: "page-head dm-intro" }, el("div", { class: "dm-story-headline" },
-        list.length ? el("a", { class: "btn btn-small", href: D.base(ctx) + "/story/export.docx", download: "", "data-new": "0.60.113-story-docx",
-          title: "Les scènes en Word, une par page comme une bande dessinée : titre, scène, texte" }, "Export .docx") : null,
-        el("h1", { "data-new": "0.60.51-story" }, "Storyline")),
+        "data-new": "0.60.51-story-new", onclick: () => state.run("/story/scenes", {}) }, "Nouvelle scène") : null,
+      // 0.60.114: with the page's other buttons, top right, before « ↔ IA » (0.60.113 put it top left)
+      list.length ? el("a", { class: "btn btn-small", href: D.base(ctx) + "/story/export.docx", download: "", "data-new": "0.60.113-story-docx",
+        title: "Les scènes en Word, une par page comme une bande dessinée : titre, scène, texte" }, "Export .docx") : null]),
+      el("div", { class: "page-head dm-intro" }, el("h1", { "data-new": "0.60.51-story" }, "Storyline"),
         el("p", { class: "muted" }, "Racontez l'utilisation du produit, scène par scène : qui, où, avec quoi, ce qui se passe et ce "
           + "qu'on ressent. On diverge en équipe, sans bonne ni mauvaise réponse, avant l'arbre fonctionnel. Un assistant IA s'en "
           + "servira ensuite pour proposer l'arbre et le reste de Diamond (« ↔ IA », en haut à droite).")));
