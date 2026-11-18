@@ -13,10 +13,15 @@ from core.errors import ApiError
 from . import competencies as CP
 from .rt import Field, Section
 
+FEATURE = "diamond_competencies"
 PAIR = re.compile(r"^\s*([A-Za-z][A-Za-z0-9]{1,7})\s*[:=]\s*([0-5])\s*$")
 
 
 def _lines(rt):
+    """The lines; none when an administrator turned « Compétences et équipe » off (core/features.py)."""
+    from core import features
+    if not features.on(rt.ctx.conn, FEATURE):
+        return []
     return [dict(r, id=r["function_id"]) for r in rt.call("GET", "/competencies")["lines"]]
 
 

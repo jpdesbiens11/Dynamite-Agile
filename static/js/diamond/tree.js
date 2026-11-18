@@ -11,15 +11,24 @@
   const KEYS = { ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right" };
 
   async function view(page, ctx) {
-    const [data, concepts] = await Promise.all([api.get(D.base(ctx) + "/functions"), api.get(D.base(ctx) + "/concepts")]);
-    const state = { data, concepts, selected: null, selectedConcept: null, list: false };
+    const compOn = D.partOn("competencies");  // 0.60.116: « Compétences et équipe » may be turned off (⚙ Admin → Modules et fonctions)
+    const [data, concepts, comp] = await Promise.all([api.get(D.base(ctx) + "/functions"), api.get(D.base(ctx) + "/concepts"),
+      compOn ? api.get(D.base(ctx) + "/competencies") : null]);
+    const state = { data, concepts, comp, compCols: [], selected: null, selectedConcept: null, list: false };
     const holder = el("div", { class: "dm-page" });
     page.append(holder);
+    const lines = async () => { if (compOn) state.comp = await api.get(D.base(ctx) + "/competencies"); };  // 0.60.116: the lines follow the bricks
     state.crun = async (path, body, method) => {  // 0.60.105 (D-O-117): the bricks of the column
       try {
         state.concepts = await api[method || "post"](D.base(ctx) + path, body || {});
         if (state.concepts.created) { state.selectedConcept = state.concepts.created; state.selected = null; }
+        await lines();
       } catch (err) { toast(err.message, "error"); }
+      D.later(() => draw(holder, ctx, state, run));
+    };
+    state.rate = async (fid, code, rating) => {  // 0.60.116 (D-O-129): one cell of the grid of the competencies
+      try { state.comp = await api.put(D.base(ctx) + "/competencies/rating", { function_id: fid, code, rating }); }
+      catch (err) { toast(err.message, "error"); }
       D.later(() => draw(holder, ctx, state, run));
     };
     const run = async (path, body, method) => {
@@ -29,6 +38,7 @@
           const newest = state.data.functions.reduce((a, b) => (b.number > (a ? a.number : 0) ? b : a), null);
           if (newest) state.selected = newest.id;
         }
+        await lines();
       } catch (err) { toast(err.message, "error"); }
       D.later(() => draw(holder, ctx, state, run));
     };
@@ -49,7 +59,7 @@
       el("p", { class: "muted" }, "Les fonctions du produit, de la fonction primaire (à gauche) à ses « comment » (à droite). De haut "
         + "en bas : l'ordre de la première utilisation, de la sortie de la boîte au service rendu ; la dernière branche protège.")));
     if (!items.length) { holder.append(empty(ctx, run, editable)); return; }
-    holder.append(legend(), advice(state.data.checks));
+    holder.append(legend(), helpBubble(!!state.comp), advice(state.data.checks));
     if (state.list) { holder.append(listView(state, holder, ctx, run)); return; }
     const select = (id) => { state.selected = state.selected === id ? null : id; state.selectedConcept = null; D.later(() => draw(holder, ctx, state, run)); };
     const onConcept = (id) => { state.selectedConcept = state.selectedConcept === id ? null : id; state.selected = null; D.later(() => draw(holder, ctx, state, run)); };
@@ -63,16 +73,16 @@
     };
     const hasPrimary = items.some((f) => f.is_primary);
     const tree = hasPrimary ? D.drawTree({ items, selected: state.selected, editable, onSelect: select, onDrop, onKey,
-      concepts: bricks, selectedConcept: state.selectedConcept, onConcept })
+      concepts: bricks, selectedConcept: state.selectedConcept, onConcept, comp: state.comp, compCols: state.compCols,
+      onRate: state.rate, onAddCol: (code) => { state.compCols.push(code); D.later(() => draw(holder, ctx, state, run)); } })
       : el("div", { class: "empty" }, el("p", null, "Aucune fonction primaire. Choisissez-en une parmi les fonctions hors arbre "
         + "(« En faire la fonction primaire »), ou créez-la."), editable ? el("button", { type: "button", class: "btn btn-primary",
         onclick: () => ask("Fonction primaire", (text) => run("/functions", { text, primary: true }, "post")) }, "Créer la fonction primaire") : null);
     const chosen = items.find((f) => f.id === state.selected);
     const brick = bricks.find((c) => c.id === state.selectedConcept);
-    holder.append(el("div", { class: "dm-work" + (chosen || brick ? " dm-with-panel" : "") }, tree,
-      brick ? D.conceptPanel(state, brick, state.crun, editable, ctx) : chosen ? D.panel(state, chosen, run, editable) : el("aside", { class: "dm-panel dm-panel-idle" },
-        el("p", { class: "muted" }, "Cliquez une fonction pour la lire (pourquoi ? comment ? quand ?), la modifier, lui ajouter un "
-          + "« comment », la déplacer ou lui donner sa brique technologique. Cliquez une brique (CB-n) pour la modifier."))));
+    holder.append(el("div", { class: "dm-work dm-tree-work" + (chosen || brick ? " dm-with-panel" : "") }, tree,
+      brick ? D.conceptPanel(state, brick, state.crun, editable, ctx) : chosen ? D.panel(state, chosen, run, editable) : null));
+    if (hasPrimary && state.comp) holder.append(D.competencyLegend(ctx, state.comp, D.competencyColumns(state.comp, state.compCols)));
     holder.append(outside(state, holder, ctx, run, editable, select));
   }
 
@@ -82,6 +92,22 @@
       el("span", { class: "dm-key dm-key-critical" }, "Chemin critique"), el("span", { class: "dm-key dm-key-feedback" }, "Rétroaction (contrôle)"),
       el("span", { class: "dm-key dm-key-tech" }, "Fonction technique"),
       el("span", { class: "dm-key dm-key-concept", "data-new": "0.60.105-concept-legend" }, "Brique technologique (après le pointillé)"));
+  }
+
+  /* 0.60.116 (D-O-129): how to read and change the tree, in a bubble above it (the right of the tree holds the competencies) */
+  function helpBubble(withGrid) {
+    return el("details", { class: "dm-help-bubble", "data-new": "0.60.116-tree-help" },
+      el("summary", null, DA.icon("help"), " Comment lire et modifier l'arbre"),
+      el("ul", null,
+        el("li", null, "Cliquez une fonction pour la lire (pourquoi ? comment ? quand ?), la modifier, lui ajouter un « comment », la "
+          + "déplacer ou lui donner sa brique technologique. Cliquez une brique (CB-n) pour la modifier."),
+        el("li", null, "Une brique est une brique standard, définie très largement, qui existe déjà dans l'industrie pour couvrir la "
+          + "fonction (« Motoréducteur DC », « Ultrasonic sensor »). Ses variantes inventives se travaillent dessous, dans les feuilles de concept."),
+        el("li", null, "Quand le concept d'une ligne est choisi, « Figer » la brique dans son panneau : le concept retenu s'affiche, "
+          + "la recherche s'arrête (« Défiger » avec une raison pour la reprendre)."),
+        withGrid ? el("li", null, "À droite, chaque ligne fonction → brique note les compétences nécessaires de 1 (presque pas) à 5 (au cœur "
+          + "du développement) : un clic sur une case, ou les touches 1 à 5. « + » ajoute une compétence ; « ↔ IA » remplit la "
+          + "grille d'un coup. La somme est dans « Compétences et équipe ».") : null));
   }
 
   function advice(checks) {

@@ -158,6 +158,7 @@ class ConceptsTest(unittest.TestCase):
         self.assertIn("F{}".format(self.tertiary[0]["number"]), prompt)
         self.assertIn("nom qui parle", prompt)
         f = self.tertiary[8]
+        self.admin.post(self.base + "/concepts/link", {"function_id": f["id"], "concept_id": None})  # 0.60.116: the Rover has its bricks
         answer = "Voici :\n```json\n" + json.dumps({"concepts": [{"name": "Brique IA", "initial_name": "Œil de lynx", "kind": "to_define",
                                                                   "functions": ["F{}".format(f["number"]), "F99999"]}],
                                                     "sheets": [{"concept": "Brique IA", "title": "Option IA", "principle": "p"}]},

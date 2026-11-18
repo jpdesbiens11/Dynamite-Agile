@@ -44,7 +44,7 @@ class CompetenciesTest(unittest.TestCase):
         tertiary = [f for f in fns if f["in_tree"] and f["level"] == 3]
         have = {fid for c in cls.admin.get(cls.base + "/concepts")["concepts"] for fid in c["function_ids"]}
         free = [f["id"] for f in tertiary if f["id"] not in have]
-        for i, name in enumerate(("Pack Li-ion avec BMS", "Microcontrôleur Wi-Fi", "Capteur à ultrasons", "Motoréducteur DC")):
+        for i, name in enumerate(("Pack Li-ion", "Microcontrôleur Wi-Fi", "Ultrasonic sensor", "Motoréducteur DC")):
             cls.admin.post(cls.base + "/concepts", {"name": name, "kind": "existing", "function_ids": free[i * 2:i * 2 + 2]})
 
     @classmethod
@@ -90,6 +90,8 @@ class CompetenciesTest(unittest.TestCase):
         self.assertRegex(line["brick"]["code"], r"^CB-\d+$")
 
     def test_03_rate_a_cell_and_summary(self):
+        for ln in self.data()["lines"]:  # a clean grid (the Rover of DEMO comes with its example ratings)
+            self.admin.put(self.base + "/competencies/lines/{}".format(ln["function_id"]), {"ratings": {}})
         a, b = self.data()["lines"][:2]
         self.editor.put(self.base + "/competencies/rating", {"function_id": a["function_id"], "code": "THERM", "rating": 4})
         self.editor.put(self.base + "/competencies/rating", {"function_id": a["function_id"], "code": "MECH", "rating": 2})
@@ -169,7 +171,7 @@ class CompetenciesTest(unittest.TestCase):
         concepts = self.admin.get(self.base + "/concepts")["concepts"]
         brick = next(c for c in concepts if c["function_ids"])
         self.fails(400, self.editor.post, self.base + "/concepts/{}/freeze".format(brick["id"]), {"text": "  "})
-        data = self.editor.post(self.base + "/concepts/{}/freeze".format(brick["id"]), {"text": "Pack Li-ion 2S, BMS du commerce 5 A"})
+        data = self.editor.post(self.base + "/concepts/{}/freeze".format(brick["id"]), {"text": "Pack Li-ion 2S, protection du commerce 5 A"})
         frozen = next(c for c in data["concepts"] if c["id"] == brick["id"])
         self.assertEqual((frozen["frozen"], frozen["status"], frozen["frozen_by_name"]), (1, "selected", "Éditeur"))
         msg = self.fails(409, self.editor.patch, self.base + "/concepts/{}".format(brick["id"]), {"name": "Autre chose"})
@@ -187,6 +189,19 @@ class CompetenciesTest(unittest.TestCase):
         with db.connect() as conn:
             row = conn.execute("SELECT details FROM audit_log WHERE action = 'diamond_concept_unfreeze' ORDER BY id DESC").fetchone()
         self.assertIn("Nouvelle cellule", row["details"])
+
+    def test_08_turned_off_like_the_pfmea(self):
+        self.admin.put("/api/admin/features", {"features": {"diamond_competencies": False}})
+        try:
+            self.fails(404, self.admin.get, self.base + "/competencies")
+            self.fails(404, self.admin.post, "/api/diamond/competencies", {"code": "OPT", "name": "Optics", "icon": "eye"})
+            sec = next(s for s in self.admin.get(self.base + "/rt/sections")["sections"] if s["key"] == "competencies")
+            self.assertEqual(sec["count"], 0)
+            self.assertFalse(self.admin.get("/api/me")["features"]["diamond_competencies"])
+            self.admin.post(self.base + "/concepts", {"name": "Brique sans grille"})  # the bricks stay
+        finally:
+            self.admin.put("/api/admin/features", {"features": {"diamond_competencies": True}})
+        self.assertTrue(self.data()["lines"])  # back on: everything is there
 
 
 if __name__ == "__main__":

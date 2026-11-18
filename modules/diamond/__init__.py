@@ -49,6 +49,11 @@ FEATURES = {
     "diamond_cplans": {"label": "Plans de contrôle", "requires": "diamond_process",
                        "help": "Un ou plusieurs Control Plans par configuration de ligne et à la réception, trois phases, mesures et Cpk.",
                        "routes": [r"/api/diamond/p/\d+/cplans(/.*)?"]},
+    # 0.60.116 (D-O-129): not every team rates its competencies -- the page, the grid of the tree and its « ↔ IA » section
+    "diamond_competencies": {"label": "Compétences et équipe",
+                             "help": "La grille des compétences (1 à 5) de chaque ligne fonction → brique de l'arbre, la page de synthèse "
+                                     "et les personnes à embaucher ou réunir. Les pages de la BDC sur les compétences restent visibles.",
+                             "routes": [r"/api/diamond/p/\d+/competencies(/.*)?", r"/api/diamond/competencies(/.*)?"]},
 }
 
 MIGRATIONS = migrations_a.MIGRATIONS + migrations_b.MIGRATIONS  # 0.60.103: the SQL in two files (500-line rule)

@@ -67,6 +67,7 @@
   function draw(opts) {
     const box = layout(opts.items);
     const column = opts.concepts && DA.diamond.conceptColumn ? DA.diamond.conceptColumn(box, opts) : null;
+    const grid = column && opts.comp && DA.diamond.competencyGrid ? DA.diamond.competencyGrid(box, column, opts) : null;  // 0.60.116
     const canvas = el("div", { class: "dm-canvas", role: "group", "aria-label": "Arbre fonctionnel" });
     canvas.style.width = box.width + "px";
     canvas.style.height = box.height + "px";
@@ -75,6 +76,10 @@
       canvas.style.width = column.width + "px";
       canvas.style.height = column.height + "px";
       canvas.append(column.svg);
+    }
+    if (grid) {
+      canvas.style.width = grid.width + "px";
+      canvas.append(grid.svg);
     }
     box.nodes.forEach(({ f, x, y }) => {
       const node = el("button", {
@@ -90,14 +95,16 @@
       canvas.append(node);
     });
     if (column) column.nodes.forEach((n) => canvas.append(n));
-    const heads = el("div", { class: "dm-heads", "aria-hidden": "true" });
-    heads.style.width = (column ? column.width : box.width) + "px";
+    if (grid) grid.nodes.forEach((n) => canvas.append(n));
+    const heads = el("div", { class: "dm-heads" });
+    heads.style.width = (grid ? grid.width : column ? column.width : box.width) + "px";
     HEADS.slice(0, Math.max(box.levels, 3)).forEach((label, i) => {
       const h = el("span", { class: "dm-head dm-head-" + (i + 1) }, label);
       h.style.left = (PAD + i * COL) + "px";
       heads.append(h);
     });
     if (column) heads.append(column.head);
+    if (grid) heads.append(grid.head);
     return el("div", { class: "dm-scroll" }, heads, canvas);
   }
 

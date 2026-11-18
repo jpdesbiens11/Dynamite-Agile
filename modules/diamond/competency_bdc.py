@@ -51,7 +51,7 @@ def hub_page():
 def competency_page(c):
     d = c.get("details") or {}
     blocks = [{"type": "panel", "kind": "info", "content": [_p(_t(c["name"], "bold"), " — " + (c["summary"] or "")),
-                                                           _p("Code : {} · icône : {}{}".format(c["code"], c["icon"], "" if c["active"]
+                                                           _p("Code : {}{}".format(c["code"], "" if c["active"]
                                                               else " · désactivée dans le catalogue"))]}]
     for key in DC.DETAIL_KEYS:
         blocks += [{"type": "heading", "level": 2, "content": [_t(DC.DETAIL_LABELS[key])]}, _items(d.get(key))]

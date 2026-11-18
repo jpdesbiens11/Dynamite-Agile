@@ -47,15 +47,16 @@
       c.source === "ai" ? el("p", { class: "dm-ai-note" }, "Brouillon IA : à relire par l'équipe.") : null,
       c.selected_sheet ? el("p", { class: "dm-reading" }, el("strong", null, "Idée de départ → retenu : "),
         (c.initial_name ? "« " + c.initial_name + " » → " : "") + c.selected_sheet.code + " " + c.selected_sheet.title) : null);
+    if (c.frozen) box.append(frozenNote(c));  // 0.60.116 (D-O-129)
     const linked = c.function_ids.map((id) => fns.find((f) => f.id === id)).filter(Boolean);
     const list = el("ul", { class: "dm-brick-fns" }, linked.map((f) => el("li", null, el("span", { class: "dm-code" }, "F" + f.number), " " + f.text,
       editable ? el("button", { type: "button", class: "icon-btn", "aria-label": "Retirer F" + f.number + " de " + c.code,
         onclick: () => crun("/concepts/link", { function_id: f.id, concept_id: null }) }, "×") : null)));
-    if (!editable) {
-      box.append(c.owner_name ? el("p", { class: "muted" }, "Responsable : " + c.owner_name) : null,
+    if (!editable || c.frozen) {
+      box.append(...[c.owner_name ? el("p", { class: "muted" }, "Responsable : " + c.owner_name) : null,
         c.initial_name ? el("p", { class: "dm-concept-initial" }, "« " + c.initial_name + " »") : null,
         el("p", null, el("strong", null, c.name)), c.pivot_note ? el("p", null, el("strong", null, "Pivot : "), c.pivot_note) : null, c.reference ? el("p", { class: "muted" }, c.reference) : null,
-        c.description ? el("p", null, c.description) : null, el("h3", null, "Fonctions"), list);
+        c.description ? el("p", null, c.description) : null, el("h3", null, "Fonctions"), list].filter(Boolean));  // no « null » (D-O-129)
     } else {
       const name = el("input", { type: "text", maxlength: 120, value: c.name });
       const initial = el("input", { type: "text", maxlength: 80, value: c.initial_name || "", placeholder: "ex. « Tête-radiateur »" });
@@ -83,11 +84,57 @@
     box.append(el("div", { class: "dm-actions" },
       el("a", { class: "btn btn-small btn-primary", href: DA.agile.href(ctx, "concepts/" + c.code) },
         "Feuilles de concept (" + c.sheets + ")"),
-      editable ? el("button", { type: "button", class: "btn btn-small btn-danger", onclick: () => {
+      editable ? el("button", { type: "button", class: "btn btn-small", "data-new": "0.60.116-brick-freeze",
+        onclick: () => (c.frozen ? unfreeze(c, crun) : freeze(c, crun)) }, c.frozen ? "Défiger" : "Figer le concept") : null,
+      editable && !c.frozen ? el("button", { type: "button", class: "btn btn-small btn-danger", onclick: () => {
         if (window.confirm("Archiver " + c.code + " « " + c.name + " » ? Ses fonctions n'ont plus de brique ; ses feuilles et matrices restent. "
           + "Le numéro " + c.code + " ne sera jamais redonné.")) crun("/concepts/" + c.id + "/archive", {});
       } }, "Archiver") : null));
     return box;
+  }
+
+  /* 0.60.116 (D-O-129): the concept retained of a frozen brick */
+  function frozenNote(c) {
+    return el("div", { class: "dm-frozen-note" }, el("p", null, el("span", { class: "badge badge-ok" }, "Figée"),
+      " " + (c.frozen_by_name ? "par " + c.frozen_by_name : "") + (c.frozen_at ? " le " + c.frozen_at.slice(0, 10) : "")),
+    el("p", { class: "dm-reading" }, el("strong", null, "Concept retenu : "), c.frozen_text),
+    el("p", { class: "muted dm-hint" }, "La brique ne change plus : pas de nouvelle feuille de concept ni de matrice de Pugh. Seuls "
+      + "son responsable et ses fonctions peuvent encore changer."));
+  }
+
+  function freeze(c, crun) {
+    const draft = c.selected_sheet ? c.name + " — " + c.selected_sheet.code + " " + c.selected_sheet.title : c.name + (c.reference ? " — " + c.reference : "");
+    const text = el("textarea", { rows: 5, maxlength: 1000, "aria-label": "Concept retenu" }, draft);
+    let close = null;
+    const form = el("form", { class: "ag-form", onsubmit: (ev) => {
+      ev.preventDefault();
+      if (!text.value.trim()) { text.focus(); return; }
+      close();
+      crun("/concepts/" + c.id + "/freeze", { text: text.value });
+    } }, el("p", { class: "muted" }, "Le concept de " + c.code + " est choisi : la recherche s'arrête. Confirmez-le par écrit, il "
+      + "s'affichera dans l'arbre à la place de la brique."),
+    DA.field("Concept retenu", text, "La brique standard et la variante gardée, ses chiffres clés (ex. « Motoréducteur DC 12 V, "
+      + "réduction 1:30, encodeur à effet Hall du commerce »)."),
+    el("div", { class: "form-actions" }, el("button", { type: "button", class: "btn", onclick: () => close() }, "Annuler"),
+      el("button", { type: "submit", class: "btn btn-primary" }, "Figer " + c.code)));
+    close = DA.modal("Figer le concept de " + c.code, form);
+    text.focus();
+  }
+
+  function unfreeze(c, crun) {
+    const reason = el("input", { type: "text", maxlength: 300, placeholder: "ex. Nouvelle cellule disponible, coût trop élevé", "aria-label": "Raison" });
+    let close = null;
+    const form = el("form", { class: "ag-form", onsubmit: (ev) => {
+      ev.preventDefault();
+      if (!reason.value.trim()) { reason.focus(); return; }
+      close();
+      crun("/concepts/" + c.id + "/unfreeze", { reason: reason.value });
+    } }, el("p", null, el("strong", null, "Concept retenu : "), c.frozen_text),
+    DA.field("Pourquoi le reprendre ?", reason, "Inscrit au journal, avec le concept qui était retenu."),
+    el("div", { class: "form-actions" }, el("button", { type: "button", class: "btn", onclick: () => close() }, "Annuler"),
+      el("button", { type: "submit", class: "btn btn-primary" }, "Défiger " + c.code)));
+    close = DA.modal("Défiger " + c.code, form);
+    reason.focus();
   }
 
   D.brickPicker = brickPicker;

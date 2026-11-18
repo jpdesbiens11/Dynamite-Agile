@@ -30,7 +30,7 @@
   function draw(holder, ctx, state) {
     clear(holder);
     const { concept: c, sheets, functions, labels } = state.data;
-    const editable = A.canEdit(ctx);
+    const editable = A.canEdit(ctx) && !c.frozen;  // 0.60.116 (D-O-129): a frozen brick is read only here
     const fns = c.function_ids.map((id) => functions.find((f) => f.id === id)).filter(Boolean);
     holder.append(A.pageHead(ctx, [el("a", { href: A.href(ctx, "concepts") }, "Briques technologiques"), el("span", null, c.code)], [
       el("a", { class: "btn btn-small", href: A.href(ctx, "ftree") }, "Voir dans l'arbre"),
@@ -40,6 +40,9 @@
     holder.append(el("div", { class: "page-head dm-intro" },
       el("h1", null, el("span", { class: "dm-code dm-code-big" }, c.code), " " + (c.initial_name ? "« " + c.initial_name + " »" : c.name)),
       c.initial_name ? el("p", { class: "dm-cb-name" }, "Brique technologique : " + c.name) : null,
+      c.frozen ? el("p", { class: "dm-frozen-note dm-reading", "data-new": "0.60.116-brick-frozen-page" },
+        el("span", { class: "badge badge-ok" }, "Figée"), el("strong", null, " Concept retenu : "), c.frozen_text,
+        el("span", { class: "muted" }, " — la recherche s'arrête ici ; « Défiger » se fait dans le panneau de la brique, dans l'arbre.")) : null,
       c.selected_sheet ? el("p", { class: "dm-concept-landed" }, "Idée de départ → retenu : " + c.selected_sheet.code + " " + c.selected_sheet.title
         + (c.pivot_note ? ". Pivot : " + c.pivot_note : "")) : null,
       el("div", { class: "dm-cb-top" }, el("span", { class: "badge " + (c.kind === "existing" ? "badge-ok" : "badge-warn") }, labels.kinds[c.kind]),

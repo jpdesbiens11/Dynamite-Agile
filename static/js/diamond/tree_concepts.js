@@ -35,6 +35,7 @@
           class: "dm-edge-concept" + (p.c.id === opts.selectedConcept ? " dm-edge-concept-on" : "") }));
       });
       const shared = p.c.function_ids.length > 1 ? " · " + p.c.function_ids.length + " fonctions" : "";
+      if (p.c.frozen) return frozenBox(p, x0, opts);  // 0.60.116 (D-O-129): the concept retained, the search stopped
       const node = el("button", {
         type: "button", class: "dm-node dm-concept dm-concept-" + p.c.kind + (p.c.id === opts.selectedConcept ? " dm-selected" : "")
           + (p.c.source === "ai" ? " dm-concept-ai" : ""),
@@ -54,7 +55,24 @@
     });
     const head = el("span", { class: "dm-head dm-head-concept", "data-new": "0.60.105-concept-column" }, "Concept initial / Brique technologique");
     head.style.left = x0 + "px";
-    return { svg: g, nodes, head, width, height };
+    return { svg: g, nodes, head, width, height, placed, x0, CH };
+  }
+
+  /* a frozen brick: its standard brick and the concept retained, confirmed in writing; no more search under it */
+  function frozenBox(p, x0, opts) {
+    const c = p.c;
+    const node = el("button", {
+      type: "button", class: "dm-node dm-concept dm-concept-frozen" + (c.id === opts.selectedConcept ? " dm-selected" : ""),
+      "data-tip": "Figée — concept retenu : " + c.frozen_text, "aria-pressed": c.id === opts.selectedConcept ? "true" : "false",
+      "data-new": "0.60.116-brick-frozen", onclick: () => opts.onConcept(c.id) },
+    c.owner_name ? el("span", { class: "dm-concept-owner", "data-tip": "Responsable : " + c.owner_name }, initials(c.owner_name)) : null,
+    el("span", { class: "dm-code" }, c.code, el("span", { class: "dm-concept-kind" }, "Figée")),
+    el("strong", { class: "dm-concept-initial" }, c.name),
+    el("span", { class: "dm-concept-landed" }, c.frozen_text));
+    node.style.height = CH + "px";
+    node.style.left = x0 + "px";
+    node.style.top = p.y + "px";
+    return node;
   }
 
   DA.diamond = Object.assign(DA.diamond || {}, { conceptColumn });
