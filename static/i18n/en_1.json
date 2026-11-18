@@ -114,6 +114,7 @@
 " brique(s) nouvelle(s), ": " new building block(s), ",
 " briques": " building blocks",
 " brouillon(s) acceptés.": " draft(s) accepted.",
+" cartes": " cards",
 " case(s) encore à noter. ": " cell(s) still to score. ",
 " change une cote : tout ce qui cite la C-n (PFMEA, plan de contrôle, étude de capabilité, essai) passe « à revoir » jusqu'à « Revu ».": " changes a dimension: everything that cites the C-n (PFMEA, control plan, capability study, test) becomes “to review” until “Reviewed”.",
 " choix en attente — cliquez à côté ou « Appliquer »": " pending choices — click elsewhere or “Apply”",
@@ -236,6 +237,8 @@
 " page(s) copiée(s) dans ": " page(s) copied to ",
 " page(s) déplacée(s) vers ": " page(s) moved to ",
 " par ": " by ",
+" partie : « ": " part: “ ",
+" parties.": " parts.",
 " peut exporter les pages en PDF / Word.": " can export pages to PDF / Word.",
 " pictogrammes au maximum par scène.": " pictograms at most per scene.",
 " pièce": " part",
@@ -1404,5 +1407,6 @@
 "Bloc d'alimentation externe certifié CSA / UL (classe 2, ES1 / PS2) plutôt qu'une alimentation secteur intégrée": "CSA / UL certified external power supply (class 2, ES1 / PS2) rather than an integrated mains supply",
 "Bloc de code": "Code block",
 "Bloc secteur 12 V certifié et regulator de la carte": "Certified 12 V mains adapter and board regulator",
-"Bloc secteur 12 V certifié et régulateur de la carte": "Certified 12 V mains adapter and board regulator"
+"Bloc secteur 12 V certifié et régulateur de la carte": "Certified 12 V mains adapter and board regulator",
+"Bloc « ": "Block “ "
 }

@@ -5,10 +5,11 @@ POST /api/diamond/p/<pid>/pdf  {title, view, sections?: [keys], blocks?: [...]}
     then one table -- the code and every field that has a value in at least one row. A table of more than COLS columns is
     cut into several tables of COLS columns that all start with the code (« suite »); a table of more than
     pdf_doc.WIDE_COLUMNS columns puts the whole document in Tabloid landscape.
-  - blocks: a document the page builds itself (Golden Nuggets: static content), checked here -- h / p / note / ul / table / card.
+  - blocks: a document the page builds itself (Golden Nuggets: static content), checked here -- h / p / note / ul / ol / table / card.
   - neither (Idéation, Kepner-Tregoe, Prioriser, Exporter: no artefact of their own): every section of Diamond.
 The format of the platform's Word documents (pdf_doc.py): cover page, header, footer. Readers of the Space may export, as
 for the other files of Diamond; the core stamps the file with its revision and registers it (RawFile, core/stamp.py).
+0.60.124 (D-O-137): prepare() and fill() are shared with « Word » (docx_pages.py), which renders the same body as a .docx.
 """
 import json
 import re
@@ -23,7 +24,7 @@ from . import rt
 COLS = 11            # columns of one table (the code included) before it is cut
 MAX_BLOCKS = 3000
 MAX_TEXT = 6000
-KINDS = ("h", "p", "note", "ul", "table", "card")
+KINDS = ("h", "p", "note", "ul", "ol", "table", "card")  # ol: 0.60.124
 
 
 def label(key):
@@ -84,8 +85,8 @@ def from_blocks(doc, blocks):
             doc.h(int(level) if str(level).isdigit() else 1, _text(b.get("text"), "titre", 300))
         elif kind in ("p", "note"):
             (doc.note if kind == "note" else doc.p)(_text(b.get("text"), "paragraphe"))
-        elif kind == "ul":
-            doc.bullets([_text(i, "liste") for i in (b.get("items") or [])[:200]])
+        elif kind in ("ul", "ol"):
+            (doc.numbered if kind == "ol" else doc.bullets)([_text(i, "liste") for i in (b.get("items") or [])[:200]])
         elif kind == "table":
             header = [_text(h, "en-tête", 120) for h in (b.get("header") or [])[:40]]
             doc.table(header, [[_text(c, "cellule") for c in (r or [])[:40]] for r in (b.get("rows") or [])[:3000]])
@@ -96,28 +97,39 @@ def from_blocks(doc, blocks):
                       if isinstance(d, (list, tuple)) and len(d) == 2])
 
 
-def api_pdf(ctx):
+def prepare(ctx):
+    """(pid, meta, project) of a page export: the reader's right, the title and the fields of the header (PDF and Word)."""
     pid = validate.int_param(ctx.params, "pid")
     permissions.require_project_role(ctx.conn, ctx.user, pid, "reader")
     project = ctx.conn.execute("SELECT key, name FROM projects WHERE id = ?", (pid,)).fetchone()
     title = _text(ctx.body.get("title") or "Diamond", "titre", 120).strip() or "Diamond"
     view = re.sub(r"[^a-z]", "", str(ctx.body.get("view") or ""))[:20]
     initials = prefs.get(ctx.conn, ctx.user["id"]).get("initials") or ""
-    doc = P.Doc({"title": title, "subject": "{} ({})".format(project["name"], project["key"])[:110], "doctype": "Diamond · " + title,
-                 "docno": "DM-{}-{}".format(project["key"], view.upper() or "ALL")[:40], "rev": "A", "prepared": ctx.user["display_name"][:80],
-                 "initials": initials})
+    meta = {"title": title, "subject": "{} ({})".format(project["name"], project["key"])[:110], "doctype": "Diamond · " + title,
+            "docno": "DM-{}-{}".format(project["key"], view.upper() or "ALL")[:40], "rev": "A", "prepared": ctx.user["display_name"][:80],
+            "initials": initials, "view": view}
+    return pid, meta, project
+
+
+def fill(ctx, pid, doc):
+    """The body of the request into doc (pdf_doc.Doc or docx_pages.WordDoc); returns the scope for the journal."""
     if ctx.body.get("blocks") is not None:
         from_blocks(doc, ctx.body.get("blocks"))
-        scope = "page"
-    else:
-        trip = rt.RoundTrip(ctx, pid)
-        wanted = [k for k in (ctx.body.get("sections") or []) if isinstance(k, str)]
-        keys = [k for k in wanted if k in trip.sections and trip.sections[k].listed] or [k for k, s in trip.sections.items() if s.listed]
-        dumped = rt.dump(trip, keys)
-        for key in keys:
-            section(doc, trip.sections[key], dumped[key])
-        scope = ",".join(keys) if wanted else "all"
+        return "page"
+    trip = rt.RoundTrip(ctx, pid)
+    wanted = [k for k in (ctx.body.get("sections") or []) if isinstance(k, str)]
+    keys = [k for k in wanted if k in trip.sections and trip.sections[k].listed] or [k for k, s in trip.sections.items() if s.listed]
+    dumped = rt.dump(trip, keys)
+    for key in keys:
+        section(doc, trip.sections[key], dumped[key])
+    return ",".join(keys) if wanted else "all"
+
+
+def api_pdf(ctx):
+    pid, meta, project = prepare(ctx)
+    doc = P.Doc(meta)
+    scope = fill(ctx, pid, doc)
     data = P.render(doc)
-    audit.log_action(ctx.conn, ctx.user["id"], "diamond_export_pdf", "project", pid, {"page": view, "sections": scope, "bytes": len(data)}, ctx.ip)
-    name = re.sub(r"[^\w\-]+", "_", "Diamond_{}_{}".format(project["key"], title), flags=re.UNICODE).strip("_")[:90]
+    audit.log_action(ctx.conn, ctx.user["id"], "diamond_export_pdf", "project", pid, {"page": meta["view"], "sections": scope, "bytes": len(data)}, ctx.ip)
+    name = re.sub(r"[^\w\-]+", "_", "Diamond_{}_{}".format(project["key"], meta["title"]), flags=re.UNICODE).strip("_")[:90]
     return RawFile(data, name + ".pdf", "application/pdf")

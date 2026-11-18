@@ -1,4 +1,7 @@
 {
+"Level visé": "Target Level",
+"Level visé ": "Target level ",
+"Leçons apprises : DFMEA et retours terrain d'un produit semblable ou précédent": "Lessons learned: DFMEA and field feedback from a similar or previous product",
 "Libellé": "Label",
 "Libellé CC": "CC label",
 "Libellé SC": "SC label",
@@ -933,6 +936,7 @@
 "Partez de l'arbre : une ligne par fonction, puis, pour chacune, comment elle peut faillir, avec quel effet et pourquoi. Les risques projet cochés « À détailler dans le DFMEA » arrivent avec « Depuis les risques ».": "Start from the tree: one line per function, then, for each, how it can fail, with what effect and why. Project risks checked “To detail in the DFMEA” arrive with “From the risks”.",
 "Partez toujours d'un export : modifiez-le dans Excel, puis réimportez-le. Chaque ligne refusée ": "Always start from an export: edit it in Excel, then re-import it. Each rejected row ",
 "Parties": "Parts",
+"Parties à exporter": "Parts to export",
 "Partir de ": "Start from ",
 "Partir de l'exemple": "Start from the example",
 "Partir du plan de référence": "Start from the reference plan",
@@ -1186,6 +1190,8 @@
 "Pourquoi : score, risques acceptés, actions de maîtrise": "Why: score, accepted risks, control actions",
 "Pourquoi ?": "Why?",
 "Pourquoi ? ex. « peut blesser une personne », « fonction de vitesse », « cause logicielle, rien à contrôler en fabrication »": "Why? e.g. “can injure a person”, “speed function”, “software cause, nothing to check in manufacturing”",
+"Pourquoi Golden Nuggets": "Why Golden Nuggets",
+"Pourquoi Golden Nuggets — contexte, problématique, portée, mode d'emploi": "Why Golden Nuggets — context, problem, scope, how to use it",
 "Pourquoi Goldmine, Dynamite, Exploration… ? Les noms de la mine": "Why Goldmine, Dynamite, Exploration…? The names of the mine",
 "Pourquoi ce concept : forces, risques acceptés, suites": "Why this concept: strengths, accepted risks, next steps",
 "Pourquoi ce requirement existe": "Why this requirement exists",
@@ -1246,6 +1252,7 @@
 "Problèmes signalés": "Reported issues",
 "Problèmes signalés (#)": "Reported problems (#)",
 "Problèmes traités": "Resolved issues",
+"Problématique": "Problem",
 "Process FMEA (AIAG-VDA) de la ligne d'assemblage. Il part de l'extrait final du DFMEA et de la ligne réelle ; la sévérité vient du DFMEA et ne peut pas être abaissée (🔒). Les lignes proposées par l'IA arrivent en brouillon.": "Process FMEA (AIAG-VDA) of the assembly line. It starts from the final DFMEA extract and the real line; the severity comes from the DFMEA and cannot be lowered (🔒). The rows proposed by the AI arrive as drafts.",
 "Process flow ; PFMEA ; plan de contrôle ; gabarits et outillages ; instructions de travail.": "Process flow; PFMEA; control plan; jigs and tooling; work instructions.",
 "Processus de développement de produit": "Product Development Process",
@@ -1401,8 +1408,5 @@
 "Question trop vague (« améliorer le produit ») : la reformuler.": "Question too vague (“improve the product”): rephrase it.",
 "Question à laquelle il répond": "Question it answers",
 "Questionner et supprimer": "Question and delete",
-"Questions / réponses client": "Customer Q&A",
-"Questions client à traiter (Goldmine)": "Customer questions to handle (Goldmine)",
-"Questions fréquentes": "FAQ",
-"Questions fréquentes : voir la sous-page « ": "Frequently asked questions: see the sub-page “ "
+"Questions / réponses client": "Customer Q&A"
 }

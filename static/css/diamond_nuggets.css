@@ -53,3 +53,26 @@ html[data-term] .dm-nug-fam { background: color-mix(in srgb, var(--fam, var(--ac
   .dm-nug-bar input[type=search] { min-width: 0; max-width: none; }
   .dm-nug-book-grid { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* the guide of the collection and of each part (0.60.124, D-O-137) */
+.dm-nug-guide { max-width: 120ch; padding: .55rem .9rem .7rem; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface-2); }
+.dm-nug-guide > summary { cursor: pointer; font-weight: 650; font-size: .9rem; color: var(--agile); width: fit-content; }
+.dm-nug-guide > summary:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
+.dm-nug-guide[open] > summary { margin-bottom: .55rem; }
+.dm-nug-guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: .7rem 1.2rem; }
+.dm-nug-guide-grid section { min-width: 0; }
+.dm-nug-guide-grid h3 { margin: 0 0 .25rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.dm-nug-guide-grid p, .dm-nug-guide-grid li { margin: 0; font-size: .87rem; line-height: 1.45; }
+.dm-nug-guide-grid ul, .dm-nug-guide-grid ol { margin: 0; padding-left: 1.15rem; }
+.dm-nug-guide-grid li + li { margin-top: .2rem; }
+.dm-intro .dm-nug-guide { margin-top: .5rem; }
+html[data-sketch] .dm-nug-guide { border-radius: var(--r-card); border-color: var(--graphite); }
+
+/* the export dialog: one part or the four, PDF or Word */
+.dm-nug-export { display: flex; flex-direction: column; gap: .7rem; max-width: 34rem; }
+.dm-nug-export fieldset { margin: 0; padding: .5rem .8rem .6rem; border: 1px solid var(--line); border-radius: var(--radius-sm); }
+.dm-nug-export legend { padding: 0 .3rem; font-weight: 650; font-size: .88rem; }
+.dm-nug-export fieldset > p { margin: .4rem 0 0; font-size: .82rem; }
+.dm-nug-xpart { display: flex; align-items: center; gap: .5rem; padding: .15rem 0; cursor: pointer; }
+.dm-nug-xpart .dm-nug-n { margin-left: auto; }
+.dm-nug-xsum { margin: 0; font-size: .85rem; }

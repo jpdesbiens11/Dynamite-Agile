@@ -1,5 +1,4 @@
 {
-"Bloc « ": "Block “ ",
 "Bloquant": "Blocking",
 "Bloquante": "Blocking",
 "Bloquer copier / clic droit": "Block copy / right-click",
@@ -213,6 +212,7 @@
 "Ce qu'on fait, et quand on saura que ça a marché": "What we do, and when we will know it worked",
 "Ce qu'une revue demanderait": "What a review would ask",
 "Ce que cette compétence apporte, en une phrase": "What this competency brings, in one sentence",
+"Ce que contient chaque carte": "What each card holds",
 "Ce que donne le résultat": "What the result gives",
 "Ce que l'import fait": "What the import does",
 "Ce que la fonction doit tenir, mesurable": "What the function must hold, measurable",
@@ -507,6 +507,7 @@
 "Cochez au moins un jour.": "Check at least one day.",
 "Cochez au moins une Budget Line et un Space.": "Check at least one Budget Line and one Space.",
 "Cochez au moins une brique à juger.": "Tick at least one building block to judge.",
+"Cochez au moins une partie.": "Tick at least one part.",
 "Cochez au moins une section.": "Tick at least one section.",
 "Cochez les meilleures idées pour les évaluer dans une Pugh matrix.": "Check the best ideas to evaluate them in a Pugh matrix.",
 "Coché : la valeur du fichier remplace celle de Goldmine. Décochez ce qui a été corrigé à la main ": "Checked: the file value replaces the Goldmine one. Uncheck what was corrected by hand ",
@@ -562,6 +563,7 @@
 "Comment elle est tenue": "How it is held",
 "Comment greffer des sprints agiles sur un processus à jalons pour des produits physiques.": "How to graft agile sprints onto a milestone-based process for physical products.",
 "Comment justifier le temps et les salaires réclamés : ce qui dicte la feuille de temps.": "How to justify the time and salaries claimed: what dictates the timesheet.",
+"Comment l'utiliser": "How to use it",
 "Comment la fonction peut ne pas être remplie": "How the function can fail to be fulfilled",
 "Comment le mesurer, pour quand, avec quelles ressources…": "How to measure it, by when, with which resources…",
 "Comment les paires changent-elles ?": "How do the pairs change?",
@@ -1404,5 +1406,7 @@
 "En une phrase :": "In one sentence:",
 "En vrac": "Loose",
 "En vrac : tout ce que la scène fait penser, sans filtrer.": "Brain dump: everything the scene makes you think of, unfiltered.",
-"En vérification": "Under verification"
+"En vérification": "Under verification",
+"En-tête Content-Length invalide.": "Invalid Content-Length header.",
+"En-tête oui / non": "Header on / off"
 }

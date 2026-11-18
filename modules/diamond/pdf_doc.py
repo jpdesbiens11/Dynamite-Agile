@@ -65,6 +65,9 @@ class Doc:
     def bullets(self, items):
         self.blocks.append(("ul", [str(i) for i in items]))
 
+    def numbered(self, items):  # 0.60.124 (D-O-137): steps, « 1. » instead of a bullet
+        self.blocks.append(("ol", [str(i) for i in items]))
+
     def table(self, header, rows):
         self.blocks.append(("table", [str(h) for h in header], [["" if c is None else str(c) for c in r] for r in rows]))
 
@@ -257,10 +260,10 @@ def _body(doc, size):
         elif kind == "p":
             _k, text, muted, italic, s = b
             wr.para(text, "I" if italic else "R", s, MUTED if muted else INK)
-        elif kind == "ul":
-            for item in b[1]:
+        elif kind in ("ul", "ol"):
+            for n, item in enumerate(b[1], start=1):
                 wr.need(14)
-                wr.text(wr.left + 6, wr.y - 10, "•", "B", 10)
+                wr.text(wr.left + (2 if kind == "ol" else 6), wr.y - 10, "{}.".format(n) if kind == "ol" else "•", "B", 10)
                 wr.para(item, "R", 10, indent=18, before=0, after=2)
             wr.y -= 4
         elif kind == "table":
@@ -313,12 +316,18 @@ def _decorate(ops, n, total, size, meta, logo):
     top = H - MARGIN
     if logo:
         wr.ops.append(b"q 34 0 0 34 %.2f %.2f cm /Logo Do Q" % (MARGIN, top - 38))
-    wr.text(MARGIN + 44, top - 16, clean(meta.get("title", ""))[:90], "B", 11, NAVY)
-    if meta.get("subject"):
-        wr.text(MARGIN + 44, top - 30, clean(meta["subject"])[:110], "R", 8.5, MUTED)
     when = meta.get("date") or dt.date.today().strftime("%d.%m.%Y")
     right = [("Doc.-No. : " + meta.get("docno", "")) + "     Revision : " + meta.get("rev", "A") + "     Date : " + when,
              meta.get("doctype", "") + "     Page : {} of {}".format(n, total)]
+    room = W - 2 * MARGIN - 44 - max(width(clean(s), "R", 8) for s in right) - 14  # 0.60.124: a long title never runs into Doc.-No.
+    title, tsize = clean(meta.get("title", ""))[:90], 11
+    while tsize > 8 and width(title, "B", tsize) > room:
+        tsize -= 0.5
+    while len(title) > 8 and width(title, "B", tsize) > room:
+        title = title[:-2].rstrip() + "…"
+    wr.text(MARGIN + 44, top - 16, title, "B", tsize, NAVY)
+    if meta.get("subject"):
+        wr.text(MARGIN + 44, top - 30, clean(meta["subject"])[:110], "R", 8.5, MUTED)
     for i, s in enumerate(right):
         wr.text(W - MARGIN - width(clean(s), "R", 8), top - 14 - 12 * i, s, "R", 8, INK)
     wr.line(MARGIN, top - 44, W - MARGIN, top - 44, NAVY, 0.9)

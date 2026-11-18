@@ -1,0 +1,77 @@
+{
+  "version": "0.60.124",
+  "date": "2026-11-18",
+  "summary": {
+    "fr": "Golden Nuggets : le guide de chaque partie (contexte, problématique, portée, mode d'emploi, contenu des cartes) ; export d'une partie ou des quatre, en PDF ou en Word au gabarit du rapport Diamond.",
+    "en": "Golden Nuggets: a guide for each part (context, problem, scope, how to use it, what each card holds); export one part or all four, as PDF or as Word on the template of the Diamond report."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Golden Nuggets : le guide de chaque partie (contexte, problématique, portée, mode d'emploi, contenu des cartes)",
+      "why": "Pour qu'on sache pourquoi chaque partie existe avant de lire ses cartes : « Pourquoi Golden Nuggets » sous l'introduction de la page, puis, au-dessus des cartes de chaque partie, « À quoi sert cette partie » en cinq rubriques — Contexte, Problématique, Portée (ce qui est couvert et ce qui ne l'est pas), Comment l'utiliser (étapes numérotées, avec les écrans de la plateforme) et Ce que contient chaque carte.",
+      "files": [
+        "CLAUDE.md",
+        "UPDATE_CHANGES.json",
+        "UPDATE_LOG.md",
+        "core/__init__.py",
+        "core/modules.py",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.124.json",
+        "site/en/guide.html",
+        "site/en/home.html",
+        "site/en/index.html",
+        "site/en/installation.html",
+        "site/en/modules.html",
+        "site/en/versions.html",
+        "site/guide.html",
+        "site/home.html",
+        "site/index.html",
+        "site/installation.html",
+        "site/modules.html",
+        "site/versions.html",
+        "static/apps/vitrine/index.html",
+        "static/css/diamond_nuggets.css",
+        "static/i18n/en_1.json",
+        "static/i18n/en_2.json",
+        "static/i18n/en_3.json",
+        "static/i18n/en_4.json",
+        "static/i18n/en_5.json",
+        "static/i18n/en_6.json",
+        "static/js/diamond/nuggets.js",
+        "static/js/diamond/nuggets_guide.js",
+        "tests/js/nuggets_export.js",
+        "tests/test_diamond_nuggets_export.py",
+        "tests/test_open_v060.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Golden Nuggets : exporter une partie ou les quatre, en PDF ou en Word au gabarit du rapport Diamond",
+      "why": "« PDF » et le nouveau bouton « Word » ouvrent une fenêtre : cochez la partie affichée, une autre ou les quatre, avec ou sans leurs guides, puis choisissez le format. Le Word suit le gabarit du rapport d'analyse fonctionnelle et du DFMEA : page de garde avec signatures, table des matières, en-tête avec le numéro et la révision, « DynamiteAgile · Co-Intelligence WorkFlow™ » en pied de page ; chaque carte garde sa couleur de famille.",
+      "files": [
+        "CLAUDE.md",
+        "UPDATE_CHANGES.json",
+        "UPDATE_LOG.md",
+        "core/__init__.py",
+        "core/modules.py",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.124.json",
+        "modules/diamond/__init__.py",
+        "modules/diamond/docx_pages.py",
+        "modules/diamond/pdf_doc.py",
+        "modules/diamond/pdf_pages.py",
+        "static/css/diamond_nuggets.css",
+        "static/js/diamond/diamond.js",
+        "static/js/diamond/nuggets.js",
+        "static/js/diamond/nuggets_export.js",
+        "static/js/diamond/pdf.js",
+        "tests/js/nuggets_export.js",
+        "tests/test_diamond_nuggets_export.py",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}
