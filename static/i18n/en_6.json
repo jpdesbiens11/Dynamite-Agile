@@ -1,6 +1,4 @@
 {
-"Un essai qui casse apprend plus qu'une analyse qui rassure.": "A test that breaks teaches more than an analysis that reassures.",
-"Un exemple complet sur un vrai produit : bête à cornes, pieuvre, SADT (A-0) et FAST.": "A complete example on a real product: bête à cornes, pieuvre, SADT (A-0) and FAST.",
 "Un exemple concret…": "A concrete example…",
 "Un extrait des heures des Budget Lines cochées ci-dessus, au gabarit Word de l'outil (le même que Goldmine et Testing) : destinataire et périmètre, sommaire par Budget Line, heures par employé, détail des justifications, attestation, Definitions et Acronyms. Le destinataire personnalise la page de titre et le texte.": "An extract of the hours of the Budget Lines ticked above, in the tool's Word template (the same as Goldmine and Testing): recipient and scope, summary by Budget Line, hours per employee, detail of the justifications, attestation, Definitions and Acronyms. The recipient personalises the title page and the text.",
 "Un fait, un progrès, une question, un retour… (visible par vous deux)": "A fact, progress, a question, feedback… (visible to both of you)",
@@ -1010,6 +1008,7 @@
 "« end » sans « subgraph ».": "“end” without “subgraph”.",
 "« evidence » doit être une liste d'identifiants de preuves.": "« evidence » must be a list of evidence identifiers.",
 "« keep » doit associer un numéro de ligne à une liste de champs.": "“keep” must associate a line number with a list of fields.",
+"« oui » : déjà une colonne de la grille de ce Space": "« oui »: already a column of the grid of this Space",
 "« subgraph ": "“subgraph ",
 "« À COMPLÉTER » à rédiger à la main.": "“TO BE COMPLETED” to write by hand.",
 "« À vérifier »": "“To verify”",

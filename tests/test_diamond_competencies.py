@@ -62,6 +62,31 @@ class CompetenciesTest(unittest.TestCase):
     def data(self):
         return self.admin.get(self.base + "/competencies")
 
+    def trim(self):
+        from core.startup import StartupContext
+        from modules.help import demo_competencies as DM
+        with db.connect() as conn:
+            conn.execute("DELETE FROM audit_log WHERE action = ?", (DM.TRIMMED,))
+            user = dict(conn.execute("SELECT * FROM users WHERE username = 'admin'").fetchone())
+            counts = DM.trim_competencies(StartupContext(conn, user, Path(self.tmp.name)))
+            conn.commit()
+        return counts
+
+    def test_00_rover_starts_with_the_starter_columns(self):
+        """0.60.118 (D-O-131): the Rover's grid is the base of mechatronics only; a DEMO of 0.60.116 is trimmed once."""
+        data = self.data()
+        self.assertEqual(data["columns"], list(DC.STARTER))
+        self.assertTrue(all(set(ln["ratings"]) <= set(DC.STARTER) for ln in data["lines"]))
+        self.assertTrue({s["code"] for s in data["summary"] if s["people"]} <= set(DC.STARTER))
+        self.assertEqual([c["code"] for c in data["catalog"] if c["starter"]], list(DC.STARTER))
+        line = data["lines"][0]
+        self.admin.put(self.base + "/competencies/rating", {"function_id": line["function_id"], "code": "SAFE", "rating": 4})
+        self.admin.put(self.base + "/competencies/staff", {"code": "SAFE", "people": 0.5})
+        self.assertEqual(self.trim(), {"ratings": 1, "staff": 1, "skipped": False})
+        data = self.data()
+        self.assertEqual(data["columns"], list(DC.STARTER))
+        self.assertNotIn("SAFE", {s["code"] for s in data["summary"] if s["people"]})
+
     def test_01_catalogue_seeded_with_bdc_pages(self):
         data = self.data()
         codes = [c["code"] for c in data["catalog"]]
@@ -219,7 +244,8 @@ class CompetenciesTest(unittest.TestCase):
         """0.60.117 (D-O-130): a Space keeps the 4 or 5 competencies it needs as columns of its grid."""
         data = self.data()
         rated = {c for ln in data["lines"] for c in ln["ratings"]}
-        self.assertEqual(set(data["columns"]), rated)  # by default: what the lines rate
+        self.assertEqual(data["columns"][:5], list(DC.STARTER))  # by default: the starter set, then what the lines rate
+        self.assertTrue(rated <= set(data["columns"]))
         data = self.editor.post(self.base + "/competencies/columns", {"code": "CFD"})
         self.assertEqual(data["columns"][-1], "CFD")  # a column added stays before any rating
         self.assertNotIn("CFD", rated)
@@ -236,6 +262,24 @@ class CompetenciesTest(unittest.TestCase):
         data = self.editor.post(self.base + "/competencies/columns", {"code": "THERM"})
         self.assertEqual(data["columns"][-1], "THERM")
         self.assertIn("inconnue", self.fails(400, self.editor.post, self.base + "/competencies/columns", {"code": "NOPE"}))
+
+    def test_11_starter_set_of_a_new_space(self):
+        """0.60.118 (D-O-131): a new Space starts with the starter columns; an administrator changes the set; a team that removed
+        every column keeps an empty grid; a DEMO whose team chose its columns is never trimmed."""
+        self.assertTrue(self.trim()["skipped"])  # test_10 chose the columns of DEMO
+        self.admin.patch("/api/diamond/competencies/CFD", {"starter": True})
+        try:
+            made = self.admin.post("/api/admin/projects", {"key": "MEC", "name": "Mécatronique", "description": "Essai"})["project"]
+            base = "/api/diamond/p/{}".format(made["id"])
+            order = [d[0] for d in DC.DEFAULTS]
+            self.assertEqual(self.admin.get(base + "/competencies")["columns"], [c for c in order if c in DC.STARTER + ("CFD",)])
+            for code in self.admin.get(base + "/competencies")["columns"]:
+                data = self.admin.post(base + "/competencies/columns/{}/remove".format(code), {})
+            self.assertEqual(data["columns"], [])
+            self.assertEqual(self.admin.get(base + "/competencies")["columns"], [])  # emptied by the team: stays empty
+        finally:
+            self.admin.patch("/api/diamond/competencies/CFD", {"starter": False})
+        self.assertNotIn("CFD", [c["code"] for c in self.data()["catalog"] if c["starter"]])
 
     def test_08_turned_off_like_the_pfmea(self):
         self.admin.put("/api/admin/features", {"features": {"diamond_competencies": False}})

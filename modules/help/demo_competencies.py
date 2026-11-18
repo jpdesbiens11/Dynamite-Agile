@@ -1,8 +1,8 @@
 """The Rover's bricks and competencies in DEMO (0.60.116, D-O-129): the « Concept / Brique technologique » column filled with
 standard bricks (the concept the industry already knows for the function -- a LiPo pack with its 5 V regulator, a single-board
 computer, ultrasonic sensors…), two of them frozen at the PDR, and the grid of the competencies of every line rated as the
-team of the Rover would: a student project where the embedded software and the mechanics carry most of the work, safety the
-emergency stop. Applied once per installation (journal « demo_competencies_loaded »), only on a DEMO without any brick nor
+team of the Rover would: a student project where the embedded software and the mechanics carry most of the work, with the
+five starter columns only (0.60.118, D-O-131). Applied once per installation (journal « demo_competencies_loaded »), only on a DEMO without any brick nor
 rating -- never over what a team wrote.
 """
 from core import audit, db
@@ -11,6 +11,7 @@ from .demo_example import DONE
 from .headlamp import project_id
 
 LOADED = "demo_competencies_loaded"
+TRIMMED = "demo_competencies_trimmed"
 # (name, kind, reference, functions by number, frozen text or "")
 BRICKS = [
     ("Pack LiPo 2S avec régulateur 5 V", "existing", "Battery LiPo 2S 2 200 mAh, XT60 ; buck converter 5 V 5 A", [3, 29],
@@ -30,18 +31,18 @@ BRICKS = [
     ("Electronics enclosure IP54", "to_define", "", [32], ""),
     ("LED d'état RGB", "existing", "LED RGB pilotée par la carte", [35], ""),
 ]
+# 0.60.118 (D-O-131): only the base of mechatronics (the starter columns MECH, PCB, FW, PWR, TEST) -- a student team of
+# engineers, not a safety or certification department; « + » adds the others when the product needs them.
 RATINGS = {
-    3: {"CELL": 3, "PWR": 3, "HARN": 2, "SAFE": 3, "TEST": 2}, 29: {"PCB": 2, "FW": 3, "CELL": 2, "SAFE": 3},
-    4: {"FW": 4, "SYS": 2}, 7: {"FW": 4}, 17: {"FW": 5, "SYS": 3, "TEST": 2}, 18: {"FW": 4, "TEST": 3, "SAFE": 2},
-    19: {"FW": 4, "TEST": 2}, 20: {"FW": 3}, 5: {"FW": 3, "TEST": 2, "CERT": 1}, 8: {"FW": 3}, 34: {"FW": 3},
-    28: {"FW": 3, "SAFE": 4, "TEST": 3}, 10: {"PCB": 2, "FW": 3, "MECH": 2, "TEST": 2}, 15: {"PCB": 3}, 11: {"PCB": 2, "FW": 3},
-    12: {"FW": 3, "PCB": 2, "MECH": 1}, 13: {"PCB": 2, "FW": 2, "MECH": 2}, 14: {"MECH": 4, "FEA": 2, "PCB": 1, "TEST": 3},
-    22: {"PWR": 3, "FW": 3, "THERM": 2, "HARN": 2}, 23: {"MECH": 4, "FEA": 2, "TEST": 2}, 25: {"MECH": 3, "FW": 2},
-    27: {"PWR": 3, "SAFE": 5, "HARN": 3, "TEST": 4, "CERT": 2}, 31: {"MECH": 5, "FEA": 3, "MFG": 3},
-    32: {"MECH": 4, "MFG": 3, "SPEC": 2, "TEST": 3, "THERM": 2}, 35: {"PCB": 1, "FW": 1, "HARN": 1},
+    3: {"PWR": 3, "TEST": 2}, 29: {"PCB": 2, "FW": 3}, 4: {"FW": 4}, 7: {"FW": 4}, 17: {"FW": 5, "TEST": 2},
+    18: {"FW": 4, "TEST": 3}, 19: {"FW": 4, "TEST": 2}, 20: {"FW": 3}, 5: {"FW": 3, "TEST": 2}, 8: {"FW": 3}, 34: {"FW": 3},
+    28: {"FW": 3, "TEST": 3}, 10: {"PCB": 2, "FW": 3, "MECH": 2, "TEST": 2}, 15: {"PCB": 3}, 11: {"PCB": 2, "FW": 3},
+    12: {"FW": 3, "PCB": 2, "MECH": 1}, 13: {"PCB": 2, "FW": 2, "MECH": 2}, 14: {"MECH": 4, "PCB": 1, "TEST": 3},
+    22: {"PWR": 3, "FW": 3}, 23: {"MECH": 4, "TEST": 2}, 25: {"MECH": 3, "FW": 2}, 27: {"PWR": 3, "TEST": 4}, 31: {"MECH": 5},
+    32: {"MECH": 4, "TEST": 3}, 35: {"PCB": 1, "FW": 1},
 }
 STAFF = {"FW": (1, "Interne : un étudiant en génie logiciel à temps plein"), "MECH": (1, "Interne"),
-         "SAFE": (0.5, "Revue de l'emergency stop par un mentor"), "TEST": (0.5, "Stage d'été")}
+         "TEST": (0.5, "Stage d'été")}
 
 
 def ensure_competencies(ctx):
@@ -77,4 +78,26 @@ def ensure_competencies(ctx):
             conn.execute("INSERT OR IGNORE INTO diamond_competency_staff (project_id, code, people, note, updated_by, updated_at) "
                          "VALUES (?, ?, ?, ?, ?, ?)", (pid, code, people, note, uid, now))
     audit.log_action(conn, ctx.user["id"], LOADED, "project", pid, counts, None)
+    return counts
+
+
+def trim_competencies(ctx):
+    """Once (0.60.118, D-O-131): a DEMO loaded with the 14 columns of 0.60.116 keeps only the starter columns -- the ratings and
+    the people of the other competencies leave the Rover --, unless someone already chose its columns. Returns the counts, or None."""
+    conn = ctx.conn
+    pid = project_id(conn)
+    if pid is None:
+        return None
+    logged = lambda action: conn.execute("SELECT 1 FROM audit_log WHERE action = ? AND object_id = ?", (action, str(pid))).fetchone()  # noqa: E731
+    if not logged(LOADED) or logged(TRIMMED):
+        return None
+    from modules.diamond import competencies as CP
+    counts = {"ratings": 0, "staff": 0, "skipped": CP.customized(conn, pid)}
+    keep = CP.starters(conn)
+    if keep and not counts["skipped"]:
+        marks = ", ".join("?" * len(keep))
+        for table, key in (("diamond_competency_ratings", "ratings"), ("diamond_competency_staff", "staff")):
+            counts[key] = conn.execute("DELETE FROM {} WHERE project_id = ? AND code NOT IN ({})".format(table, marks),
+                                       (pid, *keep)).rowcount
+    audit.log_action(conn, ctx.user["id"], TRIMMED, "project", pid, counts, None)
     return counts

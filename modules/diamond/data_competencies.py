@@ -106,6 +106,9 @@ DEFAULTS = [
 ]
 
 # icons offered for a competency an administrator adds (the 16 above, then these)
+# 0.60.118 (D-O-131): the columns a new Space starts its grid with -- the base of mechatronics; the others (safety, thermal,
+# certification…) are added with « + » when a product needs them. An administrator changes the set in the catalogue.
+STARTER = ("MECH", "PCB", "FW", "PWR", "TEST")
 EXTRA_ICONS = ("chart", "magnet", "book", "eye", "person")
 ICONS = tuple(dict.fromkeys([d[2] for d in DEFAULTS] + list(EXTRA_ICONS)))
 DETAIL_KEYS = ("background", "training", "tools", "knowledge", "artifacts")

@@ -25,6 +25,13 @@ def _lines(rt):
     return [dict(r, id=r["function_id"]) for r in rt.call("GET", "/competencies")["lines"]]
 
 
+def _catalog(rt):
+    """The active competencies, each one marked « grid » when it is already a column of this Space (0.60.118, D-O-131)."""
+    from core import features
+    grid = set(rt.call("GET", "/competencies")["columns"]) if features.on(rt.ctx.conn, FEATURE) else set()
+    return [dict(c, id=i + 1, grid="oui" if c["code"] in grid else "non") for i, c in enumerate(CP.catalog(rt.ctx.conn, active_only=True))]
+
+
 def _out(rt, rec):
     return sorted("{}:{}".format(k, v) for k, v in rec["ratings"].items())
 
@@ -63,8 +70,10 @@ def _no_new(rt, body):
 
 CATALOG = Section(
     "competency_catalog", "Catalogue des compétences", [], order=47, table="diamond_competencies", listed=False,
-    items=lambda rt: [dict(c, id=i + 1) for i, c in enumerate(CP.catalog(rt.ctx.conn, active_only=True))],
-    code=lambda r: r["code"], fields=[Field("name", ro=True), Field("summary", ro=True)], create=_no_new)
+    items=_catalog, code=lambda r: r["code"],
+    fields=[Field("name", ro=True), Field("summary", ro=True),
+            Field("grid", ro=True, out=lambda rt, rec: rec["grid"], note="« oui » : déjà une colonne de la grille de ce Space")],
+    create=_no_new)
 
 COMPETENCIES = Section(
     "competencies", "Compétences par ligne", ["ftree", "competencies"], order=48, table="diamond_competency_ratings",
@@ -80,7 +89,8 @@ COMPETENCIES = Section(
     guide="Une ligne par fonction de l'arbre qui aboutit à une brique technologique. Pour chacune, notez les compétences du catalogue "
           "(_context.competency_catalog) qu'il faut pour développer un concept de cette fonction en général -- une hypothèse que "
           "l'équipe affinera : 5 au cœur du développement, 3 sollicitée régulièrement, 1 presque pas ; ne citez pas une compétence "
-          "inutile. Pensez au produit entier : conception, analyse, sécurité (TR), fabrication, procédés spéciaux, essais, "
-          "certification. Une ligne n'est jamais créée ni retirée ici.")
+          "inutile. Servez-vous d'abord des colonnes de la grille (grid « oui » : au départ la base de la mécatronique -- "
+          "mechanical, PCB, embedded software, power, test) ; n'ajoutez une autre compétence (thermal, safety, certification…) "
+          "que si la fonction en dépend vraiment : elle devient une colonne de plus. Une ligne n'est jamais créée ni retirée ici.")
 
 SECTIONS = [CATALOG, COMPETENCIES]

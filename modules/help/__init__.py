@@ -26,6 +26,7 @@ def on_startup(ctx):
     demo_costs.ensure_costs(ctx)
     from . import demo_competencies  # 0.60.116 (D-O-129): the Rover's standard bricks and the competencies of its lines (once)
     demo_competencies.ensure_competencies(ctx)
+    demo_competencies.trim_competencies(ctx)  # 0.60.118 (D-O-131): the starter columns only
     from . import demo_classes  # 0.60.101 (D-O-108): the classes CC / SC decided at the Rover's CDR (once)
     demo_classes.ensure_classes(ctx)
     from . import demo_characteristics  # 0.60.102 (D-O-110): the characteristics C-01 to C-21 of the Rover (once)

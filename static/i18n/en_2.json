@@ -1,5 +1,4 @@
 {
-"Bilan de puissance avec une marge d'au moins 20 % sur chaque rail d'alimentation": "Power budget with a margin of at least 20% on each supply rail",
 "Bilan du MVP 0 : persévérer ou pivoter": "MVP 0 review: persevere or pivot",
 "Bilan du MVP 1 : persévérer ou pivoter": "MVP 1 review: persevere or pivot",
 "Bilan du MVP 2": "MVP 2 review",
@@ -531,6 +530,8 @@
 "Collision avec une personne": "Collision with a person",
 "Collision pendant le déplacement autonome": "Collision during autonomous movement",
 "Colonne / règle": "Column / rule",
+"Colonne de départ (la grille d'un nouveau Space commence avec elle)": "Starter column (the grid of a new Space starts with it)",
+"Colonne de départ de la grille d'un nouveau Space": "Starter column of the grid of a new Space",
 "Colonne « functions » : codes F-XX de la liste centrale (Testing → Listes), séparés par des virgules.": "“functions” column: F-XX codes from the central list (Testing → Lists), separated by commas.",
 "Colonnes": "Columns",
 "Colonnes (options)": "Columns (options)",
@@ -1253,6 +1254,7 @@
 "Démonter, regraisser": "Disassemble, regrease",
 "Déménagement : site complet importé.": "Move: full site imported.",
 "Déménager le site sur un autre serveur": "Move the site to another server",
+"Départ": "Starter",
 "Départ et arrivée identiques.": "Identical start and end.",
 "Dépassé": "Overdue",
 "Dépend de l'encombrement Wi-Fi du lieu, pas d'une caractéristique du produit ; l'arrêt sur perte de liaison (F28) protège.": "Depends on the Wi-Fi congestion of the place, not on a product characteristic; the stop on link loss (F28) protects.",
@@ -1373,6 +1375,5 @@
 "En dernier. Musk a reconnu publiquement que la première ligne de la Model 3 avait été trop automatisée trop tôt, avant les étapes 1 à 4.": "Last. Musk publicly acknowledged that the Model 3's first line had been automated too much, too early, before steps 1 to 4.",
 "En faire la fonction primaire": "Make it the primary function",
 "En retard": "Overdue",
-"En service : ": "In service: ",
-"En une phrase :": "In one sentence:"
+"En service : ": "In service: "
 }
