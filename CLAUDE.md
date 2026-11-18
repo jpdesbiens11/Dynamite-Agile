@@ -173,6 +173,9 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.123** (2026-11-18) : Diamond — export **PDF** de chaque page à côté de « ↔ IA » (`static/js/diamond/pdf.js`,
+  `POST …/pdf`, `modules/diamond/pdf_pages.py`), au format des documents Word : page de garde, en-tête et pied de page, Lettre ou
+  Tabloïd paysage (`modules/diamond/pdf_doc.py`) ; Golden Nuggets en cartes (`D.pdfBuilders.nuggets`) (D-O-136).
 - **0.60.122** (2026-11-18) : Admin — « Framework » premier volet et volet par défaut d'« Update et sauvegardes »
   (`static/js/admin_update.js`), gros bouton orange « ⬆ Mises à jour » en haut à droite de chaque page d'Admin, avec le nombre de
   versions à installer (`static/js/admin.js`, `.btn-update`) (D-O-135).

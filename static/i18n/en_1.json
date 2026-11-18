@@ -352,6 +352,7 @@
 " » sans « end ».": " ” without “end”.",
 " » signée par les deux": " ” signed by both",
 " » signée.": " ” signed.",
+" » téléchargé.": " » downloaded.",
 " » vers « ": " ” to “ ",
 " », figée le ": " ”, frozen on ",
 " ». Attendu : flowchart, graph, sequenceDiagram ou stateDiagram.": " ”. Expected: flowchart, graph, sequenceDiagram or stateDiagram.",
@@ -1191,6 +1192,7 @@
 "Aucun topic dans le plan de formation de cette année : ajoutez-les dans Training, ils seront revus ici.": "No topic in this year's training plan: add them in Training, they will be reviewed here.",
 "Aucun type de ticket dans l'Agile de ce Space. Correctif : ⚙ Admin → Spaces → ouvrir le Space pour remettre Agile en place, ou créez un type « Task » dans Agile → Réglages.": "No ticket type in this Space's Agile. Fix: ⚙ Admin → Spaces → open the Space to set Agile up again, or create a “Task” type in Agile → Settings.",
 "Aucun échange pour l'instant.": "No exchange yet.",
+"Aucun élément pour l'instant.": "No item yet.",
 "Aucun équipement": "No equipment",
 "Aucune": "None",
 "Aucune (relais local seulement)": "None (local relay only)",
@@ -1402,6 +1404,5 @@
 "Bloc d'alimentation externe certifié CSA / UL (classe 2, ES1 / PS2) plutôt qu'une alimentation secteur intégrée": "CSA / UL certified external power supply (class 2, ES1 / PS2) rather than an integrated mains supply",
 "Bloc de code": "Code block",
 "Bloc secteur 12 V certifié et regulator de la carte": "Certified 12 V mains adapter and board regulator",
-"Bloc secteur 12 V certifié et régulateur de la carte": "Certified 12 V mains adapter and board regulator",
-"Bloc « ": "Block “ "
+"Bloc secteur 12 V certifié et régulateur de la carte": "Certified 12 V mains adapter and board regulator"
 }
