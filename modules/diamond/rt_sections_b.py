@@ -103,9 +103,13 @@ CONCEPTS = Section(
             Field("functions", src="function_ids", api="function_ids", kind="refs", ref="functions",
                   note="les fonctions (F…) que la brique réalise ; une fonction appartient à une seule brique"),
             Field("selected_sheet", ro=True, out=lambda rt, rec: (rec.get("selected_sheet") or {}).get("code", ""),
-                  note="la feuille retenue par une Pugh Matrix décidée")],
+                  note="la feuille retenue par une Pugh Matrix décidée"),
+            Field("frozen", ro=True, out=lambda rt, rec: rec.get("frozen_text") or "" if rec.get("frozen") else "",
+                  note="le concept retenu d'une brique figée (0.60.116) : la brique ne change plus, gardez-la telle quelle")],
     create=_create("/concepts"), update="/concepts/{id}", remove="/concepts/{id}/archive", removes="archive",
-    guide="Les briques technologiques (CB-n) : le « avec quoi ? » des fonctions de l'arbre. Une brique porte une ou plusieurs "
+    guide="Les briques technologiques (CB-n) : le « avec quoi ? » des fonctions de l'arbre. Le nom d'une brique est une brique "
+          "standard, définie très largement, qui existe déjà dans l'industrie pour couvrir la fonction (« Motoréducteur DC », "
+          "« Capteur à ultrasons ») ; ses variantes inventives vont dans les feuilles de concept. Une brique porte une ou plusieurs "
           "fonctions, une fonction appartient à une seule brique (la nommer dans une autre brique l'y déplace). Une brique existing "
           "renvoie à un concept connu (reference) ; une brique to_define s'invente avec des feuilles de concept et des Pugh Matrices. "
           "Un retrait archive la brique : son numéro reste pris, ses feuilles et ses matrices restent.")

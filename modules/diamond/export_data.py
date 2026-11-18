@@ -47,6 +47,7 @@ def gather(conn, pid):
             "story": ST.rows(conn, pid),  # the scenes of the Storyline: figures of the Word report (0.60.98)
             "classes": CL.info(conn, pid, dfmea),  # 0.60.101 (D-O-108): rules, the customer's symbols, the counts
             "characteristics": _characteristics(conn, pid),  # 0.60.102 (D-O-110): the C-n and the summary
+            "competencies": _competencies(conn, pid),  # 0.60.116 (D-O-129): None when the part is off or nothing is rated
             "checks": {"tree": F.checks(F.rows(conn, pid)), "structure": structure["checks"], "risks": R.checks(risks),
                        "dfmea": DF.checks(conn, pid, dfmea)},
             "labels": {"types": F.TYPES, "kano": F.KANO, "importance": F.IMPORTANCE, "levels": F.LEVELS, "kinds": S.KINDS,
@@ -89,6 +90,15 @@ def safe_name(data, kind, ext):
 
 def part_codes(data, fid):
     return ", ".join("P-{}".format(p["number"]) for p in data["parts"] if fid in p["functions"])
+
+
+def _competencies(conn, pid):
+    from core import features
+    if not features.on(conn, "diamond_competencies"):
+        return None
+    from . import competencies as CP
+    data = CP.payload(conn, pid)
+    return data if data["summary"] else None
 
 
 def _characteristics(conn, pid):

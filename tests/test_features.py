@@ -49,7 +49,8 @@ class FeaturesTest(unittest.TestCase):
 
     def test_01_all_on_by_default(self):
         data = self.admin.get("/api/admin/features")["features"]
-        self.assertEqual({f["key"] for f in data}, {"timesheet", "reviews", "diamond_process", "diamond_pfmea", "diamond_cplans"})
+        self.assertEqual({f["key"] for f in data}, {"timesheet", "reviews", "diamond_process", "diamond_pfmea", "diamond_cplans",
+                                                    "diamond_competencies"})  # 0.60.116 (D-O-129)
         self.assertTrue(all(f["on"] for f in data))
         me = self.user.get("/api/me")
         self.assertTrue(all(me["features"].values()))

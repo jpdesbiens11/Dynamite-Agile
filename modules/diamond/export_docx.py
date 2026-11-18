@@ -205,6 +205,14 @@ def section_chars(data):
     return char_export.section(data["characteristics"], 2)
 
 
+def section_competencies(data):
+    """0.60.116 (D-O-129): « Compétences et équipe », after the characteristics, when the part is on and something is rated."""
+    if not data.get("competencies"):
+        return ""
+    from . import competency_export
+    return competency_export.section(data["competencies"], 1)
+
+
 def section_review(data):
     names = {"tree": "Arbre fonctionnel", "structure": "Structure fonctionnelle", "risks": "Risques projet", "dfmea": "DFMEA"}
     items = ["{} : {}".format(names[k], c) for k in names for c in data["checks"][k]]
@@ -224,7 +232,7 @@ def section_files(data):
 def build(data, prepared, initials):
     figs = Figures()
     body = "".join([section_summary(data), RF.storyline(data, figs), section_tree(data, figs), section_structure(data, figs),
-                    section_parts(data), section_risks(data, figs), section_dfmea(data), section_chars(data), section_review(data),
+                    section_parts(data), section_risks(data, figs), section_dfmea(data), section_chars(data), section_competencies(data), section_review(data),
                     section_files(data)])
     meta = {"title": "Diamond — Analyse fonctionnelle", "subject": "{} ({})".format(data["project"]["name"], data["project"]["key"])[:80],
             "prepared": prepared[:80], "docno": "DIA-{}".format(data["project"]["key"])[:40], "rev": "A", "doctype": "Rapport", "lang": "fr"}

@@ -173,6 +173,11 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.116** (2026-11-17) : **Compétences et équipe** dans Diamond (D-O-129) : grille 1 à 5 par ligne fonction → brique dans l'arbre
+  (`static/js/diamond/competency_grid.js`), page de synthèse et personnes à embaucher (`competencies.js`, `modules/diamond/competencies.py`),
+  catalogue de plateforme et pages BDC (`competency_catalog.py`, `competency_bdc.py`, `data_competencies.py`, icônes `tools/competency_icons.py`),
+  « ↔ IA » (`rt_sections_d.py`), exports Excel / Word (`competency_export.py`), brique figée (`concept_freeze.py`), migration diamond 18 ;
+  coupable comme le PFMEA (`diamond_competencies`).
 - **0.60.115** (2026-11-17) : pictogramme `aile` « Voilure fixe » (57) ; une clé absente de la bibliothèque devient « ? » avec son mot, à l'écran et dans le Word, et la scène s'enregistre (`story.rows`, `D.picto`, `story_figure`) (D-O-128).
 - **0.60.114** (2026-11-17) : « Export .docx » de la Storyline en haut à droite avec les autres boutons de la page, avant « ↔ IA » (D-O-127).
 - **0.60.113** (2026-11-17) : **Storyline dessinée par l'IA** (D-O-126) : catalogue des 56 pictogrammes dans les prompts

@@ -91,6 +91,8 @@ def api_list(ctx):
 def api_create(ctx):
     pid = F.access(ctx, "editor")
     concept = C._concept(ctx.conn, pid, validate.int_param(ctx.params, "cid"))
+    from .concept_freeze import guard  # 0.60.116 (D-O-129): no new concept under a frozen brick
+    guard(ctx.conn, pid, concept["id"], "Ajouter une feuille de concept")
     fields = _fields(ctx.body)
     attachment = ctx.body.get("attachment_id")
     if attachment not in (None, ""):
@@ -110,6 +112,8 @@ def api_create(ctx):
 def api_update(ctx):
     pid = F.access(ctx, "editor")
     s = _sheet(ctx.conn, pid, validate.int_param(ctx.params, "sid"))
+    from .concept_freeze import guard
+    guard(ctx.conn, pid, s["concept_id"], "Modifier une feuille de concept")
     fields = _fields(ctx.body, partial=True)
     if fields:
         sets = ", ".join("{} = ?".format(k) for k in fields)
@@ -122,6 +126,8 @@ def api_update(ctx):
 def api_archive(ctx):
     pid = F.access(ctx, "editor")
     s = _sheet(ctx.conn, pid, validate.int_param(ctx.params, "sid"))
+    from .concept_freeze import guard
+    guard(ctx.conn, pid, s["concept_id"], "Archiver une feuille de concept")
     ctx.conn.execute("UPDATE diamond_concept_sheets SET archived = 1, updated_by = ?, updated_at = ? WHERE id = ?",
                      (ctx.user["id"], db.utc_now(), s["id"]))
     audit.log_action(ctx.conn, ctx.user["id"], "diamond_sheet_archive", "diamond_concept_sheet", s["id"], {"title": s["title"]}, ctx.ip)

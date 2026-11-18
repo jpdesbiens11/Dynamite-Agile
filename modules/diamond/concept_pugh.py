@@ -129,6 +129,11 @@ def fill(conn, pid, mid):
 
 
 def _scope(conn, pid, mid, ids):
+    from .concept_freeze import guard  # 0.60.116 (D-O-129): a frozen brick joins no new matrix (it stays in its former ones)
+    before = {r[0] for r in conn.execute("SELECT concept_id FROM diamond_pugh_scope WHERE pugh_id = ?", (mid,))}
+    for cid in ids:
+        if int(cid) not in before:
+            guard(conn, pid, int(cid), "La juger dans une nouvelle Pugh Matrix")
     conn.execute("DELETE FROM diamond_pugh_scope WHERE pugh_id = ?", (mid,))
     for cid in ids:
         conn.execute("INSERT OR IGNORE INTO diamond_pugh_scope (project_id, pugh_id, concept_id) VALUES (?, ?, ?)",

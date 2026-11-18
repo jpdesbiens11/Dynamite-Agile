@@ -1,12 +1,23 @@
-# Journal de mise à jour — 0.60.115
+# Journal de mise à jour — 0.60.116
+
+- **Version :** 0.60.115 → 0.60.116 (2026-11-17)
+- **Changements :**
+  1. **Diamond : grille des compétences dans l'arbre fonctionnel, page « Compétences et équipe »** (D-O-129).
+  2. **Diamond : catalogue des compétences de la plateforme et une page BDC par compétence** (D-O-129).
+  3. **Diamond : figer une brique technologique quand son concept est choisi** (D-O-129).
+  4. **Diamond : aide de l'arbre dans une bulle, au-dessus de l'arbre** (D-O-129).
+  5. **Diamond : export Excel et Word de la synthèse des compétences** (D-O-129).
+- **Base de données :** migration diamond 18 (additive : trois tables, quatre colonnes de `diamond_concepts`).
+
+## Précédent
+
+### Journal de mise à jour — 0.60.115
 
 - **Version :** 0.60.114 → 0.60.115 (2026-11-17)
 - **Changements :**
   1. **Storyline : pictogramme « Voilure fixe » (engin télépiloté à ailes) dans « Militaire et terrain »** (D-O-128).
   2. **Storyline : un pictogramme que la bibliothèque n'a pas s'affiche en « ? » avec son mot, jamais en blanc** (D-O-128).
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.114
 

@@ -54,16 +54,17 @@ class Section:
     /api/diamond/p/<pid> (« {id} » replaced) or a function(rt, ...); table: where a created item's id is found."""
 
     def __init__(self, key, label, pages, fields, items, code, table, create=None, update=None, remove=None, removes="supprime",
-                 prefix="", guide="", new_id=None, create_body=None, order=0, removable=None):
+                 prefix="", guide="", new_id=None, create_body=None, order=0, removable=None, listed=True):
         self.key, self.label, self.pages, self.fields, self.items, self.code = key, label, pages, fields, items, code
         self.table, self.create, self.update, self.remove, self.removes = table, create, update, remove, removes
         self.prefix, self.guide, self.new_id, self.create_body, self.order = prefix, guide, new_id, create_body, order
         self.removable = removable  # removable(rec) -> False: an item that leaving the answer does not remove (an unpriced part)
+        self.listed = listed  # False: a read-only list given as context only (the catalogue of the competencies, 0.60.116)
 
 
 def registry():
-    from . import rt_sections_a, rt_sections_b, rt_sections_c
-    out = rt_sections_a.SECTIONS + rt_sections_b.SECTIONS + rt_sections_c.SECTIONS
+    from . import rt_sections_a, rt_sections_b, rt_sections_c, rt_sections_d
+    out = rt_sections_a.SECTIONS + rt_sections_b.SECTIONS + rt_sections_c.SECTIONS + rt_sections_d.SECTIONS
     return {s.key: s for s in sorted(out, key=lambda s: s.order)}
 
 
@@ -432,14 +433,15 @@ def _pid(ctx, minimum):
 
 
 def _keys(rt, raw):
-    keys = [k for k in str(raw or "").split(",") if k in rt.sections]
-    return keys or list(rt.sections)
+    keys = [k for k in str(raw or "").split(",") if k in rt.sections and rt.sections[k].listed]
+    return keys or [k for k, s in rt.sections.items() if s.listed]
 
 
 def api_sections(ctx):
     pid = _pid(ctx, "reader")
     rt = RoundTrip(ctx, pid)
-    return {"sections": [{"key": s.key, "label": s.label, "pages": s.pages, "count": len(rt.records(s.key))} for s in rt.sections.values()]}
+    return {"sections": [{"key": s.key, "label": s.label, "pages": s.pages, "count": len(rt.records(s.key))} for s in rt.sections.values()
+                         if s.listed]}
 
 
 def api_export(ctx):

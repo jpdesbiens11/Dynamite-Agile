@@ -24,6 +24,8 @@ def on_startup(ctx):
     demo_evidence.ensure_evidence(ctx)
     from . import demo_costs  # 0.60.61 (D-O-070): the Rover's costs and budget in Diamond (once)
     demo_costs.ensure_costs(ctx)
+    from . import demo_competencies  # 0.60.116 (D-O-129): the Rover's standard bricks and the competencies of its lines (once)
+    demo_competencies.ensure_competencies(ctx)
     from . import demo_classes  # 0.60.101 (D-O-108): the classes CC / SC decided at the Rover's CDR (once)
     demo_classes.ensure_classes(ctx)
     from . import demo_characteristics  # 0.60.102 (D-O-110): the characteristics C-01 to C-21 of the Rover (once)
@@ -33,6 +35,8 @@ def on_startup(ctx):
     from . import demo_process  # 0.60.103 (D-O-113 to D-O-115): its lines, PFMEA, control plans, measurements, waves (once)
     demo_process.ensure_process(ctx)
     gtd.ensure(ctx)  # D-B-033 / D-B-040: « Base de connaissances (BDC) », also for an existing DEMO
+    from modules.diamond import competency_bdc  # 0.60.116 (D-O-129): the catalogue of the competencies and their BDC pages
+    competency_bdc.ensure(ctx)
     from modules.testing import lists  # D-B-082: the product functions (central list of Testing) as a BDC page
     lists.ensure_bdc_page(ctx)
     from modules.testing import glossary  # D-A-037: Definitions, Acronyms and their French translation

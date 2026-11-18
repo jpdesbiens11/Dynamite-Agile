@@ -331,4 +331,7 @@ def build(data, only=None):
         dfmea_sheet(book, kit, data)
         from . import char_export  # 0.60.102 (D-O-110): the summary of the special characteristics
         char_export.sheet(book, kit, data["characteristics"], data)
+        if data.get("competencies"):  # 0.60.116 (D-O-129): « Compétences et équipe », when the part is on
+            from . import competency_export
+            competency_export.sheets(book, kit, data["competencies"], data)
     return book.bytes(title="Diamond — {} ({})".format(data["project"]["name"], data["project"]["key"]))

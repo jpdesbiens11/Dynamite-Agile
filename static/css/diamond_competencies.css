@@ -1,0 +1,84 @@
+/* Diamond · Compétences et équipe, frozen bricks, help bubble of the tree (0.60.116, D-O-129). Tokens only; --acc = Diamond's accent. */
+.dm-comp { width: 22px; height: 22px; flex: none; color: var(--ink); }
+
+/* help bubble above the tree */
+.dm-help-bubble { border: 1px solid var(--line); border-left: 4px solid var(--acc); border-radius: var(--radius-sm); background: var(--surface);
+  padding: .45rem .8rem; }
+.dm-help-bubble summary { cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: .4rem; }
+.dm-help-bubble summary svg { width: 18px; height: 18px; }
+.dm-help-bubble ul { margin: .4rem 0 .2rem 1.1rem; padding: 0; display: flex; flex-direction: column; gap: .25rem; font-size: .88rem; }
+
+/* the tree takes the whole width until a function or a brick is selected (the idle panel became the help bubble) */
+.dm-tree-work:not(.dm-with-panel) { grid-template-columns: minmax(0, 1fr); }
+
+/* the grid of the tree */
+.dm-heads:has(.dm-cg-head) { height: 2.1rem; }
+.dm-cg-head { position: absolute; top: 0; display: flex; align-items: center; }
+.dm-cg-icon { width: 34px; display: grid; place-items: center; }
+.dm-cg-add { width: 34px; height: 28px; margin-left: 6px; padding: 0 .2rem; font-weight: 700; text-align: center; cursor: pointer; }
+.dm-edge-comp { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 3 4; }
+.dm-cg-row { position: absolute; display: flex; height: 30px; border: 1.5px dashed var(--muted); border-radius: var(--radius-sm);
+  background: var(--surface); }
+.dm-cg-frozen { border-color: var(--ok); }
+.dm-cg-cell { width: 34px; height: 100%; flex: none; border: 0; border-right: 1px dashed var(--line); background: transparent; color: var(--muted);
+  font-family: var(--mono); font-size: .9rem; font-weight: 700; cursor: pointer; padding: 0; }
+.dm-cg-row .dm-cg-cell:last-child { border-right: 0; }
+.dm-cg-cell:disabled { cursor: default; }
+.dm-cg-cell:not(:disabled):hover { background: color-mix(in srgb, var(--acc) 14%, var(--surface)); }
+.dm-cg-cell:focus-visible { outline: 3px solid var(--acc); outline-offset: -3px; }
+.dm-cg-1, .dm-cg-2 { color: var(--ink); }
+.dm-cg-3 { color: var(--ink); background: color-mix(in srgb, var(--acc) 12%, transparent); }
+.dm-cg-4 { color: var(--ink); background: color-mix(in srgb, var(--acc) 26%, transparent); }
+.dm-cg-5 { color: var(--ink); background: color-mix(in srgb, var(--acc) 42%, transparent); }
+.dm-cg-menu { position: absolute; z-index: 30; display: flex; align-items: center; gap: 2px; padding: .3rem; height: 38px;
+  background: var(--surface); border: 1.5px solid var(--acc); border-radius: var(--radius-sm); box-shadow: var(--shadow); }
+.dm-cg-menu .dm-cg-cell { height: 28px; border: 1px solid var(--line); border-radius: var(--radius-sm); }
+.dm-cg-menu .dm-cg-on { outline: 2px solid var(--acc); }
+.dm-cg-menu-name { font-size: .75rem; font-weight: 600; color: var(--muted); padding: 0 .4rem; white-space: nowrap; }
+.dm-cg-legend { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1rem; padding: .5rem .8rem; border: 1.5px dashed var(--line);
+  border-radius: var(--radius-sm); background: var(--surface); font-size: .86rem; }
+.dm-cg-key { display: inline-flex; align-items: center; gap: .3rem; }
+.dm-cg-scale { margin-left: auto; }
+
+/* a frozen brick */
+.dm-concept-frozen { border-color: var(--ok); border-left-width: 6px; background: color-mix(in srgb, var(--ok) 10%, var(--surface)); }
+.dm-concept-frozen .dm-concept-kind { color: var(--ok); }
+.dm-concept-frozen .dm-concept-landed { color: var(--ink); font-weight: 500; -webkit-line-clamp: 2; }
+.dm-frozen-note { display: flex; flex-direction: column; gap: .2rem; padding: .5rem .7rem; border-left: 4px solid var(--ok);
+  background: color-mix(in srgb, var(--ok) 8%, var(--surface)); border-radius: 0; }
+.dm-frozen-note p { margin: 0; }
+p.dm-frozen-note { display: block; }
+
+/* the page « Compétences et équipe » */
+.dm-cp-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: .7rem; }
+.dm-cp-card { display: flex; flex-direction: column; gap: .2rem; padding: .7rem .9rem; background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius-sm); }
+.dm-cp-card strong { font-family: var(--mono); font-size: 1.4rem; }
+.dm-cp-table td.num, .dm-cp-table th.num, .dm-cp-detail td.num { text-align: right; font-family: var(--mono); }
+.dm-cp-detail td.num { text-align: center; }
+.dm-cp-name { display: flex; align-items: center; gap: .4rem; white-space: nowrap; }
+.dm-cp-share { min-width: 9rem; }
+.dm-cp-share > span:last-child { font-family: var(--mono); font-size: .82rem; }
+.dm-cp-bar { display: block; height: 6px; margin-bottom: .2rem; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+.dm-cp-bar > span { display: block; height: 100%; background: var(--acc); }
+.dm-cp-num { width: 5.5rem; text-align: right; }
+.dm-cp-team { max-width: 22rem; }
+.dm-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* the catalogue */
+.dm-cc-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.dm-cc-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: .6rem; }
+.dm-cc-item { display: flex; gap: .6rem; align-items: flex-start; padding: .6rem .7rem; background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius-sm); }
+.dm-cc-item p { margin: .2rem 0; font-size: .85rem; }
+.dm-cc-off { opacity: .65; }
+.dm-cc-icon { width: 32px; height: 32px; }
+.dm-cc-links { display: flex; gap: .6rem; align-items: center; font-size: .85rem; }
+.modal:has(.dm-cc-form) { max-width: 980px; width: 96vw; }
+.dm-cc-cols { display: grid; grid-template-columns: 1fr 1.3fr; gap: 1rem; }
+.dm-cc-cols textarea { width: 100%; }
+.dm-cc-icons { display: flex; flex-wrap: wrap; gap: .3rem; }
+.dm-cc-icons button { padding: .25rem; border: 1.5px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); cursor: pointer; }
+.dm-cc-icons button[aria-checked="true"] { border-color: var(--acc); background: color-mix(in srgb, var(--acc) 16%, var(--surface)); }
+@media (max-width: 760px) { .dm-cc-cols { grid-template-columns: 1fr; } .dm-cg-scale { margin-left: 0; } }
+.dm-heads:has(.dm-cg-head) .dm-head-concept { max-width: 196px; top: 0; line-height: 1.15; }
