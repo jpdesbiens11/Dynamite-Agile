@@ -1,5 +1,5 @@
 """Diamond · the platform's catalogue of competencies (0.60.116, D-O-129): add, rename, change the icon or the BDC content,
-reorder, deactivate. Only an administrator or an « Admin du Space » of DEMO (which holds the catalogue and the BDC) does it.
+reorder, deactivate, choose the starter columns of a new Space (0.60.118, D-O-131). Only an administrator or an « Admin du Space » of DEMO (which holds the catalogue and the BDC) does it.
 A competency is never deleted: deactivated, it is no longer offered, and the ratings that use it stay. Its BDC page is
 regenerated after each change (competency_bdc.py), unless someone edited it by hand. Every write is journalled.
 """
@@ -57,6 +57,8 @@ def _fields(body, partial):
         out["details"] = json.dumps(clean, ensure_ascii=False)
     if "active" in body:
         out["active"] = 1 if body.get("active") else 0
+    if "starter" in body:
+        out["starter"] = 1 if body.get("starter") else 0
     if "position" in body:
         out["position"] = int(body.get("position") or 0)
     return out
@@ -80,9 +82,10 @@ def api_create(ctx):
     fields.setdefault("details", json.dumps({k: "" for k in DC.DETAIL_KEYS}))
     position = ctx.conn.execute("SELECT COALESCE(MAX(position), 0) + 1 FROM diamond_competencies").fetchone()[0]
     now = db.utc_now()
-    ctx.conn.execute("INSERT INTO diamond_competencies (project_id, code, name, icon, summary, details, position, active, created_at, "
-                     "updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?)",
-                     (pid, code, fields["name"], fields["icon"], fields["summary"], fields["details"], position, now, now))
+    ctx.conn.execute("INSERT INTO diamond_competencies (project_id, code, name, icon, summary, details, position, active, starter, "
+                     "created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?)",
+                     (pid, code, fields["name"], fields["icon"], fields["summary"], fields["details"], position,
+                      fields.get("starter", 0), now, now))
     audit.log_action(ctx.conn, ctx.user["id"], "diamond_competency_create", "project", pid, {"code": code, "name": fields["name"]}, ctx.ip)
     _after(ctx)
     return {"catalog": CP.catalog(ctx.conn), "created": code}

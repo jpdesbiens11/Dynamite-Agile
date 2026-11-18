@@ -424,4 +424,9 @@ MIGRATIONS = [
             PRIMARY KEY (project_id, code)
         );
     """),
+    (20, """
+        -- 0.60.118 (D-O-131): the competencies a new Space starts its grid with (the base of mechatronics)
+        ALTER TABLE diamond_competencies ADD COLUMN starter INTEGER NOT NULL DEFAULT 0;
+        UPDATE diamond_competencies SET starter = 1 WHERE code IN ('MECH', 'PCB', 'FW', 'PWR', 'TEST');
+    """),
 ]

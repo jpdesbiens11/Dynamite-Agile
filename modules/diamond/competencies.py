@@ -32,19 +32,21 @@ def host_id(conn):
     return project_id(conn)
 
 
-def _public(code, name, icon, summary, details, position, active=1):
+def _public(code, name, icon, summary, details, position, active=1, starter=0):
     return {"code": code, "name": name, "icon": icon, "summary": summary, "details": details, "position": position,
-            "active": bool(active)}
+            "active": bool(active), "starter": bool(starter)}
 
 
 def catalog(conn, active_only=False):
     """The competencies, in their order (the defaults, read-only, until the catalogue is seeded)."""
     rows = conn.execute("SELECT * FROM diamond_competencies ORDER BY position, code").fetchall()
     if rows:
-        out = [_public(r["code"], r["name"], r["icon"], r["summary"], json.loads(r["details"] or "{}"), r["position"], r["active"])
+        out = [_public(r["code"], r["name"], r["icon"], r["summary"], json.loads(r["details"] or "{}"), r["position"], r["active"],
+                       r["starter"])
                for r in rows]
     else:
-        out = [_public(d[0], d[1], d[2], d[3], dict(zip(DC.DETAIL_KEYS, d[4:])), i + 1) for i, d in enumerate(DC.DEFAULTS)]
+        out = [_public(d[0], d[1], d[2], d[3], dict(zip(DC.DETAIL_KEYS, d[4:])), i + 1, 1, d[0] in DC.STARTER)
+               for i, d in enumerate(DC.DEFAULTS)]
     return [c for c in out if c["active"]] if active_only else out
 
 
@@ -57,9 +59,10 @@ def seed(conn):
     now, added = db.utc_now(), 0
     for i, d in enumerate(DC.DEFAULTS):
         if d[0] not in have:
-            conn.execute("INSERT INTO diamond_competencies (project_id, code, name, icon, summary, details, position, active, created_at, "
-                         "updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?)",
-                         (pid, d[0], d[1], d[2], d[3], json.dumps(dict(zip(DC.DETAIL_KEYS, d[4:])), ensure_ascii=False), i + 1, now, now))
+            conn.execute("INSERT INTO diamond_competencies (project_id, code, name, icon, summary, details, position, active, starter, "
+                         "created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?)",
+                         (pid, d[0], d[1], d[2], d[3], json.dumps(dict(zip(DC.DETAIL_KEYS, d[4:])), ensure_ascii=False), i + 1,
+                          int(d[0] in DC.STARTER), now, now))
             added += 1
     return added
 
@@ -115,10 +118,27 @@ def lines(conn, pid):
     return out
 
 
+COLUMN_ACTIONS = ("diamond_competency_column_add", "diamond_competency_column_remove")
+
+
+def customized(conn, pid):
+    """True once the team added or removed a column of this Space (an empty grid then stays empty)."""
+    return conn.execute("SELECT 1 FROM audit_log WHERE action IN (?, ?) AND object_type = 'project' AND object_id = ? LIMIT 1",
+                        COLUMN_ACTIONS + (str(pid),)).fetchone() is not None
+
+
+def starters(conn):
+    """The codes a new Space starts its grid with (0.60.118, D-O-131: the base of mechatronics), in catalogue order."""
+    return [c["code"] for c in catalog(conn, active_only=True) if c["starter"]]
+
+
 def columns(conn, pid, rows=None):
-    """The competencies of the grid of this Space, in order: those the team added (diamond_competency_columns), then any other
-    one a line rates (an AI answer may bring one). 0.60.117 (D-O-130): a Space shows the 4 or 5 it needs, not the whole catalogue."""
+    """The competencies of the grid of this Space, in order: those the team chose (diamond_competency_columns) -- or, until it
+    changes them, the starter set of the catalogue --, then any other one a line rates (an AI answer may bring one).
+    0.60.117 (D-O-130): a Space shows the 4 or 5 it needs, not the whole catalogue."""
     out = [r[0] for r in conn.execute("SELECT code FROM diamond_competency_columns WHERE project_id = ? ORDER BY position, code", (pid,))]
+    if not out and not customized(conn, pid):
+        out = starters(conn)
     rated = set()
     for ln in rows if rows is not None else lines(conn, pid):
         rated.update(ln["ratings"])
