@@ -1,0 +1,49 @@
+{
+  "version": "0.60.122",
+  "date": "2026-11-18",
+  "summary": {
+    "fr": "Admin : Framework en premier volet d'Update, et un gros bouton orange « ⬆ Mises à jour » sur chaque page d'Admin.",
+    "en": "Admin: Framework as the first part of Update, and a large orange « ⬆ Updates » button on every Admin page."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Admin : les mises à jour en premier, et un gros bouton orange « ⬆ Mises à jour »",
+      "why": "Moins de clics pour installer une version : « Framework » est le premier volet d'« Update et sauvegardes » et s'ouvre par défaut, et chaque page d'Admin porte en haut à droite un gros bouton orange « ⬆ Mises à jour », avec le nombre de versions à installer quand la vérification en ligne en a trouvé.",
+      "files": [
+        "CLAUDE.md",
+        "UPDATE_CHANGES.json",
+        "UPDATE_LOG.md",
+        "core/__init__.py",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.122.json",
+        "site/en/guide.html",
+        "site/en/home.html",
+        "site/en/index.html",
+        "site/en/installation.html",
+        "site/en/modules.html",
+        "site/en/versions.html",
+        "site/guide.html",
+        "site/home.html",
+        "site/index.html",
+        "site/installation.html",
+        "site/modules.html",
+        "site/versions.html",
+        "static/apps/vitrine/index.html",
+        "static/css/app.css",
+        "static/css/sketch.css",
+        "static/css/terminal.css",
+        "static/i18n/en_1.json",
+        "static/i18n/en_2.json",
+        "static/i18n/en_3.json",
+        "static/i18n/en_4.json",
+        "static/i18n/en_5.json",
+        "static/i18n/en_6.json",
+        "static/js/admin.js",
+        "static/js/admin_update.js",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}

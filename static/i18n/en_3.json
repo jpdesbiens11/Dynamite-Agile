@@ -1,5 +1,4 @@
 {
-"En-tête Content-Length invalide.": "Invalid Content-Length header.",
 "En-tête oui / non": "Header on / off",
 "En-têtes « ID » et « Task » introuvables dans les 10 premières lignes. Correctif : partez d'un export (bouton « Exporter Excel ») et gardez la première ligne.": "“ID” and “Task” headers not found in the first 10 rows. Fix: start from an export (“Export Excel” button) and keep the first row.",
 "Enceinte climatique (température, humidité)": "Climatic chamber (temperature, humidity)",
@@ -757,6 +756,7 @@
 "Installer pour mon équipe": "Install for my team",
 "Installer une nouvelle version préparée avec Claude": "Install a new version prepared with Claude",
 "Installer une version officielle publiée": "Install a published official version",
+"Installer une version officielle publiée, ou une version préparée avec Claude": "Install a published official version, or a version prepared with Claude",
 "Instantané": "Snapshot",
 "Insuline : pureté ou commodité": "Insulin: purity or convenience",
 "Insérer": "Insert",
@@ -1402,5 +1402,6 @@
 "Level visé ": "Target level ",
 "Leçons apprises : DFMEA et retours terrain d'un produit semblable ou précédent": "Lessons learned: DFMEA and field feedback from a similar or previous product",
 "Libellé": "Label",
-"Libellé CC": "CC label"
+"Libellé CC": "CC label",
+"Libellé SC": "SC label"
 }

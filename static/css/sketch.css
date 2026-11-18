@@ -180,6 +180,9 @@ html[data-sketch] .btn { border-radius: var(--r-hand); border: 1.4px solid rgba(
 html[data-sketch] .btn:hover:not(:disabled) { transform: translate(-1px, -2px); box-shadow: var(--shadow-sketch); background: #fff;
   border-color: var(--graphite); }
 html[data-sketch] .btn:active:not(:disabled) { transform: translate(1px, 1px); box-shadow: none; }
+html[data-sketch] .btn-update, html[data-sketch] .btn-update:hover:not(:disabled) { background: var(--hl-orange); border-color: #b8501a; color: #1d1d1d;
+  box-shadow: 2px 2px 0 #b8501a; }  /* 0.60.122: shortcut to the updates of Admin */
+html[data-sketch] .btn-update .admin-update-count { background: #fff; color: #b8501a; }
 html[data-sketch] .btn-primary { background: #0c66e4; border-color: #0b3f8f; color: #fff; box-shadow: 2px 2px 0 #0b3f8f; }
 html[data-sketch] .btn-primary:hover:not(:disabled) { background: #0055cc; color: #fff; box-shadow: 4px 4px 0 #0b3f8f; }
 html[data-sketch] .btn-danger { color: #ae2e24; }

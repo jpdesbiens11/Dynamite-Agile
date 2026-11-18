@@ -37,7 +37,7 @@
     if (!SECTIONS.some(([id]) => id === section)) section = "users";
     const body = el("div");
     container.append(
-      el("div", { class: "page-head" }, el("h1", null, "Administration")),
+      el("div", { class: "page-head admin-head" }, el("h1", null, "Administration"), updateShortcut(section, sub)),
       el("nav", { class: "subtabs admin-subtabs", "aria-label": "Sections d'administration" },
         GROUPS.flatMap(([group, items], i) => [i ? el("span", { class: "tab-sep", "aria-hidden": "true" }) : null,
           el("span", { class: "subtab-group" }, group)].concat(items.map(([id, label]) => el("a", { href: "#/admin/" + id,
@@ -53,6 +53,20 @@
       clear(body);
       body.append(el("p", { class: "form-error" }, err.message));
     });
+  }
+
+  /* 0.60.122 (D-O-135): a large orange shortcut to the updates on every Admin page, top right, with the number of versions
+     to install when the last online check found some (Admin → Update et sauvegardes → Framework) */
+  function updateShortcut(section, sub) {
+    if (section === "update" && (!sub || sub === "framework")) return null;
+    const count = el("span", { class: "admin-update-count", hidden: true });
+    const link = el("a", { class: "btn btn-update", href: "#/admin/update/framework", "data-new": "0.60.122-update-shortcut",
+      "data-tip": "Installer une version officielle publiée, ou une version préparée avec Claude" }, "⬆ Mises à jour", count);
+    api.get("/api/admin/update/online").then((s) => {
+      const n = (s.newer || []).length;
+      if (n) { count.textContent = n + " à installer"; count.hidden = false; link.classList.add("btn-update-ready"); }
+    }).catch(() => {});
+    return link;
   }
 
   /* D-A-039: every set-up screen of the platform and of each Space, in one place (administrators only). */

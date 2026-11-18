@@ -12,17 +12,18 @@
 (function () {
   "use strict";
   const { api, el, clear, toast } = DA;
-  const PARTS = [["restore", "↺ Restaurer", "0.50.1-update-restore"], ["framework", "Framework", null],
+  /* 0.60.122 (D-O-135): « Framework » (the updates) first and opened by default -- one click less to install a version */
+  const PARTS = [["framework", "Framework", null], ["restore", "↺ Restaurer", "0.50.1-update-restore"],
     ["config", "Configuration", null], ["data", "Données", null], ["site", "Site complet", null]];
-  const TODO = [["Annuler une erreur (mise à jour ratée, données effacées)", "restore"],
-    ["Installer une version officielle publiée", "framework"],
+  const TODO = [["Installer une version officielle publiée", "framework"],
     ["Installer une nouvelle version préparée avec Claude", "framework"],
+    ["Annuler une erreur (mise à jour ratée, données effacées)", "restore"],
     ["Changer les comptes, les droits ou les réglages en un seul fichier", "config"],
     ["Sauvegarder, récupérer ou ajouter des Spaces", "data"], ["Déménager le site sur un autre serveur", "site"]];
 
   DA.adminUpdate = {
     async render(body, sub) {
-      const part = PARTS.some(([k]) => k === sub) ? sub : "restore";
+      const part = PARTS.some(([k]) => k === sub) ? sub : "framework";
       const content = el("div");
       body.append(el("div", { class: "up-todo" }, el("h2", { "data-new": "0.50.1-update-todo" }, "Que voulez-vous faire ?"),
         el("ul", null, TODO.map(([label, k]) => el("li", null, el("a", { href: "#/admin/update/" + k,
