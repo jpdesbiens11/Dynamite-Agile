@@ -1,7 +1,7 @@
 # Dynamite | Agile — État du projet (branche `open/v0.60`)
 
-**Dernière mise à jour :** 2026-11-17 (v0.60.114)
-**Version :** 0.60.114 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
+**Dernière mise à jour :** 2026-11-17 (v0.60.115)
+**Version :** 0.60.115 — +1 sur le dernier chiffre à chaque livraison (D-O-001)
 **Chantier actif :** caractéristiques spéciales dans Diamond, six incréments (D-O-109, demande de JP du 2026-11-13) : livrés tous les six — 1 en 0.60.101 (D-O-108), 2 en 0.60.102 (D-O-110), 3 à 6 ensemble en 0.60.103 à la demande de JP (moins de relâches : D-O-112 à D-O-115), avec « Modules et fonctions » (D-O-111, lot noyau v0.37). Question ouverte : la boucle IA interne (modèle sur le serveur de l'entreprise), non construite
 
 Décisions : `docs/DECISIONS.md` (D-O-xxx) ; décisions antérieures citées dans le code : `docs/DECISIONS_ANTERIEURES.md`.

@@ -1,4 +1,6 @@
 {
+"Un mot-clé ou une courte phrase": "A keyword or a short phrase",
+"Un nombre impair de participants : l'outil forme alors un trio à chaque tour, c'est normal.": "An odd number of participants: the tool then forms a trio at each round, this is normal.",
 "Un nouveau membre de l'équipe doit pouvoir réaliser les étapes du parcours DEMO (hors Admin) en moins de 5 jours ouvrables.": "A new team member must be able to complete the steps of the DEMO path (outside Admin) in under 5 working days.",
 "Un ordinateur n'envoie pas de texto : scannez le code QR à droite avec votre téléphone.": "A computer can't send a text message: scan the QR code on the right with your phone.",
 "Un ou plusieurs Control Plans par configuration de ligne et à la réception, trois phases, mesures et Cpk.": "One or more Control Plans per line configuration and at reception, three phases, measurements and Cpk.",
@@ -231,6 +233,7 @@
 "Vitesse trop élevée": "Speed too high",
 "Vitesse à moins de 1,2 m d'un obstacle": "Speed within 1.2 m of an obstacle",
 "Voici le Rover : un petit robot éducatif qui roule seul et évite les obstacles. Nina, Léa, Hugo et Alexis le mènent de l'idée au prototype, en 15 semaines. Nous sommes à la semaine 15 : tout ce que vous allez voir est leur vrai travail, en lecture seule. Le tour dure environ 5 minutes.": "Meet the Rover: a small educational robot that drives itself and avoids obstacles. Nina, Léa, Hugo and Alexis take it from idea to prototype in 15 weeks. We are at week 15: everything you will see is their real work, read-only. The tour takes about 5 minutes.",
+"Voilure fixe": "Fixed wing",
 "Voir ce qui vous attend": "See what is waiting for you",
 "Voir dans l'arbre": "Show in the tree",
 "Voir et planifier les observations Audit": "View and plan Audit comments",

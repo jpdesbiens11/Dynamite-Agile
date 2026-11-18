@@ -1,0 +1,75 @@
+{
+  "version": "0.60.115",
+  "date": "2026-11-17",
+  "summary": {
+    "fr": "Storyline : pictogramme « Voilure fixe » ; un pictogramme absent de la bibliothèque s'affiche en « ? », jamais en blanc.",
+    "en": "Storyline: « Voilure fixe » (fixed wing) pictogram; a pictogram missing from the library shows as « ? », never blank."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Storyline : pictogramme « Voilure fixe » (engin télépiloté à ailes) dans « Militaire et terrain »",
+      "why": "Le quadrirotor ne couvrait que l'engin à rotors. « Voilure fixe » (clé `aile`) dessine l'engin à ailes vu de dessus, pour la croisière et la longue endurance ; il est dans la palette, dans le catalogue des prompts de « ↔ IA » et du Project Starter, et dans l'export Word. Une IA qui écrit « fixed-wing », « UAV » ou « ailes » obtient ce pictogramme.",
+      "files": [
+        "CLAUDE.md",
+        "UPDATE_CHANGES.json",
+        "UPDATE_LOG.md",
+        "core/__init__.py",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/STARTER_FORMAT.md",
+        "docs/releases/0.60.115.json",
+        "modules/diamond/story.py",
+        "modules/diamond/story_catalog.py",
+        "modules/diamond/story_figure.py",
+        "site/en/guide.html",
+        "site/en/home.html",
+        "site/en/index.html",
+        "site/en/installation.html",
+        "site/en/modules.html",
+        "site/en/starter.md",
+        "site/en/versions.html",
+        "site/guide.html",
+        "site/home.html",
+        "site/index.html",
+        "site/installation.html",
+        "site/modules.html",
+        "site/starter.md",
+        "site/versions.html",
+        "static/apps/vitrine/index.html",
+        "static/i18n/en_1.json",
+        "static/i18n/en_2.json",
+        "static/i18n/en_3.json",
+        "static/i18n/en_4.json",
+        "static/i18n/en_5.json",
+        "static/i18n/en_6.json",
+        "static/img/story-term.svg",
+        "static/img/story.svg",
+        "static/js/diamond/story_pictos.js",
+        "static/js/diamond/story_stage.js",
+        "tests/test_open_v060.py",
+        "tests/test_story.py",
+        "tests/test_story_pictos_ai.py",
+        "tools/story_pictos.py"
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Storyline : un pictogramme que la bibliothèque n'a pas s'affiche en « ? » avec son mot, jamais en blanc",
+      "why": "Une scène qui gardait la clé d'un pictogramme absent de la bibliothèque (venu d'une autre installation) n'affichait que l'étiquette, sur un espace vide, et la scène ne s'enregistrait plus. À la lecture, la clé retrouve son pictogramme si c'est un nom connu, sinon elle devient « ? » avec son étiquette (ou son mot) ; l'écran et le Word font de même. On choisit ensuite le bon pictogramme dans la palette.",
+      "files": [
+        "modules/diamond/story.py",
+        "modules/diamond/story_figure.py",
+        "static/i18n/en_1.json",
+        "static/i18n/en_2.json",
+        "static/i18n/en_3.json",
+        "static/i18n/en_4.json",
+        "static/i18n/en_5.json",
+        "static/i18n/en_6.json",
+        "static/js/diamond/story_pictos.js",
+        "static/js/diamond/story_stage.js",
+        "tests/test_story_pictos_ai.py"
+      ]
+    }
+  ]
+}

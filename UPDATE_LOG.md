@@ -1,11 +1,19 @@
-# Journal de mise à jour — 0.60.114
+# Journal de mise à jour — 0.60.115
+
+- **Version :** 0.60.114 → 0.60.115 (2026-11-17)
+- **Changements :**
+  1. **Storyline : pictogramme « Voilure fixe » (engin télépiloté à ailes) dans « Militaire et terrain »** (D-O-128).
+  2. **Storyline : un pictogramme que la bibliothèque n'a pas s'affiche en « ? » avec son mot, jamais en blanc** (D-O-128).
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.114
 
 - **Version :** 0.60.113 → 0.60.114 (2026-11-17)
 - **Changements :**
   1. **Storyline : « Export .docx » en haut à droite, avec les autres boutons de la page, avant « ↔ IA »** (D-O-127).
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.113
 

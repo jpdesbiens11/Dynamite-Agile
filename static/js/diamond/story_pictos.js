@@ -1,4 +1,4 @@
-/* Diamond · Storyline (0.60.51, D-O-060): the pictogram palette -- the French names and the groups of the 56 pictograms (17 military and field ones since 0.60.113)
+/* Diamond · Storyline (0.60.51, D-O-060): the pictogram palette -- the French names and the groups of the 57 pictograms (military and field ones since 0.60.113, the fixed wing since 0.60.115)
    drawn by tools/story_pictos.py (sprites /img/story.svg and /img/story-term.svg, same keys; tests/test_story.py checks
    both lists). D.picto(key) returns the <svg><use> of the current theme. */
 (function () {
@@ -17,7 +17,7 @@
     ["Idées et ressentis", [["idee", "Idée"], ["question", "Question"], ["danger", "Danger"], ["content", "Content"],
       ["frustre", "Frustré"], ["coeur", "J'aime"], ["mouvement", "Mouvement"]]],
     ["Militaire et terrain", [["soldat", "Soldat"], ["blinde", "Véhicule blindé"], ["camion", "Camion"], ["helicoptere", "Hélicoptère"],
-      ["quadrirotor", "Quadrirotor"], ["tente", "Tente, bivouac"], ["drapeau", "Base, poste"], ["radio", "Radio"],
+      ["quadrirotor", "Quadrirotor"], ["aile", "Voilure fixe"], ["tente", "Tente, bivouac"], ["drapeau", "Base, poste"], ["radio", "Radio"],
       ["generatrice", "Génératrice"], ["conteneur", "Conteneur"], ["carte", "Carte, GPS"], ["cible", "Objectif"],
       ["jumelles", "Jumelles"], ["parachute", "Parachute"], ["bouclier", "Protection"], ["montagne", "Montagne, terrain"],
       ["feu", "Feu"]]],  // 0.60.113 (D-O-126)
@@ -39,7 +39,8 @@
     svg.setAttribute("aria-hidden", "true");
     svg.setAttribute("focusable", "false");
     const use = document.createElementNS(NS, "use");
-    use.setAttribute("href", sprite() + "#p-" + key);
+    // 0.60.115 (D-O-128): a key the library does not have (kept from another install) shows « ? », never an empty spot
+    use.setAttribute("href", sprite() + "#p-" + (NAMES[key] ? key : "question"));
     svg.append(use);
     return svg;
   }

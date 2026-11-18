@@ -92,7 +92,7 @@ def pictos():
 def _draw_picto(pic, key, x, y, size, mirror):
     k = size / 24.0
     place = lambda pts: [(x + (24 - px if mirror else px) * k, y + py * k) for px, py in pts]  # noqa: E731
-    for kind, color, value, subs in pictos().get(key, []):
+    for kind, color, value, subs in pictos().get(key) or pictos().get("question", []):  # 0.60.115: never an empty spot
         for pts, closed in subs:
             if kind == "fill":
                 pic.polygon(place(pts), fill=emf.blend(color, value))

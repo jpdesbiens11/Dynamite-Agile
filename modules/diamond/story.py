@@ -75,6 +75,12 @@ def rows(conn, pid):
             scene["items"] = json.loads(scene["items"] or "[]")
         except ValueError:
             scene["items"] = []
+        for item in scene["items"]:  # 0.60.115 (D-O-128): a key kept from another install finds its pictogram, or « ? »
+            if isinstance(item, dict) and item.get("p") not in PICTOS:
+                raw = str(item.get("p") or "")
+                item["p"] = story_catalog.resolve(raw) or "question"
+                if item["p"] == "question" and not item.get("t"):
+                    item["t"] = raw[:40]
         out.append(scene)
     return out
 

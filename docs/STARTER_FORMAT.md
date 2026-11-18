@@ -69,7 +69,7 @@ caractères). 40 scènes et 30 pictogrammes par scène au plus. Elle peut venir 
 Storyline, « ↔ IA » (en haut à droite) envoie les scènes à un assistant IA et en rapporte l'arbre et le reste de Diamond
 (0.60.113, D-O-126). `p` accepte aussi le nom français ou anglais d'un pictogramme (« Batterie », « battery ») ; un mot
 inconnu devient le pictogramme « question » avec ce mot pour étiquette ; sans `x` / `y`, le pictogramme est posé dans la
-scène. Le catalogue des 56 pictogrammes (dont 17 « Militaire et terrain ») est écrit dans le prompt du Project Starter.
+scène. Le catalogue des 57 pictogrammes (dont 18 « Militaire et terrain ») est écrit dans le prompt du Project Starter.
 
 Le Space reçoit aussi un **plan de référence** dans Exploration (`modules/exploration/reference.py`) : les 19 étapes du
 PDP (mêmes codes que Timesheet), les revues Lean Canvas, Concept Review, PDR, CDR et Validation Report en jalons, les
