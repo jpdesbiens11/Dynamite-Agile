@@ -72,6 +72,8 @@ ROUTES = [
     ("PUT", P + r"/competencies/rating", competencies.api_rate, "user"),
     ("PUT", P + r"/competencies/lines/(?P<fid>\d+)", competencies.api_line, "user"),
     ("PUT", P + r"/competencies/staff", competencies.api_staff, "user"),
+    ("POST", P + r"/competencies/columns", competencies.api_column_add, "user"),  # 0.60.117 (D-O-130): the columns of the grid
+    ("POST", P + r"/competencies/columns/(?P<code>[A-Z][A-Z0-9]{1,7})/remove", competencies.api_column_remove, "user"),
     ("GET", P + r"/competencies/summary\.xlsx", competency_export.api_xlsx, "user"),
     ("GET", P + r"/competencies/summary\.docx", competency_export.api_docx, "user"),
     ("POST", r"/api/diamond/competencies", competency_catalog.api_create, "user"),

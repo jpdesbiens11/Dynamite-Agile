@@ -115,6 +115,17 @@ def lines(conn, pid):
     return out
 
 
+def columns(conn, pid, rows=None):
+    """The competencies of the grid of this Space, in order: those the team added (diamond_competency_columns), then any other
+    one a line rates (an AI answer may bring one). 0.60.117 (D-O-130): a Space shows the 4 or 5 it needs, not the whole catalogue."""
+    out = [r[0] for r in conn.execute("SELECT code FROM diamond_competency_columns WHERE project_id = ? ORDER BY position, code", (pid,))]
+    rated = set()
+    for ln in rows if rows is not None else lines(conn, pid):
+        rated.update(ln["ratings"])
+    order = {c["code"]: c["position"] for c in catalog(conn)}
+    return out + sorted((c for c in rated if c not in out), key=lambda c: (order.get(c, 999), c))
+
+
 def staff(conn, pid):
     return {r["code"]: {"people": r["people"], "note": r["note"]} for r in
             conn.execute("SELECT code, people, note FROM diamond_competency_staff WHERE project_id = ?", (pid,))}
@@ -146,7 +157,7 @@ def payload(conn, pid, user=None):
     links = competency_bdc.page_links(conn)
     for c in cat:
         c["bdc"] = links.get(c["code"])
-    return {"catalog": cat, "lines": rows, "summary": rows_summary, "total_points": total,
+    return {"catalog": cat, "lines": rows, "columns": columns(conn, pid, rows), "summary": rows_summary, "total_points": total,
             "people_total": round(sum(s["people"] for s in rows_summary), 1),
             "can_manage": bool(user) and can_manage(conn, user), "icons": list(DC.ICONS), "detail_labels": DC.DETAIL_LABELS,
             "bdc_hub": links.get("_hub")}
@@ -256,3 +267,34 @@ def api_staff(ctx):
                      (pid, code, people, note, ctx.user["id"], db.utc_now()))
     audit.log_action(ctx.conn, ctx.user["id"], "diamond_competency_staff", "project", pid, {"code": code, "people": people}, ctx.ip)
     return payload(ctx.conn, pid, ctx.user)
+
+
+def api_column_add(ctx):
+    """{code}: the competency becomes a column of the grid of this Space (at the end)."""
+    pid = F.access(ctx, "editor")
+    code = _known_code(ctx.conn, ctx.body.get("code"))
+    current = columns(ctx.conn, pid)
+    if code not in current:
+        current.append(code)
+    _save_columns(ctx.conn, pid, current)
+    audit.log_action(ctx.conn, ctx.user["id"], "diamond_competency_column_add", "project", pid, {"code": code}, ctx.ip)
+    return payload(ctx.conn, pid, ctx.user)
+
+
+def api_column_remove(ctx):
+    """The competency leaves the grid of this Space, with its ratings on the lines (the people planned for it stay)."""
+    pid = F.access(ctx, "editor")
+    code = str(ctx.params.get("code") or "").upper()
+    current = columns(ctx.conn, pid)
+    if code not in current:
+        raise ApiError(404, "{} n'est pas une colonne de la grille de ce Space. Correctif : rechargez la page.".format(code[:12]))
+    removed = ctx.conn.execute("DELETE FROM diamond_competency_ratings WHERE project_id = ? AND code = ?", (pid, code)).rowcount
+    _save_columns(ctx.conn, pid, [c for c in current if c != code])
+    audit.log_action(ctx.conn, ctx.user["id"], "diamond_competency_column_remove", "project", pid, {"code": code, "ratings": removed}, ctx.ip)
+    return payload(ctx.conn, pid, ctx.user)
+
+
+def _save_columns(conn, pid, codes):
+    conn.execute("DELETE FROM diamond_competency_columns WHERE project_id = ?", (pid,))
+    for i, code in enumerate(codes):
+        conn.execute("INSERT INTO diamond_competency_columns (project_id, code, position) VALUES (?, ?, ?)", (pid, code, i + 1))

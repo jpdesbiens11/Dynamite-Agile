@@ -95,7 +95,7 @@
   }
 
   function detail(ctx, comp) {
-    const cols = D.competencyColumns(comp, []);
+    const cols = D.competencyColumns(comp);
     if (!cols.length) return null;
     const head = ["Fonction", "Brique"].concat(cols.map((c) => el("span", { "data-tip": c.name }, D.compIcon(c.icon), el("span", { class: "dm-sr" }, c.name))));
     const rows = comp.lines.map((ln) => el("tr", null,

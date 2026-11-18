@@ -29,18 +29,16 @@
     return svg;
   }
 
-  /* the columns: the competencies rated somewhere in the Space, in the order of the catalogue, and those added for this view */
-  function columns(comp, extra) {
-    const used = new Set();
-    comp.lines.forEach((ln) => Object.keys(ln.ratings).forEach((c) => used.add(c)));
-    (extra || []).forEach((c) => used.add(c));
-    return comp.catalog.filter((c) => used.has(c.code));
+  /* the columns: the competencies this Space chose for its grid, in their order (0.60.117, D-O-130: server side, « columns ») */
+  function columns(comp) {
+    const byCode = new Map(comp.catalog.map((c) => [c.code, c]));
+    return (comp.columns || []).map((code) => byCode.get(code)).filter(Boolean);
   }
 
-  /* opts: {comp, compCols, editable, onRate(fid, code, n), onAddCol(code)}; column: what conceptColumn returned */
+  /* opts: {comp, editable, onRate(fid, code, n), onAddCol(code), onRemoveCol(code)}; column: what conceptColumn returned */
   function competencyGrid(box, column, opts) {
     const D = DA.diamond, T = D.TREE;
-    const cols = columns(opts.comp, opts.compCols);
+    const cols = columns(opts.comp);
     const sep = column.width + GAP / 2 - T.PAD;
     const x0 = column.width + GAP - T.PAD;
     const width = x0 + cols.length * CW + (opts.editable ? ADD : 0) + T.PAD;
@@ -64,7 +62,7 @@
     });
     const head = el("div", { class: "dm-cg-head" });
     head.style.left = x0 + "px";
-    cols.forEach((c) => head.append(el("span", { class: "dm-cg-icon", "data-tip": c.name + " (" + c.code + ")" }, compIcon(c.icon))));
+    cols.forEach((c) => head.append(headButton(c, opts)));
     if (opts.editable) head.append(addButton(opts, cols));
     return { svg: g, nodes, head, width, cols };
   }
@@ -98,6 +96,35 @@
     menu.style.left = (anchor.parentNode.offsetLeft + anchor.offsetLeft) + "px";
     menu.style.top = (anchor.parentNode.offsetTop + anchor.offsetHeight + 4) + "px";
     menu.querySelector("button").focus();
+  }
+
+  /* the title of a column: its icon and its code, always readable; a click offers to take it out of the grid */
+  function headButton(c, opts) {
+    const rated = opts.comp.lines.filter((ln) => ln.ratings[c.code]).length;
+    const node = el("button", { type: "button", class: "dm-cg-icon", "data-tip": c.name + " (" + c.code + ")"
+      + (opts.editable ? " — cliquez pour la retirer de la grille" : ""), "aria-label": c.name, disabled: opts.editable ? null : "disabled" },
+    compIcon(c.icon), el("span", { class: "dm-cg-code" }, c.code));
+    if (!opts.editable) return node;
+    node.addEventListener("click", () => {
+      document.querySelectorAll(".dm-cg-menu").forEach((m) => m.remove());
+      const close = () => { menu.remove(); document.removeEventListener("keydown", esc); node.focus(); };
+      const esc = (ev) => { if (ev.key === "Escape") close(); };
+      const menu = el("div", { class: "dm-cg-menu dm-cg-colmenu", role: "menu", "aria-label": c.name },
+        el("span", { class: "dm-cg-menu-name" }, c.name + (rated ? " · " + rated + " ligne" + (rated > 1 ? "s" : "") + " notée" + (rated > 1 ? "s" : "") : "")),
+        el("button", { type: "button", role: "menuitem", class: "btn btn-small btn-danger", onclick: () => {
+          if (rated && !window.confirm("Retirer " + c.name + " de la grille ? Ses notes sur " + rated + " ligne" + (rated > 1 ? "s" : "")
+            + " sont effacées (les personnes prévues pour elle restent dans la synthèse).")) return;
+          close();
+          opts.onRemoveCol(c.code);
+        } }, "Retirer de la grille"),
+        el("button", { type: "button", role: "menuitem", class: "btn btn-small", onclick: close }, "Annuler"));
+      document.addEventListener("keydown", esc);
+      node.parentNode.parentNode.append(menu);
+      menu.style.left = (node.parentNode.offsetLeft + node.offsetLeft) + "px";
+      menu.style.top = (node.offsetTop + node.offsetHeight + 4) + "px";
+      menu.querySelector("button").focus();
+    });
+    return node;
   }
 
   function addButton(opts, cols) {

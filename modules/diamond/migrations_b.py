@@ -415,4 +415,13 @@ MIGRATIONS = [
         ALTER TABLE diamond_concepts ADD COLUMN frozen_by INTEGER REFERENCES users(id) ON DELETE SET NULL;
         ALTER TABLE diamond_concepts ADD COLUMN frozen_at TEXT;
     """),
+    (19, """
+        -- 0.60.117 (D-O-130): the competencies a Space shows in its grid (a column added stays even before any rating)
+        CREATE TABLE diamond_competency_columns (
+            project_id  INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            code        TEXT NOT NULL,
+            position    INTEGER NOT NULL DEFAULT 0,
+            PRIMARY KEY (project_id, code)
+        );
+    """),
 ]

@@ -105,7 +105,8 @@
     });
     if (column) heads.append(column.head);
     if (grid) heads.append(grid.head);
-    return el("div", { class: "dm-scroll" }, heads, canvas);
+    // 0.60.117 (D-O-130): the tree scrolls in its own box, so the titles of its columns stay on top (like the DFMEA)
+    return el("div", { class: "dm-scroll dm-tree-scroll" }, heads, canvas);
   }
 
   /* drag source and drop target in one: a box dragged onto another becomes its « comment » */
