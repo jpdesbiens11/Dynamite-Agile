@@ -1,11 +1,19 @@
-# Journal de mise à jour — 0.60.122
+# Journal de mise à jour — 0.60.123
+
+- **Version :** 0.60.122 → 0.60.123 (2026-11-18)
+- **Changements :**
+  1. **Diamond : export PDF de chaque page, à côté de « ↔ IA », au format des documents Word** (D-O-136).
+  2. **Golden Nuggets en PDF : les quatre parties en cartes colorées, le livre et ses études de cas** (D-O-136).
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.122
 
 - **Version :** 0.60.121 → 0.60.122 (2026-11-18)
 - **Changements :**
   1. **Admin : les mises à jour (Framework) en premier, et un gros bouton orange « ⬆ Mises à jour » sur chaque page d'Admin** (D-O-135).
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.121
 

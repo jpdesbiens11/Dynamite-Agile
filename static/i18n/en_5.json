@@ -1,4 +1,7 @@
 {
+"Questions fréquentes sur ": "Frequently asked questions about ",
+"Qui a fait Dynamite | Agile, et comment": "Who made Dynamite | Agile, and how",
+"Qui contacter ?": "Who to contact?",
 "Qui dans l'équipe": "Who in the team",
 "Qui et combien de temps": "Who and for how long",
 "Qui fait quoi, maintenant ?": "Who does what, now?",
@@ -1401,7 +1404,5 @@
 "Un exemple complet sur un vrai produit : bête à cornes, pieuvre, SADT (A-0) et FAST.": "A complete example on a real product: bête à cornes, pieuvre, SADT (A-0) and FAST.",
 "Un exemple concret…": "A concrete example…",
 "Un extrait des heures des Budget Lines cochées ci-dessus, au gabarit Word de l'outil (le même que Goldmine et Testing) : destinataire et périmètre, sommaire par Budget Line, heures par employé, détail des justifications, attestation, Definitions et Acronyms. Le destinataire personnalise la page de titre et le texte.": "An extract of the hours of the Budget Lines ticked above, in the tool's Word template (the same as Goldmine and Testing): recipient and scope, summary by Budget Line, hours per employee, detail of the justifications, attestation, Definitions and Acronyms. The recipient personalises the title page and the text.",
-"Un fait, un progrès, une question, un retour… (visible par vous deux)": "A fact, progress, a question, feedback… (visible to both of you)",
-"Un fichier .md léger : confidentialité, comptes et droits, Timesheet, préférences des comptes ": "A light .md file: privacy, accounts and rights, Timesheet, account preferences ",
-"Un fichier arrive dans vos Téléchargements, par exemple « Dynamite_Agile_v0.41.0_code_pour_Claude.zip ». Il ne contient aucune donnée des employés : seulement le programme, la lettre de départ (UPDATE_PROMPT.md) et la description de la base.": "A file arrives in your Downloads, for example “Dynamite_Agile_v0.41.0_code_pour_Claude.zip”. It contains no employee data: only the program, the starting letter (UPDATE_PROMPT.md) and the description of the database."
+"Un fait, un progrès, une question, un retour… (visible par vous deux)": "A fact, progress, a question, feedback… (visible to both of you)"
 }

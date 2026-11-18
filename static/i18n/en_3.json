@@ -1,4 +1,5 @@
 {
+"En-tête Content-Length invalide.": "Invalid Content-Length header.",
 "En-tête oui / non": "Header on / off",
 "En-têtes « ID » et « Task » introuvables dans les 10 premières lignes. Correctif : partez d'un export (bouton « Exporter Excel ») et gardez la première ligne.": "“ID” and “Task” headers not found in the first 10 rows. Fix: start from an export (“Export Excel” button) and keep the first row.",
 "Enceinte climatique (température, humidité)": "Climatic chamber (temperature, humidity)",
@@ -168,6 +169,7 @@
 "Export non autorisé pour votre compte. Correctif : demandez à un administrateur d'activer « Export PDF / Word » pour vous (Admin → Droits).": "Export not allowed for your account. Fix: ask an administrator to enable “PDF / Word export” for you (Admin → Rights).",
 "Export suspendu : l'administrateur a activé le blocage de l'impression.": "Export suspended: the administrator has enabled print blocking.",
 "Exporter": "Export",
+"Exporter ": "Export ",
 "Exporter (.csv)": "Export (.csv)",
 "Exporter (.json)": "Export (.json)",
 "Exporter (.txt)": "Export (.txt)",
@@ -820,6 +822,7 @@
 "Journal des distances sur le banc": "Distance log on the bench",
 "Journal des distances sur le bench": "Distance log on the bench",
 "Journal des distances sur le parcours A": "Distance log on course A",
+"Journal des révisions": "Log of revision",
 "Journal du logiciel": "Software log",
 "Journal du software": "Software log",
 "Journée": "Day",
@@ -1327,6 +1330,7 @@
 "Les fonctions de l'analyse fonctionnelle et leurs composants.": "The functions of the functional analysis and their components.",
 "Les fonctions du produit, de la fonction primaire (à gauche) à ses « comment » (à droite). De haut en bas : l'ordre de la première utilisation, de la sortie de la boîte au service rendu ; la dernière branche protège.": "The product's functions, from the primary function (left) to its “hows” (right). Top to bottom: the order of first use, from taking it out of the box to the service rendered; the last branch protects.",
 "Les frais NRE, le coût des pièces en prototype et à 100, 1 000 et 10 000 kits, le temps de l'équipe et la contingence : un budget prêt pour les investisseurs.": "NRE costs, the cost of parts as prototypes and at 100, 1,000 and 10,000 kits, team time and contingency: an investor-ready budget.",
+"Les grands principes à appliquer pour concevoir et innover : penser à partir des premiers principes, l'algorithme de conception et les règles de SpaceX et Tesla, et la disruptive innovation de Clayton Christensen.": "The great principles to apply to design and innovate: thinking from first principles, the design algorithm and the rules of SpaceX and Tesla, and the disruptive innovation of Clayton Christensen.",
 "Les heures de conception par sous-système ; la description prépare la preuve d'incertitude technologique (RS&DE).": "Design hours by subsystem; the description prepares the proof of technological uncertainty (SR&ED).",
 "Les heures de fabrication et d'essais ; la réclamation de fin de projet sort en un export.": "The manufacturing and test hours; the end-of-project claim comes out in one export.",
 "Les heures de la phase Concept (B-07 à B-12) ; première lecture du coût par livrable.": "The hours of the Concept phase (B-07 to B-12); first reading of the cost per deliverable.",
@@ -1400,8 +1404,5 @@
 "Lessons learned : DFMEA et field returns d'un produit semblable ou précédent": "Lessons learned: DFMEA and field feedback from a similar or previous product",
 "Level visé": "Target Level",
 "Level visé ": "Target level ",
-"Leçons apprises : DFMEA et retours terrain d'un produit semblable ou précédent": "Lessons learned: DFMEA and field feedback from a similar or previous product",
-"Libellé": "Label",
-"Libellé CC": "CC label",
-"Libellé SC": "SC label"
+"Leçons apprises : DFMEA et retours terrain d'un produit semblable ou précédent": "Lessons learned: DFMEA and field feedback from a similar or previous product"
 }

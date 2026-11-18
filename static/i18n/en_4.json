@@ -1,4 +1,7 @@
 {
+"Libellé": "Label",
+"Libellé CC": "CC label",
+"Libellé SC": "SC label",
 "Libellé de ": "Label of ",
 "Libellé du flux": "Flow label",
 "Libellé obligatoire.": "Label required.",
@@ -851,6 +854,7 @@
 "P-n : pièces qui réalisent la fonction": "P-n: parts that carry out the function",
 "PA66 chargé verre, acier": "Glass-filled PA66, steel",
 "PC-# : un plan de réception nomme une pièce (P-#), pas une opération.": "PC-#: a reception plan names a part (P-#), not an operation.",
+"PDF de « ": "PDF of « ",
 "PDF des résultats": "Results PDF",
 "PDF joint": "Attached PDF",
 "PDF — avec les sous-pages": "PDF — with subpages",
@@ -1400,8 +1404,5 @@
 "Questions / réponses client": "Customer Q&A",
 "Questions client à traiter (Goldmine)": "Customer questions to handle (Goldmine)",
 "Questions fréquentes": "FAQ",
-"Questions fréquentes : voir la sous-page « ": "Frequently asked questions: see the sub-page “ ",
-"Questions fréquentes sur ": "Frequently asked questions about ",
-"Qui a fait Dynamite | Agile, et comment": "Who made Dynamite | Agile, and how",
-"Qui contacter ?": "Who to contact?"
+"Questions fréquentes : voir la sous-page « ": "Frequently asked questions: see the sub-page “ "
 }
