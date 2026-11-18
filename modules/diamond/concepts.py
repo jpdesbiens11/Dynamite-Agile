@@ -51,7 +51,8 @@ def _choice(body, name, options, label, default):
 
 def rows(conn, pid):
     items = [dict(r) for r in conn.execute(
-        "SELECT c.*, u.display_name AS owner_name FROM diamond_concepts c LEFT JOIN users u ON u.id = c.owner_id "
+        "SELECT c.*, u.display_name AS owner_name, z.display_name AS frozen_by_name FROM diamond_concepts c "
+        "LEFT JOIN users u ON u.id = c.owner_id LEFT JOIN users z ON z.id = c.frozen_by "
         "WHERE c.project_id = ? AND c.archived = 0 ORDER BY c.position, c.number", (pid,))]
     links = {}
     for r in conn.execute("SELECT l.concept_id, l.function_id FROM diamond_concept_functions l JOIN diamond_functions f "
@@ -182,6 +183,8 @@ def api_update(ctx):
     pid = F.access(ctx, "editor")
     c = _concept(ctx.conn, pid, validate.int_param(ctx.params, "cid"))
     fields = _fields(ctx.body, partial=True, conn=ctx.conn, pid=pid)
+    from .concept_freeze import guard_fields  # 0.60.116 (D-O-129): a frozen brick keeps its concept
+    guard_fields(c, [k for k in fields if fields[k] != c.get(k)])
     if fields:
         sets = ", ".join("{} = ?".format(k) for k in fields)
         ctx.conn.execute("UPDATE diamond_concepts SET {}, updated_by = ?, updated_at = ? WHERE id = ?".format(sets),
@@ -214,6 +217,8 @@ def api_archive(ctx):
     """The brick leaves the column and the list; its number is never given again, its sheets and matrices stay."""
     pid = F.access(ctx, "editor")
     c = _concept(ctx.conn, pid, validate.int_param(ctx.params, "cid"))
+    from .concept_freeze import guard_fields
+    guard_fields(c, ["archived"])
     ctx.conn.execute("UPDATE diamond_concepts SET archived = 1, updated_by = ?, updated_at = ? WHERE id = ?",
                      (ctx.user["id"], db.utc_now(), c["id"]))
     ctx.conn.execute("DELETE FROM diamond_concept_functions WHERE concept_id = ?", (c["id"],))

@@ -21,6 +21,9 @@ Sub-modules, one per iteration:
   0.60.105 Concept / Brique technologique (concepts.py, concept_sheets.py, concept_pugh.py, concept_ai.py): the column after
            the tertiary functions, the concept sheets of a brick, the Pugh matrices of groups of bricks; Idéation, Pugh and
            Kepner-Tregoe of Tools now open here.
+  0.60.116 Compétences et équipe (competencies.py, competency_catalog.py, competency_bdc.py, rt_sections_d.py): a rating of each
+           competency per function line that ends with a brick, the summary and the people to hire or gather, the platform's
+           catalogue with one BDC page per competency; a brick may be frozen (concept_freeze.py).
 Every table is tied to projects(id) (backup, restore, copy by the core); every write is journalled.
 """
 from .search import search  # noqa: F401  (core search hook, 0.60.36)
@@ -30,6 +33,7 @@ from . import migrations_a, migrations_b  # noqa: E402
 from . import ai_io, ai_prompts, ai_prompts_process, cp_io, dfmea_io, pfmea_io  # noqa: E402,F401 (0.60.104, D-O-116)
 from . import concept_ai, concept_pugh, concept_sheets, concepts  # noqa: E402 (0.60.105, D-O-117)
 from . import rt  # noqa: E402 (0.60.111, D-O-124: « ↔ IA », the round trip of every page)
+from . import competencies, competency_catalog, concept_freeze  # noqa: E402 (0.60.116, D-O-129: competencies, frozen bricks)
 from . import actions, capability, char_export, characteristics, classes_api, company_pn, control_plans, impact, pfmea, pfmea_ai, pn_ai, prio, process, costs, costs_budget, costs_import, costs_prompt, dfmea, dfmea_complete, example, export_api, functions, parts, risks, story, story_ai, story_docx, structure
 
 SCHEMA = ""
@@ -59,6 +63,14 @@ PG = P + r"/pugh/(?P<mid>\d+)"
 CUST = r"/dfmea/classes/customers/(?P<code>[a-z0-9-]{1,40})"
 
 ROUTES = [
+    ("GET", P + r"/competencies", competencies.api_get, "user"),  # 0.60.116 (D-O-129): « Compétences et équipe »
+    ("PUT", P + r"/competencies/rating", competencies.api_rate, "user"),
+    ("PUT", P + r"/competencies/lines/(?P<fid>\d+)", competencies.api_line, "user"),
+    ("PUT", P + r"/competencies/staff", competencies.api_staff, "user"),
+    ("POST", r"/api/diamond/competencies", competency_catalog.api_create, "user"),
+    ("PATCH", r"/api/diamond/competencies/(?P<code>[A-Z][A-Z0-9]{1,7})", competency_catalog.api_update, "user"),
+    ("POST", CB + r"/freeze", concept_freeze.api_freeze, "user"),
+    ("POST", CB + r"/unfreeze", concept_freeze.api_unfreeze, "user"),
     ("GET", P + r"/concepts", concepts.api_list, "user"),  # 0.60.105 (D-O-117): « Concept / Brique technologique »
     ("POST", P + r"/concepts", concepts.api_create, "user"),
     ("POST", P + r"/concepts/link", concepts.api_link, "user"),

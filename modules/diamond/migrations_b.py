@@ -371,4 +371,48 @@ MIGRATIONS = [
         -- 0.60.106 (D-O-118): the person responsible for a brick -- the team splits the bricks of the global concept
         ALTER TABLE diamond_concepts ADD COLUMN owner_id INTEGER REFERENCES users(id) ON DELETE SET NULL;
     """),
+    (18, """
+        -- 0.60.116 (D-O-129): competencies needed to develop the bricks, the team to build, the frozen bricks.
+        -- The catalogue is the platform's: one list held by the DEMO Space, where the BDC lives (its pages).
+        CREATE TABLE diamond_competencies (
+            id          INTEGER PRIMARY KEY,
+            project_id  INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            code        TEXT NOT NULL UNIQUE,
+            name        TEXT NOT NULL,
+            icon        TEXT NOT NULL DEFAULT '',
+            summary     TEXT NOT NULL DEFAULT '',
+            details     TEXT NOT NULL DEFAULT '{}',
+            position    INTEGER NOT NULL DEFAULT 0,
+            active      INTEGER NOT NULL DEFAULT 1,
+            created_at  TEXT NOT NULL,
+            updated_at  TEXT NOT NULL
+        );
+        -- one rating per function line and competency: 1 (almost not involved) to 5 (at the heart of the development)
+        CREATE TABLE diamond_competency_ratings (
+            id          INTEGER PRIMARY KEY,
+            project_id  INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            function_id INTEGER NOT NULL REFERENCES diamond_functions(id) ON DELETE CASCADE,
+            code        TEXT NOT NULL,
+            rating      INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5),
+            source      TEXT NOT NULL DEFAULT 'team',
+            updated_by  INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            updated_at  TEXT NOT NULL,
+            UNIQUE (function_id, code)
+        );
+        -- the people to hire or to gather in the team, per competency (the evaluator's last column)
+        CREATE TABLE diamond_competency_staff (
+            project_id  INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+            code        TEXT NOT NULL,
+            people      REAL NOT NULL DEFAULT 0,
+            note        TEXT NOT NULL DEFAULT '',
+            updated_by  INTEGER REFERENCES users(id) ON DELETE SET NULL,
+            updated_at  TEXT NOT NULL,
+            PRIMARY KEY (project_id, code)
+        );
+        CREATE INDEX idx_diamond_competency_ratings_project ON diamond_competency_ratings(project_id, code);
+        ALTER TABLE diamond_concepts ADD COLUMN frozen INTEGER NOT NULL DEFAULT 0;
+        ALTER TABLE diamond_concepts ADD COLUMN frozen_text TEXT NOT NULL DEFAULT '';
+        ALTER TABLE diamond_concepts ADD COLUMN frozen_by INTEGER REFERENCES users(id) ON DELETE SET NULL;
+        ALTER TABLE diamond_concepts ADD COLUMN frozen_at TEXT;
+    """),
 ]
