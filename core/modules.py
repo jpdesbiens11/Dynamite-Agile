@@ -62,7 +62,7 @@ MODULE_MANIFEST = [
                  "/js/diamond/risks_panel.js", "/js/diamond/risks.js",
                  "/js/diamond/fm_scroll.js", "/js/diamond/fm_view.js", "/js/diamond/dfmea_class.js", "/js/diamond/dfmea_table.js", "/js/diamond/dfmea.js", "/js/diamond/dfmea_legend.js", "/js/diamond/dfmea_classes.js", "/js/diamond/chars.js", "/js/diamond/char_card.js", "/js/diamond/pn.js", "/js/diamond/process.js", "/js/diamond/pfmea_edit.js", "/js/diamond/pfmea.js", "/js/diamond/char_measures.js", "/js/diamond/ai_io.js", "/js/diamond/rt.js", "/js/diamond/pdf.js", "/js/diamond/cplans.js", "/js/diamond/prio.js",
                  "/js/diamond/costs_tables.js", "/js/diamond/costs_io.js", "/js/diamond/costs.js",
-                 "/js/diamond/nuggets_content.js", "/js/diamond/nuggets_disruption.js", "/js/diamond/nuggets.js", "/js/diamond/export.js"],
+                 "/js/diamond/nuggets_content.js", "/js/diamond/nuggets_disruption.js", "/js/diamond/nuggets_guide.js", "/js/diamond/nuggets.js", "/js/diamond/nuggets_export.js", "/js/diamond/export.js"],
      "styles": ["/css/diamond.css", "/css/diamond_dfmea.css", "/css/diamond_costs.css", "/css/diamond_concepts.css", "/css/diamond_fmview.css", "/css/diamond_rt.css", "/css/diamond_competencies.css", "/css/diamond_nuggets.css"]},
     # D-B-079: the test team's portal, right after Goldmine (test base + procedures in the space TESTING)
     {"key": "testing", "label": "Testing", "phase": "3.9", "module": testing,

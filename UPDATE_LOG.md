@@ -1,12 +1,20 @@
-# Journal de mise à jour — 0.60.123
+# Journal de mise à jour — 0.60.124
+
+- **Version :** 0.60.123 → 0.60.124 (2026-11-18)
+- **Changements :**
+  1. **Golden Nuggets : le guide de chaque partie (contexte, problématique, portée, mode d'emploi, contenu des cartes)** (D-O-137).
+  2. **Golden Nuggets : exporter une partie ou les quatre, en PDF ou en Word au gabarit du rapport Diamond** (D-O-137).
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.123
 
 - **Version :** 0.60.122 → 0.60.123 (2026-11-18)
 - **Changements :**
   1. **Diamond : export PDF de chaque page, à côté de « ↔ IA », au format des documents Word** (D-O-136).
   2. **Golden Nuggets en PDF : les quatre parties en cartes colorées, le livre et ses études de cas** (D-O-136).
 - **Base de données :** aucune migration.
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.122
 

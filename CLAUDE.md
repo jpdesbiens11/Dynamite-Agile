@@ -173,6 +173,12 @@
   limites d'Excel (16 384 colonnes, 1 048 576 lignes) et à 2 millions de cellules par classeur.
 - **0.60.88** (2026-11-07) : **sceau des paquets** (D-O-094, `core/seal.py`) : seul le nombre d'itérations PBKDF2 de la plateforme
   (310 000) est accepté à l'ouverture d'un paquet Données / Site complet.
+- **0.60.124** (2026-11-18) : Golden Nuggets — **guide de chaque partie** (Contexte, Problématique, Portée, Comment l'utiliser,
+  Ce que contient chaque carte ; `static/js/diamond/nuggets_guide.js`) au-dessus des cartes ; export d'**une partie ou des quatre**,
+  avec ou sans les guides, en PDF ou en **Word** (`static/js/diamond/nuggets_export.js`, `D.nuggetBlocks`, `D.docExporters`, bouton
+  « Word » à côté de « PDF ») ; `POST …/docx` (`modules/diamond/docx_pages.py`) : le même document que le PDF au gabarit du rapport
+  Diamond, marque « Co-Intelligence WorkFlow™ » ; bloc `ol` (D-O-137). Tests : `tests/test_diamond_nuggets_export.py`,
+  `node tests/js/nuggets_export.js`.
 - **0.60.123** (2026-11-18) : Diamond — export **PDF** de chaque page à côté de « ↔ IA » (`static/js/diamond/pdf.js`,
   `POST …/pdf`, `modules/diamond/pdf_pages.py`), au format des documents Word : page de garde, en-tête et pied de page, Lettre ou
   Tabloïd paysage (`modules/diamond/pdf_doc.py`) ; Golden Nuggets en cartes (`D.pdfBuilders.nuggets`) (D-O-136).

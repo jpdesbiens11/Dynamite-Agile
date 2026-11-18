@@ -3,7 +3,9 @@
    has described for SpaceX and Tesla, their design rules, and « Disruptive Innovation » -- the principles of Clayton
    Christensen, then the reference, a summary of the book and its case studies. A card = its code, its colour family, the
    idea; « Exemple et application » opens the example and how to use it. Search, family chips, « Tout déplier ». Static
-   content (nuggets_content.js, nuggets_disruption.js); el() only. */
+   content (nuggets_content.js, nuggets_disruption.js); el() only. 0.60.124 (D-O-137): the guide of the collection and of each
+   part above its cards -- Contexte, Problématique, Portée, Comment l'utiliser, Ce que contient chaque carte (nuggets_guide.js) --
+   and the PDF / Word export of one part or of the four (nuggets_export.js, D.nuggetBlocks). */
 (function () {
   "use strict";
 
@@ -43,7 +45,7 @@
 
   function view(page, ctx) {
     const PARTS = parts();
-    const state = { part: "principles", q: "", fam: "", open: false };
+    const state = { part: D.nuggetsPart || "principles", q: "", fam: "", open: false, guide: true };
     const holder = el("div", { class: "dm-page dm-nug-page" });
     const toggle = el("button", { type: "button", class: "btn", "data-new": "0.60.121-nuggets-expand",
       onclick: () => { state.open = !state.open; draw(); } });
@@ -51,12 +53,14 @@
       el("div", { class: "page-head dm-intro" }, el("h1", { "data-new": "0.60.16-nuggets" }, "Golden Nuggets"),
         el("p", { class: "muted" }, "Les grands principes à appliquer pour concevoir et innover : penser à partir des premiers principes, "
           + "l'algorithme de conception et les règles de SpaceX et Tesla, et la disruptive innovation de Clayton Christensen. "
-          + "Chaque carte donne l'idée ; « Exemple et application » montre un cas de l'industrie et ce qu'elle donne sur votre projet.")),
+          + "Chaque carte donne l'idée ; « Exemple et application » montre un cas de l'industrie et ce qu'elle donne sur votre projet."),
+        D.nuggetGuide(D.NUGGETS.GUIDE.intro, "Pourquoi Golden Nuggets — contexte, problématique, portée, mode d'emploi", false)),
       holder);
     const search = el("input", { type: "search", placeholder: "Chercher : coût, client, pièce, marché…", "aria-label": "Chercher un nugget" });
     search.addEventListener("input", () => { state.q = search.value.trim().toLowerCase(); draw(); });
     const draw = () => {
-      const part = PARTS.find((p) => p.key === state.part);
+      const part = PARTS.find((p) => p.key === state.part) || PARTS[0];
+      D.nuggetsPart = part.key;  // the export dialog starts from the part on screen
       toggle.textContent = state.open ? "Tout replier" : "Tout déplier";
       clear(holder);
       holder.append(el("nav", { class: "subtabs", "aria-label": "Parties" }, PARTS.map((p) => el("a", { href: "#",
@@ -65,6 +69,8 @@
         onclick: (ev) => { ev.preventDefault(); state.part = p.key; state.fam = ""; draw(); } },
       p.label, el("span", { class: "dm-nug-count" }, String(p.items.length + (p.key === "disruption" ? D.NUGGETS.CASES.length : 0)))))),
       el("div", { class: "dm-nug-lead" }, el("h2", null, part.title), el("p", null, part.lead), el("p", { class: "dm-nug-source" }, part.source)),
+      D.nuggetGuide(D.NUGGETS.GUIDE[part.key], "À quoi sert cette partie — contexte, problématique, portée, mode d'emploi", state.guide,
+        (open) => { state.guide = open; }),
       el("div", { class: "dm-actions dm-nug-bar" }, search, chips(part, state, draw)));
       const hit = (item) => !state.q || [item.title, item.idea, item.example, item.apply, item.triz, item.sector].join(" ").toLowerCase().includes(state.q);
       const list = part.items.map((item, i) => Object.assign({ code: part.code + (i + 1), family: part.fam(item, i) }, item))
@@ -123,20 +129,50 @@
           el("h3", null, "Le livre en bref"), book.summary.map((s) => el("p", null, s)))));
   };
 
-  /* 0.60.121 → PDF (0.60.123, D-O-136): the four parts as one document -- the same cards, colours and families, then the book
-     and its case studies (pdf.js sends it; modules/diamond/pdf_pages.py checks and lays it out) */
-  D.pdfBuilders = D.pdfBuilders || {};
-  D.pdfBuilders.nuggets = () => {
+  /* the guide: the five headings in a grid, folded or not; onToggle(open) remembers the choice */
+  D.nuggetGuide = function (guide, title, open, onToggle) {
+    const box = el("details", { class: "dm-nug-guide", open: !!open, "data-new": "0.60.124-nuggets-guide" }, el("summary", null, title),
+      el("div", { class: "dm-nug-guide-grid" }, D.NUGGETS.GUIDE_HEADS.map(([k, label]) => el("section", { class: "dm-nug-guide-" + k },
+        el("h3", null, label), Array.isArray(guide[k])
+          ? el(k === "use" ? "ol" : "ul", null, guide[k].map((t) => el("li", null, t))) : el("p", null, guide[k])))));
+    if (onToggle) box.addEventListener("toggle", () => onToggle(box.open));
+    return box;
+  };
+
+  function guideBlocks(guide, level) {
+    const out = [];
+    D.NUGGETS.GUIDE_HEADS.forEach(([k, label]) => {
+      out.push({ type: "h", level, text: label });
+      out.push(Array.isArray(guide[k]) ? { type: k === "use" ? "ol" : "ul", items: guide[k] } : { type: "p", text: guide[k] });
+    });
+    return out;
+  }
+
+  D.nuggetParts = parts;
+
+  /* 0.60.121 → PDF (0.60.123, D-O-136) → one part or the four, PDF or Word (0.60.124, D-O-137): the chosen parts as one document,
+     each opened by its guide -- the same cards, colours and families, then for « Disruptive Innovation » the book and its case
+     studies. keys: the parts to put in (all when empty); opts.guide: the guides (default yes). The server checks the blocks and
+     lays them out (modules/diamond/pdf_pages.py, docx_pages.py). */
+  D.nuggetBlocks = function (keys, opts) {
     const N = D.NUGGETS;
-    const blocks = [{ type: "p", text: "Les grands principes à appliquer pour concevoir et innover : penser à partir des premiers principes, "
-      + "l'algorithme de conception et les règles de SpaceX et Tesla, et la disruptive innovation de Clayton Christensen." }];
+    const withGuide = !opts || opts.guide !== false;
+    const chosen = parts().filter((p) => !keys || !keys.length || keys.includes(p.key));
+    const blocks = [];
+    // the four parts open on the guide of the collection; one part opens on its own chapter (the document starts on a heading)
+    if (withGuide && chosen.length > 1) blocks.push({ type: "h", level: 1, text: N.GUIDE.intro.title }, ...guideBlocks(N.GUIDE.intro, 2));
+    else if (chosen.length > 1) blocks.push({ type: "h", level: 1, text: "Golden Nuggets" }, { type: "p", text: "Les grands principes à appliquer "
+      + "pour concevoir et innover : penser à partir des premiers principes, l'algorithme de conception et les règles de SpaceX et Tesla, "
+      + "et la disruptive innovation de Clayton Christensen." });
     const cardOf = (part, item, i, labels) => {
       const fam = part.fams.find(([k]) => k === part.fam(item, i)) || part.fams[0];
       return { type: "card", code: part.code + (i + 1), title: item.title.replace(/^\d+\.\s*/, ""), tag: fam[1], color: fam[2], idea: item.idea || "",
         details: [[labels[0], item.example || ""], [labels[1], item.apply || ""]].filter((d) => d[1]) };
     };
-    parts().forEach((part) => {
+    chosen.forEach((part) => {
       blocks.push({ type: "h", level: 1, text: part.title }, { type: "p", text: part.lead }, { type: "note", text: part.source });
+      if (withGuide) blocks.push({ type: "h", level: 2, text: "À quoi sert cette partie" }, ...guideBlocks(N.GUIDE[part.key], 3));
+      if (withGuide) blocks.push({ type: "h", level: 2, text: "Les cartes (" + part.items.length + ")" });
       part.items.forEach((item, i) => blocks.push(cardOf(part, item, i, part.labels)));
       if (part.key !== "disruption") return;
       const B = N.BOOK;
@@ -149,6 +185,8 @@
     });
     return blocks;
   };
+  D.pdfBuilders = D.pdfBuilders || {};
+  D.pdfBuilders.nuggets = () => D.nuggetBlocks(null);  // the four parts, as in 0.60.123; the page itself opens the dialog (D.docExporters)
 
   A.views.nuggets = view;
 })();
