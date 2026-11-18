@@ -1,6 +1,4 @@
 {
-"Bilan du MVP 0 : persévérer ou pivoter": "MVP 0 review: persevere or pivot",
-"Bilan du MVP 1 : persévérer ou pivoter": "MVP 1 review: persevere or pivot",
 "Bilan du MVP 2": "MVP 2 review",
 "Bilan du MVP 2 : persévérer ou pivoter": "MVP 2 review: persevere or pivot",
 "Bilan thermique ; modèle thermique et rapport ; choix du heat sink ou du cold plate ; plan d'essai thermique.": "Thermal budget; thermal model and report; choice of the heat sink or cold plate; thermal test plan.",
@@ -190,6 +188,7 @@
 "Carte des risques — résiduelle (après les actions)": "Risk map — residual (after the actions)",
 "Carte microSD 32 Go avec image du logiciel": "32 GB microSD card with the software image",
 "Carte, GPS": "Map, GPS",
+"Cartes, conversion d'énergie, faisceaux et leur thermique.": "Boards, power conversion, harnesses and their thermal behaviour.",
 "Catalogue": "Catalog",
 "Catalogue des compétences": "Competency catalogue",
 "Catalogue des compétences : réservé aux administrateurs et aux Admin du Space DEMO.": "Competency catalogue: reserved to the administrators and to the Admins of the DEMO Space.",
@@ -257,6 +256,7 @@
 "Ce topic a un test : il passe à « Completed » tout seul quand le test est réussi. Correctif : « Passer le test ».": "This topic has a test: it becomes “Completed” on its own when the test is passed. Fix: “Take the test”.",
 "Ce workflow a déjà un status de ce nom.": "This workflow already has a status with that name.",
 "Celle que voit l'équipe : les liens envoyés y mènent.": "The one the team sees: the links sent lead there.",
+"Cellules, modules, puissance et sécurité des personnes.": "Cells, modules, power and personal safety.",
 "Centrage logiciel au démarrage\nBonnes pratiques (industrie) :\nCEM et radio :\n• Plan de masse continu, boucles de courant courtes, règles de placement et de routage écrites\n• Filtrage à l'entrée d'alimentation (ferrite, condensateurs X / Y) et sur chaque câble qui sort du boîtier\n• Protection ESD (TVS) sur toute surface touchée et tout connecteur accessible (IEC #-#-#)\n• Module radio précertifié ISED / FCC avec l'antenne et le placement de sa fiche d'intégration\n• Fréquence de commutation hors des bandes sensibles, fronts adoucis ou étalement de spectre\nPour toute fonction :\n• Pièce achetée : fiche technique lue en entier, fournisseur qualifié, deuxième source identifiée\n• Revue de conception par des pairs (PDR, CDR) avec cette ligne du DFMEA sous les yeux\n• Leçons apprises : DFMEA et retours terrain d'un produit semblable ou précédent\n• Solution éprouvée ou pièce du commerce qualifiée plutôt qu'une technologie nouvelle, sauf raison chiffrée\n• Exigence chiffrée et vérifiable dans le CdCF (Goldmine) pour cette fonction, avec sa tolérance": "Software centering at startup\nGood practices (industry):\nEMC and radio:\n• Continuous ground plane, short current loops, written placement and routing rules\n• Filtering at the power input (ferrite, X / Y capacitors) and on every cable leaving the enclosure\n• ESD protection (TVS) on every touched surface and accessible connector (IEC #-#-#)\n• Pre-certified ISED / FCC radio module with the antenna and placement from its integration sheet\n• Switching frequency outside sensitive bands, softened edges or spread spectrum\nFor any function:\n• Purchased part: datasheet read in full, qualified supplier, second source identified\n• Peer design review (PDR, CDR) with this DFMEA line in front of the reviewers\n• Lessons learned: DFMEA and field feedback from a similar or previous product\n• Proven solution or qualified off-the-shelf part rather than a new technology, unless there is a quantified reason\n• Quantified, verifiable requirement in the functional specification (CdCF) (Goldmine) for this function, with its tolerance",
 "Centrage logiciel au démarrage\nBonnes pratiques (industrie) :\nCEM et radio :\n• Plan de masse continu, boucles de courant courtes, règles de placement et de routage écrites\n• Filtrage à l'entrée d'alimentation (ferrite, condensateurs X / Y) et sur chaque câble qui sort du boîtier\n• Protection ESD (TVS) sur toute surface touchée et tout connecteur accessible (IEC 61000-4-2)\n• Module radio précertifié ISED / FCC avec l'antenne et le placement de sa fiche d'intégration\n• Fréquence de commutation hors des bandes sensibles, fronts adoucis ou étalement de spectre\nPour toute fonction :\n• Pièce achetée : fiche technique lue en entier, fournisseur qualifié, deuxième source identifiée\n• Revue de conception par des pairs (PDR, CDR) avec cette ligne du DFMEA sous les yeux\n• Leçons apprises : DFMEA et retours terrain d'un produit semblable ou précédent\n• Solution éprouvée ou pièce du commerce qualifiée plutôt qu'une technologie nouvelle, sauf raison chiffrée\n• Exigence chiffrée et vérifiable dans le CdCF (Goldmine) pour cette fonction, avec sa tolérance": "Software centering at startup\nGood practices (industry):\nEMC and radio:\n• Continuous ground plane, short current loops, written placement and routing rules\n• Filtering at the power input (ferrite, X / Y capacitors) and on every cable leaving the enclosure\n• ESD protection (TVS) on every touched surface and accessible connector (IEC 61000-4-2)\n• Pre-certified ISED / FCC radio module with the antenna and placement from its integration sheet\n• Switching frequency outside sensitive bands, softened edges or spread spectrum\nFor any function:\n• Purchased part: datasheet read in full, qualified supplier, second source identified\n• Peer design review (PDR, CDR) with this DFMEA line in front of the reviewers\n• Lessons learned: DFMEA and field feedback from a similar or previous product\n• Proven solution or qualified off-the-shelf part rather than a new technology, unless there is a quantified reason\n• Quantified, verifiable requirement in the functional specification (CdCF) (Goldmine) for this function, with its tolerance",
 "Centre de la carte": "Map center",
@@ -1375,5 +1375,9 @@
 "En dernier. Musk a reconnu publiquement que la première ligne de la Model 3 avait été trop automatisée trop tôt, avant les étapes 1 à 4.": "Last. Musk publicly acknowledged that the Model 3's first line had been automated too much, too early, before steps 1 to 4.",
 "En faire la fonction primaire": "Make it the primary function",
 "En retard": "Overdue",
-"En service : ": "In service: "
+"En service : ": "In service: ",
+"En une phrase :": "In one sentence:",
+"En vrac": "Loose",
+"En vrac : tout ce que la scène fait penser, sans filtrer.": "Brain dump: everything the scene makes you think of, unfiltered.",
+"En vérification": "Under verification"
 }

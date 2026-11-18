@@ -33,6 +33,7 @@
     state.rate = (fid, code, rating) => gridCall(() => api.put(D.base(ctx) + "/competencies/rating", { function_id: fid, code, rating }));
     state.addCol = (code) => gridCall(() => api.post(D.base(ctx) + "/competencies/columns", { code }));
     state.removeCol = (code) => gridCall(() => api.post(D.base(ctx) + "/competencies/columns/" + code + "/remove", {}));
+    state.profile = (key) => gridCall(() => api.post(D.base(ctx) + "/competencies/profile", { profile: key }));  // 0.60.119 (D-O-132)
     const run = async (path, body, method) => {
       try {
         state.data = await api[method || "post"](D.base(ctx) + path, body || {});
@@ -84,7 +85,10 @@
     const brick = bricks.find((c) => c.id === state.selectedConcept);
     holder.append(el("div", { class: "dm-work dm-tree-work" + (chosen || brick ? " dm-with-panel" : "") }, tree,
       brick ? D.conceptPanel(state, brick, state.crun, editable, ctx) : chosen ? D.panel(state, chosen, run, editable) : null));
-    if (hasPrimary && state.comp) holder.append(D.competencyLegend(ctx, state.comp, D.competencyColumns(state.comp)));
+    if (hasPrimary && state.comp) {
+      holder.append(D.competencyLegend(ctx, state.comp, D.competencyColumns(state.comp),
+        A.canEdit(ctx) ? D.profilePicker(state.comp, state.profile) : null));
+    }
     holder.append(outside(state, holder, ctx, run, editable, select));
   }
 

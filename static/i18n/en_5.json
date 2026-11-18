@@ -1,5 +1,4 @@
 {
-"Qui porte quoi": "Who carries what",
 "Qui voit Procédés, PFMEA et Plans de contrôle dans ce Space : l'Admin du Space et les administrateurs toujours, plus les membres cochés.": "Who sees Process, PFMEA and Control plans in this Space: the Space Admin and the administrators always, plus the members ticked.",
 "Qui voit quoi pendant les tours ?": "Who sees what during the rounds?",
 "Qui, où, avec quoi, ce qui se passe et ce qu'on ressent, scène par scène ; un assistant IA s'en sert pour proposer l'arbre.": "Who, where, with what, what happens and how it feels, scene by scene; an AI assistant uses it to propose the tree.",
@@ -128,6 +127,7 @@
 "Remplacer la réponse": "Replace the answer",
 "Remplacer la synthèse": "Replace the summary",
 "Remplacer le PDF des résultats": "Replace the results PDF",
+"Remplacer les colonnes de la grille par celles d'un profil": "Replace the columns of the grid with those of a profile",
 "Remplacer les plages de cette semaine": "Replace this week's ranges",
 "Remplacer tout le dictionnaire du Space (sinon : ajouter et corriger)": "Replace the Space's whole dictionary (otherwise: add and correct)",
 "Remplacée": "Replaced",
@@ -1375,5 +1375,9 @@
 "Un coolant circule dans une cold plate en aluminium collée sous le module.": "A coolant flows in an aluminium cold plate bonded under the module.",
 "Un doigt, une appli": "One finger, one app",
 "Un essai qui casse apprend plus qu'une analyse qui rassure.": "A test that breaks teaches more than an analysis that reassures.",
-"Un exemple complet sur un vrai produit : bête à cornes, pieuvre, SADT (A-0) et FAST.": "A complete example on a real product: bête à cornes, pieuvre, SADT (A-0) and FAST."
+"Un exemple complet sur un vrai produit : bête à cornes, pieuvre, SADT (A-0) et FAST.": "A complete example on a real product: bête à cornes, pieuvre, SADT (A-0) and FAST.",
+"Un exemple concret…": "A concrete example…",
+"Un extrait des heures des Budget Lines cochées ci-dessus, au gabarit Word de l'outil (le même que Goldmine et Testing) : destinataire et périmètre, sommaire par Budget Line, heures par employé, détail des justifications, attestation, Definitions et Acronyms. Le destinataire personnalise la page de titre et le texte.": "An extract of the hours of the Budget Lines ticked above, in the tool's Word template (the same as Goldmine and Testing): recipient and scope, summary by Budget Line, hours per employee, detail of the justifications, attestation, Definitions and Acronyms. The recipient personalises the title page and the text.",
+"Un fait, un progrès, une question, un retour… (visible par vous deux)": "A fact, progress, a question, feedback… (visible to both of you)",
+"Un fichier .md léger : confidentialité, comptes et droits, Timesheet, préférences des comptes ": "A light .md file: privacy, accounts and rights, Timesheet, account preferences "
 }

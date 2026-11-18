@@ -1,12 +1,19 @@
-# Journal de mise à jour — 0.60.118
+# Journal de mise à jour — 0.60.119
+
+- **Version :** 0.60.118 → 0.60.119 (2026-11-18)
+- **Changements :**
+  1. **Diamond : profils de grille des compétences** (D-O-132).
+- **Base de données :** aucune migration.
+
+## Précédent
+
+### Journal de mise à jour — 0.60.118
 
 - **Version :** 0.60.117 → 0.60.118 (2026-11-18)
 - **Changements :**
   1. **Diamond : la grille des compétences d'un nouveau Space commence avec la base de la mécatronique** (D-O-131).
   2. **Diamond : le Rover de DEMO réduit à ces cinq colonnes** (D-O-131).
 - **Base de données :** migration diamond 20 (additive : une colonne de `diamond_competencies`).
-
-## Précédent
 
 ### Journal de mise à jour — 0.60.117
 

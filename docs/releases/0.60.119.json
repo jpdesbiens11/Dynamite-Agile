@@ -1,0 +1,54 @@
+{
+  "version": "0.60.119",
+  "date": "2026-11-18",
+  "summary": {
+    "fr": "Diamond : profils de grille des compétences — les colonnes d'un produit choisies d'un coup (Mécatronique, Électronique et puissance, Logiciel embarqué…).",
+    "en": "Diamond: competency grid profiles — the columns of a product picked in one go (Mechatronics, Electronics and power, Embedded software…)."
+  },
+  "changes": [
+    {
+      "id": "C1",
+      "title": "Diamond : profils de grille des compétences",
+      "why": "Un produit d'un autre genre que la mécatronique devait ajouter et retirer ses colonnes une à une. « Profil de grille ▾ », sous l'arbre et en haut de « Compétences et équipe », remplace les colonnes d'un coup : Mécatronique, Électronique et puissance, Logiciel embarqué, Mécanique et structure, Batterie et stockage d'énergie, Produit réglementé (avec TR / Safety, certification et qualité), Industrialisation. Avant, la page dit combien de notes des colonnes qui partent sont effacées ; les personnes prévues restent dans la synthèse.",
+      "files": [
+        "CLAUDE.md",
+        "UPDATE_CHANGES.json",
+        "UPDATE_LOG.md",
+        "core/__init__.py",
+        "core/modules.py",
+        "docs/DECISIONS.md",
+        "docs/ETAT_PROJET.md",
+        "docs/releases/0.60.119.json",
+        "modules/diamond/__init__.py",
+        "modules/diamond/competencies.py",
+        "modules/diamond/competency_profiles.py",
+        "site/en/guide.html",
+        "site/en/home.html",
+        "site/en/index.html",
+        "site/en/installation.html",
+        "site/en/modules.html",
+        "site/en/versions.html",
+        "site/guide.html",
+        "site/home.html",
+        "site/index.html",
+        "site/installation.html",
+        "site/modules.html",
+        "site/versions.html",
+        "static/apps/vitrine/index.html",
+        "static/css/diamond_competencies.css",
+        "static/i18n/en_1.json",
+        "static/i18n/en_2.json",
+        "static/i18n/en_3.json",
+        "static/i18n/en_4.json",
+        "static/i18n/en_5.json",
+        "static/i18n/en_6.json",
+        "static/js/diamond/competencies.js",
+        "static/js/diamond/competency_grid.js",
+        "static/js/diamond/competency_profiles.js",
+        "static/js/diamond/tree.js",
+        "tests/test_diamond_competencies.py",
+        "tests/test_open_v060.py"
+      ]
+    }
+  ]
+}

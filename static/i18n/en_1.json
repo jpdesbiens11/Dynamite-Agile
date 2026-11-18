@@ -1000,6 +1000,7 @@
 "Appliquer la sélection": "Apply the selection",
 "Appliquer la version ": "Apply version ",
 "Appliquer le déménagement": "Apply the move",
+"Appliquer le profil « ": "Apply the profile « ",
 "Appliquer maintenant ? Une sauvegarde est faite avant.": "Apply now? A backup is made first.",
 "Apprendre l'outil et la méthode sans rien casser.": "Learn the tool and the method without breaking anything.",
 "Approbateur et banque de vacances": "Approver and vacation bank",
@@ -1358,6 +1359,7 @@
 "Basse": "Low",
 "Batterie": "Battery",
 "Batterie LiPo gonflée, risque d'incendie : la coupure à 3,4 V par élément est une exigence de sécurité (REQ-19).": "Swollen LiPo battery, fire risk: the 3.4 V per cell cut-off is a safety requirement (REQ-19).",
+"Batterie et stockage d'énergie": "Battery and energy storage",
 "Batterie lithium : cellules IEC 62133-2, circuit de gestion de la batterie (surcharge, décharge profonde, court-circuit, température), transport UN 38.3": "Lithium battery: IEC 62133-2 cells, battery management circuit (overcharge, deep discharge, short circuit, temperature), UN 38.3 transport",
 "Batteries : des modules de cellules identiques, assemblés en packs de tailles différentes selon le produit.": "Batteries: identical cell modules, assembled into packs of different sizes depending on the product.",
 "Batteries : en additionnant le cobalt, le nickel, l'aluminium et le carbone d'un pack au prix du marché, Musk a souvent raconté trouver un coût bien plus bas que celui des batteries vendues ; l'écart venait de la fabrication, donc il pouvait se réduire.": "Batteries: by adding up the cobalt, nickel, aluminum and carbon of a pack at market price, Musk often told of finding a cost far lower than that of the batteries on sale; the gap came from manufacturing, so it could be narrowed.",
@@ -1375,5 +1377,7 @@
 "Bienvenue, barre du haut et réglages": "Welcome, top bar and settings",
 "Bilan Build-Measure-Learn (persévérer ou pivoter)": "Build-Measure-Learn review (persevere or pivot)",
 "Bilan d'ensemble, points forts, axes de progrès…": "Overall review, strengths, areas for improvement…",
-"Bilan de puissance avec une marge d'au moins 20 % sur chaque rail d'alimentation": "Power budget with a margin of at least 20% on each supply rail"
+"Bilan de puissance avec une marge d'au moins 20 % sur chaque rail d'alimentation": "Power budget with a margin of at least 20% on each supply rail",
+"Bilan du MVP 0 : persévérer ou pivoter": "MVP 0 review: persevere or pivot",
+"Bilan du MVP 1 : persévérer ou pivoter": "MVP 1 review: persevere or pivot"
 }

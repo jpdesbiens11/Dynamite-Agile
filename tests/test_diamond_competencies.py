@@ -281,6 +281,32 @@ class CompetenciesTest(unittest.TestCase):
             self.admin.patch("/api/diamond/competencies/CFD", {"starter": False})
         self.assertNotIn("CFD", [c["code"] for c in self.data()["catalog"] if c["starter"]])
 
+    def test_12_profiles_of_the_grid(self):
+        """0.60.119 (D-O-132): a profile replaces the columns of the grid at once; the ratings of the columns that leave go."""
+        from modules.diamond import competency_profiles as CPR
+        made = self.admin.post("/api/admin/projects", {"key": "PRF", "name": "Profils", "description": "Essai"})["project"]
+        base = "/api/diamond/p/{}".format(made["id"])
+        data = self.admin.get(base + "/competencies")
+        self.assertEqual([p["key"] for p in data["profiles"]], [p[0] for p in CPR.PROFILES])
+        self.assertTrue(next(p for p in data["profiles"] if p["key"] == "mechatronics")["current"])  # the starter set
+        for codes in (p[3] for p in CPR.PROFILES):
+            self.assertTrue(set(codes) <= {d[0] for d in DC.DEFAULTS})
+        data = self.data()
+        line = data["lines"][0]
+        self.editor.put(self.base + "/competencies/rating", {"function_id": line["function_id"], "code": "MECH", "rating": 3})
+        self.editor.put(self.base + "/competencies/rating", {"function_id": line["function_id"], "code": "SAFE", "rating": 4})
+        lost = sum(1 for ln in self.data()["lines"] for c in ln["ratings"] if c not in ("CELL", "PWR", "THERM", "SAFE", "TEST"))
+        data = self.editor.post(self.base + "/competencies/profile", {"profile": "energy"})
+        self.assertEqual(data["columns"], ["CELL", "PWR", "THERM", "SAFE", "TEST"])
+        self.assertTrue(next(p for p in data["profiles"] if p["key"] == "energy")["current"])
+        rated = next(ln for ln in data["lines"] if ln["function_id"] == line["function_id"])["ratings"]
+        self.assertEqual(rated.get("SAFE"), 4)
+        self.assertNotIn("MECH", rated)
+        with db.connect() as conn:
+            row = conn.execute("SELECT details FROM audit_log WHERE action = ? ORDER BY id DESC", (CPR.ACTION,)).fetchone()
+        self.assertIn('"ratings": {}'.format(lost), row["details"])
+        self.assertIn("inconnu", self.fails(400, self.editor.post, self.base + "/competencies/profile", {"profile": "nope"}))
+
     def test_08_turned_off_like_the_pfmea(self):
         self.admin.put("/api/admin/features", {"features": {"diamond_competencies": False}})
         try:

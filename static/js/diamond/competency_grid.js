@@ -137,14 +137,14 @@
   }
 
   /* under the tree: what each icon means, the scale, and the way to the summary */
-  function competencyLegend(ctx, comp, cols) {
+  function competencyLegend(ctx, comp, cols, picker) {
     const items = cols.map((c) => el("span", { class: "dm-cg-key" }, compIcon(c.icon),
       c.bdc ? el("a", { href: c.bdc, "data-tip": "Profil, formation, outils et livrables (BDC)" }, c.name) : el("span", null, c.name)));
     return el("div", { class: "dm-cg-legend", "aria-label": "Légende des compétences", "data-new": "0.60.116-competency-legend" },
       el("strong", null, "Compétences"), items.length ? items : el("span", { class: "muted" }, comp.lines.length
         ? "Aucune compétence notée : ajoutez une colonne avec « + » à droite de l'arbre, ou faites remplir la grille par l'IA (« ↔ IA »)."
         : "Donnez une brique technologique aux fonctions tertiaires : chaque ligne qui aboutit à une brique reçoit sa grille."),
-      el("span", { class: "muted dm-cg-scale" }, "1 presque pas · 3 régulièrement · 5 au cœur du développement"),
+      el("span", { class: "muted dm-cg-scale" }, "1 presque pas · 3 régulièrement · 5 au cœur du développement"), picker || null,
       el("a", { class: "btn btn-small", href: DA.agile.href(ctx, "competencies") }, "Compétences et équipe →"));
   }
 
